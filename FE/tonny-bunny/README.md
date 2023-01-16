@@ -21,6 +21,7 @@ npm run lint
 ```
 
 ### 프로젝트 구조
+```
 tonny-bunny
   ├── node_modules
   ├── public
@@ -40,3 +41,4 @@ tonny-bunny
       └── pages
           ├── 1
           └── 2
+```
