@@ -1,26 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+	<h1>
+		{{ count }}
+		{{ counter }}
+		{{ tt }}
+	</h1>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+	import { computed } from "vue";
+	import { useStore } from "vuex";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	export default {
+		name: "App",
+
+		components: {},
+
+		data() {
+			return {
+				tt: 200
+			};
+		},
+
+		setup() {
+			const store = useStore();
+
+			// console.log(store);
+			const counter = computed(() => store.state.counter);
+			const count = store.state.temp.count;
+
+			return { counter, count };
+		}
+	};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+	@import "@/scss/global.scss";
 </style>
