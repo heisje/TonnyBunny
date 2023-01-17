@@ -1,14 +1,23 @@
 package com.tonnybunny.common;
 
 
-public enum CommonCode {
-	ENGLISH("0001");
+import lombok.Getter;
 
-	private final String description1 = "001";
-	private final String description2;
+import javax.persistence.*;
 
 
-	CommonCode(String description2) {
-		this.description2 = description2;
-	}
+@Entity
+@Getter
+public class CommonCode {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "code_seq")
+	private Long seq;
+
+	private String code;
+
+	// 필요한가?
+	private String groupCode;
+
 }
