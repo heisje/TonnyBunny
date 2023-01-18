@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class BoardRequestDto {
 
-	BoardEntity toEntity() {
+	public BoardEntity toEntity() {
 		return (BoardEntity) new Object();
 	}
 
