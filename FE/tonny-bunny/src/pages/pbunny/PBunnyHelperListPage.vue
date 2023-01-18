@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>번역 상담 - 번역 상담 가능 헬퍼 목록</div>
 </template>
 
 <script>
