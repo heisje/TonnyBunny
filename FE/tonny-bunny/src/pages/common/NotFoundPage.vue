@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<h1>NOT FOUNT PAGE !!!</h1>
 </template>
 
 <script>

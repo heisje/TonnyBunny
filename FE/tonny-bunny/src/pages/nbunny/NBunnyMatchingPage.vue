@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>번역 요청 - 가격 제안 페이지</div>
 </template>
 
 <script>

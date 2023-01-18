@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>커뮤니티 - 게시글 상세 조회</div>
 </template>
 
 <script>

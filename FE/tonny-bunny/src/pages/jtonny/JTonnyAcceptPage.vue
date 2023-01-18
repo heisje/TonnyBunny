@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>실시간 동시통역 - 응답 페이지</div>
 </template>
 
 <script>

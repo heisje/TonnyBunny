@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>홈 - 헬퍼 랜딩 메인</div>
 </template>
 
 <script>
