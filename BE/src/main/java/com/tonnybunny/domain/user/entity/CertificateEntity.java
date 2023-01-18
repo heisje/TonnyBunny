@@ -22,7 +22,7 @@ public class CertificateEntity extends CommonEntity {
 	private String langCode;
 
 	private String certName;
-	private String score;   // string? 자격증마다 급수가 제각각이라 그런가
+	private String score;
 
 	private Long userSeq;
 
