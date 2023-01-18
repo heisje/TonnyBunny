@@ -28,7 +28,7 @@ public class BunnyNotiEntity extends CommonEntity {
 	private LocalDate startDate;
 	private LocalDate endDate;
 
-	private Long estimatePrice;
+	private int estimatePrice;
 
 	private String startLangCode;
 	private String endLangCode;

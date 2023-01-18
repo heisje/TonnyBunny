@@ -23,6 +23,6 @@ public class BunnyNotiHelperEntity extends CommonEntity {
 
 	private Long userSeq;
 
-	private Long estimatePrice;
+	private int estimatePrice;
 
 }

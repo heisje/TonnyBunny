@@ -32,8 +32,8 @@ public class JTonnyResultEntity extends CommonEntity {
 
 	private LocalDateTime startDateTime;
 
-	private Long unitPrice;
-	private Long totalPrice;
+	private int unitPrice;
+	private int totalPrice;
 
 	private String recordVideoPath;
 

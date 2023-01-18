@@ -23,6 +23,6 @@ public class YTonnyNotiHelperEntity extends CommonEntity {
 
 	private Long helperSeq;
 
-	private Long totalPrice;
+	private int totalPrice;
 
 }
