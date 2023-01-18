@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>채팅 - 채팅 내역 조회 페이지</div>
 </template>
 
 <script>

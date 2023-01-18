@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>라이브 - 라이브 종료 페이지</div>
 </template>
 
 <script>

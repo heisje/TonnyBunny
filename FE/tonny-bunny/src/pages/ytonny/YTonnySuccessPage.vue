@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>통역 예약 - 완료</div>
 </template>
 
 <script>

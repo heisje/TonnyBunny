@@ -1,5 +1,5 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+	<div>고객센터 - 자주묻는질문</div>
 </template>
 
 <script>
