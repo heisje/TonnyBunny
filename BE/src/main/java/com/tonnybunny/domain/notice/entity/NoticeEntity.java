@@ -18,10 +18,9 @@ public class NoticeEntity extends CommonEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "notice_seq")
 	private Long seq;
+	private Long userSeq;   // 역(반?)정규화 - erd 팀에 확인하기
 
 	private String title;
 	private String content;
-
-	private Long userSeq;   // 역(반?)정규화 - erd 팀에 확인하기
 
 }

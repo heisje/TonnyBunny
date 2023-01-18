@@ -21,11 +21,11 @@ public class HelperInfoEntity extends CommonEntity {
 
 	private boolean isActive;
 	private float avgScore;
-	private Long reviewedCount; // 그냥 reviewCount 도 괜찮을듯
+	private int reviewCount;
 
 	private Long userSeq;
 
-	private Long unitPrice;
+	private int unitPrice;
 	private String oneLineIntroduction;
 	private String introduction;
 

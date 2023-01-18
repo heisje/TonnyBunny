@@ -25,7 +25,7 @@ public class UserEntity extends CommonEntity {
 	private String nickName;
 
 	private Long point;
-	private Long reportedCount; // 그냥 reportCount 도 괜찮을듯 : reviewed
+	private int reportCount;
 
 	private String profileImagePath;
 

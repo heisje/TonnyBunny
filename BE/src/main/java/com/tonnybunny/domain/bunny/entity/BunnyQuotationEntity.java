@@ -29,7 +29,7 @@ public class BunnyQuotationEntity extends CommonEntity {
 	private String title;
 	private String content;
 
-	private Long totalPrice;
+	private int totalPrice;
 
 	private String bunnyQuotationStateCode;
 	private String startLangCode;
