@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class UserRequestDto {
 
-	public static UserEntity toEntity() {
+	public UserEntity toEntity() {
 		return (UserEntity) new Object();
 	}
 

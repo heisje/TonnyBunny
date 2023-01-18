@@ -11,16 +11,18 @@ import java.util.List;
 @Data
 public class UserResponseDto {
 
-	public UserResponseDto fromEntity(UserEntity userEntity) {
+	static UserResponseDto fromEntity(UserEntity user) {
 		return new UserResponseDto();
 	}
 
-	public List<UserResponseDto> fromEntityList(List<UserEntity> userList){
+
+	static List<UserResponseDto> fromEntityList(List<UserEntity> userList) {
 		List<UserResponseDto> result = new ArrayList<>();
-		for(UserEntity user : userList){
+		for (UserEntity user : userList) {
 			UserResponseDto userResponseDto = fromEntity(user);
-			result.add( userResponseDto );
+			result.add(userResponseDto);
 		}
 		return result;
 	}
+
 }
