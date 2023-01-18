@@ -5,6 +5,7 @@ import com.tonnybunny.common.CommonEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.engine.profile.Fetch;
 
 import javax.persistence.*;
 
@@ -19,8 +20,12 @@ public class HelperInfoImageEntity extends CommonEntity {
 	@Column(name = "helper_info_image_seq")
 	private Long seq;
 
-	private Long helperInfoSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="helper_info_seq")
+	private HelperInfoEntity helperInfoSeq;
 
 	private String imagePath;
+
+
 
 }

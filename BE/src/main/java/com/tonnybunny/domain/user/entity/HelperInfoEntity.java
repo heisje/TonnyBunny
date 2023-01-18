@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -23,10 +25,15 @@ public class HelperInfoEntity extends CommonEntity {
 	private float avgScore;
 	private int reviewCount;
 
-	private Long userSeq;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity userSeq;
 
 	private int unitPrice;
 	private String oneLineIntroduction;
 	private String introduction;
+
+	@OneToMany(mappedBy = "helperInfoSeq")
+	private List<CertificateEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
 
 }

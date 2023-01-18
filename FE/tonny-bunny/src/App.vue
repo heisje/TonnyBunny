@@ -1,9 +1,9 @@
 <template>
-	<h1>
-		{{ count }}
-		{{ counter }}
-		{{ tt }}
-	</h1>
+	<router-view name="header"></router-view>
+	<main>
+		<router-view></router-view>
+	</main>
+	<router-view name="footer"></router-view>
 </template>
 
 <script>

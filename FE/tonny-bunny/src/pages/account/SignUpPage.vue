@@ -1,5 +1,5 @@
 <template>
-	<div>Sign Up Page</div>
+	<div>회원관리 - 회원가입 페이지</div>
 </template>
 
 <script>
