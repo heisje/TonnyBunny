@@ -49,24 +49,29 @@ public class BoardService {
 
 
 	/**
-	 * repository 에서 findBoardBySeq(boardSeq) 를 수행한다. _old 에 _new 를 덮어씌운다.
+	 * oldBoard = repository.findBoardBySeq(boardSeq) 를 수행한다. _old 에 _new 를 덮어씌운다.
 	 *
 	 * @param boardSeq
 	 * @param boardRequestDto
 	 * @return boardSeq
 	 */
-	public void modifyBoard(Long boardSeq, BoardRequestDto boardRequestDto) {
-		BoardEntity _new = boardRequestDto.toEntity();
+	public Long modifyBoard(Long boardSeq, BoardRequestDto boardRequestDto) {
+		BoardEntity newBoard = boardRequestDto.toEntity();
+
+		// common.update(oldDomain, newDomain);
+
+		return 0L;
 	}
 
 
 	/**
-	 * repository 에서 removeBoard(boardSeq) 를 수행한다.
+	 * repository.removeBoard(boardSeq) 를 수행한다.
 	 *
 	 * @param boardSeq
 	 */
-	public void deleteBoard(Long boardSeq) {
+	public Boolean deleteBoard(Long boardSeq) {
 
+		return true;
 	}
 
 }
