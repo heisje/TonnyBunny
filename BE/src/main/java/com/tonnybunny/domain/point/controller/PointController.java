@@ -12,7 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -37,18 +40,6 @@ public class PointController {
 		List<PointLogResponseDto> pointLogResponseDtoList = PointLogResponseDto.fromEntityList(
 			pointLogList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(pointLogResponseDtoList));
-	}
-
-
-	/**
-	 * @param userSeq : 대상 유저
-	 * @return 조회한 포인트 양
-	 */
-	@GetMapping("/points/{userSeq}")
-	@ApiOperation(value = "대상 유저의 포인트 양 조회", notes = "")
-	public ResponseEntity<ResultDto<Integer>> getPoint(@PathVariable("userSeq") Long userSeq) {
-		Integer point = pointService.getPoint(userSeq);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(point));
 	}
 
 
