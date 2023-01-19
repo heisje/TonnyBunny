@@ -35,7 +35,14 @@
 </template>
 
 <script>
-	export default {};
+/* eslint-disable */
+import ButtonTest from "@/components/common/button/ButtonTest.vue";
+
+export default {
+    components: {
+        ButtonTest,
+    },
+};
 </script>
 
 <style></style>

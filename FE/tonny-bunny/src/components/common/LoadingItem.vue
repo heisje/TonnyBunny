@@ -1,9 +1,9 @@
 <template>
-	<div>Modal Component</div>
+    <div>로딩중..</div>
 </template>
 
 <script>
-	export default {};
+export default {};
 </script>
 
 <style></style>
