@@ -9,8 +9,13 @@
 </template>
 
 <script>
+import PointManagementItem from "@/components/mypage/PointManagementItem.vue"
 export default {
+		name: "UserCard",
 
+		components: {
+            PointManagementItem,
+        },
 }
 </script>
 

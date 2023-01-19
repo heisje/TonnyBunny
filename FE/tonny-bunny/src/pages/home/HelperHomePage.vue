@@ -18,12 +18,25 @@
 	</div> 
 	<div>
 		오늘 일정
-		<ScheduleList>
+		<ScheduleList/>
 	</div>
 </template>
 
 <script>
-	export default {};
+import ServiceBtn from "@/components/home/ServiceBtn.vue"
+import HelperCard from "@/components/home/HelperCard.vue"
+import QuestList from "@/components/home/QuestList.vue"
+import ScheduleList from "@/components/home/ScheduleList.vue"
+	export default {
+		name: "HelperHomePage",
+
+		components: {
+			ServiceBtn,
+			HelperCard,
+			QuestList,
+			ScheduleList,
+		},
+	};
 </script>
 
 <style></style>

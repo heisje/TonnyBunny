@@ -35,14 +35,22 @@
 </template>
 
 <script>
-/* eslint-disable */
-import ButtonTest from "@/components/common/button/ButtonTest.vue";
+import ServiceBtn from "@/components/home/ServiceBtn.vue"
+import QuestList from "@/components/home/QuestList.vue"
+import ScheduleList from "@/components/home/ScheduleList.vue"
+import BoardList from "@/components/home/BoardList.vue"
+import QuickBtn from "@/components/home/QuickBtn.vue"
+	export default {
+		name: "HomePage",
 
-export default {
-    components: {
-        ButtonTest,
-    },
-};
+		components: {
+			ServiceBtn,
+			QuestList,
+			ScheduleList,
+			BoardList,
+			QuickBtn,
+		},
+	};
 </script>
 
 <style></style>
