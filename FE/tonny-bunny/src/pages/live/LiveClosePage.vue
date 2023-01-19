@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import TonnyResultItem from "@/components/live/TonnyResultItem.vue"
 	export default {
 		name: "LiveClosePage",
 
