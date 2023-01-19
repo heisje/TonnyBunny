@@ -25,6 +25,10 @@ export default {
 		JTonnyLoading
 	}
 };
+
+// import JTonnyLoading from '@/components/jtonny/JTonnyLoading.vue';
+// export default {
+//   components: { JTonnyLoading },};
 </script>
 
 <style></style>
