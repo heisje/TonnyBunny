@@ -27,19 +27,6 @@ public class PointService {
 
 
 	/**
-	 * 대상 유저의 포인트의 양을 조회
-	 *
-	 * @param userSeq : 조회할 대상 유저
-	 * @return 대상 유저의 포인트 양
-	 */
-	public Integer getPoint(Long userSeq) {
-		// TODO : 구현
-
-		return 0;
-	}
-
-
-	/**
 	 * 포인트 충전 :
 	 * - 대상 유저(fromUser)의 포인트 양을 추가(addPoint()), 포인트 로그에 추가
 	 *
