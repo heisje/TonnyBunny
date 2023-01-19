@@ -1,0 +1,86 @@
+.btn {
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.large {
+        position: absolute;
+        width: 100vw !important;
+        height: 48px;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+    }
+    &.medium {
+        width: 328px;
+        height: 36px;
+        border-radius: 4px;
+    }
+    &.xsmall {
+        width: 80px;
+        height: 24px;
+        border-radius: 6px;
+    }
+    &.active {
+        background-color: var(--active-color);
+    }
+    &.live {
+        background-color: var(--live-color);
+    }
+    &.main {
+        background-color: var(--main-color);
+    }
+    &.sub {
+        background-color: var(--sub-color);
+    }
+    &.disable {
+        background-color: var(--disable-color);
+    }
+    &.light {
+        background-color: var(--light-color);
+    }
+    &.thin {
+        background-color: var(--thin-color);
+    }
+    &.white {
+        background-color: var(--white-color);
+    }
+    &.background {
+        background-color: var(--background-color);
+    }
+    &.outline {
+        border: 1px solid var(--main-color);
+        background-color: var(--background-color);
+    }
+    span {
+        text-decoration: none;
+        @extend .h4;
+        &.active {
+            color: var(--active-color);
+        }
+        &.live {
+            color: var(--live-color);
+        }
+        &.main {
+            color: var(--main-color);
+        }
+        &.sub {
+            color: var(--sub-color);
+        }
+        &.disable {
+            color: var(--disable-color);
+        }
+        &.light {
+            color: var(--light-color);
+        }
+        &.thin {
+            color: var(--thin-color);
+        }
+        &.white {
+            color: var(--white-color);
+        }
+        &.background {
+            color: var(--background-color);
+        }
+    }
+}
