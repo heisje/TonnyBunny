@@ -1,5 +1,5 @@
 <template>
-	<div>부가설명란</div>
+	<div>client card</div>
 </template>
 
 <script>
