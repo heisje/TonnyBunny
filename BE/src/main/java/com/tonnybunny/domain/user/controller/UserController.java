@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -103,27 +105,74 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(accountResponseDto);
 	}
 
+	// -------------------------------------- 마이페이지 ---------------------------------------------
+
 
 	@GetMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 조회합니다")
-	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(@PathVariable("userSeq") Long userSeq) {
+	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(
+		@PathVariable("userSeq") Long userSeq) {
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
 		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of( userResponseDto ));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
 	}
+
 
 	@PutMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 수정합니다")
-	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq, @RequestBody UserRequestDto userRequestDto) {
+	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq,
+		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of( updatedUserSeq ));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
 	}
+
 
 	@DeleteMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 삭제합니다")
-	public ResponseEntity<ResultDto<Boolean>> deleteUserInfo(@PathVariable("userSeq") Long userSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteUserInfo(
+		@PathVariable("userSeq") Long userSeq) {
 		Boolean isSuccess = userService.deleteUserInfo(userSeq);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of( isSuccess ));
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
+
+	@GetMapping("/mypage/{userSeq}/follow")
+	@ApiOperation(value = "즐겨찾기 목록을 조회합니다")
+	public ResponseEntity<ResultDto<List<UserResponseDto>>> getBookmark(
+		@PathVariable("userSeq") Long userSeq) {
+		List<UserEntity> userList = userService.getBookmark(userSeq);
+		List<UserResponseDto> userResponseDtoList = UserResponseDto.fromEntityList(userList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDtoList));
+	}
+
+
+	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
+	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
+	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq,
+		@PathVariable("followSeq") Long followSeq) {
+		Boolean isSuccess = userService.createBookmark(userSeq, followSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
+
+	@DeleteMapping("/mypage/{userSeq}/follow/{followSeq}")
+	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
+	public ResponseEntity<ResultDto<Boolean>> deleteBookmark(@PathVariable("userSeq") Long userSeq,
+		@PathVariable("followSeq") Long followSeq) {
+		Boolean isSuccess = userService.deleteBookmark(userSeq, followSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
 	}
 
 }
