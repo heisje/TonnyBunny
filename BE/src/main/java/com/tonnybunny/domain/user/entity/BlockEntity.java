@@ -19,12 +19,12 @@ public class BlockEntity extends CommonEntity {
 	@Column(name = "block_seq")
 	private Long seq;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_seq")
-	private UserEntity userSeq;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_seq")
-	private UserEntity blockedUserSeq;
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	//	@JoinColumn(name="user_seq")
+	//	private UserEntity userSeq;
+	//
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	//	@JoinColumn(name="user_seq")
+	//	private UserEntity blockedUserSeq;
 
 }

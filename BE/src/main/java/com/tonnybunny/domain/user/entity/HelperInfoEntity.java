@@ -34,6 +34,6 @@ public class HelperInfoEntity extends CommonEntity {
 	private String introduction;
 
 	@OneToMany(mappedBy = "helperInfoSeq")
-	private List<CertificateEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
+	private List<HelperInfoImageEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
 
 }

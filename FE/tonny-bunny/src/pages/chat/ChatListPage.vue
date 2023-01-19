@@ -1,10 +1,21 @@
 <template>
-	<div>채팅 - 채팅 목록</div>
-	<div>채팅 - 채팅 목록</div>
+    <div>
+        <h1>채팅 - 채팅 목록</h1>
+
+        <div>
+            <ChatListItem />
+        </div>
+    </div>
 </template>
 
 <script>
-	export default {};
+import ChatListItem from "@/components/chat/ChatListItem.vue";
+
+export default {
+    components: {
+        ChatListItem,
+    },
+};
 </script>
 
 <style></style>

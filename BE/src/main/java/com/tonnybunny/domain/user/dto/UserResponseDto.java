@@ -16,7 +16,7 @@ public class UserResponseDto {
 	}
 
 
-	static List<UserResponseDto> fromEntityList(List<UserEntity> userList) {
+	public static List<UserResponseDto> fromEntityList(List<UserEntity> userList) {
 		List<UserResponseDto> result = new ArrayList<>();
 		for (UserEntity user : userList) {
 			UserResponseDto userResponseDto = fromEntity(user);
