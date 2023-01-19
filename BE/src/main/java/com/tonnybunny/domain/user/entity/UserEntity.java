@@ -34,26 +34,19 @@ public class UserEntity extends CommonEntity {
 	private String userCode;
 
 	// 연결
-	@OneToMany(mappedBy = "userSeq")
+	@OneToMany(mappedBy = "user")
 	private List<PossibleLanguageEntity> possibleLanguageList = new ArrayList<>(); // 사용언어
 
-	@OneToMany(mappedBy = "userSeq")
+	@OneToMany(mappedBy = "user")
 	private List<CertificateEntity> certificateList = new ArrayList<>(); // 자격증
 
-	//	@OneToMany(mappedBy = "userSeq")
-	//	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
-	//
-	//	@OneToMany(mappedBy = "blockedUserSeq")
-	//	private List<BlockEntity> blockedUserList = new ArrayList<>(); // 차단된 유저
-	//
-	//	@OneToMany(mappedBy = "followerSeq")
-	//	private List<FollowEntity> followerList = new ArrayList<>(); // 팔로워 목록
-	//
-	//	@OneToMany(mappedBy = "followingSeq")
-	//	private List<FollowEntity> followingList = new ArrayList<>(); // 팔로잉 목록
+	@OneToMany(mappedBy = "user")
+	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userSeq", cascade = {
-		CascadeType.REMOVE })
+	@OneToMany(mappedBy = "followingSeq")
+	private List<FollowEntity> followingList = new ArrayList<>(); // 팔로잉 목록
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userSeq")
 	private HelperInfoEntity helperInfo;                            // 헬퍼 정보
 
 }
