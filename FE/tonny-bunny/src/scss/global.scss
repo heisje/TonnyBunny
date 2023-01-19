@@ -5,4 +5,89 @@
     font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     box-sizing: border-box;
     cursor: default;
+    color: var(--main-color);
+    background-color: var(--b-back-color);
+    @extend .text;
+}
+
+//컬러전역설정
+:root,
+:root.light {
+    --live-color: #424b5a;
+    --main-color: #505d68;
+    --sub-color: #a1aeb7;
+    --disable-color: #c2d1d9;
+    --white-color: #ffffff;
+    --b-live-color: #c2d1d9;
+    --b-disable-color: #e8edef;
+    --b-box-color: #f2f5f7;
+    --b-back-color: #ffffff;
+    --border-color: #c2d1d9;
+    --primary-color: #ff7765;
+    --active-color: #58c2ed;
+    --success-color: #87d146;
+    --danger-color: #f96a63;
+    --d-modal-back-color: #d9d9d980;
+    --d-modal-color: #ffffff80;
+    --gradient-color: linear-gradient(126.73deg, #ff8a65 15.12%, #ff7765 86.23%);
+}
+
+:root.dark {
+}
+
+//폰트전역설정
+h1 {
+    @extend .h1;
+}
+h2 {
+    @extend .h2;
+}
+h3 {
+    @extend .h3;
+}
+h4 {
+    @extend .h4;
+}
+h5 {
+    @extend .h5;
+}
+.h1 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+}
+.h1-small {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+}
+.h2 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+.h3 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+.h4 {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 16px;
+}
+.h5 {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+}
+.text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+}
+.label {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 15px;
 }
