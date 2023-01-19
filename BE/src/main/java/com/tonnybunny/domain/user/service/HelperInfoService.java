@@ -17,7 +17,7 @@ public class HelperInfoService {
      * @param userSeq : 대상 유저 seq
      * @return 자격증 목록 조회
      */
-    public List<CertificateEntity> getCertificateList(int userSeq){
+    public List<CertificateEntity> getCertificateList(Integer userSeq){
         // TODO : 로직 구현
         return new ArrayList<>();
     }
@@ -28,7 +28,7 @@ public class HelperInfoService {
      * @param certificateRequestDtoList : 등록할 자격증 목록
      * @return 등록한 자격증 entity의 seq 목록
      */
-    public List<Long> createCertificateList(int userSeq, List<CertificateRequestDto> certificateRequestDtoList){
+    public List<Long> createCertificateList(Integer userSeq, List<CertificateRequestDto> certificateRequestDtoList){
         // TODO : 로직 구현
 
         return new ArrayList<>();
@@ -61,7 +61,7 @@ public class HelperInfoService {
      * @param helperInfoImage : 이미지 파일
      * @return 추가한 헬퍼 소개서 이미지들의 seq 목록
      */
-    public List<Long> createHelperInfoImageList(int helperInfoSeq, MultipartFile helperInfoImage){
+    public List<Long> createHelperInfoImageList(Integer helperInfoSeq, MultipartFile helperInfoImage){
         // TODO : 로직 구현
         return new ArrayList<>();
     }
@@ -116,7 +116,7 @@ public class HelperInfoService {
      * @param helperInfoRequestDto : 수정할 헬퍼 정보
      * @return 수정한 Entity의 seq
      */
-    public Long modifyHelperInfo(int helperInfoSeq, HelperInfoRequestDto helperInfoRequestDto){
+    public Long modifyHelperInfo(Integer helperInfoSeq, HelperInfoRequestDto helperInfoRequestDto){
         // TODO : 로직 구현
 
         return 1L;
