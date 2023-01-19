@@ -2,6 +2,7 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,13 @@ public class YTonnyNotiHelperEntity extends CommonEntity {
 	@Column(name = "y_tonny_noti_helper_seq")
 	private Long seq;
 
-	private Long yTonnyNotiSeq;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "y_tonny_noti_seq")
+	private YTonnyNotiEntity yTonnyNoti;
 
-	private Long helperSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity helper;
 
 	private int totalPrice;
 
