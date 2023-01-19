@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class UserResponseDto {
 
-	static UserResponseDto fromEntity(UserEntity user) {
+	public static UserResponseDto fromEntity(UserEntity user) {
 		return new UserResponseDto();
 	}
 
