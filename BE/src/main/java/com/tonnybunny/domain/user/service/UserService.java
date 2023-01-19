@@ -6,6 +6,9 @@ import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class UserService {
 
@@ -129,6 +132,7 @@ public class UserService {
 
 	/**
 	 * 회원 정보 조회
+	 *
 	 * @param userSeq : 조회할 userSeq 포함
 	 * @return findUserBySeq로 조회된 searchedUser
 	 */
@@ -141,9 +145,10 @@ public class UserService {
 
 	/**
 	 * 회원 정보 수정
-	 * @param userSeq : 수정할 user의 seq
+	 *
+	 * @param userSeq        : 수정할 user의 seq
 	 * @param userRequestDto : 수정할 데이터
-	 * @return : 수정 후 user의 seq
+	 * @return 수정 후 user의 seq
 	 */
 	public Long modifyUserInfo(Long userSeq, UserRequestDto userRequestDto) {
 		// TODO : 로직
@@ -157,11 +162,54 @@ public class UserService {
 
 	/**
 	 * 회원 정보 삭제
+	 *
 	 * @param userSeq : 삭제할 user의 seq
-	 * @return : 유저 삭제 로직 성공 여부
+	 * @return 유저 삭제 로직 성공 여부
 	 */
 	public Boolean deleteUserInfo(Long userSeq) {
 		// TODO : 로직
+		return true;
+	}
+
+
+	/**
+	 * 즐겨찾기 목록 조회
+	 *
+	 * @param userSeq : 즐겨찾기 목록 조회를 할 usereSeq
+	 * @return
+	 */
+	public List<UserEntity> getBookmark(Long userSeq) {
+		//TODO : 로직
+		/**
+		 * 즐겨찾기 목록 중계테이블의 팔로워유저가 userSeq인 컬럼을 조회
+		 */
+
+		return new ArrayList<>();
+	}
+
+
+	/**
+	 * 즐겨찾기 추가
+	 *
+	 * @param userSeq   : 누군가를 추가하기를 원하는 userSeq
+	 * @param followSeq : 추가될 누군가의 seq
+	 * @return
+	 */
+	public Boolean createBookmark(Long userSeq, Long followSeq) {
+		// TODO : 로직
+
+		return true;
+	}
+
+
+	/**
+	 * @param userSeq   : 누군가를 삭제하기를 원하는 userSeq
+	 * @param followSeq : 삭제될 누군가의 seq
+	 * @return
+	 */
+	public Boolean deleteBookmark(Long userSeq, Long followSeq) {
+		// TODO : 로직
+
 		return true;
 	}
 
