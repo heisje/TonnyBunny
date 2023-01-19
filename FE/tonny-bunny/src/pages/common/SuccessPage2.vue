@@ -1,15 +1,12 @@
 <template>
     <div>
-        <h1>회원관리 - 능력 어필 페이지</h1>
+        <div>완료 페이지</div>
 
         <TitleText />
-        <SubText />
 
-        <div>언어선택 라인</div>
-        <div>자격증 추가</div>
+        <div>round 라인 (서클 안에)</div>
 
-        <div>확인 버튼</div>
-        <div>건너뛰기 버튼</div>
+        <button>버튼1</button>
     </div>
 </template>
 
