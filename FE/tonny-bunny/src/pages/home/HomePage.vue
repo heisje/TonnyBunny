@@ -35,7 +35,22 @@
 </template>
 
 <script>
-	export default {};
+import ServiceBtn from "@/components/home/ServiceBtn.vue"
+import QuestList from "@/components/home/QuestList.vue"
+import ScheduleList from "@/components/home/ScheduleList.vue"
+import BoardList from "@/components/home/BoardList.vue"
+import QuickBtn from "@/components/home/QuickBtn.vue"
+	export default {
+		name: "HomePage",
+
+		components: {
+			ServiceBtn,
+			QuestList,
+			ScheduleList,
+			BoardList,
+			QuickBtn,
+		},
+	};
 </script>
 
 <style></style>

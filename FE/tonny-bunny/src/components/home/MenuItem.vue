@@ -5,7 +5,9 @@
 
 <script>
 export default {
+		name: "MenuItem",
 
+		components: {},
 }
 </script>
 

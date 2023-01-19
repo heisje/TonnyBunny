@@ -28,7 +28,14 @@
 </template>
 
 <script>
-	export default {};
+import MenuItem from "@/components/home/MenuItem.vue"
+	export default {
+		name: "NoticePage",
+		components: {
+			MenuItem,
+
+		},
+	};
 </script>
 
 <style></style>

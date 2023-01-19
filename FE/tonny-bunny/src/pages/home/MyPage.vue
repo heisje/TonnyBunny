@@ -29,30 +29,45 @@
 
 	<div>
 		차단목록
-		<MenuItem>
+		<MenuItem/>
 	</div>
 	<div>
 		푸시알림
-		<MenuItem>
+		<MenuItem/>
 	</div>
 	<div>
 		고객센터
-		<MenuItem>
+		<MenuItem/>
 	</div>
 	<div>
 		헬퍼 인증 및 변경
-		<MenuItem>
+		<MenuItem/>
 	</div>
 	<div>
 		로그아웃
-		<MenuItem>
+		<MenuItem/>
 	</div>
 
 </template>
 
 
 <script>
-	export default {};
+import UserCard from "@/components/home/UserCard.vue"
+import HelperCard from "@/components/home/HelperCard.vue"
+import LinkBtn from "@/components/home/LinkBtn.vue"
+import MenuItem from "@/components/home/MenuItem.vue"
+
+	export default {
+		name: "MyPage",
+
+		components: {
+			UserCard,
+			HelperCard,
+			LinkBtn,
+			MenuItem,
+
+		},
+	};
 </script>
 
 <style></style>

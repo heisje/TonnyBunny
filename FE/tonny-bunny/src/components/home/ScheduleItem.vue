@@ -5,7 +5,9 @@
 
 <script>
 export default {
+		name: "ScheduleItem",
 
+		components: {},
 }
 </script>
 
