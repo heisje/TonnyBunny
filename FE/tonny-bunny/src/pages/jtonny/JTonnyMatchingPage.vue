@@ -11,13 +11,13 @@
 		<JTonnyHelperForm></JTonnyHelperForm>
 		<div>취소모달</div>
 		<div>성공모달</div>
-	</div>
+	</div> 
 </template>
 
 <script>
-import JTonnyHelperForm from '@/components/jtonny/JTonnyHelperForm.vue';
-	export default {
-  components: { JTonnyHelperForm },};
+// import JTonnyHelperForm from '@/components/jtonny/JTonnyHelperForm.vue';
+	// export default {
+//   components: { JTonnyHelperForm },};
 </script>
 
 <style></style>
