@@ -29,7 +29,7 @@ public class ScheduleService {
 	 * @param scheduleSeq : 조회할 일정의 PK
 	 * @return 조회한 일정 Entity
 	 */
-	public ScheduleEntity getSchedule(Integer scheduleSeq){
+	public ScheduleEntity getSchedule(Long scheduleSeq){
 		// TODO : 로직 구현
 
 		return (ScheduleEntity) new Object();
@@ -48,11 +48,11 @@ public class ScheduleService {
 
 	/**
 	 * 일정 Entity를 수정한다.
-	 * @param oldScheduleSeq : 수정할 ScheduleEntity의 PK
-	 * @param newScheduleRequestDto : 수정할 내용
+	 * @param scheduleSeq : 수정할 ScheduleEntity의 PK
+	 * @param scheduleRequestDto : 수정할 내용
 	 * @return updated entity의 PK
 	 */
-	public Long modifySchedule(Integer oldScheduleSeq, ScheduleRequestDto newScheduleRequestDto){
+	public Long modifySchedule(Long scheduleSeq, ScheduleRequestDto scheduleRequestDto){
 		// TODO : 로직 구현
 
 		return 1L;
@@ -63,7 +63,7 @@ public class ScheduleService {
 	 * @param scheduleSeq : 삭제할 Entity의 PK
 	 * @return 삭제 여부
 	 */
-	public Boolean deleteSchedule(Integer scheduleSeq){
+	public Boolean deleteSchedule(Long scheduleSeq){
 		// TODO : 로직 구현
 
 		return true;

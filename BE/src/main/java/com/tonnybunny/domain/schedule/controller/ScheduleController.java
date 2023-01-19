@@ -31,7 +31,7 @@ public class ScheduleController {
 
 	@GetMapping("/{scheduleSeq}")
 	@ApiOperation(value="특정 일정을 상세 조회합니다.", notes="")
-	public ResponseEntity<ResultDto<ScheduleResponseDto>> getSchedule(@PathVariable("scheduleSeq") Integer scheduleSeq){
+	public ResponseEntity<ResultDto<ScheduleResponseDto>> getSchedule(@PathVariable("scheduleSeq") Long scheduleSeq){
 		ScheduleEntity schedule = scheduleService.getSchedule(scheduleSeq);
 		ScheduleResponseDto scheduleResponseDto = ScheduleResponseDto.fromEntity(schedule);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(scheduleResponseDto));
@@ -46,14 +46,14 @@ public class ScheduleController {
 
 	@PutMapping("/{scheduleSeq}")
 	@ApiOperation(value="일정을 수정합니다.", notes="")
-	public ResponseEntity<ResultDto<Long>> modifySchedule(@PathVariable("scheduleSeq") Integer scheduleSeq, @RequestBody ScheduleRequestDto scheduleRequestDto){
+	public ResponseEntity<ResultDto<Long>> modifySchedule(@PathVariable("scheduleSeq") Long scheduleSeq, @RequestBody ScheduleRequestDto scheduleRequestDto){
 		Long updatedScheduleSeq = scheduleService.modifySchedule(scheduleSeq, scheduleRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedScheduleSeq));
 	}
 
 	@DeleteMapping("/{scheduleSeq}")
 	@ApiOperation(value="일정을 삭제합니다.", notes="")
-	public ResponseEntity<ResultDto<Boolean>> deleteSchedule(@PathVariable("scheduleSeq") Integer scheduleSeq){
+	public ResponseEntity<ResultDto<Boolean>> deleteSchedule(@PathVariable("scheduleSeq") Long scheduleSeq){
 		Boolean result = scheduleService.deleteSchedule(scheduleSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(result));
 	}
