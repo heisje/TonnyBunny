@@ -15,7 +15,7 @@
 	</div>
 	<div v-if="isHelper === true">
 		나의 의뢰
-		<ScheduleList/>
+		<QuestList/>
 	</div>
 	<div> 
 		오늘 일정
