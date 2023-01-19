@@ -15,9 +15,13 @@
 </template>
 
 <script>
-import JTonnyHelperForm from '@/components/jtonny/JTonnyHelperForm.vue';
-	export default {
-  components: { JTonnyHelperForm },};
+import JTonnyHelperForm from "@/components/jtonny/JTonnyHelperForm.vue";
+
+export default {
+	components: {
+		JTonnyHelperForm
+	}
+};
 </script>
 
 <style></style>

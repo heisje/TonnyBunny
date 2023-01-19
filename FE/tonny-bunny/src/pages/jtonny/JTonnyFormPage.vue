@@ -6,12 +6,13 @@
 </template>
 
 <script>
-import JTonnyForm from '@/components/jtonny/JTonnyForm.vue';
-	export default {
-		components:{
-			JTonnyForm,
-		}
-	};
+import JTonnyForm from "@/components/jtonny/JTonnyForm.vue";
+
+export default {
+	components: {
+		JTonnyForm
+	}
+};
 </script>
 
 <style></style>
