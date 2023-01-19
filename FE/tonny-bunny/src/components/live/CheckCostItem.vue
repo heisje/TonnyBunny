@@ -18,13 +18,17 @@
 
     종료하기
     <ControlBtn/>
-    
+
 
 </template>
 
 <script>
 export default {
+		name: "CheckCostItem",
 
+		components: {
+            ControlBtn,
+        },
 }
 </script>
 

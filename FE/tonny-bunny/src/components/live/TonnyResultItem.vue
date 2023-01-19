@@ -5,6 +5,9 @@
 
 <script>
 export default {
+		name: "TonnyResultItem",
+
+		components: {},
 
 }
 </script>

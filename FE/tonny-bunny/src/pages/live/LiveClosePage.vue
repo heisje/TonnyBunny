@@ -9,12 +9,10 @@
 	</div>
 
 	<div v-if="isHelper==true">
-		이용내역확인
-		<MediumBtn>
+		<button class="mediumBtn">이용내역확인</button>
 	</div>
 	<div v-else>
-		리뷰쓰기  
-		<MediumBtn>
+		<button class="mediumBtn">리뷰쓰기</button>  
 		<button>다음에 작성하기</button>
 	</div> 
 
@@ -24,7 +22,13 @@
 </template>
 
 <script>
-	export default {};
+	export default {
+		name: "LiveClosePage",
+
+		components: {
+			TonnyResultItem,
+		},		
+	};
 </script>
 
 <style></style>

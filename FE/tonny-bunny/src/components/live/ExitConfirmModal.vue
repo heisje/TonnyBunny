@@ -5,7 +5,9 @@
 
 <script>
 export default {
+		name: "ExitConfirmModal",
 
+		components: {},
 }
 </script>
 

@@ -5,7 +5,9 @@
 
 <script>
 export default {
+		name: "ExitRequestModal",
 
+		components: {},
 }
 </script>
 

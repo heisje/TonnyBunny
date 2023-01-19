@@ -5,25 +5,33 @@
 		<CheckCostItem/>
 	</div>
 	<div>
-		채팅버튼
-		<BottomBtn>
+		<button class="bottomBtn">채팅버튼</button>
 	</div>
 	<div>
 		채팅모달
-		<ChatModal>
+		<ChatModal/>
 	</div>
 	<div v-if="isHelper===True">
 		종료요청모달
-		<ExitRequestModal>
+		<ExitRequestModal/>
 	</div>
 	<div v-else>
 		종료확인모달
-		<ExitConfirmModal>
+		<ExitConfirmModal/>
 	</div>
 </template>
 
 <script>
-	export default {};
+	export default {
+		name: "LivePage",
+
+		components: {
+			CheckCostItem,
+			ChatModal,
+			ExitRequestModal,
+			ExitConfirmModal,
+		},
+	};
 </script>
 
 <style></style>
