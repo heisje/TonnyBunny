@@ -3,12 +3,10 @@ package com.tonnybunny.domain.user.service;
 
 import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
+import com.tonnybunny.domain.user.dto.ReportRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
@@ -175,22 +173,6 @@ public class UserService {
 
 
 	/**
-	 * 즐겨찾기 목록 조회
-	 *
-	 * @param userSeq : 즐겨찾기 목록 조회를 할 usereSeq
-	 * @return
-	 */
-	public List<UserEntity> getBookmark(Long userSeq) {
-		//TODO : 로직
-		/**
-		 * 즐겨찾기 목록 중계테이블의 팔로워유저가 userSeq인 컬럼을 조회
-		 */
-
-		return new ArrayList<>();
-	}
-
-
-	/**
 	 * 즐겨찾기 추가
 	 *
 	 * @param userSeq   : 누군가를 추가하기를 원하는 userSeq
@@ -219,18 +201,6 @@ public class UserService {
 
 
 	/**
-	 * 차단 목록 조회
-	 *
-	 * @param userSeq : 즐겨찾기 목록 조회를 할 usereSeq
-	 * @return
-	 */
-	public List<UserEntity> getBlockList(Long userSeq) {
-		// TODO : 로직
-		return new ArrayList<>();
-	}
-
-
-	/**
 	 * 차단 유저 추가
 	 *
 	 * @param userSeq  : 누군가를 추가하기를 원하는 userSeq
@@ -238,7 +208,7 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean createBlock(Long userSeq, Long blockSeq) {
-		return null;
+		return true;
 	}
 
 
@@ -250,7 +220,18 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean deleteBlock(Long userSeq, Long blockSeq) {
-		return null;
+		return true;
+	}
+
+
+	/**
+	 * 유저 신고하기
+	 *
+	 * @param reportRequestDto
+	 * @return
+	 */
+	public Boolean createReport(ReportRequestDto reportRequestDto) {
+		return true;
 	}
 
 }
