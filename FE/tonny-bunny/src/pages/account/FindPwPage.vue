@@ -1,9 +1,35 @@
 <template>
-	<div>회원관리 - 비밀번호 찾기 페이지</div>
+    <div>
+        <div>회원관리 - 비밀번호 찾기 페이지</div>
+
+        <TitleText />
+        <SubText />
+
+        <div>
+            <div>
+                휴대폰 인증
+                <FindInputForm />
+            </div>
+            <div>
+                이메일 인증
+                <FindInputForm />
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-	export default {};
+import TitleText from "@/components/account/TitleText.vue";
+import SubText from "@/components/account/SubText.vue";
+import FindInputForm from "@/components/account/FindInputForm.vue";
+
+export default {
+    components: {
+        TitleText,
+        SubText,
+        FindInputForm,
+    },
+};
 </script>
 
 <style></style>
