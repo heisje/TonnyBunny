@@ -1,15 +1,17 @@
 <template>
-    <div>홈 - 메인</div>
-    <v-alert type="success"></v-alert>
-    <MediumBtn />
+    <div>
+        <div>홈 - 메인</div>
+        <ButtonTest />
+    </div>
 </template>
 
 <script>
-import MediumBtn from "@/components/common/button/MediumBtn.vue";
+/* eslint-disable */
+import ButtonTest from "@/components/common/button/ButtonTest.vue";
 
 export default {
     components: {
-        MediumBtn,
+        ButtonTest,
     },
 };
 </script>
