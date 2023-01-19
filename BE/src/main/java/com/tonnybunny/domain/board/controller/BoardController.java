@@ -24,6 +24,7 @@ public class BoardController {
 	private final BoardService boardService;
 
 
+	/* 게시글 */
 	@GetMapping("/board")
 	@ApiOperation(value = "게시글 리스트를 조회합니다.", notes = "")
 	public ResponseEntity<?> getBoardList() {
@@ -61,9 +62,9 @@ public class BoardController {
 	public ResponseEntity<?> modifyBoard(@RequestBody BoardRequestDto boardRequestDto,
 		@PathVariable Long boardSeq) {
 
-		boardService.modifyBoard(boardSeq, boardRequestDto);
+		Long updatedBoardSeq = boardService.modifyBoard(boardSeq, boardRequestDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedBoardSeq));
 	}
 
 
@@ -75,5 +76,7 @@ public class BoardController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
+
+	/* 게시글 댓글 */
 
 }
