@@ -16,7 +16,7 @@ public class YTonnyNotiResponseDto {
 	}
 
 
-	public static List<YTonnyNotiResponseDto> fromEnityList(
+	public static List<YTonnyNotiResponseDto> fromEntityList(
 		List<YTonnyNotiEntity> yTonnyNotiList) {
 		List<YTonnyNotiResponseDto> result = new ArrayList<>();
 		for (YTonnyNotiEntity yTonnyNoti : yTonnyNotiList) {

@@ -57,7 +57,7 @@ public class YTonnyController {
 	@ApiOperation(value = "예약 통역 공고 목록 조회", notes = "")
 	public ResponseEntity<ResultDto<List<YTonnyNotiResponseDto>>> getYTonnyNotiList() {
 		List<YTonnyNotiEntity> yTonnyNotiList = yTonnyService.getYTonnyNotiList();
-		List<YTonnyNotiResponseDto> yTonnyNotiResponseDtoList = YTonnyNotiResponseDto.fromEnityList(
+		List<YTonnyNotiResponseDto> yTonnyNotiResponseDtoList = YTonnyNotiResponseDto.fromEntityList(
 			yTonnyNotiList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiResponseDtoList));
 	}
@@ -97,7 +97,7 @@ public class YTonnyController {
 		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
 		List<YTonnyNotiHelperEntity> yTonnyNotiHelperList =
 			yTonnyService.getYTonnyHelperList(yTonnyNotiSeq);
-		List<YTonnyHelperResponseDto> yTonnyHelperResponseDtoList = YTonnyHelperResponseDto.fromEnityList(
+		List<YTonnyHelperResponseDto> yTonnyHelperResponseDtoList = YTonnyHelperResponseDto.fromEntityList(
 			yTonnyNotiHelperList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyHelperResponseDtoList));
 	}
