@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -140,16 +138,6 @@ public class UserController {
 	}
 
 
-	@GetMapping("/mypage/{userSeq}/follow")
-	@ApiOperation(value = "즐겨찾기 목록을 조회합니다")
-	public ResponseEntity<ResultDto<List<UserResponseDto>>> getBookmark(
-		@PathVariable("userSeq") Long userSeq) {
-		List<UserEntity> userList = userService.getBookmark(userSeq);
-		List<UserResponseDto> userResponseDtoList = UserResponseDto.fromEntityList(userList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDtoList));
-	}
-
-
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
 	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq,
@@ -176,17 +164,7 @@ public class UserController {
 	}
 
 
-	@GetMapping("/mypage/{userSeq}/block")
-	@ApiOperation(value = "차단 목록을 조회합니다")
-	public ResponseEntity<ResultDto<List<UserResponseDto>>> getBlockList(
-		@PathVariable("userSeq") Long userSeq) {
-		List<UserEntity> userList = userService.getBlockList(userSeq);
-		List<UserResponseDto> userResponseDtoList = UserResponseDto.fromEntityList(userList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDtoList));
-	}
-
-
-	@PostMapping("/mypage/{userSeq}/block")
+	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저를 차단합니다")
 	public ResponseEntity<ResultDto<Boolean>> createBlock(
 		@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
@@ -199,11 +177,24 @@ public class UserController {
 	}
 
 
-	@DeleteMapping("/mypage/{userSeq}/block")
+	@DeleteMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저 차단을 취소합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteBlock(
 		@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
 		Boolean isSuccess = userService.deleteBlock(userSeq, blockSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
+
+	@PostMapping("/mypage/{userSeq}/report/{reportSeq}")
+	@ApiOperation(value = "유저를 신고합니다")
+	public ResponseEntity<ResultDto<Boolean>> createReport(@PathVariable("userSeq") Long userSeq,
+		@PathVariable("reportSeq") Long reportSeq) {
+		Boolean isSuccess = userService.createReport(userSeq, reportSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
