@@ -5,8 +5,13 @@ import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
+@Service
 public class UserService {
 
 	public UserEntity signup(UserRequestDto userRequestDto) {
@@ -31,7 +36,7 @@ public class UserService {
 	}
 
 
-	public boolean sendAuthCode(String phoneNumber) {
+	public Boolean sendAuthCode(String phoneNumber) {
 		/**
 		 * 휴대폰으로 인증코드 발송 해야함
 		 */
@@ -39,7 +44,7 @@ public class UserService {
 	}
 
 
-	public boolean checkAuthCode(String authCode) {
+	public Boolean checkAuthCode(String authCode) {
 		/**
 		 * 인증코드 일치 여부 검증
 		 */
@@ -47,7 +52,7 @@ public class UserService {
 	}
 
 
-	private boolean checkAgreementStatus(Boolean bool) {
+	private Boolean checkAgreementStatus(Boolean bool) {
 		/**
 		 * 프론트에서는 모든 약관에 동의했는지에 대한 데이터를 넘겨주어야 한다
 		 * bool (약관동의) 가 true 일때 true를 반환한다
@@ -56,7 +61,7 @@ public class UserService {
 	}
 
 
-	private boolean checkEmailValidation(String email) {
+	private Boolean checkEmailValidation(String email) {
 		/**
 		 * 이메일 유효성 검사 로직
 		 */
@@ -64,7 +69,7 @@ public class UserService {
 	}
 
 
-	private boolean checkPasswordValidation(String password) {
+	private Boolean checkPasswordValidation(String password) {
 		/**
 		 * 비밀번호 유효성 확인 로직
 		 * 불일치 시 비밀번호 양식에 맞지 않다고 출력
@@ -73,7 +78,7 @@ public class UserService {
 	}
 
 
-	private boolean checkPasswordMatch(String password, String checkPassword) {
+	private Boolean checkPasswordMatch(String password, String checkPassword) {
 		/**
 		 * 비밀번호 일치 확인 로직
 		 * 불일치 시 비밀번호가 일치하지 않습니다 출력
@@ -90,7 +95,7 @@ public class UserService {
 	}
 
 
-	public boolean login(UserRequestDto userRequestDto) {
+	public Boolean login(UserRequestDto userRequestDto) {
 		UserEntity user = userRequestDto.toEntity();
 		/**
 		 * user.email로 user를 조회 => findUserByEmail
@@ -124,6 +129,128 @@ public class UserService {
 		 * 조회된 user의 email이 userDto의 email과 같으면 true / false 반환? 재설정하기 위해?
 		 */
 		return new AccountResponseDto();
+	}
+
+
+	/**
+	 * 회원 정보 조회
+	 *
+	 * @param userSeq : 조회할 userSeq 포함
+	 * @return findUserBySeq로 조회된 searchedUser
+	 */
+	public UserEntity getUserInfo(Long userSeq) {
+		// TODO : 로직
+
+		return (UserEntity) new Object();
+	}
+
+
+	/**
+	 * 회원 정보 수정
+	 *
+	 * @param userSeq        : 수정할 user의 seq
+	 * @param userRequestDto : 수정할 데이터
+	 * @return 수정 후 user의 seq
+	 */
+	public Long modifyUserInfo(Long userSeq, UserRequestDto userRequestDto) {
+		// TODO : 로직
+		UserEntity _new = userRequestDto.toEntity();
+		/**
+		 * UserEntity _old = boardRepository.findUserBySeq(userSeq);
+		 */
+		return _new.getSeq();
+	}
+
+
+	/**
+	 * 회원 정보 삭제
+	 *
+	 * @param userSeq : 삭제할 user의 seq
+	 * @return 유저 삭제 로직 성공 여부
+	 */
+	public Boolean deleteUserInfo(Long userSeq) {
+		// TODO : 로직
+		return true;
+	}
+
+
+	/**
+	 * 즐겨찾기 목록 조회
+	 *
+	 * @param userSeq : 즐겨찾기 목록 조회를 할 usereSeq
+	 * @return
+	 */
+	public List<UserEntity> getBookmark(Long userSeq) {
+		//TODO : 로직
+		/**
+		 * 즐겨찾기 목록 중계테이블의 팔로워유저가 userSeq인 컬럼을 조회
+		 */
+
+		return new ArrayList<>();
+	}
+
+
+	/**
+	 * 즐겨찾기 추가
+	 *
+	 * @param userSeq   : 누군가를 추가하기를 원하는 userSeq
+	 * @param followSeq : 추가될 누군가의 seq
+	 * @return
+	 */
+	public Boolean createBookmark(Long userSeq, Long followSeq) {
+		// TODO : 로직
+
+		return true;
+	}
+
+
+	/**
+	 * 즐겨찾기 삭제
+	 *
+	 * @param userSeq   : 누군가를 삭제하기를 원하는 userSeq
+	 * @param followSeq : 삭제될 누군가의 seq
+	 * @return
+	 */
+	public Boolean deleteBookmark(Long userSeq, Long followSeq) {
+		// TODO : 로직
+
+		return true;
+	}
+
+
+	/**
+	 * 차단 목록 조회
+	 *
+	 * @param userSeq : 즐겨찾기 목록 조회를 할 usereSeq
+	 * @return
+	 */
+	public List<UserEntity> getBlockList(Long userSeq) {
+		// TODO : 로직
+		return new ArrayList<>();
+	}
+
+
+	/**
+	 * 차단 유저 추가
+	 *
+	 * @param userSeq  : 누군가를 추가하기를 원하는 userSeq
+	 * @param blockSeq : 추가될 누군가의 seq
+	 * @return
+	 */
+	public Boolean createBlock(Long userSeq, Long blockSeq) {
+		return null;
+	}
+
+
+	/**
+	 * 차단 유저 삭제
+	 *
+	 * @param userSeq  : 누군가를 삭제하기를 원하는 userSeq
+	 * @param blockSeq : 삭제될 누군가의 seq
+	 * @return
+	 */
+	public Boolean deleteBlock(Long userSeq, Long blockSeq) {
+		return null;
 	}
 
 }
