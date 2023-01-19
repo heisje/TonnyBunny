@@ -22,6 +22,11 @@
 </template>
 
 <script>
+import CheckCostItem from "@/components/live/CheckCostItem.vue"
+import ChatModal from "@/components/live/ChatModal.vue"
+import ExitRequestModal from "@/components/live/ExitRequestModal.vue"
+import ExitConfirmModal from "@/components/live/ExitConfirmModal.vue"
+
 	export default {
 		name: "LivePage",
 

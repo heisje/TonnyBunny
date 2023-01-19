@@ -9,6 +9,7 @@
 		정보수정버튼
 		포인트아이템 -->
     </div>
+
     <div v-if="isHelper === true">
         헬퍼카드
         <HelperCard />
@@ -17,6 +18,16 @@
 			수정하기 XSmallBtn 
 		-->
     </div>
+
+    <div>
+        이용내역
+        <LinkBtn />
+        즐겨찾기
+        <LinkBtn />
+        일정
+        <LinkBtn />
+    </div>
+
     <div>
         이용내역
         <LinkBtn />
@@ -49,10 +60,18 @@
 </template>
 
 <script>
+import UserCard from "@/components/home/UserCard.vue";
+import HelperCard from "@/components/home/HelperCard.vue";
+import LinkBtn from "@/components/home/LinkBtn.vue";
 import MenuItem from "@/components/home/MenuItem.vue";
 
 export default {
+    name: "MyPage",
+
     components: {
+        UserCard,
+        HelperCard,
+        LinkBtn,
         MenuItem,
     },
 };
