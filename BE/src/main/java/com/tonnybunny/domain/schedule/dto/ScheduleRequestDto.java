@@ -8,7 +8,8 @@ import lombok.Data;
 @Data
 public class ScheduleRequestDto {
 
-	public ScheduleEntity toEntity(ScheduleResponseDto responseDto){
+	public ScheduleEntity toEntity() {
 		return (ScheduleEntity) new Object();
 	}
+
 }
