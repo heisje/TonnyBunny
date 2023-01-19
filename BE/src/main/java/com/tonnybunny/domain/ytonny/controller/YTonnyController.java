@@ -24,7 +24,7 @@ public class YTonnyController {
 	private final YTonnyService yTonnyService;
 
 
-	@PostMapping
+	@PostMapping("/")
 	@ApiOperation(value = "고객의 예약 통역 공고 생성", notes = "")
 	public ResponseEntity<ResultDto<Long>> createYTonnyNoti(
 		@RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
@@ -53,7 +53,7 @@ public class YTonnyController {
 	}
 
 
-	@GetMapping("/list")
+	@GetMapping("/")
 	@ApiOperation(value = "예약 통역 공고 목록 조회", notes = "")
 	public ResponseEntity<ResultDto<List<YTonnyNotiResponseDto>>> getYTonnyNotiList() {
 		List<YTonnyNotiEntity> yTonnyNotiList = yTonnyService.getYTonnyNotiList();
@@ -73,7 +73,7 @@ public class YTonnyController {
 	}
 
 
-	@PostMapping("/enroll/")
+	@PostMapping("/enroll")
 	@ApiOperation(value = "헬퍼의 예약 통역 신청 등록", notes = "")
 	public ResponseEntity<ResultDto<Long>> createYTonnyHelper(
 		@RequestBody YTonnyHelperRequestDto yTonnyHelperRequestDto) {

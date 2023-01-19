@@ -30,11 +30,11 @@ public class YTonnyService {
 	/**
 	 * 예약 통역 공고 수정
 	 *
-	 * @param yTonnySeq            : 수정할 공고 게시글 Seq
+	 * @param yTonnyNotiSeq        : 수정할 공고 게시글 Seq
 	 * @param yTonnyNotiRequestDto : 수정할 내용
 	 * @return 수정한 공고 게시글의 Seq
 	 */
-	public Long modifyYTonnyNoti(Long yTonnySeq, YTonnyNotiRequestDto yTonnyNotiRequestDto) {
+	public Long modifyYTonnyNoti(Long yTonnyNotiSeq, YTonnyNotiRequestDto yTonnyNotiRequestDto) {
 		// TODO : 구현
 		return 0L;
 	}
@@ -43,10 +43,10 @@ public class YTonnyService {
 	/**
 	 * 예약 통역 공고 삭제
 	 *
-	 * @param yTonnySeq : 삭제할 공고 게시글 Seq
+	 * @param yTonnyNotiSeq : 삭제할 공고 게시글 Seq
 	 * @return 삭제 성공 여부
 	 */
-	public Boolean deleteYTonnyNoti(Long yTonnySeq) {
+	public Boolean deleteYTonnyNoti(Long yTonnyNotiSeq) {
 		// TODO : 구현
 		return true;
 	}
