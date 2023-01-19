@@ -57,7 +57,7 @@ public class UserEntity extends CommonEntity {
 	private List<YTonnyNotiEntity> yTonnyNotiList = new ArrayList<>(); // 예약통역공고리스트
 
 	@OneToMany(mappedBy = "helper")
-	private List<YTonnyNotiHelperEntity> yTonnyHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
+	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "client")
 	private YTonnyResultEntity yTonnyResultClient; // 예약통역 결과 고객
