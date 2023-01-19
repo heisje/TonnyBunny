@@ -25,8 +25,12 @@ public class PointController {
 	private final PointService pointService;
 
 
-	@GetMapping("/point-log")
-	@ApiOperation(value = "포인트 로그 목록 조회", notes = "")
+	/**
+	 * @param pointLogRequestDto : 대상 유저 Seq, 조회하고 싶은 로그 개수 정보 포함
+	 * @return 포인트 로그 목록
+	 */
+	@PostMapping("/point-log")
+	@ApiOperation(value = "대상 유저의 포인트 로그 목록 조회", notes = "")
 	public ResponseEntity<ResultDto<List<PointLogResponseDto>>> getPointLogList(
 		@RequestBody PointLogRequestDto pointLogRequestDto) {
 		List<PointLogEntity> pointLogList = pointService.getPointLogList(pointLogRequestDto);
@@ -36,6 +40,10 @@ public class PointController {
 	}
 
 
+	/**
+	 * @param userSeq : 대상 유저
+	 * @return 조회한 포인트 양
+	 */
 	@GetMapping("/points/{userSeq}")
 	@ApiOperation(value = "대상 유저의 포인트 양 조회", notes = "")
 	public ResponseEntity<ResultDto<Integer>> getPoint(@PathVariable("userSeq") Long userSeq) {
@@ -44,8 +52,12 @@ public class PointController {
 	}
 
 
+	/**
+	 * @param pointRequestDto : 거래 유저들 Seq, 포인트 양, 변동 타입(충전, 출금, 거래), 계좌 정보 포함
+	 * @return 성공 여부
+	 */
 	@PutMapping("/points")
-	@ApiOperation(value = "포인트 거래(충전, 출금, 거래)", notes = "인자로 전달한 거래 타입(충전, 출금, 거래)에 따라 로직이 분기됨")
+	@ApiOperation(value = "포인트 변동(충전, 출금, 거래)", notes = "인자로 전달한 변동 타입(충전, 출금, 거래)에 따라 로직이 분기됨")
 	public ResponseEntity<ResultDto<Boolean>> modifyPoint(
 		@RequestBody PointRequestDto pointRequestDto) {
 		switch (pointRequestDto.getPointRequestType()) {
