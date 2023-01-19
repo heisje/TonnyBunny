@@ -2,6 +2,7 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,9 @@ public class YTonnyNotiEntity extends CommonEntity {
 	@Column(name = "y_tonny_noti_seq")
 	private Long seq;
 
-	private Long clientSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity client;
 
 	private String title;
 
@@ -31,5 +34,8 @@ public class YTonnyNotiEntity extends CommonEntity {
 	private String taskCode;
 	private String tonnySituCode;
 	private String taskStateCode;
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "yTonnyNoti")
+	private YTonnyNotiHelperEntity yTonnyNotiHelper;
 
 }
