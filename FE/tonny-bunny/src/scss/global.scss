@@ -6,9 +6,11 @@
     box-sizing: border-box;
     cursor: default;
     color: var(--main-color);
-    background-color: var(--d-back-color);
+    background-color: var(--b-back-color);
+    @extend .text;
 }
 
+//컬러전역설정
 :root,
 :root.light {
     --live-color: #424b5a;
@@ -31,4 +33,61 @@
 }
 
 :root.dark {
+}
+
+//폰트전역설정
+h1 {
+    @extend .h1;
+}
+h2 {
+    @extend .h2;
+}
+h3 {
+    @extend .h3;
+}
+h4 {
+    @extend .h4;
+}
+h5 {
+    @extend .h5;
+}
+.h1 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+}
+.h1-small {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+}
+.h2 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+.h3 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+.h4 {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 16px;
+}
+.h5 {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+}
+.text {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+}
+.label {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 15px;
 }
