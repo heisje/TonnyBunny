@@ -6,7 +6,7 @@
         <MediumBtn color="lightgray" link="/bunny" />
         <hr />
 
-        <MediumBtn color="white" />
+        <MediumBtn color="white" link="/mypage" text="마이 페이지" />
         <hr />
 
         <LargeBtn text="라지" link="/tonny" />
