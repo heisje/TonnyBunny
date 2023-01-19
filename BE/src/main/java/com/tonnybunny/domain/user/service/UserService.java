@@ -5,8 +5,10 @@ import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import org.springframework.stereotype.Service;
 
 
+@Service
 public class UserService {
 
 	public UserEntity signup(UserRequestDto userRequestDto) {
@@ -129,6 +131,7 @@ public class UserService {
 
 	/**
 	 * 회원 정보 조회
+	 *
 	 * @param userSeq : 조회할 userSeq 포함
 	 * @return findUserBySeq로 조회된 searchedUser
 	 */
@@ -141,7 +144,8 @@ public class UserService {
 
 	/**
 	 * 회원 정보 수정
-	 * @param userSeq : 수정할 user의 seq
+	 *
+	 * @param userSeq        : 수정할 user의 seq
 	 * @param userRequestDto : 수정할 데이터
 	 * @return : 수정 후 user의 seq
 	 */
@@ -157,6 +161,7 @@ public class UserService {
 
 	/**
 	 * 회원 정보 삭제
+	 *
 	 * @param userSeq : 삭제할 user의 seq
 	 * @return : 유저 삭제 로직 성공 여부
 	 */
