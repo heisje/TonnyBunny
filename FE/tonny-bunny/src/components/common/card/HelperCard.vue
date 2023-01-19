@@ -1,9 +1,9 @@
 <template>
-	<div>Modal Component</div>
+    <div>Helper Card</div>
 </template>
 
 <script>
-	export default {};
+export default {};
 </script>
 
 <style></style>

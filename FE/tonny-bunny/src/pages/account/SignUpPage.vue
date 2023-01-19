@@ -1,9 +1,30 @@
 <template>
-	<div>회원관리 - 회원가입 페이지</div>
+    <div>
+        <h1>회원가입 랜딩 페이지</h1>
+
+        <TitleText />
+        <SubText />
+
+        <div>헬퍼 부가 설명</div>
+        <DescriptionItem />
+
+        <div>일반 부가 설명</div>
+        <DescriptionItem />
+    </div>
 </template>
 
 <script>
-	export default {};
+import TitleText from "@/components/common/TitleText.vue";
+import SubText from "@/components/common/SubText.vue";
+import DescriptionItem from "@/components/account/DescriptionItem.vue";
+
+export default {
+    components: {
+        TitleText,
+        SubText,
+        DescriptionItem,
+    },
+};
 </script>
 
 <style></style>
