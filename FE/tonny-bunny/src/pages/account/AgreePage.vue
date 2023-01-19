@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>회원관리 - 약관 동의 페이지</div>
+        <h1>회원관리 - 약관 동의 페이지</h1>
 
         <TitleText />
         <SubText />
