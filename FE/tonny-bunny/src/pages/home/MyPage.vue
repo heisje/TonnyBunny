@@ -21,20 +21,20 @@
 
 	<div>
 		이용내역
-		<LinkBtn />
+		<MyPageBtn />
 		즐겨찾기
-		<LinkBtn />
+		<MyPageBtn />
 		일정
-		<LinkBtn />
+		<MyPageBtn />
 	</div>
 
 	<div>
 		이용내역
-		<LinkBtn />
+		<MyPageBtn />
 		즐겨찾기
-		<LinkBtn />
+		<MyPageBtn />
 		일정
-		<LinkBtn />
+		<MyPageBtn />
 	</div>
 
 	<div>
@@ -61,8 +61,8 @@
 
 <script>
 import ClientCard from "@/components/common/card/ClientCard.vue";
-import HelperCard from "@/components/home/HelperCard.vue";
-import LinkBtn from "@/components/home/LinkBtn.vue";
+import HelperCard from "@/components/common/card/HelperCard.vue";
+import MyPageBtn from "@/components/home/MyPageBtn.vue";
 import MyPageListItem from "@/components/home/MyPageListItem.vue";
 
 export default {
@@ -71,7 +71,7 @@ export default {
 	components: {
 		ClientCard,
 		HelperCard,
-		LinkBtn,
+		MyPageBtn,
 		MyPageListItem
 	}
 };

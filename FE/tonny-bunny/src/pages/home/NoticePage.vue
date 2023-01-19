@@ -2,40 +2,40 @@
 	<h1>홈 - 고객센터 메인</h1>
 	<div>
 		공지사항
-		<MenuItem/>
+		<MyPageListItem />
 	</div>
 	<div>
 		자주 묻는 질문
-		<MenuItem/>
+		<MyPageListItem />
 	</div>
 	<div>
 		이메일 문의
-		<MenuItem/>
+		<MyPageListItem />
 	</div>
 	<div>
 		고객센터 전화
-		<MenuItem/>
+		<MyPageListItem />
 		<textarea name="" id="" cols="30" rows="10"></textarea>
 	</div>
 	<div>
 		이용약관
-		<MenuItem/>
+		<MyPageListItem />
 	</div>
 	<div>
 		회원탈퇴
-		<MenuItem/>
+		<MyPageListItem />
 	</div>
 </template>
 
 <script>
-import MenuItem from "@/components/home/MenuItem.vue"
-	export default {
-		name: "NoticePage",
-		components: {
-			MenuItem,
+import MyPageListItem from "@/components/home/MyPageListItem.vue";
 
-		},
-	};
+export default {
+	name: "NoticePage",
+	components: {
+		MyPageListItem
+	}
+};
 </script>
 
 <style></style>
