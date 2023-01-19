@@ -6,7 +6,7 @@ import lombok.Data;
 
 
 @Data
-public class YTonnyHelperRequestDto {
+public class YTonnyNotiHelperRequestDto {
 
 	public YTonnyNotiHelperEntity toEntity() {
 		return (YTonnyNotiHelperEntity) new Object();

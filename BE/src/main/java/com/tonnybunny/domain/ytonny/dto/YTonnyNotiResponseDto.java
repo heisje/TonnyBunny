@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class YTonnyNotiResponseDto {
 
-	public static YTonnyNotiResponseDto fromEntity(YTonnyNotiEntity xx) {
+	public static YTonnyNotiResponseDto fromEntity(YTonnyNotiEntity yTonnyNoti) {
 		return new YTonnyNotiResponseDto();
 	}
 

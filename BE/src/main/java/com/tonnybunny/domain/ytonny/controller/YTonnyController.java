@@ -5,6 +5,7 @@ import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.ytonny.dto.*;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
 import com.tonnybunny.domain.ytonny.service.YTonnyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -75,40 +76,42 @@ public class YTonnyController {
 
 	@PostMapping("/enroll")
 	@ApiOperation(value = "헬퍼의 예약 통역 신청 등록", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyHelper(
-		@RequestBody YTonnyHelperRequestDto yTonnyHelperRequestDto) {
-		Long craetedYTonnyHelper = yTonnyService.createYTonnyHelper(yTonnyHelperRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(craetedYTonnyHelper));
+	public ResponseEntity<ResultDto<Long>> createYTonnyNotiHelper(
+		@RequestBody YTonnyNotiHelperRequestDto yTonnyNotiHelperRequestDto) {
+		Long craetedYTonnyNotiHelper = yTonnyService.createYTonnyNotiHelper(
+			yTonnyNotiHelperRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(craetedYTonnyNotiHelper));
 	}
 
 
-	@DeleteMapping("/enroll/{yTonnyHelperSeq}")
+	@DeleteMapping("/enroll/{yTonnyNotiHelperSeq}")
 	@ApiOperation(value = "헬퍼의 예약 통역 신청 취소", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyHelper(
-		@PathVariable("yTonnyHelperSeq") Long yTonnyHelperSeq) {
-		yTonnyService.deleteYTonnyHelper(yTonnyHelperSeq);
+	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNotiHelper(
+		@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
+		yTonnyService.deleteYTonnyNotiHelper(yTonnyNotiHelperSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
 
 
 	@GetMapping("/enroll/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약 통역 신청 목록 조회", notes = "")
-	public ResponseEntity<ResultDto<List<YTonnyHelperResponseDto>>> getYTonnyHelperList(
+	public ResponseEntity<ResultDto<List<YTonnyNotiHelperResponseDto>>> getYTonnyNotiHelperList(
 		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
 		List<YTonnyNotiHelperEntity> yTonnyNotiHelperList =
-			yTonnyService.getYTonnyHelperList(yTonnyNotiSeq);
-		List<YTonnyHelperResponseDto> yTonnyHelperResponseDtoList = YTonnyHelperResponseDto.fromEntityList(
+			yTonnyService.getYTonnyNotiHelperList(yTonnyNotiSeq);
+		List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperResponseDtoList = YTonnyNotiHelperResponseDto.fromEntityList(
 			yTonnyNotiHelperList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyHelperResponseDtoList));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(
+			yTonnyNotiHelperResponseDtoList));
 	}
 
 
-	@DeleteMapping("/match/{yTonnyNotiSeq}/{yTonnyHelperSeq}")
+	@DeleteMapping("/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq}")
 	@ApiOperation(value = "예약 통역 공고에서 헬퍼의 신청을 수락", notes = "")
 	public ResponseEntity<ResultDto<Boolean>> matchYTonny(
 		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq,
-		@PathVariable("yTonnyHelperSeq") Long yTonnyHelperSeq) {
-		yTonnyService.matchYTonny(yTonnyNotiSeq, yTonnyHelperSeq);
+		@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
+		yTonnyService.matchYTonny(yTonnyNotiSeq, yTonnyNotiHelperSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
@@ -122,4 +125,16 @@ public class YTonnyController {
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdYTonnyResultSeq));
 	}
 
+
+	@GetMapping("/result/{yTonnyResultSeq}")
+	@ApiOperation(value = "예약 통역 결과 조회", notes = "")
+	public ResponseEntity<ResultDto<YTonnyResultDto>> getYTonnyResult(
+		@PathVariable("yTonnyResultSeq") Long yTonnyResultSeq) {
+		YTonnyResultEntity yTonnyResult = yTonnyService.getYTonnyResult(yTonnyResultSeq);
+		YTonnyResultDto yTonnyResultDto = YTonnyResultDto.fromEntity(yTonnyResult);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResultDto));
+	}
+
+	// TODO : 예약 통역 결과 목록 조회 API도 필요한가? 아니면 히스토리 Controller에서 추가?
+	//  만약 추가한다면, 고객 userSeq로 조회 메소드 & 헬퍼 userSeq로 조회 메소드 총 2개가 있어야 할 듯
 }

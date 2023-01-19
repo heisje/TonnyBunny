@@ -1,11 +1,12 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
-import com.tonnybunny.domain.ytonny.dto.YTonnyHelperRequestDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyNotiHelperRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyNotiRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyResultDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,10 +79,10 @@ public class YTonnyService {
 	/**
 	 * 예약 통역 신청 필드 추가
 	 *
-	 * @param yTonnyHelperRequestDto : 신청 폼 내용
+	 * @param yTonnyNotiHelperRequestDto : 신청 폼 내용
 	 * @return 생성한 신청 필드의 Seq
 	 */
-	public Long createYTonnyHelper(YTonnyHelperRequestDto yTonnyHelperRequestDto) {
+	public Long createYTonnyNotiHelper(YTonnyNotiHelperRequestDto yTonnyNotiHelperRequestDto) {
 		// TODO : 구현
 		return 0L;
 	}
@@ -90,10 +91,10 @@ public class YTonnyService {
 	/**
 	 * 예약 통역 신청 삭제
 	 *
-	 * @param yTonnyHelperSeq : 삭제할 신청 데이터 Seq
+	 * @param yTonnyNotiHelperSeq : 삭제할 신청 데이터 Seq
 	 * @return 삭제 성공 여부
 	 */
-	public Boolean deleteYTonnyHelper(Long yTonnyHelperSeq) {
+	public Boolean deleteYTonnyNotiHelper(Long yTonnyNotiHelperSeq) {
 		// TODO : 구현
 		return true;
 	}
@@ -105,7 +106,7 @@ public class YTonnyService {
 	 * @param yTonnyNotiSeq : 신청 목록을 조회하고 싶은 공고 게시글의 Seq
 	 * @return 해당 공고에 대한 신청 목록
 	 */
-	public List<YTonnyNotiHelperEntity> getYTonnyHelperList(Long yTonnyNotiSeq) {
+	public List<YTonnyNotiHelperEntity> getYTonnyNotiHelperList(Long yTonnyNotiSeq) {
 		// TODO : 구현
 		return new ArrayList<>();
 	}
@@ -114,11 +115,11 @@ public class YTonnyService {
 	/**
 	 * 해당 예약 통역 공고에서 수락한 신청 외의 모든 신청 필드들을 삭제
 	 *
-	 * @param yTonnyNotiSeq   : 대상 공고 게시글 Seq
-	 * @param yTonnyHelperSeq : 수락한 신청 Seq
+	 * @param yTonnyNotiSeq       : 대상 공고 게시글 Seq
+	 * @param yTonnyNotiHelperSeq : 수락한 신청 Seq
 	 * @return 삭제 성공 여부
 	 */
-	public Boolean matchYTonny(Long yTonnyNotiSeq, Long yTonnyHelperSeq) {
+	public Boolean matchYTonny(Long yTonnyNotiSeq, Long yTonnyNotiHelperSeq) {
 		// TODO : 구현
 		return true;
 	}
@@ -133,6 +134,18 @@ public class YTonnyService {
 	public Long createYTonnyResult(YTonnyResultDto yTonnyResultDto) {
 		// TODO : 구현
 		return 0L;
+	}
+
+
+	/**
+	 * 예약 통역 결과 조회
+	 *
+	 * @param yTonnyResultSeq : 조회할 예약 통역 결과 Seq
+	 * @return 예약 통역 결과
+	 */
+	public YTonnyResultEntity getYTonnyResult(Long yTonnyResultSeq) {
+		// TODO : 구현
+		return (YTonnyResultEntity) new Object();
 	}
 
 }

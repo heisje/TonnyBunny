@@ -1,15 +1,15 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import lombok.Data;
 
 
 @Data
 public class YTonnyNotiRequestDto {
 
-	public YTonnyNotiHelperEntity toEntity() {
-		return (YTonnyNotiHelperEntity) new Object();
+	public YTonnyNotiEntity toEntity() {
+		return (YTonnyNotiEntity) new Object();
 	}
 
 }
