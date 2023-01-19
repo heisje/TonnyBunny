@@ -5,4 +5,30 @@
     font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     box-sizing: border-box;
     cursor: default;
+    color: var(--main-color);
+    background-color: var(--d-back-color);
+}
+
+:root,
+:root.light {
+    --live-color: #424b5a;
+    --main-color: #505d68;
+    --sub-color: #a1aeb7;
+    --disable-color: #c2d1d9;
+    --white-color: #ffffff;
+    --b-live-color: #c2d1d9;
+    --b-disable-color: #e8edef;
+    --b-box-color: #f2f5f7;
+    --b-back-color: #ffffff;
+    --border-color: #c2d1d9;
+    --primary-color: #ff7765;
+    --active-color: #58c2ed;
+    --success-color: #87d146;
+    --danger-color: #f96a63;
+    --d-modal-back-color: #d9d9d980;
+    --d-modal-color: #ffffff80;
+    --gradient-color: linear-gradient(126.73deg, #ff8a65 15.12%, #ff7765 86.23%);
+}
+
+:root.dark {
 }
