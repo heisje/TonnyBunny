@@ -1,9 +1,11 @@
 package com.tonnybunny.domain.user.controller;
 
 
+import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
+import com.tonnybunny.domain.user.dto.UserResponseDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -11,9 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -101,6 +101,29 @@ public class UserController {
 		AccountResponseDto accountResponseDto = userService.findAccouontInfo(accountRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(accountResponseDto);
+	}
+
+
+	@GetMapping("/mypage/{userSeq}")
+	@ApiOperation(value = "회원정보를 조회합니다")
+	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(@PathVariable("userSeq") Long userSeq) {
+		UserEntity searchedUser = userService.getUserInfo(userSeq);
+		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of( userResponseDto ));
+	}
+
+	@PutMapping("/mypage/{userSeq}")
+	@ApiOperation(value = "회원정보를 수정합니다")
+	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq, @RequestBody UserRequestDto userRequestDto) {
+		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of( updatedUserSeq ));
+	}
+
+	@DeleteMapping("/mypage/{userSeq}")
+	@ApiOperation(value = "회원정보를 삭제합니다")
+	public ResponseEntity<ResultDto<Boolean>> deleteUserInfo(@PathVariable("userSeq") Long userSeq) {
+		Boolean isSuccess = userService.deleteUserInfo(userSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of( isSuccess ));
 	}
 
 }
