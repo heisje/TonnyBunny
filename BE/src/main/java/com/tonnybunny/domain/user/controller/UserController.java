@@ -2,10 +2,7 @@ package com.tonnybunny.domain.user.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.user.dto.AccountRequestDto;
-import com.tonnybunny.domain.user.dto.AccountResponseDto;
-import com.tonnybunny.domain.user.dto.UserRequestDto;
-import com.tonnybunny.domain.user.dto.UserResponseDto;
+import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -190,11 +187,11 @@ public class UserController {
 	}
 
 
-	@PostMapping("/mypage/{userSeq}/report/{reportSeq}")
+	@PostMapping("/mypage/report")
 	@ApiOperation(value = "유저를 신고합니다")
-	public ResponseEntity<ResultDto<Boolean>> createReport(@PathVariable("userSeq") Long userSeq,
-		@PathVariable("reportSeq") Long reportSeq) {
-		Boolean isSuccess = userService.createReport(userSeq, reportSeq);
+	public ResponseEntity<ResultDto<Boolean>> createReport(
+		@RequestBody ReportRequestDto reportRequestDto) {
+		Boolean isSuccess = userService.createReport(reportRequestDto);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {

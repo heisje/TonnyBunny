@@ -3,6 +3,7 @@ package com.tonnybunny.domain.user.service;
 
 import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
+import com.tonnybunny.domain.user.dto.ReportRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
 
@@ -224,11 +225,10 @@ public class UserService {
 	/**
 	 * 유저 신고하기
 	 *
-	 * @param userSeq
-	 * @param reportSeq
+	 * @param reportRequestDto
 	 * @return
 	 */
-	public Boolean createReport(Long userSeq, Long reportSeq) {
+	public Boolean createReport(ReportRequestDto reportRequestDto) {
 		return true;
 	}
 
