@@ -26,8 +26,8 @@ public class UserEntity extends CommonEntity {
 	private String phoneNumber;
 	private String nickName;
 
-	private Long point;
-	private int reportCount;
+	private Long point = 0L;
+	private Integer reportCount = 0;
 
 	private String profileImagePath;
 
@@ -43,10 +43,10 @@ public class UserEntity extends CommonEntity {
 	@OneToMany(mappedBy = "user")
 	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 
-	@OneToMany(mappedBy = "followingSeq")
-	private List<FollowEntity> followingList = new ArrayList<>(); // 팔로잉 목록
+	@OneToMany(mappedBy = "user")
+	private List<FollowEntity> followUserList = new ArrayList<>(); // 팔로잉 목록
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userSeq")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private HelperInfoEntity helperInfo;                            // 헬퍼 정보
 
 }
