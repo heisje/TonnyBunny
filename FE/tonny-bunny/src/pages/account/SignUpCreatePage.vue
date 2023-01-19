@@ -1,15 +1,16 @@
 <template>
     <div>
-        <h1>회원관리 - 능력 어필 페이지</h1>
-
         <TitleText />
         <SubText />
 
-        <div>언어선택 라인</div>
-        <div>자격증 추가</div>
+        <div>간편 회원 가입 인증 라인</div>
+        <div>이메일 input</div>
+        <div>비밀번호 input</div>
+        <div>비밀번호 확인 input</div>
+        <div>닉네임 input</div>
+        <div>휴대폰 인증 input</div>
 
-        <div>확인 버튼</div>
-        <div>건너뛰기 버튼</div>
+        <div>회원가입 버튼</div>
     </div>
 </template>
 
