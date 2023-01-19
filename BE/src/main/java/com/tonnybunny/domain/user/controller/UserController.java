@@ -175,4 +175,40 @@ public class UserController {
 		}
 	}
 
+
+	@GetMapping("/mypage/{userSeq}/block")
+	@ApiOperation(value = "차단 목록을 조회합니다")
+	public ResponseEntity<ResultDto<List<UserResponseDto>>> getBlockList(
+		@PathVariable("userSeq") Long userSeq) {
+		List<UserEntity> userList = userService.getBlockList(userSeq);
+		List<UserResponseDto> userResponseDtoList = UserResponseDto.fromEntityList(userList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDtoList));
+	}
+
+
+	@PostMapping("/mypage/{userSeq}/block")
+	@ApiOperation(value = "유저를 차단합니다")
+	public ResponseEntity<ResultDto<Boolean>> createBlock(
+		@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
+		Boolean isSuccess = userService.createBlock(userSeq, blockSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
+
+	@DeleteMapping("/mypage/{userSeq}/block")
+	@ApiOperation(value = "유저 차단을 취소합니다")
+	public ResponseEntity<ResultDto<Boolean>> deleteBlock(
+		@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
+		Boolean isSuccess = userService.deleteBlock(userSeq, blockSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
 }
