@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import TitleText from "@/components/account/TitleText.vue";
-import SubText from "@/components/account/SubText.vue";
+import TitleText from "@/components/common/TitleText.vue";
+import SubText from "@/components/common/SubText.vue";
 
 export default {
     components: {
