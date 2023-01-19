@@ -19,7 +19,10 @@ public class BoardImageEntity extends CommonEntity {
 	@Column(name = "board_image_seq")
 	private Long seq;
 
-	private Long boardSeq;
+	@ManyToOne(targetEntity = BoardEntity.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "board_seq")
+	private BoardEntity board;
+	
 	private String imagePath;
 
 }
