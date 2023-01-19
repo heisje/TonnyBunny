@@ -1,11 +1,11 @@
 <template>
-	<h1>ScheduleList</h1>
-	<!-- ScheduleItem을 모은 리스트 -->
+	<h1>MenuItem</h1>
+	<!-- common 고민 -->
 </template>
 
 <script>
 export default {
-	name: "ScheduleList",
+	name: "MenuItem",
 
 	components: {}
 };

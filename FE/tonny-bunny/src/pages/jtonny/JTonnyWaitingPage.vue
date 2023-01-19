@@ -13,10 +13,13 @@
 </template>
 
 <script>
-import JTonnyLoading from '@/components/jtonny/JTonnyLoading.vue';
-	export default {
-  components: { JTonnyLoading },
-	};
+import JTonnyLoading from "@/components/jtonny/JTonnyLoading.vue";
+
+export default {
+	components: {
+		JTonnyLoading
+	}
+};
 </script>
 
 <style></style>
