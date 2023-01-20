@@ -81,6 +81,6 @@ public class UserEntity extends CommonEntity {
 
 	// 포인트
 	@OneToMany(mappedBy = "user")
-	private List<PointLogEntity> pointLogList = new ArrayList<>(); // 포인트 리스트
+	private List<PointLogEntity> pointLogList = new ArrayList<>(); // 포인트 사용내역 리스트
 
 }

@@ -26,6 +26,6 @@ public class PointLogEntity extends CommonEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
-	private UserEntity user;
+	private UserEntity user; // M:1 매핑
 
 }
