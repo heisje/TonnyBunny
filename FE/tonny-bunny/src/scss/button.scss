@@ -1,4 +1,9 @@
-@import "global.scss";
+@import "variable.scss";
+
+.btnWrap {
+    display: inline-block;
+}
+
 .btn {
     // 버튼 기본 설정
     display: flex;

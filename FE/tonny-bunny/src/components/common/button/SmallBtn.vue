@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="btnWrap">
         <a class="btn small" :class="color" :href="link">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
         </a>
