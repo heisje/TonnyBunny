@@ -2,7 +2,12 @@
     <div>
         <h1>홈 - 메인</h1>
 
-        <tag-test></tag-test>
+        <!-- part1 -->
+        <!-- <tag-test></tag-test> -->
+        <modal-test></modal-test>
+        <!-- <button-test></button-test> -->
+
+        <!-- part2 -->
     </div>
 
     <!-- <div>
@@ -39,7 +44,10 @@
 </template>
 
 <script>
+/* eslint-disable */
 import TagTest from "@/components/common/tag/TagTest.vue";
+import ModalTest from "@/components/common/modal/ModalTest.vue";
+import ButtonTest from "@/components/common/button/ButtonTest.vue";
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -52,6 +60,8 @@ export default {
 
     components: {
         TagTest,
+        ModalTest,
+        ButtonTest,
         // MainBtn,
         // QuestList,
         // ScheduleList,
@@ -61,6 +71,5 @@ export default {
     },
 };
 </script>
-, ButtonTest
 
 <style></style>

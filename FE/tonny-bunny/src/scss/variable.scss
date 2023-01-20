@@ -14,6 +14,7 @@
     --primary-color: #ff7765;
     --info-color: #58c2ed;
     --success-color: #87d146;
+    --warning-color: #ffd600;
     --danger-color: #f96a63;
     --d-modal-back-color: #d9d9d980;
     --d-modal-color: #ffffff80;
@@ -25,18 +26,33 @@
 
 //폰트전역설정
 h1 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
     @extend .h1;
 }
 h2 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
     @extend .h2;
 }
 h3 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
     @extend .h3;
 }
 h4 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
     @extend .h4;
 }
 h5 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
     @extend .h5;
 }
 .h1 {

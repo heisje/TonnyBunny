@@ -11,8 +11,8 @@
 
         <LargeBtn text="라지" link="/tonny" />
 
-        <SmallBtn color="sub" />
-        <SmallBtn color="sub" />
+        <SmallBtn color="carrot" />
+        <SmallBtn color="primary" />
         <hr />
 
         <XSmallBtn color="thin" font="active" />

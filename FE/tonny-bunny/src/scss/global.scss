@@ -12,6 +12,13 @@
     @extend .text;
 }
 
+html,
 body {
+    margin: 0;
+    padding: 0;
     background-color: var(--b-back-color);
 }
+
+// body {
+// background-color: var(--b-back-color);
+// }
