@@ -2,6 +2,7 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.jtonny.entity.JTonnyResultEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
@@ -64,5 +65,11 @@ public class UserEntity extends CommonEntity {
 
 	@OneToMany(mappedBy = "helper")
 	private List<YTonnyResultEntity> yTonnyHelperResultList = new ArrayList<>(); // 예약통역 결과 헬퍼
+
+	@OneToMany(mappedBy = "client")
+	private List<JTonnyResultEntity> jTonnyClientResultList = new ArrayList<>(); // 예약통역 결과 고객
+
+	@OneToMany(mappedBy = "helper")
+	private List<JTonnyResultEntity> jTonnyHelperResultList = new ArrayList<>(); // 예약통역 결과 헬퍼
 
 }
