@@ -27,13 +27,13 @@ public class YTonnyResultEntity extends CommonEntity {
 	@JoinColumn(name = "review_seq")
 	private ReviewEntity review;
 
-	@OneToOne
-	@JoinColumn(name = "user_seq")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_seq")
 	private UserEntity client;
 
-	//	@OneToOne(fetch = FetchType.LAZY, targetEntity = UserEntity.class)
-	//	@JoinColumn
-	//	private UserEntity helper;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "helper_seq")
+	private UserEntity helper;
 
 	private String title;
 	private LocalDateTime startDateTime;
