@@ -1,6 +1,6 @@
 // Pretendard Variable
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
-@import "button.scss";
+
 * {
     font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     box-sizing: border-box;
@@ -16,8 +16,8 @@ body {
 //컬러전역설정
 :root,
 :root.light {
-    --active-color: linear-gradient(126.73deg, #ff8a65 15.12%, #ff7765 86.23%);
-    --live-color: #424b5a;
+    --carrot-color: linear-gradient(126.73deg, #ff8a65 15.12%, #ff7765 86.23%);
+    --active-color: #424b5a;
     --main-color: #505d68;
     --sub-color: #a1aeb7;
     --disable-color: #c2d1d9;
@@ -56,41 +56,41 @@ h5 {
 }
 .h1 {
     font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
 }
 .h1-small {
     font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
 }
 .h2 {
     font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 1rem;
+    line-height: 1.18rem;
 }
 .h3 {
     font-weight: 700;
-    font-size: 14px;
-    line-height: 17px;
+    font-size: 0.9rem;
+    line-height: 1.1rem;
 }
 .h4 {
     font-weight: 700;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 0.9rem;
+    line-height: 1rem;
 }
 .h5 {
     font-weight: 700;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: 0.75rem;
+    line-height: 0.9rem;
 }
 .text {
     font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 0.87rem;
+    line-height: 1.31rem;
 }
 .label {
     font-weight: 400;
-    font-size: 11px;
-    line-height: 15px;
+    font-size: 0.7rem;
+    line-height: 0.93rem;
 }

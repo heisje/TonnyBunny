@@ -3,10 +3,10 @@
         <h1>Button Test</h1>
         <MediumBtn color="sub" disable />
         <hr />
-        <MediumBtn color="thin" font="live" link="/bunny" />
+        <MediumBtn color="thin" font="active" link="/bunny" />
         <hr />
 
-        <MediumBtn color="outline" font="live" link="/mypage" text="마이 페이지" />
+        <MediumBtn color="outline" font="active" link="/mypage" text="마이 페이지" />
         <hr />
 
         <LargeBtn text="라지" link="/tonny" />
@@ -14,7 +14,7 @@
         <SmallBtn color="sub" />
         <hr />
 
-        <XSmallBtn color="thin" />
+        <XSmallBtn color="thin" font="active" />
     </div>
 </template>
 
@@ -35,4 +35,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "@/scss/button.scss";
+</style>

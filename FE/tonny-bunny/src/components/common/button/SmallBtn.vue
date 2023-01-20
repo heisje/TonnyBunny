@@ -1,12 +1,14 @@
 <template>
-    <a class="btn medium" :class="color">
-        <span :href="link" :class="font">{{ text }}</span>
-    </a>
+    <div>
+        <a class="btn small" :class="color" :href="link">
+            <span :class="disable ? 'disable' : font">{{ text }}</span>
+        </a>
+    </div>
 </template>
 
 <script>
 export default {
-    name: "MediumBtn",
+    name: "smallBtn",
 
     props: {
         text: {
@@ -27,6 +29,12 @@ export default {
             description: "button color",
         },
 
+        font: {
+            type: String,
+            default: "white",
+            description: "font color",
+        },
+
         disable: {
             type: Boolean,
             default: false,
@@ -36,4 +44,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "@/scss/button.scss";
+</style>

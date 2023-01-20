@@ -1,7 +1,9 @@
 <template>
-    <a class="btn xsmall" :class="color">
-        <span :href="link">{{ text }}</span>
-    </a>
+    <div>
+        <a class="btn xsmall" :class="color" :href="link">
+            <span :class="disable ? 'disable' : font">{{ text }}</span>
+        </a>
+    </div>
 </template>
 
 <script>
@@ -27,6 +29,12 @@ export default {
             description: "button color",
         },
 
+        font: {
+            type: String,
+            default: "white",
+            description: "font color",
+        },
+
         disable: {
             type: Boolean,
             default: false,
@@ -36,4 +44,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "@/scss/button.scss";
+</style>
