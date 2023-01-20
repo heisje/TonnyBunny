@@ -2,6 +2,8 @@ package com.tonnybunny.domain.jtonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.review.entity.ReviewEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +23,16 @@ public class JTonnyResultEntity extends CommonEntity {
 	@Column(name = "j_tonny_result_seq")
 	private Long seq;
 
-	private Long clientSeq;
-	private Long helperSeq;
+	@OneToOne // 단방향 1대1 매핑
+	@JoinColumn(name = "review_seq")
+	private ReviewEntity review;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_seq")
+	private UserEntity client;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "helper_seq")
+	private UserEntity helper;
 
 	private LocalTime totalTime;    // 타입 체크 필요
 
@@ -32,12 +42,10 @@ public class JTonnyResultEntity extends CommonEntity {
 
 	private LocalDateTime startDateTime;
 
-	private int unitPrice;
-	private int totalPrice;
+	private Integer unitPrice;
+	private Integer totalPrice;
 
 	private String recordVideoPath;
-
-	private Long reviewSeq;
 
 	private String taskCode;
 	private String startLangCode;
