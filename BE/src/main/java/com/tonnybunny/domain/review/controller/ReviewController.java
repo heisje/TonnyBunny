@@ -17,6 +17,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/review")
 @RequiredArgsConstructor
 @Api(tags = "리뷰 관련 API")
 public class ReviewController {
@@ -24,7 +25,7 @@ public class ReviewController {
 	private final ReviewService reviewService;
 
 
-	@GetMapping("/review")
+	@GetMapping("/")
 	@ApiOperation(value = "리뷰 리스트를 조회합니다.", notes = "")
 	public ResponseEntity<?> getReviewList() {
 
@@ -36,7 +37,7 @@ public class ReviewController {
 	}
 
 
-	@GetMapping("/review/{reviewSeq}")
+	@GetMapping("/{reviewSeq}")
 	@ApiOperation(value = "리뷰를 조회합니다.", notes = "")
 	public ResponseEntity<?> getReview(@PathVariable Long reviewSeq) {
 
@@ -47,7 +48,7 @@ public class ReviewController {
 	}
 
 
-	@PostMapping("/review")
+	@PostMapping("/")
 	@ApiOperation(value = "리뷰를 작성합니다.", notes = "")
 	public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
 
@@ -57,7 +58,7 @@ public class ReviewController {
 	}
 
 
-	@DeleteMapping("/review/{reviewSeq}")
+	@DeleteMapping("/{reviewSeq}")
 	@ApiOperation(value = "리뷰를 삭제합니다.", notes = "")
 	public ResponseEntity<?> deleteReview(@PathVariable Long reviewSeq) {
 

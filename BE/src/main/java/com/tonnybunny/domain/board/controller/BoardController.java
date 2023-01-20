@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController("/board")
+@RestController
+@RequestMapping("/board")
 @RequiredArgsConstructor
 @Api(tags = "게시판 관련 API")
 public class BoardController {
