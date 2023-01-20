@@ -2,6 +2,9 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.jtonny.entity.JTonnyResultEntity;
+import com.tonnybunny.domain.point.entity.PointLogEntity;
+import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
@@ -59,10 +62,25 @@ public class UserEntity extends CommonEntity {
 	@OneToMany(mappedBy = "helper")
 	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "client")
-	private YTonnyResultEntity yTonnyResultClient; // 예약통역 결과 고객
+	@OneToMany(mappedBy = "client")
+	private List<YTonnyResultEntity> yTonnyClientResultList = new ArrayList<>(); // 예약통역 결과 고객
 
-	//	@OneToOne(fetch = FetchType.LAZY, mappedBy = "helper")
-	//	private YTonnyResultEntity yTonnyResultHelper; // 예약통역 결과 헬퍼
+	@OneToMany(mappedBy = "helper")
+	private List<YTonnyResultEntity> yTonnyHelperResultList = new ArrayList<>(); // 예약통역 결과 헬퍼
+
+	// 즉시통역
+	@OneToMany(mappedBy = "client")
+	private List<JTonnyResultEntity> jTonnyClientResultList = new ArrayList<>(); // 즉시통역 결과 고객
+
+	@OneToMany(mappedBy = "helper")
+	private List<JTonnyResultEntity> jTonnyHelperResultList = new ArrayList<>(); // 즉시통역 결과 헬퍼
+
+	// 스케쥴
+	@OneToMany(mappedBy = "user")
+	private List<ScheduleEntity> scheduleList = new ArrayList<>(); // 고객 스케쥴 리스트
+
+	// 포인트
+	@OneToMany(mappedBy = "user")
+	private List<PointLogEntity> pointLogList = new ArrayList<>(); // 포인트 리스트
 
 }
