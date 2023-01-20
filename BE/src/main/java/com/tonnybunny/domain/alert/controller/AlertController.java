@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController("/alerts")
+@RestController
+@RequestMapping("/alerts")
 @RequiredArgsConstructor
 @Api(tags = "알림 설정, 알림 로그 추가, 알림 로그 조회 API")
 public class AlertController {

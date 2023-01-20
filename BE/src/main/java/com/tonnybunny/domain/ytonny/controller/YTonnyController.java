@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController("/ytonny")
+@RestController
+@RequestMapping("/ytonny")
 @RequiredArgsConstructor
 @Api(tags = "예약 통역 관련 API")
 public class YTonnyController {
