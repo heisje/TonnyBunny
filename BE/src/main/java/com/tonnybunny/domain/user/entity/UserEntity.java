@@ -3,6 +3,7 @@ package com.tonnybunny.domain.user.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyResultEntity;
+import com.tonnybunny.domain.point.entity.PointLogEntity;
 import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
@@ -77,5 +78,9 @@ public class UserEntity extends CommonEntity {
 	// 스케쥴
 	@OneToMany(mappedBy = "user")
 	private List<ScheduleEntity> scheduleList = new ArrayList<>(); // 고객 스케쥴 리스트
+
+	// 포인트
+	@OneToMany(mappedBy = "user")
+	private List<PointLogEntity> pointLogList = new ArrayList<>(); // 포인트 리스트
 
 }

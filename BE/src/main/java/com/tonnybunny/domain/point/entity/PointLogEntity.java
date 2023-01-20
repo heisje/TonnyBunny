@@ -2,6 +2,7 @@ package com.tonnybunny.domain.point.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,8 @@ public class PointLogEntity extends CommonEntity {
 
 	private String typeCode;
 
-	private Long userSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity user;
 
 }
