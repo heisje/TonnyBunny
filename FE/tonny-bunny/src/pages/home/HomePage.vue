@@ -1,15 +1,15 @@
 <template>
-    <h1>홈 - 메인</h1>
-
     <div>
+        <h1>홈 - 메인</h1>
+
+        <tag-test></tag-test>
+    </div>
+
+    <!-- <div>
         통역
         <MainBtn />
         번역
         <MainBtn />
-        <span>하이루</span>
-        <span>하이루2</span>
-        <XSmallBtn />
-        <XSmallBtn />
     </div>
 
     <div v-if="isHelper === true">
@@ -33,31 +33,31 @@
         <QuickBtn />
         헬퍼페이지
         <QuickBtn />
-    </div>
+    </div> -->
 
-    <button-test></button-test>
+    <!-- <button-test></button-test> -->
 </template>
 
 <script>
-import MainBtn from "@/components/home/MainBtn.vue";
-import QuestList from "@/components/home/QuestList.vue";
-import ScheduleList from "@/components/home/ScheduleList.vue";
-import BoardList from "@/components/home/BoardList.vue";
-import QuickBtn from "@/components/home/QuickBtn.vue";
-import ButtonTest from "@/components/common/button/ButtonTest.vue";
-import XSmallBtn from "@/components/common/button/XSmallBtn.vue";
+import TagTest from "@/components/common/tag/TagTest.vue";
+// import MainBtn from "@/components/home/MainBtn.vue";
+// import QuestList from "@/components/home/QuestList.vue";
+// import ScheduleList from "@/components/home/ScheduleList.vue";
+// import BoardList from "@/components/home/BoardList.vue";
+// import QuickBtn from "@/components/home/QuickBtn.vue";
+// import ButtonTest from "@/components/common/button/ButtonTest.vue";
 
 export default {
     name: "HomePage",
 
     components: {
-        MainBtn,
-        QuestList,
-        ScheduleList,
-        BoardList,
-        QuickBtn,
-        ButtonTest,
-        XSmallBtn,
+        TagTest,
+        // MainBtn,
+        // QuestList,
+        // ScheduleList,
+        // BoardList,
+        // QuickBtn,
+        // ButtonTest,
     },
 };
 </script>
