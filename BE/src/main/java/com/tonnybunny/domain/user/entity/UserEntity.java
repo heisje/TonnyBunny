@@ -2,6 +2,9 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,34 +29,40 @@ public class UserEntity extends CommonEntity {
 	private String phoneNumber;
 	private String nickName;
 
-	private Long point;
-	private int reportCount;
+	private Long point = 0L;
+	private Integer reportCount = 0;
 
 	private String profileImagePath;
 
 	private String userCode;
 
 	// 연결
-	@OneToMany(mappedBy = "userSeq")
+	@OneToMany(mappedBy = "user")
 	private List<PossibleLanguageEntity> possibleLanguageList = new ArrayList<>(); // 사용언어
 
-	@OneToMany(mappedBy = "userSeq")
+	@OneToMany(mappedBy = "user")
 	private List<CertificateEntity> certificateList = new ArrayList<>(); // 자격증
 
-	//	@OneToMany(mappedBy = "userSeq")
-	//	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
-	//
-	//	@OneToMany(mappedBy = "blockedUserSeq")
-	//	private List<BlockEntity> blockedUserList = new ArrayList<>(); // 차단된 유저
-	//
-	//	@OneToMany(mappedBy = "followerSeq")
-	//	private List<FollowEntity> followerList = new ArrayList<>(); // 팔로워 목록
-	//
-	//	@OneToMany(mappedBy = "followingSeq")
-	//	private List<FollowEntity> followingList = new ArrayList<>(); // 팔로잉 목록
+	@OneToMany(mappedBy = "user")
+	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userSeq", cascade = {
-		CascadeType.REMOVE })
+	@OneToMany(mappedBy = "user")
+	private List<FollowEntity> followUserList = new ArrayList<>(); // 팔로잉 목록
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
 	private HelperInfoEntity helperInfo;                            // 헬퍼 정보
+
+	// 예약통역
+	@OneToMany(mappedBy = "client")
+	private List<YTonnyNotiEntity> yTonnyNotiList = new ArrayList<>(); // 예약통역공고리스트
+
+	@OneToMany(mappedBy = "helper")
+	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "client")
+	private YTonnyResultEntity yTonnyResultClient; // 예약통역 결과 고객
+
+	//	@OneToOne(fetch = FetchType.LAZY, mappedBy = "helper")
+	//	private YTonnyResultEntity yTonnyResultHelper; // 예약통역 결과 헬퍼
 
 }

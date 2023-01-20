@@ -1,47 +1,54 @@
 <template>
 	<h1>홈 - 메인</h1>
-	<v-alert type="success">토니버니만의 서비스를 이용해보세요!</v-alert>
 
 	<div>
 		통역
-		<ServiceBtn/>
+		<MainBtn />
 		번역
-		<ServiceBtn/>
+		<MainBtn />
 	</div>
 
 	<div v-if="isHelper === true">
 		헬퍼페이지
-		<ServiceBtn/>
+		<MainBtn />
 	</div>
 	<div v-if="isHelper === true">
 		나의 의뢰
-		<QuestList/>
+		<QuestList />
 	</div>
-	<div> 
+	<div>
 		오늘 일정
-		<ScheduleList/>
+		<ScheduleList />
 	</div>
 	<div>
 		커뮤니티
-		<BoardList/>
+		<BoardList />
 	</div>
 	<div>
 		즉시대기
-		<QuickBtn/>
+		<QuickBtn />
 		헬퍼페이지
-		<QuickBtn/>
+		<QuickBtn />
 	</div>
-
 </template>
 
 <script>
-/* eslint-disable */
-import ButtonTest from "@/components/common/button/ButtonTest.vue";
+import MainBtn from "@/components/home/MainBtn.vue";
+import QuestList from "@/components/home/QuestList.vue";
+import ScheduleList from "@/components/home/ScheduleList.vue";
+import BoardList from "@/components/home/BoardList.vue";
+import QuickBtn from "@/components/home/QuickBtn.vue";
 
 export default {
-    components: {
-        ButtonTest,
-    },
+	name: "HomePage",
+
+	components: {
+		MainBtn,
+		QuestList,
+		ScheduleList,
+		BoardList,
+		QuickBtn
+	}
 };
 </script>
 

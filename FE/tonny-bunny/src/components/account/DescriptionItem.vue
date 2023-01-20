@@ -1,5 +1,5 @@
 <template>
-    <div>부가설명란</div>
+	<div>부가설명란</div>
 </template>
 
 <script>

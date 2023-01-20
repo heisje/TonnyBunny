@@ -3,7 +3,11 @@
 </template>
 
 <script>
-	export default {};
+	export default {
+		name: "HelperChangePage",
+
+		components: {},
+	};
 </script>
 
 <style></style>

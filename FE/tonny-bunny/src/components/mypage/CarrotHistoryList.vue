@@ -1,6 +1,6 @@
 <template>
-    <h1>ServiceBtn</h1>
-    <!-- 메인 서비스 버튼 형식지정 -->
+    <h1>PointHistoryList</h1>
+    <PointHistoryItem/>
 </template>
 
 <script>

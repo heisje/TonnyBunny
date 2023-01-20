@@ -1,6 +1,6 @@
 <template>
-    <h1>MenuItem</h1>
-    <!-- common 고민 -->
+    <h1>ModeSwitchTap</h1>
+    <!-- 고객 / 헬퍼 상태 변경탭 -->
 </template>
 
 <script>

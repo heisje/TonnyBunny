@@ -21,19 +21,19 @@ public class HelperInfoEntity extends CommonEntity {
 	@Column(name = "helper_info_seq")
 	private Long seq;
 
-	private boolean isActive;
-	private float avgScore;
-	private int reviewCount;
+	private Boolean isActive = false;
+	private Float avgScore = 0f;
+	private Integer reviewCount = 0;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
-	private UserEntity userSeq;
+	private UserEntity user;
 
-	private int unitPrice;
+	private Integer unitPrice = 0;
 	private String oneLineIntroduction;
 	private String introduction;
 
-	@OneToMany(mappedBy = "helperInfoSeq")
+	@OneToMany(mappedBy = "helperInfo")
 	private List<HelperInfoImageEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
 
 }

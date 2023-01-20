@@ -3,56 +3,78 @@
 
 	<div>
 		유저카드
-		<UserCard/>
+		<ClientCard />
 		<!-- 유저카드 구성요소
 		프로필이미지아이템
 		정보수정버튼
 		포인트아이템 -->
 	</div>
-	<div v-if="isHelper===true">
+
+	<div v-if="isHelper === true">
 		헬퍼카드
-		<HelperCard/>
+		<HelperCard />
 		<!-- 
 			자세히보기 XSmallBtn
 			수정하기 XSmallBtn 
 		-->
-
 	</div>
+
 	<div>
 		이용내역
-		<LinkBtn/>
+		<MyPageBtn />
 		즐겨찾기
-		<LinkBtn/>
+		<MyPageBtn />
 		일정
-		<LinkBtn/>
+		<MyPageBtn />
+	</div>
+
+	<div>
+		이용내역
+		<MyPageBtn />
+		즐겨찾기
+		<MyPageBtn />
+		일정
+		<MyPageBtn />
 	</div>
 
 	<div>
 		차단목록
-		<MenuItem>
+		<MyPageListItem />
 	</div>
 	<div>
 		푸시알림
-		<MenuItem>
+		<MyPageListItem />
 	</div>
 	<div>
 		고객센터
-		<MenuItem>
+		<MyPageListItem />
 	</div>
 	<div>
 		헬퍼 인증 및 변경
-		<MenuItem>
+		<MyPageListItem />
 	</div>
 	<div>
 		로그아웃
-		<MenuItem>
+		<MyPageListItem />
 	</div>
-
 </template>
 
-
 <script>
-	export default {};
+import ClientCard from "@/components/common/card/ClientCard.vue";
+import HelperCard from "@/components/common/card/HelperCard.vue";
+import MyPageBtn from "@/components/home/MyPageBtn.vue";
+import MyPageListItem from "@/components/home/MyPageListItem.vue";
+
+export default {
+	name: "MyPage",
+
+	components: {
+		ClientCard,
+		HelperCard,
+		MyPageBtn,
+		MyPageListItem
+	}
+};
 </script>
 
 <style></style>

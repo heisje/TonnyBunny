@@ -5,19 +5,19 @@
     소요시간 및 비용계산
 
     스피커
-    <ControlBtn/>
+    <!-- <ControlBtn/> -->
 
     마이크
-    <ControlBtn/>
+    <!-- <ControlBtn/> -->
 
     비디오
-    <ControlBtn/>
+    <!-- <ControlBtn/> -->
 
     신고하기
-    <ControlBtn/>
+    <!-- <ControlBtn/> -->
 
     종료하기
-    <ControlBtn/>
+    <!-- <ControlBtn/> -->
 
 
 </template>
@@ -27,7 +27,7 @@ export default {
 		name: "CheckCostItem",
 
 		components: {
-            ControlBtn,
+            // ControlBtn,
         },
 }
 </script>

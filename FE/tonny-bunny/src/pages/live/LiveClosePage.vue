@@ -5,30 +5,28 @@
 
 	<div>
 		통역 결과창
-		<TonnyResultItem/>
+		<TonnyResult />
 	</div>
 
-	<div v-if="isHelper==true">
+	<div v-if="isHelper == true">
 		<button class="mediumBtn">이용내역확인</button>
 	</div>
 	<div v-else>
-		<button class="mediumBtn">리뷰쓰기</button>  
+		<button class="mediumBtn">리뷰쓰기</button>
 		<button>다음에 작성하기</button>
-	</div> 
-
-
-
-
+	</div>
 </template>
 
 <script>
-	export default {
-		name: "LiveClosePage",
+import TonnyResult from "@/components/live/TonnyResult.vue";
 
-		components: {
-			TonnyResultItem,
-		},		
-	};
+export default {
+	name: "LiveClosePage",
+
+	components: {
+		TonnyResult
+	}
+};
 </script>
 
 <style></style>

@@ -1,11 +1,10 @@
 <template>
-    <h1>HelperCard</h1>
-    <!-- common 고민 -->
+    <h1>LinkBtn</h1>
 </template>
 
 <script>
 export default {
-
+    name : "LinkBtn",
 }
 </script>
 
