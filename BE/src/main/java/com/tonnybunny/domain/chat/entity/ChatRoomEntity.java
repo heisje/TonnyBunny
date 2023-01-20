@@ -2,6 +2,7 @@ package com.tonnybunny.domain.chat.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,12 @@ public class ChatRoomEntity extends CommonEntity {
 	@Column(name = "chat_room_seq")
 	private Long seq;
 
-	private Long helperSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "helper_seq")
+	private UserEntity helper;
 
-	private Long clientSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_seq")
+	private UserEntity client;
 
 }
