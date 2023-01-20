@@ -11,16 +11,18 @@ import java.util.List;
 @Data
 public class PointLogResponseDto {
 
-	public static PointLogResponseDto fromEntity(PointLogEntity pointLog){
+	public static PointLogResponseDto fromEntity(PointLogEntity pointLog) {
 		return new PointLogResponseDto();
 	}
 
-	public static List<PointLogResponseDto> fromEntityList(List<PointLogEntity> pointLogList){
+
+	public static List<PointLogResponseDto> fromEntityList(List<PointLogEntity> pointLogList) {
 		List<PointLogResponseDto> result = new ArrayList<>();
-		for(PointLogEntity pointLog : pointLogList){
+		for (PointLogEntity pointLog : pointLogList) {
 			PointLogResponseDto pointLogResponseDto = fromEntity(pointLog);
 			result.add(pointLogResponseDto);
 		}
 		return result;
 	}
+
 }
