@@ -29,7 +29,7 @@ public class BunnyController {
 	 * @param bunnyNotiRequestDto : 번역 공고 폼 입력
 	 * @return : 생성된 번역 공고의 seq
 	 */
-	@PostMapping("/noti/create")
+	@PostMapping("/noti")
 	@ApiOperation(value = "번역 공고 생성입니다")
 	public ResponseEntity<ResultDto<Long>> createYBunnyNoti(@RequestBody BunnyNotiRequestDto bunnyNotiRequestDto) {
 
@@ -76,7 +76,7 @@ public class BunnyController {
 	 */
 	@GetMapping("/noti")
 	@ApiOperation(value = "번역 공고 리스트를 조회합니다 (with Filter)")
-	public ResponseEntity<ResultDto<List<BunnyNotiResponseDto>>> getYBunnyListByFilter(@PathVariable("lang") String lang, @PathVariable("category") String category) {
+	public ResponseEntity<ResultDto<List<BunnyNotiResponseDto>>> getYBunnyListByFilter(@RequestParam("lang") String lang, @RequestParam("category") String category) {
 
 		List<BunnyNotiEntity> bunnyNotiList = bunnyService.getYBunnyListByFilter(lang, category);
 		List<BunnyNotiResponseDto> bunnyNotiResponseDtoList = BunnyNotiResponseDto.fromEntityList(bunnyNotiList);
