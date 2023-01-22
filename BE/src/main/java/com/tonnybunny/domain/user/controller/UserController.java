@@ -3,6 +3,7 @@ package com.tonnybunny.domain.user.controller;
 
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.*;
+import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -134,6 +137,8 @@ public class UserController {
 		}
 	}
 
+	// --------------------------------- 즐겨찾기 ------------------------------------
+
 
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
@@ -159,6 +164,8 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
 		}
 	}
+
+	// --------------------------------- 차단 ------------------------------------
 
 
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
@@ -186,6 +193,8 @@ public class UserController {
 		}
 	}
 
+	// --------------------------------- 신고 ------------------------------------
+
 
 	@PostMapping("/mypage/report")
 	@ApiOperation(value = "유저를 신고합니다")
@@ -197,6 +206,30 @@ public class UserController {
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
 		}
+	}
+
+	// --------------------------------- 히스토리 ------------------------------------
+
+
+	/**
+	 * @param userSeq : 현재 로그인 유저 seq
+	 * @return : 히스토리 목록 DtoList
+	 */
+	@GetMapping("/mypage/{userSeq}/history")
+	@ApiOperation(value = "히스토리 목록을 조회합니다")
+	public ResponseEntity<ResultDto<?>> getUserHistoryList(@PathVariable("userSeq") Long userSeq) {
+		List<HistoryEntity> historyEntityList = userService.getUserHistoryList(userSeq);
+		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(historyEntityList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDtoList));
+	}
+
+
+	@GetMapping("/mypage/{userSeq}/history/{historySeq}")
+	@ApiOperation(value = "히스토리 하나를 조회합니다")
+	public ResponseEntity<ResultDto<?>> getUserHistory(@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) {
+		HistoryEntity historyEntity = userService.getUserHistory(userSeq, historySeq);
+		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(historyEntity);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
 	}
 
 }
