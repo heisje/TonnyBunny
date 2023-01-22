@@ -2,6 +2,7 @@ package com.tonnybunny.domain.bunny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
+import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyNotiRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyNotiResponseDto;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
@@ -82,6 +83,55 @@ public class BunnyController {
 		List<BunnyNotiResponseDto> bunnyNotiResponseDtoList = BunnyNotiResponseDto.fromEntityList(bunnyNotiList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiResponseDtoList));
 
+	}
+
+
+	/**
+	 * @param bunnyNotiHelperRequestDto : 번역 공고로의 신청 정보
+	 * @return : 생성된 번역 공고로의 신청 seq
+	 */
+	@PostMapping("/noti/request")
+	@ApiOperation(value = "번역 공고에 신청 보내기")
+	public ResponseEntity<ResultDto<Long>> sendYBunnyRequestFromHelper(@RequestBody BunnyNotiHelperRequestDto bunnyNotiHelperRequestDto) {
+
+		Long bunnyNotiHelperSeq = bunnyService.sendYBunnyRequestFromHelper(bunnyNotiHelperRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiHelperSeq));
+
+	}
+
+
+	/**
+	 * @param requestSeq : 수락된 번역 공고로의 신청 seq
+	 * @return
+	 */
+	@GetMapping("/noti/{requestSeq}/accept")
+	@ApiOperation(value = "번역 공고 신청에 수락하기")
+	public ResponseEntity<ResultDto<Boolean>> acceptYTonnyRequestFromHelper(@PathVariable("requestSeq") Long requestSeq) {
+
+		Boolean isSuccess = bunnyService.acceptYTonnyRequestFromHelper(requestSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
+
+	/**
+	 * @param requestSeq : 거절된 번역 공고로의 신청 seq
+	 * @return
+	 */
+	@GetMapping("/noti/{requestSeq}/reject")
+	@ApiOperation(value = "번역 공고 신청에 거절하기")
+	public ResponseEntity<ResultDto<Boolean>> rejectYTonnyRequestFromHelper(@PathVariable("requestSeq") Long requestSeq) {
+
+		Boolean isSuccess = bunnyService.rejectYTonnyRequestFromHelper(requestSeq);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
 	}
 
 }
