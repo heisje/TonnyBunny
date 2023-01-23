@@ -1,8 +1,10 @@
 package com.tonnybunny.domain.bunny.service;
 
 
+import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyNotiRequestDto;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,6 +68,42 @@ public class BunnyService {
 		}
 
 		return new ArrayList<>();
+	}
+
+
+	/**
+	 * 헬퍼가 번역 공고에 신청하기
+	 *
+	 * @param bunnyNotiHelperRequestDto : 번역 공고로의 신청 정보
+	 * @return : 생성된 번역 공고로의 신청의 seq
+	 */
+	public Long sendYBunnyRequestFromHelper(BunnyNotiHelperRequestDto bunnyNotiHelperRequestDto) {
+		// TODO : 로직
+
+		BunnyNotiHelperEntity bunnyNotiHelper = bunnyNotiHelperRequestDto.toEntity();
+		return bunnyNotiHelper.getSeq();
+	}
+
+
+	/**
+	 * @param requestSeq : 수락된 번역 공고로의 신청 seq
+	 * @return 로직 성공 여부
+	 */
+	public Boolean acceptYTonnyRequestFromHelper(Long requestSeq) {
+		// TODO : 로직
+
+		return true;
+	}
+
+
+	/**
+	 * @param requestSeq : 거절된 번역 공고로의 신청 seq
+	 * @return 로직 성공 여부
+	 */
+	public Boolean rejectYTonnyRequestFromHelper(Long requestSeq) {
+		// TODO : 로직
+
+		return true;
 	}
 
 }
