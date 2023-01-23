@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>홈 - 메인</h1>
-
+        <input-test />
         <tag-test></tag-test>
     </div>
 
@@ -40,6 +40,7 @@
 
 <script>
 import TagTest from "@/components/common/tag/TagTest.vue";
+import InputTest from "@/components/common/input/InputTest.vue";
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -52,6 +53,7 @@ export default {
 
     components: {
         TagTest,
+        InputTest,
         // MainBtn,
         // QuestList,
         // ScheduleList,
