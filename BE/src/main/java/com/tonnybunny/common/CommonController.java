@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * nginx 테스트용 Controller
  */
 @RestController
-@CrossOrigin(origins = "http://15.165.169.232")
+@CrossOrigin
 public class CommonController {
 
 	@GetMapping("/")
