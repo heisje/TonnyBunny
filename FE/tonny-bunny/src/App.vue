@@ -4,16 +4,18 @@
         <router-view></router-view>
     </main>
     <router-view name="footer"></router-view>
+    <bottom-navbar />
 </template>
 
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import BottomNavbar from "./components/common/bottomNavbar.vue";
 
 export default {
     name: "App",
 
-    components: {},
+    components: { BottomNavbar },
 
     data() {
         return {
