@@ -12,6 +12,7 @@
 import ChatListItem from "@/components/chat/ChatListItem.vue";
 
 export default {
+    name: "ChatListPage",
     components: {
         ChatListItem,
     },
