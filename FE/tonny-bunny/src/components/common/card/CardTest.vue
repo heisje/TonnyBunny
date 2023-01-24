@@ -1,9 +1,17 @@
 <template>
 	<hr />
 	<helper-card
-		oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"></helper-card>
-	<hr />
+		nickName="아스파라거스"
+		oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
+		fareText="2000"
+		starText="4.0"
+		countText="100"
+		likeText="10"
+		isLikeEmpty
+		rightBtnText="상담하기"></helper-card>
 	<helper-card></helper-card>
+	<hr />
+
 	<client-card></client-card>
 	<quest-card></quest-card>
 </template>
