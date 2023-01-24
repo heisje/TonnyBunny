@@ -3,17 +3,17 @@
 		<h1>홈 - 메인</h1>
 
 		<!-- part1 -->
-		<!-- <tag-test></tag-test> -->
+		<tag-test></tag-test>
 		<!-- <hr /> -->
 		<modal-test></modal-test>
 		<!-- <hr /> -->
-		<!-- <button-test></button-test> -->
+		<button-test></button-test>
 		<!-- <hr /> -->
 		<card-test></card-test>
 		<hr />
 
 		<!-- part2 -->
-		<!-- <input-test /> -->
+		<input-test />
 		<!-- <tag-test></tag-test> -->
 	</div>
 

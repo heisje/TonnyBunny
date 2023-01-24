@@ -15,13 +15,14 @@
 
 	//아래로 버튼 종류
 	&.large {
-		position: absolute;
+		position: fixed;
 		width: 100vw !important;
 		height: 48px;
-		bottom: 0;
+		bottom: 60px;
 		left: 0;
 		margin: 0;
-		// z-index: 99;
+		z-index: 98;
+		border-radius: 0;
 	}
 	&.medium {
 		width: 328px;
