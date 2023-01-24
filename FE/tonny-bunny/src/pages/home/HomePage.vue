@@ -1,18 +1,18 @@
 <template>
-    <div>
-        <h1>홈 - 메인</h1>
+	<div>
+		<h1>홈 - 메인</h1>
 
-        <!-- part1 -->
-        <!-- <tag-test></tag-test> -->
-        <modal-test></modal-test>
-        <!-- <button-test></button-test> -->
+		<!-- part1 -->
+		<!-- <tag-test></tag-test> -->
+		<modal-test></modal-test>
+		<!-- <button-test></button-test> -->
 
-        <!-- part2 -->
-        <input-test />
-        <tag-test></tag-test>
-    </div>
+		<!-- part2 -->
+		<!-- <input-test /> -->
+		<!-- <tag-test></tag-test> -->
+	</div>
 
-    <!-- <div>
+	<!-- <div>
         통역
         <MainBtn />
         번역
@@ -42,18 +42,15 @@
         <QuickBtn />
     </div> -->
 
-    <!-- <button-test></button-test> -->
+	<!-- <button-test></button-test> -->
 </template>
 
 <script>
 /* eslint-disable */
 import TagTest from "@/components/common/tag/TagTest.vue";
-<<<<<<< HEAD
 import ModalTest from "@/components/common/modal/ModalTest.vue";
 import ButtonTest from "@/components/common/button/ButtonTest.vue";
-=======
 import InputTest from "@/components/common/input/InputTest.vue";
->>>>>>> 7986e3f3b1d0e0fdfa538b523bd3562032a20178
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -62,23 +59,20 @@ import InputTest from "@/components/common/input/InputTest.vue";
 // import ButtonTest from "@/components/common/button/ButtonTest.vue";
 
 export default {
-    name: "HomePage",
+	name: "HomePage",
 
-    components: {
-        TagTest,
-<<<<<<< HEAD
-        ModalTest,
-        ButtonTest,
-=======
-        InputTest,
->>>>>>> 7986e3f3b1d0e0fdfa538b523bd3562032a20178
-        // MainBtn,
-        // QuestList,
-        // ScheduleList,
-        // BoardList,
-        // QuickBtn,
-        // ButtonTest,
-    },
+	components: {
+		TagTest,
+		ModalTest,
+		ButtonTest,
+		InputTest
+		// MainBtn,
+		// QuestList,
+		// ScheduleList,
+		// BoardList,
+		// QuickBtn,
+		// ButtonTest,
+	}
 };
 </script>
 

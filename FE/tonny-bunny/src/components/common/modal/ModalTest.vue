@@ -1,29 +1,32 @@
 <template>
-    <div>
-        <h1>Modal Test</h1>
+	<div>
+		<h1>Modal Test</h1>
 
-        {{ isModalOpen }}
-        <br />
-        <medium-btn text="modal test" @click="changeIsModalOpen"></medium-btn>
-        <!-- <alarm-modal v-show="isModalOpen"></alarm-modal> -->
-        <alarm-modal
-            v-show="isOpen"
-            :isOpen="isOpen"
-            title="경고"
-            type="danger"
-            btnText1="안녕"
-            btnText2="안녕2"
-            btnColor1="main"
-            btnColor2="carrot"
-            btnFontColor1="white"
-            btnFontColor2="active">
-            <template #content>
-                안녕하세요
-                <br />
-                안녕하십니까
-            </template>
-        </alarm-modal>
-    </div>
+		{{ isOpen }}
+		<br />
+		<medium-btn text="modal test" @click="openModal"></medium-btn>
+
+		<!-- <alarm-modal v-show="isOpen" :isOpen="isOpen"></alarm-modal> -->
+
+		<alarm-modal
+			v-show="isOpen"
+			:isOpen="isOpen"
+			title="경고"
+			type="success"
+			btnText1="아니오"
+			btnText2="예"
+			btnColor1="main"
+			btnColor2="carrot"
+			btnFontColor1="white"
+			btnFontColor2="white"
+			@close-modal="closeModal">
+			<template #content>
+				안녕하세요
+				<br />
+				안녕하십니까 안녕하세요 안녕하세요 안녕하세요 안녕하세요
+			</template>
+		</alarm-modal>
+	</div>
 </template>
 
 <script>
@@ -31,44 +34,48 @@ import MediumBtn from "../button/MediumBtn.vue";
 import AlarmModal from "./AlarmModal.vue";
 
 export default {
-    name: "ModalTest",
+	name: "ModalTest",
 
-    components: {
-        MediumBtn,
-        AlarmModal,
-    },
+	components: {
+		MediumBtn,
+		AlarmModal
+	},
 
-    props: {},
+	props: {},
 
-    data() {
-        return {
-            isOpen: false,
-        };
-    },
+	data() {
+		return {
+			isOpen: false
+		};
+	},
 
-    methods: {
-        setIsOpen(e) {
-            e.preventDefault();
-            this.isOpen = !this.isOpen;
-        },
-    },
+	methods: {
+		openModal(e) {
+			e.preventDefault();
+			this.isOpen = true;
+		},
 
-    // setup() {
-    //     // data 호출
-    //     const state = reactive({
-    //         isModalOpen: false,
-    //     });
+		closeModal() {
+			this.isOpen = false;
+		}
+	}
 
-    //     // method 호출
-    //     const changeIsModalOpen = (e) => {
-    //         e.preventDefault();
-    //         console.log("hihi");
-    //         console.log(state.isModalOpen);
-    //         // state.isModalOpen = !state.isModalOpen;
-    //     };
+	// setup() {
+	//     // data 호출
+	//     const state = reactive({
+	//         isModalOpen: false,
+	//     });
 
-    //     return { state, changeIsModalOpen };
-    // },
+	//     // method 호출
+	//     const changeIsModalOpen = (e) => {
+	//         e.preventDefault();
+	//         console.log("hihi");
+	//         console.log(state.isModalOpen);
+	//         // state.isModalOpen = !state.isModalOpen;
+	//     };
+
+	//     return { state, changeIsModalOpen };
+	// },
 };
 </script>
 
