@@ -1,0 +1,30 @@
+.tagWrap {
+    display: inline-block;
+}
+
+.tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 54px;
+    height: 20px;
+    border-radius: 4px;
+
+    //아래로 버튼 색
+    &.success {
+        background-color: var(--success-color);
+    }
+    &.info {
+        background-color: var(--info-color);
+    }
+    &.white {
+        border: 1px solid var(--main-color);
+        background-color: var(--background-color);
+    }
+
+    span {
+        color: var(--active-color);
+        font-weight: 700;
+    }
+}
