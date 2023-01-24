@@ -3,8 +3,10 @@ package com.tonnybunny.domain.user.controller;
 
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.*;
+import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserController {
 
 	private final UserService userService;
+	private final HelperInfoService helperInfoService;
 
 
 	@PostMapping("/signup")
@@ -250,6 +253,26 @@ public class UserController {
 		HistoryEntity historyEntity = userService.getUserHistory(userSeq, historySeq);
 		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(historyEntity);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
+	}
+
+	// ------------------------------ 헬퍼 프로필 ---------------------------------------
+
+
+	@PutMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
+	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		Long updatedHelperInfoSeq = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedHelperInfoSeq));
+	}
+
+
+	@GetMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 프로필 정보를 조회합니다")
+	public ResponseEntity<ResultDto<HelperInfoResponseDto>> getHelperInfo(@PathVariable("userSeq") Long userSeq) {
+		HelperInfoEntity helperInfo = helperInfoService.getHelperInfo(userSeq);
+		HelperInfoResponseDto helperInfoResponseDto = HelperInfoResponseDto.fromEntity(helperInfo);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponseDto));
+
 	}
 
 }

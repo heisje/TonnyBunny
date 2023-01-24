@@ -1,23 +1,28 @@
 package com.tonnybunny.domain.user.dto;
 
-import com.tonnybunny.domain.user.entity.CertificateEntity;
+
+import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Data
 public class HelperInfoResponseDto {
-    public static CertificateResponseDto fromEntity(CertificateEntity certificate){
-        return new CertificateResponseDto();
-    }
 
-    public static List<CertificateResponseDto> fromEntityList(List<CertificateEntity> certificateList){
-        List<CertificateResponseDto> result = new ArrayList<>();
-        for(CertificateEntity certificate : certificateList){
-            CertificateResponseDto scheduleResponseDto = fromEntity(certificate);
-            result.add( scheduleResponseDto );
-        }
-        return result;
-    }
+	public static HelperInfoResponseDto fromEntity(HelperInfoEntity helperInfo) {
+		return new HelperInfoResponseDto();
+	}
+
+
+	public static List<HelperInfoResponseDto> fromEntityList(List<HelperInfoEntity> helperInfoList) {
+		List<HelperInfoResponseDto> result = new ArrayList<>();
+		for (HelperInfoEntity helperInfo : helperInfoList) {
+			HelperInfoResponseDto helperInfoResponseDto = fromEntity(helperInfo);
+			result.add(helperInfoResponseDto);
+		}
+		return result;
+	}
+
 }
