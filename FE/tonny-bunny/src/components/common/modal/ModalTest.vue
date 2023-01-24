@@ -7,12 +7,11 @@
 		<medium-btn text="modal test" @click="openModal"></medium-btn>
 
 		<!-- <alarm-modal v-show="isOpen" :isOpen="isOpen"></alarm-modal> -->
-
 		<alarm-modal
 			v-show="isOpen"
 			:isOpen="isOpen"
 			title="경고"
-			type="success"
+			type="danger"
 			btnText1="아니오"
 			btnText2="예"
 			btnColor1="main"

@@ -3,9 +3,9 @@
 		<h1>홈 - 메인</h1>
 
 		<!-- part1 -->
-		<tag-test></tag-test>
+		<!-- <tag-test></tag-test> -->
 		<!-- <hr /> -->
-		<!-- <modal-test></modal-test> -->
+		<modal-test></modal-test>
 		<!-- <hr /> -->
 		<!-- <button-test></button-test> -->
 		<!-- <hr /> -->
@@ -85,4 +85,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>
