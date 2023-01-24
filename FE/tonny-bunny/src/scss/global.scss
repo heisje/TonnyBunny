@@ -1,5 +1,19 @@
+// Pretendard Variable
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+
+// variable (font, color)
+@import "variable.scss";
+
 * {
-	// font-family: Avenir, Helvetica, Arial, sans-serif;
-	box-sizing: border-box;
-	cursor: default;
+    font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    box-sizing: border-box;
+    cursor: default;
+    color: var(--main-color);
+    @extend .text;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    background-color: var(--b-back-color);
 }

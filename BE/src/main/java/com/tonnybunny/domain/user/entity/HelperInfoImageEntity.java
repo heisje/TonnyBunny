@@ -19,7 +19,9 @@ public class HelperInfoImageEntity extends CommonEntity {
 	@Column(name = "helper_info_image_seq")
 	private Long seq;
 
-	private Long helperInfoSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "helper_info_seq")
+	private HelperInfoEntity helperInfo;
 
 	private String imagePath;
 
