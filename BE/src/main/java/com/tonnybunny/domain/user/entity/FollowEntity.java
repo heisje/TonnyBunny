@@ -19,12 +19,10 @@ public class FollowEntity extends CommonEntity {
 	@Column(name = "follow_seq")
 	private Long seq;
 
-	//	@ManyToOne(fetch = FetchType.LAZY)
-	//	@JoinColumn(name="user_seq")
-	//	private UserEntity followerSeq;
-	//
-	//	@ManyToOne(fetch = FetchType.LAZY)
-	//	@JoinColumn(name="user_seq")
-	//	private UserEntity followingSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity user;
+
+	private Long followedUserSeq;
 
 }
