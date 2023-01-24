@@ -25,7 +25,7 @@ public class BunnyQuotationService {
 
 
 	/**
-	 * FIXME : 신청 기준 Seq를 변경해야 함
+	 * FIXME : 조회 기준 Seq를 변경해야 함
 	 * 1:1 상담 채팅방에 올라온 견적 상담 채팅방에 올라온 견적서들의 목록 조회
 	 *
 	 * @param bunnyNotiSeq : 번역 공고 게시글 Seq

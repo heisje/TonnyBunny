@@ -17,9 +17,10 @@ import java.util.List;
 
 
 // FIXME :BunnyController로 합칠 수도 있음
-@RestController("/bunny/quotation")
+@RestController
+@RequestMapping("/bunny/quotation")
 @RequiredArgsConstructor
-@Api(tags = "")
+@Api(tags = "번역 견적서 관련 API")
 public class BunnyQuotationController {
 
 	private final BunnyQuotationService bunnyQuotationService;
@@ -53,7 +54,7 @@ public class BunnyQuotationController {
 
 
 	@PutMapping("/type/{bunnyQuotationSeq}")
-	@ApiOperation(value = "", tags = "")
+	@ApiOperation(value = "번역 견적서의 상태 코드를 수정", tags = "견적서의 상태 (미선택/선택/작업완료)를 변경합니다.")
 	public ResponseEntity<ResultDto<Boolean>> modifyBunnyQuotationType(@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq, @RequestBody String bunnyQuotationStateCode) {
 		bunnyQuotationService.modifyBunnyQuotationType(bunnyQuotationSeq, bunnyQuotationStateCode);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
