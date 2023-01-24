@@ -8,6 +8,8 @@
         <!-- <button-test></button-test> -->
 
         <!-- part2 -->
+        <input-test />
+        <tag-test></tag-test>
     </div>
 
     <!-- <div>
@@ -46,8 +48,12 @@
 <script>
 /* eslint-disable */
 import TagTest from "@/components/common/tag/TagTest.vue";
+<<<<<<< HEAD
 import ModalTest from "@/components/common/modal/ModalTest.vue";
 import ButtonTest from "@/components/common/button/ButtonTest.vue";
+=======
+import InputTest from "@/components/common/input/InputTest.vue";
+>>>>>>> 7986e3f3b1d0e0fdfa538b523bd3562032a20178
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -60,8 +66,12 @@ export default {
 
     components: {
         TagTest,
+<<<<<<< HEAD
         ModalTest,
         ButtonTest,
+=======
+        InputTest,
+>>>>>>> 7986e3f3b1d0e0fdfa538b523bd3562032a20178
         // MainBtn,
         // QuestList,
         // ScheduleList,

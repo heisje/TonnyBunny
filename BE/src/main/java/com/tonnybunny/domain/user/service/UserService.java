@@ -5,8 +5,12 @@ import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.ReportRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
+import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -232,6 +236,35 @@ public class UserService {
 	 */
 	public Boolean createReport(ReportRequestDto reportRequestDto) {
 		return true;
+	}
+
+	// --------------------------------- 히스토리 ------------------------------------
+
+
+	/**
+	 * @param userSeq : 로그인 유저 seq
+	 * @return 히스토리 목록 EntityList
+	 */
+	public List<HistoryEntity> getUserHistoryList(Long userSeq) {
+		// TODO : 로직
+		/**
+		 * 히스토리 목록 조회 로직
+		 */
+		return new ArrayList<>();
+	}
+
+
+	/**
+	 * @param userSeq    : 로그인 사용자 seq
+	 * @param historySeq : 조회할 히스토리 seq
+	 * @return
+	 */
+	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) {
+		// TODO : 로직
+		/**
+		 * 히스토리 단일 조회
+		 */
+		return (HistoryEntity) new Object();
 	}
 
 }

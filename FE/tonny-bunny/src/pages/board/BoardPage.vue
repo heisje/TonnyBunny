@@ -19,7 +19,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+    name: "BoardPage",
+};
 </script>
 
 <style></style>
