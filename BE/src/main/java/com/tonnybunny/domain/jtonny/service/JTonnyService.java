@@ -74,7 +74,7 @@ public class JTonnyService {
 	 * @param jTonnyNotiHelperRequestDto : 즉시 통역 공고 신청 폼
 	 * @return : 생성된 신청 seq
 	 */
-	public Long createJTonnyHelper(JTonnyNotiHelperRequestDto jTonnyNotiHelperRequestDto) {
+	public Long createJTonnyNotiHelper(JTonnyNotiHelperRequestDto jTonnyNotiHelperRequestDto) {
 		// TODO : 로직
 
 		JTonnyNotiHelperEntity jTonnyNotiHelper = jTonnyNotiHelperRequestDto.toEntity();
@@ -88,7 +88,7 @@ public class JTonnyService {
 	 * @param jTonnyHelperSeq
 	 * @return
 	 */
-	public Boolean deleteJTonnyHelper(Long jTonnyHelperSeq) {
+	public Boolean deleteJTonnyNotiHelper(Long jTonnyHelperSeq) {
 		// TODO : 로직
 
 		return true;
@@ -100,7 +100,7 @@ public class JTonnyService {
 	 *
 	 * @return 즉시 통역 공고 신청 Entity List
 	 */
-	public List<JTonnyNotiHelperEntity> getJTonnyHelperList() {
+	public List<JTonnyNotiHelperEntity> getJTonnyNotiHelperList() {
 		// TODO : 로직
 
 		return new ArrayList<>();
@@ -113,7 +113,7 @@ public class JTonnyService {
 	 * @param jTonnyHelperSeq : 조회할 신청 seq
 	 * @return : 조회된 신청 Entity
 	 */
-	public JTonnyNotiHelperEntity getJTonnyHelper(Long jTonnyHelperSeq) {
+	public JTonnyNotiHelperEntity getJTonnyNotiHelper(Long jTonnyHelperSeq) {
 		// TODO : 로직
 
 		return (JTonnyNotiHelperEntity) new Object();

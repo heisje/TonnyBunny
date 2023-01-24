@@ -103,9 +103,9 @@ public class JTonnyController {
 	 */
 	@PostMapping("/enroll")
 	@ApiOperation(value = "즉시 통역 공고 신청 생성")
-	public ResponseEntity<ResultDto<Long>> createJTonnyHelper(@RequestBody JTonnyNotiHelperRequestDto jTonnyNotiHelperRequestDto) {
+	public ResponseEntity<ResultDto<Long>> createJTonnyNotiHelper(@RequestBody JTonnyNotiHelperRequestDto jTonnyNotiHelperRequestDto) {
 
-		Long jTonnyNotiHelperSeq = jTonnyService.createJTonnyHelper(jTonnyNotiHelperRequestDto);
+		Long jTonnyNotiHelperSeq = jTonnyService.createJTonnyNotiHelper(jTonnyNotiHelperRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(jTonnyNotiHelperSeq));
 	}
 
@@ -118,9 +118,9 @@ public class JTonnyController {
 	 */
 	@DeleteMapping("/enroll/{jTonnyHelperSeq}")
 	@ApiOperation(value = "즉시 통역 공고 신청 삭제")
-	public ResponseEntity<ResultDto<Boolean>> deleteJTonnyHelper(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteJTonnyNotiHelper(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
 
-		Boolean isSuccess = jTonnyService.deleteJTonnyHelper(jTonnyHelperSeq);
+		Boolean isSuccess = jTonnyService.deleteJTonnyNotiHelper(jTonnyHelperSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -138,9 +138,9 @@ public class JTonnyController {
 	 */
 	@GetMapping("/enroll")
 	@ApiOperation(value = "즉시 통역 공고 신청 목록 조회")
-	public ResponseEntity<ResultDto<List<JTonnyNotiHelperResponseDto>>> getJTonnyHelperList() {
+	public ResponseEntity<ResultDto<List<JTonnyNotiHelperResponseDto>>> getJTonnyNotiHelperList() {
 
-		List<JTonnyNotiHelperEntity> jTonnyNotiHelperList = jTonnyService.getJTonnyHelperList();
+		List<JTonnyNotiHelperEntity> jTonnyNotiHelperList = jTonnyService.getJTonnyNotiHelperList();
 		List<JTonnyNotiHelperResponseDto> jTonnyNotiHelperResponseDtos = JTonnyNotiHelperResponseDto.fromEntityList(jTonnyNotiHelperList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(jTonnyNotiHelperResponseDtos));
 	}
@@ -154,9 +154,9 @@ public class JTonnyController {
 	 */
 	@GetMapping("/enroll/{jTonnyHelperSeq}")
 	@ApiOperation(value = "즉시 통역 공고 신청 상세 조회")
-	public ResponseEntity<ResultDto<JTonnyNotiHelperResponseDto>> getJTonnyHelper(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
+	public ResponseEntity<ResultDto<JTonnyNotiHelperResponseDto>> getJTonnyNotiHelper(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
 
-		JTonnyNotiHelperEntity jTonnyNotiHelper = jTonnyService.getJTonnyHelper(jTonnyHelperSeq);
+		JTonnyNotiHelperEntity jTonnyNotiHelper = jTonnyService.getJTonnyNotiHelper(jTonnyHelperSeq);
 		JTonnyNotiHelperResponseDto jTonnyNotiHelperResponseDto = JTonnyNotiHelperResponseDto.fromEntity(jTonnyNotiHelper);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(jTonnyNotiHelperResponseDto));
 	}
