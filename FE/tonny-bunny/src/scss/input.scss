@@ -2,94 +2,94 @@
 
 // Form
 .customForm {
-    label {
-        display: block;
-        margin-bottom: 4px;
-    }
+	label {
+		display: block;
+		margin-bottom: 4px;
+	}
 
-    // textArea설정
-    textarea {
-        @extend input;
-        width: 100%;
-        max-width: 425px;
-    }
+	// textArea설정
+	textarea {
+		@extend input;
+		width: 100%;
+		max-width: 425px;
+	}
 
-    // input설정
-    input {
-        // 유효성 체크박스
-        ~ .notice {
-            min-height: 1rem;
-            color: var(--danger-color);
-        }
+	// input설정
+	input {
+		// 유효성 체크박스
+		~ .notice {
+			min-height: 1rem;
+			color: var(--danger-color);
+		}
 
-        // 종류가 텍스트일 때
-        &[type="text"] {
-            width: 100%;
-            max-width: 425px;
-        }
-        @extend .text;
-        background-color: var(--background-color);
-        padding: 10px 14px;
-        border-radius: 4px;
-        color: var(--active-color);
-        border: 1px solid var(--disable-color);
-        cursor: text;
-        outline: none;
-        transition: border 0.3s, box-shadow 0.3s;
+		// 종류가 텍스트일 때
+		&[type="text"] {
+			width: 100%;
+			max-width: 425px;
+		}
+		@extend .text;
+		background-color: var(--background-color);
+		padding: 10px 14px;
+		border-radius: 4px;
+		color: var(--active-color);
+		border: 1px solid var(--disable-color);
+		cursor: text;
+		outline: none;
+		transition: border 0.3s, box-shadow 0.3s;
 
-        // 선택
-        &:focus {
-            border: 1px solid var(--active-color);
-            box-shadow: 0px 0px 0px 3px #424b5a80;
-        }
+		// 선택
+		&:focus {
+			border: 1px solid var(--active-color);
+			box-shadow: 0px 0px 0px 3px #424b5a80;
+		}
 
-        //정규표현식 유효성검사
-        &:invalid {
-            border: 1px solid var(--danger-color);
-            box-shadow: 0px 0px 0px 3px #f96a6340;
-            &:focus {
-                border: 1px solid var(--danger-color);
-                box-shadow: 0px 0px 0px 3px #f96a6380;
-            }
-        }
+		//정규표현식 유효성검사
+		&:invalid {
+			border: 1px solid var(--danger-color);
+			box-shadow: 0px 0px 0px 3px #f96a6340;
+			&:focus {
+				border: 1px solid var(--danger-color);
+				box-shadow: 0px 0px 0px 3px #f96a6380;
+			}
+		}
 
-        // 선택불가능
-        &.disable {
-            background-color: var(--light-color);
-            cursor: default;
-            &:focus {
-                border: 1px solid var(--disable-color);
-                box-shadow: none;
-            }
-        }
+		// 선택불가능
+		&.disable {
+			background-color: var(--light-color);
+			cursor: default;
+			&:focus {
+				border: 1px solid var(--disable-color);
+				box-shadow: none;
+			}
+		}
 
-        // 성공시
-        &.success {
-            border: 1px solid var(--success-color);
-            &:focus {
-                border: 1px solid var(--success-color);
-                box-shadow: 0px 0px 0px 3px #87d14680;
-            }
-        }
+		// 성공시
+		&.success {
+			border: 1px solid var(--success-color);
+			&:focus {
+				border: 1px solid var(--success-color);
+				box-shadow: 0px 0px 0px 3px #87d14680;
+			}
+		}
 
-        // 실패시
-        &.danger {
-            border: 1px solid var(--danger-color);
-            &:focus {
-                border: 1px solid var(--danger-color);
-                box-shadow: 0px 0px 0px 3px #f96a6380;
-            }
-        }
+		// 실패시
+		&.danger {
+			border: 1px solid var(--danger-color);
+			&:focus {
+				border: 1px solid var(--danger-color);
+				box-shadow: 0px 0px 0px 3px #f96a6380;
+			}
+		}
 
-        // placeholder 색상변경
-        &::placeholder {
-            color: var(--disable-color);
-        }
-        &::-webkit-input-placeholder {
-            color: var(--disable-color);
-        }
-        &:-ms-input-placeholder {
-            color: var(--disable-color);
-        }
-    }
+		// placeholder 색상변경
+		&::placeholder {
+			color: var(--disable-color);
+		}
+		&::-webkit-input-placeholder {
+			color: var(--disable-color);
+		}
+		&:-ms-input-placeholder {
+			color: var(--disable-color);
+		}
+	}
 }
