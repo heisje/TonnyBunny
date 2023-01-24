@@ -1,10 +1,11 @@
 .modalContainer {
-	position: absolute;
+	position: fixed;
 	z-index: 99;
 	top: 0;
+	left: 0;
 	background-color: rgba(0, 0, 0, 0.3);
 	width: 100vw;
-	height: 100vh;
+	// height: 100vh;
 	cursor: default;
 }
 
@@ -16,7 +17,7 @@
 	height: 100vh;
 }
 
-.modal {
+.modalCustom {
 	z-index: 100;
 	width: 424px;
 	// height: 212px;
@@ -29,17 +30,19 @@
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
 	backdrop-filter: blur(5px);
 	border-radius: 8px;
+
+	transition: opacity 0.3s ease;
 }
 
 .titleWrap {
-	margin-bottom: 10px;
+	// margin-bottom: 8px;
 
 	.icon {
 		position: relative;
-		// top: 6px;
+		top: -1px;
 		padding-right: 4px;
 		font-weight: 400;
-		font-size: 2rem;
+		font-size: 1.5rem;
 
 		display: none;
 
@@ -62,17 +65,18 @@
 
 	.title {
 		position: relative;
+		font-size: 1.2rem;
 		top: -6px;
 	}
 }
 
 .contentWrap {
-	margin: 12px 10px;
+	margin: 4px 8px 12px 8px;
 
 	.content {
 		// position: relative;
 		padding: 0 0 54px 0;
-		font-size: 1.2rem;
+		font-size: 1rem;
 		font-weight: 400;
 		line-height: 21px;
 	}
@@ -88,8 +92,26 @@
 	}
 }
 
+.bounce-enter-active {
+	animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+	animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
-	.modal {
+	.modalCustom {
 		width: 85%;
 	}
 }

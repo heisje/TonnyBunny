@@ -1,47 +1,49 @@
 <template>
-	<div class="modalContainer">
-		<div class="modalWrap">
-			<div class="modal">
-				<div class="titleWrap">
-					<span
-						class="material-symbols-outlined icon"
-						:class="{ danger: type === 'danger' }">
-						error
-					</span>
-					<span
-						class="material-symbols-outlined icon"
-						:class="{ warning: type === 'warning' }">
-						warning
-					</span>
-					<span
-						class="material-symbols-outlined icon"
-						:class="{ success: type === 'success' }">
-						check_circle
-					</span>
+	<Transition name="bounce">
+		<div class="modalContainer">
+			<div class="modalWrap">
+				<div class="modalCustom">
+					<div class="titleWrap">
+						<span
+							class="material-symbols-outlined icon"
+							:class="{ danger: type === 'danger' }">
+							error
+						</span>
+						<span
+							class="material-symbols-outlined icon"
+							:class="{ warning: type === 'warning' }">
+							warning
+						</span>
+						<span
+							class="material-symbols-outlined icon"
+							:class="{ success: type === 'success' }">
+							check_circle
+						</span>
 
-					<h1 class="title">{{ title }}</h1>
-				</div>
-
-				<div class="contentWrap">
-					<div class="content">
-						<slot name="content"></slot>
+						<h2 class="title">{{ title }}</h2>
 					</div>
-				</div>
 
-				<div class="modalBtnWrap">
-					<small-btn
-						:color="btnColor1"
-						:font="btnFontColor1"
-						:text="btnText1"
-						@click="closeModal"></small-btn>
-					<small-btn
-						:color="btnColor2"
-						:font="btnFontColor2"
-						:text="btnText2"></small-btn>
+					<div class="contentWrap">
+						<div class="content">
+							<slot name="content"></slot>
+						</div>
+					</div>
+
+					<div class="modalBtnWrap">
+						<small-btn
+							:color="btnColor1"
+							:font="btnFontColor1"
+							:text="btnText1"
+							@click="closeModal"></small-btn>
+						<small-btn
+							:color="btnColor2"
+							:font="btnFontColor2"
+							:text="btnText2"></small-btn>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</Transition>
 </template>
 
 <script>
