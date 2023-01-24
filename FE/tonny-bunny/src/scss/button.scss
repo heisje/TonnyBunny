@@ -40,7 +40,22 @@
 
     //아래로 버튼 색
     &.carrot {
-        background-color: var(--carrot-color);
+        background: var(--carrot-color);
+    }
+    &.primary {
+        background-color: var(--primary-color);
+    }
+    &.info {
+        background-color: var(--info-color);
+    }
+    &.success {
+        background-color: var(--success-color);
+    }
+    &.danger {
+        background-color: var(--danger-color);
+    }
+    &.warning {
+        background-color: var(--warning-color);
     }
     &.active {
         background-color: var(--active-color);
@@ -73,15 +88,19 @@
 
     //아래로 폰트 색
     span {
+        cursor: pointer;
+
         @extend .h4;
         &.carrot {
             color: var(--carrot-color);
         }
         &.active {
             color: var(--active-color);
+            font-weight: 800;
         }
         &.main {
             color: var(--main-color);
+            font-weight: 800;
         }
         &.sub {
             color: var(--sub-color);
