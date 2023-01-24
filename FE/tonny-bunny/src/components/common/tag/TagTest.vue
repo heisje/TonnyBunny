@@ -1,22 +1,29 @@
 <template>
-    <div>
-        <h1>Bedge Test</h1>
+	<div>
+		<h1>Tag Test</h1>
+		<br />
 
-        <square-tag></square-tag>
-        <square-tag color="info" text="진행중"></square-tag>
-        <square-tag color="white" text="완료됨"></square-tag>
-    </div>
+		<square-tag text="하이루" sub></square-tag>
+		<square-tag success></square-tag>
+		<square-tag info></square-tag>
+		<square-tag white></square-tag>
+
+		<circle-tag text="활성태그"></circle-tag>
+		<circle-tag text="비활성태그" disable></circle-tag>
+	</div>
 </template>
 
 <script>
+import CircleTag from "./CircleTag.vue";
 import SquareTag from "./SquareTag.vue";
 
 export default {
-    name: "TagTest",
+	name: "TagTest",
 
-    components: {
-        SquareTag,
-    },
+	components: {
+		SquareTag,
+		CircleTag
+	}
 };
 </script>
 

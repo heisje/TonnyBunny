@@ -12,7 +12,7 @@
         <LargeBtn text="라지" link="/tonny" />
 
         <SmallBtn color="carrot" />
-        <SmallBtn color="primary" />
+        <SmallBtn color="primary" text="안녕" />
         <hr />
 
         <XSmallBtn color="thin" font="active" />

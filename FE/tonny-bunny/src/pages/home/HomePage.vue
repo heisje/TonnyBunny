@@ -3,9 +3,14 @@
 		<h1>홈 - 메인</h1>
 
 		<!-- part1 -->
-		<!-- <tag-test></tag-test> -->
-		<modal-test></modal-test>
+		<tag-test></tag-test>
+		<!-- <hr /> -->
+		<!-- <modal-test></modal-test> -->
+		<!-- <hr /> -->
 		<!-- <button-test></button-test> -->
+		<!-- <hr /> -->
+		<card-test></card-test>
+		<hr />
 
 		<!-- part2 -->
 		<!-- <input-test /> -->
@@ -51,6 +56,8 @@ import TagTest from "@/components/common/tag/TagTest.vue";
 import ModalTest from "@/components/common/modal/ModalTest.vue";
 import ButtonTest from "@/components/common/button/ButtonTest.vue";
 import InputTest from "@/components/common/input/InputTest.vue";
+import CardTest from "@/components/common/card/CardTest.vue";
+
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -65,7 +72,9 @@ export default {
 		TagTest,
 		ModalTest,
 		ButtonTest,
-		InputTest
+		InputTest,
+		CardTest
+
 		// MainBtn,
 		// QuestList,
 		// ScheduleList,
