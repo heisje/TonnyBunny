@@ -3,7 +3,7 @@
 		<h1>홈 - 메인</h1>
 
 		<!-- part1 -->
-		<!-- <tag-test></tag-test> -->
+		<tag-test></tag-test>
 		<!-- <hr /> -->
 		<!-- <modal-test></modal-test> -->
 		<!-- <hr /> -->

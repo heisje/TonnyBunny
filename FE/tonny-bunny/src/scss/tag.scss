@@ -8,9 +8,11 @@
 	align-items: center;
 	cursor: default;
 
-	width: 54px;
+	width: auto;
 	height: 20px;
+	padding: 0 8px;
 	border-radius: 4px;
+	// margin-right: 6px;
 
 	//아래로 버튼 색
 	&.success {
@@ -22,6 +24,13 @@
 	&.white {
 		border: 1px solid var(--main-color);
 		background-color: var(--background-color);
+	}
+	&.sub {
+		background-color: var(--disable-color);
+
+		// span {
+		// 	color: var(--main-color);
+		// }
 	}
 
 	span {
@@ -70,7 +79,6 @@
 
 	span {
 		color: #a1aeb7;
-		// cursor: default;
 	}
 
 	&:hover {

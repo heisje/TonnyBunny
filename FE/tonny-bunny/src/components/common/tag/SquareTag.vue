@@ -1,7 +1,9 @@
 <template>
 	<div class="tagWrap">
-		<div class="squareTag" :class="color">
-			<span :class="disable ? 'disable' : font">{{ text }}</span>
+		<div class="squareTag" :class="[{ success, info, white, sub }]">
+			<span :class="font">
+				{{ success ? "모집중" : info ? "진행중" : white ? "완료됨" : text }}
+			</span>
 		</div>
 	</div>
 </template>
@@ -11,28 +13,42 @@ export default {
 	name: "SquareTag",
 
 	props: {
+		success: {
+			type: Boolean,
+			default: false
+		},
+
+		info: {
+			type: Boolean,
+			default: false
+		},
+
+		white: {
+			type: Boolean,
+			default: false
+		},
+
+		sub: {
+			type: Boolean,
+			default: false
+		},
+
 		text: {
 			type: String,
-			default: "모집중",
+			default: "텍스트",
 			description: "tag text"
 		},
 
-		color: {
-			type: String,
-			default: "success",
-			description: "tag color"
-		},
+		// color: {
+		// 	type: String,
+		// 	default: "success",
+		// 	description: "tag color"
+		// },
 
 		font: {
 			type: String,
 			default: "white",
 			description: "tag font color"
-		},
-
-		disable: {
-			type: Boolean,
-			default: false,
-			description: "tag font disable"
 		}
 	}
 };
