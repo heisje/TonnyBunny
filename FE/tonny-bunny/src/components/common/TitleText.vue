@@ -1,9 +1,72 @@
 <template>
-    <div>TitleText 타이틀 텍스트</div>
+    <div id="TitleText" :style="`margin-top:${top}px`">
+        <p v-if="important" class="important">*필수</p>
+
+        <h1 v-if="type == 'h1'">{{ title }}</h1>
+        <h1 v-if="type == 'h1-small'" class="h1-small">{{ title }}</h1>
+        <h2 v-if="type == 'h2'" class="h2">{{ title }}</h2>
+        <p :style="`margin-bottom:${bottom}px`">{{ text }}</p>
+    </div>
 </template>
 
 <script>
-export default {};
+export default {
+    name: "TitleText",
+    props: {
+        important: {
+            type: Boolean,
+            default: false,
+            description: "필수",
+        },
+        title: {
+            type: String,
+            default: "title",
+            description: "title",
+        },
+        type: {
+            type: String,
+            default: "h1",
+            description: "title",
+        },
+        small: {
+            type: Boolean,
+            default: false,
+            description: "small",
+        },
+        text: {
+            type: String,
+            default: "",
+            description: "text",
+        },
+        top: {
+            type: Number,
+            default: 36,
+            description: "margin-top",
+        },
+        bottom: {
+            type: Number,
+            default: 12,
+            description: "margin-bottom",
+        },
+    },
+};
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "@/scss/variable.scss";
+#TitleText {
+    margin-top: 36px;
+    .important {
+        color: var(--danger-color);
+    }
+    h1 {
+        margin-bottom: 4px;
+    }
+    h2 {
+        margin-bottom: 4px;
+    }
+    p {
+        color: var(--sub-color);
+    }
+}
+</style>
