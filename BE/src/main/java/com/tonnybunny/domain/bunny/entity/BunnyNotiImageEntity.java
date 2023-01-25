@@ -19,7 +19,9 @@ public class BunnyNotiImageEntity extends CommonEntity {
 	@Column(name = "bunny_noti_image_seq")
 	private Long seq;
 
-	private Long bunnyNotiSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "bunny_noti_seq")
+	private BunnyNotiEntity bunnyNoti;
 
 	private String imagePath;
 

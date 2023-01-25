@@ -2,12 +2,15 @@ package com.tonnybunny.domain.bunny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,7 +23,9 @@ public class BunnyNotiEntity extends CommonEntity {
 	@Column(name = "bunny_noti_seq")
 	private Long seq;
 
-	private Long userSeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity user;
 
 	private String title;
 	private String content;
@@ -34,5 +39,17 @@ public class BunnyNotiEntity extends CommonEntity {
 	private String endLangCode;
 	private String bunnySituCode;
 	private String bunnyStateCode;
+
+	// 번역 공고 지원 헬퍼 리스트
+	@OneToMany(mappedBy = "bunnyNoti")
+	private List<BunnyNotiHelperEntity> bunnyNotiHelperList = new ArrayList<>();
+
+	// 번역 공고 이미지 리스트
+	@OneToMany(mappedBy = "bunnyNoti")
+	private List<BunnyNotiImageEntity> bunnyNotiImageList = new ArrayList<>();
+
+	// 번역 공고 견적서 리스트
+	@OneToMany(mappedBy = "bunnyNoti")
+	private List<BunnyQuotationEntity> bunnyQuotationList = new ArrayList<>();
 
 }
