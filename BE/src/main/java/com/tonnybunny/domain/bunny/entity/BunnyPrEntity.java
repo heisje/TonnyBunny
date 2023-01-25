@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
+// 기능 삭제 예정
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
