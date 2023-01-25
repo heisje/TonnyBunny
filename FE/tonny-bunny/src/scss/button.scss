@@ -16,12 +16,12 @@
     //아래로 버튼 종류
     &.large {
         position: fixed;
-        // width: 100vw !important;
+        width: 100vw !important;
         height: 48px;
         bottom: 60px;
-        // left: 0;
+        left: 0;
         padding: 0;
-        margin: auto 0;
+        // margin: auto 0;
         z-index: 98;
         border-radius: 0;
     }
@@ -134,15 +134,15 @@
     }
 }
 
-@media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
-    .btn {
-        &.large {
-            width: 100vw;
-            left: 0;
-            right: 0;
-        }
-    }
-}
+// @media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
+//     .btn {
+//         &.large {
+//             width: 100vw;
+//             left: 0;
+//             right: 0;
+//         }
+//     }
+// }
 
 @media (min-width: 1200px) {
     .btn {

@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <a class="btn large container" :class="color" :href="link">
+        <a class="btn large" :class="color" :href="link">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
         </a>
     </div>
