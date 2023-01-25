@@ -2,10 +2,12 @@ package com.tonnybunny.domain.bunny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.bunny.dto.*;
+import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperRequestDto;
+import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperResponseDto;
+import com.tonnybunny.domain.bunny.dto.BunnyNotiRequestDto;
+import com.tonnybunny.domain.bunny.dto.BunnyNotiResponseDto;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
-import com.tonnybunny.domain.bunny.entity.BunnyResultEntity;
 import com.tonnybunny.domain.bunny.service.BunnyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -198,36 +200,5 @@ public class BunnyController {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
 		}
 	}
-
-
-	/**
-	 * 번역 결과 생성
-	 *
-	 * @param bunnyResultRequestDto : 번역 결과 생성 정보
-	 * @return : 생성된 결과 seq
-	 */
-	@PostMapping("/result")
-	@ApiOperation(value = "번역 결과 생성")
-	public ResponseEntity<ResultDto<Long>> createBunnyResult(@RequestBody BunnyResultRequestDto bunnyResultRequestDto) {
-
-		Long bunnyResultSeq = bunnyService.createBunnyResult(bunnyResultRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResultSeq));
-	}
-
-
-	/**
-	 * 번역 결과 조회
-	 *
-	 * @param bunnyResultSeq : 조회할 결과 seq
-	 * @return : 조회된 결과 Response Dto
-	 */
-	@GetMapping("/bunny/result/{bunnyResultSeq}")
-	@ApiOperation(value = "번역 결과 조회")
-	public ResponseEntity<ResultDto<BunnyResultResponseDto>> getBunnyResult(@PathVariable("bunnyResultSeq") Long bunnyResultSeq) {
-
-		BunnyResultEntity bunnyResult = bunnyService.getBunnyResult(bunnyResultSeq);
-		BunnyResultResponseDto bunnyResultResponseDto = BunnyResultResponseDto.fromEntity(bunnyResult);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResultResponseDto));
-	}
-
+	
 }

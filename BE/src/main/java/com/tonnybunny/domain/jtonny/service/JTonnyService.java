@@ -3,10 +3,8 @@ package com.tonnybunny.domain.jtonny.service;
 
 import com.tonnybunny.domain.jtonny.dto.JTonnyNotiHelperRequestDto;
 import com.tonnybunny.domain.jtonny.dto.JTonnyNotiRequestDto;
-import com.tonnybunny.domain.jtonny.dto.JTonnyResultRequestDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyNotiEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyNotiHelperEntity;
-import com.tonnybunny.domain.jtonny.entity.JTonnyResultEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -147,32 +145,5 @@ public class JTonnyService {
 
 		return true;
 	}
-
-
-	/**
-	 * 즉시 통역 결과 생성
-	 *
-	 * @param jTonnyResultRequestDto : 즉시 통역 결과 정보
-	 * @return : 생성된 결과 seq
-	 */
-	public Long createJTonnyResult(JTonnyResultRequestDto jTonnyResultRequestDto) {
-		// TODO : 로직
-
-		JTonnyResultEntity jTonnyResult = jTonnyResultRequestDto.toEntity();
-		return jTonnyResult.getSeq();
-	}
-
-
-	/**
-	 * 즉시 통역 결과 조회
-	 *
-	 * @param jTonnyResultSeq : 조회할 결과 seq
-	 * @return : 조회된 결과 Entity
-	 */
-	public JTonnyResultEntity getJTonnyResult(Long jTonnyResultSeq) {
-		// TODO : 로직
-
-		return (JTonnyResultEntity) new Object();
-	}
-
+	
 }

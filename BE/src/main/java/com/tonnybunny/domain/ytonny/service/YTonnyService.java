@@ -3,10 +3,8 @@ package com.tonnybunny.domain.ytonny.service;
 
 import com.tonnybunny.domain.ytonny.dto.YTonnyNotiHelperRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyNotiRequestDto;
-import com.tonnybunny.domain.ytonny.dto.YTonnyResultDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
-import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -123,29 +121,5 @@ public class YTonnyService {
 		// TODO : 구현
 		return true;
 	}
-
-
-	/**
-	 * 예약 통역 종료 후, 결과를 저장
-	 *
-	 * @param yTonnyResultDto : 예약 통역 완료 후 결과 정보
-	 * @return 생성한 예약 통역 결과의 Seq
-	 */
-	public Long createYTonnyResult(YTonnyResultDto yTonnyResultDto) {
-		// TODO : 구현
-		return 0L;
-	}
-
-
-	/**
-	 * 예약 통역 결과 조회
-	 *
-	 * @param yTonnyResultSeq : 조회할 예약 통역 결과 Seq
-	 * @return 예약 통역 결과
-	 */
-	public YTonnyResultEntity getYTonnyResult(Long yTonnyResultSeq) {
-		// TODO : 구현
-		return (YTonnyResultEntity) new Object();
-	}
-
+	
 }

@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BunnyResultEntity {
+public class BunnyHistoryEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bunny_result_seq")
+	@Column(name = "bunny_history_seq")
 	private Long seq;
 
 }
