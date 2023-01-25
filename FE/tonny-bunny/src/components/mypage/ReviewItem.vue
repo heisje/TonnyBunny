@@ -4,10 +4,8 @@
 
 <script>
 export default {
-    name: "Reviewitem",
-}
+    name: "ReviewItem",
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

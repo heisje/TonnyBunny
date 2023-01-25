@@ -12,12 +12,10 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-import SubText from "@/components/common/SubText.vue";
 
 export default {
     components: {
         TitleText,
-        SubText,
     },
 };
 </script>
