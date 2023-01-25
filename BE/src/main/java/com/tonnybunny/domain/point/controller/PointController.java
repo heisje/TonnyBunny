@@ -34,11 +34,9 @@ public class PointController {
 	 */
 	@PostMapping("/point-log")
 	@ApiOperation(value = "대상 유저의 포인트 로그 목록 조회", notes = "")
-	public ResponseEntity<ResultDto<List<PointLogResponseDto>>> getPointLogList(
-		@RequestBody PointLogRequestDto pointLogRequestDto) {
+	public ResponseEntity<ResultDto<List<PointLogResponseDto>>> getPointLogList(@RequestBody PointLogRequestDto pointLogRequestDto) {
 		List<PointLogEntity> pointLogList = pointService.getPointLogList(pointLogRequestDto);
-		List<PointLogResponseDto> pointLogResponseDtoList = PointLogResponseDto.fromEntityList(
-			pointLogList);
+		List<PointLogResponseDto> pointLogResponseDtoList = PointLogResponseDto.fromEntityList(pointLogList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(pointLogResponseDtoList));
 	}
 
@@ -49,8 +47,7 @@ public class PointController {
 	 */
 	@PutMapping("/points")
 	@ApiOperation(value = "포인트 변동(충전, 출금, 거래)", notes = "인자로 전달한 변동 타입(충전, 출금, 거래)에 따라 로직이 분기됨")
-	public ResponseEntity<ResultDto<Boolean>> modifyPoint(
-		@RequestBody PointRequestDto pointRequestDto) {
+	public ResponseEntity<ResultDto<Boolean>> modifyPoint(@RequestBody PointRequestDto pointRequestDto) {
 		switch (pointRequestDto.getPointRequestType()) {
 		case 충전:
 		case 출금:
