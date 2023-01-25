@@ -101,8 +101,8 @@
 					<a class="navbar-brand" href="/">
 						<img src="@/assets/logo.png" alt="" width="80" />
 					</a>
-					<div class="notification">
-						<span class="material-symbols-outlined"> notifications </span>
+					<div class="d-flex">
+						<span class="material-symbols-outlined notification"> notifications </span>
 					</div>
 					<div
 						class="offcanvas offcanvas-start text-bg-light"
@@ -234,7 +234,7 @@ export default {
 <style lang="scss" scoped>
 .notification {
 	cursor: pointer;
-	font-size: 1.5rem;
+	font-size: 1.6rem;
 	font-variation-settings: "FILL" 0, "wght" 300;
 	margin: 0;
 	padding: 0;
@@ -268,7 +268,7 @@ export default {
 		justify-content: center;
 
 		> span:nth-child(1) {
-			margin-right: 4px;
+			margin-right: 3px;
 		}
 
 		.nickName {
