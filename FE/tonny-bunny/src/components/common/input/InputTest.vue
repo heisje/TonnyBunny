@@ -31,12 +31,29 @@
             <label for="name1">textArea</label>
             <textarea type="textarea" placeholder="내용을 입력해주세요" value="" />
             <br />
+
+            <!--
+                설명
+                DropdownInput
+                dropdownList = 사용할 리스트
+                placeholder = placeholder
+                update = 선택한 후 emit으로 올려보내는 함수
+            -->
+            <DropdownInput
+                :dropdownList="['아이템1', '아이템2', '아이템3']"
+                placeholder="아이템을 선택해주세요"
+                @update="(e) => (dropdownValue = e)" />
+            {{ dropdownValue }}
         </form>
     </div>
 </template>
 <script>
+import DropdownInput from "@/components/common/input/DropdownInput.vue";
 export default {
-    components: {},
+    name: "InputTest",
+    components: {
+        DropdownInput,
+    },
     data() {
         return {
             input1: {
@@ -46,6 +63,7 @@ export default {
                 validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
                 notice: "", // 유효성검사 결과 텍스트
             },
+            dropdownValue: "",
         };
     },
     methods: {
