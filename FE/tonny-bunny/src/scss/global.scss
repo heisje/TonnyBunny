@@ -5,15 +5,19 @@
 @import "variable.scss";
 
 * {
-	font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-	box-sizing: border-box;
-	color: var(--main-color);
-	@extend .text;
+    font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    box-sizing: border-box;
+    color: var(--main-color);
+    @extend .text;
 }
 
 html,
 body {
-	margin: 0;
-	padding: 0;
-	background-color: var(--b-back-color);
+    margin: 0;
+    padding: 0;
+    background-color: var(--b-back-color);
+}
+
+#app {
+    // width: 100vw;
 }

@@ -1,308 +1,343 @@
 .cardContainer {
-	// position: relative;
-	display: inline-block;
-	background-color: var(--thin-color);
+    // position: relative;
+    display: inline-block;
+    background-color: var(--thin-color);
 
-	width: 332px;
-	border-radius: 8px;
-	margin: 8px;
-	padding: 16px;
+    width: 332px;
+    border-radius: 8px;
+    margin: 8px;
+    padding: 16px;
 
-	box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.08);
 }
 
 .cardWrap {
-	// display: grid;
+    // display: grid;
 }
 
 .helperCard {
-	display: flex;
-	flex-direction: column;
-	position: relative;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 
-	.helperInfo {
-		display: flex;
-		cursor: default;
-		align-items: center;
-		.helperProfile {
-			display: flex;
-			flex-direction: column;
+    .helperInfo {
+        display: flex;
+        cursor: default;
+        align-items: center;
+        .helperProfile {
+            display: flex;
+            flex-direction: column;
 
-			.profileImg {
-				margin: 0 16px 8px 0;
-				cursor: pointer;
-				border-radius: 100%;
-				box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-				// border: 2px solid var(--main-color);
-			}
+            .profileImg {
+                margin: 0 16px 8px 0;
+                cursor: pointer;
+                border-radius: 100%;
+                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+                // border: 2px solid var(--main-color);
+            }
 
-			.likeBtn {
-				display: flex;
-				width: 50px;
-				justify-content: center;
-				align-items: center;
-				cursor: pointer;
+            .likeBtn {
+                display: flex;
+                width: 50px;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
 
-				.likeIcon {
-					color: var(--danger-color);
-					font-size: 1.25rem;
-					font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 10;
-					margin-right: 4px;
-					// cursor: pointer;
-					transition: all 0.13s;
-				}
-				.empty {
-					// color: var(--sub-color);
-					font-variation-settings: "FILL" 0;
-				}
+                .likeIcon {
+                    color: var(--danger-color);
+                    font-size: 1.25rem;
+                    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 10;
+                    margin-right: 4px;
+                    // cursor: pointer;
+                    transition: all 0.13s;
+                }
+                .empty {
+                    // color: var(--sub-color);
+                    font-variation-settings: "FILL" 0;
+                }
 
-				.likeText {
-					color: var(--sub-color);
-					// cursor: pointer;
-					transition: all 0.13s;
-				}
+                .likeText {
+                    color: var(--sub-color);
+                    // cursor: pointer;
+                    transition: all 0.13s;
+                }
 
-				&:hover {
-					.likeIcon {
-						color: #fc5148;
-						font-variation-settings: "FILL" 1;
-					}
+                &:hover {
+                    .likeIcon {
+                        color: #fc5148;
+                        font-variation-settings: "FILL" 1;
+                    }
 
-					.likeText {
-						color: var(--main-color);
-					}
-				}
-			}
-		}
+                    .likeText {
+                        color: var(--main-color);
+                    }
+                }
+            }
+        }
 
-		.helperDesc {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
+        .helperDesc {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
 
-			.helperNick {
-				display: flex;
-				flex-direction: column;
-				margin-top: 8px;
+            .helperNick {
+                display: flex;
+                flex-direction: column;
+                margin-top: 8px;
 
-				.nickName {
-					margin-bottom: 4px;
-				}
+                .nickName {
+                    margin-bottom: 4px;
+                }
 
-				.oneLine {
-					color: var(--sub-color);
-					width: 200px;
-					word-break: break-all;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					margin-bottom: 4px;
-				}
-			}
+                .oneLine {
+                    color: var(--sub-color);
+                    width: 200px;
+                    word-break: break-all;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin-bottom: 4px;
+                }
+            }
 
-			.helperSkill {
-				display: flex;
-				// justify-content: space-between;
-				justify-content: space-around;
-				width: 94%;
-				margin-top: 4px;
-				margin-bottom: 16px;
+            .helperSkill {
+                display: flex;
+                // justify-content: space-between;
+                justify-content: space-around;
+                width: 94%;
+                margin-top: 4px;
+                margin-bottom: 16px;
 
-				background-color: var(--light-color);
-				border-radius: 8px;
-				padding: 8px 0px;
+                background-color: var(--light-color);
+                border-radius: 8px;
+                padding: 8px 0px;
 
-				// div {
-				// 	margin-right: 8px;
-				// }
+                // div {
+                // 	margin-right: 8px;
+                // }
 
-				.fare {
-					h5 {
-						// color: var(--sub-color);
-					}
+                .fare {
+                    h5 {
+                        // color: var(--sub-color);
+                    }
 
-					.fareText {
-						font-size: 1rem;
-						font-weight: 600;
-						// color: var(--primary-color);
-					}
-				}
+                    .fareText {
+                        font-size: 1rem;
+                        font-weight: 600;
+                        // color: var(--primary-color);
+                    }
+                }
 
-				.reviewGrade {
-					.star {
-						display: flex;
-						.starIcon {
-							font-size: 1.1rem;
-							font-variation-settings: "FILL" 1, "wght" 700;
-							margin-right: 4px;
-						}
+                .reviewGrade {
+                    .star {
+                        display: flex;
+                        .starIcon {
+                            font-size: 1.1rem;
+                            font-variation-settings: "FILL" 1, "wght" 700;
+                            margin-right: 4px;
+                        }
 
-						.starText {
-							font-size: 1rem;
-							font-weight: 600;
-							// color: var(--primary-color);
-						}
-					}
-				}
+                        .starText {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            // color: var(--primary-color);
+                        }
+                    }
+                }
 
-				.reviewCount {
-					.countText {
-						font-size: 1rem;
-						font-weight: 600;
-						// color: var(--primary-color);
-					}
-				}
-			}
-		}
-	}
+                .reviewCount {
+                    .countText {
+                        font-size: 1rem;
+                        font-weight: 600;
+                        // color: var(--primary-color);
+                    }
+                }
+            }
+        }
+    }
 
-	.helperBtns {
-		display: flex;
-		justify-content: flex-end;
+    .helperBtns {
+        display: flex;
+        justify-content: flex-end;
 
-		div {
-			padding-left: 8px;
-		}
-	}
+        div {
+            padding-left: 8px;
+        }
+    }
 }
 
 .questCard {
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	cursor: default;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: default;
 
-	.questTag {
-		display: flex;
-		justify-content: space-between;
+    .questTag {
+        display: flex;
+        justify-content: space-between;
 
-		.tags > div {
-			margin-right: 6px;
-		}
+        .tags > div {
+            margin-right: 6px;
+        }
 
-		.process {
-			// margin-right: 24px;
-		}
-	}
+        .process {
+            // margin-right: 24px;
+        }
+    }
 
-	.questProfile {
-		display: flex;
-		justify-content: space-evenly;
-		align-items: center;
+    .questProfile {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
 
-		background-color: var(--light-color);
-		border-radius: 8px;
-		padding: 8px 0px;
-		margin: 8px 0;
+        background-color: var(--light-color);
+        border-radius: 8px;
+        padding: 8px 0px;
+        margin: 8px 0;
 
-		.profile {
-			display: flex;
-			align-items: center;
+        .profile {
+            display: flex;
+            align-items: center;
 
-			img {
-				border-radius: 100%;
-				box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-			}
-		}
+            img {
+                border-radius: 100%;
+                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+            }
+        }
 
-		div:nth-child(1) {
-			img {
-				margin-right: 8px;
-			}
-		}
-		div:nth-child(2) {
-			span {
-				font-size: 1.3rem;
-				color: var(--sub-color);
-			}
-		}
-		div:nth-child(3) {
-			img {
-				margin-left: 8px;
-			}
-		}
-	}
+        div:nth-child(1) {
+            img {
+                margin-right: 8px;
+            }
+        }
+        div:nth-child(2) {
+            span {
+                font-size: 1.3rem;
+                color: var(--sub-color);
+            }
+        }
+        div:nth-child(3) {
+            img {
+                margin-left: 8px;
+            }
+        }
+    }
 
-	.questInfo {
-		padding: 6px;
+    .questInfo {
+        padding: 6px;
 
-		.infoDesc {
-			margin-bottom: 8px;
+        .infoDesc {
+            margin-bottom: 8px;
 
-			.title {
-				// font-size: 1rem;
-			}
-			.sub {
-				font-size: 0.8rem;
-				color: var(--sub-color);
-			}
-		}
+            .title {
+                // font-size: 1rem;
+            }
+            .sub {
+                font-size: 0.8rem;
+                color: var(--sub-color);
+            }
+        }
 
-		.infoDate {
-			.jtonnyDate,
-			.ytonnyDate {
-				display: flex;
-				margin-bottom: 8px;
+        .infoDate {
+            .jtonnyDate,
+            .ytonnyDate {
+                display: flex;
+                margin-bottom: 8px;
 
-				div {
-					width: 50%;
-					display: flex;
-					flex-direction: column;
-				}
+                div {
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                }
 
-				.date {
-				}
-				.time {
-				}
-			}
-		}
+                .date {
+                }
+                .time {
+                }
+            }
+        }
 
-		.infoBottom {
-			margin-bottom: 16px;
-			display: flex;
+        .infoBottom {
+            margin-bottom: 16px;
+            display: flex;
 
-			div {
-				width: 50%;
-			}
-		}
-	}
+            div {
+                width: 50%;
+            }
+        }
+    }
 
-	.questBtns {
-		display: flex;
-		justify-content: flex-end;
+    .questBtns {
+        display: flex;
+        justify-content: flex-end;
 
-		div {
-			padding-left: 8px;
-		}
-	}
+        div {
+            padding-left: 8px;
+        }
+    }
 }
 
 .closeBtn {
-	position: absolute;
-	// top: 0;
-	// z-index: 99;
-	float: right;
-	top: -6px;
-	right: -6px;
+    position: absolute;
+    // top: 0;
+    // z-index: 99;
+    float: right;
+    top: -6px;
+    right: -6px;
 
-	cursor: pointer;
+    cursor: pointer;
 
-	span {
-		transition: all 0.13s;
-		color: var(--sub-color);
-	}
+    span {
+        transition: all 0.13s;
+        color: var(--sub-color);
+    }
 
-	&:hover {
-		// opacity: 0.8;
+    &:hover {
+        // opacity: 0.8;
 
-		span {
-			color: var(--main-color);
-		}
-	}
+        span {
+            color: var(--main-color);
+        }
+    }
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
-	.cardContainer {
-		width: 85%;
-	}
+@media only screen and (min-device-width: 280px) and (max-device-width: 768px) {
+    .cardContainer {
+        width: 95%;
+    }
+
+    .helperInfo {
+        // width: 70%;
+
+        .helperDesc {
+            .helperNick {
+                .oneLine {
+                    // width: 50px;
+                    // background-color: red;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (min-device-width: 100px) and (max-device-width: 280px) {
+    .helperInfo {
+        width: 70%;
+
+        .helperDesc {
+            // background-color: red;
+
+            .helperNick {
+                .oneLine {
+                    // width: 50px;
+                    // background-color: red;
+                }
+            }
+
+            .helperSkill {
+                // width: 50px;
+                // background-color: blue;
+            }
+        }
+    }
 }
