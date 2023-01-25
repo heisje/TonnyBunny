@@ -1,23 +1,23 @@
 <template>
-	<div>
-		<h1>홈 - 메인</h1>
+    <div>
+        <h1>홈 - 메인</h1>
 
-		<!-- part1 -->
-		<tag-test></tag-test>
-		<!-- <hr /> -->
-		<modal-test></modal-test>
-		<!-- <hr /> -->
-		<button-test></button-test>
-		<!-- <hr /> -->
-		<card-test></card-test>
-		<hr />
+        <!-- part1 -->
+        <tag-test></tag-test>
+        <!-- <hr /> -->
+        <modal-test></modal-test>
+        <!-- <hr /> -->
+        <!-- <button-test></button-test> -->
+        <!-- <hr /> -->
+        <card-test></card-test>
+        <hr />
 
-		<!-- part2 -->
-		<input-test />
-		<!-- <tag-test></tag-test> -->
-	</div>
+        <!-- part2 -->
+        <input-test />
+        <!-- <tag-test></tag-test> -->
+    </div>
 
-	<!-- <div>
+    <!-- <div>
         통역
         <MainBtn />
         번역
@@ -47,7 +47,7 @@
         <QuickBtn />
     </div> -->
 
-	<!-- <button-test></button-test> -->
+    <!-- <button-test></button-test> -->
 </template>
 
 <script>
@@ -66,22 +66,22 @@ import CardTest from "@/components/common/card/CardTest.vue";
 // import ButtonTest from "@/components/common/button/ButtonTest.vue";
 
 export default {
-	name: "HomePage",
+    name: "HomePage",
 
-	components: {
-		TagTest,
-		ModalTest,
-		ButtonTest,
-		InputTest,
-		CardTest
+    components: {
+        TagTest,
+        ModalTest,
+        ButtonTest,
+        InputTest,
+        CardTest,
 
-		// MainBtn,
-		// QuestList,
-		// ScheduleList,
-		// BoardList,
-		// QuickBtn,
-		// ButtonTest,
-	}
+        // MainBtn,
+        // QuestList,
+        // ScheduleList,
+        // BoardList,
+        // QuickBtn,
+        // ButtonTest,
+    },
 };
 </script>
 
