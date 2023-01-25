@@ -30,8 +30,7 @@ public class ReviewController {
 	public ResponseEntity<?> getReviewList() {
 
 		List<ReviewEntity> reviewList = reviewService.getReviewList();
-		List<ReviewResponseDto> reviewResponseDtoList = ReviewResponseDto.fromEntityList(
-			reviewList);
+		List<ReviewResponseDto> reviewResponseDtoList = ReviewResponseDto.fromEntityList(reviewList);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(reviewResponseDtoList));
 	}

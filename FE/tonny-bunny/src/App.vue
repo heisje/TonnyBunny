@@ -1,37 +1,37 @@
 <template>
-	<router-view name="header"></router-view>
-	<main class="container">
-		<router-view></router-view>
-	</main>
-	<router-view name="footer"></router-view>
-	<bottom-navbar />
+    <router-view name="header"></router-view>
+    <main class="container">
+        <router-view></router-view>
+        <bottom-navbar />
+    </main>
+    <router-view name="footer"></router-view>
 </template>
 
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import BottomNavbar from "./components/common/bottomNavbar.vue";
+import BottomNavbar from "@/pages/common/BottomNavbar.vue";
 
 export default {
-	name: "App",
+    name: "App",
 
-	components: { BottomNavbar },
+    components: { BottomNavbar },
 
-	data() {
-		return {
-			tt: 200
-		};
-	},
+    data() {
+        return {
+            tt: 200,
+        };
+    },
 
-	setup() {
-		const store = useStore();
+    setup() {
+        const store = useStore();
 
-		// console.log(store);
-		const counter = computed(() => store.state.counter);
-		const count = store.state.temp.count;
+        // console.log(store);
+        const counter = computed(() => store.state.counter);
+        const count = store.state.temp.count;
 
-		return { counter, count };
-	}
+        return { counter, count };
+    },
 };
 </script>
 

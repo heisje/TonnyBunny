@@ -1,134 +1,153 @@
 @import "variable.scss";
 
 .btnWrap {
-	display: inline-block;
+    display: inline-block;
 }
 
 .btn {
-	// 버튼 기본 설정
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-decoration: none;
-	transition: all 0.15s;
-	cursor: pointer;
+    // 버튼 기본 설정
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.15s;
+    cursor: pointer;
 
-	//아래로 버튼 종류
-	&.large {
-		position: fixed;
-		width: 100vw !important;
-		height: 48px;
-		bottom: 60px;
-		left: 0;
-		margin: 0;
-		z-index: 98;
-		border-radius: 0;
-	}
-	&.medium {
-		width: 328px;
-		height: 36px;
-		border-radius: 4px;
-	}
-	&.small {
-		width: 83px;
-		height: 41px;
-		border-radius: 4px;
-	}
-	&.xsmall {
-		width: 80px;
-		height: 24px;
-		border-radius: 6px;
+    //아래로 버튼 종류
+    &.large {
+        position: fixed;
+        width: 100vw !important;
+        height: 48px;
+        bottom: 60px;
+        left: 0;
+        padding: 0;
+        // margin: auto 0;
+        z-index: 98;
+        border-radius: 0;
+    }
+    &.medium {
+        width: 328px;
+        height: 36px;
+        border-radius: 4px;
+    }
+    &.small {
+        width: 83px;
+        height: 41px;
+        border-radius: 4px;
+    }
+    &.xsmall {
+        width: 80px;
+        height: 24px;
+        border-radius: 6px;
 
-		span {
-			font-weight: 400;
-		}
-	}
+        span {
+            font-weight: 400;
+        }
+    }
 
-	//아래로 버튼 색
-	&.carrot {
-		background: var(--carrot-color);
-	}
-	&.primary {
-		background-color: var(--primary-color);
-	}
-	&.info {
-		background-color: var(--info-color);
-	}
-	&.success {
-		background-color: var(--success-color);
-	}
-	&.danger {
-		background-color: var(--danger-color);
-	}
-	&.warning {
-		background-color: var(--warning-color);
-	}
-	&.active {
-		background-color: var(--active-color);
-	}
-	&.main {
-		background-color: var(--main-color);
-	}
-	&.sub {
-		background-color: var(--sub-color);
-	}
-	&.disable {
-		background-color: var(--disable-color);
-	}
-	&.light {
-		background-color: var(--light-color);
-	}
-	&.thin {
-		background-color: var(--thin-color);
-	}
-	&.white {
-		background-color: var(--white-color);
-	}
-	&.background {
-		background-color: var(--background-color);
-	}
-	&.outline {
-		border: 1px solid var(--main-color);
-		background-color: var(--background-color);
-	}
+    //아래로 버튼 색
+    &.carrot {
+        background: var(--carrot-color);
+    }
+    &.primary {
+        background-color: var(--primary-color);
+    }
+    &.info {
+        background-color: var(--info-color);
+    }
+    &.success {
+        background-color: var(--success-color);
+    }
+    &.danger {
+        background-color: var(--danger-color);
+    }
+    &.warning {
+        background-color: var(--warning-color);
+    }
+    &.active {
+        background-color: var(--active-color);
+    }
+    &.main {
+        background-color: var(--main-color);
+    }
+    &.sub {
+        background-color: var(--sub-color);
+    }
+    &.disable {
+        background-color: var(--disable-color);
+    }
+    &.light {
+        background-color: var(--light-color);
+    }
+    &.thin {
+        background-color: var(--thin-color);
+    }
+    &.white {
+        background-color: var(--white-color);
+    }
+    &.background {
+        background-color: var(--background-color);
+    }
+    &.outline {
+        border: 1px solid var(--main-color);
+        background-color: var(--background-color);
+    }
 
-	//아래로 폰트 색
-	span {
-		// cursor: pointer;
+    //아래로 폰트 색
+    span {
+        // cursor: pointer;
 
-		@extend .h4;
-		&.carrot {
-			color: var(--carrot-color);
-		}
-		&.active {
-			color: var(--active-color);
-			font-weight: 800;
-		}
-		&.main {
-			color: var(--main-color);
-			font-weight: 800;
-		}
-		&.sub {
-			color: var(--sub-color);
-		}
-		&.disable {
-			color: var(--disable-color);
-		}
-		&.light {
-			color: var(--light-color);
-		}
-		&.thin {
-			color: var(--thin-color);
-		}
-		&.white {
-			color: var(--white-color);
-		}
-		&.background {
-			color: var(--background-color);
-		}
-	}
+        @extend .h4;
+        &.carrot {
+            color: var(--carrot-color);
+        }
+        &.active {
+            color: var(--active-color);
+            font-weight: 800;
+        }
+        &.main {
+            color: var(--main-color);
+            font-weight: 800;
+        }
+        &.sub {
+            color: var(--sub-color);
+        }
+        &.disable {
+            color: var(--disable-color);
+        }
+        &.light {
+            color: var(--light-color);
+        }
+        &.thin {
+            color: var(--thin-color);
+        }
+        &.white {
+            color: var(--white-color);
+        }
+        &.background {
+            color: var(--background-color);
+        }
+    }
 
-	&:hover {
-		opacity: 0.9;
-	}
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+// @media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
+//     .btn {
+//         &.large {
+//             width: 100vw;
+//             left: 0;
+//             right: 0;
+//         }
+//     }
+// }
+
+@media (min-width: 1200px) {
+    .btn {
+        &.large {
+            bottom: 0;
+        }
+    }
 }
