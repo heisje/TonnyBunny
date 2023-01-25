@@ -1,5 +1,18 @@
 <template>
     <div>
+        <title-banner
+            title="🐰 실시간 동시 통역"
+            text="실시간으로 필요한 통역 서비스를 신청합니다" />
+
+        <title-text
+            important
+            type="h1"
+            title="Default Title"
+            text="Description"
+            top="36"
+            bottom="12" />
+        <title-text title="Default Title" text="Description" />
+
         <h1>홈 - 메인</h1>
 
         <!-- part1 -->
@@ -57,7 +70,8 @@ import ModalTest from "@/components/common/modal/ModalTest.vue";
 import ButtonTest from "@/components/common/button/ButtonTest.vue";
 import InputTest from "@/components/common/input/InputTest.vue";
 import CardTest from "@/components/common/card/CardTest.vue";
-
+import TitleBanner from "@/components/common/TitleBanner.vue";
+import TitleText from "@/components/common/TitleText.vue";
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -74,7 +88,8 @@ export default {
         ButtonTest,
         InputTest,
         CardTest,
-
+        TitleBanner,
+        TitleText,
         // MainBtn,
         // QuestList,
         // ScheduleList,
