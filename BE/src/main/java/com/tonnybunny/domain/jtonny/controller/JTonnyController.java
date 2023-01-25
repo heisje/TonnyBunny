@@ -2,10 +2,12 @@ package com.tonnybunny.domain.jtonny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.jtonny.dto.*;
+import com.tonnybunny.domain.jtonny.dto.JTonnyNotiHelperRequestDto;
+import com.tonnybunny.domain.jtonny.dto.JTonnyNotiHelperResponseDto;
+import com.tonnybunny.domain.jtonny.dto.JTonnyNotiRequestDto;
+import com.tonnybunny.domain.jtonny.dto.JTonnyNotiResponseDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyNotiEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyNotiHelperEntity;
-import com.tonnybunny.domain.jtonny.entity.JTonnyResultEntity;
 import com.tonnybunny.domain.jtonny.service.JTonnyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -197,39 +199,6 @@ public class JTonnyController {
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
 		}
-	}
-
-	// --------------------- 즉시 통역 공고 결과 ---------------------
-
-
-	/**
-	 * 즉시 통역 결과 생성
-	 *
-	 * @param jTonnyResultRequestDto : 즉시 통역 결과 정보
-	 * @return : 생성된 결과 seq
-	 */
-	@PostMapping("/result")
-	@ApiOperation(value = "즉시 통역 결과 생성")
-	public ResponseEntity<ResultDto<Long>> createJTonnyResult(@RequestBody JTonnyResultRequestDto jTonnyResultRequestDto) {
-
-		Long jTonnyResultSeq = jTonnyService.createJTonnyResult(jTonnyResultRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(jTonnyResultSeq));
-	}
-
-
-	/**
-	 * 즉시 통역 결과 조회
-	 *
-	 * @param jTonnyResultSeq " 조회할 결과 seq
-	 * @return : 조회된 결과 Response Dto
-	 */
-	@GetMapping("/result/{jTonnyResultSeq}")
-	@ApiOperation(value = "즉시 통역 결과 조회")
-	public ResponseEntity<ResultDto<JTonnyResultResponseDto>> getJTonnyResult(@PathVariable("jTonnyResultSeq") Long jTonnyResultSeq) {
-
-		JTonnyResultEntity jTonnyResult = jTonnyService.getJTonnyResult(jTonnyResultSeq);
-		JTonnyResultResponseDto jTonnyResultResponseDto = JTonnyResultResponseDto.fromEntity(jTonnyResult);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(jTonnyResultResponseDto));
 	}
 
 }

@@ -2,10 +2,12 @@ package com.tonnybunny.domain.ytonny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.ytonny.dto.*;
+import com.tonnybunny.domain.ytonny.dto.YTonnyNotiHelperRequestDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyNotiHelperResponseDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyNotiRequestDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyNotiResponseDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
-import com.tonnybunny.domain.ytonny.entity.YTonnyResultEntity;
 import com.tonnybunny.domain.ytonny.service.YTonnyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -100,24 +102,7 @@ public class YTonnyController {
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
-
-
-	@PostMapping("/result")
-	@ApiOperation(value = "예약 통역 종료 후, 결과를 저장", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyResult(@RequestBody YTonnyResultDto yTonnyResultDto) {
-		Long createdYTonnyResultSeq = yTonnyService.createYTonnyResult(yTonnyResultDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdYTonnyResultSeq));
-	}
-
-
-	@GetMapping("/result/{yTonnyResultSeq}")
-	@ApiOperation(value = "예약 통역 결과 조회", notes = "")
-	public ResponseEntity<ResultDto<YTonnyResultDto>> getYTonnyResult(@PathVariable("yTonnyResultSeq") Long yTonnyResultSeq) {
-		YTonnyResultEntity yTonnyResult = yTonnyService.getYTonnyResult(yTonnyResultSeq);
-		YTonnyResultDto yTonnyResultDto = YTonnyResultDto.fromEntity(yTonnyResult);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResultDto));
-	}
-
+	
 	// TODO : 예약 통역 결과 목록 조회 API도 필요한가? 아니면 히스토리 Controller에서 추가?
 	//  만약 추가한다면, 고객 userSeq로 조회 메소드 & 헬퍼 userSeq로 조회 메소드 총 2개가 있어야 할 듯
 }

@@ -233,19 +233,19 @@ public class UserController {
 	 */
 	@GetMapping("/mypage/{userSeq}/history")
 	@ApiOperation(value = "히스토리 목록을 조회합니다")
-	public ResponseEntity<ResultDto<List<HistoryResponseDto>>> getUserHistoryList(@PathVariable("userSeq") Long userSeq) {
+	public ResponseEntity<ResultDto<List<HistoryDto>>> getUserHistoryList(@PathVariable("userSeq") Long userSeq) {
 		List<HistoryEntity> historyEntityList = userService.getUserHistoryList(userSeq);
-		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(historyEntityList);
+		List<HistoryDto> historyResponseDtoList = HistoryDto.fromEntityList(historyEntityList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDtoList));
 	}
 
 
 	@GetMapping("/mypage/{userSeq}/history/{historySeq}")
 	@ApiOperation(value = "히스토리 하나를 조회합니다")
-	public ResponseEntity<ResultDto<HistoryResponseDto>> getUserHistory(@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) {
+	public ResponseEntity<ResultDto<HistoryDto>> getUserHistory(@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) {
 		HistoryEntity historyEntity = userService.getUserHistory(userSeq, historySeq);
-		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(historyEntity);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
+		HistoryDto historyDto = HistoryDto.fromEntity(historyEntity);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyDto));
 	}
 
 	// ------------------------------ 헬퍼 프로필 ---------------------------------------

@@ -3,10 +3,8 @@ package com.tonnybunny.domain.bunny.service;
 
 import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyNotiRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyResultRequestDto;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
-import com.tonnybunny.domain.bunny.entity.BunnyResultEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -156,33 +154,6 @@ public class BunnyService {
 		// TODO : 로직
 
 		return true;
-	}
-
-
-	/**
-	 * 번역 결과 생성
-	 *
-	 * @param bunnyResultRequestDto : 번역 결과 생성 정보
-	 * @return : 생성된 결과 seq
-	 */
-	public Long createBunnyResult(BunnyResultRequestDto bunnyResultRequestDto) {
-		// TODO : 로직
-
-		BunnyResultEntity bunnyResult = bunnyResultRequestDto.toEntity();
-		return bunnyResult.getSeq();
-	}
-
-
-	/**
-	 * 번역 결과 조회
-	 *
-	 * @param bunnyResultSeq : 조회할 결과 seq
-	 * @return : 조회된 결과 Entity
-	 */
-	public BunnyResultEntity getBunnyResult(Long bunnyResultSeq) {
-		// TODO : 로직
-
-		return (BunnyResultEntity) new Object();
 	}
 
 }
