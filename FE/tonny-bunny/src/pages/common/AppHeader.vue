@@ -1,14 +1,14 @@
 <template>
     <div>
         <div class="navBar d-lg-block d-none">
-            <nav class="navbar navbar-white bg-light">
+            <nav class="navbar navbar-white">
                 <div class="container-fluid container">
                     <div class="d-flex">
                         <a class="navbar-brand" href="/">
                             <img src="@/assets/logo.png" alt="" width="100" />
                         </a>
 
-                        <div>
+                        <div class="navBarTexts d-flex">
                             <ul class="navbar-nav flex-row">
                                 <li class="">
                                     <router-link
@@ -21,26 +21,46 @@
 
                                 <li class="">
                                     <router-link
-                                        :to="{ name: 'home' }"
+                                        :to="{ name: 'intro' }"
                                         class="nav-link active"
                                         aria-current="page">
-                                        <h2>HOME</h2>
+                                        <h2>토니버니란?</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="">
                                     <router-link
-                                        :to="{ name: 'home' }"
+                                        :to="{ name: 'tonny' }"
                                         class="nav-link active"
                                         aria-current="page">
-                                        <h2>HOME</h2>
+                                        <h2>통역하기</h2>
+                                    </router-link>
+                                </li>
+
+                                <li class="">
+                                    <router-link
+                                        :to="{ name: 'bunny' }"
+                                        class="nav-link active"
+                                        aria-current="page">
+                                        <h2>번역하기</h2>
+                                    </router-link>
+                                </li>
+
+                                <li class="">
+                                    <router-link
+                                        :to="{ name: 'board' }"
+                                        class="nav-link active"
+                                        aria-current="page">
+                                        <h2>커뮤니티</h2>
                                     </router-link>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="navBarProfile">
+                        <span class="material-symbols-outlined"> notifications </span>
+                        <span>닉네임 <span>님</span></span>
                         <img src="@/assets/noProfile.png" width="40" height="40" />
                     </div>
                 </div>
@@ -180,13 +200,36 @@ export default {};
 .notification {
     cursor: pointer;
 }
-.navbar {
-    margin-bottom: 24px;
-    padding: 8px;
 
+.navBar {
     .navbar-nav {
         padding: 0 12px;
+        display: flex;
+        align-items: center;
+
+        h2 {
+            color: var(--main-color);
+            font-weight: 400;
+            font-size: 1.1rem;
+            margin-right: 16px;
+        }
     }
+    .navBarProfile {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+            margin-right: 8px;
+        }
+    }
+}
+.navbar {
+    background-color: var(--background-color);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom: 32px;
+    padding: 16px;
 }
 
 .dropdown {
@@ -198,10 +241,16 @@ export default {};
     .dropdown-toggle {
         display: flex;
         align-items: center;
+        background-color: transparent;
+        border: none;
         // justify-content: space-between;
 
         img {
             margin-right: 8px;
+        }
+
+        &:hover {
+            border: none;
         }
     }
 
@@ -212,6 +261,9 @@ export default {};
     }
 }
 
+.navBarMobile {
+    background-color: var(--background-color);
+}
 // @media (min-width: 1200px) {
 //     .navBarMobile {
 //         display: none;
