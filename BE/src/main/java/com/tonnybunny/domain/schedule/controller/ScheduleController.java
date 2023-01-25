@@ -26,7 +26,7 @@ public class ScheduleController {
 
 
 	@GetMapping
-	@ApiOperation(value = "특정 날짜의 일정 목록을 조회합니다.", notes = "")
+	@ApiOperation(value = "특정 날짜의 일정 목록을 조회합니다.", notes = "조회하고 싶은 날짜의 연, 월, 일 정보를 보냅니다.")
 	public ResponseEntity<ResultDto<List<ScheduleResponseDto>>> getScheduleList(@RequestBody ScheduleRequestDto scheduleRequestDto) {
 		List<ScheduleEntity> scheduleList = scheduleService.getScheduleList(scheduleRequestDto);
 		List<ScheduleResponseDto> scheduleResponseDtoList = ScheduleResponseDto.fromEntityList(scheduleList);
