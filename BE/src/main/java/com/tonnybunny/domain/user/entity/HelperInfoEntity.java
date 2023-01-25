@@ -33,6 +33,13 @@ public class HelperInfoEntity extends CommonEntity {
 	private String oneLineIntroduction;
 	private String introduction;
 
+	// 연결
+	@OneToMany(mappedBy = "helperInfo")
+	private List<PossibleLanguageEntity> possibleLanguageList = new ArrayList<>(); // 사용언어
+
+	@OneToMany(mappedBy = "helperInfo")
+	private List<CertificateEntity> certificateList = new ArrayList<>(); // 자격증
+
 	@OneToMany(mappedBy = "helperInfo")
 	private List<HelperInfoImageEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
 
