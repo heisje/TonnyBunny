@@ -4,6 +4,9 @@ package com.tonnybunny.domain.user.entity;
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.entity.AlertSettingsEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
 import com.tonnybunny.domain.chat.entity.ChatLogEntity;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyResultEntity;
@@ -101,13 +104,29 @@ public class UserEntity extends CommonEntity {
 
 	// 채팅방
 
-	@OneToMany(mappedBy = "helper")
-	private List<ChatRoomEntity> helperChatRoomList = new ArrayList<>(); // 헬퍼 쪽 채팅방 리스트
-
 	@OneToMany(mappedBy = "client")
 	private List<ChatRoomEntity> clientChatRoomList = new ArrayList<>(); // 고객 쪽 채팅방 리스트
 
+	@OneToMany(mappedBy = "helper")
+	private List<ChatRoomEntity> helperChatRoomList = new ArrayList<>(); // 헬퍼 쪽 채팅방 리스트
+
 	@OneToMany(mappedBy = "user")
 	private List<ChatLogEntity> chatLogList = new ArrayList<>(); // 채팅 로그 리스트
+
+	// 번역 공고
+
+	@OneToMany(mappedBy = "user")
+	private List<BunnyNotiEntity> bunnyNotiList = new ArrayList<>(); // 번역 공고 리스트
+
+	@OneToMany(mappedBy = "user")
+	private List<BunnyNotiHelperEntity> bunnyNotiHelperList = new ArrayList<>(); // 번역 공고 신청 헬퍼 리스트
+
+	// 번역 요청 견적서 관련
+
+	@OneToMany(mappedBy = "client")
+	private List<BunnyQuotationEntity> clientBunnyQuotationList = new ArrayList<>(); // 고객 측 번역 요청 견적서 리스트
+
+	@OneToMany(mappedBy = "helper")
+	private List<BunnyQuotationEntity> helperBunnyQuotationList = new ArrayList<>(); // 헬퍼 측 번역 요청 견적서 리스트
 
 }
