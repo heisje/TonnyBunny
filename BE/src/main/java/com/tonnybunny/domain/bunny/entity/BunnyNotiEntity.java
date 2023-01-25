@@ -48,4 +48,8 @@ public class BunnyNotiEntity extends CommonEntity {
 	@OneToMany(mappedBy = "bunnyNoti")
 	private List<BunnyNotiImageEntity> bunnyNotiImageList = new ArrayList<>();
 
+	// 번역 공고 견적서 리스트
+	@OneToMany(mappedBy = "bunnyNoti")
+	private List<BunnyQuotationEntity> bunnyQuotationList = new ArrayList<>();
+
 }
