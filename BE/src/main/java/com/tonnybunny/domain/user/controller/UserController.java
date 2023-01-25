@@ -141,8 +141,7 @@ public class UserController {
 
 	@PutMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 수정합니다")
-	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq,
-		@RequestBody UserRequestDto userRequestDto) {
+	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq, @RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
 	}
@@ -150,8 +149,7 @@ public class UserController {
 
 	@DeleteMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 삭제합니다")
-	public ResponseEntity<ResultDto<Boolean>> deleteUserInfo(
-		@PathVariable("userSeq") Long userSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteUserInfo(@PathVariable("userSeq") Long userSeq) {
 		Boolean isSuccess = userService.deleteUserInfo(userSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -165,8 +163,7 @@ public class UserController {
 
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
-	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq,
-		@PathVariable("followSeq") Long followSeq) {
+	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq, @PathVariable("followSeq") Long followSeq) {
 		Boolean isSuccess = userService.createBookmark(userSeq, followSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -178,8 +175,7 @@ public class UserController {
 
 	@DeleteMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
-	public ResponseEntity<ResultDto<Boolean>> deleteBookmark(@PathVariable("userSeq") Long userSeq,
-		@PathVariable("followSeq") Long followSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteBookmark(@PathVariable("userSeq") Long userSeq, @PathVariable("followSeq") Long followSeq) {
 		Boolean isSuccess = userService.deleteBookmark(userSeq, followSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -193,8 +189,7 @@ public class UserController {
 
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저를 차단합니다")
-	public ResponseEntity<ResultDto<Boolean>> createBlock(
-		@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
+	public ResponseEntity<ResultDto<Boolean>> createBlock(@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
 		Boolean isSuccess = userService.createBlock(userSeq, blockSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -206,8 +201,7 @@ public class UserController {
 
 	@DeleteMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저 차단을 취소합니다")
-	public ResponseEntity<ResultDto<Boolean>> deleteBlock(
-		@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteBlock(@PathVariable("userSeq") Long userSeq, @PathVariable("blockSeq") Long blockSeq) {
 		Boolean isSuccess = userService.deleteBlock(userSeq, blockSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -221,8 +215,7 @@ public class UserController {
 
 	@PostMapping("/mypage/report")
 	@ApiOperation(value = "유저를 신고합니다")
-	public ResponseEntity<ResultDto<Boolean>> createReport(
-		@RequestBody ReportRequestDto reportRequestDto) {
+	public ResponseEntity<ResultDto<Boolean>> createReport(@RequestBody ReportRequestDto reportRequestDto) {
 		Boolean isSuccess = userService.createReport(reportRequestDto);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());

@@ -28,8 +28,7 @@ public class YTonnyController {
 
 	@PostMapping("/")
 	@ApiOperation(value = "고객의 예약 통역 공고 생성", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyNoti(
-		@RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
+	public ResponseEntity<ResultDto<Long>> createYTonnyNoti(@RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
 		Long createdYTonnyNotiSeq = yTonnyService.createYTonnyNoti(yTonnyNotiRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdYTonnyNotiSeq));
 	}
@@ -37,19 +36,15 @@ public class YTonnyController {
 
 	@PutMapping("/{yTonnyNotiSeq}")
 	@ApiOperation(value = "고객의 예약 통역 공고 수정", notes = "")
-	public ResponseEntity<ResultDto<Long>> modifyYTonnyNoti(
-		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq,
-		@RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
-		Long updatedYTonnyNotiSeq = yTonnyService.modifyYTonnyNoti(yTonnyNotiSeq,
-			yTonnyNotiRequestDto);
+	public ResponseEntity<ResultDto<Long>> modifyYTonnyNoti(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq, @RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
+		Long updatedYTonnyNotiSeq = yTonnyService.modifyYTonnyNoti(yTonnyNotiSeq, yTonnyNotiRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedYTonnyNotiSeq));
 	}
 
 
 	@DeleteMapping("/{yTonnyNotiSeq}")
 	@ApiOperation(value = "고객의 예약 통역 공고 취소", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNoti(
-		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNoti(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
 		yTonnyService.deleteYTonnyNoti(yTonnyNotiSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
@@ -59,16 +54,14 @@ public class YTonnyController {
 	@ApiOperation(value = "예약 통역 공고 목록 조회", notes = "")
 	public ResponseEntity<ResultDto<List<YTonnyNotiResponseDto>>> getYTonnyNotiList() {
 		List<YTonnyNotiEntity> yTonnyNotiList = yTonnyService.getYTonnyNotiList();
-		List<YTonnyNotiResponseDto> yTonnyNotiResponseDtoList = YTonnyNotiResponseDto.fromEntityList(
-			yTonnyNotiList);
+		List<YTonnyNotiResponseDto> yTonnyNotiResponseDtoList = YTonnyNotiResponseDto.fromEntityList(yTonnyNotiList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiResponseDtoList));
 	}
 
 
 	@GetMapping("/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약 통역 공고 상세 조회", notes = "")
-	public ResponseEntity<ResultDto<YTonnyNotiResponseDto>> getYTonnyNoti(
-		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
+	public ResponseEntity<ResultDto<YTonnyNotiResponseDto>> getYTonnyNoti(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
 		YTonnyNotiEntity yTonnyNoti = yTonnyService.getYTonnyNoti(yTonnyNotiSeq);
 		YTonnyNotiResponseDto yTonnyNotiResponseDto = YTonnyNotiResponseDto.fromEntity(yTonnyNoti);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiResponseDto));
@@ -77,18 +70,15 @@ public class YTonnyController {
 
 	@PostMapping("/enroll")
 	@ApiOperation(value = "헬퍼의 예약 통역 신청 등록", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyNotiHelper(
-		@RequestBody YTonnyNotiHelperRequestDto yTonnyNotiHelperRequestDto) {
-		Long craetedYTonnyNotiHelper = yTonnyService.createYTonnyNotiHelper(
-			yTonnyNotiHelperRequestDto);
+	public ResponseEntity<ResultDto<Long>> createYTonnyNotiHelper(@RequestBody YTonnyNotiHelperRequestDto yTonnyNotiHelperRequestDto) {
+		Long craetedYTonnyNotiHelper = yTonnyService.createYTonnyNotiHelper(yTonnyNotiHelperRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(craetedYTonnyNotiHelper));
 	}
 
 
 	@DeleteMapping("/enroll/{yTonnyNotiHelperSeq}")
 	@ApiOperation(value = "헬퍼의 예약 통역 신청 취소", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNotiHelper(
-		@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNotiHelper(@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
 		yTonnyService.deleteYTonnyNotiHelper(yTonnyNotiHelperSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
@@ -96,22 +86,16 @@ public class YTonnyController {
 
 	@GetMapping("/enroll/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약 통역 신청 목록 조회", notes = "")
-	public ResponseEntity<ResultDto<List<YTonnyNotiHelperResponseDto>>> getYTonnyNotiHelperList(
-		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
-		List<YTonnyNotiHelperEntity> yTonnyNotiHelperList =
-			yTonnyService.getYTonnyNotiHelperList(yTonnyNotiSeq);
-		List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperResponseDtoList = YTonnyNotiHelperResponseDto.fromEntityList(
-			yTonnyNotiHelperList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(
-			yTonnyNotiHelperResponseDtoList));
+	public ResponseEntity<ResultDto<List<YTonnyNotiHelperResponseDto>>> getYTonnyNotiHelperList(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
+		List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = yTonnyService.getYTonnyNotiHelperList(yTonnyNotiSeq);
+		List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperResponseDtoList = YTonnyNotiHelperResponseDto.fromEntityList(yTonnyNotiHelperList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiHelperResponseDtoList));
 	}
 
 
-	@DeleteMapping("/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq}")
+	@PostMapping("/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq}")
 	@ApiOperation(value = "예약 통역 공고에서 헬퍼의 신청을 수락", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> matchYTonny(
-		@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq,
-		@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> matchYTonny(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq, @PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
 		yTonnyService.matchYTonny(yTonnyNotiSeq, yTonnyNotiHelperSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
@@ -120,8 +104,7 @@ public class YTonnyController {
 
 	@PostMapping("/result")
 	@ApiOperation(value = "예약 통역 종료 후, 결과를 저장", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyResult(
-		@RequestBody YTonnyResultDto yTonnyResultDto) {
+	public ResponseEntity<ResultDto<Long>> createYTonnyResult(@RequestBody YTonnyResultDto yTonnyResultDto) {
 		Long createdYTonnyResultSeq = yTonnyService.createYTonnyResult(yTonnyResultDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdYTonnyResultSeq));
 	}
@@ -129,8 +112,7 @@ public class YTonnyController {
 
 	@GetMapping("/result/{yTonnyResultSeq}")
 	@ApiOperation(value = "예약 통역 결과 조회", notes = "")
-	public ResponseEntity<ResultDto<YTonnyResultDto>> getYTonnyResult(
-		@PathVariable("yTonnyResultSeq") Long yTonnyResultSeq) {
+	public ResponseEntity<ResultDto<YTonnyResultDto>> getYTonnyResult(@PathVariable("yTonnyResultSeq") Long yTonnyResultSeq) {
 		YTonnyResultEntity yTonnyResult = yTonnyService.getYTonnyResult(yTonnyResultSeq);
 		YTonnyResultDto yTonnyResultDto = YTonnyResultDto.fromEntity(yTonnyResult);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResultDto));
