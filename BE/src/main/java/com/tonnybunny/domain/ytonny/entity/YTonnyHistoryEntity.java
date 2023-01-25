@@ -1,4 +1,4 @@
-package com.tonnybunny.domain.jtonny.entity;
+package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
@@ -16,11 +16,11 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class JTonnyResultEntity extends CommonEntity {
+public class YTonnyHistoryEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "j_tonny_result_seq")
+	@Column(name = "y_tonny_history_seq")
 	private Long seq;
 
 	@OneToOne // 단방향 1대1 매핑
@@ -30,25 +30,21 @@ public class JTonnyResultEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_seq")
 	private UserEntity client;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
-	private LocalTime totalTime;    // 타입 체크 필요
-
-	private String tonnySituCode;
-
-	private String description;
-
+	private String title;
 	private LocalDateTime startDateTime;
-
-	private Integer unitPrice;
-	private Integer totalPrice;
-
+	private String description;
+	private LocalTime totalTime;
+	private int totalPrice;
 	private String recordVideoPath;
 
 	private String taskCode;
 	private String startLangCode;
 	private String endLangCode;
+	private String tonnySituCode;
 
 }
