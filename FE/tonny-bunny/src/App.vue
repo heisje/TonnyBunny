@@ -2,15 +2,15 @@
     <router-view name="header"></router-view>
     <main class="container">
         <router-view></router-view>
+        <bottom-navbar />
     </main>
     <router-view name="footer"></router-view>
-    <bottom-navbar />
 </template>
 
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-import BottomNavbar from "./components/common/bottomNavbar.vue";
+import BottomNavbar from "@/pages/common/BottomNavbar.vue";
 
 export default {
     name: "App",
