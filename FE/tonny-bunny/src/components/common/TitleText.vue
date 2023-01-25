@@ -1,5 +1,5 @@
 <template>
-    <div id="TitleText" :style="`margin-top:${top}px`">
+    <div id="TitleText" :style="`margin-top:${top}px`" :class="center ? 'center' : ''">
         <p v-if="important" class="important">*필수</p>
 
         <h1 v-if="type == 'h1'">{{ title }}</h1>
@@ -48,6 +48,11 @@ export default {
             default: 12,
             description: "margin-bottom",
         },
+        center: {
+            type: Boolean,
+            default: false,
+            description: "text-align-center",
+        },
     },
 };
 </script>
@@ -56,6 +61,10 @@ export default {
 @import "@/scss/variable.scss";
 #TitleText {
     margin-top: 36px;
+    width: 100%;
+    &.center {
+        text-align: center;
+    }
     .important {
         color: var(--danger-color);
     }
