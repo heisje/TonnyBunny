@@ -35,14 +35,14 @@
             <!--
                 설명
                 DropdownInput
-                dropdownList = 사용할 리스트
+                dropdownArray = 사용할 리스트
                 placeholder = placeholder
                 update = 선택한 후 emit으로 올려보내는 함수
             -->
             <DropdownInput
-                :dropdownList="['아이템1', '아이템2', '아이템3']"
+                :dropdownArray="['아이템1', '아이템2', '아이템3']"
                 placeholder="아이템을 선택해주세요"
-                @update="(e) => (dropdownValue = e)" />
+                @toggle="(e) => (dropdownValue = e)" />
             {{ dropdownValue }}
         </form>
     </div>
