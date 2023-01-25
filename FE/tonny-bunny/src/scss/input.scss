@@ -116,7 +116,16 @@
         }
     }
 
+    //dropDown 코드
     .ariaCurrent {
         color: var(--primary-color);
+    }
+    .dropdown-item:hover {
+        background-color: var(--primary-color);
+        color: var(--white-color);
+    }
+    .dropdown-item:active {
+        background-color: var(--primary-color);
+        color: var(--white-color);
     }
 }
