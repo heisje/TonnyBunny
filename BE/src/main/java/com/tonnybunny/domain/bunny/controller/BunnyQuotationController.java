@@ -27,35 +27,46 @@ public class BunnyQuotationController {
 
 
 	@PostMapping("/")
-	@ApiOperation(value = "번역 견적서 생성", tags = "")
-	public ResponseEntity<ResultDto<Long>> createBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
-		Long createdBunnyQuotation = bunnyQuotationService.createBunnyQuotation(bunnyQuotationRequestDto);
+	@ApiOperation(value = "번역 견적서 생성")
+	public ResponseEntity<ResultDto<Long>> createBunnyQuotation(
+		@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+		Long createdBunnyQuotation = bunnyQuotationService.createBunnyQuotation(
+			bunnyQuotationRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdBunnyQuotation));
 	}
 
 
 	// FIXME : 신청 기준 Seq를 변경해야 함
 	@GetMapping("/{bunnyNotiSeq}")
-	@ApiOperation(value = "번역 공고에 포함되는 번역 견적서 목록 조회", tags = "")
-	public ResponseEntity<ResultDto<List<BunnyQuotationResponseDto>>> getBunnyQuotationList(@PathVariable("bunnyNotiSeq") Long bunnyNotiSeq) {
-		List<BunnyQuotationEntity> bunnyQuotationList = bunnyQuotationService.getBunnyQuotationList(bunnyNotiSeq);
-		List<BunnyQuotationResponseDto> bunnyQuotationResponseDtoList = BunnyQuotationResponseDto.fromEntityList((bunnyQuotationList));
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyQuotationResponseDtoList));
+	@ApiOperation(value = "번역 공고에 포함되는 번역 견적서 목록 조회")
+	public ResponseEntity<ResultDto<List<BunnyQuotationResponseDto>>> getBunnyQuotationList(
+		@PathVariable("bunnyNotiSeq") Long bunnyNotiSeq) {
+		List<BunnyQuotationEntity> bunnyQuotationList = bunnyQuotationService.getBunnyQuotationList(
+			bunnyNotiSeq);
+		List<BunnyQuotationResponseDto> bunnyQuotationResponseDtoList = BunnyQuotationResponseDto.fromEntityList(
+			(bunnyQuotationList));
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(ResultDto.of(bunnyQuotationResponseDtoList));
 	}
 
 
 	@GetMapping("/{bunnyQuotationSeq}")
-	@ApiOperation(value = "번역 견적서 조회", tags = "")
-	public ResponseEntity<ResultDto<BunnyQuotationResponseDto>> getBunnyQuotation(@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq) {
-		BunnyQuotationEntity bunnyQuotation = bunnyQuotationService.getBunnyQuotation(bunnyQuotationSeq);
-		BunnyQuotationResponseDto bunnyQuotationResponseDto = BunnyQuotationResponseDto.fromEntity(bunnyQuotation);
+	@ApiOperation(value = "번역 견적서 조회")
+	public ResponseEntity<ResultDto<BunnyQuotationResponseDto>> getBunnyQuotation(
+		@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq) {
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationService.getBunnyQuotation(
+			bunnyQuotationSeq);
+		BunnyQuotationResponseDto bunnyQuotationResponseDto = BunnyQuotationResponseDto.fromEntity(
+			bunnyQuotation);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyQuotationResponseDto));
 	}
 
 
 	@PutMapping("/type/{bunnyQuotationSeq}")
-	@ApiOperation(value = "번역 견적서의 상태 코드를 수정", tags = "견적서의 상태 (미선택/선택/작업완료)를 변경합니다.")
-	public ResponseEntity<ResultDto<Boolean>> modifyBunnyQuotationType(@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq, @RequestBody String bunnyQuotationStateCode) {
+	@ApiOperation(value = "번역 견적서의 상태 코드를 수정", notes = "견적서의 상태 (미선택/선택/작업완료)를 변경합니다.")
+	public ResponseEntity<ResultDto<Boolean>> modifyBunnyQuotationType(
+		@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq,
+		@RequestBody String bunnyQuotationStateCode) {
 		bunnyQuotationService.modifyBunnyQuotationType(bunnyQuotationSeq, bunnyQuotationStateCode);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
