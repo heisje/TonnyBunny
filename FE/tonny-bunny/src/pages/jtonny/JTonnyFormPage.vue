@@ -1,17 +1,17 @@
 <template>
-	<div>
-		<div>실시간 동시통역 - 폼 페이지</div>
-		<JTonnyForm></JTonnyForm>
-	</div>
+    <div>
+        <div>실시간 동시통역 - 폼 페이지</div>
+        <JTonnyClientForm></JTonnyClientForm>
+    </div>
 </template>
 
 <script>
-import JTonnyForm from "@/components/jtonny/JTonnyForm.vue";
+import JTonnyClientForm from "@/components/jtonny/JTonnyClientForm.vue";
 
 export default {
-	components: {
-		JTonnyForm
-	}
+    components: {
+        JTonnyClientForm,
+    },
 };
 </script>
 
