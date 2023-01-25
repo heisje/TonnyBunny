@@ -1,9 +1,13 @@
 <template>
-	<div>footer</div>
+    <div id="Footer">footer</div>
 </template>
 
 <script>
-	export default {};
+export default {};
 </script>
 
-<style></style>
+<style lang="scss">
+#Footer {
+    height: 500px;
+}
+</style>
