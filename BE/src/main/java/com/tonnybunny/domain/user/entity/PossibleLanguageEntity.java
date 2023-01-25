@@ -20,8 +20,8 @@ public class PossibleLanguageEntity extends CommonEntity {
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
-	private UserEntity user;
+	@JoinColumn(name = "helper_info_seq")
+	private HelperInfoEntity helperInfo;
 
 	private String langCode; // 언어공통코드
 	private String language; // 언어명

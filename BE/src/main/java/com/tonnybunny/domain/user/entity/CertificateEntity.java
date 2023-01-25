@@ -25,7 +25,7 @@ public class CertificateEntity extends CommonEntity {
 	private String score;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
-	private UserEntity user;
+	@JoinColumn(name = "helper_info_seq")
+	private HelperInfoEntity helperInfo;
 
 }

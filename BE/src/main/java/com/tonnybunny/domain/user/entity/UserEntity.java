@@ -47,13 +47,6 @@ public class UserEntity extends CommonEntity {
 
 	private String userCode;
 
-	// 연결
-	@OneToMany(mappedBy = "user")
-	private List<PossibleLanguageEntity> possibleLanguageList = new ArrayList<>(); // 사용언어
-
-	@OneToMany(mappedBy = "user")
-	private List<CertificateEntity> certificateList = new ArrayList<>(); // 자격증
-
 	@OneToMany(mappedBy = "user")
 	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 
