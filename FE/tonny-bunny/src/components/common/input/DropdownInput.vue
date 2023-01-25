@@ -8,7 +8,7 @@
             <span>{{ value ? value : placeholder }}</span>
         </button>
         <ul class="dropdown-menu">
-            <li v-for="dropdownItem in dropdownList" :key="dropdownItem">
+            <li v-for="dropdownItem in dropdownArray" :key="dropdownItem">
                 <button
                     class="dropdown-item"
                     :class="value === dropdownItem ? 'ariaCurrent' : ''"
@@ -31,13 +31,13 @@ export default {
     methods: {
         changeValue(item) {
             this.value = item;
-            this.$emit("update", this.value);
+            this.$emit("toggle", this.value);
         },
     },
     props: {
-        dropdownList: {
+        dropdownArray: {
             type: Array,
-            description: "dropdownList",
+            description: "dropdownArray",
         },
         placeholder: {
             type: String,
