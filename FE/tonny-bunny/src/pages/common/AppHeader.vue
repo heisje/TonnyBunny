@@ -49,7 +49,7 @@
                     <div class="navBarProfile">
                         <span class="material-symbols-outlined notification"> notifications </span>
                         <div @click="openPopOver">
-                            <span class="nickName">닉네임 <span>님</span></span>
+                            <span class="nickName">닉네임<span>님</span></span>
                             <img src="@/assets/noProfile.png" width="40" height="40" />
                         </div>
                         <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
@@ -244,6 +244,8 @@ export default {
     // margin-bottom: 100px;
 }
 .navBar {
+    // height: 200px;
+
     .navbar-brand {
         margin-right: 16px;
     }
