@@ -55,45 +55,90 @@ h5 {
     display: inline-block;
     @extend .h5;
 }
-.h1 {
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1.8rem;
+@media (min-width: 100px) {
+    .h1 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+    }
+    .h1-small {
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+    }
+    .h2 {
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.18rem;
+    }
+    .h3 {
+        font-weight: 700;
+        font-size: 0.9rem;
+        line-height: 1.1rem;
+    }
+    .h4 {
+        font-weight: 700;
+        font-size: 0.8rem;
+        line-height: 1rem;
+    }
+    .h5 {
+        font-weight: 700;
+        font-size: 0.75rem;
+        line-height: 0.9rem;
+    }
+    .text {
+        font-weight: 400;
+        font-size: 0.87rem;
+        line-height: 1.31rem;
+    }
+    .label {
+        font-weight: 400;
+        font-size: 0.7rem;
+        line-height: 0.93rem;
+    }
 }
-.h1-small {
-    font-weight: 600;
-    font-size: 1.25rem;
-    line-height: 1.5rem;
-}
-.h2 {
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.18rem;
-}
-.h3 {
-    font-weight: 700;
-    font-size: 0.9rem;
-    line-height: 1.1rem;
-}
-.h4 {
-    font-weight: 700;
-    font-size: 0.8rem;
-    line-height: 1rem;
-}
-.h5 {
-    font-weight: 700;
-    font-size: 0.75rem;
-    line-height: 0.9rem;
-}
-.text {
-    font-weight: 400;
-    font-size: 0.87rem;
-    line-height: 1.31rem;
-}
-.label {
-    font-weight: 400;
-    font-size: 0.7rem;
-    line-height: 0.93rem;
+// 큰화면
+@media (min-width: 768px) {
+    .h1 {
+        font-weight: 700;
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+    .h1-small {
+        font-weight: 600;
+        font-size: 1.56rem;
+        line-height: 1.87rem;
+    }
+    .h2 {
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.47rem;
+    }
+    .h3 {
+        font-weight: 700;
+        font-size: 1.125rem;
+        line-height: 1.37rem;
+    }
+    .h4 {
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.25rem;
+    }
+    .h5 {
+        font-weight: 700;
+        font-size: 0.93rem;
+        line-height: 1.12rem;
+    }
+    .text {
+        font-weight: 400;
+        font-size: 0.87rem;
+        line-height: 1.31rem;
+    }
+    .label {
+        font-weight: 400;
+        font-size: 0.85rem;
+        line-height: 1rem;
+    }
 }
 
 // container

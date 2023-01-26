@@ -4,13 +4,7 @@
             title="🐰 실시간 동시 통역"
             text="실시간으로 필요한 통역 서비스를 신청합니다" />
 
-        <title-text
-            important
-            type="h1"
-            title="Default Title"
-            text="Description"
-            top="36"
-            bottom="12" />
+        <title-text important type="h1" title="Default Title" text="Description" bottom="12" />
         <title-text title="Default Title" text="Description" />
 
         <h1>홈 - 메인</h1>
