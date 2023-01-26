@@ -44,7 +44,7 @@ public class YTonnyQuotationEntity {
 
 	private String startLangCode;
 	private String endLangCode;
-	private String quotation_state_code;
+	private String quotationStateCode;
 
 	@OneToMany(mappedBy = "yTonnyQuotation")
 	private List<YTonnyQuotationImageEntity> yTonnyQuotationImageList = new ArrayList<>(); // 견적서 이미지 리스트
