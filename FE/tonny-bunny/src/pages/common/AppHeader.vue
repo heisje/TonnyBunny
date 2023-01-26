@@ -12,7 +12,7 @@
                             <ul class="navbar-nav flex-row">
                                 <li class="nav-item">
                                     <router-link
-                                        :to="{ name: 'home' }"
+                                        :to="{ name: 'HomePage' }"
                                         class="nav-link"
                                         aria-current="page">
                                         <h2>HOME</h2>
@@ -20,25 +20,25 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'intro' }" class="nav-link">
+                                    <router-link :to="{ name: 'IntroPage' }" class="nav-link">
                                         <h2>토니버니란?</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'tonny' }" class="nav-link">
+                                    <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                         <h2>통역하기</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'bunny' }" class="nav-link">
+                                    <router-link :to="{ name: 'BunnyPage' }" class="nav-link">
                                         <h2>번역하기</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'board' }" class="nav-link">
+                                    <router-link :to="{ name: 'BoardPage' }" class="nav-link">
                                         <h2>커뮤니티</h2>
                                     </router-link>
                                 </li>
@@ -56,22 +56,22 @@
                             <div class="popOverArrow"></div>
                             <ul>
                                 <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'chat' }">
+                                    <router-link class="dropdown-item" :to="{ name: 'ChatPage' }">
                                         채팅함
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'chat' }">
+                                    <router-link class="dropdown-item" :to="{ name: 'ChatPage' }">
                                         즐겨찾기
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'mypage' }">
+                                    <router-link class="dropdown-item" :to="{ name: 'MyPage' }">
                                         마이페이지
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'notice' }">
+                                    <router-link class="dropdown-item" :to="{ name: 'NoticePage' }">
                                         설정
                                     </router-link>
                                 </li>
@@ -122,7 +122,7 @@
                             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                                 <li class="nav-item">
                                     <router-link
-                                        :to="{ name: 'home' }"
+                                        :to="{ name: 'HomePage' }"
                                         class="nav-link"
                                         aria-current="page">
                                         <h2>HOME</h2>
@@ -130,25 +130,25 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'intro' }" class="nav-link">
+                                    <router-link :to="{ name: 'IntroPage' }" class="nav-link">
                                         <h2>토니버니란?</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'tonny' }" class="nav-link">
+                                    <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                         <h2>통역하기</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'bunny' }" class="nav-link">
+                                    <router-link :to="{ name: 'BunnyPage' }" class="nav-link">
                                         <h2>번역하기</h2>
                                     </router-link>
                                 </li>
 
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'board' }" class="nav-link">
+                                    <router-link :to="{ name: 'BoardPage' }" class="nav-link">
                                         <h2>커뮤니티</h2>
                                     </router-link>
                                 </li>
@@ -168,28 +168,28 @@
                                         <li>
                                             <router-link
                                                 class="dropdown-item"
-                                                :to="{ name: 'chat' }">
+                                                :to="{ name: 'ChatPage' }">
                                                 채팅함
                                             </router-link>
                                         </li>
                                         <li>
                                             <router-link
                                                 class="dropdown-item"
-                                                :to="{ name: 'chat' }">
+                                                :to="{ name: 'ChatPage' }">
                                                 즐겨찾기
                                             </router-link>
                                         </li>
                                         <li>
                                             <router-link
                                                 class="dropdown-item"
-                                                :to="{ name: 'mypage' }">
+                                                :to="{ name: 'MyPage' }">
                                                 마이페이지
                                             </router-link>
                                         </li>
                                         <li>
                                             <router-link
                                                 class="dropdown-item"
-                                                :to="{ name: 'notice' }">
+                                                :to="{ name: 'NoticePage' }">
                                                 설정
                                             </router-link>
                                         </li>
