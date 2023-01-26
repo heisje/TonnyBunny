@@ -12,6 +12,7 @@
 <script>
 export default {
     name: "TitleText",
+
     props: {
         important: {
             type: Boolean,
@@ -62,6 +63,8 @@ export default {
 
 #TitleText {
     // margin-top: 36px;
+    cursor: default;
+
     width: 100%;
     &.center {
         text-align: center;
