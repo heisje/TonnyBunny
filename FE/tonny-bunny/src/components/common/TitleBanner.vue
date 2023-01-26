@@ -8,6 +8,7 @@
         </div>
     </div>
 </template>
+
 <script>
 export default {
     name: "TitleBanner",
@@ -25,17 +26,19 @@ export default {
     },
 };
 </script>
+
 <style lang="scss" scoped>
 @import "@/scss/variable.scss";
 
 #titleBanner {
-    width: 100%;
+    width: 100vw;
     height: 100px;
-    position: relative;
+    left: 0;
+    position: absolute;
 
     .fullSizeBanner {
         position: absolute;
-        top: 50%;
+        // top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 100vw;
@@ -46,9 +49,11 @@ export default {
         align-items: center;
         justify-content: center;
         text-align: center;
+
         h1 {
             margin-bottom: 4px;
         }
+
         p {
             color: var(--sub-color);
             @extend .label;
