@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="navBarWrap">
         <div class="navBar d-lg-block d-none">
             <nav class="navbar navbar-white">
                 <div class="container-fluid container">
@@ -240,6 +240,9 @@ export default {
     padding: 0;
 }
 
+.navBarWrap {
+    // margin-bottom: 100px;
+}
 .navBar {
     .navbar-brand {
         margin-right: 16px;
