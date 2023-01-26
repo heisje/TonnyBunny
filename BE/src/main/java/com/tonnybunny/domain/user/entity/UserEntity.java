@@ -16,6 +16,7 @@ import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -121,5 +122,13 @@ public class UserEntity extends CommonEntity {
 
 	@OneToMany(mappedBy = "helper")
 	private List<BunnyQuotationEntity> helperBunnyQuotationList = new ArrayList<>(); // 헬퍼 측 번역 요청 견적서 리스트
+
+	// 예약 통역 견적서 관련
+
+	@OneToMany(mappedBy = "client")
+	private List<YTonnyQuotationEntity> clientYTonnyQuatationList = new ArrayList<>(); // 고객 측 예약 통역 요청 견적서 리스트
+
+	@OneToMany(mappedBy = "helper")
+	private List<YTonnyQuotationEntity> helperYTonnyQuotationList = new ArrayList<>(); // 헬퍼 측 예약 통역 요청 견적서 리스트
 
 }
