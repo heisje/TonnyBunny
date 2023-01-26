@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +26,15 @@ public class BunnyNotiEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity user;
+	private Long helperSeq;
 
 	private String title;
 	private String content;
 
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 
-	private int estimatePrice;
+	private Integer estimatePrice;
 
 	private String startLangCode;
 	private String endLangCode;
