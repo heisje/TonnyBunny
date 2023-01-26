@@ -1,26 +1,29 @@
 <template>
     <div>
-        <title-banner
+        <home-banner></home-banner>
+        <home-contents></home-contents>
+
+        <!-- <title-banner
             title="🐰 실시간 동시 통역"
             text="실시간으로 필요한 통역 서비스를 신청합니다" />
 
         <title-text important type="h1" title="Default Title" text="Description" bottom="12" />
         <title-text title="Default Title" text="Description" />
-
-        <h1>홈 - 메인</h1>
+        -->
+        <!-- <h1>홈 - 메인</h1> -->
 
         <!-- part1 -->
-        <tag-test></tag-test>
+        <!-- <tag-test></tag-test> -->
         <!-- <hr /> -->
-        <modal-test></modal-test>
+        <!-- <modal-test></modal-test> -->
         <!-- <hr /> -->
         <!-- <button-test></button-test> -->
         <!-- <hr /> -->
-        <card-test></card-test>
-        <hr />
+        <!-- <card-test></card-test> -->
+        <!-- <hr /> -->
 
         <!-- part2 -->
-        <input-test />
+        <!-- <input-test /> -->
         <!-- <tag-test></tag-test> -->
     </div>
 
@@ -58,14 +61,16 @@
 </template>
 
 <script>
-/* eslint-disable */
-import TagTest from "@/components/common/tag/TagTest.vue";
-import ModalTest from "@/components/common/modal/ModalTest.vue";
-import ButtonTest from "@/components/common/button/ButtonTest.vue";
-import InputTest from "@/components/common/input/InputTest.vue";
-import CardTest from "@/components/common/card/CardTest.vue";
-import TitleBanner from "@/components/common/TitleBanner.vue";
-import TitleText from "@/components/common/TitleText.vue";
+import HomeBanner from "@/components/home/HomeBanner.vue";
+import HomeContents from "@/components/home/HomeContents.vue";
+
+// import TagTest from "@/components/common/tag/TagTest.vue";
+// import ModalTest from "@/components/common/modal/ModalTest.vue";
+// import ButtonTest from "@/components/common/button/ButtonTest.vue";
+// import InputTest from "@/components/common/input/InputTest.vue";
+// import CardTest from "@/components/common/card/CardTest.vue";
+// import TitleBanner from "@/components/common/TitleBanner.vue";
+// import TitleText from "@/components/common/TitleText.vue";
 // import MainBtn from "@/components/home/MainBtn.vue";
 // import QuestList from "@/components/home/QuestList.vue";
 // import ScheduleList from "@/components/home/ScheduleList.vue";
@@ -77,13 +82,16 @@ export default {
     name: "HomePage",
 
     components: {
-        TagTest,
-        ModalTest,
-        ButtonTest,
-        InputTest,
-        CardTest,
-        TitleBanner,
-        TitleText,
+        HomeBanner,
+        HomeContents,
+
+        // TagTest,
+        // ModalTest,
+        // ButtonTest,
+        // InputTest,
+        // CardTest,
+        // TitleBanner,
+        // TitleText,
         // MainBtn,
         // QuestList,
         // ScheduleList,
