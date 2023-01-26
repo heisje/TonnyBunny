@@ -37,7 +37,7 @@ public class YTonnyQuotationRequestDto {
 
 	private String startLangCode;
 	private String endLangCode;
-	private String quotation_state_code;
+	private String quotationStateCode;
 
 
 	public YTonnyQuotationEntity toEntity() {
