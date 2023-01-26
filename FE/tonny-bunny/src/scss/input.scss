@@ -5,30 +5,39 @@
     label {
         display: block;
         margin-bottom: 4px;
-        @extend .h4;
+        @extend .label;
         color: var(--sub-color);
     }
 
     // textArea설정
     textarea {
-        @extend input;
+        @extend .inputTextBox;
         width: 100%;
-        max-width: 425px;
+        max-width: 320px;
     }
 
     // input설정
-    input {
+    input[type="text"] {
+        @extend .inputTextBox;
+        width: 100%;
+        max-width: 320px;
+        min-width: 100px;
+    }
+    input[type="number"] {
+        @extend .inputTextBox;
+        width: 100%;
+        max-width: 320px;
+        min-width: 100px;
+    }
+
+    //임포트용으로 사용되는 기본 inputTextBox
+    .inputTextBox {
         // 유효성 체크박스
         ~ .notice {
             min-height: 1rem;
             color: var(--danger-color);
         }
 
-        // 종류가 텍스트일 때
-        &[type="text"] {
-            width: 100%;
-            max-width: 425px;
-        }
         @extend .text;
         background-color: var(--background-color);
         padding: 10px 14px;
@@ -94,40 +103,72 @@
             color: var(--disable-color);
         }
     }
-}
-
-// dropdown
-.dropdown {
-    .dropdown-toggle {
-        @extend .text;
-        background-color: var(--background-color);
-        padding: 10px 14px;
-
-        border-radius: 4px;
-        color: var(--active-color);
-        border: 1px solid var(--disable-color);
-        cursor: pointer;
-        transition: border 0.3s, box-shadow 0.3s;
-        &:hover {
+    // dropdown
+    .dropdown {
+        width: 100%;
+        .dropdown-toggle {
+            @extend .text;
+            background-color: var(--background-color);
+            width: 100%;
+            min-width: 100px;
+            padding: 10px 14px;
+            border-radius: 4px;
+            color: var(--active-color);
             border: 1px solid var(--disable-color);
-        }
-        span {
+            cursor: pointer;
+            transition: border 0.3s, box-shadow 0.3s;
             text-align: left;
-            display: inline-block;
-            min-width: 200px;
+            &:hover {
+                border: 1px solid var(--active-color);
+            }
+            span {
+                width: 95%;
+                text-align: left;
+                display: inline-block;
+
+                // min-width: 200px;
+            }
+        }
+
+        //dropDown 코드
+        .ariaCurrent {
+            color: var(--primary-color);
+        }
+        .dropdown-item:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        .dropdown-item:active {
+            background-color: var(--primary-color);
+            color: var(--white-color);
         }
     }
 
-    //dropDown 코드
-    .ariaCurrent {
-        color: var(--primary-color);
+    //기타
+    .swap {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 10px;
     }
-    .dropdown-item:hover {
-        background-color: var(--primary-color);
-        color: var(--white-color);
+    .backlabel {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding-left: 8px;
     }
-    .dropdown-item:active {
-        background-color: var(--primary-color);
-        color: var(--white-color);
+}
+.w120 {
+    max-width: 120px;
+}
+@media (min-width: 100px) {
+}
+@media (min-width: 768px) {
+    .borderForm {
+        width: fit-content;
+        margin: auto;
+        padding: 60px 120px;
+        border: 1px solid var(--light-color);
+        border-radius: 32px;
     }
 }
