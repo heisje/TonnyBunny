@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * seq              : 신청 seq
  * user             : 신청자 dto
- * bunnyNoti        : 번역 공고 seq
+ * bunnyNoti        : 번역 공고 dto
  * estimatePrice    : 견적 금액
  */
 @Data
@@ -20,7 +20,7 @@ public class BunnyNotiHelperResponseDto {
 
 	private Long seq;
 	private UserResponseDto user;
-	private Long bunnyNotiSeq;
+	private BunnyNotiResponseDto bunnyNoti;
 	private Integer estimatePrice;
 
 

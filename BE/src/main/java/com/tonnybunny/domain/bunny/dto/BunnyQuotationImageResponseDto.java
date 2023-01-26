@@ -10,14 +10,14 @@ import java.util.List;
 
 /**
  * seq                  : seq
- * bunnyQuatationSeq    : 번역 견적서 seq
+ * bunnyQuatation       : 번역 견적서
  * imagePath            : 이미지 경로
  */
 @Data
 public class BunnyQuotationImageResponseDto {
 
 	private Long seq;
-	private Long bunnyQuatationSeq;
+	private BunnyQuotationResponseDto bunnyQuatation;
 	private String imagePath;
 
 
