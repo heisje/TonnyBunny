@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,37 +16,39 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YTonnyNotiEntity extends CommonEntity {
+public class YTonnyQuotationEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "y_tonny_noti_seq")
+	@Column(name = "y_tonny_quotation_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
-	private UserEntity client;
-	private Long helperSeq;
+	@JoinColumn(name = "y_tonny_noti_seq")
+	private YTonnyNotiEntity yTonnyNoti;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_seq")
+	private UserEntity client;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "helper_seq")
+	private UserEntity helper;
+
+	private Integer unitPrice;
 	private String title;
+	private String content;
+
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
-	private Integer estimatePrice;
-	private String content;
 
 	private String startLangCode;
 	private String endLangCode;
-	private String tonnySituCode;
-	private String taskCode;
-	private String taskStateCode;
+	private String quotation_state_code;
 
-	// 헬퍼 신청 리스트
-	@OneToMany(mappedBy = "yTonnyNoti")
-	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>();
-
-	// 헬퍼 견적서 리스트
-	@OneToMany(mappedBy = "yTonnyNoti")
-	private List<YTonnyQuotationEntity> yTonnyQuotationList = new ArrayList<>();
+	@OneToMany(mappedBy = "yTonnyQuotation")
+	private List<YTonnyQuotationImageEntity> yTonnyQuotationImageList = new ArrayList<>(); // 견적서 이미지 리스트
 
 }
+
+
