@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * clientSeq            : 작성자 seq
  *
- * helperSeq            : 담당할 헬퍼 seq (null)
  * title                : 공고 제목
  * content              : 공고 내용 (null)
  * iestimatePrice       : 예상 의뢰금액
@@ -29,7 +28,6 @@ public class BunnyNotiRequestDto {
 
 	private Long clientSeq;
 
-	private Long helperSeq;
 	private String title;
 	private String content;
 	private Integer estimatePrice;
