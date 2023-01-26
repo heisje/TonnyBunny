@@ -39,7 +39,7 @@ public class YTonnyHistoryEntity extends CommonEntity {
 	private LocalDateTime startDateTime;
 	private String description;
 	private LocalTime totalTime;
-	private int totalPrice;
+	private Integer totalPrice;
 	private String recordVideoPath;
 
 	private String taskCode;
