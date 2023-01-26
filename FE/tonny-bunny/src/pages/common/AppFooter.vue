@@ -13,10 +13,13 @@ export default {};
 <style lang="scss">
 #Footer {
     height: 500px;
+    // width: 100vw;
 }
 
 .footerContainer {
     background-color: var(--light-color);
+    // position: relative;
+    bottom: 0;
     margin-top: 100px;
     padding: 32px 0;
 }
