@@ -59,8 +59,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/variable.scss";
+
 #TitleText {
-    margin-top: 36px;
+    // margin-top: 36px;
     width: 100%;
     &.center {
         text-align: center;
