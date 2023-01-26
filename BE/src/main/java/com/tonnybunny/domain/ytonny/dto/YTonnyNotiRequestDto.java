@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.user.dto.UserResponseDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import lombok.Data;
 
@@ -10,7 +9,7 @@ import java.time.LocalTime;
 
 
 /**
- * clientDto                : 고객 seq
+ * clientSeq                : 고객 seq
  *
  * title                    : 제목
  * estimateDate             : 요청 날짜
@@ -26,7 +25,7 @@ import java.time.LocalTime;
 @Data
 public class YTonnyNotiRequestDto {
 
-	private UserResponseDto clientDto;
+	private Long clientSeq;
 
 	private String title;
 	private LocalDate estimateDate;

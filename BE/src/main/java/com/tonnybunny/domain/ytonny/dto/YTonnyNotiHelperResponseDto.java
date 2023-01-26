@@ -11,16 +11,16 @@ import java.util.List;
 
 /**
  * seq             : 신청 seq
- * yTonnyNotiDto   : 예약 통역 공고
- * helperDto       : 헬퍼 유저
+ * yTonnyNoti      : 예약 통역 공고
+ * helper          : 헬퍼 유저
  * totalPrice      : 견적 금액
  */
 @Data
 public class YTonnyNotiHelperResponseDto {
 
 	private Long seq;
-	private YTonnyNotiResponseDto yTonnyNotiDto;
-	private UserResponseDto helperDto;
+	private YTonnyNotiResponseDto yTonnyNoti;
+	private UserResponseDto helper;
 	private Integer totalPrice;
 
 

@@ -10,14 +10,14 @@ import java.util.List;
 
 /**
  * seq                  : 예약 통역 견적서 이미지 seq
- * yTonnyQuotationDto   : 예약 통역 견적서 seq
+ * yTonnyQuotation      : 예약 통역 견적서 seq
  * imagePath            : 이미지 경로
  */
 @Data
 public class YTonnyQuotationImageResponseDto {
 
 	private Long seq;
-	private YTonnyQuotationResponseDto yTonnyQuotationDto;
+	private YTonnyQuotationResponseDto yTonnyQuotation;
 	private String imagePath;
 
 

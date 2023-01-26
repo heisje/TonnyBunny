@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  *
  * startLangCode           : 시작 언어 코드
  * endLangCode             : 종료 언어 코드
- * quotation_state_code    : 견적서 상태 코드
+ * quotationStateCode      : 견적서 상태 코드
  */
 @Data
 public class YTonnyQuotationRequestDto {
@@ -37,7 +37,7 @@ public class YTonnyQuotationRequestDto {
 
 	private String startLangCode;
 	private String endLangCode;
-	private String quotation_state_code;
+	private String quotationStateCode;
 
 
 	public YTonnyQuotationEntity toEntity() {

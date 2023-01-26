@@ -13,9 +13,9 @@ import java.util.List;
 
 /**
  * seq                     : 예약 통역 견적서 seq
- * yTonnyNotiDto           : 예약 통역 공고
- * clientDto               : 고객
- * helperDto               : 헬퍼
+ * yTonnyNoti              : 예약 통역 공고
+ * client                  : 고객
+ * helperD                 : 헬퍼
  *
  * unitPrice               : 단가
  * title                   : 제목
@@ -27,15 +27,15 @@ import java.util.List;
  *
  * startLangCode           : 시작 언어 코드
  * endLangCode             : 종료 언어 코드
- * quotation_state_code    : 견적서 상태 코드
+ * quotationStateCode      : 견적서 상태 코드
  */
 @Data
 public class YTonnyQuotationResponseDto {
 
 	private Long seq;
-	private YTonnyNotiResponseDto yTonnyNotiDto;
-	private UserResponseDto clientDto;
-	private UserResponseDto helperDto;
+	private YTonnyNotiResponseDto yTonnyNoti;
+	private UserResponseDto client;
+	private UserResponseDto helper;
 
 	private Integer unitPrice;
 	private String title;
@@ -47,7 +47,7 @@ public class YTonnyQuotationResponseDto {
 
 	private String startLangCode;
 	private String endLangCode;
-	private String quotation_state_code;
+	private String quotationStateCode;
 
 
 	public static YTonnyQuotationResponseDto fromEntity(YTonnyQuotationEntity yTonnyQuotation) {

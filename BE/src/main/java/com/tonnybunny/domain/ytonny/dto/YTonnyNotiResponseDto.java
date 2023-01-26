@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * seq                      : 공고 seq
  *
- * clientDto                : 고객 seq
- * helperSeq                : 헬퍼 seq (null)
+ * client                   : 고객
+ * helper                   : 헬퍼 (null)
  *
  * title                    : 제목
  * estimateDate             : 요청 날짜
@@ -30,17 +30,17 @@ import java.util.List;
  * taskCode                 : 의뢰 코드
  * taskStateCode            : 의뢰 상태 코드
  *
- * yTonnyNotiHelperListDto  : 헬퍼의 신청 목록
+ * yTonnyNotiHelperList     : 헬퍼의 신청 목록
  *
- * yTonnyQuotationListDto   : 헬퍼의 견적서 목록
+ * yTonnyQuotationList      : 헬퍼의 견적서 목록
  */
 @Data
 public class YTonnyNotiResponseDto {
 
 	private Long seq;
 
-	private UserResponseDto clientDto;
-	private Long helperSeq;
+	private UserResponseDto client;
+	private UserResponseDto helper;
 
 	private String title;
 	private LocalDate estimateDate;
@@ -55,9 +55,9 @@ public class YTonnyNotiResponseDto {
 	private String taskCode;
 	private String taskStateCode;
 
-	private List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperListDto;
+	private List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperList;
 
-	private List<YTonnyQuotationResponseDto> yTonnyQuotationListDto;
+	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
 
 
 	public static YTonnyNotiResponseDto fromEntity(YTonnyNotiEntity yTonnyNoti) {
