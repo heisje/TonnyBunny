@@ -40,6 +40,8 @@ export default {
 
     margin-bottom: 64px;
 
+    cursor: default;
+
     .fullSizeBanner {
         height: 120px;
 
