@@ -1,8 +1,6 @@
 <template>
     <div>
-        <h1>통역 예약 - 폼 페이지</h1>
-
-        <div>상단 정보 🐰통역예약</div>
+        <title-banner title="🐰 통역예약" text="헬퍼에게 통역 서비스를 예약합니다." />
 
         <YTonnyClientForm></YTonnyClientForm>
 
@@ -12,8 +10,9 @@
 
 <script>
 import YTonnyClientForm from "@/components/ytonny/YTonnyClientForm.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 export default {
-    components: { YTonnyClientForm },
+    components: { YTonnyClientForm, TitleBanner },
 };
 </script>
 
