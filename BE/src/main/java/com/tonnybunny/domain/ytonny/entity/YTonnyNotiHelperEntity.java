@@ -20,7 +20,7 @@ public class YTonnyNotiHelperEntity extends CommonEntity {
 	@Column(name = "y_tonny_noti_helper_seq")
 	private Long seq;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "y_tonny_noti_seq")
 	private YTonnyNotiEntity yTonnyNoti;
 
@@ -28,6 +28,6 @@ public class YTonnyNotiHelperEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity helper;
 
-	private int totalPrice;
+	private Integer totalPrice;
 
 }
