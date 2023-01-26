@@ -1,9 +1,11 @@
 <template lang="">
     <div id="titleBanner">
-        <div class="fullSizeBanner">
-            <div>
-                <h1>{{ title }}</h1>
-                <p>{{ text }}</p>
+        <div class="bannerWrap">
+            <div class="fullSizeBanner">
+                <div>
+                    <h1>{{ title }}</h1>
+                    <p>{{ text }}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -31,19 +33,15 @@ export default {
 @import "@/scss/variable.scss";
 
 #titleBanner {
-    width: 100vw;
-    height: 100px;
+    // position: static;
+    width: 100%;
+    height: 120px;
     left: 0;
-    position: absolute;
+
+    margin-bottom: 64px;
 
     .fullSizeBanner {
-        position: absolute;
-        // top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100vw;
-        height: 100px;
-        background-color: var(--thin-color);
+        height: 120px;
 
         display: flex;
         align-items: center;
@@ -59,5 +57,12 @@ export default {
             @extend .label;
         }
     }
+}
+
+.bannerWrap {
+    background-color: var(--thin-color);
+    position: absolute;
+    left: 0;
+    width: 100%;
 }
 </style>
