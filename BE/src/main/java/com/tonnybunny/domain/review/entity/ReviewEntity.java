@@ -2,6 +2,7 @@ package com.tonnybunny.domain.review.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,5 +28,9 @@ public class ReviewEntity extends CommonEntity {
 	private Float score;
 
 	private String comment;
+
+	@OneToOne
+	@JoinColumn(name = "history_seq")
+	private HistoryEntity history;
 
 }
