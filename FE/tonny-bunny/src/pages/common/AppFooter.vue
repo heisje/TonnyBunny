@@ -16,22 +16,51 @@
                     <div class="team">
                         <h2>잘해오조</h2>
                         <ul>
-                            <li>배충현</li>
-                            <li>김희제</li>
-                            <li>류승태</li>
-                            <li>염정아</li>
-                            <li>정채원</li>
-                            <li>최권민</li>
+                            <li class="d-flex align-items-center">
+                                <span>배충현</span>
+                                <span class="material-symbols-outlined fs-5">
+                                    arrow_right_alt
+                                </span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <span>김희제</span>
+                                <span class="material-symbols-outlined fs-5">
+                                    arrow_right_alt
+                                </span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <span>류승태</span>
+                                <span class="material-symbols-outlined fs-5">
+                                    arrow_right_alt
+                                </span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <span>염정아</span>
+                                <span class="material-symbols-outlined fs-5">
+                                    arrow_right_alt
+                                </span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <span>정채원</span>
+                                <span class="material-symbols-outlined fs-5">
+                                    arrow_right_alt
+                                </span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <span>최권민</span>
+                                <span class="material-symbols-outlined fs-5">
+                                    arrow_right_alt
+                                </span>
+                            </li>
                         </ul>
                     </div>
 
                     <div class="notice">
                         <h2>고객센터</h2>
                         <ul>
-                            <li>토니바니란?</li>
-                            <li>통역하기</li>
-                            <li>번역하기</li>
-                            <li>커뮤니티</li>
+                            <li>공지사항</li>
+                            <li>자주 묻는 질문</li>
+                            <li>이메일 문의</li>
                         </ul>
                     </div>
                 </div>
@@ -41,7 +70,7 @@
                 <div class="tonnyBunnyDesc mt-3">
                     <div class="d-flex align-items-center mb-2">
                         <div>
-                            <img src="@/assets/logo.png" alt="TonnyBunny" width="100" />
+                            <img src="@/assets/logo.png" alt="TonnyBunny" width="88" />
                         </div>
                         <h2 class="ms-2">개인정보처리방침 |&nbsp;</h2>
                         <h2>약관</h2>
@@ -96,11 +125,11 @@ export default {};
 
 .footer {
     .tonnyBunnyInfo {
-        justify-content: space-between;
+        // justify-content: space-between;
 
         div {
             font-size: 1rem;
-            margin-right: 8px;
+            margin-right: 80px;
             // background-color: red;
         }
 

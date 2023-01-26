@@ -1,3 +1,6 @@
 export default {
-	count: 101
+    limit: 10,
+    offset: 0,
+
+    tempList: [],
 };
