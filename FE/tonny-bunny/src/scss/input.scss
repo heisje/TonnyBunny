@@ -5,6 +5,8 @@
     label {
         display: block;
         margin-bottom: 4px;
+        @extend .h4;
+        color: var(--sub-color);
     }
 
     // textArea설정

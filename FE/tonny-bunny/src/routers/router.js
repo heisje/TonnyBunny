@@ -47,7 +47,7 @@ import LivePage from "@/pages/live/LivePage";
 import LiveClosePage from "@/pages/live/LiveClosePage";
 
 // chat
-import ChatListPage from "@/pages/chat/ChatListPage";
+import ChatPage from "@/pages/chat/ChatPage";
 import ChatDetailPage from "@/pages/chat/ChatDetailPage";
 import QuotationCreatePage from "@/pages/chat/QuotationCreatePage";
 import QuotationDetailPage from "@/pages/chat/QuotationDetailPage";
@@ -98,6 +98,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/account/findid",
             name: "FindIdPage",
@@ -107,6 +108,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/account/findpw",
             name: "FindPwPage",
@@ -116,6 +118,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/account/ability",
             name: "AbilityPage",
@@ -125,6 +128,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/account/agree",
             name: "AgreePage",
@@ -134,6 +138,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         //jtonny
         {
             path: "/jtonny",
@@ -144,6 +149,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/jtonny/form",
             name: "JTonnyFormPage",
@@ -153,6 +159,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/jtonny/accept",
             name: "JTonnyAcceptPage",
@@ -162,6 +169,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/jtonny/matching",
             name: "JTonnyMatchingPage",
@@ -171,6 +179,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         //ytonny
         {
             path: "/ytonny/:id",
@@ -181,6 +190,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/ytonny/form",
             name: "YTonnyFormPage",
@@ -190,6 +200,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/ytonny/:id/helper",
             name: "YTonnyHelperListPage",
@@ -199,6 +210,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/ytonny/success",
             name: "YTonnySuccessPage",
@@ -208,6 +220,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/ytonny",
             name: "YTonnyListPage",
@@ -217,6 +230,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         //nbunny
         {
             path: "/nbunny/:id",
@@ -227,6 +241,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/nbunny/form",
             name: "NBunnyFormPage",
@@ -236,6 +251,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/nbunny/:id/helper",
             name: "NBunnyHelperListPage",
@@ -245,6 +261,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/nbunny/list",
             name: "NBunnyListPage",
@@ -254,6 +271,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         //notice
         {
             path: "/notice/list",
@@ -264,6 +282,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/notice/faq",
             name: "FAQPage",
@@ -273,6 +292,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/notice/withdraw",
             name: "WithdrawalPage",
@@ -282,6 +302,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         //board
         {
             path: "/board",
@@ -292,6 +313,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/board/:id",
             name: "BoardDetailPage",
@@ -301,6 +323,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/board/create",
             name: "BoardCreatePage",
@@ -310,6 +333,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/board/update",
             name: "BoardUpdatePage",
@@ -330,6 +354,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/live/close",
             name: "LiveClosePage",
@@ -339,16 +364,18 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         //chat
         {
             path: "/chat",
-            name: "chat",
+            name: "ChatPage",
             components: {
                 header: AppHeader,
-                default: ChatListPage,
+                default: ChatPage,
                 footer: AppFooter,
             },
         },
+
         {
             path: "/chat/detail",
             name: "ChatDetailPage",
@@ -358,6 +385,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/chat/quatation/create",
             name: "QuotationCreatePage",
@@ -367,6 +395,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/chat/quatation/:id",
             name: "QuotationDetailPage",
@@ -387,6 +416,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/info/update",
             name: "InfoUpdatePage",
@@ -396,6 +426,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/carrot",
             name: "CarrotPage",
@@ -405,6 +436,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/history",
             name: "HistoryPage",
@@ -414,6 +446,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/history/:id",
             name: "HistoryDetailPage",
@@ -423,6 +456,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/profile",
             name: "ProfilePage",
@@ -432,6 +466,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/profile/update",
             name: "ProfileUpdatePage",
@@ -441,6 +476,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/alarm",
             name: "PushAlarmPage",
@@ -450,6 +486,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/schedule",
             name: "SchedulePage",
@@ -459,6 +496,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/favorite",
             name: "FavoriteListPage",
@@ -468,6 +506,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/block",
             name: "BlockListPage",
@@ -477,6 +516,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/mypage/change",
             name: "HelperChangePage",
@@ -490,7 +530,7 @@ export default createRouter({
         //home
         {
             path: "/",
-            name: "home",
+            name: "HomePage",
             components: {
                 header: AppHeader,
                 default: HomePage,
@@ -510,7 +550,7 @@ export default createRouter({
 
         {
             path: "/board",
-            name: "board",
+            name: "BoardPage",
             components: {
                 header: AppHeader,
                 default: BoardPage,
@@ -520,7 +560,7 @@ export default createRouter({
 
         {
             path: "/intro",
-            name: "intro",
+            name: "IntroPage",
             components: {
                 header: AppHeader,
                 default: IntroPage,
@@ -530,7 +570,7 @@ export default createRouter({
 
         {
             path: "/bunny",
-            name: "bunny",
+            name: "BunnyPage",
             components: {
                 header: AppHeader,
                 default: BunnyPage,
@@ -540,7 +580,7 @@ export default createRouter({
 
         {
             path: "/tonny",
-            name: "tonny",
+            name: "TonnyPage",
             components: {
                 header: AppHeader,
                 default: TonnyPage,
@@ -550,7 +590,7 @@ export default createRouter({
 
         {
             path: "/mypage",
-            name: "mypage",
+            name: "MyPage",
             components: {
                 header: AppHeader,
                 default: MyPage,
@@ -560,7 +600,7 @@ export default createRouter({
 
         {
             path: "/notice",
-            name: "notice",
+            name: "NoticePage",
             components: {
                 header: AppHeader,
                 default: NoticePage,
@@ -578,6 +618,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/review",
             name: "ReviewPage",
@@ -587,6 +628,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/success/1",
             name: "SuccessPage1",
@@ -596,6 +638,7 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/success/2",
             name: "SuccessPage2",
@@ -605,9 +648,10 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
+
         {
             path: "/:pathMatch(.*)*",
-            name: "notFound",
+            name: "NotFoundPage",
             components: {
                 header: AppHeader,
                 default: NotFoundPage,
