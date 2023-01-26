@@ -28,6 +28,6 @@ public class BunnyNotiHelperEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity user;
 
-	private int estimatePrice;
+	private Integer estimatePrice;
 
 }

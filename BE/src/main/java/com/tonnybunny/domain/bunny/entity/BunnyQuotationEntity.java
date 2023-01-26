@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +34,13 @@ public class BunnyQuotationEntity extends CommonEntity {
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 
 	private String title;
 	private String content;
 
-	private int totalPrice;
+	private Integer totalPrice;
 
 	private String bunnyQuotationStateCode;
 	private String startLangCode;
