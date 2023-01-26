@@ -12,8 +12,8 @@ import java.util.List;
 
 /**
  * seq                  : 번역 공고 seq
- * user                 : 작성자 seq                   : user response Dto
- * helperSeq            : 담당자 seq
+ * client               : 작성자 seq                   : user response Dto
+ * helper               : 담당자 seq
  * title                : 제목
  * content              : 내용
  * startDate            : 시작일
@@ -33,8 +33,8 @@ import java.util.List;
 public class BunnyNotiResponseDto {
 
 	private Long seq;
-	private UserResponseDto userDto;
-	private Long helperSeq;
+	private UserResponseDto client;
+	private UserResponseDto helper;
 	private String title;
 	private String content;
 	private LocalDateTime startDate;

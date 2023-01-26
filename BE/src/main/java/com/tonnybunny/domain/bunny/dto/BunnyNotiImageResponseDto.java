@@ -10,14 +10,14 @@ import java.util.List;
 
 /**
  * seq          : seq
- * bunnyNotiSeq : 번역 공고 seq
+ * bunnyNoti    : 번역 공고 seq
  * imagePath    : 이미지 경로
  */
 @Data
 public class BunnyNotiImageResponseDto {
 
 	private Long seq;
-	private Long bunnyNotiSeq;
+	private BunnyNotiResponseDto bunnyNoti;
 	private String imagePath;
 
 
