@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "마이페이지 관련 API")
+@Api(tags = "회원가입 관련 API")
 public class UserController {
 
 	private final UserService userService;
@@ -234,8 +234,8 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history")
 	@ApiOperation(value = "히스토리 목록을 조회합니다")
 	public ResponseEntity<ResultDto<List<HistoryResponseDto>>> getUserHistoryList(@PathVariable("userSeq") Long userSeq) {
-		List<HistoryEntity> historyEntityList = userService.getUserHistoryList(userSeq);
-		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(historyEntityList);
+		List<HistoryEntity> historyList = userService.getUserHistoryList(userSeq);
+		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(historyList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDtoList));
 	}
 
@@ -243,8 +243,8 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history/{historySeq}")
 	@ApiOperation(value = "히스토리 하나를 조회합니다")
 	public ResponseEntity<ResultDto<HistoryResponseDto>> getUserHistory(@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) {
-		HistoryEntity historyEntity = userService.getUserHistory(userSeq, historySeq);
-		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(historyEntity);
+		HistoryEntity history = userService.getUserHistory(userSeq, historySeq);
+		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(history);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
 	}
 
