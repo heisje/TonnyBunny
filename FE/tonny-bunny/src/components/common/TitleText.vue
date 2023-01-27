@@ -40,13 +40,13 @@ export default {
             description: "text",
         },
         top: {
-            type: Number,
-            default: 36,
+            type: String,
+            default: "36",
             description: "margin-top",
         },
         bottom: {
-            type: Number,
-            default: 12,
+            type: String,
+            default: "12",
             description: "margin-bottom",
         },
         center: {

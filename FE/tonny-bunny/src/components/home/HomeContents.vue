@@ -15,8 +15,16 @@
                         </span>
                     </div>
                     <div class="mainBtns">
-                        <main-btn></main-btn>
-                        <main-btn></main-btn>
+                        <main-btn text="통역" href="TonnyPage">
+                            <template #icon>
+                                <span class="material-symbols-outlined"> interpreter_mode </span>
+                            </template>
+                        </main-btn>
+                        <main-btn text="번역" href="BunnyPage">
+                            <template #icon>
+                                <span class="material-symbols-outlined"> g_translate </span>
+                            </template>
+                        </main-btn>
                     </div>
                 </div>
 
@@ -24,10 +32,11 @@
 
                 <div class="row sub">
                     <div class="col-12 col-lg-6">
-                        <schedule-list></schedule-list>
+                        <home-schedule-list></home-schedule-list>
                     </div>
+                    <!-- <div class="col-12 col-lg-2"></div> -->
                     <div class="col-12 col-lg-6">
-                        <board-list></board-list>
+                        <home-board-list></home-board-list>
                     </div>
                 </div>
             </div>
@@ -37,10 +46,10 @@
 
 <script>
 /* eslint-disable */
-import TitleText from "../common/TitleText.vue";
+import TitleText from "@/components/common/TitleText.vue";
 import MainBtn from "./MainBtn.vue";
-import ScheduleList from "./ScheduleList.vue";
-import BoardList from "./BoardList.vue";
+import HomeScheduleList from "./HomeScheduleList.vue";
+import HomeBoardList from "./HomeBoardList.vue";
 
 export default {
     name: "HomeContents",
@@ -48,8 +57,8 @@ export default {
     components: {
         TitleText,
         MainBtn,
-        ScheduleList,
-        BoardList,
+        HomeScheduleList,
+        HomeBoardList,
     },
 };
 </script>
@@ -85,8 +94,11 @@ export default {
     .mainBtns {
         display: flex;
         justify-content: center;
+        justify-content: space-evenly;
+        width: 60%;
 
         div {
+            margin-right: 12px;
         }
     }
 }
