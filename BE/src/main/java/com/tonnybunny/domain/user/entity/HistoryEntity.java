@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@DiscriminatorColumn(name = "task_code")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HistoryEntity {
@@ -36,7 +36,7 @@ public class HistoryEntity {
 
 	private String startLangCode;
 	private String endLangCode;
-	private String taskCode;
+	//	private String taskCode;
 
 	private Long notiSeq;                   // 즉통, 예통의 경우 NotiSeq, 번역의 경우 QuotationSeq
 
