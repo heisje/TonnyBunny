@@ -100,7 +100,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <a class="navbar-brand" href="/">
-                        <img src="@/assets/logo.png" alt="" width="80" />
+                        <img src="@/assets/logo.png" alt="" width="100" />
                     </a>
                     <div class="d-flex">
                         <span class="material-symbols-outlined notification"> notifications </span>
