@@ -2,6 +2,7 @@
     <div>
         <h1>회원관리 - 약관 동의 페이지</h1>
 
+        {{ select }}
         <TitleText />
         <SubText />
 
@@ -25,6 +26,13 @@ export default {
         TitleText,
         SubText,
         DescriptionItem,
+    },
+
+    props: {
+        select: {
+            type: String,
+            default: "디폴트",
+        },
     },
 };
 </script>

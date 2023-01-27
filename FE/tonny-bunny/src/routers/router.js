@@ -130,13 +130,14 @@ export default createRouter({
         },
 
         {
-            path: "/account/agree",
+            path: "/account/agree/:select",
             name: "AgreePage",
             components: {
                 header: AppHeader,
                 default: AgreePage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         //jtonny
