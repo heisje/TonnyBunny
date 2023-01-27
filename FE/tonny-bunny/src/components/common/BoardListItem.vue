@@ -11,7 +11,11 @@
                         <div class="tag">
                             <square-tag sub text="자유"></square-tag>
                         </div>
-                        <div class="titleText">{{ title }}</div>
+                        <div class="titleText">
+                            <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                                {{ title }}
+                            </router-link>
+                        </div>
                     </div>
 
                     <div class="d-flex flex-column h-100 justify-content-between">
@@ -48,6 +52,11 @@ export default {
     },
 
     props: {
+        boardId: {
+            type: Number,
+            default: 1,
+        },
+
         title: {
             type: String,
             default: "커뮤니티 글 제목",
@@ -93,6 +102,11 @@ export default {
             display: flex;
             cursor: pointer;
 
+            a {
+                color: var(--main-color);
+                text-decoration: none;
+            }
+
             &:hover {
                 text-decoration: underline;
             }
@@ -111,7 +125,7 @@ export default {
             width: 300px;
             margin-top: 8px;
             color: var(--sub-color);
-            cursor: pointer;
+            // cursor: pointer;
         }
     }
 
