@@ -28,7 +28,7 @@ public class YTonnyController {
 	private final YTonnyService yTonnyService;
 
 
-	@PostMapping("/")
+	@PostMapping
 	@ApiOperation(value = "고객의 예약 통역 공고 생성", notes = "")
 	public ResponseEntity<ResultDto<Long>> createYTonnyNoti(@RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
 		Long createdYTonnyNotiSeq = yTonnyService.createYTonnyNoti(yTonnyNotiRequestDto);
@@ -52,7 +52,7 @@ public class YTonnyController {
 	}
 
 
-	@GetMapping("/")
+	@GetMapping
 	@ApiOperation(value = "예약 통역 공고 목록 조회", notes = "")
 	public ResponseEntity<ResultDto<List<YTonnyNotiResponseDto>>> getYTonnyNotiList() {
 		List<YTonnyNotiEntity> yTonnyNotiList = yTonnyService.getYTonnyNotiList();
@@ -102,7 +102,7 @@ public class YTonnyController {
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
-	
+
 	// TODO : 예약 통역 결과 목록 조회 API도 필요한가? 아니면 히스토리 Controller에서 추가?
 	//  만약 추가한다면, 고객 userSeq로 조회 메소드 & 헬퍼 userSeq로 조회 메소드 총 2개가 있어야 할 듯
 }
