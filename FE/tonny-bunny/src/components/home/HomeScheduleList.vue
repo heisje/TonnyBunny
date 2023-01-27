@@ -38,8 +38,16 @@ export default {
     data() {
         return {
             scheduleList: [
-                { color: "carrot", dates: { date: "오늘", time: "시간" }, text: "일정내용1" },
-                { color: "light", dates: { date: "오늘", time: "시간" }, text: "일정내용1" },
+                {
+                    color: "carrot",
+                    dates: { date: "오늘", time: { start: "13:00", end: "18:00" } },
+                    text: "일정내용1",
+                },
+                {
+                    color: "light",
+                    dates: { date: "오늘", time: { start: "13:00", end: "18:00" } },
+                    text: "일정내용2",
+                },
             ],
         };
     },

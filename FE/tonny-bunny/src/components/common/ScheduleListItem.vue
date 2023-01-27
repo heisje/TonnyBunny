@@ -3,10 +3,10 @@
         <div class="scheduleListItemWrap" :class="color">
             <div class="scheduleListItem">
                 <span class="material-symbols-outlined icon"> done </span>
-                <div class="info row">
+                <div class="info">
                     <span class="itemDate">
-                        <span class="date col">{{ dates.date }}</span>
-                        <span class="time col">{{ dates.time }}</span>
+                        <span class="date">{{ dates.date }}</span>
+                        <span class="time">{{ dates.time.start }} ~ {{ dates.time.end }}</span>
                     </span>
                     <span class="itemText text-truncate col">{{ text }}</span>
                 </div>
@@ -69,6 +69,14 @@ export default {
             color: var(--background-color);
         }
 
+        .info {
+            .itemDate {
+                span {
+                    color: var(--background-color);
+                }
+            }
+        }
+
         .itemText {
             color: #fff;
         }
@@ -80,9 +88,21 @@ export default {
             color: var(--background-color);
         }
 
+        .info {
+            .itemDate {
+                span {
+                    color: var(--background-color);
+                }
+            }
+        }
+
         .itemText {
             color: #fff;
         }
+    }
+
+    &:hover {
+        opacity: 0.8;
     }
 }
 
@@ -99,7 +119,9 @@ export default {
     .info {
         width: 80%;
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        // flex-direction: column;
+        // justify-content: space-between;
 
         span {
             font-size: 1.1rem;
