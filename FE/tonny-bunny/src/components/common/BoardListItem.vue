@@ -3,7 +3,7 @@
         <div class="boardListItemWrap">
             <div class="boardListItem">
                 <div class="thumnail">
-                    <img src="" alt="" width="72" />
+                    <img src="" alt="" width="100px" />
                 </div>
 
                 <div class="info mt-1 w-100">
@@ -67,16 +67,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.boardListItemContainer {
+    cursor: default;
+}
+
 .boardListItem {
     display: flex;
     // height: 100px;
 
     .thumnail {
-        width: 100px;
+        width: 120px;
         height: 100px;
         background-color: var(--light-color);
         border-radius: 8px;
         margin-right: 16px;
+        // cursor: pointer;
     }
 
     .info {
@@ -86,6 +91,11 @@ export default {
 
         .title {
             display: flex;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
 
             .tag {
                 margin-right: 6px;
@@ -101,6 +111,7 @@ export default {
             width: 300px;
             margin-top: 8px;
             color: var(--sub-color);
+            cursor: pointer;
         }
     }
 

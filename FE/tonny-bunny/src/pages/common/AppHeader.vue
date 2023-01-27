@@ -5,7 +5,7 @@
                 <div class="container-fluid container">
                     <div class="d-flex">
                         <a class="navbar-brand" href="/">
-                            <img src="@/assets/logo.png" alt="" width="80" />
+                            <img src="@/assets/logo.png" alt="" width="100" />
                         </a>
 
                         <div class="navBarTexts d-flex">
@@ -48,7 +48,8 @@
 
                     <div class="navBarProfile">
                         <span class="material-symbols-outlined notification"> notifications </span>
-                        <div @click="openPopOver">
+
+                        <div @click="openPopOver" class="d-flex align-items-center">
                             <span class="nickName">닉네임<span>님</span></span>
                             <img src="@/assets/noProfile.png" width="40" height="40" />
                         </div>
@@ -242,22 +243,23 @@ export default {
 
 .navBarWrap {
     // margin-bottom: 100px;
+    // height: 200px;
 }
 .navBar {
-    // height: 200px;
+    // height: 500px;
 
     .navbar-brand {
-        margin-right: 16px;
+        margin-right: 20px;
     }
     .navbar-nav {
-        padding: 0 12px;
+        padding: 0 16px;
         display: flex;
         align-items: center;
 
         h2 {
             color: var(--main-color);
             font-weight: 400;
-            font-size: 1.01rem;
+            // font-size: 1.01rem;
             margin-right: 24px;
 
             &:hover {
@@ -273,17 +275,18 @@ export default {
         justify-content: center;
 
         > span:nth-child(1) {
-            margin-right: 3px;
+            margin-right: 8px;
         }
 
         .nickName {
             margin-right: 12px;
+            font-size: 1rem;
         }
 
         .profilePopOver {
             position: absolute;
-            top: 70px;
-            margin-right: -3px;
+            top: 80px;
+            // margin-right: -2px;
             // right: 10px;
             width: 120px;
             padding: 12px 16px;
@@ -300,14 +303,14 @@ export default {
                 li {
                     list-style: none;
                     margin-bottom: 6px;
-                    opacity: 0.8;
-
-                    &:hover {
-                        color: var(--main-color);
-                        opacity: 1;
-                    }
+                    // opacity: 0.8;
 
                     border-bottom: 1px solid var(--light-color);
+
+                    a {
+                        color: var(--main-color);
+                        font-size: 1rem;
+                    }
                 }
             }
 
@@ -332,6 +335,8 @@ export default {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
     // margin-bottom: 54px;
     padding: 16px 0;
+    height: 100px;
+    z-index: 100;
 
     .nav-link {
         color: var(--main-color);
