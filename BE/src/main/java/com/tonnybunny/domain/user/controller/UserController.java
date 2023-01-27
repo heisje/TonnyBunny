@@ -244,8 +244,8 @@ public class UserController {
 	@ApiOperation(value = "히스토리 하나를 조회합니다")
 	public ResponseEntity<ResultDto<HistoryResponseDto>> getUserHistory(@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) {
 		HistoryEntity history = userService.getUserHistory(userSeq, historySeq);
-		HistoryResponseDto historyDto = HistoryResponseDto.fromEntity(history);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyDto));
+		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(history);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
 	}
 
 	// ------------------------------ 헬퍼 프로필 ---------------------------------------
