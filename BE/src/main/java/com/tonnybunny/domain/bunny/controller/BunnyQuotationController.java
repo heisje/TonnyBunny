@@ -26,7 +26,7 @@ public class BunnyQuotationController {
 	private final BunnyQuotationService bunnyQuotationService;
 
 
-	@PostMapping("/")
+	@PostMapping
 	@ApiOperation(value = "번역 견적서 생성")
 	public ResponseEntity<ResultDto<Long>> createBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
 		Long createdBunnyQuotation = bunnyQuotationService.createBunnyQuotation(bunnyQuotationRequestDto);
