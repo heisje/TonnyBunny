@@ -29,7 +29,7 @@ public class BoardController {
 	/* 게시글 */
 
 
-	@GetMapping("/")
+	@GetMapping
 	@ApiOperation(value = "게시글 리스트를 조회합니다.", notes = "")
 	public ResponseEntity<ResultDto<List<BoardResponseDto>>> getBoardList() {
 		List<BoardEntity> boardList = boardService.getBoardList();
@@ -47,7 +47,7 @@ public class BoardController {
 	}
 
 
-	@PostMapping("/")
+	@PostMapping
 	@ApiOperation(value = "게시글을 작성합니다.", notes = "")
 	public ResponseEntity<ResultDto<Long>> createBoard(@RequestBody BoardRequestDto boardRequestDto) {
 		Long boardSeq = boardService.createBoard(boardRequestDto);

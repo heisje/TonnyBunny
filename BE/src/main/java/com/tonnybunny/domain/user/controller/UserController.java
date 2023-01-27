@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "회원가입 관련 API")
+@Api(tags = "마이페이지 관련 API")
 public class UserController {
 
 	private final UserService userService;
