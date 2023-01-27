@@ -36,8 +36,9 @@ export default {};
 <style lang="scss" scoped>
 .homeBannerContainer {
     position: absolute;
-    top: 73px;
+    top: 100px;
     left: 0;
+    z-index: 99;
 }
 
 .homeBannerWrap {

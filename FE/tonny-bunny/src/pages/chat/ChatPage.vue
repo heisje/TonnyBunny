@@ -1,21 +1,15 @@
 <template>
     <div>
         <h1>채팅 - 채팅 목록</h1>
-
-        <div>
-            <ChatListItem />
-        </div>
+        <chat-list />
     </div>
 </template>
 
 <script>
-import ChatListItem from "@/components/chat/ChatListItem.vue";
-
+import ChatList from "@/components/chat/ChatList.vue";
 export default {
-    name: "ChatListPage",
-    components: {
-        ChatListItem,
-    },
+    components: { ChatList },
+    name: "ChatPage",
 };
 </script>
 

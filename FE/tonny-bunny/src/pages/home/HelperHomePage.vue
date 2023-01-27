@@ -18,7 +18,7 @@
     </div>
     <div>
         오늘 일정
-        <ScheduleList />
+        <!-- <ScheduleList /> -->
     </div>
 </template>
 
@@ -26,7 +26,7 @@
 import MainBtn from "@/components/home/MainBtn.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import QuestList from "@/components/home/QuestList.vue";
-import ScheduleList from "@/components/home/ScheduleList.vue";
+// import ScheduleList from "@/components/home/ScheduleList.vue";
 
 export default {
     name: "HelperHomePage",
@@ -35,7 +35,7 @@ export default {
         MainBtn,
         HelperCard,
         QuestList,
-        ScheduleList,
+        // ScheduleList,
     },
 };
 </script>
