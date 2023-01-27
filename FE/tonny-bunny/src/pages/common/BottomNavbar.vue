@@ -23,7 +23,7 @@
                 <li>
                     <router-link :to="{ name: 'ChatPage' }">
                         <span class="material-symbols-outlined icon"> forum </span>
-                        <span>메세지</span>
+                        <span>채팅</span>
                     </router-link>
                 </li>
                 <li>
@@ -115,8 +115,6 @@ export default {
 }
 
 @media (min-width: 768px) {
-    #BottomNavbar {
-    }
 }
 
 @media (min-width: 1200px) {

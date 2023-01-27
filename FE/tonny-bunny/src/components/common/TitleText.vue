@@ -27,7 +27,7 @@ export default {
         type: {
             type: String,
             default: "h1",
-            description: "title",
+            description: "type",
         },
         small: {
             type: Boolean,
@@ -46,7 +46,7 @@ export default {
         },
         bottom: {
             type: String,
-            default: "12",
+            default: "4",
             description: "margin-bottom",
         },
         center: {
