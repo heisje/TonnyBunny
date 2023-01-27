@@ -234,8 +234,8 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history")
 	@ApiOperation(value = "히스토리 목록을 조회합니다")
 	public ResponseEntity<ResultDto<List<HistoryDto>>> getUserHistoryList(@PathVariable("userSeq") Long userSeq) {
-		List<HistoryEntity> historyEntityList = userService.getUserHistoryList(userSeq);
-		List<HistoryDto> historyResponseDtoList = HistoryDto.fromEntityList(historyEntityList);
+		List<HistoryEntity> historyList = userService.getUserHistoryList(userSeq);
+		List<HistoryDto> historyResponseDtoList = HistoryDto.fromEntityList(historyList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDtoList));
 	}
 
