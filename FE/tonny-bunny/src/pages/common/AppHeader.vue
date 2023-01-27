@@ -5,7 +5,7 @@
                 <div class="container-fluid container">
                     <div class="d-flex">
                         <a class="navbar-brand" href="/">
-                            <img src="@/assets/logo.png" alt="" width="80" />
+                            <img src="@/assets/logo.png" alt="" width="100" />
                         </a>
 
                         <div class="navBarTexts d-flex">
@@ -48,9 +48,16 @@
 
                     <div class="navBarProfile">
                         <span class="material-symbols-outlined notification"> notifications </span>
-                        <div @click="openPopOver">
-                            <span class="nickName">닉네임<span>님</span></span>
-                            <img src="@/assets/noProfile.png" width="40" height="40" />
+
+                        <div class="d-flex align-items-center">
+                            <span class="nickName">
+                                <router-link :to="{ name: 'MyPage' }">닉네임님</router-link>
+                            </span>
+                            <img
+                                src="@/assets/noProfile.png"
+                                width="40"
+                                height="40"
+                                @click="openPopOver" />
                         </div>
                         <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
                             <div class="popOverArrow"></div>
@@ -99,7 +106,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <a class="navbar-brand" href="/">
-                        <img src="@/assets/logo.png" alt="" width="80" />
+                        <img src="@/assets/logo.png" alt="" width="100" />
                     </a>
                     <div class="d-flex">
                         <span class="material-symbols-outlined notification"> notifications </span>
@@ -238,31 +245,40 @@ export default {
     font-variation-settings: "FILL" 0, "wght" 300;
     margin: 0;
     padding: 0;
+    transition: all 0.15s;
+
+    &:hover {
+        color: var(--primary-color);
+        font-variation-settings: "FILL" 1;
+    }
 }
 
 .navBarWrap {
     // margin-bottom: 100px;
+    // height: 200px;
 }
 .navBar {
-    // height: 200px;
+    // height: 500px;
 
     .navbar-brand {
-        margin-right: 16px;
+        margin-right: 20px;
     }
     .navbar-nav {
-        padding: 0 12px;
+        padding: 0 16px;
         display: flex;
         align-items: center;
 
         h2 {
             color: var(--main-color);
-            font-weight: 400;
-            font-size: 1.01rem;
+            font-weight: 500;
+            font-size: 1.2rem;
             margin-right: 24px;
+            transition: all 0.13s;
 
             &:hover {
-                font-weight: 500;
+                // font-weight: 500;
                 // text-decoration: underline;
+                color: var(--primary-color);
             }
         }
     }
@@ -273,17 +289,32 @@ export default {
         justify-content: center;
 
         > span:nth-child(1) {
-            margin-right: 3px;
+            margin-right: 8px;
         }
 
         .nickName {
             margin-right: 12px;
+
+            a {
+                font-size: 1rem;
+                font-weight: 500;
+                color: var(--main-color);
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            span {
+                font-size: 1rem;
+            }
         }
 
         .profilePopOver {
             position: absolute;
             top: 70px;
-            margin-right: -3px;
+            margin-right: -6px;
             // right: 10px;
             width: 120px;
             padding: 12px 16px;
@@ -300,14 +331,21 @@ export default {
                 li {
                     list-style: none;
                     margin-bottom: 6px;
-                    opacity: 0.8;
-
-                    &:hover {
-                        color: var(--main-color);
-                        opacity: 1;
-                    }
+                    // opacity: 0.8;
 
                     border-bottom: 1px solid var(--light-color);
+                    // transition: all 0.13s;
+
+                    &:hover {
+                        // font-weight: 600;
+                        background-color: var(--thin-color);
+                    }
+
+                    a {
+                        color: var(--main-color);
+                        font-size: 1rem;
+                        padding: 2px 0 0 2px;
+                    }
                 }
             }
 
@@ -329,9 +367,11 @@ export default {
 }
 .navbar {
     background-color: var(--background-color);
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.03);
     // margin-bottom: 54px;
     padding: 16px 0;
+    height: 80px;
+    z-index: 100;
 
     .nav-link {
         color: var(--main-color);
@@ -358,7 +398,8 @@ export default {
         // justify-content: space-between;
 
         img {
-            margin-right: 8px;
+            margin-left: 6px;
+            margin-right: 10px;
         }
 
         &:hover {
@@ -370,15 +411,31 @@ export default {
         background-color: transparent;
         margin-bottom: 8px;
         border: none;
+
+        h3 {
+            &:hover {
+                color: none;
+            }
+        }
+
+        .dropdown-item {
+            font-size: 1rem;
+        }
     }
 }
 
 .navBarMobile {
     background-color: var(--background-color);
+    cursor: default;
 
     .nav-link {
         h2 {
-            font-weight: 400;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        &:hover {
+            color: var(--primary-color);
         }
     }
 

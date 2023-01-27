@@ -36,7 +36,7 @@ public class JTonnyController {
 	 * @param jTonnyNotiRequestDto : 즉시 통역 공고 생성 폼
 	 * @return : 생성된 공고 seq
 	 */
-	@PostMapping("/")
+	@PostMapping
 	@ApiOperation(value = "즉시 통역 공고 생성")
 	public ResponseEntity<ResultDto<Long>> createJTonnyNoti(@RequestBody JTonnyNotiRequestDto jTonnyNotiRequestDto) {
 
@@ -69,7 +69,7 @@ public class JTonnyController {
 	 *
 	 * @return 즉시 통역 공고 Response Dto List
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@ApiOperation(value = "즉시 통역 공고 목록 조회")
 	public ResponseEntity<ResultDto<List<JTonnyNotiResponseDto>>> getJTonnyNotiList() {
 

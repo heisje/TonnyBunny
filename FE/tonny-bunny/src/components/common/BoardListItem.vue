@@ -3,7 +3,7 @@
         <div class="boardListItemWrap">
             <div class="boardListItem">
                 <div class="thumnail">
-                    <img src="" alt="" width="72" />
+                    <img src="" alt="" width="100px" />
                 </div>
 
                 <div class="info mt-1 w-100">
@@ -11,7 +11,10 @@
                         <div class="tag">
                             <square-tag sub text="자유"></square-tag>
                         </div>
-                        <div class="titleText">{{ title }}</div>
+
+                        <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                            <div class="titleText">{{ title }}</div>
+                        </router-link>
                     </div>
 
                     <div class="d-flex flex-column h-100 justify-content-between">
@@ -48,6 +51,11 @@ export default {
     },
 
     props: {
+        boardId: {
+            type: Number,
+            default: 1,
+        },
+
         title: {
             type: String,
             default: "커뮤니티 글 제목",
@@ -67,16 +75,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.boardListItemContainer {
+    cursor: default;
+}
+
 .boardListItem {
     display: flex;
     // height: 100px;
 
     .thumnail {
-        width: 100px;
+        width: 120px;
         height: 100px;
         background-color: var(--light-color);
         border-radius: 8px;
         margin-right: 16px;
+        // cursor: pointer;
     }
 
     .info {
@@ -87,6 +100,11 @@ export default {
         .title {
             display: flex;
 
+            a {
+                color: var(--main-color);
+                text-decoration: none;
+            }
+
             .tag {
                 margin-right: 6px;
             }
@@ -94,6 +112,12 @@ export default {
             .titleText {
                 font-size: 1rem;
                 font-weight: 600;
+                cursor: pointer;
+
+                &:hover {
+                    // color: var(--primary-color);
+                    text-decoration: underline;
+                }
             }
         }
 
@@ -101,6 +125,7 @@ export default {
             width: 300px;
             margin-top: 8px;
             color: var(--sub-color);
+            // cursor: pointer;
         }
     }
 
