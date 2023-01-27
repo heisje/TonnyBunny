@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.user.entity;
 
 
+import com.tonnybunny.domain.review.entity.ReviewEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +40,7 @@ public class HistoryEntity {
 
 	private Long notiSeq;                   // 즉통, 예통의 경우 NotiSeq, 번역의 경우 QuotationSeq
 
-	@Column(name = "review_seq")
-	private Long reviewSeq;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "history")
+	private ReviewEntity review;
 
 }

@@ -29,7 +29,7 @@ public class ReviewEntity extends CommonEntity {
 
 	private String comment;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "history_seq")
 	private HistoryEntity history;
 
