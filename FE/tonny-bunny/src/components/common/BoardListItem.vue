@@ -11,11 +11,10 @@
                         <div class="tag">
                             <square-tag sub text="자유"></square-tag>
                         </div>
-                        <div class="titleText">
-                            <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
-                                {{ title }}
-                            </router-link>
-                        </div>
+
+                        <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                            <div class="titleText">{{ title }}</div>
+                        </router-link>
                     </div>
 
                     <div class="d-flex flex-column h-100 justify-content-between">
@@ -100,15 +99,10 @@ export default {
 
         .title {
             display: flex;
-            cursor: pointer;
 
             a {
                 color: var(--main-color);
                 text-decoration: none;
-            }
-
-            &:hover {
-                text-decoration: underline;
             }
 
             .tag {
@@ -118,6 +112,12 @@ export default {
             .titleText {
                 font-size: 1rem;
                 font-weight: 600;
+                cursor: pointer;
+
+                &:hover {
+                    // color: var(--primary-color);
+                    text-decoration: underline;
+                }
             }
         }
 
