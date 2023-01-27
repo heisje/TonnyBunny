@@ -9,11 +9,9 @@ import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
 import com.tonnybunny.domain.chat.entity.ChatLogEntity;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
-import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
-import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
@@ -64,18 +62,18 @@ public class UserEntity extends CommonEntity {
 	@OneToMany(mappedBy = "helper")
 	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
 
-	@OneToMany(mappedBy = "client")
-	private List<YTonnyHistoryEntity> yTonnyClientResultList = new ArrayList<>(); // 예약통역 결과 고객
-
-	@OneToMany(mappedBy = "helper")
-	private List<YTonnyHistoryEntity> yTonnyHelperResultList = new ArrayList<>(); // 예약통역 결과 헬퍼
-
-	// 즉시통역
-	@OneToMany(mappedBy = "client")
-	private List<JTonnyHistoryEntity> jTonnyClientResultList = new ArrayList<>(); // 즉시통역 결과 고객
-
-	@OneToMany(mappedBy = "helper")
-	private List<JTonnyHistoryEntity> jTonnyHelperResultList = new ArrayList<>(); // 즉시통역 결과 헬퍼
+	//	@OneToMany(mappedBy = "client")
+	//	private List<YTonnyHistoryEntity> yTonnyClientResultList = new ArrayList<>(); // 예약통역 결과 고객
+	//
+	//	@OneToMany(mappedBy = "helper")
+	//	private List<YTonnyHistoryEntity> yTonnyHelperResultList = new ArrayList<>(); // 예약통역 결과 헬퍼
+	//
+	//	// 즉시통역
+	//	@OneToMany(mappedBy = "client")
+	//	private List<JTonnyHistoryEntity> jTonnyClientResultList = new ArrayList<>(); // 즉시통역 결과 고객
+	//
+	//	@OneToMany(mappedBy = "helper")
+	//	private List<JTonnyHistoryEntity> jTonnyHelperResultList = new ArrayList<>(); // 즉시통역 결과 헬퍼
 
 	// 스케쥴
 	@OneToMany(mappedBy = "user")

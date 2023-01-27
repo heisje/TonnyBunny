@@ -1,21 +1,21 @@
 package com.tonnybunny.domain.bunny.entity;
 
 
+import com.tonnybunny.domain.user.entity.HistoryEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 
 @Entity
+@DiscriminatorValue("bunny")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BunnyHistoryEntity {
+public class BunnyHistoryEntity extends HistoryEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bunny_history_seq")
-	private Long seq;
+	private String title;
 
 }
