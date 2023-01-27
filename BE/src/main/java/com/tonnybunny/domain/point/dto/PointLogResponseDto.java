@@ -14,7 +14,7 @@ import java.util.List;
  * amount               : 포인트 양
  * pointRequestType     : 충전/출금/거래 공통 코드
  * userSeq              : 포인트 사용자 Seq
- * created              : 포인트 로그 생성 날짜
+ * created_at           : 포인트 로그 생성 날짜
  */
 @Data
 public class PointLogResponseDto {
@@ -27,7 +27,7 @@ public class PointLogResponseDto {
 
 	private Integer userSeq;
 
-	private LocalDateTime created;
+	private LocalDateTime created_at;
 
 
 	public static PointLogResponseDto fromEntity(PointLogEntity pointLog) {
