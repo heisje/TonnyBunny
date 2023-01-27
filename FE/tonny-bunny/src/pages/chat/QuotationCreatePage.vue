@@ -1,23 +1,17 @@
 <template>
     <div>
-        <h1>채팅 - 견적서 작성</h1>
+        <title-banner title="🐰 견적서 작성" text="견적서를 통해 계약해보세요" />
 
-        <div>배너 라인</div>
-
-        <div>어떤 언어 input</div>
-        <div>마감 기한 input</div>
-        <div>번역 금액 input</div>
-        <div>제목 input</div>
-        <div>내용 input</div>
-        <div>사진 input</div>
-
-        <div>필수 약관 동의 버튼</div>
-        <button>번역 의뢰하기 버튼</button>
+        <quotation-form />
     </div>
 </template>
 
 <script>
-export default {};
+import QuotationForm from "@/components/chat/QuotationForm.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
+export default {
+    components: { QuotationForm, TitleBanner },
+};
 </script>
 
 <style></style>
