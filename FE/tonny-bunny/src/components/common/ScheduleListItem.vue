@@ -1,0 +1,126 @@
+<template>
+    <div class="scheduleListItemContainer">
+        <div class="scheduleListItemWrap" :class="color">
+            <div class="scheduleListItem">
+                <span class="material-symbols-outlined icon"> done </span>
+                <div class="info row">
+                    <span class="itemDate">
+                        <span class="date col">{{ dates.date }}</span>
+                        <span class="time col">{{ dates.time }}</span>
+                    </span>
+                    <span class="itemText text-truncate col">{{ text }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "ScheduleListItem",
+
+    components: {},
+
+    props: {
+        color: {
+            type: String,
+            default: "light",
+        },
+
+        text: {
+            type: String,
+            default: "일정내용일정내용일정내용일정내용일정내용일정내용일정내용",
+        },
+
+        dates: {
+            type: Object,
+            default: () => {
+                return { date: "오늘", time: "13:00 ~ 14:00" };
+            },
+        },
+    },
+};
+</script>
+
+<style lang="scss" scoped>
+.scheduleListItemContainer {
+    cursor: default;
+    margin-bottom: 8px;
+}
+
+.scheduleListItemWrap {
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 1.5px 1px rgba(0, 0, 0, 0.05);
+
+    transition: all 0.13s;
+
+    &.light {
+        background-color: var(--light-color);
+
+        .icon {
+            color: var(--main-color);
+        }
+    }
+    &.carrot {
+        background: var(--carrot-color);
+
+        .icon {
+            color: var(--background-color);
+        }
+
+        .itemText {
+            color: #fff;
+        }
+    }
+    &.primary {
+        background-color: var(--primary-color);
+
+        .icon {
+            color: var(--background-color);
+        }
+
+        .itemText {
+            color: #fff;
+        }
+    }
+}
+
+.scheduleListItem {
+    display: flex;
+    align-items: center;
+    // font-size: 1.2rem;
+
+    .icon {
+        margin-right: 8px;
+        font-size: 1.5rem;
+    }
+
+    .info {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+
+        span {
+            font-size: 1.1rem;
+            // font-weight: 500;
+        }
+
+        .itemDate {
+            margin-right: 8px;
+
+            span {
+                font-size: 1rem;
+                margin-right: 4px;
+                font-weight: 600;
+            }
+        }
+
+        .itemText {
+            font-size: 1.1rem;
+            margin-right: 4px;
+            margin-top: 2px;
+        }
+    }
+}
+</style>
