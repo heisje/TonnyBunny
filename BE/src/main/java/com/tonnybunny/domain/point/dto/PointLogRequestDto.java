@@ -6,8 +6,8 @@ import lombok.Data;
 
 
 /**
- * @field userSeq : 조회하고 싶은 대상 유저 seq
- * @field logCount : 조회하고 싶은 로그 개수
+ * userSeq      : 조회하고 싶은 대상 유저 seq
+ * logCount     : 조회하고 싶은 로그 개수
  */
 @Data
 public class PointLogRequestDto {

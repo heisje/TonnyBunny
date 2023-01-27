@@ -12,11 +12,11 @@ import lombok.Data;
  * case 거래 : fromUserSeq, toUserSeq, pointAmount
  * }
  *
- * @field fromUserSeq : (거래 시) 포인트를 주는 유저
- * @field toUserSeq : (거래 시) 포인트를 받는 유저
- * @field pointAmount : 포인트 양
- * @field backAccount : 계좌 번호
- * @field pointRequestType : 포인트 거래 유형
+ * fromUserSeq          : (거래 시) 포인트를 주는 유저
+ * toUserSeq            : (거래 시) 포인트를 받는 유저
+ * pointAmount          : 포인트 양
+ * backAccount          : 계좌 번호
+ * pointRequestType     : 포인트 거래 유형
  */
 @Data
 public class PointRequestDto {
