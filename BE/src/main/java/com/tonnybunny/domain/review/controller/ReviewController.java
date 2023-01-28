@@ -25,7 +25,7 @@ public class ReviewController {
 	private final ReviewService reviewService;
 
 
-	@GetMapping("/")
+	@GetMapping
 	@ApiOperation(value = "리뷰 리스트를 조회합니다.", notes = "")
 	public ResponseEntity<?> getReviewList() {
 
@@ -47,7 +47,7 @@ public class ReviewController {
 	}
 
 
-	@PostMapping("/")
+	@PostMapping
 	@ApiOperation(value = "리뷰를 작성합니다.", notes = "")
 	public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
 

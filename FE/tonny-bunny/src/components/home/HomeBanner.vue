@@ -36,8 +36,9 @@ export default {};
 <style lang="scss" scoped>
 .homeBannerContainer {
     position: absolute;
-    top: 73px;
+    top: 81px;
     left: 0;
+    z-index: 99;
 }
 
 .homeBannerWrap {
@@ -46,9 +47,9 @@ export default {};
     // width: 100vw !important;
     // left: 0;
     // width: 100%;
-    background-color: red;
+    // background-color: red;
     background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
-        url("@/assets/images/banner1.jpg") no-repeat center;
+        url("@/assets/images/banner3.gif") no-repeat center;
     background-size: cover;
 }
 
@@ -80,7 +81,7 @@ export default {};
                         top: -35px;
 
                         color: var(--active-color);
-                        font-size: 1.5rem;
+                        font-size: 1.2rem;
                         font-weight: 400;
                         letter-spacing: -1px;
                     }
