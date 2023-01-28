@@ -5,7 +5,13 @@
         <h1 v-if="type == 'h1'">{{ title }}</h1>
         <h1 v-if="type == 'h1-small'" class="h1-small">{{ title }}</h1>
         <h2 v-if="type == 'h2'" class="h2">{{ title }}</h2>
+        <div v-if="title2">
+            <h1 v-if="type == 'h1'">{{ title2 }}</h1>
+            <h1 v-if="type == 'h1-small'" class="h1-small">{{ title2 }}</h1>
+            <h2 v-if="type == 'h2'" class="h2">{{ title2 }}</h2>
+        </div>
         <p :style="`margin-bottom:${bottom}px`">{{ text }}</p>
+        <p :style="`margin-bottom:${bottom}px`">{{ text2 }}</p>
     </div>
 </template>
 
@@ -24,6 +30,11 @@ export default {
             default: "title",
             description: "title",
         },
+        title2: {
+            type: String,
+            default: "",
+            description: "title",
+        },
         type: {
             type: String,
             default: "h1",
@@ -35,6 +46,11 @@ export default {
             description: "small",
         },
         text: {
+            type: String,
+            default: "",
+            description: "text",
+        },
+        text2: {
             type: String,
             default: "",
             description: "text",

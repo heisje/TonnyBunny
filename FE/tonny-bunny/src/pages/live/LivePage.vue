@@ -1,11 +1,7 @@
 <template>
     <h1>라이브 - on air 페이지</h1>
     <div>
-        요금확인아이템
-        <TonnyInfo />
-    </div>
-    <div>
-        <button class="bottomBtn">채팅버튼</button>
+        <TonnyInfo @toggle="(e) => (isOpen = true)" />
     </div>
     <div>
         채팅모달
@@ -13,18 +9,54 @@
     </div>
     <div v-if="isHelper === True">종료요청모달</div>
     <div v-else>종료확인모달</div>
+    <large-btn color="carrot" text="채팅하기" />
+    <AlarmModal
+        v-show="isOpen"
+        :isOpen="isOpen"
+        title="경고"
+        type="danger"
+        btnText1="확인"
+        btnText2="취소인데 일단 이게 확인"
+        btnColor1="carrot"
+        btnColor2="light"
+        btnFontColor1="white"
+        btnFontColor2="main"
+        @close-modal="closeModal"
+        :to="{ name: 'LiveClosePage' }">
+        <template #content>
+            동시통역을 종료하시겠습니까?<br />이용시간: 10분 / 비용: 500캐럿
+        </template>
+    </AlarmModal>
 </template>
 
 <script>
 import TonnyInfo from "@/components/live/TonnyInfo.vue";
 import ChatModal from "@/components/live/ChatModal.vue";
+import LargeBtn from "@/components/common/button/LargeBtn.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
     name: "LivePage",
-
+    data() {
+        return {
+            isOpen: false,
+        };
+    },
     components: {
         TonnyInfo,
         ChatModal,
+        LargeBtn,
+        AlarmModal,
+    },
+    methods: {
+        openModal(e) {
+            e.preventDefault();
+            this.isOpen = true;
+        },
+
+        closeModal() {
+            this.isOpen = false;
+        },
     },
 };
 </script>

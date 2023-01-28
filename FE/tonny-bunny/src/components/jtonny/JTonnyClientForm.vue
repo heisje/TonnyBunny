@@ -1,7 +1,6 @@
 <template>
     <div>
-        <form class="customForm borderForm" @submit.prevent="submitForm(event)">
-            <title-text type="h2" title="🐇즉시 통역 신청" />
+        <form class="customForm" @submit.prevent="submitForm(event)">
             <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
 
             <div class="d-flex flex-row">
@@ -61,11 +60,9 @@
             <textarea type="textarea" placeholder="내용을 입력해주세요" value="" />
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
-            <medium-btn
-                style="width: 100%"
-                text="즉시찾기"
-                color="carrot"
-                @click.prevent="submitForm(event)" />
+            <router-link :to="{ name: 'JTonnyWaitingPage' }">
+                <medium-btn style="width: 100%" text="즉시찾기" color="carrot" />
+            </router-link>
         </form>
     </div>
 </template>

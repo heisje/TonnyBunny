@@ -1,28 +1,75 @@
 <template>
     <div>
-        <h1>신고 작성 페이지</h1>
+        <TitleText title="신고하기" center />
 
-        <TitleText />
-        <SubText />
+        <img src="@/assets/noProfile.png" alt="" />
+        <div>닉네임</div>
 
-        <div>카테고리 설정 라인</div>
+        <TitleText title="신고하시는 이유를 골라주세요" type="h2" center />
 
+        <form class="customForm">
+            <DropdownInput
+                :dropdownArray="['아이템1', '아이템2', '아이템3']"
+                placeholder="상황 선택"
+                @toggle="(e) => (dropdownValue = e)" />
+            <TitleText title="자세한 내용을 적어주세요" type="h2" center />
+            <textarea></textarea>
+        </form>
         <div>신고 사유 text area</div>
 
-        <div>약관 동의 라인</div>
-        <button>취소 버튼</button>
-        <button>신고하기 버튼</button>
+        <agree-input @toggle="(e) => (isAgree = e)" />
+        <small-btn text="취소" />
+
+        <small-btn text="신고하기" @click.prevent="openModal" />
+
+        <AlarmModal
+            v-show="isOpen"
+            :isOpen="isOpen"
+            title="완료"
+            type="success"
+            btnText2="예"
+            btnColor1="main"
+            btnColor2="carrot"
+            btnFontColor1="white"
+            btnFontColor2="white"
+            @close-modal="closeModal"
+            :to="this.$router.options.history.state.back">
+            <template #content> 신고가 완료되었습니다 </template>
+        </AlarmModal>
     </div>
 </template>
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-import SubText from "@/components/common/SubText.vue";
+import DropdownInput from "@/components/common/input/DropdownInput.vue";
+import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import AgreeInput from "@/components/common/input/AgreeInput.vue";
 
 export default {
+    data() {
+        return {
+            isOpen: false,
+            isAgree: false,
+            dropdownValue: "",
+        };
+    },
     components: {
         TitleText,
-        SubText,
+        DropdownInput,
+        SmallBtn,
+        AlarmModal,
+        AgreeInput,
+    },
+    methods: {
+        openModal(e) {
+            e.preventDefault();
+            this.isOpen = true;
+        },
+
+        closeModal() {
+            this.isOpen = false;
+        },
     },
 };
 </script>
