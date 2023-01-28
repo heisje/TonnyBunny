@@ -1,37 +1,41 @@
 <template>
-    <h1>CheckCostItem</h1>
-    <img src="" alt="프로필이미지">
-    헬퍼 5분당 요금
-    소요시간 및 비용계산
-
-    스피커
-    <!-- <ControlBtn/> -->
-
-    마이크
-    <!-- <ControlBtn/> -->
-
-    비디오
-    <!-- <ControlBtn/> -->
-
-    신고하기
-    <!-- <ControlBtn/> -->
-
-    종료하기
-    <!-- <ControlBtn/> -->
-
-
+    <div>
+        <img src="@/assets/noProfile.png" alt="프로필이미지" />
+        <p>통역 요금</p>
+        <h2>600캐럿/5분</h2>
+        <br />
+        <p>지난시간</p>
+        <h4>10분 00초</h4>
+        <br />
+        <p>비용</p>
+        <h1>600캐럿</h1>
+        <br />
+        <div>
+            <button>스피커</button>
+            <button>마이크</button>
+            <button>비디오</button>
+            <button>신고하기</button>
+            <button @click.prevent="endEmit">종료하기</button>
+        </div>
+        <button>모달닫기</button>
+    </div>
 </template>
 
 <script>
 export default {
-		name: "CheckCostItem",
-
-		components: {
-            // ControlBtn,
+    name: "TonnyInfo",
+    data() {
+        return {
+            isOpen: false,
+        };
+    },
+    components: {},
+    methods: {
+        endEmit() {
+            this.$emit("toggle", true);
         },
-}
+    },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
