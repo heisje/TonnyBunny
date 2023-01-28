@@ -7,8 +7,11 @@ import AppFooter from "@/pages/common/AppFooter";
 import SignUpPage from "@/pages/account/SignUpPage";
 import FindIdPage from "@/pages/account/FindIdPage";
 import FindPwPage from "@/pages/account/FindPwPage";
+import ResetPwPage from "@/pages/account/ResetPwPage";
 import AbilityPage from "@/pages/account/AbilityPage";
 import AgreePage from "@/pages/account/AgreePage";
+import SignUpCreatePage from "@/pages/account/SignUpCreatePage";
+import SignUpCompletePage from "@/pages/account/SignUpCompletePage";
 
 // jtonny
 import JTonnyWaitingPage from "@/pages/jtonny/JTonnyWaitingPage";
@@ -120,6 +123,16 @@ export default createRouter({
         },
 
         {
+            path: "/account/resetpw",
+            name: "ResetPwPage",
+            components: {
+                header: AppHeader,
+                default: ResetPwPage,
+                footer: AppFooter,
+            },
+        },
+
+        {
             path: "/account/ability",
             name: "AbilityPage",
             components: {
@@ -130,13 +143,36 @@ export default createRouter({
         },
 
         {
-            path: "/account/agree",
+            path: "/account/agree/:select",
             name: "AgreePage",
             components: {
                 header: AppHeader,
                 default: AgreePage,
                 footer: AppFooter,
             },
+            props: true,
+        },
+
+        {
+            path: "/account/signup/:select/create",
+            name: "SignUpCreatePage",
+            components: {
+                header: AppHeader,
+                default: SignUpCreatePage,
+                footer: AppFooter,
+            },
+            props: true,
+        },
+
+        {
+            path: "/account/signup/complete",
+            name: "SignUpCompletePage",
+            components: {
+                header: AppHeader,
+                default: SignUpCompletePage,
+                footer: AppFooter,
+            },
+            props: true,
         },
 
         //jtonny
