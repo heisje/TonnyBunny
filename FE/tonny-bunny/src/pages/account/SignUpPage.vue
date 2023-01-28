@@ -7,11 +7,11 @@
 
         <h4>어떤 회원가입을 원하시나요?</h4>
         <div>
-            <router-link :to="{ name: 'AgreePage', params: { select: '일반' } }"
+            <router-link :to="{ name: 'AgreePage', params: { select: 'client' } }"
                 ><button><TitleText title="일반 회원가입"></TitleText></button
             ></router-link>
 
-            <router-link :to="{ name: 'AgreePage', params: { select: '헬퍼' } }"
+            <router-link :to="{ name: 'AgreePage', params: { select: 'helper' } }"
                 ><button><TitleText title="헬퍼 회원가입"></TitleText></button
             ></router-link>
         </div>
