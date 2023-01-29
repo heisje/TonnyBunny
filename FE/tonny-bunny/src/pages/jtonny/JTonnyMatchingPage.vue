@@ -1,26 +1,92 @@
 <template>
-	<div>
-		<h1>실시간 동시통역 - 가격 제안 페이지</h1>
+    <div>
+        <title-text title="고객에게 제안하기" text="5분당 가격을 제안해보세요!" />
 
-		<div>고객에게 제안하기</div>
-		<div>단가와 한 줄 설명으로 고객에게 제안해보세요!</div>
+        <helper-card />
 
-		<div>헬퍼카드</div>
+        <JTonnyHelperForm></JTonnyHelperForm>
+        <small-btn color="light" font="main" text="취소" @click.prevent="openModalCancel" />
+        <small-btn
+            color="carrot"
+            font="white"
+            text="고객에게 제안하기"
+            @click.prevent="openModalSuccess" />
 
-		<div>매칭폼</div>
-		<JTonnyHelperForm></JTonnyHelperForm>
-		<div>취소모달</div>
-		<div>성공모달</div>
-	</div>
+        <AlarmModal
+            v-show="isOpenCancel"
+            :isOpen="isOpenCancel"
+            title="취소하시겠습니까?"
+            type="warning"
+            btnText1="아니오"
+            btnText2="예"
+            btnColor1="light"
+            btnColor2="active"
+            btnFontColor1="main"
+            btnFontColor2="white"
+            @close-modal="closeModalCancel"
+            :to="{ name: 'JTonnyAcceptPage' }">
+            <template #content> 저장된 양식이 삭제됩니다. </template>
+        </AlarmModal>
+
+        <AlarmModal
+            v-show="isOpenSuccess"
+            :isOpen="isOpenSuccess"
+            title="제안 보냄"
+            type="success"
+            btnText2="예"
+            btnColor1="light"
+            btnColor2="active"
+            btnFontColor1="main"
+            btnFontColor2="white"
+            @close-modal="closeModalSuccess"
+            :to="{ name: 'JTonnyAcceptPage' }">
+            <template #content>
+                고객에게 제안을 성공적으로 보냈습니다.<br />
+                고객이 거절할 수도 있어요!
+            </template>
+        </AlarmModal>
+    </div>
 </template>
 
 <script>
 import JTonnyHelperForm from "@/components/jtonny/JTonnyHelperForm.vue";
+import TitleText from "@/components/common/TitleText.vue";
+import HelperCard from "@/components/common/card/HelperCard.vue";
+import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
-	components: {
-		JTonnyHelperForm
-	}
+    data() {
+        return {
+            isOpenCancel: false,
+            isOpenSuccess: false,
+        };
+    },
+    components: {
+        JTonnyHelperForm,
+        TitleText,
+        HelperCard,
+        SmallBtn,
+        AlarmModal,
+    },
+    methods: {
+        openModalCancel(e) {
+            e.preventDefault();
+            this.isOpenCancel = true;
+        },
+
+        closeModalCancel() {
+            this.isOpenCancel = false;
+        },
+        openModalSuccess(e) {
+            e.preventDefault();
+            this.isOpenSuccess = true;
+        },
+
+        closeModalSuccess() {
+            this.isOpenSuccess = false;
+        },
+    },
 };
 
 // import JTonnyHelperForm from '@/components/jtonny/JTonnyHelperForm.vue';
