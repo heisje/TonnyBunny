@@ -1,8 +1,7 @@
 <template>
 	<div>
-		<!-- <home-banner></home-banner> -->
-		<!-- <home-contents></home-contents> -->
-		<!-- <login-modal></login-modal> -->
+		<home-banner></home-banner>
+		<home-contents></home-contents>
 
 		<!-- <title-banner
             title="🐰 실시간 동시 통역"
@@ -16,7 +15,7 @@
 		<!-- part1 -->
 		<!-- <tag-test></tag-test> -->
 		<!-- <hr /> -->
-		<modal-test></modal-test>
+		<!-- <modal-test></modal-test> -->
 		<!-- <hr /> -->
 		<!-- <button-test></button-test> -->
 		<!-- <hr /> -->

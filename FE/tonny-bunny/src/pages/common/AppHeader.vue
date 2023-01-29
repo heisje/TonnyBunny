@@ -96,7 +96,7 @@
 							text="로그인"
 							color="outline"
 							font="main"
-							link="/account/login"></medium-btn>
+							@click="toggleLoginModal"></medium-btn>
 						<medium-btn
 							text="회원가입"
 							color="main"
@@ -228,7 +228,7 @@
 										text="로그인"
 										color="outline"
 										font="main"
-										link="/account/login"></medium-btn>
+										@click="toggleLoginModal"></medium-btn>
 									<medium-btn
 										class="mt-2 w-100"
 										text="회원가입"
@@ -245,6 +245,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 
 export default {
@@ -261,10 +263,21 @@ export default {
 		};
 	},
 
+	computed: {
+		...mapGetters({ isLoginModalOpen: "getIsLoginModalOpen" })
+	},
+
 	methods: {
+		// 마이페이지 pop over
 		openPopOver(e) {
 			e.preventDefault();
 			this.isPopOverOpen = !this.isPopOverOpen;
+		},
+
+		// login btn click -> login modal 띄우기
+		toggleLoginModal(e) {
+			e.preventDefault();
+			this.$store.commit("TOGGLE_LOGIN_MODAL");
 		}
 	}
 };
