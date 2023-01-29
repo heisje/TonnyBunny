@@ -1,29 +1,109 @@
 package com.tonnybunny.domain.user.service;
 
 
+import com.tonnybunny.common.jwt.dto.TokenResponseDto;
+import com.tonnybunny.common.jwt.entity.AuthEntity;
+import com.tonnybunny.common.jwt.repository.AuthRepository;
+import com.tonnybunny.common.jwt.service.JwtService;
 import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.ReportRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-	public UserEntity signup(UserRequestDto userRequestDto) {
-		UserEntity user = userRequestDto.toEntity();
-		/**
-		 * repository 에서 회원가입 절차를 마치고 userEntity(또는 seq) 를 반환해준다.
-		 * UserEntity savedUser = userRepository.signup(user);
-		 * return savedUser;
-		 */
-		return user;
+	private final UserRepository userRepository;
+	private final JwtService jwtService;
+	private final AuthRepository authRepository;
+	private final PasswordEncoder passwordEncoder;
+
+	//	public UserEntity signup(UserRequestDto userRequestDto) {
+	//		UserEntity user = userRequestDto.toEntity();
+	//		/**
+	//		 * repository 에서 회원가입 절차를 마치고 userEntity(또는 seq) 를 반환해준다.
+	//		 * UserEntity savedUser = userRepository.signup(user);
+	//		 * return savedUser;
+	//		 */
+	//		return user;
+	//	}
+
+
+	public Optional<UserEntity> findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+
+
+	@Transactional
+	public TokenResponseDto signup(UserRequestDto userRequestDto) {
+		UserEntity user =
+			userRepository.save(
+				UserEntity.builder()
+					.password(passwordEncoder.encode(userRequestDto.getPassword()))
+					.email(userRequestDto.getEmail())
+					.phoneNumber(userRequestDto.getPhoneNumber())
+					.nickName(userRequestDto.getNickname())
+					.build());
+
+		String accessToken = jwtService.generateJwtToken(user);
+		String refreshToken = jwtService.saveRefreshToken(user);
+
+		authRepository.save(
+			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
+
+		return TokenResponseDto.builder().ACCESS_TOKEN(accessToken).REFRESH_TOKEN(refreshToken)
+			.build();
+	}
+
+
+	@Transactional
+	public TokenResponseDto signin(UserRequestDto userRequestDto) throws Exception {
+		UserEntity user =
+			userRepository
+				.findByEmail(userRequestDto.getEmail())
+				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		AuthEntity auth =
+			authRepository
+				.findByUserSeq(user.getSeq())
+				.orElseThrow(() -> new IllegalArgumentException("Token 이 존재하지 않습니다."));
+		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
+			throw new Exception("비밀번호가 일치하지 않습니다.");
+		}
+		String accessToken = "";
+		String refreshToken = auth.getRefreshToken();
+
+		if (jwtService.isValidRefreshToken(refreshToken)) {
+			accessToken = jwtService.generateJwtToken(auth.getUser());
+			return TokenResponseDto.builder()
+				.ACCESS_TOKEN(accessToken)
+				.REFRESH_TOKEN(auth.getRefreshToken())
+				.build();
+		} else {
+			accessToken = jwtService.generateJwtToken(auth.getUser());
+			refreshToken = jwtService.saveRefreshToken(user);
+			auth.refreshUpdate(refreshToken);
+		}
+
+		return TokenResponseDto.builder().ACCESS_TOKEN(accessToken).REFRESH_TOKEN(refreshToken)
+			.build();
+	}
+
+
+	public List<UserEntity> findUsers() {
+		return userRepository.findAll();
 	}
 
 
