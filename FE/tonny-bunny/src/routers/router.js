@@ -25,14 +25,14 @@ import YTonnyFormPage from "@/pages/ytonny/YTonnyFormPage";
 import YTonnyHelperListPage from "@/pages/ytonny/YTonnyHelperListPage";
 import YTonnySuccessPage from "@/pages/ytonny/YTonnySuccessPage";
 import YTonnyListPage from "@/pages/ytonny/YTonnyListPage";
-// import YTonnyMatchingPage from "@/pages/ytonny/YTonnyMatchingPage";
+import YTonnyMatchingPage from "@/pages/ytonny/YTonnyMatchingPage";
 
 // nbunny
 import NBunnyDetailPage from "@/pages/nbunny/NBunnyDetailPage";
 import NBunnyFormPage from "@/pages/nbunny/NBunnyFormPage";
 import NBunnyHelperListPage from "@/pages/nbunny/NBunnyHelperListPage";
 import NBunnyListPage from "@/pages/nbunny/NBunnyListPage";
-// import NBunnyMatchingPage from "@/pages/nbunny/NBunnyMatchingPage";
+import NBunnyMatchingPage from "@/pages/nbunny/NBunnyMatchingPage";
 
 // notice
 import NoticeListPage from "@/pages/notice/NoticeListPage";
@@ -267,6 +267,16 @@ export default createRouter({
             },
         },
 
+        {
+            path: "/ytonny/matching",
+            name: "YTonnyMatchingPage",
+            components: {
+                header: AppHeader,
+                default: YTonnyMatchingPage,
+                footer: AppFooter,
+            },
+        },
+
         //nbunny
         {
             path: "/nbunny/:id",
@@ -304,6 +314,16 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: NBunnyListPage,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/nbunny/matching",
+            name: "NBunnyMatchingPage",
+            components: {
+                header: AppHeader,
+                default: NBunnyMatchingPage,
                 footer: AppFooter,
             },
         },
