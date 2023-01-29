@@ -15,7 +15,12 @@
             <button>마이크</button>
             <button>비디오</button>
             <button>신고하기</button>
-            <button @click.prevent="endEmit">종료하기</button>
+            <div v-if="isHelper">
+                <button @click.prevent="endEmit">종료요청</button>
+            </div>
+            <div v-else>
+                <button @click.prevent="endEmit">종료하기</button>
+            </div>
         </div>
         <button>모달닫기</button>
     </div>
@@ -27,6 +32,7 @@ export default {
     data() {
         return {
             isOpen: false,
+            isHelper: false,
         };
     },
     components: {},
