@@ -10,7 +10,7 @@
                 text="통역 요청글을 자세히 보고 가능한 통역을 신청하세요!" />
             <JTonnyLoading />
         </div>
-
+        <router-link :to="{ name: 'JTonnyMatchingPage' }"><button>다음페이지</button></router-link>
         <large-btn text="대기 취소" @click.prevent="openModal" />
 
         <div v-for="i in 5" :key="i">
@@ -28,7 +28,7 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @close-modal="closeModal"
-            :to="{ name: 'MyPage' }">
+            :to="{ name: 'HomePage' }">
             <template #content> 대기가 취소되었습니다<br />또 이용해주세요! </template>
         </AlarmModal>
     </div>
