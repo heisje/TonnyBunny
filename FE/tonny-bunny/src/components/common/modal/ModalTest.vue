@@ -8,7 +8,6 @@
 
 		<!-- <alarm-modal v-show="isOpen" :isOpen="isOpen"></alarm-modal> -->
 		<alarm-modal
-			v-show="isOpen"
 			:isOpen="isOpen"
 			title="경고"
 			type="danger"

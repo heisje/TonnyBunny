@@ -46,7 +46,7 @@
 						</div>
 					</div>
 
-					<div class="navBarProfile">
+					<div class="navBarProfile" v-if="isLogin">
 						<span class="material-symbols-outlined notification"> notifications </span>
 
 						<div class="d-flex align-items-center">
@@ -89,6 +89,18 @@
 								</li>
 							</ul>
 						</div>
+					</div>
+					<div v-else>
+						<medium-btn
+							class="me-2"
+							text="로그인"
+							color="outline"
+							font="main"
+							link="/account/login"></medium-btn>
+						<medium-btn
+							text="회원가입"
+							color="main"
+							link="/account/signup"></medium-btn>
 					</div>
 				</div>
 			</nav>
@@ -160,7 +172,7 @@
 									</router-link>
 								</li>
 
-								<li class="nav-item dropdown">
+								<li class="nav-item dropdown" v-if="isLogin">
 									<a
 										class="nav-link dropdown-toggle"
 										href="#"
@@ -210,6 +222,19 @@
 										</li>
 									</ul>
 								</li>
+								<div v-else>
+									<medium-btn
+										class="mt-3 w-100"
+										text="로그인"
+										color="outline"
+										font="main"
+										link="/account/login"></medium-btn>
+									<medium-btn
+										class="mt-2 w-100"
+										text="회원가입"
+										color="main"
+										link="/account/signup"></medium-btn>
+								</div>
 							</ul>
 						</div>
 					</div>
@@ -220,11 +245,18 @@
 </template>
 
 <script>
+import MediumBtn from "@/components/common/button/MediumBtn.vue";
+
 export default {
 	name: "AppHeader",
 
+	components: {
+		MediumBtn
+	},
+
 	data() {
 		return {
+			isLogin: false,
 			isPopOverOpen: false
 		};
 	},
