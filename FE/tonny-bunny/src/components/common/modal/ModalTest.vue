@@ -8,7 +8,6 @@
 
 		<!-- <alarm-modal v-show="isOpen" :isOpen="isOpen"></alarm-modal> -->
 		<alarm-modal
-			v-show="isOpen"
 			:isOpen="isOpen"
 			title="경고"
 			type="danger"
@@ -18,6 +17,7 @@
 			btnColor2="carrot"
 			btnFontColor1="white"
 			btnFontColor2="white"
+			link="/account/signup"
 			@close-modal="closeModal">
 			<template #content>
 				안녕하세요
