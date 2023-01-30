@@ -33,7 +33,7 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @close-modal="closeModal"
-            :to="this.$router.options.history.state.back">
+            :link="this.$router.options.history.state.back">
             <template #content> 신고가 완료되었습니다 </template>
         </AlarmModal>
     </div>

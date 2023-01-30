@@ -30,7 +30,7 @@
             btnFontColor1="sub"
             btnFontColor2="white"
             @close-modal="closeModal"
-            :to="{ name: 'LivePage' }">
+            :link="{ name: 'LivePage' }">
             <template #content>
                 수락하시면 바로 해당 헬퍼와 동시 통역이 진행됩니다. 진행하시겠습니까?
             </template>
