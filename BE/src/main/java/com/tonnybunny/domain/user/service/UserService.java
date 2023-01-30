@@ -12,13 +12,13 @@ import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +28,8 @@ import java.util.Optional;
 public class UserService {
 
 	private final UserRepository userRepository;
+
+	private final HistoryRepository historyRepository;
 	private final JwtService jwtService;
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -322,11 +324,11 @@ public class UserService {
 	 * @return 히스토리 목록 EntityList
 	 */
 	public List<HistoryEntity> getUserHistoryList(Long userSeq) {
-		// TODO : 로직
 		/**
 		 * 히스토리 목록 조회 로직
 		 */
-		return new ArrayList<>();
+		List<HistoryEntity> historyList = historyRepository.findAllByClientOrHelper(userSeq, userSeq);
+		return historyList;
 	}
 
 
@@ -335,12 +337,12 @@ public class UserService {
 	 * @param historySeq : 조회할 히스토리 seq
 	 * @return
 	 */
-	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) {
-		// TODO : 로직
+	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) throws Exception {
 		/**
 		 * 히스토리 단일 조회
 		 */
-		return (HistoryEntity) new Object();
+		Optional<HistoryEntity> history = historyRepository.findBySeq(historySeq);
+		return history.orElseThrow(() -> new Exception("히스토리 조회 결과가 존재하지 않습니다."));
 	}
 
 }
