@@ -6,27 +6,28 @@
         {{ select }}
         <TitleText />
         <!-- 공통 약관 -->
-        <div style="background-color: beige">
-            <h4>약관 내용 1</h4>
-            <p>약관 내용 ~~</p>
-        </div>
-        <input type="checkbox" name="color" /> (필수) 약관에 동의합니다.
-        <br />
-        <br />
-        <div style="background-color: beige">
-            <h4>약관 내용 2</h4>
-            <p>약관 내용 ~~</p>
-        </div>
-        <input type="checkbox" name="color" /> (필수) 약관에 동의합니다.
-
-        <!-- 헬퍼 추가 약관 -->
-        <div v-if="select == 'helper'">
-            <br />
+        <div v-for="(term, index) in clientTerms" :key="index">
             <div style="background-color: beige">
-                <h4>약관 내용 3</h4>
-                <p>약관 내용 ~~</p>
+                <h4>{{ term.title }}</h4>
+                <p>{{ term.content }}</p>
             </div>
-            <input type="checkbox" name="color" /> (필수) 약관에 동의합니다.
+            <input type="checkbox" name="color" @click="clientTermToggle(index)" /> (필수) 약관에
+            동의합니다.
+            <br />
+            <br />
+        </div>
+        <!-- 헬퍼 약관 -->
+        <div v-show="select == 'helper'">
+            <div v-for="(term, index) in helperTerms" :key="index">
+                <div style="background-color: beige">
+                    <h4>{{ term.title }}</h4>
+                    <p>{{ term.content }}</p>
+                </div>
+                <input type="checkbox" name="color" @click="helperTermToggle(index)" /> (필수)
+                약관에 동의합니다.
+                <br />
+                <br />
+            </div>
         </div>
 
         <smallBtn style="width: 100%" text="다음" @click="goSignUpCreatePage"></smallBtn>
@@ -42,7 +43,8 @@
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @close-modal="closeModal">
+            @close-modal="closeModal"
+        >
             <template #content> 필수 약관에 동의해주세요. </template>
         </alarm-modal>
     </div>
@@ -50,16 +52,12 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-// import SubText from "@/components/common/SubText.vue";
-// import DescriptionItem from "@/components/account/DescriptionItem.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
     components: {
         TitleText,
-        // SubText,
-        // DescriptionItem,
         smallBtn,
         AlarmModal,
     },
@@ -67,6 +65,25 @@ export default {
     data() {
         return {
             isOpen: false,
+            clientTerms: [
+                {
+                    title: "약관 1",
+                    content: "내용 1",
+                    isAgree: false,
+                },
+                {
+                    title: "약관 2",
+                    content: "내용 2",
+                    isAgree: false,
+                },
+            ],
+            helperTerms: [
+                {
+                    title: "약관 3",
+                    content: "내용 3",
+                    isAgree: false,
+                },
+            ],
         };
     },
 
@@ -78,16 +95,38 @@ export default {
     },
 
     methods: {
+        clientTermToggle(index) {
+            if (this.clientTerms[index].isAgree) {
+                this.clientTerms[index].isAgree = false;
+            } else {
+                this.clientTerms[index].isAgree = true;
+            }
+        },
+
+        helperTermToggle(index) {
+            if (this.helperTerms[index].isAgree) {
+                this.helperTerms[index].isAgree = false;
+            } else {
+                this.helperTerms[index].isAgree = true;
+            }
+        },
+
         goSignUpCreatePage(event) {
             event.preventDefault();
-
-            const checkboxs = document.querySelectorAll("input");
             let result = true;
-            checkboxs.forEach((checkbox) => {
-                if (!checkbox.checked) {
+            this.clientTerms.forEach((term) => {
+                if (!term.isAgree) {
                     result = false;
                 }
             });
+
+            if (this.$route.params.select == "helper") {
+                this.helperTerms.forEach((term) => {
+                    if (!term.isAgree) {
+                        result = false;
+                    }
+                });
+            }
 
             if (result) {
                 this.$router.push({ name: "SignUpCreatePage", params: { select: this.select } });

@@ -17,7 +17,8 @@
                     background-color: pink;
                     display: inline-block;
                     border-radius: 20px;
-                ">
+                "
+            >
                 {{ lang }}
                 <span @click="cancleSelect(index)">❌</span>
             </div>
