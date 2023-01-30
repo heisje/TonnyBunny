@@ -28,7 +28,7 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @close-modal="closeModal"
-            :to="{ name: 'HomePage' }">
+            :link="{ name: 'HomePage' }">
             <template #content> 대기가 취소되었습니다<br />또 이용해주세요! </template>
         </AlarmModal>
     </div>
