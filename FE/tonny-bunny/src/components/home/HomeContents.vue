@@ -15,12 +15,12 @@
                         </span>
                     </div>
                     <div class="mainBtns">
-                        <main-btn text="통역" href="TonnyPage">
+                        <main-btn text="통역" @click="toggleTonnyModalOpen">
                             <template #icon>
                                 <span class="material-symbols-outlined"> interpreter_mode </span>
                             </template>
                         </main-btn>
-                        <main-btn text="번역" href="BunnyPage">
+                        <main-btn text="번역" @click="toggleBunnyModalOpen">
                             <template #icon>
                                 <span class="material-symbols-outlined"> g_translate </span>
                             </template>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import TitleText from "@/components/common/TitleText.vue";
 import MainBtn from "./MainBtn.vue";
 import HomeScheduleList from "./HomeScheduleList.vue";
@@ -59,6 +58,19 @@ export default {
         MainBtn,
         HomeScheduleList,
         HomeBoardList,
+    },
+
+    methods: {
+        toggleTonnyModalOpen(e) {
+            e.preventDefault();
+            this.$store.commit("TOGGLE_TONNY_MODAL");
+        },
+
+        toggleBunnyModalOpen(e) {
+            e.preventDefault();
+            console.log("bunny");
+            this.$store.commit("TOGGLE_BUNNY_MODAL");
+        },
     },
 };
 </script>

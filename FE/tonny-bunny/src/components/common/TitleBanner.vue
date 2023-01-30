@@ -43,7 +43,7 @@ export default {
     cursor: default;
 
     .fullSizeBanner {
-        height: 120px;
+        height: 150px;
 
         display: flex;
         align-items: center;

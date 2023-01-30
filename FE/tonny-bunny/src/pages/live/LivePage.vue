@@ -22,7 +22,7 @@
             btnFontColor1="white"
             btnFontColor2="main"
             @close-modal="closeModal"
-            :to="{ name: 'LiveClosePage' }">
+            :link="{ name: 'LiveClosePage' }">
             <template #content>
                 동시통역 종료를 신청하시겠습니까?<br />고객이 동의하면 종료됩니다.
             </template>

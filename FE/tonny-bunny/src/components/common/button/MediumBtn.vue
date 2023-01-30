@@ -1,8 +1,8 @@
 <template>
     <div class="btnWrap">
-        <a class="btn medium" :class="color" :href="link">
+        <div class="btn medium" :class="color">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
-        </a>
+        </div>
     </div>
 </template>
 
@@ -18,8 +18,10 @@ export default {
         },
 
         link: {
-            type: String,
-            default: "/",
+            type: Object,
+            default: () => {
+                return { name: "HomePage" };
+            },
             description: "button link",
         },
 

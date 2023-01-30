@@ -1,8 +1,8 @@
 <template>
     <div class="btnWrap">
-        <a class="btn small" :class="color" :href="link">
+        <div class="btn small" :class="color">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
-        </a>
+        </div>
     </div>
 </template>
 
@@ -15,12 +15,6 @@ export default {
             type: String,
             default: "작은 버튼",
             description: "button tag",
-        },
-
-        link: {
-            type: String,
-            default: "/",
-            description: "button link",
         },
 
         color: {
