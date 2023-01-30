@@ -100,7 +100,7 @@
                         <medium-btn
                             text="회원가입"
                             color="main"
-                            link="/account/signup"></medium-btn>
+                            @click="clickSignUpBtn"></medium-btn>
                     </div>
                 </div>
             </nav>
@@ -233,7 +233,7 @@
                                         class="mt-2 w-100"
                                         text="회원가입"
                                         color="main"
-                                        link="/account/signup"></medium-btn>
+                                        @click="clickSignUpBtn"></medium-btn>
                                 </div>
                             </ul>
                         </div>
@@ -277,6 +277,8 @@ export default {
         // login btn click -> login modal 띄우기
         toggleLoginModal(e) {
             e.preventDefault();
+            // console.log("login");
+            // this.$router.push("/login");
             this.$store.commit("TOGGLE_LOGIN_MODAL");
         },
 
@@ -290,6 +292,12 @@ export default {
         toggleBunnyModalOpen(e) {
             e.preventDefault();
             this.$store.commit("TOGGLE_BUNNY_MODAL");
+        },
+
+        // 회원가입 btn click -> sign up page
+        clickSignUpBtn(e) {
+            e.preventDefault();
+            this.$router.push("/account/signup");
         },
     },
 };
