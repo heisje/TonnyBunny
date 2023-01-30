@@ -31,7 +31,10 @@
                             </div>
                         </div>
                         <div class="loginBtn w-100 mt-3">
-                            <medium-btn class="w-100" text="로그인"></medium-btn>
+                            <medium-btn
+                                class="w-100"
+                                text="로그인"
+                                @click="clickLoginBtn"></medium-btn>
                         </div>
                     </div>
                     <div class="auth mt-5">
@@ -76,6 +79,11 @@ export default {
         toggleLoginModalOpen(e) {
             e.preventDefault();
             this.$store.commit("TOGGLE_LOGIN_MODAL");
+        },
+
+        clickLoginBtn(e) {
+            e.preventDefault();
+            console.log("login btn click");
         },
     },
 };

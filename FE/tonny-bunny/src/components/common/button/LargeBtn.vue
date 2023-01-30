@@ -1,8 +1,8 @@
 <template>
     <div class="">
-        <router-link :to="link" class="btn large" :class="color" @click="clickBtn">
+        <div class="btn large" :class="color">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
-        </router-link>
+        </div>
     </div>
 </template>
 
@@ -15,14 +15,6 @@ export default {
             type: String,
             default: "라지 버튼",
             description: "button tag",
-        },
-
-        link: {
-            type: Object,
-            default: () => {
-                return { name: "MyPage" };
-            },
-            description: "button link",
         },
 
         color: {
@@ -41,11 +33,6 @@ export default {
             type: Boolean,
             default: false,
             description: "button disable ",
-        },
-    },
-    methods: {
-        clickBtn(e) {
-            this.$emit("clickBtn", e);
         },
     },
 };
