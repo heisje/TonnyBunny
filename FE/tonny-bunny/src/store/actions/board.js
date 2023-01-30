@@ -11,7 +11,7 @@ export default {
         let params = {};
 
         try {
-            let { data } = await http.get("/api/board", { params });
+            let { data } = await http.get("/board", { params });
             console.log("async function : ", data);
 
             // service logic
@@ -31,7 +31,7 @@ export default {
     async insertBoard(context, tempJson) {
         console.log("게시글을 작성합니다.");
 
-        let { data } = await http.post(`/api/board`, tempJson);
+        let { data } = await http.post(`/board`, tempJson);
 
         try {
             console.log("async function : ", data);
@@ -62,7 +62,7 @@ export default {
         console.log("게시글을 열람합니다.");
 
         try {
-            let { data } = await http.get(`/api/board/${id}`);
+            let { data } = await http.get(`/board/${id}`);
             console.log("async function : ", data);
 
             // service logic
@@ -82,7 +82,7 @@ export default {
     async updateBoard(context, id, json) {
         console.log("게시글을 수정합니다.");
 
-        let { data } = await http.put(`/api/board/${id}`, json);
+        let { data } = await http.put(`/board/${id}`, json);
 
         try {
             console.log("async function : ", data);
@@ -111,7 +111,7 @@ export default {
     async removeBoard(context, id) {
         console.log("게시글을 삭제합니다.");
 
-        let { data } = await http.delete(`/api/board/${id}`);
+        let { data } = await http.delete(`/board/${id}`);
 
         try {
             console.log("async function : ", data);
@@ -147,7 +147,7 @@ export default {
         let params = {};
 
         try {
-            let { data } = await http.get(`/api/board/${boardId}/comment`, { params });
+            let { data } = await http.get(`/board/${boardId}/comment`, { params });
             console.log("async function : ", data);
 
             // service logic
@@ -169,7 +169,7 @@ export default {
     async insertBoardComment(context, boardId, json) {
         console.log("게시글의 댓글을 작성합니다.");
 
-        let { data } = await http.post(`/api/board/${boardId}/comment`, json);
+        let { data } = await http.post(`/board/${boardId}/comment`, json);
 
         try {
             console.log("async function : ", data);
@@ -199,7 +199,7 @@ export default {
     async updateBoardComment(context, boardId, json) {
         console.log("게시글의 댓글을 수정합니다.");
 
-        let { data } = await http.post(`/api/board/${boardId}/comment`, json);
+        let { data } = await http.post(`/board/${boardId}/comment`, json);
 
         try {
             console.log("async function : ", data);
@@ -229,7 +229,7 @@ export default {
     async removeBoardComment(context, boardId, commentId) {
         console.log("게시글의 댓글을 삭제합니다.");
 
-        let { data } = await http.post(`/api/board/${boardId}/comment/${commentId}`);
+        let { data } = await http.post(`/board/${boardId}/comment/${commentId}`);
 
         try {
             console.log("async function : ", data);
