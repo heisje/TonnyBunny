@@ -36,7 +36,7 @@
         btnFontColor1="white"
         btnFontColor2="white"
         @close-modal="closeModal"
-        :to="{ name: 'MyPage' }">
+        :link="{ name: 'MyPage' }">
         <template #content> 완료되었습니다 </template>
     </AlarmModal>
 </template>

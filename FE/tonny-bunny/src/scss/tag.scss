@@ -1,91 +1,92 @@
 .tagWrap {
-	display: inline-block;
+    display: inline-block;
 }
 
 .squareTag {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
 
-	width: auto;
-	height: 20px;
-	padding: 0 8px;
-	border-radius: 4px;
-	// margin-right: 6px;
+    width: auto;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 4px;
+    // margin-right: 6px;
 
-	//아래로 버튼 색
-	&.success {
-		background-color: var(--success-color);
-	}
-	&.info {
-		background-color: var(--info-color);
-	}
-	&.white {
-		border: 1px solid var(--main-color);
-		background-color: var(--background-color);
-	}
-	&.sub {
-		background-color: var(--disable-color);
+    //아래로 버튼 색
+    &.success {
+        background-color: var(--success-color);
+    }
+    &.info {
+        background-color: var(--info-color);
+    }
+    &.white {
+        border: 1px solid var(--main-color);
+        background-color: var(--background-color);
+    }
+    &.sub {
+        background-color: var(--disable-color);
 
-		// span {
-		// 	color: var(--main-color);
-		// }
-	}
+        // span {
+        // 	color: var(--main-color);
+        // }
+    }
 
-	span {
-		color: var(--active-color);
-		font-weight: 700;
-	}
+    span {
+        color: var(--active-color);
+        font-weight: 700;
+        font-size: 1rem;
+    }
 }
 
 .circleTag {
-	width: auto;
-	height: 30px;
+    width: auto;
+    height: 30px;
 
-	padding: 0 12px;
+    padding: 0 12px;
 
-	background-color: var(--disable-color);
-	color: var(--main-color);
-	border-radius: 16px;
+    background-color: var(--disable-color);
+    color: var(--main-color);
+    border-radius: 16px;
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-	// transition: all 0.15s;
+    // transition: all 0.15s;
 
-	margin-right: 8px;
+    margin-right: 8px;
 
-	// box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
+    // box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.08);
 
-	cursor: pointer;
+    cursor: pointer;
 
-	span {
-		margin: 0;
-		padding: 0;
-		font-weight: 700;
-		font-size: 1rem;
-		// cursor: pointer;
-	}
+    span {
+        margin: 0;
+        padding: 0;
+        font-weight: 700;
+        font-size: 1rem;
+        // cursor: pointer;
+    }
 
-	// &:hover {
-	// 	opacity: 0.9;
-	// }
+    // &:hover {
+    // 	opacity: 0.9;
+    // }
 }
 
 .disable {
-	background-color: var(--light-color);
+    background-color: var(--light-color);
 
-	span {
-		color: #a1aeb7;
-	}
+    span {
+        color: #a1aeb7;
+    }
 
-	&:hover {
-		background-color: var(--disable-color);
+    &:hover {
+        background-color: var(--disable-color);
 
-		span {
-			color: var(--main-color);
-		}
-	}
+        span {
+            color: var(--main-color);
+        }
+    }
 }

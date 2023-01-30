@@ -1,13 +1,21 @@
 package com.tonnybunny.interceptor;
 
 
+import com.tonnybunny.common.jwt.service.JwtService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+@Component
+@RequiredArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
+
+	private final JwtService jwtService;
+
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
@@ -27,26 +35,25 @@ public class LoginInterceptor implements HandlerInterceptor {
 		 *         return false;
 		 */
 
-		return true;
+		//		System.out.println("JwtToken 호출");
+		//		String accessToken = request.getHeader("ACCESS_TOKEN");
+		//		System.out.println("AccessToken:" + accessToken);
+		//		String refreshToken = request.getHeader("REFRESH_TOKEN");
+		//		System.out.println("RefreshToken:" + refreshToken);
+		//
+		//		if (accessToken != null) {
+		//			if (jwtService.isValidToken(accessToken)) {
+		//				return true;
+		//			}
+		//		}
+		//		response.setStatus(401);
+		//		response.setHeader("ACCESS_TOKEN", accessToken);
+		//		response.setHeader("REFRESH_TOKEN", refreshToken);
+		//		response.setHeader("msg", "Check the tokens.");
+		//		return false;
+		// 만료되었을 경우 어떻게 할 지 로직 추가해야 함
 
-		/**
-		 *     System.out.println("JwtToken 호출");
-		 *     String accessToken = request.getHeader("ACCESS_TOKEN");
-		 *     System.out.println("AccessToken:" + accessToken);
-		 *     String refreshToken = request.getHeader("REFRESH_TOKEN");
-		 *     System.out.println("RefreshToken:" + refreshToken);
-		 *
-		 *     if (accessToken != null) {
-		 *       if (tokenUtils.isValidToken(accessToken)) {
-		 *         return true;
-		 *       }
-		 *     }
-		 *     response.setStatus(401);
-		 *     response.setHeader("ACCESS_TOKEN", accessToken);
-		 *     response.setHeader("REFRESH_TOKEN", refreshToken);
-		 *     response.setHeader("msg", "Check the tokens.");
-		 *     return false;
-		 */
+		return true;
 
 	}
 

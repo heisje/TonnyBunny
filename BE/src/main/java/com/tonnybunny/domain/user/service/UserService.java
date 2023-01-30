@@ -9,8 +9,10 @@ import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.ReportRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
+import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,19 +29,11 @@ import java.util.Optional;
 public class UserService {
 
 	private final UserRepository userRepository;
+
+	private final HistoryRepository historyRepository;
 	private final JwtService jwtService;
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
-
-	//	public UserEntity signup(UserRequestDto userRequestDto) {
-	//		UserEntity user = userRequestDto.toEntity();
-	//		/**
-	//		 * repository 에서 회원가입 절차를 마치고 userEntity(또는 seq) 를 반환해준다.
-	//		 * UserEntity savedUser = userRepository.signup(user);
-	//		 * return savedUser;
-	//		 */
-	//		return user;
-	//	}
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -168,25 +162,16 @@ public class UserService {
 		return true;
 	}
 
-
-	private String encryptPassword(String password) {
-		/**
-		 * 비밀번호 암호화 로직
-		 */
-		return "aisfnaiosnfoidnfioansefns";
-	}
-
-
-	public Boolean login(UserRequestDto userRequestDto) {
-		UserEntity user = userRequestDto.toEntity();
-		/**
-		 * user.email로 user를 조회 => findUserByEmail
-		 * 조회가 안될 시 익셉션 터트리기
-		 * user.password를 encryptPassword로 복호화 후 비교하여 결과 반환
-		 * 일치하지 않을 시 익셉션 터트리기
-		 */
-		return true;
-	}
+	//	public Boolean login(UserRequestDto userRequestDto) {
+	//		UserEntity user = userRequestDto.toEntity();
+	//		/**
+	//		 * user.email로 user를 조회 => findUserByEmail
+	//		 * 조회가 안될 시 익셉션 터트리기
+	//		 * user.password를 encryptPassword로 복호화 후 비교하여 결과 반환
+	//		 * 일치하지 않을 시 익셉션 터트리기
+	//		 */
+	//		return true;
+	//	}
 
 
 	public Boolean logout(UserRequestDto userRequestDto) {
@@ -257,13 +242,27 @@ public class UserService {
 
 
 	/**
+	 * 즐겨찾기 조회
+	 *
+	 * repository 에서 findFollowList() 를 수행한다.
+	 *
+	 * @return List<FollowEntity>
+	 */
+
+	public List<FollowEntity> getFollowList() {
+
+		return new ArrayList<>();
+	}
+
+
+	/**
 	 * 즐겨찾기 추가
 	 *
 	 * @param userSeq   : 누군가를 추가하기를 원하는 userSeq
 	 * @param followSeq : 추가될 누군가의 seq
 	 * @return
 	 */
-	public Boolean createBookmark(Long userSeq, Long followSeq) {
+	public Boolean createFollow(Long userSeq, Long followSeq) {
 		// TODO : 로직
 
 		return true;
@@ -277,7 +276,7 @@ public class UserService {
 	 * @param followSeq : 삭제될 누군가의 seq
 	 * @return
 	 */
-	public Boolean deleteBookmark(Long userSeq, Long followSeq) {
+	public Boolean deleteFollow(Long userSeq, Long followSeq) {
 		// TODO : 로직
 
 		return true;
@@ -326,11 +325,11 @@ public class UserService {
 	 * @return 히스토리 목록 EntityList
 	 */
 	public List<HistoryEntity> getUserHistoryList(Long userSeq) {
-		// TODO : 로직
 		/**
 		 * 히스토리 목록 조회 로직
 		 */
-		return new ArrayList<>();
+		List<HistoryEntity> historyList = historyRepository.findAllByClientOrHelper(userSeq, userSeq);
+		return historyList;
 	}
 
 
@@ -339,12 +338,12 @@ public class UserService {
 	 * @param historySeq : 조회할 히스토리 seq
 	 * @return
 	 */
-	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) {
-		// TODO : 로직
+	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) throws Exception {
 		/**
 		 * 히스토리 단일 조회
 		 */
-		return (HistoryEntity) new Object();
+		Optional<HistoryEntity> history = historyRepository.findBySeq(historySeq);
+		return history.orElseThrow(() -> new Exception("히스토리 조회 결과가 존재하지 않습니다."));
 	}
 
 }
