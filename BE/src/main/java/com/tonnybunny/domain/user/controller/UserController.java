@@ -17,7 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -28,25 +30,25 @@ public class UserController {
 	private final UserService userService;
 	private final HelperInfoService helperInfoService;
 
-	//	@PostMapping("/signup")
-	//	@ApiOperation(value = "회원가입을 진행합니다")
-	//	public ResponseEntity<ResultDto<UserResponseDto>> signup(
-	//		@RequestBody UserRequestDto userRequestDto) {
-	//		UserEntity savedUser = userService.signup(userRequestDto);
-	//		UserResponseDto userResponseDto = UserResponseDto.fromEntity(savedUser);
-	//		/**
-	//		 * 회원가입 방식, 무엇을 리턴할지 미정
-	//		 */
-	//
-	//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
-	//	}
 
-
+	/**
+	 * @param userRequestDto 가입하는 유저 정보
+	 * @return header : Refresh Token과 Access Token / Body : UserEntity
+	 */
 	@PostMapping("/signup")
 	public ResponseEntity signup(@RequestBody UserRequestDto userRequestDto) {
-		return userService.findByEmail(userRequestDto.getEmail()).isPresent()
-			? ResponseEntity.badRequest().build()
-			: ResponseEntity.ok(userService.signup(userRequestDto));
+		Boolean isDuplicate = !(userService.findByEmail(userRequestDto.getEmail()).isPresent());
+
+		if (isDuplicate) {
+			Map<String, Object> result = new HashMap<>();
+
+			result.put("data", userRequestDto);
+			result.put("token", userService.signup(userRequestDto));
+			return ResponseEntity.status(HttpStatus.OK)
+				.body(result);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
 	}
 
 
@@ -61,7 +63,7 @@ public class UserController {
 	// 테스트용
 	@GetMapping("/info")
 	public ResponseEntity<List<UserEntity>> findUser() {
-		return ResponseEntity.ok().body(userService.findUsers());
+		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
 	}
 
 
@@ -189,9 +191,10 @@ public class UserController {
 	// --------------------------------- 즐겨찾기 ------------------------------------
 
 
-	@GetMapping
+	@GetMapping("/mypage/{userSeq}/follow")
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.", notes = "")
-	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList() {
+	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
+		"userSeq") Long userSeq) {
 		List<FollowEntity> followList = userService.getFollowList();
 		List<FollowResponseDto> followResponseDtoList =
 			FollowResponseDto.fromEntityList(followList);
