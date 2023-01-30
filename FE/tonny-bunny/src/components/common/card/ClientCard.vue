@@ -1,27 +1,56 @@
 <template>
-    <div>client card</div>
-    <img src="@/assets/noProfile.png" alt="" />
-    <div>username</div>
-    <div>
-        <router-link :to="{ name: 'InfoPage' }">정보수정</router-link>
-    </div>
-    <div>
-        <h4>보유캐럿</h4>
-        <div>120개</div>
-        <div>
-            <router-link :to="{ name: 'CarrotPage' }">포인트관리</router-link>
+    <div class="cardContainer">
+        <div class="cardWrap">
+            <div class="clientCard">
+                <div class="profile">
+                    <img src="@/assets/noProfile_white.png" alt="" width="70" />
+                </div>
+                <div class="info">
+                    <div class="edit">
+                        <h3>{{ userInfo.ninkName }}</h3>
+                        <div>
+                            <router-link :to="{ name: 'InfoPage' }">정보수정</router-link>
+                        </div>
+                    </div>
+                    <div class="carrot">
+                        <div>{{ userInfo.point }}</div>
+                        <div>{{ userInfo.point }}개</div>
+                        <div>
+                            <router-link :to="{ name: 'CarrotPage' }">포인트관리</router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- 유저카드 구성요소
-		프로필이미지아이템
-		정보수정버튼
-		포인트아이템 -->
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: "ClientCard",
+
+    computed: {
+        ...mapGetters({
+            userInfo: "getUserInfo",
+        }),
+    },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "@/scss/card.scss";
+
+.clientCard {
+    display: flex;
+    .info {
+        .edit {
+            display: flex;
+        }
+        .carrot {
+            display: flex;
+        }
+    }
+}
+</style>

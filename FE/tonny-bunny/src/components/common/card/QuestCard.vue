@@ -26,7 +26,7 @@
                             src="@/assets/noProfile_white.png"
                             width="50"
                             height="50" />
-                        <h4>{{ helperNickname }}</h4>
+                        <h4>{{ questDetail.helperNickname }}</h4>
                     </div>
 
                     <div>
@@ -34,44 +34,42 @@
                     </div>
 
                     <div class="profile">
-                        <h4>{{ clientNickname }}</h4>
+                        <h4>{{ questDetail.clientNickname }}</h4>
                         <img
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
-                            width="40"
-                            height="40" />
+                            width="50"
+                            height="50" />
                     </div>
                 </div>
 
                 <!-- 4. 상황 설명 라인 -->
                 <div class="questInfo">
                     <div class="infoDesc mb-4">
-                        <h3 class="title">바이어 미팅 건으로 급하게 통역을 요청합니다.</h3>
-                        <div class="sub">
-                            자동차 관련 회사입니다. 생활 영어 능숙하신 분 찾습니다.
-                        </div>
+                        <h3 class="title">{{ questDetail.title }}</h3>
+                        <div class="sub">{{ questDetail.desc }}</div>
                     </div>
 
                     <div class="infoDate">
                         <div v-if="category == 'jtonny'" class="jtonnyDate">
                             <div class="date">
                                 <h4>날짜</h4>
-                                <div>상세날짜</div>
+                                <div>{{ questDetail }}</div>
                             </div>
                             <div class="time">
                                 <h4>시간</h4>
-                                <div>상세시간</div>
+                                <div>{{ questDetail }}</div>
                             </div>
                         </div>
 
                         <div v-else-if="category == 'ytonny'" class="ytonnyDate">
                             <div class="date">
                                 <h4>마감날짜</h4>
-                                <div>상세날짜</div>
+                                <div>{{ questDetail }}</div>
                             </div>
                             <div class="time">
                                 <h4>마감시간</h4>
-                                <div>상세시간</div>
+                                <div>{{ questDetail }}</div>
                             </div>
                         </div>
                     </div>
@@ -79,7 +77,7 @@
                     <div class="infoBottom">
                         <div class="infoFare">
                             <h4>예상요금</h4>
-                            <div>1000 <span>캐럿</span></div>
+                            <div>{{ questDetail }} <span>캐럿</span></div>
                         </div>
                         <div class="infoCategory">
                             <h4>상황 카테고리</h4>
@@ -112,50 +110,53 @@ export default {
         XSmallBtn,
     },
 
-    props: {
-        category: {
-            type: String,
-            default: "jtonny",
-            description:
-                "즉시통역 / 예약통역 / 번역의뢰 / 번역상담 [jtonny / ytonny / nbunny / pbunny]",
-        },
+    props: ["questDetail"],
 
-        process: {
-            type: String,
-            default: "success",
-            description: "success:모집중, info:진행중, white:완료됨",
-        },
+    // props: {
+    //     questInfo
+    //     category: {
+    //         type: String,
+    //         default: "jtonny",
+    //         description:
+    //             "즉시통역 / 예약통역 / 번역의뢰 / 번역상담 [jtonny / ytonny / nbunny / pbunny]",
+    //     },
 
-        language: {
-            type: String,
-            default: "영어 ↔ 한국어",
-            description: "통번역 카테고리 [즉시통역, 통역예약 etc..]",
-        },
+    //     process: {
+    //         type: String,
+    //         default: "success",
+    //         description: "success:모집중, info:진행중, white:완료됨",
+    //     },
 
-        processColor: {
-            type: String,
-            default: "success",
-        },
-        processText: {
-            type: String,
-            default: "success",
-        },
+    //     language: {
+    //         type: String,
+    //         default: "영어 ↔ 한국어",
+    //         description: "통번역 카테고리 [즉시통역, 통역예약 etc..]",
+    //     },
 
-        helperNickname: {
-            type: String,
-            default: "헬퍼명",
-        },
-        clientNickname: {
-            type: String,
-            default: "고객명",
-        },
+    //     processColor: {
+    //         type: String,
+    //         default: "success",
+    //     },
+    //     processText: {
+    //         type: String,
+    //         default: "success",
+    //     },
 
-        rightBtnText: {
-            type: String,
-            default: "수락하기",
-            description: "오른쪽 버튼 텍스트 [수락하기, 상담하기 etc]",
-        },
-    },
+    //     helperNickname: {
+    //         type: String,
+    //         default: "헬퍼명",
+    //     },
+    //     clientNickname: {
+    //         type: String,
+    //         default: "고객명",
+    //     },
+
+    //     rightBtnText: {
+    //         type: String,
+    //         default: "수락하기",
+    //         description: "오른쪽 버튼 텍스트 [수락하기, 상담하기 etc]",
+    //     },
+    // },
 
     computed: {
         categoryToStr() {
