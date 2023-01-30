@@ -18,8 +18,10 @@ export default {
         },
 
         link: {
-            type: String,
-            default: "/",
+            type: Object,
+            default: () => {
+                return { name: "MyPage" };
+            },
             description: "button link",
         },
 
@@ -39,6 +41,11 @@ export default {
             type: Boolean,
             default: false,
             description: "button disable ",
+        },
+    },
+    methods: {
+        clickBtn(e) {
+            this.$emit("clickBtn", e);
         },
     },
 };
