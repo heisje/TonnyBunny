@@ -24,7 +24,7 @@
             btnFontColor1="main"
             btnFontColor2="white"
             @close-modal="closeModalCancel"
-            :to="{ name: 'JTonnyAcceptPage' }">
+            :link="{ name: 'JTonnyAcceptPage' }">
             <template #content> 저장된 양식이 삭제됩니다. </template>
         </AlarmModal>
 

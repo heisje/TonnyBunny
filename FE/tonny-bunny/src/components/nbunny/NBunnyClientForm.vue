@@ -88,7 +88,7 @@
                 style="width: 100%"
                 text="예약 의뢰 하기"
                 color="carrot"
-                @click.prevent="submitForm(event)" />
+                @click.prevent="submitForm" />
         </form>
     </div>
 </template>
@@ -125,6 +125,9 @@ export default {
                 this[e.target.id].notice =
                     "최소 8자 이상, 숫자와 문자를 포함한 비밀번호를 입력해주세요.";
             }
+        },
+        submitForm(e) {
+            this.$emit("toggleSubmit", e);
         },
     },
 };
