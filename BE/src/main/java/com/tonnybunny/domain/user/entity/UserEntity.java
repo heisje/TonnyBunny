@@ -119,4 +119,9 @@ public class UserEntity extends CommonEntity {
 		this.nickName = nickName;
 	}
 
+
+	public void setPoint(Long point) {
+		this.point = point;
+	}
+
 }
