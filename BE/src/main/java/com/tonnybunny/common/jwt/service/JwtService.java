@@ -18,7 +18,8 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-	private final String SECRET_KEY = "tonnybunnytonnybunny";
+	private final String SECRET_KEY = "dG9ubnlidW5ueXRvbm55YnVubnljYXJyb3RjYXJyb3QK";
+	// tonnybunnytonnybunnycarrotcarrot base64로 변환한 키. 근데 공개되면 안돼서 분리시켜야 함
 	private final String REFRESH_KEY = "refreshKey";
 	private final String DATA_KEY = "email";
 
