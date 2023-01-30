@@ -1,8 +1,8 @@
 <template>
     <div class="btnWrap">
-        <a class="btn xsmall" :class="color" :href="link">
+        <router-link :to="link" class="btn xsmall" :class="color" @click="clickBtn">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
-        </a>
+        </router-link>
     </div>
 </template>
 
@@ -18,8 +18,10 @@ export default {
         },
 
         link: {
-            type: String,
-            default: "/",
+            type: Object,
+            default: () => {
+                return { name: "MyPage" };
+            },
             description: "button link",
         },
 
@@ -39,6 +41,11 @@ export default {
             type: Boolean,
             default: false,
             description: "button disable ",
+        },
+    },
+    methods: {
+        clickBtn(e) {
+            this.$emit("clickBtn", e);
         },
     },
 };
