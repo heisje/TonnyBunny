@@ -19,13 +19,13 @@
                 </div>
 
                 <!-- 3. client - helper 라인 -->
-                <div class="questProfile">
+                <div class="questProfile mt-3">
                     <div class="profile">
                         <img
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
-                            width="40"
-                            height="40" />
+                            width="50"
+                            height="50" />
                         <h4>{{ helperNickname }}</h4>
                     </div>
 
@@ -45,7 +45,7 @@
 
                 <!-- 4. 상황 설명 라인 -->
                 <div class="questInfo">
-                    <div class="infoDesc">
+                    <div class="infoDesc mb-4">
                         <h3 class="title">바이어 미팅 건으로 급하게 통역을 요청합니다.</h3>
                         <div class="sub">
                             자동차 관련 회사입니다. 생활 영어 능숙하신 분 찾습니다.
@@ -91,9 +91,9 @@
                 </div>
 
                 <!-- 5. 하단 버튼 라인 -->
-                <div class="questBtns">
-                    <XSmallBtn text="자세히보기" />
-                    <XSmallBtn :text="rightBtnText" @click.prevent="clickRightBtn" color="carrot" />
+                <div class="questBtns mt-2">
+                    <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                    <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
         </div>
@@ -167,9 +167,14 @@ export default {
     },
 
     methods: {
-        clickRightBtn(e) {
+        clickBtn1(e) {
             e.preventDefault();
-            this.$emit("clickRightBtn");
+            this.$emit("clickBtn1");
+        },
+
+        clickBtn2(e) {
+            e.preventDefault();
+            this.$emit("clickBtn2");
         },
     },
 };

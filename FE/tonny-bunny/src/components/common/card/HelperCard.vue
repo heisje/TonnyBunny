@@ -1,9 +1,9 @@
 <template>
     <div class="cardContainer">
         <div class="cardWrap">
-            <div class="helperCard">
+            <div class="helperCard pt-2">
                 <!-- 1. x 버튼 라인 -->
-                <div class="closeBtn">
+                <div class="closeBtn" @click="removeCard">
                     <span class="material-symbols-outlined"> close </span>
                 </div>
 
@@ -14,9 +14,9 @@
                         <img
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
-                            width="50"
-                            height="50" />
-                        <div class="likeBtn">
+                            width="60"
+                            height="60" />
+                        <div class="likeBtn" @click="toggleLikeBtn">
                             <span
                                 v-if="isLikeEmpty"
                                 class="material-symbols-outlined likeIcon empty">
@@ -32,9 +32,9 @@
                     <!-- 1.2 헬퍼 요금 소개 라인 -->
                     <div class="helperDesc">
                         <!-- 1.2.1 닉네임 & 한 줄 소개 -->
-                        <div class="helperNick">
+                        <div class="helperNick mb-2">
                             <h3 class="nickName">{{ nickName }}</h3>
-                            <div class="oneLine label">{{ oneLine }}</div>
+                            <div class="oneLine label mt-1">{{ oneLine }}</div>
                         </div>
                         <!-- 1.2.2 실력 표시 라인 -->
                         <div class="helperSkill">
@@ -68,8 +68,8 @@
 
                 <!-- 3. 하단 버튼 라인 -->
                 <div class="helperBtns">
-                    <XSmallBtn text="자세히보기" />
-                    <XSmallBtn :text="rightBtnText" @click.prevent="clickRightBtn" color="carrot" />
+                    <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                    <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
         </div>
@@ -129,9 +129,24 @@ export default {
         },
     },
     methods: {
-        clickRightBtn(e) {
+        removeCard(e) {
             e.preventDefault();
-            this.$emit("clickRightBtn");
+            this.$emit("removeCard");
+        },
+
+        toggleLikeBtn(e) {
+            e.preventDefault();
+            this.$emit("toggleLikeBtn");
+        },
+
+        clickBtn1(e) {
+            e.preventDefault();
+            this.$emit("clickBtn1");
+        },
+
+        clickBtn2(e) {
+            e.preventDefault();
+            this.$emit("clickBtn2");
         },
     },
 };
