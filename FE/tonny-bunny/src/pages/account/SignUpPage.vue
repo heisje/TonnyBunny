@@ -1,8 +1,7 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
-        <div ckass="wrap customFormWrap">
+        <div class="customForm">
             <TitleText title="회원가입" center text="당신의 귀여운 통역가, TonnyBunny!" />
-            <!-- <SubText /> -->
 
             <h4>어떤 회원가입을 원하시나요?</h4>
             <div>
@@ -38,14 +37,10 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-// import SubText from "@/components/common/SubText.vue";
-// import DescriptionItem from "@/components/account/DescriptionItem.vue";
 
 export default {
     components: {
         TitleText,
-        // SubText,
-        // DescriptionItem,
     },
 };
 </script>

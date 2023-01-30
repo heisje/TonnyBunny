@@ -1,37 +1,37 @@
 <template>
-    <div>
-        <h1>회원관리 - 약관 동의 페이지</h1>
+    <div class="d-flex justify-content-center customFormWrap w-100">
+        <div class="customForm">
+            <h1>회원관리 - 약관 동의 페이지</h1>
 
-        <TitleText title="약관 동의" center text="당신의 귀여운 통역가, TonnyBunny!" />
-        {{ select }}
-        <TitleText />
-        <!-- 공통 약관 -->
-        <div v-for="(term, index) in clientTerms" :key="index">
-            <div style="background-color: beige">
-                <h4>{{ term.title }}</h4>
-                <p>{{ term.content }}</p>
-            </div>
-            <input type="checkbox" name="color" @click="clientTermToggle(index)" /> (필수) 약관에
-            동의합니다.
-            <br />
-            <br />
-        </div>
-        <!-- 헬퍼 약관 -->
-        <div v-show="select == 'helper'">
-            <div v-for="(term, index) in helperTerms" :key="index">
+            <TitleText title="약관 동의" center text="당신의 귀여운 통역가, TonnyBunny!" />
+            <TitleText />
+            <!-- 공통 약관 -->
+            <div v-for="(term, index) in clientTerms" :key="index">
                 <div style="background-color: beige">
                     <h4>{{ term.title }}</h4>
                     <p>{{ term.content }}</p>
                 </div>
-                <input type="checkbox" name="color" @click="helperTermToggle(index)" /> (필수)
+                <input type="checkbox" name="color" @click="clientTermToggle(index)" /> (필수)
                 약관에 동의합니다.
                 <br />
                 <br />
             </div>
+            <!-- 헬퍼 약관 -->
+            <div v-show="select == 'helper'">
+                <div v-for="(term, index) in helperTerms" :key="index">
+                    <div style="background-color: beige">
+                        <h4>{{ term.title }}</h4>
+                        <p>{{ term.content }}</p>
+                    </div>
+                    <input type="checkbox" name="color" @click="helperTermToggle(index)" /> (필수)
+                    약관에 동의합니다.
+                    <br />
+                    <br />
+                </div>
+            </div>
+
+            <smallBtn style="width: 100%" text="다음" @click="goSignUpCreatePage"></smallBtn>
         </div>
-
-        <smallBtn style="width: 100%" text="다음" @click="goSignUpCreatePage"></smallBtn>
-
         <alarm-modal
             v-show="isOpen"
             :isOpen="isOpen"
