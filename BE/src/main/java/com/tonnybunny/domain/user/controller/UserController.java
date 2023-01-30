@@ -4,6 +4,7 @@ package com.tonnybunny.domain.user.controller;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.common.jwt.dto.TokenResponseDto;
 import com.tonnybunny.domain.user.dto.*;
+import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
@@ -114,18 +115,17 @@ public class UserController {
 		}
 	}
 
-
-	@PostMapping("/login")
-	@ApiOperation(value = "로그인을 진행합니다")
-	public ResponseEntity<ResultDto<Boolean>> login(@RequestBody UserRequestDto userRequestDto) {
-
-		Boolean isSuccess = userService.login(userRequestDto);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
-	}
+	//	@PostMapping("/login")
+	//	@ApiOperation(value = "로그인을 진행합니다")
+	//	public ResponseEntity<ResultDto<Boolean>> login(@RequestBody UserRequestDto userRequestDto) {
+	//
+	//		Boolean isSuccess = userService.login(userRequestDto);
+	//		if (isSuccess) {
+	//			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+	//		} else {
+	//			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+	//		}
+	//	}
 
 
 	@PostMapping("/logout")
@@ -189,11 +189,21 @@ public class UserController {
 	// --------------------------------- 즐겨찾기 ------------------------------------
 
 
+	@GetMapping
+	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.", notes = "")
+	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList() {
+		List<FollowEntity> followList = userService.getFollowList();
+		List<FollowResponseDto> followResponseDtoList =
+			FollowResponseDto.fromEntityList(followList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
+	}
+
+
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
 	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("followSeq") Long followSeq) {
-		Boolean isSuccess = userService.createBookmark(userSeq, followSeq);
+		Boolean isSuccess = userService.createFollow(userSeq, followSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -206,7 +216,7 @@ public class UserController {
 	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteBookmark(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("followSeq") Long followSeq) {
-		Boolean isSuccess = userService.deleteBookmark(userSeq, followSeq);
+		Boolean isSuccess = userService.deleteFollow(userSeq, followSeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
