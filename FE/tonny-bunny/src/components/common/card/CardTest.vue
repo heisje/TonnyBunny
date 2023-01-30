@@ -14,11 +14,13 @@
         @click-btn1="check1"
         @click-btn2="check2"></helper-card>
     <helper-card></helper-card>
+    <helper-card></helper-card>
     <hr />
 
     <client-card></client-card>
 
-    <quest-card @click-btn1="check1" @click-btn2="check2"></quest-card>
+    <quest-card :questDetail="questDetail" @click-btn1="check1" @click-btn2="check2"></quest-card>
+    <quest-card :questDetail="questDetail" @click-btn1="check1" @click-btn2="check2"></quest-card>
 </template>
 
 <script>
@@ -33,6 +35,14 @@ export default {
         ClientCard,
         HelperCard,
         QuestCard,
+    },
+
+    data() {
+        return {
+            questDetail: {
+                clientNickname: "hi",
+            },
+        };
     },
 
     methods: {
