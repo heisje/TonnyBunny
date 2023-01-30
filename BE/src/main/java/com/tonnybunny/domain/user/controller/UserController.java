@@ -57,6 +57,7 @@ public class UserController {
 	}
 
 
+	// 테스트용
 	@GetMapping("/info")
 	public ResponseEntity<List<UserEntity>> findUser() {
 		return ResponseEntity.ok().body(userService.findUsers());
