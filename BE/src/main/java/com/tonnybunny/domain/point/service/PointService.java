@@ -1,11 +1,11 @@
 package com.tonnybunny.domain.point.service;
 
 
-import com.tonnybunny.domain.point.PointLogRepository;
 import com.tonnybunny.domain.point.dto.PointLogRequestDto;
 import com.tonnybunny.domain.point.dto.PointRequestDto;
 import com.tonnybunny.domain.point.dto.PointRequestTypeEnum;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
+import com.tonnybunny.domain.point.repository.PointLogRepository;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

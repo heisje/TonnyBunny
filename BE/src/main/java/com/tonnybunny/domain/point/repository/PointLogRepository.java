@@ -1,4 +1,4 @@
-package com.tonnybunny.domain.point;
+package com.tonnybunny.domain.point.repository;
 
 
 import com.tonnybunny.domain.point.entity.PointLogEntity;
