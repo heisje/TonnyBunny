@@ -1,10 +1,7 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <h1>회원관리 - 약관 동의 페이지</h1>
-
             <TitleText title="약관 동의" center text="당신의 귀여운 통역가, TonnyBunny!" />
-            <TitleText />
             <!-- 공통 약관 -->
             <div v-for="(term, index) in clientTerms" :key="index">
                 <div style="background-color: beige">
@@ -43,8 +40,7 @@
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @close-modal="closeModal"
-        >
+            @close-modal="closeModal">
             <template #content> 필수 약관에 동의해주세요. </template>
         </alarm-modal>
     </div>
