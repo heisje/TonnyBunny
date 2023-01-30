@@ -2,6 +2,9 @@
 
 // Form
 .customForm {
+    width: 400px;
+    margin-bottom: 80px;
+
     label {
         display: block;
         margin-bottom: 4px;
@@ -151,6 +154,12 @@
         align-items: flex-end;
         justify-content: center;
         padding: 10px;
+
+        .material-symbols-outlined {
+            font-family: "Material Symbols Outlined";
+            font-variation-settings: "wght" 300;
+            font-size: 1.5rem;
+        }
     }
     .backlabel {
         display: flex;
