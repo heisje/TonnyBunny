@@ -1,8 +1,8 @@
 <template>
     <div class="btnWrap">
-        <a class="btn xsmall" :class="color" :href="link">
+        <router-link :to="link" class="btn xsmall" :class="color" @click="clickBtn">
             <span :class="disable ? 'disable' : font">{{ text }}</span>
-        </a>
+        </router-link>
     </div>
 </template>
 
