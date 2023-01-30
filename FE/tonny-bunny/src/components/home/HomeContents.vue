@@ -25,6 +25,11 @@
                                 <span class="material-symbols-outlined"> g_translate </span>
                             </template>
                         </main-btn>
+                        <main-btn text="헬퍼페이지" @click="toggleHelperBtn">
+                            <template #icon>
+                                <span class="material-symbols-outlined"> g_translate </span>
+                            </template>
+                        </main-btn>
                     </div>
                 </div>
 
@@ -68,8 +73,12 @@ export default {
 
         toggleBunnyModalOpen(e) {
             e.preventDefault();
-            console.log("bunny");
             this.$store.commit("TOGGLE_BUNNY_MODAL");
+        },
+
+        toggleHelperBtn(e) {
+            e.preventDefault();
+            this.$router.push({ name: "HelperHomePage" });
         },
     },
 };
