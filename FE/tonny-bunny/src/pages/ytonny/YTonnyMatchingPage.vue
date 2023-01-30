@@ -30,7 +30,7 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @close-modal="closeModal"
-            :to="{ name: 'YTonnyMatchingPage' }">
+            :link="{ name: 'YTonnyMatchingPage' }">
             <template #content>
                 예약을 신청하셨습니다.<br />
                 고객이 응답을 주면 예약이 완료됩니다!<br />
