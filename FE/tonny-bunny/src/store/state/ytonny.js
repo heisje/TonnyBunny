@@ -10,9 +10,4 @@ export default {
     ytonnyListTotalCount: 0,
     ytonnyList: [],
     ytonnyDetail: {},
-
-    // comment
-    commentListTotalCount: 0,
-    commentList: [],
-    commentDetail: {},
 };
