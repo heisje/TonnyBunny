@@ -42,7 +42,9 @@ public class UserController {
 		if (isDuplicate) {
 			Map<String, Object> result = new HashMap<>();
 
-			result.put("data", userRequestDto);
+			result.put("email", userRequestDto.getEmail());
+			result.put("nickName", userRequestDto.getNickName());
+			result.put("phoneNumber", userRequestDto.getPhoneNumber());
 			result.put("token", userService.signup(userRequestDto));
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(result);
