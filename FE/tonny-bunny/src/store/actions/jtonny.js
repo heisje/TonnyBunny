@@ -2,22 +2,22 @@ import http from "@/common/axios";
 
 export default {
     /*
-        게시글 CRUD
+        즉시통역 CRUD
     */
 
-    // GET /api/board 게시글 리스트를 조회합니다.
-    async getBoardList(context) {
-        console.log("게시글 리스트를 조회합니다.");
+    // GET /api/jtonny 즉시 통역 공고 목록 조회
+    async getJtonnyList(context) {
+        console.log("즉시 통역 공고 목록 조회");
         let params = {};
 
         try {
-            let { data } = await http.get("/board", { params });
+            let { data } = await http.get("/jtonny", { params });
             console.log("async function : ", data);
 
             // service logic
             switch (data.resultCode) {
                 case "success":
-                    context.commit("SET_BOARD_LIST", data.data);
+                    context.commit("SET_JTONNY_LIST", data.data);
                     break;
                 case "fail":
                     break;
@@ -27,11 +27,11 @@ export default {
         }
     },
 
-    // POST /api/board 게시글을 작성합니다.
-    async insertBoard(context, json) {
-        console.log("게시글을 작성합니다.");
+    // POST /api/jtonny 즉시 통역 공고 생성
+    async insertJtonny(context, json) {
+        console.log("즉시 통역 공고 생성");
 
-        let { data } = await http.post(`/board`, json);
+        let { data } = await http.post(`/jtonny`, json);
 
         try {
             console.log("async function : ", data);
@@ -57,34 +57,12 @@ export default {
         }
     },
 
-    // GET /api/board/{boardSeq} 게시글을 열람합니다.
-    async getBoardDetail(context, id) {
-        console.log("게시글을 열람합니다.");
+    // GET /api/jtonny/{jTonnyHelperSeq}/accept 즉시 통역 공고 신청 수락
+    async getJtonnyAccept(context, jTonnyHelperSeq) {
+        console.log("즉시 통역 공고 신청 수락");
 
         try {
-            let { data } = await http.get(`/board/${id}`);
-            console.log("async function : ", data);
-
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    context.commit("SET_BOARD_DETAIL", data.data);
-                    break;
-                case "fail":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
-
-    // PUT /api/board/{boardSeq} 게시글을 수정합니다.
-    async updateBoard(context, id, json) {
-        console.log("게시글을 수정합니다.");
-
-        let { data } = await http.put(`/board/${id}`, json);
-
-        try {
+            let { data } = await http.get(`/jtonny/${jTonnyHelperSeq}/accept`);
             console.log("async function : ", data);
 
             // service logic
@@ -94,24 +72,57 @@ export default {
                 case "fail":
                     break;
             }
-            return data.resultCode;
         } catch (err) {
             console.error(err);
-
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
-
-            return data.resultCode;
         }
     },
 
-    // DELETE /api/board/{boardSeq} 게시글을 삭제합니다.
-    async removeBoard(context, id) {
-        console.log("게시글을 삭제합니다.");
+    // GET /api/jtonny/{jTonnyHelperSeq}/reject 즉시 통역 공고 신청 거절
+    async getJtonnyReject(context, jTonnyHelperSeq) {
+        console.log("즉시 통역 공고 신청 거절");
 
-        let { data } = await http.delete(`/board/${id}`);
+        try {
+            let { data } = await http.get(`/jtonny/${jTonnyHelperSeq}/reject`);
+            console.log("async function : ", data);
+
+            // service logic
+            switch (data.resultCode) {
+                case "success":
+                    break;
+                case "fail":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    // GET /api/jtonny/{jTonnySeq} 즉시 통역 공고 상세 조회
+    async getJtonnyDetail(context, jTonnySeq) {
+        console.log("즉시 통역 공고 신청 수락");
+
+        try {
+            let { data } = await http.get(`/api/jtonny/${jTonnySeq}`);
+            console.log("async function : ", data);
+
+            // service logic
+            switch (data.resultCode) {
+                case "success":
+                    context.commit("SET_JTONNY_DETAIL", data.data);
+                    break;
+                case "fail":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    // DELETE /api/jtonny/{jTonnySeq} 즉시 통역 공고 삭제
+    async removeJtonny(context, jTonnySeq) {
+        console.log("즉시 통역 공고 삭제");
+
+        let { data } = await http.delete(`/jtonny/${jTonnySeq}`);
 
         try {
             console.log("async function : ", data);
@@ -137,22 +148,20 @@ export default {
     },
 
     /*
-        게시글 댓글 CRUD
+        기타
     */
-
-    // 불필요
-    // GET /api/board/{boardSeq}/comment 게시글 댓글을 조회합니다.
-    async getBoardCommentList(context, boardId) {
-        console.log("게시글 댓글을 조회합니다.");
-        let params = {};
+    // GET /api/jtonny/enroll 예약 통역 신청 목록 조회
+    async getJtonnyEnroll(context) {
+        console.log("예약 통역 공고 상세 조회");
 
         try {
-            let { data } = await http.get(`/board/${boardId}/comment`, { params });
+            let { data } = await http.get(`/jtonny/enroll`);
             console.log("async function : ", data);
 
             // service logic
             switch (data.resultCode) {
                 case "success":
+                    context.commit("SET_JTONNY_DETAIL", data.data);
                     break;
                 case "fail":
                     break;
@@ -162,14 +171,11 @@ export default {
         }
     },
 
-    // 불필요
-    async getBoardCommentDetail() {},
+    // POST /api/jtonny/enroll 헬퍼의 예약 통역 신청 등록
+    async insertJtonnyEnroll(context, json) {
+        console.log("헬퍼의 예약 통역 신청 등록");
 
-    // POST /api/board/{boardSeq}/comment 게시글의 댓글을 작성합니다.
-    async insertBoardComment(context, boardId, json) {
-        console.log("게시글의 댓글을 작성합니다.");
-
-        let { data } = await http.post(`/board/${boardId}/comment`, json);
+        let { data } = await http.post(`/jtonny/enroll`, json);
 
         try {
             console.log("async function : ", data);
@@ -195,11 +201,11 @@ export default {
         }
     },
 
-    // PUT /api/board/${boardId}/comment 게시글의 댓글을 수정합니다.
-    async updateBoardComment(context, boardId, json) {
-        console.log("게시글의 댓글을 수정합니다.");
+    // DELETE /api/jtonny/enroll/{yTonnyNotiHelperSeq} 헬퍼의 예약 통역 신청 취소
+    async removeJtonnyEnroll(context, yTonnyNotiHelperSeq) {
+        console.log("헬퍼의 예약 통역 신청 취소");
 
-        let { data } = await http.post(`/board/${boardId}/comment`, json);
+        let { data } = await http.delete(`/jtonny/enroll/${yTonnyNotiHelperSeq}`);
 
         try {
             console.log("async function : ", data);
@@ -211,7 +217,6 @@ export default {
                 case "fail":
                     break;
             }
-
             return data.resultCode;
         } catch (err) {
             console.error(err);
@@ -225,11 +230,15 @@ export default {
         }
     },
 
-    // DELETE /api/board/{boardSeq}/comment/{commentSeq} 게시글의 댓글을 삭제합니다.
-    async removeBoardComment(context, boardId, commentId) {
-        console.log("게시글의 댓글을 삭제합니다.");
+    // POST /api/jtonny/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq} 예약 통역 공고에서 헬퍼의 신청을 수락
+    async insertJtonnyMatch(context, yTonnyNotiSeq, yTonnyNotiHelperSeq) {
+        console.log("예약 통역 공고에서 헬퍼의 신청을 수락");
 
-        let { data } = await http.post(`/board/${boardId}/comment/${commentId}`);
+        let { data } = await http.post(
+            `/jtonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`,
+            yTonnyNotiSeq,
+            yTonnyNotiHelperSeq
+        );
 
         try {
             console.log("async function : ", data);
