@@ -57,6 +57,7 @@ public class UserService {
 			throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
 		}
 
+		// 유저 정보 저장
 		UserEntity user =
 			userRepository.save(
 				UserEntity.builder()
@@ -70,9 +71,11 @@ public class UserService {
 		String accessToken = jwtService.generateJwtToken(user);
 		String refreshToken = jwtService.saveRefreshToken(user);
 
+		// 토큰 정보 저장
 		authRepository.save(
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
+		// 반환값 생성 및 리턴
 		return TokenResponseDto.builder()
 		                       .ACCESS_TOKEN(accessToken)
 		                       .REFRESH_TOKEN(refreshToken)
@@ -199,7 +202,7 @@ public class UserService {
 		 * 비밀번호 일치 확인 로직
 		 * 불일치 시 비밀번호가 일치하지 않습니다 출력
 		 */
-		if (password == checkPassword) {
+		if (password.equals(checkPassword)) {
 			return true;
 		} else {
 			return false;
