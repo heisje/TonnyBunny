@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -280,9 +279,13 @@ public class UserService {
 	 * @return List<FollowEntity>
 	 */
 
-	public List<FollowEntity> getFollowList() {
+	public List<FollowEntity> getFollowList(Long userSeq) throws Exception {
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new IllegalArgumentException("찾는 유저가 없습니다.")
+		);
+		List<FollowEntity> followList = user.getFollowUserList();
 
-		return new ArrayList<>();
+		return followList;
 	}
 
 

@@ -181,10 +181,10 @@ public class UserController {
 
 
 	@GetMapping("/mypage/{userSeq}/follow")
-	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.", notes = "")
+	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
 	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
-		"userSeq") Long userSeq) {
-		List<FollowEntity> followList = userService.getFollowList();
+		"userSeq") Long userSeq) throws Exception {
+		List<FollowEntity> followList = userService.getFollowList(userSeq);
 		List<FollowResponseDto> followResponseDtoList =
 			FollowResponseDto.fromEntityList(followList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
