@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * seq              : 히스토리 Seq
- * client           : 고객
- * helper           : 헬퍼
+ * clientSeq        : 고객 Seq
+ * helperSeq        : 헬퍼 Seq
  * content          : 공고 내용
  * startDateTime    : 시작 시간
  * endDateTime      : 종료 시간
@@ -34,9 +34,9 @@ public class HistoryResponseDto {
 
 	private Long seq;
 
-	private UserResponseDto client;
+	private Long clientSeq;
 
-	private UserResponseDto helper;
+	private Long helperSeq;
 
 	private String content;
 	private LocalDateTime startDateTime;

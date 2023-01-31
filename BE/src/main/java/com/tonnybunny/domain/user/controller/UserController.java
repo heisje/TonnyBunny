@@ -24,7 +24,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "회원가입 관련 API")
+@Api(tags = "사용자 정보 관련 API")
 public class UserController {
 
 	private final UserService userService;
@@ -42,7 +42,9 @@ public class UserController {
 		if (isDuplicate) {
 			Map<String, Object> result = new HashMap<>();
 
-			result.put("data", userRequestDto);
+			result.put("email", userRequestDto.getEmail());
+			result.put("nickName", userRequestDto.getNickName());
+			result.put("phoneNumber", userRequestDto.getPhoneNumber());
 			result.put("token", userService.signup(userRequestDto));
 			return ResponseEntity.status(HttpStatus.OK)
 				.body(result);
@@ -278,10 +280,11 @@ public class UserController {
 	 * @return : 히스토리 목록 DtoList
 	 */
 	@GetMapping("/mypage/{userSeq}/history")
-	@ApiOperation(value = "히스토리 목록을 조회합니다")
+	@ApiOperation(value = "히스토리 목록을 조회합니다", notes = "조회 필터링 조건은 하나씩만 적용됩니다. 아무 조건을 넣지 않으면 내역 전체 조회를 합니다.")
 	public ResponseEntity<ResultDto<List<HistoryResponseDto>>> getUserHistoryList(
-		@PathVariable("userSeq") Long userSeq) {
-		List<HistoryEntity> historyList = userService.getUserHistoryList(userSeq);
+		@PathVariable("userSeq") Long userSeq,
+		@RequestBody HistoryRequestDto historyRequestDto) {
+		List<HistoryEntity> historyList = userService.getUserHistoryList(userSeq, historyRequestDto);
 		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(
 			historyList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDtoList));
