@@ -5,14 +5,19 @@ import com.tonnybunny.domain.board.dto.BoardCommentRequestDto;
 import com.tonnybunny.domain.board.dto.BoardRequestDto;
 import com.tonnybunny.domain.board.entity.BoardCommentEntity;
 import com.tonnybunny.domain.board.entity.BoardEntity;
+import com.tonnybunny.domain.board.repository.BoardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
+
+	private final BoardRepository boardRepository;
+
 
 	/**
 	 * repository 에서 findBoardList() 를 수행한다.
@@ -21,7 +26,9 @@ public class BoardService {
 	 */
 	public List<BoardEntity> getBoardList() {
 
-		return new ArrayList<>();
+		List<BoardEntity> boardList = boardRepository.findAll();
+		//FIXME : 삭제된 보드 제외
+		return boardList;
 	}
 
 
@@ -31,9 +38,10 @@ public class BoardService {
 	 * @param boardSeq
 	 * @return BoardEntity
 	 */
-	public BoardEntity getBoard(Long boardSeq) {
-
-		return (BoardEntity) new Object();
+	public BoardEntity getBoard(Long boardSeq) throws Exception {
+		BoardEntity board = boardRepository.findById(boardSeq)
+			.orElseThrow(() -> new Exception("존재하지 않는 게시글입니다."));
+		return board;
 	}
 
 
@@ -42,12 +50,19 @@ public class BoardService {
 	 * JPA 가 board 에 키 값을 넣어줌.
 	 *
 	 * @param boardRequestDto
-	 * @return boardSeq
+	 * @return boardEntity
 	 */
-	public Long createBoard(BoardRequestDto boardRequestDto) {
-		BoardEntity board = boardRequestDto.toEntity();
+	public BoardEntity createBoard(BoardRequestDto boardRequestDto) {
+		//		BoardEntity board = boardRequestDto.toEntity();
+		BoardEntity board =
+			boardRepository.save(
+				BoardEntity.builder()
+					.title(boardRequestDto.getTitle())
+					.content(boardRequestDto.getContent())
+					//FIXME : 유저, 사진 추가
+					.build());
 
-		return board.getSeq();
+		return board;
 	}
 
 
@@ -63,7 +78,6 @@ public class BoardService {
 		BoardEntity newBoard = boardRequestDto.toEntity();
 
 		// common.update(oldDomain, newDomain);
-
 		return 0L;
 	}
 
