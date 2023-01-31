@@ -111,12 +111,14 @@ public class UserEntity extends CommonEntity {
 	@OneToMany(mappedBy = "helper")
 	private List<YTonnyQuotationEntity> helperYTonnyQuotationList = new ArrayList<>(); // 헬퍼 측 예약 통역 요청 견적서 리스트
 
+
 	@Builder
-	public UserEntity(String email, String password, String phoneNumber, String nickName) {
+	public UserEntity(String email, String password, String phoneNumber, String nickName, String userCode) {
 		this.email = email;
 		this.password = password;
 		this.phoneNumber = phoneNumber;
 		this.nickName = nickName;
+		this.userCode = userCode;
 	}
 
 
