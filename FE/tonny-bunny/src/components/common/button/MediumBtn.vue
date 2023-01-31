@@ -17,14 +17,6 @@ export default {
             description: "button tag",
         },
 
-        link: {
-            type: Object,
-            default: () => {
-                return { name: "HomePage" };
-            },
-            description: "button link",
-        },
-
         color: {
             type: String,
             default: "main",
