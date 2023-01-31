@@ -32,6 +32,12 @@
         max-width: 320px;
         min-width: 100px;
     }
+    input[type="password"] {
+        @extend .inputTextBox;
+        width: 100%;
+        max-width: 320px;
+        min-width: 100px;
+    }
 
     //임포트용으로 사용되는 기본 inputTextBox
     .inputTextBox {
