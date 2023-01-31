@@ -1,9 +1,15 @@
 package com.tonnybunny.domain.user.dto;
 
 
+import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
+import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
 import com.tonnybunny.domain.review.dto.ReviewResponseDto;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
 import lombok.Data;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -62,16 +68,71 @@ public class HistoryResponseDto {
 	private String title;
 
 
-	public static HistoryResponseDto fromEntity(HistoryEntity history) {
-		return new HistoryResponseDto();
+	public static <T extends HistoryEntity> HistoryResponseDto fromEntity(T history) throws Exception {
+		ModelMapper modelMapper = new ModelMapper();
+
+		// Entity로 들어온 값을 Seq로 타입 변환
+		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(
+			mapper -> {
+				// 고객 Entity -> 고객 Seq
+				mapper.using((Converter<UserEntity, Long>) client -> client.getSource().getSeq())
+					.map(HistoryEntity::getClient, HistoryResponseDto::setClientSeq);
+				// 헬퍼 Entity -> 헬퍼 Seq
+				mapper.using((Converter<UserEntity, Long>) helper -> helper.getSource().getSeq())
+					.map(HistoryEntity::getHelper, HistoryResponseDto::setHelperSeq);
+
+			}
+		);
+		// 값 매핑
+		HistoryResponseDto historyResponseDto = modelMapper.map(history, HistoryResponseDto.class);
+
+		// TaskCode에 따라 즉시통역, 예약통역, 번역 Entity가 들어올것임
+		// => 들어오는 Entity에 따라 달라지는 필드 값을 채움
+		if (history.getTaskCode() == TaskCodeEnum.즉시통역.getTaskCode()) {
+			if (history instanceof JTonnyHistoryEntity) {
+				JTonnyHistoryEntity jTonnyHistory = (JTonnyHistoryEntity) history;
+
+				historyResponseDto.setTotalTime(jTonnyHistory.getTotalTime());
+				historyResponseDto.setUnitPrice(jTonnyHistory.getUnitPrice());
+				historyResponseDto.setRecordVideoPath(jTonnyHistory.getRecordVideoPath());
+				historyResponseDto.setTonnySituCode(jTonnyHistory.getTonnySituCode());
+			} else
+				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
+		}
+		if (history.getTaskCode() == TaskCodeEnum.예약통역.getTaskCode()) {
+			if (history instanceof YTonnyHistoryEntity) {
+				YTonnyHistoryEntity yTonnyHistory = (YTonnyHistoryEntity) history;
+
+				historyResponseDto.setTotalTime(yTonnyHistory.getTotalTime());
+				historyResponseDto.setUnitPrice(yTonnyHistory.getUnitPrice());
+				historyResponseDto.setRecordVideoPath(yTonnyHistory.getRecordVideoPath());
+				historyResponseDto.setTonnySituCode(yTonnyHistory.getTonnySituCode());
+				historyResponseDto.setTitle(yTonnyHistory.getTitle());
+			} else
+				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
+
+		}
+		if (history.getTaskCode() == TaskCodeEnum.번역.getTaskCode()) {
+			if (history instanceof BunnyHistoryEntity) {
+				BunnyHistoryEntity bunnyHistory = (BunnyHistoryEntity) history;
+
+				historyResponseDto.setTitle(bunnyHistory.getTitle());
+			} else
+				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
+		}
+		return historyResponseDto;
 	}
 
 
 	public static List<HistoryResponseDto> fromEntityList(List<HistoryEntity> historyList) {
 		List<HistoryResponseDto> result = new ArrayList<>();
-		for (HistoryEntity history : historyList) {
-			HistoryResponseDto historyResponseDto = fromEntity(history);
-			result.add(historyResponseDto);
+		try { // FIXME : Controller에 exception 넣는거 미루려고 잠시 try-catch 넣어둠
+			for (HistoryEntity history : historyList) {
+				HistoryResponseDto historyResponseDto = fromEntity(history);
+				result.add(historyResponseDto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
 	}
