@@ -2,7 +2,7 @@ package com.tonnybunny.domain.alert.controller;
 
 
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
-import com.tonnybunny.domain.alert.service.AlertService;
+import com.tonnybunny.domain.alert.service.AlertServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class AlertControllerTest {
 
 	@Autowired
-	AlertService alertService;
+	AlertServiceImpl alertService;
 
 
 	@Test
@@ -43,16 +43,17 @@ class AlertControllerTest {
 		System.out.println("createAlertLog 테스트 !!!!!!1");
 
 		// given
-		//		AlertLogRequestDto alertLogRequestDto = new AlertLogRequestDto();
-		//		alertLogRequestDto.setUserSeq(1L);
-		//		alertLogRequestDto.setTaskCode("즉시통역");
-		//		alertLogRequestDto.setContent("즉시 통역을 시작합니다.");
-		//
-		//		// when
-		//		Boolean isCreate = alertService.createAlertLog(alertLogRequestDto);
-		//
-		//		// then
-		//		System.out.println(isCreate);
+		AlertLogRequestDto alertLogRequestDto = new AlertLogRequestDto();
+		alertLogRequestDto.setUserSeq(1L);
+		alertLogRequestDto.setTaskCode("즉시통역");
+		alertLogRequestDto.setContent("즉시 통역을 시작합니다.");
+		System.out.println(alertLogRequestDto);
+
+		// when
+		Boolean isCreate = alertService.createAlertLog(alertLogRequestDto);
+
+		// then
+		System.out.println(isCreate);
 	}
 
 }
