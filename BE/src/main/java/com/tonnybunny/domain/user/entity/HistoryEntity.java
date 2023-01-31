@@ -36,11 +36,16 @@ public class HistoryEntity {
 
 	private String startLangCode;
 	private String endLangCode;
-	//	private String taskCode;
+
+	@Column(name = "task_code", insertable = false, updatable = false)
+	private String taskCode;
 
 	private Long notiSeq;                   // 즉통, 예통의 경우 NotiSeq, 번역의 경우 QuotationSeq
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "history")
 	private ReviewEntity review;
+
+	@Column(name = "created_at", insertable = false, updatable = false)
+	private LocalDateTime createdAt;
 
 }
