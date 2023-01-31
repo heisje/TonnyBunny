@@ -14,7 +14,7 @@
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @close-modal="closeModal">
+            @clickBtn2="clickBtn2">
             <template #content>
                 통역예약이 게시되었습니다. <br />
                 헬퍼의 제안 중 가장 좋은 제안을 수락하세요!
@@ -41,8 +41,9 @@ export default {
             this.isOpen = true;
         },
 
-        closeModal() {
+        clickBtn2() {
             this.isOpen = false;
+            this.$router.push({ name: "YTonnyDetailPage", params: { id: 1 } });
         },
     },
 };
