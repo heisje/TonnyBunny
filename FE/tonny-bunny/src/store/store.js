@@ -9,6 +9,7 @@ import account from "./state/account";
 import board from "./state/board";
 import tonny from "./state/tonny";
 import bunny from "./state/bunny";
+import common from "./state/common";
 
 export default createStore({
     state: {
@@ -21,6 +22,7 @@ export default createStore({
         board,
         tonny,
         bunny,
+        common,
     },
 
     getters,
