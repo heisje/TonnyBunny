@@ -185,6 +185,7 @@ export default {
             }
         },
 
+        // 휴대폰번호 입력
         changePhoneInput() {
             this.isCheckAuthCode = false;
             this.isSendAuthCode = false;

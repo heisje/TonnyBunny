@@ -34,13 +34,11 @@
             :isOpen="isOpen"
             title="경고"
             type="danger"
-            btnText1="닫기"
-            btnText2="예"
-            btnColor1="main"
+            btnText2="닫기"
             btnColor2="carrot"
-            btnFontColor1="white"
             btnFontColor2="white"
-            @close-modal="closeModal">
+            @clickBtn2="closeModal"
+        >
             <template #content> 필수 약관에 동의해주세요. </template>
         </alarm-modal>
     </div>
