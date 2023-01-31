@@ -4,12 +4,14 @@ package com.tonnybunny.domain.alert.dto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Data
 public class AlertLogRequestDto {
 
-	private final ModelMapper modelMapper;
+	@Autowired
+	private ModelMapper modelMapper;
 
 	private int page = 0; // offset
 	private int size = 10; // limit

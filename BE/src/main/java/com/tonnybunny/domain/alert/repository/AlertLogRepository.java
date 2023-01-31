@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface AlertRepository extends JpaRepository<AlertLogEntity, Long> {
+public interface AlertLogRepository extends JpaRepository<AlertLogEntity, Long> {
 
-	@Override
-	Page<AlertLogEntity> findAll(Pageable pageable);
+	// 알람 로그 목록 반환 By userSeq With pagenation
+	Page<AlertLogEntity> findByUserSeq(Long userSeq, Pageable pageable);
 
 }

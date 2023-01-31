@@ -3,8 +3,8 @@ package com.tonnybunny.domain.alert.controller;
 
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
-import com.tonnybunny.domain.alert.repository.AlertRepository;
-import com.tonnybunny.domain.alert.service.AlertServiceImpl;
+import com.tonnybunny.domain.alert.repository.AlertLogRepository;
+import com.tonnybunny.domain.alert.service.AlertService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DisplayName("알림 테스트")
 class AlertControllerTest {
 
-	private AlertServiceImpl alertService;
-	private AlertRepository alertRepository;
+	private AlertService alertService;
+	private AlertLogRepository alertRepository;
 
 
 	@Test

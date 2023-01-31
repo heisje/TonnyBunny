@@ -10,8 +10,10 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@ToString
 @Builder
 public class AlertSettingsEntity extends CommonEntity {
 
