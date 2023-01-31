@@ -17,9 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -31,42 +29,32 @@ public class UserController {
 	private final HelperInfoService helperInfoService;
 
 
-	/**
-	 * @param userRequestDto 가입하는 유저 정보
-	 * @return header : Refresh Token과 Access Token / Body : UserEntity
-	 */
 	@PostMapping("/signup")
-	public ResponseEntity signup(@RequestBody UserRequestDto userRequestDto) {
-		Boolean isDuplicate = !(userService.findByEmail(userRequestDto.getEmail()).isPresent());
+	@ApiOperation(value = "공통 회원가입을 진행합니다.")
+	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody UserRequestDto userRequestDto)
+		throws Exception {
 
-		if (isDuplicate) {
-			Map<String, Object> result = new HashMap<>();
+		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
 
-			result.put("email", userRequestDto.getEmail());
-			result.put("nickName", userRequestDto.getNickName());
-			result.put("phoneNumber", userRequestDto.getPhoneNumber());
-			result.put("token", userService.signup(userRequestDto));
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(result);
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(ResultDto.of(tokenResponseDto));
+
 	}
 
 
 	@PostMapping("/signin")
-	public ResponseEntity<TokenResponseDto> signin(@RequestBody UserRequestDto userRequestDto)
+	@ApiOperation(value = "로그인 기능을 수행합니다.")
+	public ResponseEntity<ResultDto<TokenResponseDto>> signin(@RequestBody UserRequestDto userRequestDto)
 		throws Exception {
-
-		return ResponseEntity.ok().body(userService.signin(userRequestDto));
+		TokenResponseDto tokenResponseDto = userService.signin(userRequestDto);
+		return ResponseEntity.ok().body(ResultDto.of(tokenResponseDto));
 	}
 
-
-	// 테스트용
-	@GetMapping("/info")
-	public ResponseEntity<List<UserEntity>> findUser() {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
-	}
+	//	// 테스트용
+	//	@GetMapping("/info")
+	//	public ResponseEntity<List<UserEntity>> findUser() {
+	//		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
+	//	}
 
 
 	@PostMapping("/signup/nickname")
@@ -131,17 +119,16 @@ public class UserController {
 	//		}
 	//	}
 
-
-	@PostMapping("/logout")
-	@ApiOperation(value = "로그아웃을 진행합니다")
-	public ResponseEntity<ResultDto<Boolean>> logout(@RequestBody UserRequestDto userRequestDto) {
-		Boolean isSuccess = userService.logout(userRequestDto);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
-	}
+	//	@PostMapping("/logout")
+	//	@ApiOperation(value = "로그아웃을 진행합니다")
+	//	public ResponseEntity<ResultDto<Boolean>> logout(@RequestBody UserRequestDto userRequestDto) {
+	//		Boolean isSuccess = userService.logout(userRequestDto);
+	//		if (isSuccess) {
+	//			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+	//		} else {
+	//			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+	//		}
+	//	}
 
 
 	@PostMapping("/login/find")
@@ -162,7 +149,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 조회합니다")
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(
-		@PathVariable("userSeq") Long userSeq) {
+		@PathVariable("userSeq") Long userSeq) throws Exception {
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
 		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));

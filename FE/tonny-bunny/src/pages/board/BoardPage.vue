@@ -21,7 +21,9 @@
 <script>
 export default {
     name: "BoardPage",
+
     methods: {},
+
     mounted() {
         this.$store.dispatch("getBoardList");
     },

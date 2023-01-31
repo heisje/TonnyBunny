@@ -8,11 +8,15 @@ export default {
     // GET /api/board 게시글 리스트를 조회합니다.
     async getBoardList(context) {
         console.log("게시글 리스트를 조회합니다.");
-        let params = {};
 
+        this.dispatch("setIsLoading", true);
+
+        let params = {};
         try {
             let { data } = await http.get("/board", { params });
             console.log("async function : ", data);
+
+            this.dispatch("setIsLoading", false);
 
             // service logic
             switch (data.resultCode) {
