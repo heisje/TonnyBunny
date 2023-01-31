@@ -8,6 +8,15 @@ spring:
     url: ${db.mysql.url}
     username: ${db.mysql.username}
     password: ${db.mysql.password}
+  # SERVER AUTO RELOAD
+  devtools:
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
+  # JPA for auto reload
+  jpa:
+    show-sql: false
 
 server:
   port: ${env.server.port}

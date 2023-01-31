@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.user.dto;
 
 
-import com.tonnybunny.domain.user.entity.HistoryEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -38,10 +37,5 @@ public class HistoryRequestDto {
 
 	/*********************  정렬  ***********************/
 	private Boolean orderByCreatedAtAsc = false;
-
-
-	public HistoryEntity toEntity() {
-		return (HistoryEntity) new Object();
-	}
-
+	
 }
