@@ -4,52 +4,125 @@ package com.tonnybunny.domain.alert.service;
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
+import com.tonnybunny.domain.alert.repository.AlertRepository;
+import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Service
 public class AlertServiceImpl implements AlertService {
 
-	/**
-	 * 알림 설정
-	 *
-	 * @param alertSettingsDto : 알림 설정 정보 포함
-	 */
-	@Override
-	public void modifyAlertSettings(AlertSettingsDto alertSettingsDto) {
-		// TODO : 구현
+	@Autowired
+	AlertRepository alertRepository;
 
-	}
+	@Autowired
+	UserRepository userRepository;
 
 
 	/**
-	 * 이벤트 알림 생성
+	 * MARK : 계약이 성립되면 알람 생성
+	 * ex) 즉시통역이 성립되었습니다. 오늘 통역예약이 있습니다. + 날짜, 시간 표기
 	 *
-	 * @param alertLogRequestDto : 알림 메세지 등의 내용 포함
-	 * @return 성공 여부
+	 * @param alertLogRequestDto : 대상 유저 seq, 카테고리 taskCode, 내용 content
+	 * @return 생성 성공 여부
 	 */
 	@Override
 	public Boolean createAlertLog(AlertLogRequestDto alertLogRequestDto) {
-		// TODO : 구현
+
+		Long userSeq = alertLogRequestDto.getUserSeq();
+		String taskCode = alertLogRequestDto.getTaskCode();
+		String content = alertLogRequestDto.getContent();
+		
+		UserEntity user = userRepository.findAllById(userSeq);
+
+		AlertLogEntity fromAlertLog = alertRepository.save(
+			AlertLogEntity.builder()
+			              .taskCode(taskCode)
+			              .content(content)
+			              .build()
+		);
+
+		//		AlertLogEntity fromAlertLog = alertRepository.save(
+		//			AlertLogEntity.builder()
+		//			              .alertLogSeq();
+		//		)
+
+		// save
+		//		PointLogEntity fromUserPointLog = pointLogRepository.save(
+		//			PointLogEntity.builder()
+		//				.amount(-pointAmount) // 감소하므로 음수값
+		//				.typeCode(PointRequestTypeEnum.거래.toString())
+		//				.user(fromUser)
+		//				.build());
 
 		return true;
 	}
 
 
 	/**
-	 * 대상 유저의 안 읽은 알림 목록 조회
+	 * MARK : 전체 알림 로그 목록을 반환
 	 *
-	 * @param userSeq : 대상 유저 seq
-	 * @return 알림 목록
+	 * @param alertLogRequestDto : 대상 유저 seq, page, size
+	 * @return 전체 알림 로그 목록
 	 */
 	@Override
-	public List<AlertLogEntity> getAlertLogList(Long userSeq) {
-		// TODO : 구현
+	public Page<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
-		return new ArrayList<>();
+		int page = alertLogRequestDto.getPage();
+		int size = alertLogRequestDto.getSize();
+
+		Pageable pageable = PageRequest.of(page, size);
+		Page<AlertLogEntity> alertLogList = alertRepository.findAll(pageable);
+
+		System.out.println(alertLogList);
+
+		return alertLogList;
+	}
+
+
+	/**
+	 * MARK : 알림 읽음확인 수정
+	 *
+	 * @param alertLogSeq : 대상 알림 로그 seq
+	 * @return 알림 읽음확인 수정 여부
+	 */
+	@Override
+	public Boolean modifyAlertIsRead(Long alertLogSeq) {
+		// find by id
+		// isread 만 변경
+		return true;
+	}
+
+
+	/**
+	 * MARK : 알림 설정 toggle 수정
+	 *
+	 * @param alertSettingsDto : 통역, 번역, 커뮤니티, 메시지(채팅) 알람
+	 * @return 알림 설정 변경 여부
+	 */
+	@Override
+	public Boolean modifyAlertSettings(AlertSettingsDto alertSettingsDto) {
+		// TODO : 구현
+		// alert setting 변경
+		return true;
+	}
+
+
+	/**
+	 * MARK : 알림 삭제
+	 *
+	 * @param alertLogSeq : 대상 알림 로그 seq
+	 * @return 알림 삭제 여부
+	 */
+	@Override
+	public Boolean deleteAlertLog(Long alertLogSeq) {
+
+		return null;
 	}
 
 }

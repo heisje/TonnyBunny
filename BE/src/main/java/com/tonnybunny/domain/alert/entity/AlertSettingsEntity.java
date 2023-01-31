@@ -4,6 +4,7 @@ package com.tonnybunny.domain.alert.entity;
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +29,16 @@ public class AlertSettingsEntity extends CommonEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity user;
+
+
+	@Builder
+	public AlertSettingsEntity(Long alertSettingsSeq, boolean isAll, boolean isTonnyBunny, boolean isCommunity, boolean isChat, UserEntity user) {
+		this.seq = alertSettingsSeq;
+		this.isAll = isAll;
+		this.isTonnyBunny = isTonnyBunny;
+		this.isCommunity = isCommunity;
+		this.isChat = isChat;
+		this.user = user;
+	}
 
 }

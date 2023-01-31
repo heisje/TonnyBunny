@@ -11,6 +11,10 @@ import java.util.List;
 @Data
 public class AlertLogResponseDto {
 
+	private String taskCode;
+	private String content;
+
+
 	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
 		return new AlertLogResponseDto();
 	}
