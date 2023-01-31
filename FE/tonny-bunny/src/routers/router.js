@@ -85,6 +85,10 @@ import SuccessPage1 from "@/pages/common/SuccessPage1";
 import SuccessPage2 from "@/pages/common/SuccessPage2";
 import NotFoundPage from "@/pages/common/NotFoundPage";
 
+// 컴포넌트 페이지 테스트
+import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
+import InputTest from "@/components/common/input/InputTest";
+
 export default createRouter({
     history: createWebHistory(),
     linkActiveClass: "route-active",
@@ -701,6 +705,26 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: SuccessPage2,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/common",
+            name: "ComponentsTestPage",
+            components: {
+                header: AppHeader,
+                default: ComponentsTestPage,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/common/input",
+            name: "InputTest",
+            components: {
+                header: AppHeader,
+                default: InputTest,
                 footer: AppFooter,
             },
         },
