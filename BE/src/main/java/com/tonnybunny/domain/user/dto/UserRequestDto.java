@@ -25,7 +25,7 @@ public class UserRequestDto {
 
 	private String email;
 	private String password;
-	private String nickname;
+	private String nickName;
 	private String phoneNumber;
 
 	/* 일반 유저 회원정보 수정 */
