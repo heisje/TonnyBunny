@@ -49,7 +49,7 @@ public class UserService {
 					.password(passwordEncoder.encode(userRequestDto.getPassword()))
 					.email(userRequestDto.getEmail())
 					.phoneNumber(userRequestDto.getPhoneNumber())
-					.nickName(userRequestDto.getNickname())
+					.nickName(userRequestDto.getNickName())
 					.build());
 
 		String accessToken = jwtService.generateJwtToken(user);
