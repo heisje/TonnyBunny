@@ -101,7 +101,7 @@ export default {
 
         // 언어 선택 취소
         cancleSelect(index) {
-            this.selectedLangList.splice(index, 1);
+            this.possibleLanguageList.splice(index, 1);
         },
 
         // 자격증 추가
