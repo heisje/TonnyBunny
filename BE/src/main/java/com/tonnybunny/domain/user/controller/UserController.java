@@ -149,7 +149,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 조회합니다")
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(
-		@PathVariable("userSeq") Long userSeq) {
+		@PathVariable("userSeq") Long userSeq) throws Exception {
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
 		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));

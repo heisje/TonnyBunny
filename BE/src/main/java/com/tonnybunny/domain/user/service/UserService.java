@@ -235,10 +235,11 @@ public class UserService {
 	 * @param userSeq : 조회할 userSeq 포함
 	 * @return findUserBySeq로 조회된 searchedUser
 	 */
-	public UserEntity getUserInfo(Long userSeq) {
+	public UserEntity getUserInfo(Long userSeq) throws Exception {
 		// TODO : 로직
-
-		return (UserEntity) new Object();
+		UserEntity user = userRepository.findById(userSeq)
+			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		return user;
 	}
 
 
