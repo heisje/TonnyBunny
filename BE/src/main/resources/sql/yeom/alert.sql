@@ -11,4 +11,4 @@ select * from alert_log_entity;
 insert into alert_log_entity (created_at, updated_at, content, is_read, task_code, user_seq)
 values (now(), now(), '하이루', false, '1234', 1);
 insert into alert_log_entity (created_at, updated_at, content, is_read, task_code, user_seq)
-values (now(), now(), '하이루22', true, '1234', 1);
+values (now(), now(), '하이루22', true, '1234', 2);
