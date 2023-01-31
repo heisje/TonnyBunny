@@ -1,7 +1,7 @@
 <template>
     <div>
-        <!-- <home-banner></home-banner> -->
-        <!-- <home-contents></home-contents> -->
+        <home-banner></home-banner>
+        <home-contents></home-contents>
 
         <!-- <title-banner
             title="🐰 실시간 동시 통역"
