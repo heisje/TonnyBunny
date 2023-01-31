@@ -28,10 +28,10 @@ export default {
     },
 
     // POST /api/board 게시글을 작성합니다.
-    async insertBoard(context, tempJson) {
+    async insertBoard(context, json) {
         console.log("게시글을 작성합니다.");
 
-        let { data } = await http.post(`/board`, tempJson);
+        let { data } = await http.post(`/board`, json);
 
         try {
             console.log("async function : ", data);
