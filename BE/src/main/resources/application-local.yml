@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  # MySQL
+  datasource:
+    driver-class-name: ${db.mysql.driver}
+    url: ${db.mysql.url}
+    username: ${db.mysql.username}
+    password: ${db.mysql.password}
+
+server:
+  port: ${env.server.port}
+
+
+
