@@ -2,20 +2,20 @@ package com.tonnybunny.domain.point.dto;
 
 
 public enum PointRequestTypeEnum {
-	충전("buy"),
-	출금("withdraw"),
-	거래("deal");
+	충전("0110001"),
+	출금("0110002"),
+	거래("0110003");
 
-	private final String type;
+	private final String typeCode;
 
 
-	PointRequestTypeEnum(String type) {
-		this.type = type;
+	PointRequestTypeEnum(String typeCode) {
+		this.typeCode = typeCode;
 	}
 
 
 	@Override
 	public String toString() {
-		return this.type;
+		return this.typeCode;
 	}
 }
