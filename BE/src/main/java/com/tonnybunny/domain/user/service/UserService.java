@@ -42,7 +42,12 @@ public class UserService {
 
 
 	@Transactional
-	public TokenResponseDto signup(UserRequestDto userRequestDto) {
+	public TokenResponseDto signup(UserRequestDto userRequestDto) throws Exception {
+
+		if (findByEmail(userRequestDto.getEmail()).isPresent()) {
+			throw new Exception("이미 가입된 이메일입니다.");
+		}
+
 		UserEntity user =
 			userRepository.save(
 				UserEntity.builder()
@@ -50,6 +55,7 @@ public class UserService {
 					.email(userRequestDto.getEmail())
 					.phoneNumber(userRequestDto.getPhoneNumber())
 					.nickName(userRequestDto.getNickName())
+					.userCode(userRequestDto.getUserCode())
 					.build());
 
 		String accessToken = jwtService.generateJwtToken(user);
@@ -58,7 +64,12 @@ public class UserService {
 		authRepository.save(
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
-		return TokenResponseDto.builder().ACCESS_TOKEN(accessToken).REFRESH_TOKEN(refreshToken)
+		return TokenResponseDto.builder()
+			.ACCESS_TOKEN(accessToken)
+			.REFRESH_TOKEN(refreshToken)
+			.email(user.getEmail())
+			.nickName(user.getNickName())
+			.profileImagePath(user.getProfileImagePath())
 			.build();
 	}
 
@@ -84,14 +95,27 @@ public class UserService {
 			return TokenResponseDto.builder()
 				.ACCESS_TOKEN(accessToken)
 				.REFRESH_TOKEN(auth.getRefreshToken())
+				.email(user.getEmail())
+				.nickName(user.getNickName())
+				.profileImagePath(user.getProfileImagePath())
+				.userCode(user.getUserCode())
 				.build();
 		} else {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			refreshToken = jwtService.saveRefreshToken(user);
+			System.out.println("new refreshToken :" + refreshToken);
 			auth.refreshUpdate(refreshToken);
+			authRepository.save(auth);
+
 		}
 
-		return TokenResponseDto.builder().ACCESS_TOKEN(accessToken).REFRESH_TOKEN(refreshToken)
+		return TokenResponseDto.builder()
+			.ACCESS_TOKEN(accessToken)
+			.REFRESH_TOKEN(refreshToken)
+			.email(user.getEmail())
+			.nickName(user.getNickName())
+			.profileImagePath(user.getProfileImagePath())
+			.userCode(user.getUserCode())
 			.build();
 	}
 

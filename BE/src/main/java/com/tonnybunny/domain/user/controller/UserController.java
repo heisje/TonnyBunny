@@ -17,9 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -35,30 +33,26 @@ public class UserController {
 	 * @param userRequestDto 가입하는 유저 정보
 	 * @return header : Refresh Token과 Access Token / Body : UserEntity
 	 */
+
 	@PostMapping("/signup")
-	public ResponseEntity signup(@RequestBody UserRequestDto userRequestDto) {
-		Boolean isDuplicate = !(userService.findByEmail(userRequestDto.getEmail()).isPresent());
+	@ApiOperation(value = "공통 회원가입을 진행합니다.")
+	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody UserRequestDto userRequestDto)
+		throws Exception {
 
-		if (isDuplicate) {
-			Map<String, Object> result = new HashMap<>();
+		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
 
-			result.put("email", userRequestDto.getEmail());
-			result.put("nickName", userRequestDto.getNickName());
-			result.put("phoneNumber", userRequestDto.getPhoneNumber());
-			result.put("token", userService.signup(userRequestDto));
-			return ResponseEntity.status(HttpStatus.OK)
-				.body(result);
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(ResultDto.of(tokenResponseDto));
+
 	}
 
 
 	@PostMapping("/signin")
-	public ResponseEntity<TokenResponseDto> signin(@RequestBody UserRequestDto userRequestDto)
+	@ApiOperation(value = "로그인 기능을 수행합니다.")
+	public ResponseEntity<ResultDto<TokenResponseDto>> signin(@RequestBody UserRequestDto userRequestDto)
 		throws Exception {
-
-		return ResponseEntity.ok().body(userService.signin(userRequestDto));
+		TokenResponseDto tokenResponseDto = userService.signin(userRequestDto);
+		return ResponseEntity.ok().body(ResultDto.of(tokenResponseDto));
 	}
 
 
