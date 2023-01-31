@@ -16,7 +16,7 @@ spring:
 
   # JPA
   jpa:
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: none
     show-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

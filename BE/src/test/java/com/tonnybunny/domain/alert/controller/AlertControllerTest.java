@@ -2,11 +2,15 @@ package com.tonnybunny.domain.alert.controller;
 
 
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
+import com.tonnybunny.domain.alert.entity.AlertLogEntity;
+import com.tonnybunny.domain.alert.repository.AlertRepository;
 import com.tonnybunny.domain.alert.service.AlertServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
@@ -15,7 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DisplayName("알림 테스트")
 class AlertControllerTest {
 
-	AlertServiceImpl alertService;
+	private AlertServiceImpl alertService;
+	private AlertRepository alertRepository;
 
 
 	@Test
@@ -24,13 +29,23 @@ class AlertControllerTest {
 
 		System.out.println("getAlertLog 테스트 진행 중");
 
+		AlertLogRequestDto alertLogRequestDto = new AlertLogRequestDto(new ModelMapper());
+		alertLogRequestDto.setUserSeq(1L);
+		alertLogRequestDto.setTaskCode("즉시통역");
+		alertLogRequestDto.setContent("즉시 통역을 시작합니다.");
+
+		alertService.createAlertLog(alertLogRequestDto);
+
 		// given : 주어진 것
-		AlertLogRequestDto alertLogRequestDto = new AlertLogRequestDto();
-		alertLogRequestDto.setPage(2); // 2 page 에서 시작해서
-		alertLogRequestDto.setSize(3); // 2 개씩 가져오기
+		AlertLogRequestDto alertLogRequestDto2 = new AlertLogRequestDto(new ModelMapper());
+		alertLogRequestDto2.setPage(2); // 2 page 에서 시작해서
+		alertLogRequestDto2.setSize(3); // 2 개씩 가져오기
 
 		// when : 기능 상황
+		Page<AlertLogEntity> list = alertService.getAlertLogList(alertLogRequestDto2);
+
 		// then : 결과
+		System.out.println(list);
 	}
 
 
@@ -41,10 +56,11 @@ class AlertControllerTest {
 		System.out.println("createAlertLog 테스트 !!!!!!1");
 
 		// given
-		AlertLogRequestDto alertLogRequestDto = new AlertLogRequestDto();
+		AlertLogRequestDto alertLogRequestDto = new AlertLogRequestDto(new ModelMapper());
 		alertLogRequestDto.setUserSeq(1L);
 		alertLogRequestDto.setTaskCode("즉시통역");
 		alertLogRequestDto.setContent("즉시 통역을 시작합니다.");
+
 		System.out.println(alertLogRequestDto);
 
 		// when
@@ -52,6 +68,7 @@ class AlertControllerTest {
 
 		// then
 		System.out.println(isCreate);
+
 	}
 
 }

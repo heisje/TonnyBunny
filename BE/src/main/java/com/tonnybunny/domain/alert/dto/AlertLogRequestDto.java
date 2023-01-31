@@ -10,16 +10,16 @@ import org.modelmapper.ModelMapper;
 public class AlertLogRequestDto {
 
 	private final ModelMapper modelMapper;
-	
+
 	private int page; // offset
 	private int size; // limit
+
 	private Long userSeq;
 	private String taskCode;
 	private String content;
 
 
 	public AlertLogEntity toEntity(AlertLogRequestDto alertLogRequestDto) {
-
 		return modelMapper.map(alertLogRequestDto, AlertLogEntity.class);
 	}
 

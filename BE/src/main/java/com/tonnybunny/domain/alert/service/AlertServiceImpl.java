@@ -5,11 +5,14 @@ import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.repository.AlertRepository;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -35,7 +38,10 @@ public class AlertServiceImpl implements AlertService {
 		String taskCode = alertLogRequestDto.getTaskCode();
 		String content = alertLogRequestDto.getContent();
 
-		//		Optional<UserEntity> userEntity = userRepository.findById(userSeq);
+		Optional<UserEntity> userEntity = userRepository.findById(userSeq);
+
+		System.out.println(userEntity);
+
 		//
 		//		System.out.println("---------------------------------");
 		//		System.out.println(userEntity);
@@ -74,10 +80,15 @@ public class AlertServiceImpl implements AlertService {
 	@Override
 	public Page<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
+		System.out.println(alertLogRequestDto);
+		
 		int page = alertLogRequestDto.getPage();
 		int size = alertLogRequestDto.getSize();
 
+		System.out.println("하ㅣ이루!!!!!" + page + " " + size);
+
 		Pageable pageable = PageRequest.of(page, size);
+		System.out.println("되고있는거 맞나 ???????????/");
 		Page<AlertLogEntity> alertLogList = alertRepository.findAll(pageable);
 
 		System.out.println(alertLogList);

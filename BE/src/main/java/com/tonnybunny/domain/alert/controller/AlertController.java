@@ -5,16 +5,15 @@ import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.dto.AlertLogResponseDto;
 import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
-import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.service.AlertServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +23,7 @@ import java.util.List;
 @Api(tags = "알림 관련 API")
 public class AlertController {
 
-	private AlertServiceImpl alertService;
+	AlertServiceImpl alertService;
 
 
 	/**
@@ -59,11 +58,14 @@ public class AlertController {
 	@ApiOperation(value = "전체 알림 로그를 반환", notes = "")
 	public ResponseEntity<ResultDto<List<AlertLogResponseDto>>> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
-		Page<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
-		System.out.println("안녕안녕:" + alertLogList);
+		System.out.println("안녕2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+		System.out.println(alertService.getAlertLogList(alertLogRequestDto));
+
+		//		Page<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
+		//		System.out.println("안녕안녕:" + alertLogList);
 
 		//		List<AlertLogResponseDto> alertLogResponseDtoList = AlertLogResponseDto.fromEntityList(alertLogList);
-		List<AlertLogResponseDto> alertLogResponseDtoList = null;
+		List<AlertLogResponseDto> alertLogResponseDtoList = new ArrayList<>();
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList));
 	}
