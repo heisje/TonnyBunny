@@ -127,12 +127,17 @@ public class UserService {
 
 	public Boolean checkNicknameDuplication(UserRequestDto userRequestDto) {
 		UserEntity user = userRequestDto.toEntity();
+		if (userRepository.findByNickName(user.getNickName()).isPresent()) {
+			return true;
+		} else {
+			return false;
+		}
+
 		/**
 		 * repository 에서 닉네임 중복확인 절차를 마치고 true/false 를 반환해준다.
 		 * Boolean isDuplicate = userRepository.checkNicknameDuplication(user);
 		 * return isDuplicate;
 		 */
-		return false;
 	}
 
 
@@ -197,15 +202,16 @@ public class UserService {
 	//		return true;
 	//	}
 
-
-	public Boolean logout(UserRequestDto userRequestDto) {
-		UserEntity user = userRequestDto.toEntity();
-		/**
-		 * 로그아웃 진행 코드
-		 * 토큰 회수? 무슨 방식?
-		 */
-		return true;
-	}
+	//
+	//	public Boolean logout(UserRequestDto userRequestDto) {
+	//		UserEntity user = userRequestDto.toEntity();
+	//		/**
+	//		 * 로그아웃 진행 코드
+	//		 * 토큰 회수? 무슨 방식?
+	//		 * access token 의 유효시간을 짧게 하는 것으로 대체
+	//		 */
+	//		return true;
+	//	}
 
 
 	public AccountResponseDto findAccouontInfo(AccountRequestDto accountRequestDto) {

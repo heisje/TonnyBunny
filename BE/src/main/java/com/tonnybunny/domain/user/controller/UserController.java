@@ -29,11 +29,6 @@ public class UserController {
 	private final HelperInfoService helperInfoService;
 
 
-	/**
-	 * @param userRequestDto 가입하는 유저 정보
-	 * @return header : Refresh Token과 Access Token / Body : UserEntity
-	 */
-
 	@PostMapping("/signup")
 	@ApiOperation(value = "공통 회원가입을 진행합니다.")
 	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody UserRequestDto userRequestDto)
@@ -55,12 +50,11 @@ public class UserController {
 		return ResponseEntity.ok().body(ResultDto.of(tokenResponseDto));
 	}
 
-
-	// 테스트용
-	@GetMapping("/info")
-	public ResponseEntity<List<UserEntity>> findUser() {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
-	}
+	//	// 테스트용
+	//	@GetMapping("/info")
+	//	public ResponseEntity<List<UserEntity>> findUser() {
+	//		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
+	//	}
 
 
 	@PostMapping("/signup/nickname")
@@ -125,17 +119,16 @@ public class UserController {
 	//		}
 	//	}
 
-
-	@PostMapping("/logout")
-	@ApiOperation(value = "로그아웃을 진행합니다")
-	public ResponseEntity<ResultDto<Boolean>> logout(@RequestBody UserRequestDto userRequestDto) {
-		Boolean isSuccess = userService.logout(userRequestDto);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
-	}
+	//	@PostMapping("/logout")
+	//	@ApiOperation(value = "로그아웃을 진행합니다")
+	//	public ResponseEntity<ResultDto<Boolean>> logout(@RequestBody UserRequestDto userRequestDto) {
+	//		Boolean isSuccess = userService.logout(userRequestDto);
+	//		if (isSuccess) {
+	//			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+	//		} else {
+	//			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+	//		}
+	//	}
 
 
 	@PostMapping("/login/find")
