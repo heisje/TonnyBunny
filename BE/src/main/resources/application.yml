@@ -5,13 +5,18 @@ server:
 spring:
   profiles:
     default: local
+  output:
+    ansi:
+      enabled: always
+  
   # swagger \uAD00\uB828 \uC124\uC815
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
   # JPA
   jpa:
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: update
     show-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
