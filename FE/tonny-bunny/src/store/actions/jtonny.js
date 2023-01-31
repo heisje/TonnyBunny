@@ -234,7 +234,11 @@ export default {
     async insertJtonnyMatch(context, yTonnyNotiSeq, yTonnyNotiHelperSeq) {
         console.log("예약 통역 공고에서 헬퍼의 신청을 수락");
 
-        let { data } = await http.post(`/jtonny`, yTonnyNotiSeq, yTonnyNotiHelperSeq);
+        let { data } = await http.post(
+            `/jtonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`,
+            yTonnyNotiSeq,
+            yTonnyNotiHelperSeq
+        );
 
         try {
             console.log("async function : ", data);
