@@ -4,8 +4,9 @@ package com.tonnybunny.domain.alert.service;
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 @Component
@@ -15,7 +16,7 @@ public interface AlertService {
 	Boolean createAlertLog(AlertLogRequestDto alertLogRequestDto); // 로그 생성
 
 	// R
-	Page<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto); // 전체 로그 조회
+	List<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto); // 전체 로그 조회
 
 	// U
 	Boolean modifyAlertIsRead(Long alertLogSeq); // isRead 수정

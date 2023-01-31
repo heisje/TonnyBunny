@@ -13,6 +13,7 @@ public class AlertLogResponseDto {
 
 	private String taskCode;
 	private String content;
+	private boolean isRead;
 
 
 	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
@@ -22,10 +23,12 @@ public class AlertLogResponseDto {
 
 	public static List<AlertLogResponseDto> fromEntityList(List<AlertLogEntity> alertLogList) {
 		List<AlertLogResponseDto> result = new ArrayList<>();
+
 		for (AlertLogEntity alertLog : alertLogList) {
 			AlertLogResponseDto alertLogResponseDto = fromEntity(alertLog);
 			result.add(alertLogResponseDto);
 		}
+
 		return result;
 	}
 

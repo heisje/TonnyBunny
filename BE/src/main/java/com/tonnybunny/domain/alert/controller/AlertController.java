@@ -5,6 +5,7 @@ import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.dto.AlertLogResponseDto;
 import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
+import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.service.AlertServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +23,7 @@ import java.util.List;
 @Api(tags = "알림 관련 API")
 public class AlertController {
 
-	AlertServiceImpl alertService;
+	private final AlertServiceImpl alertService;
 
 
 	/**
@@ -58,16 +58,20 @@ public class AlertController {
 	@ApiOperation(value = "전체 알림 로그를 반환", notes = "")
 	public ResponseEntity<ResultDto<List<AlertLogResponseDto>>> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println("안녕2 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
-		System.out.println(alertService.getAlertLogList(alertLogRequestDto));
+		System.out.println("\ngetAlertLogList Controller !!");
+		System.out.println("alertLogRequestDto : " + alertLogRequestDto);
 
-		//		Page<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
-		//		System.out.println("안녕안녕:" + alertLogList);
+		List<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
+		System.out.println("alertLogList: " + alertLogList);
 
-		//		List<AlertLogResponseDto> alertLogResponseDtoList = AlertLogResponseDto.fromEntityList(alertLogList);
-		List<AlertLogResponseDto> alertLogResponseDtoList = new ArrayList<>();
+		alertLogList.forEach(e -> System.out.println("hihi: " + e));
+
+		List<AlertLogResponseDto> alertLogResponseDtoList = AlertLogResponseDto.fromEntityList(alertLogList);
+		System.out.println("alertLogResponseDtoList : " + alertLogResponseDtoList);
+		System.out.println(ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList)));
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList));
+
 	}
 
 

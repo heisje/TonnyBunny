@@ -7,19 +7,21 @@ import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.repository.AlertRepository;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
-import org.springframework.data.domain.Page;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor // Autowired 안쓰려면 final 이랑 같이 써야함
 public class AlertServiceImpl implements AlertService {
 
-	AlertRepository alertRepository;
-	UserRepository userRepository;
+	private final AlertRepository alertRepository;
+	private final UserRepository userRepository;
 
 
 	/**
@@ -78,20 +80,17 @@ public class AlertServiceImpl implements AlertService {
 	 * @return 전체 알림 로그 목록
 	 */
 	@Override
-	public Page<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
+	public List<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println(alertLogRequestDto);
-		
+		System.out.println("getAlertLogList Service !!");
+
 		int page = alertLogRequestDto.getPage();
 		int size = alertLogRequestDto.getSize();
 
-		System.out.println("하ㅣ이루!!!!!" + page + " " + size);
-
 		Pageable pageable = PageRequest.of(page, size);
-		System.out.println("되고있는거 맞나 ???????????/");
-		Page<AlertLogEntity> alertLogList = alertRepository.findAll(pageable);
+		List<AlertLogEntity> alertLogList = alertRepository.findAll(pageable).getContent();
 
-		System.out.println(alertLogList);
+		System.out.println("alertLogList : " + alertLogList);
 
 		return alertLogList;
 	}

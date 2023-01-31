@@ -11,8 +11,8 @@ public class AlertLogRequestDto {
 
 	private final ModelMapper modelMapper;
 
-	private int page; // offset
-	private int size; // limit
+	private int page = 0; // offset
+	private int size = 10; // limit
 
 	private Long userSeq;
 	private String taskCode;
