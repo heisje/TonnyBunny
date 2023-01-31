@@ -5,15 +5,13 @@ import com.tonnybunny.common.jwt.dto.TokenResponseDto;
 import com.tonnybunny.common.jwt.entity.AuthEntity;
 import com.tonnybunny.common.jwt.repository.AuthRepository;
 import com.tonnybunny.common.jwt.service.JwtService;
-import com.tonnybunny.domain.user.dto.AccountRequestDto;
-import com.tonnybunny.domain.user.dto.AccountResponseDto;
-import com.tonnybunny.domain.user.dto.ReportRequestDto;
-import com.tonnybunny.domain.user.dto.UserRequestDto;
+import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -324,14 +322,40 @@ public class UserService {
 
 
 	/**
-	 * @param userSeq : 로그인 유저 seq
+	 * @param userSeq           : 로그인 유저 seq
+	 * @param historyRequestDto : 목록 조회 필터링 조건
 	 * @return 히스토리 목록 EntityList
 	 */
-	public List<HistoryEntity> getUserHistoryList(Long userSeq) {
+	public List<HistoryEntity> getUserHistoryList(Long userSeq, HistoryRequestDto historyRequestDto) {
 		/**
 		 * 히스토리 목록 조회 로직
+		 *
+		 * 필터링 기준
+		 * 1. 고객 기준
+		 * 2. 헬퍼 기준
+		 * 3. 통역/번역 기준
+		 * 4. 언어 기준 (시작 언어, 번역 언어 통틀어서 조회)
 		 */
-		List<HistoryEntity> historyList = historyRepository.findAllByClientOrHelper(userSeq, userSeq);
+		List<HistoryEntity> historyList;
+		// 정렬 기준 동적 생성
+		Sort.TypedSort<HistoryEntity> typedSort = Sort.sort(HistoryEntity.class);
+		Sort sort;
+		if (historyRequestDto.getOrderByCreatedAtAsc()) sort = typedSort.by(HistoryEntity::getCreatedAt).ascending();
+		else sort = typedSort.by(HistoryEntity::getCreatedAt).descending();
+
+		// 목록 조회
+		if (historyRequestDto.getClientSeq() != null) { // 고객 기준 조회
+			historyList = historyRepository.findByClient(historyRequestDto.getClientSeq(), sort);
+		} else if (historyRequestDto.getHelperSeq() != null) { // 헬퍼 기준 조회
+			historyList = historyRepository.findByHelper(historyRequestDto.getHelperSeq(), sort);
+		} else if (historyRequestDto.getLangCode() != null) { // 업무에 사용된 언어 기준 조회
+			String langCode = historyRequestDto.getLangCode();
+			historyList = historyRepository.findByStartLangCodeOrEndLangCode(langCode, langCode, sort);
+		} else if (historyRequestDto.getTaskCode() != null) { // 업무 기준 조회 (통역, 번역)
+			historyList = historyRepository.findByTaskCode(historyRequestDto.getTaskCode(), sort);
+		} else { // 사용자 기준 전체 조회 (고객 또는 헬퍼로 참여한 업무 전체 조회)
+			historyList = historyRepository.findByClientOrHelper(userSeq, userSeq, sort);
+		}
 		return historyList;
 	}
 
@@ -345,7 +369,7 @@ public class UserService {
 		/**
 		 * 히스토리 단일 조회
 		 */
-		Optional<HistoryEntity> history = historyRepository.findBySeq(historySeq);
+		Optional<HistoryEntity> history = historyRepository.findById(historySeq);
 		return history.orElseThrow(() -> new Exception("히스토리 조회 결과가 존재하지 않습니다."));
 	}
 
