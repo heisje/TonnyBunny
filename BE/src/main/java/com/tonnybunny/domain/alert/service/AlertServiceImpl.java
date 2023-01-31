@@ -5,7 +5,6 @@ import com.tonnybunny.domain.alert.dto.AlertLogRequestDto;
 import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.repository.AlertRepository;
-import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,18 +33,24 @@ public class AlertServiceImpl implements AlertService {
 	@Override
 	public Boolean createAlertLog(AlertLogRequestDto alertLogRequestDto) {
 
-		Long userSeq = alertLogRequestDto.getUserSeq();
-		String taskCode = alertLogRequestDto.getTaskCode();
-		String content = alertLogRequestDto.getContent();
-		
-		UserEntity user = userRepository.findAllById(userSeq);
+		System.out.println("service !!!!!!!!!!!");
 
-		AlertLogEntity fromAlertLog = alertRepository.save(
-			AlertLogEntity.builder()
-			              .taskCode(taskCode)
-			              .content(content)
-			              .build()
-		);
+		//		Long userSeq = alertLogRequestDto.getUserSeq();
+		//		String taskCode = alertLogRequestDto.getTaskCode();
+		//		String content = alertLogRequestDto.getContent();
+		//
+		//		Optional<UserEntity> userEntity = userRepository.findById(userSeq);
+		//
+		//		System.out.println("---------------------------------");
+		//		System.out.println(userEntity);
+
+		//		AlertLogEntity fromAlertLog = alertRepository.save(
+		//			AlertLogEntity.builder()
+		//			              .user(userEntity)
+		//			              .taskCode(taskCode)
+		//			              .content(content)
+		//			              .build()
+		//		);
 
 		//		AlertLogEntity fromAlertLog = alertRepository.save(
 		//			AlertLogEntity.builder()
