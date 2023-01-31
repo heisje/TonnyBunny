@@ -1,6 +1,7 @@
 package com.tonnybunny.common.jwt.entity;
 
 
+import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 
 
+@Entity
 @Getter
 @RequiredArgsConstructor
-@Table(name = "auth")
-@Entity
-public class AuthEntity {
+public class AuthEntity extends CommonEntity {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id

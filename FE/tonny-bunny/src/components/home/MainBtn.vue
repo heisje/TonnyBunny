@@ -1,15 +1,15 @@
 <template>
     <div class="mainBtnWrap">
-        <div class="mainBtn">
-            <router-link :to="{ name: href }">
+        <router-link :to="{ name: href }">
+            <div class="mainBtn">
                 <div class="btnIcon">
                     <slot name="icon">아이콘</slot>
                 </div>
                 <span class="btnText">
                     {{ text }}
                 </span>
-            </router-link>
-        </div>
+            </div>
+        </router-link>
     </div>
 </template>
 
@@ -37,6 +37,11 @@ export default {
 .mainBtnWrap {
     display: inline-block;
     cursor: pointer;
+
+    a {
+        text-decoration: none;
+        text-align: center;
+    }
 }
 .mainBtn {
     width: 200px;
@@ -60,10 +65,6 @@ export default {
         }
     }
 
-    a {
-        text-align: center;
-        text-decoration: none;
-    }
     .btnText {
         font-size: 1.5rem;
         font-weight: 600;

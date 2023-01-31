@@ -73,8 +73,8 @@ import HelperChangePage from "@/pages/mypage/HelperChangePage";
 import HomePage from "@/pages/home/HomePage";
 import HelperHomePage from "@/pages/home/HelperHomePage.vue";
 import IntroPage from "@/pages/home/IntroPage";
-import BunnyPage from "@/pages/home/BunnyPage";
-import TonnyPage from "@/pages/home/TonnyPage";
+// import BunnyPage from "@/pages/home/BunnyPage";
+// import TonnyPage from "@/pages/home/TonnyPage";
 import MyPage from "@/pages/home/MyPage";
 import NoticePage from "@/pages/home/NoticePage";
 
@@ -84,6 +84,10 @@ import ReviewPage from "@/pages/common/ReviewPage";
 import SuccessPage1 from "@/pages/common/SuccessPage1";
 import SuccessPage2 from "@/pages/common/SuccessPage2";
 import NotFoundPage from "@/pages/common/NotFoundPage";
+
+// 컴포넌트 페이지 테스트
+import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
+import InputTest from "@/components/common/input/InputTest";
 
 export default createRouter({
     history: createWebHistory(),
@@ -624,25 +628,25 @@ export default createRouter({
             },
         },
 
-        {
-            path: "/bunny",
-            name: "BunnyPage",
-            components: {
-                header: AppHeader,
-                default: BunnyPage,
-                footer: AppFooter,
-            },
-        },
+        // {
+        //     path: "/bunny",
+        //     name: "BunnyPage",
+        //     components: {
+        //         header: AppHeader,
+        //         default: BunnyPage,
+        //         footer: AppFooter,
+        //     },
+        // },
 
-        {
-            path: "/tonny",
-            name: "TonnyPage",
-            components: {
-                header: AppHeader,
-                default: TonnyPage,
-                footer: AppFooter,
-            },
-        },
+        // {
+        //     path: "/tonny",
+        //     name: "TonnyPage",
+        //     components: {
+        //         header: AppHeader,
+        //         default: TonnyPage,
+        //         footer: AppFooter,
+        //     },
+        // },
 
         {
             path: "/mypage",
@@ -701,6 +705,26 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: SuccessPage2,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/common",
+            name: "ComponentsTestPage",
+            components: {
+                header: AppHeader,
+                default: ComponentsTestPage,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/common/input",
+            name: "InputTest",
+            components: {
+                header: AppHeader,
+                default: InputTest,
                 footer: AppFooter,
             },
         },

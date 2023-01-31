@@ -3,13 +3,13 @@
         <h1>Button Test</h1>
         <MediumBtn color="sub" disable />
         <hr />
-        <MediumBtn color="thin" font="active" link="/bunny" />
+        <MediumBtn color="thin" font="active" />
         <hr />
 
-        <MediumBtn color="outline" font="active" link="/mypage" text="마이 페이지" />
+        <MediumBtn color="outline" font="active" text="마이 페이지" />
         <hr />
 
-        <LargeBtn text="라지" link="/tonny" />
+        <LargeBtn text="라지" />
 
         <SmallBtn color="carrot" />
         <SmallBtn color="primary" text="안녕" />

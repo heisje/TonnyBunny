@@ -1,118 +1,118 @@
 .modalContainer {
-	position: fixed;
-	z-index: 100;
-	top: 0;
-	left: 0;
-	background-color: rgba(0, 0, 0, 0.3);
-	width: 100vw;
-	// height: 100vh;
-	cursor: default;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100vw;
+    // height: 100vh;
+    cursor: default;
 }
 
 .modalWrap {
-	z-index: 100;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .modalCustom {
-	z-index: 100;
-	width: 424px;
-	// height: 212px;
-	padding: 24px 24px;
-	margin-bottom: 5%;
+    z-index: 100;
+    width: 424px;
+    // height: 212px;
+    padding: 24px 24px;
+    margin-bottom: 5%;
 
-	background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 1);
 
-	border: 1px solid #e8edef;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
-	backdrop-filter: blur(5px);
-	border-radius: 8px;
+    border: 1px solid #e8edef;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
 
-	transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .titleWrap {
-	// margin-bottom: 8px;
+    // margin-bottom: 8px;
 
-	.icon {
-		position: relative;
-		top: -1px;
-		padding-right: 4px;
-		font-weight: 400;
-		font-size: 1.5rem;
+    .icon {
+        position: relative;
+        top: -1px;
+        padding-right: 4px;
+        font-weight: 400;
+        font-size: 1.5rem;
 
-		display: none;
+        display: none;
 
-		&.danger {
-			display: inline-block;
-			color: var(--danger-color);
-		}
+        &.danger {
+            display: inline-block;
+            color: var(--danger-color);
+        }
 
-		&.warning {
-			display: inline-block;
-			color: var(--warning-color);
-			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-		}
+        &.warning {
+            display: inline-block;
+            color: var(--warning-color);
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
 
-		&.success {
-			display: inline-block;
-			color: var(--success-color);
-		}
-	}
+        &.success {
+            display: inline-block;
+            color: var(--success-color);
+        }
+    }
 
-	.title {
-		position: relative;
-		font-size: 1.2rem;
-		top: -6px;
-	}
+    .title {
+        position: relative;
+        font-size: 1.2rem;
+        top: -6px;
+    }
 }
 
 .contentWrap {
-	margin: 4px 8px 12px 8px;
+    margin: 4px 8px 12px 8px;
 
-	.content {
-		// position: relative;
-		padding: 0 0 54px 0;
-		font-size: 1rem;
-		font-weight: 400;
-		line-height: 21px;
-	}
+    .content {
+        // position: relative;
+        padding: 0 0 54px 0;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 21px;
+    }
 }
 
 .modalBtnWrap {
-	position: absolute;
-	bottom: 24px;
-	right: 24px;
-	// width: 100%;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    // width: 100%;
 
-	div {
-		margin-left: 8px;
-	}
+    div {
+        margin-left: 8px;
+    }
 }
 
 .bounce-enter-active {
-	animation: bounce-in 0.5s;
+    animation: bounce-in 0.5s;
 }
 .bounce-leave-active {
-	animation: bounce-in 0.5s reverse;
+    animation: bounce-in 0.3s reverse;
 }
 @keyframes bounce-in {
-	0% {
-		transform: scale(0);
-	}
-	50% {
-		transform: scale(1.1);
-	}
-	100% {
-		transform: scale(1);
-	}
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 @media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
-	.modalCustom {
-		width: 85%;
-	}
+    .modalCustom {
+        width: 85%;
+    }
 }

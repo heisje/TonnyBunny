@@ -35,14 +35,13 @@
                                 :color="btnColor1"
                                 :font="btnFontColor1"
                                 :text="btnText1"
-                                @click="closeModal"></small-btn>
+                                @click="clickBtn1"></small-btn>
                         </div>
                         <small-btn
                             :color="btnColor2"
                             :font="btnFontColor2"
                             :text="btnText2"
-                            :link="link"
-                            @clickBtn="clickBtn"></small-btn>
+                            @click="clickBtn2"></small-btn>
                     </div>
                 </div>
             </div>
@@ -115,29 +114,17 @@ export default {
             default: "white",
             description: "right button color",
         },
-
-        link: {
-            type: Object,
-            default: () => {
-                return { name: "HomePage " };
-            },
-            description: "router-link [ex. /account/signup]",
-        },
-
-        // to: {
-        // 	type: Object,
-        // 	default: { name: "HomePage" },
-        // 	description: "라우터링크to"
-        // },
     },
 
     methods: {
-        closeModal(e) {
+        clickBtn1(e) {
             e.preventDefault();
-            this.$emit("closeModal");
+            this.$emit("clickBtn1");
         },
+
         clickBtn2(e) {
-            this.$emit("clickBtn", e);
+            e.preventDefault();
+            this.$emit("clickBtn2");
         },
     },
 
