@@ -1,3 +1,11 @@
+server:
+  port: ${env.server.port}
+  error:
+    include-exception: false
+    include-message: always
+    include-stacktrace: on_param
+    whitelabel.enabled: true
+
 spring:
   config:
     activate:
@@ -10,16 +18,9 @@ spring:
     password: ${db.mysql.password}
   # SERVER AUTO RELOAD
   devtools:
-    livereload:
-      enabled: true
+    livereload.enabled: true
   freemarker:
     cache: false
   # JPA for auto reload
   jpa:
     show-sql: false
-
-server:
-  port: ${env.server.port}
-
-
-
