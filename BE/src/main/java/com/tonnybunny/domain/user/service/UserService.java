@@ -100,7 +100,7 @@ public class UserService {
 
 
 	public Boolean checkNicknameDuplication(UserRequestDto userRequestDto) {
-		UserEntity user = userRequestDto.toEntity();
+		//		UserEntity user = userRequestDto.toEntity();
 		/**
 		 * repository 에서 닉네임 중복확인 절차를 마치고 true/false 를 반환해준다.
 		 * Boolean isDuplicate = userRepository.checkNicknameDuplication(user);
