@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,33 +41,47 @@ public class UserService {
 	@Transactional
 	public TokenResponseDto signup(UserRequestDto userRequestDto) throws Exception {
 
+		/**
+		 * 기존에 요청으로 확인했던 부분들을 여기서 재확인해야 할지에 대한 고민
+		 * 이메일과 닉네임 중복 확인의 경우? 직접 데이터가 들어올 수 있다는 점을 생각하면 검증해야할듯
+		 */
 		if (findByEmail(userRequestDto.getEmail()).isPresent()) {
-			throw new Exception("이미 가입된 이메일입니다.");
+			throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+		}
+		if (checkNicknameDuplication(userRequestDto)) {
+			throw new IllegalArgumentException("해당하는 닉네임이 이미 존재합니다.");
+		}
+		if (!checkPasswordMatch(userRequestDto.getPassword(), userRequestDto.getCheckPassword())) {
+			throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
 		}
 
+		// 유저 정보 저장
 		UserEntity user =
 			userRepository.save(
 				UserEntity.builder()
-					.password(passwordEncoder.encode(userRequestDto.getPassword()))
-					.email(userRequestDto.getEmail())
-					.phoneNumber(userRequestDto.getPhoneNumber())
-					.nickName(userRequestDto.getNickName())
-					.userCode(userRequestDto.getUserCode())
-					.build());
+				          .password(passwordEncoder.encode(userRequestDto.getPassword()))
+				          .email(userRequestDto.getEmail())
+				          .phoneNumber(userRequestDto.getPhoneNumber())
+				          .nickName(userRequestDto.getNickName())
+				          .userCode(userRequestDto.getUserCode())
+				          .build());
 
 		String accessToken = jwtService.generateJwtToken(user);
 		String refreshToken = jwtService.saveRefreshToken(user);
 
+		// 토큰 정보 저장
 		authRepository.save(
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
+		// 반환값 생성 및 리턴
 		return TokenResponseDto.builder()
-			.ACCESS_TOKEN(accessToken)
-			.REFRESH_TOKEN(refreshToken)
-			.email(user.getEmail())
-			.nickName(user.getNickName())
-			.profileImagePath(user.getProfileImagePath())
-			.build();
+		                       .ACCESS_TOKEN(accessToken)
+		                       .REFRESH_TOKEN(refreshToken)
+		                       .email(user.getEmail())
+		                       .nickName(user.getNickName())
+		                       .profileImagePath(user.getProfileImagePath())
+		                       .userCode(user.getUserCode())
+		                       .build();
 	}
 
 
@@ -83,7 +96,7 @@ public class UserService {
 				.findByUserSeq(user.getSeq())
 				.orElseThrow(() -> new IllegalArgumentException("Token 이 존재하지 않습니다."));
 		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
-			throw new Exception("비밀번호가 일치하지 않습니다.");
+			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}
 		String accessToken = "";
 		String refreshToken = auth.getRefreshToken();
@@ -91,13 +104,13 @@ public class UserService {
 		if (jwtService.isValidRefreshToken(refreshToken)) {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			return TokenResponseDto.builder()
-				.ACCESS_TOKEN(accessToken)
-				.REFRESH_TOKEN(auth.getRefreshToken())
-				.email(user.getEmail())
-				.nickName(user.getNickName())
-				.profileImagePath(user.getProfileImagePath())
-				.userCode(user.getUserCode())
-				.build();
+			                       .ACCESS_TOKEN(accessToken)
+			                       .REFRESH_TOKEN(auth.getRefreshToken())
+			                       .email(user.getEmail())
+			                       .nickName(user.getNickName())
+			                       .profileImagePath(user.getProfileImagePath())
+			                       .userCode(user.getUserCode())
+			                       .build();
 		} else {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			refreshToken = jwtService.saveRefreshToken(user);
@@ -108,13 +121,13 @@ public class UserService {
 		}
 
 		return TokenResponseDto.builder()
-			.ACCESS_TOKEN(accessToken)
-			.REFRESH_TOKEN(refreshToken)
-			.email(user.getEmail())
-			.nickName(user.getNickName())
-			.profileImagePath(user.getProfileImagePath())
-			.userCode(user.getUserCode())
-			.build();
+		                       .ACCESS_TOKEN(accessToken)
+		                       .REFRESH_TOKEN(refreshToken)
+		                       .email(user.getEmail())
+		                       .nickName(user.getNickName())
+		                       .profileImagePath(user.getProfileImagePath())
+		                       .userCode(user.getUserCode())
+		                       .build();
 	}
 
 
@@ -124,8 +137,8 @@ public class UserService {
 
 
 	public Boolean checkNicknameDuplication(UserRequestDto userRequestDto) {
-		UserEntity user = userRequestDto.toEntity();
-		if (userRepository.findByNickName(user.getNickName()).isPresent()) {
+
+		if (userRepository.findByNickName(userRequestDto.getNickName()).isPresent()) {
 			return true;
 		} else {
 			return false;
@@ -164,29 +177,34 @@ public class UserService {
 	}
 
 
-	private Boolean checkEmailValidation(String email) {
-		/**
-		 * 이메일 유효성 검사 로직
-		 */
-		return true;
-	}
+	/**
+	 * Email 과 Password 에 대한 유효성 검사는
+	 * Spring Validation으로 수행
+	 */
+	//	private Boolean checkEmailValidation(String email) {
+	//		/**
+	//		 * 이메일 유효성 검사 로직
+	//		 */
+	//		return true;
+	//	}
 
-
-	private Boolean checkPasswordValidation(String password) {
-		/**
-		 * 비밀번호 유효성 확인 로직
-		 * 불일치 시 비밀번호 양식에 맞지 않다고 출력
-		 */
-		return true;
-	}
-
-
+	//	private Boolean checkPasswordValidation(String password) {
+	//		/**
+	//		 * 비밀번호 유효성 확인 로직
+	//		 * 불일치 시 비밀번호 양식에 맞지 않다고 출력
+	//		 */
+	//		return true;
+	//	}
 	private Boolean checkPasswordMatch(String password, String checkPassword) {
 		/**
 		 * 비밀번호 일치 확인 로직
 		 * 불일치 시 비밀번호가 일치하지 않습니다 출력
 		 */
-		return true;
+		if (password.equals(checkPassword)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//	public Boolean login(UserRequestDto userRequestDto) {
@@ -236,7 +254,8 @@ public class UserService {
 	public UserEntity getUserInfo(Long userSeq) throws Exception {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		                                .orElseThrow(
+			                                () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 		return user;
 	}
 
@@ -278,9 +297,13 @@ public class UserService {
 	 * @return List<FollowEntity>
 	 */
 
-	public List<FollowEntity> getFollowList() {
+	public List<FollowEntity> getFollowList(Long userSeq) throws Exception {
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new IllegalArgumentException("찾는 유저가 없습니다.")
+		);
+		List<FollowEntity> followList = user.getFollowUserList();
 
-		return new ArrayList<>();
+		return followList;
 	}
 
 
