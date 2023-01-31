@@ -10,7 +10,6 @@ import com.tonnybunny.domain.alert.service.AlertServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +24,7 @@ import java.util.List;
 @Api(tags = "알림 관련 API")
 public class AlertController {
 
-	@Autowired
-	private final AlertServiceImpl alertService;
+	private AlertServiceImpl alertService;
 
 
 	/**
@@ -47,7 +45,7 @@ public class AlertController {
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		
+
 	}
 
 

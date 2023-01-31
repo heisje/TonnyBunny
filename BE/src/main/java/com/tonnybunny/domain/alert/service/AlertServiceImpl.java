@@ -6,7 +6,6 @@ import com.tonnybunny.domain.alert.dto.AlertSettingsDto;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.repository.AlertRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlertServiceImpl implements AlertService {
 
-	@Autowired
 	AlertRepository alertRepository;
-
-	@Autowired
 	UserRepository userRepository;
 
 
@@ -35,10 +31,10 @@ public class AlertServiceImpl implements AlertService {
 
 		System.out.println("service !!!!!!!!!!!");
 
-		//		Long userSeq = alertLogRequestDto.getUserSeq();
-		//		String taskCode = alertLogRequestDto.getTaskCode();
-		//		String content = alertLogRequestDto.getContent();
-		//
+		Long userSeq = alertLogRequestDto.getUserSeq();
+		String taskCode = alertLogRequestDto.getTaskCode();
+		String content = alertLogRequestDto.getContent();
+
 		//		Optional<UserEntity> userEntity = userRepository.findById(userSeq);
 		//
 		//		System.out.println("---------------------------------");
