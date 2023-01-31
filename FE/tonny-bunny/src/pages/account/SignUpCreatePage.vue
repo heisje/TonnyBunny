@@ -20,7 +20,8 @@
                 id="password"
                 v-model="password"
                 placeholder="비밀번호"
-                @input="changePwInput" /><br />
+                @input="changePwInput"
+            /><br />
             <div v-show="noticePw" style="color: red">{{ noticePw }}</div>
             <br />
 
@@ -30,7 +31,8 @@
                 id="password2"
                 v-model="password2"
                 placeholder="비밀번호 확인"
-                @input="changePw2Input" /><br />
+                @input="changePw2Input"
+            /><br />
             <div v-show="noticePw2" style="color: red">{{ noticePw2 }}</div>
             <br />
 
@@ -59,7 +61,7 @@
 <script>
 import TitleText from "@/components/common/TitleText.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
-// import http from "@/common/axios";
+import http from "@/common/axios";
 
 export default {
     components: {
@@ -81,7 +83,7 @@ export default {
             isValidPw: false,
             noticePw: "",
             noticePw2: "",
-            isValidPw2: "",
+            isValidPw2: false,
 
             // 닉네임
             nickname: "",
@@ -134,18 +136,22 @@ export default {
             if (!this.validateNick.test(this.nickname)) {
                 this.isValidPw = false;
                 this.noticeNick = "2~16자, 영어 또는 숫자 또는 한글로 구성해주세요";
-            } else {
-                this.noticeNick = "";
             }
-
             // 2. 중복 체크 axios 요청
-            this.isCheckNickname = true;
-            // try {
-            //     let { data } = await http.post("/signup/nickname", { nickname: this.nickname });
-            //     console.log("async function : ", data);
-            // } catch (err) {
-            //     console.error(err);
-            // }
+
+            try {
+                let res = await http.post("/signup/nickname", { nickname: this.nickname });
+
+                if (res.data.data) {
+                    this.isCheckNickname = true;
+                    this.noticeNick = "";
+                } else {
+                    this.isCheckNickname = false;
+                    this.noticeNick = "사용중인 닉네임입니다";
+                }
+            } catch (error) {
+                console.log(error);
+            }
         },
 
         // 휴대폰 인증번호 발송
@@ -170,16 +176,16 @@ export default {
             event.preventDefault();
 
             // 모두 참일 때 폼 제출 가능
-            // this.isValidPw
-            // this.isValidPw2
-            // this.isCheckNickname
-            // this.isCheckAuthCode
+            console.log(this.isValidPw);
+            console.log(this.isValidPw2);
+            console.log(this.isCheckNickname);
+            console.log(this.isCheckAuthCode);
 
-            if (this.$route.params.select == "client") {
-                this.$router.push({ name: "SignUpCompletePage" });
-            } else if (this.$route.params.select == "helper") {
-                this.$router.push({ name: "AbilityPage" });
-            }
+            // if (this.$route.params.select == "client") {
+            //     this.$router.push({ name: "SignUpCompletePage" });
+            // } else if (this.$route.params.select == "helper") {
+            //     this.$router.push({ name: "AbilityPage" });
+            // }
         },
     },
 };
