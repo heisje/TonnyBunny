@@ -4,6 +4,7 @@ package com.tonnybunny.domain.board.dto;
 import com.tonnybunny.domain.board.entity.BoardEntity;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,17 +38,25 @@ public class BoardResponseDto {
 	private List<BoardImageResponseDto> BoardImageList;
 
 
-	public static BoardResponseDto fromEntity(BoardEntity board) {
-		return new BoardResponseDto();
+	public static <T extends BoardEntity> BoardResponseDto fromEntity(T board) throws Exception {
+		ModelMapper modelMapper = new ModelMapper();
+
+		// 값 매핑
+		BoardResponseDto boardResponseDto = modelMapper.map(board, BoardResponseDto.class);
+
+		return boardResponseDto;
 	}
 
 
 	public static List<BoardResponseDto> fromEntityList(List<BoardEntity> boardList) {
 		List<BoardResponseDto> result = new ArrayList<>();
-
-		for (BoardEntity board : boardList) {
-			BoardResponseDto boardResponseDto = fromEntity(board);
-			result.add(boardResponseDto);
+		try { // FIXME : Controller에 exception 넣는거 미루려고 잠시 try-catch 넣어둠
+			for (BoardEntity board : boardList) {
+				BoardResponseDto boardResponseDto = fromEntity(board);
+				result.add(boardResponseDto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return result;
