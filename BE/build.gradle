@@ -44,6 +44,7 @@ dependencies {
     // Validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.5'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }
 
