@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -31,13 +32,13 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "공통 회원가입을 진행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody UserRequestDto userRequestDto)
+	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody @Valid UserRequestDto userRequestDto)
 		throws Exception {
 
 		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK)
-			.body(ResultDto.of(tokenResponseDto));
+		                     .body(ResultDto.of(tokenResponseDto));
 
 	}
 

@@ -39,6 +39,10 @@ dependencies {
     // jjwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
+    // Validation
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.5'
+
+
 }
 
 tasks.named('test') {
