@@ -18,8 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-		Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		System.out.println("#Interceptor PreHandle Method Req URI : " + request.getRequestURI());
 		/**
 		 * 이 영역에서 인증여부를 판단하여 로그인 페이지로 보낼 로직을 구현
