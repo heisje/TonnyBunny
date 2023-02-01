@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.user.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
 import com.tonnybunny.domain.review.dto.ReviewResponseDto;
@@ -71,7 +72,7 @@ public class HistoryResponseDto {
 
 
 	public static <T extends HistoryEntity> HistoryResponseDto fromEntity(T history) {
-		ModelMapper modelMapper = new ModelMapper();
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 
 		// Entity로 들어온 값을 Seq로 타입 변환
 		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(
