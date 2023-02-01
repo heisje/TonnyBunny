@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.point.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
@@ -32,7 +33,7 @@ public class PointLogResponseDto {
 
 
 	public static PointLogResponseDto fromEntity(PointLogEntity pointLog) {
-		ModelMapper modelMapper = new ModelMapper();
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 		// 자동 매핑되지 않는 필드를 설정
 		modelMapper.typeMap(PointLogEntity.class, PointLogResponseDto.class).addMappings(mapper -> {
 			// 매핑 필드의 타입은 같으나, 필드명이 다른 경우
