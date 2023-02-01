@@ -1,7 +1,7 @@
-package com.tonnybunny.domain.alert.controller;
+package com.tonnybunny.domain.alert.service;
 
 
-import com.tonnybunny.domain.alert.service.AlertService;
+import com.tonnybunny.domain.alert.repository.AlertLogRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest
 @Transactional
 @DisplayName("알림 API TEST")
-class AlertControllerTest {
+class AlertServiceTest {
 
 	@Autowired
-	private AlertService alertService;
+	private AlertLogRepository alertLogRepository;
 
 
 	@Test
