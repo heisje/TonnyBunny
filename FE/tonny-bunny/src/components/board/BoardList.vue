@@ -12,7 +12,7 @@
                     </a>
                 </li>
                 <li v-for="i in 5" :key="i" class="page-item">
-                    <a class="page-link" href="#">{{ i }}</a>
+                    <a class="page-link" @click="getBoardList(i)">{{ i }}</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" href="#" aria-label="Next">
@@ -29,8 +29,15 @@ import { mapGetters } from "vuex";
 import BoardListItem from "@/components/common/BoardListItem.vue";
 export default {
     components: { BoardListItem },
+
     computed: {
         ...mapGetters({ boardList: "getBoardList" }),
+    },
+
+    methods: {
+        getBoardList() {
+            this.$store.dispatch("getBoardList");
+        },
     },
 };
 </script>

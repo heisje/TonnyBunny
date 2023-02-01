@@ -1,4 +1,5 @@
 import http from "@/common/axios";
+import global from "@/common/global";
 
 export default {
     /*
@@ -17,6 +18,7 @@ export default {
 
             data.data.forEach((d) => {
                 d.count = d.boardCommentList.length;
+                d.createdAt = global.setDate(d.createdAt);
             });
 
             // service logic

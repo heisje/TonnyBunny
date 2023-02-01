@@ -1,20 +1,8 @@
 <template>
     <div>
-        <title-text>{{ boardDetail?.title }}</title-text>
-        <h1>커뮤니티 - 게시글 상세 조회</h1>
+        <board-detail-content />
 
-        <div>{{ boardDetail?.title }}</div>
-        <div>{{ boardDetail?.createdAt }}</div>
-        <div>{{ boardDetail?.user }}</div>
-        <div>{{ boardDetail?.content }}</div>
-
-        <div>
-            <div>{{ boardDetail?.boardImageList }}</div>
-            {{ boardDetail?.boardCommentList }}
-        </div>
-        <div>
-            <CommentListItem />
-        </div>
+        <CommentListItem />
     </div>
 </template>
 
@@ -22,21 +10,21 @@
 import { mapGetters } from "vuex";
 
 import CommentListItem from "@/components/board/CommentListItem.vue";
-import TitleText from "@/components/common/TitleText.vue";
+import BoardDetailContent from "@/components/board/BoardDetailContent.vue";
 
 export default {
     components: {
         CommentListItem,
-        TitleText,
+        BoardDetailContent,
     },
 
     computed: {
         ...mapGetters({ boardDetail: "getBoardDetail" }),
     },
 
-    created() {
-        console.log(this.boardDetail.seq);
-        this.$store.dispatch("getBoardDetail", this.boardDetail.seq);
+    mounted() {
+        console.log(this.$route.params.id);
+        this.$store.dispatch("getBoardDetail", this.$route.params.id);
     },
 };
 </script>

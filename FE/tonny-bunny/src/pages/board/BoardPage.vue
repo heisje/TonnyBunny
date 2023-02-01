@@ -11,7 +11,7 @@
             <small-btn text="필터" />
             <board-list />
 
-            <small-btn text="글쓰기" />
+            <router-link :to="{ name: 'BoardCreatePage' }"><small-btn text="글쓰기" /></router-link>
         </div>
     </div>
 </template>
