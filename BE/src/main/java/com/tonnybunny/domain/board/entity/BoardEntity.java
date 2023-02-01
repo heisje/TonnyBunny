@@ -3,10 +3,7 @@ package com.tonnybunny.domain.board.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,8 +13,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@AllArgsConstructor // @Builder와 같이 씀
-//@Builder
+@AllArgsConstructor // @Builder와 같이 씀
+@Builder
 public class BoardEntity extends CommonEntity {
 
 	@Id
@@ -45,9 +42,14 @@ public class BoardEntity extends CommonEntity {
 	@OneToMany(mappedBy = "board")
 	private List<BoardImageEntity> boardImageList = new ArrayList<>();
 
+	//	@Builder
+	//	public BoardEntity(String title, String content) {
+	//		this.title = title;
+	//		this.content = content;
+	//	}
 
-	@Builder
-	public BoardEntity(String title, String content) {
+
+	public void update(String title, String content) {
 		this.title = title;
 		this.content = content;
 	}

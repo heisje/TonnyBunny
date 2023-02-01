@@ -40,8 +40,7 @@ public class BoardController {
 
 	@GetMapping("/{boardSeq}")
 	@ApiOperation(value = "게시글을 열람합니다.", notes = "")
-	public ResponseEntity<ResultDto<BoardResponseDto>> getBoard(@PathVariable Long boardSeq)
-		throws Exception {
+	public ResponseEntity<ResultDto<BoardResponseDto>> getBoard(@PathVariable Long boardSeq) {
 		BoardEntity board = boardService.getBoard(boardSeq);
 		BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardResponseDto));
@@ -50,11 +49,10 @@ public class BoardController {
 
 	@PostMapping
 	@ApiOperation(value = "게시글을 작성합니다.", notes = "")
-	public ResponseEntity<ResultDto<BoardResponseDto>> createBoard(
+	public ResponseEntity<ResultDto<Long>> createBoard(
 		@RequestBody BoardRequestDto boardRequestDto) throws Exception {
-		BoardEntity board = boardService.createBoard(boardRequestDto);
-		BoardResponseDto boardResponseDto = BoardResponseDto.fromEntity(board);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardResponseDto));
+		Long boardSeq = boardService.createBoard(boardRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardSeq));
 	}
 
 
@@ -64,7 +62,6 @@ public class BoardController {
 		@PathVariable Long boardSeq) {
 
 		Long updatedBoardSeq = boardService.modifyBoard(boardSeq, boardRequestDto);
-
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedBoardSeq));
 	}
 

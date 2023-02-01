@@ -3,9 +3,7 @@ package com.tonnybunny.domain.board.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor // @Builder와 같이 씀
+@Builder
 public class BoardCommentEntity extends CommonEntity {
 
 	@Id
@@ -21,7 +21,7 @@ public class BoardCommentEntity extends CommonEntity {
 	private Long seq;
 
 	private String content;
-	
+
 	@ManyToOne(targetEntity = BoardEntity.class, fetch = FetchType.LAZY)
 	@JoinColumn(name = "board_seq")
 	private BoardEntity board;
