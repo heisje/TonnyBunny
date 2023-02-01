@@ -1,8 +1,10 @@
 package com.tonnybunny.domain.point.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,15 +25,23 @@ public class PointLogResponseDto {
 
 	private Integer amount;
 
-	private PointRequestTypeEnum pointRequestType;
+	private String pointRequestType;
 
-	private Integer userSeq;
+	private Long userSeq;
 
-	private LocalDateTime created_at;
+	private LocalDateTime createdAt;
 
 
 	public static PointLogResponseDto fromEntity(PointLogEntity pointLog) {
-		return new PointLogResponseDto();
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+		// 자동 매핑되지 않는 필드를 설정
+		modelMapper.typeMap(PointLogEntity.class, PointLogResponseDto.class).addMappings(mapper -> {
+			// 매핑 필드의 타입은 같으나, 필드명이 다른 경우
+			mapper.map(PointLogEntity::getTypeCode, PointLogResponseDto::setPointRequestType);
+		});
+		// UserEntity와 Long(userSeq)간 매핑은 자동으로 해준다! 심지어 필드명도 다른데(user <-> userSeq) 해줌
+		PointLogResponseDto pointLogResponseDto = modelMapper.map(pointLog, PointLogResponseDto.class);
+		return pointLogResponseDto;
 	}
 
 

@@ -13,12 +13,12 @@ public class AlertLogRequestDto {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	private int page = 0; // offset
-	private int size = 10; // limit
-
 	@NonNull
+	private int size = 10; // limit
+	private int page = 0; // offset
+
 	private Long userSeq;
-	
+
 	private String taskCode;
 	private String content;
 

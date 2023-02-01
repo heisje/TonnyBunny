@@ -2,18 +2,17 @@ package com.tonnybunny.domain.alert.dto;
 
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
 
 @Data
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+@RequiredArgsConstructor
 public class AlertLogResponseDto {
 
-	@Autowired
-	private ModelMapper modelMapper;
+	private final ModelMapper modelMapper;
 
 	private Long alertLogSeq;
 
