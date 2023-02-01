@@ -28,7 +28,7 @@ public class AlertLogRequestDto {
 	private String content;
 
 
-	public static AlertLogEntity toEntity(AlertLogRequestDto alertLogRequestDto) {
+	public AlertLogEntity toEntity(AlertLogRequestDto alertLogRequestDto) {
 		return modelMapper.map(alertLogRequestDto, AlertLogEntity.class);
 	}
 
