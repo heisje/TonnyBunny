@@ -8,8 +8,12 @@ class YTonnyServiceTest {
 
 	@Test
 	void createYTonny() {
-		
+
 		System.out.println("YTonnyServiceTest.createYTonny");
+
+		// given
+		// when
+		// then
 
 	}
 

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
+@Entity(name = "ytonny_noti_entity")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

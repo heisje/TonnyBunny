@@ -19,6 +19,7 @@ import lombok.Data;
 public class YTonnyApplyResponseDto {
 
 	private Long seq;
+
 	private YTonnyResponseDto yTonnyNoti;
 	private UserResponseDto helper;
 	private Integer totalPrice;

@@ -8,7 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 
 
-@Entity
+@Entity(name = "ytonny_noti_helper_entity")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

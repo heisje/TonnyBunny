@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @ToString
 public enum TaskStateCodeEnum {
-	모집중(""), 신청중(""), 완료됨("");
+	모집중(""), 진행중(""), 완료됨("");
 
 	private final String taskStateCode;
 

@@ -18,6 +18,7 @@ public class YTonnyApplyRequestDto {
 
 	private Long yTonnyNotiSeq;
 	private Long helperSeq;
+
 	private Integer totalPrice;
 
 }

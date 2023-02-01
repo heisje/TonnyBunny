@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -59,9 +60,12 @@ public class YTonnyController {
 	@ApiOperation(value = "예약통역 공고 신청 생성 API", notes = "헬퍼가 예약통역 공고를 신청한다.")
 	public ResponseEntity<ResultDto<Long>> createYTonnyApply(@RequestBody YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
-		Long craetedYTonnyNotiHelper = yTonnyService.createYTonnyApply(yTonnyApplyRequestDto);
+		System.out.println("YTonnyController.createYTonnyApply");
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(craetedYTonnyNotiHelper));
+		// service
+		Long createdSeq = yTonnyService.createYTonnyApply(yTonnyApplyRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdSeq));
 
 	}
 
@@ -77,8 +81,18 @@ public class YTonnyController {
 	@ApiOperation(value = "예약통역 공고 목록 조회 API", notes = "사용자가 예약통역 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyResponseDto>>> getYTonnyList(YTonnyRequestDto yTonnyRequestDto) {
 
-		List<YTonnyEntity> yTonnyNotiList = yTonnyService.getYTonnyList();
-		List<YTonnyResponseDto> yTonnyResponseDtoList = YTonnyResponseDto.fromEntityList(yTonnyNotiList);
+		System.out.println("YTonnyController.getYTonnyList");
+
+		// service
+		List<YTonnyEntity> yTonnyNotiList = yTonnyService.getYTonnyList(yTonnyRequestDto);
+
+		// dto 로 변경
+		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyNotiList.stream()
+		                                                              .map(m -> YTonnyRequestDto.builder()
+		                                                                                        .title(m.getTitle())
+		                                                                                        .content(m.getContent())
+		                                                                                        .build())
+		                                                              .collect(Collectors.toList());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDtoList));
 
@@ -184,4 +198,5 @@ public class YTonnyController {
 
 	// TODO : 예약 통역 결과 목록 조회 API도 필요한가? 아니면 히스토리 Controller에서 추가?
 	//  만약 추가한다면, 고객 userSeq로 조회 메소드 & 헬퍼 userSeq로 조회 메소드 총 2개가 있어야 할 듯
+
 }

@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tonnybunny.common.dto.LangCodeEnum;
 import com.tonnybunny.common.dto.TaskCodeEnum;
 import com.tonnybunny.common.dto.TaskStateCodeEnum;
@@ -42,6 +43,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class YTonnyResponseDto {
 
 	private Long seq;
