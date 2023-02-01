@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -33,18 +34,18 @@ public class AlertController {
 	 * ex) 즉시통역이 성립되었습니다. 오늘 통역예약이 있습니다. + 날짜, 시간 표기
 	 *
 	 * @param alertLogRequestDto : 대상 유저 seq, 카테고리 taskCode, 내용 content
-	 * @return 생성 성공 여부
+	 * @return 생성된 알림 seq
 	 */
 	@PostMapping("/log")
-	@ApiOperation(value = "알림 생성 API", notes = "이벤트 발생 시, 알림 메세지를 생성한다.")
-	public ResponseEntity<ResultDto<Boolean>> createAlertLog(@RequestBody AlertLogRequestDto alertLogRequestDto) {
+	@ApiOperation(value = "알림 로그 생성 API", notes = "이벤트 발생 시, 알림 메세지를 생성한다.")
+	public ResponseEntity<ResultDto<Long>> createAlertLog(@RequestBody AlertLogRequestDto alertLogRequestDto) {
 
 		System.out.println("AlertController.createAlertLog");
 
 		// service
-		alertService.createAlertLog(alertLogRequestDto);
+		Long alertLogSeq = alertService.createAlertLog(alertLogRequestDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogSeq));
 
 	}
 
@@ -57,7 +58,7 @@ public class AlertController {
 	 * @return 전체 알림 로그 목록
 	 */
 	@GetMapping("/log")
-	@ApiOperation(value = "알림 목록 반환 API", notes = "userSeq 에 따라서 알림 목록을 반환한다.")
+	@ApiOperation(value = "알림 로그 목록 반환 API", notes = "userSeq 에 따라서 알림 목록을 반환한다.")
 	public ResponseEntity<ResultDto<List<AlertLogResponseDto>>> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
 		System.out.println("AlertController.getAlertLogList");
@@ -66,8 +67,17 @@ public class AlertController {
 		List<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
 
 		// dto 로 변경
-		List<AlertLogResponseDto> alertLogResponseDtoList = AlertLogResponseDto.fromEntityList(alertLogList);
-		//		System.out.println(ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList)));
+		List<AlertLogResponseDto> alertLogResponseDtoList = alertLogList.stream()
+		                                                                .map(m -> AlertLogResponseDto.builder()
+		                                                                                             .alertLogSeq(m.getSeq())
+		                                                                                             .taskCode(m.getTaskCode())
+		                                                                                             .content(m.getContent())
+		                                                                                             .isEnd(m.getIsEnd())
+		                                                                                             .isRead(m.getIsRead())
+		                                                                                             .updatedAt(m.getUpdatedAt())
+		                                                                                             .createdAt(m.getCreatedAt())
+		                                                                                             .build())
+		                                                                .collect(Collectors.toList());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList));
 
@@ -90,7 +100,14 @@ public class AlertController {
 		AlertSettingsEntity alertSettings = alertService.getAlertSettings(userSeq);
 
 		// dto 로 변경
-		AlertSettingsDto alertSettingsDto = AlertSettingsDto.fromEntity(alertSettings);
+		AlertSettingsDto alertSettingsDto = AlertSettingsDto.builder()
+		                                                    .alertSettingsSeq(alertSettings.getSeq())
+		                                                    .userSeq(userSeq)
+		                                                    .isAll(alertSettings.getIsAll())
+		                                                    .isChat(alertSettings.getIsChat())
+		                                                    .isCommunity(alertSettings.getIsCommunity())
+		                                                    .isTonnyBunny(alertSettings.getIsTonnyBunny())
+		                                                    .build();
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertSettingsDto));
 
@@ -99,21 +116,21 @@ public class AlertController {
 
 	/**
 	 * MEMO : UPDATE
-	 * MARK : 알림 읽음확인 수정
+	 * MARK : 알림 로그 수정
 	 *
-	 * @param alertLogSeq : 대상 알림 로그 seq
+	 * @param alertLogRequestDto : isRead, isEnd
 	 * @return 알림 읽음확인 수정 여부
 	 */
-	@PutMapping("/log/{alertLogSeq}")
-	@ApiOperation(value = "알림 읽음 확인 수정 API", notes = "알림 읽었을 시, 읽었다고 표시 변경을 해준다.")
-	public ResponseEntity<ResultDto<Boolean>> modifyAlertIsRead(@PathVariable Long alertLogSeq) {
+	@PutMapping("/log")
+	@ApiOperation(value = "알림 로그 수정 API", notes = "알림 읽었을 시, 읽었다고 표시 변경을 해준다.")
+	public ResponseEntity<ResultDto<Long>> modifyAlertLog(@RequestBody AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println("AlertController.modifyAlertIsRead");
+		System.out.println("AlertController.modifyAlertLog");
 
 		// service
-		alertService.modifyAlertIsRead(alertLogSeq);
+		Long resultAlertLogSeq = alertService.modifyAlertLog(alertLogRequestDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(resultAlertLogSeq));
 
 	}
 
@@ -126,14 +143,14 @@ public class AlertController {
 	 */
 	@PutMapping("/settings")
 	@ApiOperation(value = "알림 설정 수정 API", notes = "푸시 알림 설정을 변경한다.")
-	public ResponseEntity<ResultDto<Boolean>> modifyAlertSettings(@RequestBody AlertSettingsDto alertSettingsDto) {
+	public ResponseEntity<ResultDto<Long>> modifyAlertSettings(@RequestBody AlertSettingsDto alertSettingsDto) {
 
 		System.out.println("AlertController.modifyAlertSettings");
 
 		// service
-		alertService.modifyAlertSettings(alertSettingsDto);
+		Long resultAlertLogSeq = alertService.modifyAlertSettings(alertSettingsDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(resultAlertLogSeq));
 
 	}
 

@@ -28,11 +28,12 @@ public class AlertLogEntity extends CommonEntity {
 	private String taskCode;
 	private String content;
 	private Boolean isRead;
+	private Boolean isEnd; // 끝이 났는지 아닌지
 
 
-	//	@Modifying(clearAutomatically = true)
-	public void update(Boolean isRead) {
+	public void update(Boolean isRead, Boolean isEnd) {
 		this.isRead = isRead;
+		this.isEnd = isEnd;
 	}
 
 }

@@ -6,16 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 
-@SpringBootTest
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
-@Transactional
 @DisplayName("알림 API TEST")
 class AlertServiceTest {
 
@@ -24,13 +18,16 @@ class AlertServiceTest {
 
 
 	@Test
-	@DisplayName("알림 생성 TEST")
+	@DisplayName("알림 로그 생성 TEST")
 	void createAlertLog() {
+		// given : 알림 로그 관련 정보
+		// when : 알림 로그 생성
+		// then : 알림 로그 find 와
 	}
 
 
 	@Test
-	@DisplayName("알림 조회 TEST")
+	@DisplayName("알림 로그 목록 조회 TEST")
 	void getAlertLogList() {
 	}
 

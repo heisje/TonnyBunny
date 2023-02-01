@@ -8,12 +8,19 @@ values (2, now(), now(), "email2", "nickname2", "pw2", "020", 0, "image2", 0, "u
 
 select * from alert_log_entity;
 
-insert into alert_log_entity (created_at, updated_at, content, is_read, task_code, user_seq)
-values (now(), now(), '하이루', false, '1234', 1);
-insert into alert_log_entity (created_at, updated_at, content, is_read, task_code, user_seq)
-values (now(), now(), '하이루22', true, '1234', 2);
+insert into alert_log_entity
+values (null, now(), now(), 'content1', false, false, 'taskcode1', 1);
+insert into alert_log_entity
+values (null, now(), now(),'content2', true, false, 'taskcode2', 2);
+insert into alert_log_entity
+values (null, now(), now(), 'content3', false, true, 'taskcode3', 1);
+insert into alert_log_entity
+values (null, now(), now(), 'content4', true, true, 'taskcode4', 2);
 
 select * from alert_settings_entity;
 
-insert into alert_settings_entity (created_at, updated_at, is_all, is_chat, is_community, is_tonny_bunny, user_seq)
-values (now(), now(), true, true, true, true, 2);
+insert into alert_settings_entity 
+values (null, now(), now(), true, true, true, true, 1);
+
+insert into alert_settings_entity 
+values (null, now(), now(), true, false, false, true, 2);
