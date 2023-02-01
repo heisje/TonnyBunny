@@ -8,6 +8,8 @@ import com.tonnybunny.domain.point.entity.PointLogEntity;
 import com.tonnybunny.domain.point.repository.PointLogRepository;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +33,11 @@ public class PointService {
 	 */
 	public List<PointLogEntity> getPointLogList(PointLogRequestDto pointLogRequestDto) {
 		long userSeq = pointLogRequestDto.getUserSeq();
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		int logCount = pointLogRequestDto.getLogCount();
 
 		// 동적으로 limit 정할 수 없어서 list에서 컷함
-		List<PointLogEntity> pointLogList = pointLogRepository.findAllByUserOrderByCreatedAtDesc(userSeq);
+		List<PointLogEntity> pointLogList = pointLogRepository.findAllByUserOrderByCreatedAtDesc(user);
 
 		// 조회할 로그 개수만큼 반환 (요청 개수보다 수가 적으면 적은만큼 반환)
 		return pointLogList.subList(0, Math.min(logCount, pointLogList.size()));
