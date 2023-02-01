@@ -24,3 +24,4 @@ spring:
   # JPA for auto reload
   jpa:
     show-sql: false
+    hibernate.ddl-auto: ${jpa.ddl.option}
