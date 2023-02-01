@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
@@ -28,6 +27,12 @@ public class AlertLogEntity extends CommonEntity {
 
 	private String taskCode;
 	private String content;
-	private boolean isRead;
+	private Boolean isRead;
+
+
+	//	@Modifying(clearAutomatically = true)
+	public void update(Boolean isRead) {
+		this.isRead = isRead;
+	}
 
 }

@@ -18,4 +18,5 @@ public enum PointRequestTypeEnum {
 	public String toString() {
 		return this.typeCode;
 	}
+	
 }

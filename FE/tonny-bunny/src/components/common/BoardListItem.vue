@@ -7,23 +7,33 @@
                 </div>
 
                 <div class="info mt-1 w-100">
-                    <div class="title">
-                        <div class="tag">
-                            <square-tag sub text="자유"></square-tag>
-                        </div>
-
-                        <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                    <router-link
+                        class="t-d-none"
+                        :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                        <div class="title">
+                            <div class="tag">
+                                <square-tag sub text="자유"></square-tag>
+                            </div>
+                            <div class="titleText text-truncate">
+                                {{ title }}
+                            </div>
+                            <!-- <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
                             <div class="titleText">{{ title }}</div>
-                        </router-link>
-                    </div>
+                        </router-link> -->
+                        </div>
+                    </router-link>
 
                     <div class="d-flex flex-column h-100 justify-content-between">
-                        <div class="desc text-truncate">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus rem
-                            dolorum soluta fugit nobis blanditiis incidunt deserunt eum, porro modi
-                            consequuntur voluptatem aperiam accusantium qui voluptas sit laudantium
-                            fugiat ullam?
-                        </div>
+                        <router-link
+                            class="t-d-none"
+                            :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                            <div class="mt-2 desc text-truncate">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+                                rem dolorum soluta fugit nobis blanditiis incidunt deserunt eum,
+                                porro modi consequuntur voluptatem aperiam accusantium qui voluptas
+                                sit laudantium fugiat ullam?
+                            </div>
+                        </router-link>
 
                         <div class="meta">
                             <div class="comment">
@@ -58,7 +68,7 @@ export default {
 
         title: {
             type: String,
-            default: "커뮤니티 글 제목",
+            default: "커뮤니티 글 제목 커뮤니티 글 제목 커뮤니티 글 제목",
         },
 
         count: {
@@ -75,7 +85,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.t-d-none {
+    text-decoration: none;
+}
 .boardListItemContainer {
+    width: 100%;
     cursor: default;
 }
 
@@ -84,9 +98,13 @@ export default {
     // height: 100px;
 
     .thumnail {
-        width: 120px;
+        width: 100px;
         height: 100px;
-        background-color: var(--light-color);
+        img {
+            width: 100px;
+            height: 100px;
+            background-color: var(--light-color);
+        }
         border-radius: 8px;
         margin-right: 16px;
         // cursor: pointer;
@@ -97,15 +115,24 @@ export default {
         flex-direction: column;
         height: 100px;
 
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         .title {
+            // display: inline-block;
+            width: 100%;
             display: flex;
-
+            align-items: center;
+            flex-direction: row;
+            font-weight: 600;
             a {
+                display: inline-block;
                 color: var(--main-color);
                 text-decoration: none;
             }
 
             .tag {
+                display: inline-block;
                 margin-right: 6px;
             }
 
@@ -122,8 +149,6 @@ export default {
         }
 
         .desc {
-            width: 300px;
-            margin-top: 8px;
             color: var(--sub-color);
             // cursor: pointer;
         }
@@ -153,7 +178,6 @@ export default {
             // float: right;
             // position: absolute;
             // right: 10%;
-            margin-left: 200px;
         }
     }
 }

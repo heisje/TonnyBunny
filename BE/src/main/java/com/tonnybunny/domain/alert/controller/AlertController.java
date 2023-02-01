@@ -39,13 +39,10 @@ public class AlertController {
 	@ApiOperation(value = "알림 생성 API", notes = "이벤트 발생 시, 알림 메세지를 생성한다.")
 	public ResponseEntity<ResultDto<Boolean>> createAlertLog(@RequestBody AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println("\ncreateAlertLog Controller !!");
-		//		System.out.println("alertLogRequestDto : " + alertLogRequestDto);
+		System.out.println("AlertController.createAlertLog");
 
+		// service
 		alertService.createAlertLog(alertLogRequestDto);
-		//		System.out.println("isCreate : " + isCreate);
-
-		//		System.out.println(ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess()));
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
@@ -63,16 +60,13 @@ public class AlertController {
 	@ApiOperation(value = "알림 목록 반환 API", notes = "userSeq 에 따라서 알림 목록을 반환한다.")
 	public ResponseEntity<ResultDto<List<AlertLogResponseDto>>> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println("\ngetAlertLogList Controller !!");
-		//		System.out.println("alertLogRequestDto : " + alertLogRequestDto);
+		System.out.println("AlertController.getAlertLogList");
 
 		// service
 		List<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
-		//		System.out.println("alertLogList: " + alertLogList);
 
 		// dto 로 변경
 		List<AlertLogResponseDto> alertLogResponseDtoList = AlertLogResponseDto.fromEntityList(alertLogList);
-		//		System.out.println("alertLogResponseDtoList : " + alertLogResponseDtoList);
 		//		System.out.println(ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList)));
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList));
@@ -90,12 +84,13 @@ public class AlertController {
 	@ApiOperation(value = "알림 설정 조회 API", notes = "사용자에 따른 알림 설정 값을 반환한다.")
 	public ResponseEntity<ResultDto<AlertSettingsDto>> getAlertSettings(@PathVariable Long userSeq) {
 
-		System.out.println("\ngetAlertSettings Controller !!");
+		System.out.println("AlertController.getAlertSettings");
 
+		// service
 		AlertSettingsEntity alertSettings = alertService.getAlertSettings(userSeq);
+
+		// dto 로 변경
 		AlertSettingsDto alertSettingsDto = AlertSettingsDto.fromEntity(alertSettings);
-		System.out.println("alertSettings : " + alertSettings);
-		System.out.println("alertSettingsDto : " + alertSettingsDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertSettingsDto));
 
@@ -113,8 +108,9 @@ public class AlertController {
 	@ApiOperation(value = "알림 읽음 확인 수정 API", notes = "알림 읽었을 시, 읽었다고 표시 변경을 해준다.")
 	public ResponseEntity<ResultDto<Boolean>> modifyAlertIsRead(@PathVariable Long alertLogSeq) {
 
-		System.out.println("\nmodifyAlertIsRead Controller !!");
+		System.out.println("AlertController.modifyAlertIsRead");
 
+		// service
 		alertService.modifyAlertIsRead(alertLogSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -132,9 +128,9 @@ public class AlertController {
 	@ApiOperation(value = "알림 설정 수정 API", notes = "푸시 알림 설정을 변경한다.")
 	public ResponseEntity<ResultDto<Boolean>> modifyAlertSettings(@RequestBody AlertSettingsDto alertSettingsDto) {
 
-		System.out.println("\nmodifyAlertSettings Controller !!");
-		System.out.println("alertSettingsDto : " + alertSettingsDto);
+		System.out.println("AlertController.modifyAlertSettings");
 
+		// service
 		alertService.modifyAlertSettings(alertSettingsDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -153,8 +149,9 @@ public class AlertController {
 	@ApiOperation(value = "알림 삭제 API", notes = "필요없는 알림을 삭제한다.")
 	public ResponseEntity<ResultDto<Boolean>> deleteAlertLog(@PathVariable Long alertLogSeq) {
 
-		System.out.println("\ndeleteAlertLog Controller !!");
+		System.out.println("AlertController.deleteAlertLog");
 
+		// service
 		alertService.deleteAlertLog(alertLogSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
