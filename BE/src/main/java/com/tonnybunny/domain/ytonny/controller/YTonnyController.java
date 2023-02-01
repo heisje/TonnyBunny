@@ -87,11 +87,23 @@ public class YTonnyController {
 		List<YTonnyEntity> yTonnyNotiList = yTonnyService.getYTonnyList(yTonnyRequestDto);
 
 		// dto 로 변경
+		// isDelete 가 false 인 값들만 반환해야하나?
 		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyNotiList.stream()
-		                                                              .map(m -> YTonnyRequestDto.builder()
-		                                                                                        .title(m.getTitle())
-		                                                                                        .content(m.getContent())
-		                                                                                        .build())
+		                                                              .map(m -> YTonnyResponseDto.builder()
+		                                                                                         .title(m.getTitle())
+		                                                                                         .content(m.getContent())
+		                                                                                         .estimatePrice(m.getEstimatePrice())
+		                                                                                         .estimateDate(m.getEstimateDate())
+		                                                                                         .estimateStartTime(m.getEstimateStartTime())
+		                                                                                         .estimateTime(m.getEstimateTime())
+		                                                                                         .startLangCode(m.getStartLangCode())
+		                                                                                         .endLangCode(m.getEndLangCode())
+		                                                                                         .tonnySituCode(m.getTonnySituCode())
+		                                                                                         .taskCode(m.getTaskCode())
+		                                                                                         .taskStateCode(m.getTaskStateCode())
+		                                                                                         .createdAt(m.getCreatedAt())
+		                                                                                         .updatedAt(m.getUpdatedAt())
+		                                                                                         .build())
 		                                                              .collect(Collectors.toList());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDtoList));
@@ -108,14 +120,36 @@ public class YTonnyController {
 	@GetMapping("/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약통역 공고 목록 상세 조회 API", notes = "사용자가 예약통역 공고를 상세 조회한다.")
 	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnyNotiSeq) {
-		YTonnyEntity yTonnyNoti = yTonnyService.getYTonnyDetail(yTonnyNotiSeq);
-		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyNoti);
+
+		System.out.println("YTonnyController.getYTonnyDetail");
+
+		// service
+		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnyNotiSeq);
+
+		// dto 로 변경
+		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.builder()
+		                                                       .title(yTonnyEntity.getTitle())
+		                                                       .content(yTonnyEntity.getContent())
+		                                                       .estimatePrice(yTonnyEntity.getEstimatePrice())
+		                                                       .estimateDate(yTonnyEntity.getEstimateDate())
+		                                                       .estimateStartTime(yTonnyEntity.getEstimateStartTime())
+		                                                       .estimateTime(yTonnyEntity.getEstimateTime())
+		                                                       .startLangCode(yTonnyEntity.getStartLangCode())
+		                                                       .endLangCode(yTonnyEntity.getEndLangCode())
+		                                                       .tonnySituCode(yTonnyEntity.getTonnySituCode())
+		                                                       .taskCode(yTonnyEntity.getTaskCode())
+		                                                       .taskStateCode(yTonnyEntity.getTaskStateCode())
+		                                                       .createdAt(yTonnyEntity.getCreatedAt())
+		                                                       .updatedAt(yTonnyEntity.getUpdatedAt())
+		                                                       .build();
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
+
 	}
 
 
 	/**
-	 * MARK : 예약통역 공고 목록을 상세 조회
+	 * MARK : 예약통역 공고 신청 목록을 조회
 	 *
 	 * @param yTonnyNotiSeq
 	 * @return 생성된 예약통역 공고 seq
@@ -123,9 +157,22 @@ public class YTonnyController {
 	@GetMapping("/enroll/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
-		List<YTonnyApplyEntity> yTonnyNotiHelperList = yTonnyService.getYTonnyApplyList(yTonnyNotiSeq);
-		List<YTonnyApplyResponseDto> yTonnyApplyResponseDtoList = YTonnyApplyResponseDto.fromEntityList(yTonnyNotiHelperList);
+
+		System.out.println("YTonnyController.getYTonnyApplyList");
+
+		// service
+		List<YTonnyApplyEntity> yTonnyApplyList = yTonnyService.getYTonnyApplyList(yTonnyNotiSeq);
+
+		// dto 로 변경
+		List<YTonnyApplyResponseDto> yTonnyApplyResponseDtoList = yTonnyApplyList.stream()
+		                                                                         .map(m -> YTonnyApplyResponseDto.builder()
+		                                                                                                         .seq(m.getSeq())
+		                                                                                                         .totalPrice(m.getTotalPrice())
+		                                                                                                         .build())
+		                                                                         .collect(Collectors.toList());
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyApplyResponseDtoList));
+
 	}
 
 
@@ -139,25 +186,31 @@ public class YTonnyController {
 	@PutMapping("/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약통역 공고 수정 API", notes = "고객이 예약통역을 수정한다.")
 	public ResponseEntity<ResultDto<Long>> modifyYTonny(@RequestBody YTonnyRequestDto yTonnyRequestDto) {
-		Long updatedYTonnyNotiSeq = yTonnyService.modifyYTonny(yTonnyNotiSeq, yTonnyRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedYTonnyNotiSeq));
+
+		System.out.println("YTonnyController.modifyYTonny");
+
+		// service
+		Long updatedSeq = yTonnyService.modifyYTonny(yTonnyRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedSeq));
+
 	}
 
 
 	/**
 	 * MARK : 헬퍼의 예약통역 신청을 수락
 	 *
-	 * @param yTonnyRequestDto
+	 * @param yTonnyNotiSeq, yTonnyNotiHelperSeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
 	@PutMapping("/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq}")
 	@ApiOperation(value = "예약통역 신청 수락 API", notes = "고객이 헬퍼의 예약통역 신청을 수락한다.")
-	public ResponseEntity<ResultDto<Boolean>> matchYTonny(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq,
+	public ResponseEntity<ResultDto<Long>> matchYTonny(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq,
 		@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
 
-		yTonnyService.matchYTonny(yTonnyNotiSeq, yTonnyNotiHelperSeq);
+		Long updatedSeq = yTonnyService.matchYTonny(yTonnyNotiSeq, yTonnyNotiHelperSeq);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedSeq));
 
 	}
 
@@ -166,13 +219,16 @@ public class YTonnyController {
 	 * MEMO : DELETE
 	 * MARK : 예약통역 공고를 생성
 	 *
-	 * @param yTonnyRequestDto
+	 * @param yTonnyNotiSeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
 	@DeleteMapping("/{yTonnyNotiSeq}")
 	@ApiOperation(value = "예약통역 공고 삭제 API", notes = "고객이 예약통역을 삭제한다.")
 	public ResponseEntity<ResultDto<Boolean>> deleteYTonny(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
 
+		System.out.println("YTonnyController.deleteYTonny");
+
+		// service
 		yTonnyService.deleteYTonny(yTonnyNotiSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -183,20 +239,20 @@ public class YTonnyController {
 	/**
 	 * MARK : 예약통역 공고를 생성
 	 *
-	 * @param yTonnyRequestDto
+	 * @param yTonnyNotiHelperSeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
 	@DeleteMapping("/enroll/{yTonnyNotiHelperSeq}")
 	@ApiOperation(value = "예약통역 공고 신청 취소 API", notes = "헬퍼가 예약통역 신청을 취소한다.")
 	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyApply(@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
 
+		System.out.println("YTonnyController.deleteYTonnyApply");
+
+		// service
 		yTonnyService.deleteYTonnyApply(yTonnyNotiHelperSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
-
-	// TODO : 예약 통역 결과 목록 조회 API도 필요한가? 아니면 히스토리 Controller에서 추가?
-	//  만약 추가한다면, 고객 userSeq로 조회 메소드 & 헬퍼 userSeq로 조회 메소드 총 2개가 있어야 할 듯
 
 }

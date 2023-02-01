@@ -22,6 +22,7 @@ public class YTonnyApplyResponseDto {
 
 	private YTonnyResponseDto yTonnyNoti;
 	private UserResponseDto helper;
+	
 	private Integer totalPrice;
 
 }
