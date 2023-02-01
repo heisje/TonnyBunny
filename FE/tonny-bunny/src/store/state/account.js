@@ -7,11 +7,12 @@ export default {
         pw: "",
     },
     userInfo: {
-        sed: 0,
-        userCode: "",
+        seq: 1,
+        userCode: "0010001",
         email: "",
         ninkName: "nick네임",
-        password: "",
+        // 저장되면 안될듯
+        // password: "",
         phoneNumber: "",
         point: 0,
         reportCount: 0,
