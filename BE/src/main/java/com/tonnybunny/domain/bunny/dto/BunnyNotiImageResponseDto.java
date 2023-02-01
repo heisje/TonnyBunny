@@ -17,7 +17,7 @@ import java.util.List;
 public class BunnyNotiImageResponseDto {
 
 	private Long seq;
-	private BunnyNotiResponseDto bunnyNoti;
+	private Long bunnyNotiSeq;
 	private String imagePath;
 
 

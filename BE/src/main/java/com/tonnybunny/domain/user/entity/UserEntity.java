@@ -96,13 +96,13 @@ public class UserEntity extends CommonEntity {
 	private List<BunnyNotiEntity> bunnyNotiList = new ArrayList<>(); // 번역 공고 리스트
 
 	// 번역 공고
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "userSeq")
 	private List<BunnyNotiHelperEntity> bunnyNotiHelperList = new ArrayList<>(); // 번역 공고 신청 헬퍼 리스트
-	@OneToMany(mappedBy = "client")
+	@OneToMany(mappedBy = "clientSeq")
 	private List<BunnyQuotationEntity> clientBunnyQuotationList = new ArrayList<>(); // 고객 측 번역 요청 견적서 리스트
 
 	// 번역 요청 견적서 관련
-	@OneToMany(mappedBy = "helper")
+	@OneToMany(mappedBy = "helperSeq")
 	private List<BunnyQuotationEntity> helperBunnyQuotationList = new ArrayList<>(); // 헬퍼 측 번역 요청 견적서 리스트
 	@OneToMany(mappedBy = "client")
 	private List<YTonnyQuotationEntity> clientYTonnyQuatationList = new ArrayList<>(); // 고객 측 예약 통역 요청 견적서 리스트

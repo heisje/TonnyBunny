@@ -46,14 +46,11 @@ public class BunnyService {
 			.bunnyStateCode(bunnyNotiRequestDto.getBunnyStateCode())
 			.build();
 
-		System.out.println("bunnyNoti.getBunnyNotiImageList() = " + bunnyNoti.getBunnyNotiImageList());
-
 		bunnyNoti = bunnyNotiRepository.save(bunnyNoti);
-
 		for (BunnyNotiImageRequestDto bunnyNotiImageRequestDto : bunnyNotiRequestDto.getBunnyNotiImageList()) {
 
 			BunnyNotiImageEntity bunnyNotiImage = BunnyNotiImageEntity.builder()
-				.bunnyNoti(bunnyNoti)
+				.bunnyNotiSeq(bunnyNoti.getSeq())
 				.imagePath(bunnyNotiImageRequestDto.getImagePath())
 				.build();
 
@@ -91,7 +88,9 @@ public class BunnyService {
 	 */
 	public Boolean deleteBunnyNoti(Long bunnyNotiSeq) {
 		// TODO : 로직
-
+		BunnyNotiEntity bunnyNoti = bunnyNotiRepository.findById(bunnyNotiSeq).orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));
+		bunnyNoti.deleteBunnyNoti();
+		bunnyNotiRepository.save(bunnyNoti);
 		return true;
 	}
 
