@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AlertLogRepository extends JpaRepository<AlertLogEntity, Long> {
 
-	// 알람 로그 목록 반환 By userSeq With pagenation
-	Page<AlertLogEntity> findByUserSeq(Long userSeq, Pageable pageable);
+	// 알람 로그 목록 반환 By 유저seq With pagenation OrderBy 생성일
+	Page<AlertLogEntity> findByUserSeqOrderByCreatedAtDesc(Long userSeq, Pageable pageable);
 
 }
