@@ -22,6 +22,7 @@ public enum ErrorCode {
 	ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "토큰의 유효기간이 만료되었습니다."),
 	ACCESS_TOKEN_NOT_FOUND(UNAUTHORIZED, "토큰이 존재하지 않습니다."),
 
+	/* 404 NOT FOUND : 존재하지 않는 페이지 혹은 대상 */
 	NOT_FOUND_USER(NOT_FOUND, "대상이 존재하지 않습니다.");
 
 	private final HttpStatus httpStatus;
