@@ -16,33 +16,33 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
-public class JwtService {
+public class AuthService {
 
 	private final String SECRET_KEY = "dG9ubnlidW5ueXRvbm55YnVubnljYXJyb3RjYXJyb3QK";
 	// tonnybunnytonnybunnycarrotcarrot base64로 변환한 키. 근데 공개되면 안돼서 분리시켜야 함
 	private final String REFRESH_KEY = "refreshKey";
-	private final String DATA_KEY = "email";
+	private final String DATA_KEY = "seq";
 
 
 	public String generateJwtToken(UserEntity userEntity) {
 		return Jwts.builder()
-			.setSubject(userEntity.getEmail()) // 들어가는 정보 세팅
-			.setHeader(createHeader())
-			.setClaims(createClaims(userEntity))
-			.setExpiration(createExpireDate(1000 * 60 * 5)) // 만료시간 설정
-			.signWith(SignatureAlgorithm.HS256, createSigningKey(SECRET_KEY))
-			.compact();
+		           .setSubject(userEntity.getEmail()) // 들어가는 정보 세팅
+		           .setHeader(createHeader())
+		           .setClaims(createClaims(userEntity))
+		           .setExpiration(createExpireDate(1000 * 60 * 5)) // 만료시간 설정
+		           .signWith(SignatureAlgorithm.HS256, createSigningKey(SECRET_KEY))
+		           .compact();
 	}
 
 
 	public String saveRefreshToken(UserEntity usersEntity) {
 		return Jwts.builder()
-			.setSubject(usersEntity.getEmail())
-			.setHeader(createHeader())
-			.setClaims(createClaims(usersEntity))
-			.setExpiration(createExpireDate(1000 * 60 * 10)) // 만료시간 설정
-			.signWith(SignatureAlgorithm.HS256, createSigningKey(REFRESH_KEY))
-			.compact();
+		           .setSubject(usersEntity.getEmail())
+		           .setHeader(createHeader())
+		           .setClaims(createClaims(usersEntity))
+		           .setExpiration(createExpireDate(1000 * 60 * 10)) // 만료시간 설정
+		           .signWith(SignatureAlgorithm.HS256, createSigningKey(REFRESH_KEY))
+		           .compact();
 	}
 
 
@@ -117,17 +117,17 @@ public class JwtService {
 
 	private Claims getClaimsFormToken(String token) {
 		return Jwts.parser()
-			.setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
-			.parseClaimsJws(token)
-			.getBody();
+		           .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
+		           .parseClaimsJws(token)
+		           .getBody();
 	}
 
 
 	private Claims getClaimsToken(String token) {
 		return Jwts.parser()
-			.setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
-			.parseClaimsJws(token)
-			.getBody();
+		           .setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
+		           .parseClaimsJws(token)
+		           .getBody();
 	}
 
 }

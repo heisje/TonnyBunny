@@ -1,12 +1,15 @@
 package com.tonnybunny.domain.user.service;
 
 
-import com.tonnybunny.common.jwt.dto.TokenResponseDto;
+import com.tonnybunny.common.jwt.dto.AuthResponseDto;
 import com.tonnybunny.common.jwt.entity.AuthEntity;
 import com.tonnybunny.common.jwt.repository.AuthRepository;
-import com.tonnybunny.common.jwt.service.JwtService;
+import com.tonnybunny.common.jwt.service.AuthService;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.*;
+import com.tonnybunny.domain.user.entity.BlockEntity;
+import com.tonnybunny.domain.user.entity.FollowEntity;
+import com.tonnybunny.domain.user.entity.HistoryEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.BlockRepository;
 import com.tonnybunny.domain.user.repository.FollowRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
@@ -19,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	private final HistoryRepository historyRepository;
-	private final JwtService jwtService;
+	private final AuthService authService;
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final FollowRepository followRepository;
@@ -46,7 +48,7 @@ public class UserService {
 
 
 	@Transactional
-	public TokenResponseDto signup(UserRequestDto userRequestDto) {
+	public Boolean signup(UserRequestDto userRequestDto) {
 
 		/**
 		 * 기존에 요청으로 확인했던 부분들을 여기서 재확인해야 할지에 대한 고민
@@ -73,27 +75,27 @@ public class UserService {
 				          .userCode(userRequestDto.getUserCode())
 				          .build());
 
-		String accessToken = jwtService.generateJwtToken(user);
-		String refreshToken = jwtService.saveRefreshToken(user);
+		String refreshToken = authService.saveRefreshToken(user);
 
 		// 토큰 정보 저장
 		authRepository.save(
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
 		// 반환값 생성 및 리턴
-		return TokenResponseDto.builder()
-		                       .ACCESS_TOKEN(accessToken)
-		                       .REFRESH_TOKEN(refreshToken)
-		                       .email(user.getEmail())
-		                       .nickName(user.getNickName())
-		                       .profileImagePath(user.getProfileImagePath())
-		                       .userCode(user.getUserCode())
-		                       .build();
+		return true;
 	}
 
 
+	/**
+	 * 리프레시 토큰만 만료 여부 확인해서 리턴해줘야 할 듯?
+	 * Dto로 반환 못하면, Access Token은 Controller단에서 따로 Service 호출
+	 * AuthEntity에는 Refresh Token만 저장
+	 *
+	 * @param userRequestDto
+	 * @return
+	 */
 	@Transactional
-	public TokenResponseDto signin(UserRequestDto userRequestDto) {
+	public AuthResponseDto signin(UserRequestDto userRequestDto) {
 		UserEntity user =
 			userRepository
 				.findByEmail(userRequestDto.getEmail())
@@ -102,40 +104,28 @@ public class UserService {
 		AuthEntity auth =
 			authRepository
 				.findByUserSeq(user.getSeq())
-				.orElseThrow(() -> new CustomException(ACCESS_TOKEN_NOT_FOUND));
+				.orElseThrow(() -> new CustomException(REFRESH_TOKEN_NOT_FOUND));
 		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
 			throw new CustomException(LOGIN_BAD_REQUEST);
 		}
 		String accessToken = "";
 		String refreshToken = auth.getRefreshToken();
 
-		if (jwtService.isValidRefreshToken(refreshToken)) {
-			accessToken = jwtService.generateJwtToken(auth.getUser());
-			return TokenResponseDto.builder()
-			                       .ACCESS_TOKEN(accessToken)
-			                       .REFRESH_TOKEN(auth.getRefreshToken())
-			                       .email(user.getEmail())
-			                       .nickName(user.getNickName())
-			                       .profileImagePath(user.getProfileImagePath())
-			                       .userCode(user.getUserCode())
-			                       .build();
+		if (authService.isValidRefreshToken(refreshToken)) {
+			accessToken = authService.generateJwtToken(auth.getUser());
+
 		} else {
-			accessToken = jwtService.generateJwtToken(auth.getUser());
-			refreshToken = jwtService.saveRefreshToken(user);
+			accessToken = authService.generateJwtToken(auth.getUser());
+			refreshToken = authService.saveRefreshToken(user);
 			System.out.println("new refreshToken :" + refreshToken);
 			auth.refreshUpdate(refreshToken);
 			authRepository.save(auth);
-
 		}
 
-		return TokenResponseDto.builder()
-		                       .ACCESS_TOKEN(accessToken)
-		                       .REFRESH_TOKEN(refreshToken)
-		                       .email(user.getEmail())
-		                       .nickName(user.getNickName())
-		                       .profileImagePath(user.getProfileImagePath())
-		                       .userCode(user.getUserCode())
-		                       .build();
+		return AuthResponseDto.builder()
+		                      .ACCESS_TOKEN(accessToken)
+		                      .REFRESH_TOKEN(refreshToken)
+		                      .build();
 	}
 
 
@@ -309,31 +299,32 @@ public class UserService {
 	 * @return List<FollowResponseDto>
 	 */
 
-	public List<FollowResponseDto> getFollowList(Long userSeq) {
+	public List<FollowEntity> getFollowList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
-		List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
+
 		List<FollowEntity> followList = user.getFollowUserList();
-		for (FollowEntity follow : followList) {
-			UserEntity follower = userRepository.findById(follow.getFollowedUserSeq()).orElseThrow(
-				() -> new CustomException(NOT_FOUND_USER)
-			);
-			HelperInfoEntity helperInfo = follower.getHelperInfo();
-			FollowResponseDto followResponseDto = FollowResponseDto.builder()
-			                                                       .seq(follower.getSeq())
-			                                                       .nickName(follower.getNickName())
-			                                                       .profileImagePath(follower.getProfileImagePath())
-			                                                       .avgScore(helperInfo.getAvgScore())
-			                                                       .reviewCount(helperInfo.getReviewCount())
-			                                                       .unitPrice(helperInfo.getUnitPrice())
-			                                                       .oneLineIntroduction(helperInfo.getOneLineIntroduction())
-			                                                       .build();
-			followResponseDtoList.add(followResponseDto);
+		//		List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
+		//		for (FollowEntity follow : followList) {
+		//			UserEntity follower = userRepository.findById(follow.getFollowedUserSeq()).orElseThrow(
+		//				() -> new CustomException(NOT_FOUND_USER)
+		//			);
+		//			HelperInfoEntity helperInfo = follower.getHelperInfo();
+		//			FollowResponseDto followResponseDto = FollowResponseDto.builder()
+		//			                                                       .seq(follower.getSeq())
+		//			                                                       .nickName(follower.getNickName())
+		//			                                                       .profileImagePath(follower.getProfileImagePath())
+		//			                                                       .avgScore(helperInfo.getAvgScore())
+		//			                                                       .reviewCount(helperInfo.getReviewCount())
+		//			                                                       .unitPrice(helperInfo.getUnitPrice())
+		//			                                                       .oneLineIntroduction(helperInfo.getOneLineIntroduction())
+		//			                                                       .build();
+		//			followResponseDtoList.add(followResponseDto);
+		//
+		//		}
 
-		}
-
-		return followResponseDtoList;
+		return followList;
 	}
 
 

@@ -24,7 +24,8 @@ public enum ErrorCode {
 
 	/* 401 UNAUTHORIZED : 권한 인증 문제. JWT 토큰과 관련된 에러 */
 	ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "토큰의 유효기간이 만료되었습니다."),
-	ACCESS_TOKEN_NOT_FOUND(UNAUTHORIZED, "토큰이 존재하지 않습니다."),
+	ACCESS_TOKEN_NOT_FOUND(UNAUTHORIZED, "액세스 토큰이 존재하지 않습니다."),
+	REFRESH_TOKEN_NOT_FOUND(UNAUTHORIZED, "리프레시 토큰이 존재하지 않습니다."),
 
 	NOT_FOUND_ALERT_LOG(NOT_FOUND, "알림 로그가 존재하지 않습니다."),
 	NOT_FOUND_ENTITY(NOT_FOUND, "엔티티가 존재하지 않습니다."),

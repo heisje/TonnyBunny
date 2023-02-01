@@ -1,7 +1,7 @@
 package com.tonnybunny.interceptor;
 
 
-import com.tonnybunny.common.jwt.service.JwtService;
+import com.tonnybunny.common.jwt.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class LoginInterceptor implements HandlerInterceptor {
 
-	private final JwtService jwtService;
+	private final AuthService authService;
 
 
 	@Override

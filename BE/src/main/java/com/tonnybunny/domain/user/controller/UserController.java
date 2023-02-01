@@ -2,8 +2,9 @@ package com.tonnybunny.domain.user.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.common.jwt.dto.TokenResponseDto;
+import com.tonnybunny.common.jwt.dto.AuthResponseDto;
 import com.tonnybunny.domain.user.dto.*;
+import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,21 +33,21 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "공통 회원가입을 진행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
+	public ResponseEntity<ResultDto<Boolean>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
-		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
+		userService.signup(userRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK)
-		                     .body(ResultDto.of(tokenResponseDto));
+		                     .body(ResultDto.ofSuccess());
 
 	}
 
 
 	@PostMapping("/signin")
 	@ApiOperation(value = "로그인 기능을 수행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signin(@RequestBody UserRequestDto userRequestDto) {
-		TokenResponseDto tokenResponseDto = userService.signin(userRequestDto);
-		return ResponseEntity.ok().body(ResultDto.of(tokenResponseDto));
+	public ResponseEntity<ResultDto<AuthResponseDto>> signin(@RequestBody UserRequestDto userRequestDto) {
+		AuthResponseDto authResponseDto = userService.signin(userRequestDto);
+		return ResponseEntity.ok().body(ResultDto.of(authResponseDto));
 	}
 
 	//	// 테스트용
@@ -186,7 +188,10 @@ public class UserController {
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
 	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
 		"userSeq") Long userSeq) {
-		List<FollowResponseDto> followResponseDtoList = userService.getFollowList(userSeq);
+		List<FollowEntity> followEntityList = userService.getFollowList(userSeq);
+		List<UserEntity> userEntityList = new ArrayList<>(); // 관련 UserService 완성 이후 사용 예정
+		List<HelperInfoEntity> helperInfoEntityList = new ArrayList<>();
+		List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
 	}
 

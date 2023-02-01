@@ -46,7 +46,7 @@ public class UserEntity extends CommonEntity {
 	private String profileImagePath;
 
 	private String userCode;
-	
+
 	private Boolean isAgreement; // 약관 동의 여부(true)
 
 	@OneToMany(mappedBy = "user")
@@ -127,6 +127,11 @@ public class UserEntity extends CommonEntity {
 
 	public void setPoint(Long point) {
 		this.point = point;
+	}
+
+
+	public void setReportCount(Integer reportCount) {
+		this.reportCount = reportCount;
 	}
 
 }
