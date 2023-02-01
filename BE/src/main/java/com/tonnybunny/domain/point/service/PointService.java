@@ -51,9 +51,9 @@ public class PointService {
 	 * @param pointRequestDto : 대상 유저 seq, 포인트 양 정보 포함
 	 * @return 포인트 충전 성공 여부
 	 */
-	public Boolean buyPoint(PointRequestDto pointRequestDto) throws Exception {
+	public Boolean buyPoint(PointRequestDto pointRequestDto) {
 		UserEntity fromUser = userRepository.findById(pointRequestDto.getFromUserSeq())
-			.orElseThrow(() -> new Exception("존재하지 않는 사용자입니다."));
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		int pointAmount = pointRequestDto.getPointAmount();
 
 		// 포인트 로그 저장
@@ -81,17 +81,16 @@ public class PointService {
 	 * @param pointRequestDto : 소비 유저 seq, 획득 유저 seq, 포인트 양 정보 포함
 	 * @return 포인트 거래 성공 여부
 	 */
-	public Boolean dealPoint(PointRequestDto pointRequestDto) throws Exception {
+	public Boolean dealPoint(PointRequestDto pointRequestDto) {
 
 		UserEntity fromUser = userRepository.findById(pointRequestDto.getFromUserSeq())
-			.orElseThrow(() -> new Exception("존재하지 않는 사용자입니다."));
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		UserEntity toUser = userRepository.findById(pointRequestDto.getToUserSeq())
-			.orElseThrow(() -> new Exception("존재하지 않는 사용자입니다."));
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		int pointAmount = pointRequestDto.getPointAmount();
 
 		// 포인트 차감되는 유저의 포인트 양이 결제 양 이상인지 확인
-		if (!hasEnoughPoint(fromUser, pointAmount))
-			throw new Exception("지불할 수 있는 포인트가 부족합니다.");
+		if (!hasEnoughPoint(fromUser, pointAmount)) throw new CustomException(ErrorCode.LACK_OF_POINTS);
 
 		// 포인트 로그 저장
 		PointLogEntity fromUserPointLog = pointLogRepository.save(
@@ -127,14 +126,13 @@ public class PointService {
 	 * @param pointRequestDto : 대상 유저 seq, 포인트 양, 계좌 번호 정보 포함
 	 * @return
 	 */
-	public Boolean withdrawPoint(PointRequestDto pointRequestDto) throws Exception {
+	public Boolean withdrawPoint(PointRequestDto pointRequestDto) {
 		UserEntity fromUser = userRepository.findById(pointRequestDto.getFromUserSeq())
-			.orElseThrow(() -> new Exception("존재하지 않는 사용자입니다."));
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		int pointAmount = pointRequestDto.getPointAmount();
 
 		// 포인트 차감되는 유저의 포인트 양이 결제 양 이상인지 확인
-		if (!hasEnoughPoint(fromUser, pointAmount))
-			throw new Exception("출금할 수 있는 포인트가 부족합니다.");
+		if (!hasEnoughPoint(fromUser, pointAmount)) throw new CustomException(ErrorCode.LACK_OF_POINTS);
 
 		// 포인트 로그 저장
 		PointLogEntity fromUserPointLog = pointLogRepository.save(
