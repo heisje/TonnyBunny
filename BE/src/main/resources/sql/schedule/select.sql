@@ -1,3 +1,5 @@
+use tonny_bunny;
+
 -- Alert
 select * from alert_log_entity;
 select * from alert_settings_entity;

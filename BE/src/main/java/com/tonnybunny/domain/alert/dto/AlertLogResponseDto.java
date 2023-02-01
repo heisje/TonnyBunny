@@ -1,33 +1,45 @@
 package com.tonnybunny.domain.alert.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Data
+@RequiredArgsConstructor
 public class AlertLogResponseDto {
 
-	@Autowired
-	private static final ModelMapper modelMapper = new ModelMapper();
+	private Long alertLogSeq;
 
 	private String taskCode;
 	private String content;
-	private boolean isRead;
+	private Boolean isRead;
+
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 
 
 	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
-		return modelMapper.map(alertLog, AlertLogResponseDto.class);
+		ModelMapper mapper = ModelMapperFactory.getMapper();
+		return mapper.map(alertLog, AlertLogResponseDto.class);
 	}
 
 
 	public static List<AlertLogResponseDto> fromEntityList(List<AlertLogEntity> alertLogList) {
-		List<AlertLogResponseDto> result = alertLogList.stream().map(alertLogEntity -> modelMapper.map(alertLogEntity, AlertLogResponseDto.class)).collect(Collectors.toList());
+		List<AlertLogResponseDto> result = new ArrayList<>();
+
+		for (AlertLogEntity alertLog : alertLogList) {
+			AlertLogResponseDto alertLogResponseDto = fromEntity(alertLog);
+			result.add(alertLogResponseDto);
+		}
+
 		return result;
 	}
 
