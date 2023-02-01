@@ -36,7 +36,7 @@ public class UserController {
 		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK)
-		                     .body(ResultDto.of(tokenResponseDto));
+			.body(ResultDto.of(tokenResponseDto));
 
 	}
 
@@ -281,7 +281,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history/{historySeq}")
 	@ApiOperation(value = "히스토리 하나를 조회합니다")
 	public ResponseEntity<ResultDto<HistoryResponseDto>> getUserHistory(
-		@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) throws Exception {
+		@PathVariable("userSeq") Long userSeq, @PathVariable("historySeq") Long historySeq) {
 		HistoryEntity history = userService.getUserHistory(userSeq, historySeq);
 		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(history);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));

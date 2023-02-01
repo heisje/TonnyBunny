@@ -4,6 +4,7 @@ import board from "./getters/board";
 import tonny from "./getters/tonny";
 import bunny from "./getters/bunny";
 import common from "./getters/common";
+import alert from "./getters/alert";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -13,4 +14,5 @@ export default {
     ...tonny,
     ...bunny,
     ...common,
+    ...alert,
 };

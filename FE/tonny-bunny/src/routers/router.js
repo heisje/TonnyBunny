@@ -77,6 +77,7 @@ import IntroPage from "@/pages/home/IntroPage";
 // import TonnyPage from "@/pages/home/TonnyPage";
 import MyPage from "@/pages/home/MyPage";
 import NoticePage from "@/pages/home/NoticePage";
+import AlertPage from "@/pages/home/AlertPage";
 
 //common
 import ReportPage from "@/pages/common/ReportPage";
@@ -664,6 +665,16 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: NoticePage,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/alert",
+            name: "AlertPage",
+            components: {
+                header: AppHeader,
+                default: AlertPage,
                 footer: AppFooter,
             },
         },

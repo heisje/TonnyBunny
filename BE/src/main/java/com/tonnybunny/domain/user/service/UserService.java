@@ -14,6 +14,7 @@ import com.tonnybunny.domain.user.repository.FollowRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,12 +67,12 @@ public class UserService {
 		UserEntity user =
 			userRepository.save(
 				UserEntity.builder()
-				          .password(passwordEncoder.encode(userRequestDto.getPassword()))
-				          .email(userRequestDto.getEmail())
-				          .phoneNumber(userRequestDto.getPhoneNumber())
-				          .nickName(userRequestDto.getNickName())
-				          .userCode(userRequestDto.getUserCode())
-				          .build());
+					.password(passwordEncoder.encode(userRequestDto.getPassword()))
+					.email(userRequestDto.getEmail())
+					.phoneNumber(userRequestDto.getPhoneNumber())
+					.nickName(userRequestDto.getNickName())
+					.userCode(userRequestDto.getUserCode())
+					.build());
 
 		String accessToken = jwtService.generateJwtToken(user);
 		String refreshToken = jwtService.saveRefreshToken(user);
@@ -82,13 +83,13 @@ public class UserService {
 
 		// 반환값 생성 및 리턴
 		return TokenResponseDto.builder()
-		                       .ACCESS_TOKEN(accessToken)
-		                       .REFRESH_TOKEN(refreshToken)
-		                       .email(user.getEmail())
-		                       .nickName(user.getNickName())
-		                       .profileImagePath(user.getProfileImagePath())
-		                       .userCode(user.getUserCode())
-		                       .build();
+			.ACCESS_TOKEN(accessToken)
+			.REFRESH_TOKEN(refreshToken)
+			.email(user.getEmail())
+			.nickName(user.getNickName())
+			.profileImagePath(user.getProfileImagePath())
+			.userCode(user.getUserCode())
+			.build();
 	}
 
 
@@ -112,13 +113,13 @@ public class UserService {
 		if (jwtService.isValidRefreshToken(refreshToken)) {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			return TokenResponseDto.builder()
-			                       .ACCESS_TOKEN(accessToken)
-			                       .REFRESH_TOKEN(auth.getRefreshToken())
-			                       .email(user.getEmail())
-			                       .nickName(user.getNickName())
-			                       .profileImagePath(user.getProfileImagePath())
-			                       .userCode(user.getUserCode())
-			                       .build();
+				.ACCESS_TOKEN(accessToken)
+				.REFRESH_TOKEN(auth.getRefreshToken())
+				.email(user.getEmail())
+				.nickName(user.getNickName())
+				.profileImagePath(user.getProfileImagePath())
+				.userCode(user.getUserCode())
+				.build();
 		} else {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			refreshToken = jwtService.saveRefreshToken(user);
@@ -129,13 +130,13 @@ public class UserService {
 		}
 
 		return TokenResponseDto.builder()
-		                       .ACCESS_TOKEN(accessToken)
-		                       .REFRESH_TOKEN(refreshToken)
-		                       .email(user.getEmail())
-		                       .nickName(user.getNickName())
-		                       .profileImagePath(user.getProfileImagePath())
-		                       .userCode(user.getUserCode())
-		                       .build();
+			.ACCESS_TOKEN(accessToken)
+			.REFRESH_TOKEN(refreshToken)
+			.email(user.getEmail())
+			.nickName(user.getNickName())
+			.profileImagePath(user.getProfileImagePath())
+			.userCode(user.getUserCode())
+			.build();
 	}
 
 
@@ -262,9 +263,8 @@ public class UserService {
 	public UserEntity getUserInfo(Long userSeq) {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
-		                                .orElseThrow(
-			                                () -> new CustomException(NOT_FOUND_USER)
-		                                );
+			.orElseThrow(
+				() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 		return user;
 	}
 
@@ -454,12 +454,12 @@ public class UserService {
 	 * @param historySeq : 조회할 히스토리 seq
 	 * @return
 	 */
-	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) throws Exception {
+	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) {
 		/**
 		 * 히스토리 단일 조회
 		 */
 		Optional<HistoryEntity> history = historyRepository.findById(historySeq);
-		return history.orElseThrow(() -> new Exception("히스토리 조회 결과가 존재하지 않습니다."));
+		return history.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 	}
 
 }
