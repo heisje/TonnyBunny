@@ -3,9 +3,7 @@ package com.tonnybunny.domain.bunny.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +13,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class BunnyNotiEntity extends CommonEntity {
 
 	@Id
@@ -43,14 +43,17 @@ public class BunnyNotiEntity extends CommonEntity {
 
 	// 번역 공고 지원 헬퍼 리스트
 	@OneToMany(mappedBy = "bunnyNoti")
+	@Builder.Default
 	private List<BunnyNotiHelperEntity> bunnyNotiHelperList = new ArrayList<>();
 
 	// 번역 공고 이미지 리스트
 	@OneToMany(mappedBy = "bunnyNoti")
+	@Builder.Default
 	private List<BunnyNotiImageEntity> bunnyNotiImageList = new ArrayList<>();
 
 	// 번역 공고 견적서 리스트
 	@OneToMany(mappedBy = "bunnyNoti")
+	@Builder.Default
 	private List<BunnyQuotationEntity> bunnyQuotationList = new ArrayList<>();
 
 }

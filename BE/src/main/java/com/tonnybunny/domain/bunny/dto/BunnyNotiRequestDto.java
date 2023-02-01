@@ -3,6 +3,7 @@ package com.tonnybunny.domain.bunny.dto;
 
 import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,8 +32,8 @@ public class BunnyNotiRequestDto {
 	private String title;
 	private String content;
 	private Integer estimatePrice;
-	private LocalDateTime startDateTime;
-	private LocalDateTime endDateTime;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	private List<BunnyNotiImageRequestDto> bunnyNotiImageList;
 
 	private String startLangCode;
@@ -42,7 +43,13 @@ public class BunnyNotiRequestDto {
 
 
 	public BunnyNotiEntity toEntity() {
-		return (BunnyNotiEntity) new Object();
+
+		ModelMapper modelMapper = new ModelMapper();
+
+		// 값 매핑
+		BunnyNotiEntity bunnyNoti = modelMapper.map(this, BunnyNotiEntity.class);
+
+		return bunnyNoti;
 	}
 
 }
