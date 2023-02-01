@@ -99,7 +99,6 @@ public class HistoryResponseDto {
 				historyResponseDto.setRecordVideoPath(jTonnyHistory.getRecordVideoPath());
 				historyResponseDto.setTonnySituCode(jTonnyHistory.getTonnySituCode());
 			} else
-				//				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
 				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.예약통역.getTaskCode()) {
@@ -112,7 +111,6 @@ public class HistoryResponseDto {
 				historyResponseDto.setTonnySituCode(yTonnyHistory.getTonnySituCode());
 				historyResponseDto.setTitle(yTonnyHistory.getTitle());
 			} else
-				//				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
 				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.번역.getTaskCode()) {
@@ -121,7 +119,6 @@ public class HistoryResponseDto {
 
 				historyResponseDto.setTitle(bunnyHistory.getTitle());
 			} else
-				//				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
 				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		return historyResponseDto;
