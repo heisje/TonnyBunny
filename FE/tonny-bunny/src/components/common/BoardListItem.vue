@@ -9,38 +9,32 @@
                 <div class="info mt-1 w-100">
                     <router-link
                         class="t-d-none"
-                        :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                        :to="{ name: 'BoardDetailPage', params: { id: boardItem?.seq } }">
                         <div class="title">
                             <div class="tag">
                                 <square-tag sub text="자유"></square-tag>
                             </div>
                             <div class="titleText text-truncate">
-                                {{ title }}
+                                {{ boardItem?.title }}
                             </div>
-                            <!-- <router-link :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
-                            <div class="titleText">{{ title }}</div>
-                        </router-link> -->
                         </div>
                     </router-link>
 
                     <div class="d-flex flex-column h-100 justify-content-between">
                         <router-link
                             class="t-d-none"
-                            :to="{ name: 'BoardDetailPage', params: { id: boardId } }">
+                            :to="{ name: 'BoardDetailPage', params: { id: boardItem?.seq } }">
                             <div class="mt-2 desc text-truncate">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-                                rem dolorum soluta fugit nobis blanditiis incidunt deserunt eum,
-                                porro modi consequuntur voluptatem aperiam accusantium qui voluptas
-                                sit laudantium fugiat ullam?
+                                {{ boardItem?.content }}
                             </div>
                         </router-link>
 
                         <div class="meta">
                             <div class="comment">
                                 <span class="material-symbols-outlined fs-5 icon"> chat </span>
-                                <span class="count">{{ count }}</span>
+                                <span class="count">{{ boardItem?.count }}</span>
                             </div>
-                            <div class="time">{{ time }}</div>
+                            <div class="time">{{ boardItem?.createdAt }}</div>
                         </div>
                     </div>
                 </div>
@@ -61,24 +55,26 @@ export default {
     },
 
     props: {
-        boardId: {
-            type: Number,
-            default: 1,
+        boardItem: {
+            type: Object,
+            default: () => {
+                return {
+                    seq: 1,
+                    user: null,
+                    title: "게시글입니다",
+                    content: "내용입니다.",
+                    createdAt: "2023-02-01T16:54:19.8261845",
+                    updatedAt: "2023-02-01T16:54:19.8261845",
+                    boardImageList: [],
+                    boardCommentList: [],
+                };
+            },
         },
+    },
 
-        title: {
-            type: String,
-            default: "커뮤니티 글 제목 커뮤니티 글 제목 커뮤니티 글 제목",
-        },
-
-        count: {
-            type: String,
-            default: "댓글갯수",
-        },
-
-        time: {
-            type: String,
-            default: "오늘",
+    computed: {
+        countComment() {
+            return this.boardItem.boardCommentList.length();
         },
     },
 };

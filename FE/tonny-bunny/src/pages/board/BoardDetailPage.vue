@@ -1,32 +1,42 @@
 <template>
     <div>
+        <title-text>{{ boardDetail?.title }}</title-text>
         <h1>커뮤니티 - 게시글 상세 조회</h1>
 
-        <div>메인 텍스트 배너</div>
-
-        <div>수정 버튼 라인 (점 3개)</div>
-        <div>제목 라인</div>
-        <div>날짜 라인</div>
-        <div>작성자, 카테고리 라인</div>
-        <div>사진 라인</div>
-        <div>내용 라인</div>
+        <div>{{ boardDetail?.title }}</div>
+        <div>{{ boardDetail?.createdAt }}</div>
+        <div>{{ boardDetail?.user }}</div>
+        <div>{{ boardDetail?.content }}</div>
 
         <div>
-            댓글 컴포넌트 CommentList
-
-            <div>작성자 폼</div>
-            <div>댓글 메타 정보 라인</div>
+            <div>{{ boardDetail?.boardImageList }}</div>
+            {{ boardDetail?.boardCommentList }}
+        </div>
+        <div>
             <CommentListItem />
         </div>
     </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import CommentListItem from "@/components/board/CommentListItem.vue";
+import TitleText from "@/components/common/TitleText.vue";
 
 export default {
     components: {
         CommentListItem,
+        TitleText,
+    },
+
+    computed: {
+        ...mapGetters({ boardDetail: "getBoardDetail" }),
+    },
+
+    created() {
+        console.log(this.boardDetail.seq);
+        this.$store.dispatch("getBoardDetail", this.boardDetail.seq);
     },
 };
 </script>

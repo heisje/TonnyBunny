@@ -3,26 +3,26 @@
         <div>
             <title-text title="자유게시판" />
 
-            <input type="text" />
+            <form class="customForm">
+                <input type="text" />
+                <medium-btn text="검색하기" />
+            </form>
 
-            <div>정렬 버튼 라인</div>
+            <small-btn text="필터" />
+            <board-list />
 
-            <div v-for="i in 3" :key="i">
-                <board-list-item />
-            </div>
-
-            <div>페이지네이션</div>
-
-            <div>게시글 작성 버튼 라인</div>
+            <small-btn text="글쓰기" />
         </div>
     </div>
 </template>
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-import BoardListItem from "@/components/common/BoardListItem.vue";
+import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import BoardList from "@/components/board/BoardList.vue";
 export default {
-    components: { TitleText, BoardListItem },
+    components: { TitleText, SmallBtn, MediumBtn, BoardList },
     name: "BoardPage",
 
     methods: {},
