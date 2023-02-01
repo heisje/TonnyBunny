@@ -1,7 +1,8 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 
@@ -11,15 +12,12 @@ import lombok.Data;
  * totalPrice      : 견적 금액
  */
 @Data
-public class YTonnyNotiHelperRequestDto {
+@AllArgsConstructor
+@Builder
+public class YTonnyApplyRequestDto {
 
 	private Long yTonnyNotiSeq;
 	private Long helperSeq;
 	private Integer totalPrice;
-
-
-	public YTonnyNotiHelperEntity toEntity() {
-		return (YTonnyNotiHelperEntity) new Object();
-	}
 
 }

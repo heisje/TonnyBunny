@@ -1,7 +1,10 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
+import com.tonnybunny.common.dto.LangCodeEnum;
+import com.tonnybunny.common.dto.TonnySituCodeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -23,24 +26,25 @@ import java.time.LocalTime;
  * tonnySituCode            : 통역상황 카테고리 코드 (null)
  */
 @Data
-public class YTonnyNotiRequestDto {
+@AllArgsConstructor
+@Builder
+public class YTonnyRequestDto {
+
+	private int size = 10; // limit
+	private int page = 0; // offset
 
 	private Long clientSeq;
 
 	private String title;
+	private String content;
+
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
-	private String content;
 
-	private String startLangCode;
-	private String endLangCode;
-	private String tonnySituCode;
-
-
-	public YTonnyNotiEntity toEntity() {
-		return (YTonnyNotiEntity) new Object();
-	}
+	private LangCodeEnum startLangCode;
+	private LangCodeEnum endLangCode;
+	private TonnySituCodeEnum tonnySituCode;
 
 }
