@@ -37,7 +37,7 @@ public class AlertService {
 	 * @return
 	 */
 	@Transactional
-	public void createAlertLog(AlertLogRequestDto alertLogRequestDto) {
+	public Long createAlertLog(AlertLogRequestDto alertLogRequestDto) {
 
 		System.out.println("AlertService.createAlertLog");
 
@@ -48,11 +48,18 @@ public class AlertService {
 
 		// find
 		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-		AlertLogEntity alertLogEntity = AlertLogEntity.builder().user(userEntity).taskCode(taskCode).content(content).isRead(false).build();
+		AlertLogEntity alertLogEntity = AlertLogEntity.builder()
+		                                              .user(userEntity)
+		                                              .taskCode(taskCode)
+		                                              .content(content)
+		                                              .isRead(false)
+		                                              .isEnd(false)
+		                                              .build();
 
 		// save
-		alertLogRepository.save(alertLogEntity);
+		Long alertLogSeq = alertLogRepository.save(alertLogEntity).getSeq();
 
+		return alertLogSeq;
 	}
 
 
