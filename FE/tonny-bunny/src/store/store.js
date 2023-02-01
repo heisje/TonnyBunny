@@ -10,6 +10,7 @@ import board from "./state/board";
 import tonny from "./state/tonny";
 import bunny from "./state/bunny";
 import common from "./state/common";
+import alert from "./state/alert";
 
 export default createStore({
     state: {
@@ -23,6 +24,7 @@ export default createStore({
         tonny,
         bunny,
         common,
+        alert,
     },
 
     getters,
