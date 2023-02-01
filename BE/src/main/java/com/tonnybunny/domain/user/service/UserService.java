@@ -6,10 +6,8 @@ import com.tonnybunny.common.jwt.entity.AuthEntity;
 import com.tonnybunny.common.jwt.repository.AuthRepository;
 import com.tonnybunny.common.jwt.service.JwtService;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.FollowEntity;
-import com.tonnybunny.domain.user.entity.HelperInfoEntity;
-import com.tonnybunny.domain.user.entity.HistoryEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.entity.*;
+import com.tonnybunny.domain.user.repository.BlockRepository;
 import com.tonnybunny.domain.user.repository.FollowRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
@@ -39,6 +37,7 @@ public class UserService {
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final FollowRepository followRepository;
+	private final BlockRepository blockRepository;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -67,12 +66,12 @@ public class UserService {
 		UserEntity user =
 			userRepository.save(
 				UserEntity.builder()
-					.password(passwordEncoder.encode(userRequestDto.getPassword()))
-					.email(userRequestDto.getEmail())
-					.phoneNumber(userRequestDto.getPhoneNumber())
-					.nickName(userRequestDto.getNickName())
-					.userCode(userRequestDto.getUserCode())
-					.build());
+				          .password(passwordEncoder.encode(userRequestDto.getPassword()))
+				          .email(userRequestDto.getEmail())
+				          .phoneNumber(userRequestDto.getPhoneNumber())
+				          .nickName(userRequestDto.getNickName())
+				          .userCode(userRequestDto.getUserCode())
+				          .build());
 
 		String accessToken = jwtService.generateJwtToken(user);
 		String refreshToken = jwtService.saveRefreshToken(user);
@@ -83,13 +82,13 @@ public class UserService {
 
 		// 반환값 생성 및 리턴
 		return TokenResponseDto.builder()
-			.ACCESS_TOKEN(accessToken)
-			.REFRESH_TOKEN(refreshToken)
-			.email(user.getEmail())
-			.nickName(user.getNickName())
-			.profileImagePath(user.getProfileImagePath())
-			.userCode(user.getUserCode())
-			.build();
+		                       .ACCESS_TOKEN(accessToken)
+		                       .REFRESH_TOKEN(refreshToken)
+		                       .email(user.getEmail())
+		                       .nickName(user.getNickName())
+		                       .profileImagePath(user.getProfileImagePath())
+		                       .userCode(user.getUserCode())
+		                       .build();
 	}
 
 
@@ -113,13 +112,13 @@ public class UserService {
 		if (jwtService.isValidRefreshToken(refreshToken)) {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			return TokenResponseDto.builder()
-				.ACCESS_TOKEN(accessToken)
-				.REFRESH_TOKEN(auth.getRefreshToken())
-				.email(user.getEmail())
-				.nickName(user.getNickName())
-				.profileImagePath(user.getProfileImagePath())
-				.userCode(user.getUserCode())
-				.build();
+			                       .ACCESS_TOKEN(accessToken)
+			                       .REFRESH_TOKEN(auth.getRefreshToken())
+			                       .email(user.getEmail())
+			                       .nickName(user.getNickName())
+			                       .profileImagePath(user.getProfileImagePath())
+			                       .userCode(user.getUserCode())
+			                       .build();
 		} else {
 			accessToken = jwtService.generateJwtToken(auth.getUser());
 			refreshToken = jwtService.saveRefreshToken(user);
@@ -130,13 +129,13 @@ public class UserService {
 		}
 
 		return TokenResponseDto.builder()
-			.ACCESS_TOKEN(accessToken)
-			.REFRESH_TOKEN(refreshToken)
-			.email(user.getEmail())
-			.nickName(user.getNickName())
-			.profileImagePath(user.getProfileImagePath())
-			.userCode(user.getUserCode())
-			.build();
+		                       .ACCESS_TOKEN(accessToken)
+		                       .REFRESH_TOKEN(refreshToken)
+		                       .email(user.getEmail())
+		                       .nickName(user.getNickName())
+		                       .profileImagePath(user.getProfileImagePath())
+		                       .userCode(user.getUserCode())
+		                       .build();
 	}
 
 
@@ -263,8 +262,8 @@ public class UserService {
 	public UserEntity getUserInfo(Long userSeq) {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
-			.orElseThrow(
-				() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		                                .orElseThrow(
+			                                () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 		return user;
 	}
 
@@ -345,7 +344,7 @@ public class UserService {
 	 * @param followSeq : 추가될 누군가의 seq
 	 * @return
 	 */
-	public Boolean createFollow(Long userSeq, Long followSeq) {
+	public Long createFollow(Long userSeq, Long followSeq) {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
@@ -353,7 +352,7 @@ public class UserService {
 		FollowEntity follow = new FollowEntity(user, followSeq);
 		followRepository.save(follow);
 
-		return true;
+		return follow.getFollowedUserSeq();
 	}
 
 
@@ -380,8 +379,15 @@ public class UserService {
 	 * @param blockSeq : 추가될 누군가의 seq
 	 * @return
 	 */
-	public Boolean createBlock(Long userSeq, Long blockSeq) {
-		return true;
+	public Long createBlock(Long userSeq, Long blockSeq) {
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		BlockEntity block = new BlockEntity(user, blockSeq);
+		blockRepository.save(block);
+
+		return block.getBlockedUserSeq();
 	}
 
 
@@ -393,7 +399,13 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean deleteBlock(Long userSeq, Long blockSeq) {
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		blockRepository.deleteFollowBySeq(user, blockSeq);
+
 		return true;
+
 	}
 
 

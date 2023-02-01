@@ -36,7 +36,7 @@ public class UserController {
 		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK)
-			.body(ResultDto.of(tokenResponseDto));
+		                     .body(ResultDto.of(tokenResponseDto));
 
 	}
 
@@ -193,27 +193,23 @@ public class UserController {
 
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
-	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq,
+	public ResponseEntity<ResultDto<Long>> createFollow(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("followSeq") Long followSeq) {
-		Boolean isSuccess = userService.createFollow(userSeq, followSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		Long followUserSeq = userService.createFollow(userSeq, followSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followUserSeq));
+
 	}
 
 
 	@DeleteMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
-	public ResponseEntity<ResultDto<Boolean>> deleteBookmark(@PathVariable("userSeq") Long userSeq,
+	public ResponseEntity<ResultDto<Boolean>> deleteFollow(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("followSeq") Long followSeq) {
-		Boolean isSuccess = userService.deleteFollow(userSeq, followSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		userService.deleteFollow(userSeq, followSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+
 	}
 
 	// --------------------------------- 차단 ------------------------------------
@@ -221,14 +217,11 @@ public class UserController {
 
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저를 차단합니다")
-	public ResponseEntity<ResultDto<Boolean>> createBlock(@PathVariable("userSeq") Long userSeq,
+	public ResponseEntity<ResultDto<Long>> createBlock(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("blockSeq") Long blockSeq) {
-		Boolean isSuccess = userService.createBlock(userSeq, blockSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		Long blockedUserSeq = userService.createBlock(userSeq, blockSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockedUserSeq));
+
 	}
 
 
@@ -236,12 +229,10 @@ public class UserController {
 	@ApiOperation(value = "유저 차단을 취소합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteBlock(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("blockSeq") Long blockSeq) {
-		Boolean isSuccess = userService.deleteBlock(userSeq, blockSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+
+		userService.deleteBlock(userSeq, blockSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+
 	}
 
 	// --------------------------------- 신고 ------------------------------------

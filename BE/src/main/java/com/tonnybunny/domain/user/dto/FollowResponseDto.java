@@ -23,6 +23,7 @@ public class FollowResponseDto {
 	private String nickName;
 	private String profileImagePath;
 
+	private UserResponseDto userResponseDto;
 	/**
 	 * 헬퍼 info 관련 정보
 	 */

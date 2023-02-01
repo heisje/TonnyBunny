@@ -50,6 +50,9 @@ dependencies {
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    //spring email
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {
