@@ -12,3 +12,6 @@ spring:
     url: ${dev.mysql.url}
     username: ${dev.mysql.username}
     password: ${dev.mysql.password}
+  # Jpa
+  jpa:
+    hibernate.ddl-auto: ${dev.ddl.option}
