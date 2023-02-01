@@ -1,25 +1,28 @@
 <template>
     <div>
-        <h1>커뮤니티 - 게시글 조회</h1>
-
-        <div>검색 라인</div>
-        <div>정렬 버튼 라인</div>
-
         <div>
-            게시글 리스트
+            <title-text title="자유게시판" />
 
-            <div>게시글 아이템</div>
-            <div>게시글 아이템</div>
+            <input type="text" />
+
+            <div>정렬 버튼 라인</div>
+
+            <div v-for="i in 3" :key="i">
+                <board-list-item />
+            </div>
+
+            <div>페이지네이션</div>
+
+            <div>게시글 작성 버튼 라인</div>
         </div>
-
-        <div>페이지네이션</div>
-
-        <div>게시글 작성 버튼 라인</div>
     </div>
 </template>
 
 <script>
+import TitleText from "@/components/common/TitleText.vue";
+import BoardListItem from "@/components/common/BoardListItem.vue";
 export default {
+    components: { TitleText, BoardListItem },
     name: "BoardPage",
 
     methods: {},
