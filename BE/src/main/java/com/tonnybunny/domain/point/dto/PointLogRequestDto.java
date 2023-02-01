@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.point.dto;
 
 
-import com.tonnybunny.domain.point.entity.PointLogEntity;
 import lombok.Data;
 
 
@@ -15,10 +14,5 @@ public class PointLogRequestDto {
 	private Long userSeq;
 
 	private Integer logCount;
-
-
-	public PointLogEntity toEntity() {
-		return (PointLogEntity) new Object();
-	}
 
 }
