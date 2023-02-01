@@ -1,18 +1,18 @@
 package com.tonnybunny.domain.alert.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.alert.entity.AlertSettingsEntity;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Data
+@RequiredArgsConstructor
 public class AlertSettingsDto {
 
-	@Autowired
-	private static final ModelMapper modelMapper = new ModelMapper();
-
+	private Long alertSettingsSeq;
 	private Long userSeq;
 
 	private Boolean isAll;
@@ -22,7 +22,8 @@ public class AlertSettingsDto {
 
 
 	public static AlertSettingsDto fromEntity(AlertSettingsEntity alertSettings) {
-		return modelMapper.map(alertSettings, AlertSettingsDto.class);
+		ModelMapper mapper = ModelMapperFactory.getMapper();
+		return mapper.map(alertSettings, AlertSettingsDto.class);
 	}
 
 }

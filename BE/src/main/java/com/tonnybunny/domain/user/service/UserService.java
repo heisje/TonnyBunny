@@ -423,7 +423,7 @@ public class UserService {
 		 * 히스토리 단일 조회
 		 */
 		Optional<HistoryEntity> history = historyRepository.findById(historySeq);
-		return history.orElseThrow(() -> new CustomException(ErrorCode.ENTITY_NOT_FOUND));
+		return history.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 	}
 
 }

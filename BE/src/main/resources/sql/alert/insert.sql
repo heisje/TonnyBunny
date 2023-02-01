@@ -16,4 +16,4 @@ values (now(), now(), '하이루22', true, '1234', 2);
 select * from alert_settings_entity;
 
 insert into alert_settings_entity (created_at, updated_at, is_all, is_chat, is_community, is_tonny_bunny, user_seq)
-values (now(), now(), true, true, true, true, 1);
+values (now(), now(), true, true, true, true, 2);
