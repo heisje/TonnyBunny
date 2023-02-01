@@ -10,6 +10,7 @@ import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.FollowRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
@@ -36,6 +37,7 @@ public class UserService {
 	private final JwtService jwtService;
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final FollowRepository followRepository;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -344,7 +346,12 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean createFollow(Long userSeq, Long followSeq) {
-		// TODO : 로직
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		FollowEntity follow = new FollowEntity(user, followSeq);
+		followRepository.save(follow);
 
 		return true;
 	}
@@ -358,8 +365,10 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean deleteFollow(Long userSeq, Long followSeq) {
-		// TODO : 로직
-
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		followRepository.deleteFollowBySeq(user, followSeq);
 		return true;
 	}
 
