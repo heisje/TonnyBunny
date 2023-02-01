@@ -1,18 +1,19 @@
 package com.tonnybunny.domain.alert.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AlertLogResponseDto {
-
-	private final ModelMapper modelMapper;
 
 	private Long alertLogSeq;
 
@@ -24,6 +25,7 @@ public class AlertLogResponseDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
+	//	private final ModelMapper modelMapper;
 	//	public static ModelMapper modelMapper = new ModelMapper();
 
 	//	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {

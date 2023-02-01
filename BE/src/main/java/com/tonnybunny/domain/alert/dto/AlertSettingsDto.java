@@ -1,23 +1,18 @@
 package com.tonnybunny.domain.alert.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AlertSettingsDto {
-
-	@Autowired
-	private ModelMapper modelMapper;
 
 	private Long alertSettingsSeq;
 
-	@NonNull
 	private Long userSeq;
 
 	private Boolean isAll;
