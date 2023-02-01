@@ -1,4 +1,5 @@
 import http from "@/common/axios";
+import global from "@/common/global";
 
 export default {
     /*
@@ -10,25 +11,28 @@ export default {
         console.log("게시글 리스트를 조회합니다.");
 
         this.dispatch("setIsLoading", true);
-
         let params = {};
         try {
             let { data } = await http.get("/board", { params });
             console.log("async function : ", data);
 
-            this.dispatch("setIsLoading", false);
+            data.data.forEach((d) => {
+                d.count = d.boardCommentList.length;
+                d.createdAt = global.setDate(d.createdAt);
+            });
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     context.commit("SET_BOARD_LIST", data.data);
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
         } catch (err) {
             console.error(err);
         }
+        this.dispatch("setIsLoading", false);
     },
 
     // POST /api/board 게시글을 작성합니다.
@@ -42,9 +46,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
 
@@ -62,19 +66,19 @@ export default {
     },
 
     // GET /api/board/{boardSeq} 게시글을 열람합니다.
-    async getBoardDetail(context, id) {
+    async getBoardDetail(context, seq) {
         console.log("게시글을 열람합니다.");
 
         try {
-            let { data } = await http.get(`/board/${id}`);
+            let { data } = await http.get(`/board/${seq}`);
             console.log("async function : ", data);
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     context.commit("SET_BOARD_DETAIL", data.data);
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
         } catch (err) {
@@ -93,9 +97,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
             return data.resultCode;
@@ -122,9 +126,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
             return data.resultCode;
@@ -156,9 +160,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
         } catch (err) {
@@ -180,9 +184,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
 
@@ -210,9 +214,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
 
@@ -240,9 +244,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case "SUCCESS":
                     break;
-                case "fail":
+                case "FAIL":
                     break;
             }
 
