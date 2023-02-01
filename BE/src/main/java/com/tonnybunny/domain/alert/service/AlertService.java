@@ -39,16 +39,16 @@ public class AlertService {
 	@Transactional
 	public void createAlertLog(AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println("\ncreateAlertLog Service !!");
+		System.out.println("AlertService.createAlertLog");
 
 		// param setting
 		Long userSeq = alertLogRequestDto.getUserSeq();
 		String taskCode = alertLogRequestDto.getTaskCode();
 		String content = alertLogRequestDto.getContent();
 
+		// find
 		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-		AlertLogEntity alertLogEntity = AlertLogEntity.builder().user(userEntity).taskCode(taskCode).content(content).build();
-		//		System.out.println("alertLogEntity : " + alertLogEntity);
+		AlertLogEntity alertLogEntity = AlertLogEntity.builder().user(userEntity).taskCode(taskCode).content(content).isRead(false).build();
 
 		// save
 		alertLogRepository.save(alertLogEntity);
@@ -65,7 +65,7 @@ public class AlertService {
 	 */
 	public List<AlertLogEntity> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 
-		System.out.println("\ngetAlertLogList Service !!");
+		System.out.println("AlertService.getAlertLogList");
 
 		// param setting
 		Long userSeq = alertLogRequestDto.getUserSeq();
@@ -74,6 +74,8 @@ public class AlertService {
 
 		// pagination
 		Pageable pageable = PageRequest.of(page, size);
+
+		// find
 		List<AlertLogEntity> alertLogList = alertLogRepository.findByUserSeq(userSeq, pageable).getContent();
 
 		return alertLogList;
@@ -88,8 +90,9 @@ public class AlertService {
 	 */
 	public AlertSettingsEntity getAlertSettings(Long userSeq) {
 
-		System.out.println("\ngetAlertSettings Service !!");
+		System.out.println("AlertService.getAlertSettings");
 
+		// find
 		AlertSettingsEntity alertSettings = alertSettingsRepository.findByUserSeq(userSeq)
 		                                                           .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림 설정입니다."));
 
@@ -107,15 +110,16 @@ public class AlertService {
 	@Transactional
 	public void modifyAlertIsRead(Long alertLogSeq) {
 
-		System.out.println("\nmodifyAlertIsRead Service !!");
+		System.out.println("AlertService.modifyAlertIsRead");
 
 		// find
 		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림입니다."));
-		//		System.out.println("alertLogEntity : " + alertLogEntity);
 
-		// 수정 & save
-		alertLogEntity.setRead(true);
-		//		System.out.println("alertLogEntity : " + alertLogEntity);
+		// 수정
+		alertLogEntity.update(true);
+
+		// save
+		alertLogRepository.save(alertLogEntity);
 
 	}
 
@@ -128,7 +132,7 @@ public class AlertService {
 	 */
 	public void modifyAlertSettings(AlertSettingsDto alertSettingsDto) {
 
-		System.out.println("\nmodifyAlertSettings Service !!");
+		System.out.println("AlertService.modifyAlertSettings");
 
 		// param setting
 		Long userSeq = alertSettingsDto.getUserSeq();
@@ -136,18 +140,18 @@ public class AlertService {
 		Boolean isTonnyBunny = alertSettingsDto.getIsTonnyBunny();
 		Boolean isCommunity = alertSettingsDto.getIsCommunity();
 		Boolean isChat = alertSettingsDto.getIsChat();
+		// update data도
 
+		// find
 		//		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
 		AlertSettingsEntity alertSettings = alertSettingsRepository.findByUserSeq(userSeq)
 		                                                           .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림 입니다."));
-		System.out.println("alertSettings : " + alertSettings);
 
-		// 변경
-		alertSettings.setAll(isAll);
-		alertSettings.setTonnyBunny(isTonnyBunny);
-		alertSettings.setCommunity(isCommunity);
-		alertSettings.setChat(isChat);
-		//		System.out.println("alertSettings : " + alertSettings);
+		// 수정
+		alertSettings.update(isAll, isTonnyBunny, isCommunity, isChat);
+
+		// save
+		alertSettingsRepository.save(alertSettings);
 
 	}
 
@@ -157,11 +161,18 @@ public class AlertService {
 	 * MARK : 알림 로그 삭제
 	 *
 	 * @param alertLogSeq : 대상 알림 로그 seq
-	 * @return 알림 삭제 여부
+	 * @return
 	 */
-	public Boolean deleteAlertLog(Long alertLogSeq) {
+	public void deleteAlertLog(Long alertLogSeq) {
 
-		return null;
+		System.out.println("AlertService.deleteAlertLog");
+
+		// find
+		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림 로그 입니다."));
+
+		// delete
+		alertLogRepository.delete(alertLogEntity);
+
 	}
 
 }
