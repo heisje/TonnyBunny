@@ -46,6 +46,9 @@ public class UserEntity extends CommonEntity {
 	private String profileImagePath;
 
 	private String userCode;
+	
+	private Boolean isAgreement; // 약관 동의 여부(true)
+
 	@OneToMany(mappedBy = "user")
 	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 	@OneToMany(mappedBy = "user")

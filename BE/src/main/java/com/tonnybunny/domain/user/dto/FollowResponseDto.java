@@ -2,7 +2,9 @@ package com.tonnybunny.domain.user.dto;
 
 
 import com.tonnybunny.domain.user.entity.FollowEntity;
+import lombok.Builder;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +20,35 @@ import java.util.List;
 public class FollowResponseDto {
 
 	private Long seq;
-	private String email;
 	private String nickName;
 	private String profileImagePath;
 
+	/**
+	 * 헬퍼 info 관련 정보
+	 */
+	private Float avgScore;
+	private Integer reviewCount;
+	private Integer unitPrice;
+	private String oneLineIntroduction;
+
+
+	@Builder
+	private FollowResponseDto(Long seq, String nickName, String profileImagePath, Float avgScore, Integer reviewCount, Integer unitPrice, String oneLineIntroduction) {
+		this.seq = seq;
+		this.nickName = nickName;
+		this.profileImagePath = profileImagePath;
+		this.avgScore = avgScore;
+		this.reviewCount = reviewCount;
+		this.unitPrice = unitPrice;
+		this.oneLineIntroduction = oneLineIntroduction;
+
+	}
+
 
 	public static FollowResponseDto fromEntity(FollowEntity follow) {
-		return new FollowResponseDto();
+		ModelMapper modelMapper = new ModelMapper();
+		FollowResponseDto followResponseDto = modelMapper.map(follow, FollowResponseDto.class);
+		return followResponseDto;
 	}
 
 
