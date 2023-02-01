@@ -1,26 +1,20 @@
 package com.tonnybunny.domain.alert.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@RequiredArgsConstructor
 public class AlertLogResponseDto {
-
-	public static ModelMapper modelMapper = new ModelMapper();
-
-	@Autowired
-	private ModelMapper modelBeanMapper;
 
 	private Long alertLogSeq;
 
@@ -33,7 +27,8 @@ public class AlertLogResponseDto {
 
 
 	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
-		return modelMapper.map(alertLog, AlertLogResponseDto.class);
+		ModelMapper mapper = ModelMapperFactory.getMapper();
+		return mapper.map(alertLog, AlertLogResponseDto.class);
 	}
 
 
@@ -46,12 +41,6 @@ public class AlertLogResponseDto {
 		}
 
 		return result;
-	}
-
-
-	@PostConstruct
-	private void initialize() {
-		modelMapper = this.modelBeanMapper;
 	}
 
 }
