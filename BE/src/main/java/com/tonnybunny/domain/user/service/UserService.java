@@ -7,18 +7,24 @@ import com.tonnybunny.common.jwt.repository.AuthRepository;
 import com.tonnybunny.common.jwt.service.JwtService;
 import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.FollowEntity;
+import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.FollowRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.tonnybunny.exception.ErrorCode.*;
 
 
 @Service
@@ -31,6 +37,7 @@ public class UserService {
 	private final JwtService jwtService;
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final FollowRepository followRepository;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -39,20 +46,20 @@ public class UserService {
 
 
 	@Transactional
-	public TokenResponseDto signup(UserRequestDto userRequestDto) throws Exception {
+	public TokenResponseDto signup(UserRequestDto userRequestDto) {
 
 		/**
 		 * 기존에 요청으로 확인했던 부분들을 여기서 재확인해야 할지에 대한 고민
 		 * 이메일과 닉네임 중복 확인의 경우? 직접 데이터가 들어올 수 있다는 점을 생각하면 검증해야할듯
 		 */
 		if (findByEmail(userRequestDto.getEmail()).isPresent()) {
-			throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+			throw new CustomException(SIGNUP_INVALIDATION);
 		}
 		if (checkNicknameDuplication(userRequestDto)) {
-			throw new IllegalArgumentException("해당하는 닉네임이 이미 존재합니다.");
+			throw new CustomException(SIGNUP_INVALIDATION);
 		}
 		if (!checkPasswordMatch(userRequestDto.getPassword(), userRequestDto.getCheckPassword())) {
-			throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
+			throw new CustomException(SIGNUP_INVALIDATION);
 		}
 
 		// 유저 정보 저장
@@ -86,17 +93,18 @@ public class UserService {
 
 
 	@Transactional
-	public TokenResponseDto signin(UserRequestDto userRequestDto) throws Exception {
+	public TokenResponseDto signin(UserRequestDto userRequestDto) {
 		UserEntity user =
 			userRepository
 				.findByEmail(userRequestDto.getEmail())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+				.orElseThrow(() -> new CustomException(LOGIN_BAD_REQUEST)
+				);
 		AuthEntity auth =
 			authRepository
 				.findByUserSeq(user.getSeq())
-				.orElseThrow(() -> new IllegalArgumentException("Token 이 존재하지 않습니다."));
+				.orElseThrow(() -> new CustomException(ACCESS_TOKEN_NOT_FOUND));
 		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			throw new CustomException(LOGIN_BAD_REQUEST);
 		}
 		String accessToken = "";
 		String refreshToken = auth.getRefreshToken();
@@ -251,11 +259,12 @@ public class UserService {
 	 * @param userSeq : 조회할 userSeq 포함
 	 * @return findUserBySeq로 조회된 searchedUser
 	 */
-	public UserEntity getUserInfo(Long userSeq) throws Exception {
+	public UserEntity getUserInfo(Long userSeq) {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
 		                                .orElseThrow(
-			                                () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+			                                () -> new CustomException(NOT_FOUND_USER)
+		                                );
 		return user;
 	}
 
@@ -293,17 +302,39 @@ public class UserService {
 	 * 즐겨찾기 조회
 	 *
 	 * repository 에서 findFollowList() 를 수행한다.
+	 * FollowList 에는 user seq밖에 없으므로 해당 seq로 userEntity와 HelperInfoEntity를 가져와야 함
+	 * userEntity에 HelperInfoEntity도 매핑이 되어 있으므로 같이 가져오면 될 듯
+	 * FollowEntity 형태로 반환하면 관련 정보를 주입할 수 없기 때문에
+	 * FollowResponseDto 형태로 반환한다.
 	 *
-	 * @return List<FollowEntity>
+	 * @return List<FollowResponseDto>
 	 */
 
-	public List<FollowEntity> getFollowList(Long userSeq) throws Exception {
+	public List<FollowResponseDto> getFollowList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new IllegalArgumentException("찾는 유저가 없습니다.")
+			() -> new CustomException(NOT_FOUND_USER)
 		);
+		List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
 		List<FollowEntity> followList = user.getFollowUserList();
+		for (FollowEntity follow : followList) {
+			UserEntity follower = userRepository.findById(follow.getFollowedUserSeq()).orElseThrow(
+				() -> new CustomException(NOT_FOUND_USER)
+			);
+			HelperInfoEntity helperInfo = follower.getHelperInfo();
+			FollowResponseDto followResponseDto = FollowResponseDto.builder()
+			                                                       .seq(follower.getSeq())
+			                                                       .nickName(follower.getNickName())
+			                                                       .profileImagePath(follower.getProfileImagePath())
+			                                                       .avgScore(helperInfo.getAvgScore())
+			                                                       .reviewCount(helperInfo.getReviewCount())
+			                                                       .unitPrice(helperInfo.getUnitPrice())
+			                                                       .oneLineIntroduction(helperInfo.getOneLineIntroduction())
+			                                                       .build();
+			followResponseDtoList.add(followResponseDto);
 
-		return followList;
+		}
+
+		return followResponseDtoList;
 	}
 
 
@@ -315,7 +346,12 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean createFollow(Long userSeq, Long followSeq) {
-		// TODO : 로직
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		FollowEntity follow = new FollowEntity(user, followSeq);
+		followRepository.save(follow);
 
 		return true;
 	}
@@ -329,8 +365,10 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean deleteFollow(Long userSeq, Long followSeq) {
-		// TODO : 로직
-
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		followRepository.deleteFollowBySeq(user, followSeq);
 		return true;
 	}
 

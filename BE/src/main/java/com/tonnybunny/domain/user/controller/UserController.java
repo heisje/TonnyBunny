@@ -4,7 +4,6 @@ package com.tonnybunny.domain.user.controller;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.common.jwt.dto.TokenResponseDto;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
@@ -32,8 +31,7 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "공통 회원가입을 진행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody @Valid UserRequestDto userRequestDto)
-		throws Exception {
+	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
 		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
 
@@ -45,8 +43,7 @@ public class UserController {
 
 	@PostMapping("/signin")
 	@ApiOperation(value = "로그인 기능을 수행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signin(@RequestBody UserRequestDto userRequestDto)
-		throws Exception {
+	public ResponseEntity<ResultDto<TokenResponseDto>> signin(@RequestBody UserRequestDto userRequestDto) {
 		TokenResponseDto tokenResponseDto = userService.signin(userRequestDto);
 		return ResponseEntity.ok().body(ResultDto.of(tokenResponseDto));
 	}
@@ -150,7 +147,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 조회합니다")
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(
-		@PathVariable("userSeq") Long userSeq) throws Exception {
+		@PathVariable("userSeq") Long userSeq) {
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
 		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
@@ -181,13 +178,15 @@ public class UserController {
 	// --------------------------------- 즐겨찾기 ------------------------------------
 
 
+	/**
+	 * FollowEntity로 받으면 넣을 수 있는 정보가 없어서 Controller 상에서 추가 로직이 수행되어야 하는데
+	 * 굳이 그럴 필요가 없을 것 같아서 그냥 바로 ResponseDto 형태로 주고 받음
+	 */
 	@GetMapping("/mypage/{userSeq}/follow")
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
 	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
-		"userSeq") Long userSeq) throws Exception {
-		List<FollowEntity> followList = userService.getFollowList(userSeq);
-		List<FollowResponseDto> followResponseDtoList =
-			FollowResponseDto.fromEntityList(followList);
+		"userSeq") Long userSeq) {
+		List<FollowResponseDto> followResponseDtoList = userService.getFollowList(userSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
 	}
 
