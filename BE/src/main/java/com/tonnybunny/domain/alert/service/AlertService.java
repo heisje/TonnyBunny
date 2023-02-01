@@ -47,8 +47,14 @@ public class AlertService {
 		String content = alertLogRequestDto.getContent();
 
 		// find
-		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-		AlertLogEntity alertLogEntity = AlertLogEntity.builder().user(userEntity).taskCode(taskCode).content(content).isRead(false).build();
+		UserEntity userEntity = userRepository.findById(userSeq)
+		                                      .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+		AlertLogEntity alertLogEntity = AlertLogEntity.builder()
+		                                              .user(userEntity)
+		                                              .taskCode(taskCode)
+		                                              .content(content)
+		                                              .isRead(false)
+		                                              .build();
 
 		// save
 		alertLogRepository.save(alertLogEntity);
@@ -113,7 +119,8 @@ public class AlertService {
 		System.out.println("AlertService.modifyAlertIsRead");
 
 		// find
-		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림입니다."));
+		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq)
+		                                                  .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림입니다."));
 
 		// 수정
 		alertLogEntity.update(true);
