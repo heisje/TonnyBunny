@@ -4,6 +4,7 @@ import board from "./mutations/board";
 import tonny from "./mutations/tonny";
 import bunny from "./mutations/bunny";
 import common from "./mutations/common";
+import alert from "./mutations/alert";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -13,4 +14,5 @@ export default {
     ...tonny,
     ...bunny,
     ...common,
+    ...alert,
 };
