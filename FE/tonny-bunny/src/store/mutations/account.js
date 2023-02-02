@@ -8,8 +8,10 @@ export default {
     },
     // userInfo 정보 세팅하기
     SET_USER_INFO(state, payload) {
+        console.log("state.account.userInfo", payload);
         state.account.userInfo = payload;
         this.commit("TOGGLE_LOGIN_MODAL");
+        console.log("state.account.userInfo", state.account.userInfo);
     },
     // token 정보 세팅하기
     SET_TOKENS(state, payload) {
