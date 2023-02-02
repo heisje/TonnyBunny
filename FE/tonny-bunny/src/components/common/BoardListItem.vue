@@ -11,27 +11,19 @@
                 </div>
 
                 <div class="info mt-1 w-100">
-                    <router-link
-                        class="t-d-none"
-                        :to="{ name: 'BoardDetailPage', params: { id: boardItem?.seq } }">
-                        <div class="title">
-                            <div class="tag">
-                                <square-tag sub text="자유"></square-tag>
-                            </div>
-                            <div class="titleText text-truncate">
-                                {{ boardItem?.title }}
-                            </div>
+                    <div @click="toggleDetailPage" class="title">
+                        <div class="tag">
+                            <square-tag sub text="자유"></square-tag>
                         </div>
-                    </router-link>
+                        <div class="titleText text-truncate">
+                            {{ boardItem?.title }}
+                        </div>
+                    </div>
 
                     <div class="d-flex flex-column h-100 justify-content-between">
-                        <router-link
-                            class="t-d-none"
-                            :to="{ name: 'BoardDetailPage', params: { id: boardItem?.seq } }">
-                            <div class="mt-2 desc text-truncate">
-                                {{ boardItem?.content }}
-                            </div>
-                        </router-link>
+                        <div @click="toggleDetailPage" class="mt-2 desc text-truncate">
+                            {{ boardItem?.content }}
+                        </div>
 
                         <div class="meta">
                             <div class="comment">
@@ -61,24 +53,30 @@ export default {
     props: {
         boardItem: {
             type: Object,
-            default: () => {
-                return {
-                    seq: 1,
-                    user: null,
-                    title: "게시글입니다",
-                    content: "내용입니다.",
-                    createdAt: "2023-02-01T16:54:19.8261845",
-                    updatedAt: "2023-02-01T16:54:19.8261845",
-                    boardImageList: [],
-                    boardCommentList: [],
-                };
-            },
+            // default: () => {
+            //     return {
+            //         seq: 1,
+            //         user: null,
+            //         title: "게시글입니다",
+            //         content: "내용입니다.",
+            //         createdAt: "2023-02-01T16:54:19.8261845",
+            //         updatedAt: "2023-02-01T16:54:19.8261845",
+            //         boardImageList: [],
+            //         boardCommentList: [],
+            //     };
+            // },
         },
     },
 
     computed: {
         countComment() {
             return this.boardItem.boardCommentList.length();
+        },
+    },
+
+    methods: {
+        toggleDetailPage() {
+            this.$emit("toggleDetailPage");
         },
     },
 };

@@ -1,5 +1,5 @@
 import http from "@/common/axios";
-// import axios from "axios";
+import axios from "axios";
 import global from "@/common/global";
 
 export default {
@@ -22,6 +22,7 @@ export default {
                 d.createdAt = global.setDate(d.createdAt);
             });
 
+            context;
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -66,41 +67,23 @@ export default {
         }
     },
 
-    // submitFiles(context, payload) {
-    //     const { title, content, boardImageList } = payload;
-    //     title;
-    //     content;
-    //     console.log(payload);
-    //     const formData = new FormData();
+    async submitFiles(context, payload) {
+        const { title, content, boardImageList } = payload;
 
-    //     // for (let i = 0; i < boardImageList.length; i++) {
-    //     //     let file = boardImageList[i];
-    //     //     console.log(file);
-    //     //     formData.append("img" + i, file);
-    //     // }
-    //     formData.append("img", boardImageList[0]);
-    //     formData.append(
-    //         "jsonData",
-    //         new Blob([JSON.stringify({ title: title, content: content })], {
-    //             type: "application/json",
-    //         })
-    //     );
+        console.log(payload);
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
 
-    //     formData.forEach((f) => {
-    //         console.log(f);
-    //     });
-    //     axios
-    //         .get("http://localhost:8080/api/board/img", formData, {
-    //             headers: {
-    //                 "Content-Type": "multipart/form-data",
-    //             },
-    //             baseURL: "",
+        for (let i = 0; i < boardImageList.length; i++) {
+            formData.append("files", boardImageList[i]);
+        }
 
-    //             withCredentials: true,
-    //         })
-    //         .then(function () {})
-    //         .catch(function () {});
-    // },
+        const response = await axios.get("http://localhost:8080/api/board/img", formData, {
+            withCredentials: true,
+        });
+        console.log(response);
+    },
 
     // GET /api/board/{boardSeq} 게시글을 열람합니다.
     async getBoardDetail(context, seq) {
