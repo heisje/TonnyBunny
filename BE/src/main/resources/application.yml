@@ -1,6 +1,10 @@
 server:
   servlet:
     context-path: /api
+    # file upload
+    multipart:
+      enabled: true
+      max-file-size: 200MB
 
 spring:
   profiles:
@@ -28,6 +32,15 @@ logging:
   level:
     org.hibernate: info
 
+# app file path
+app:
+  fileupload:
+    #    uploadPath: "/var/lib/jenkins/area_deploy/jiniworld/upload-images/"
+    uploadPath: "/static/upload"
+
 # charset
 # server.servlet.encoding.charset=UTF-8
 # server.servlet.encoding.force=true
+
+
+

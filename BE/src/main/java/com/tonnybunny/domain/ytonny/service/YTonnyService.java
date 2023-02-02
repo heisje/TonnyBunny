@@ -49,7 +49,7 @@ public class YTonnyService {
 		UserEntity userEntity = userRepository.findById(yTonnyRequestDto.getClientSeq())
 		                                      .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-		// entity 로 변경
+		// dto -> entity
 		YTonnyEntity yTonnyEntity = YTonnyEntity.builder()
 		                                        .client(userEntity)
 		                                        .title(yTonnyRequestDto.getTitle())
@@ -249,9 +249,9 @@ public class YTonnyService {
 	 * MARK : (헬퍼가) 예약통역 공고 신청을 취소
 	 *
 	 * @param yTonnyApplySeq : 공고 신청한 seq
-	 * @return 공고 취소 여부
+	 * @return
 	 */
-	public Long deleteYTonnyApply(Long yTonnyApplySeq) {
+	public void deleteYTonnyApply(Long yTonnyApplySeq) {
 
 		System.out.println("YTonnyService.deleteYTonnyApply");
 
@@ -260,10 +260,7 @@ public class YTonnyService {
 		                                                           .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// delete
-		yTonnyApplyEntity.isDeleted(true);
-
-		// save
-		return yTonnyApplyRepository.save(yTonnyApplyEntity).getSeq();
+		yTonnyApplyRepository.delete(yTonnyApplyEntity);
 
 	}
 

@@ -66,7 +66,7 @@ public class AlertController {
 		// service
 		List<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
 
-		// dto 로 변경
+		// entity -> dto
 		List<AlertLogResponseDto> alertLogResponseDtoList = alertLogList.stream()
 		                                                                .map(m -> AlertLogResponseDto.builder()
 		                                                                                             .alertLogSeq(m.getSeq())
@@ -99,7 +99,7 @@ public class AlertController {
 		// service
 		AlertSettingsEntity alertSettings = alertService.getAlertSettings(userSeq);
 
-		// dto 로 변경
+		// entity -> dto
 		AlertSettingsDto alertSettingsDto = AlertSettingsDto.builder()
 		                                                    .alertSettingsSeq(alertSettings.getSeq())
 		                                                    .userSeq(userSeq)

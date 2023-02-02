@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/ytonny")
 @RequiredArgsConstructor
-@Api(tags = "예약 통역 관련 API")
+@Api(tags = "예약통역 관련 API")
 public class YTonnyController {
 
 	private final YTonnyService yTonnyService;
@@ -168,7 +168,7 @@ public class YTonnyController {
 	 * @param yTonnySeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	@GetMapping("/{yTonnySeq}/apply/")
+	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq) {
 
@@ -263,14 +263,14 @@ public class YTonnyController {
 	 */
 	@DeleteMapping("/{yTonnyApplySeq}/apply")
 	@ApiOperation(value = "예약통역 공고 신청 취소 API", notes = "헬퍼가 예약통역 신청을 취소한다.")
-	public ResponseEntity<ResultDto<Long>> deleteYTonnyApply(@PathVariable Long yTonnyApplySeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyApply(@PathVariable Long yTonnyApplySeq) {
 
 		System.out.println("YTonnyController.deleteYTonnyApply");
 
 		// service
-		Long isDeleted = yTonnyService.deleteYTonnyApply(yTonnyApplySeq);
+		yTonnyService.deleteYTonnyApply(yTonnyApplySeq);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(isDeleted));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
 

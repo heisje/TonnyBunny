@@ -40,7 +40,7 @@ public class YTonnyEntity extends CommonEntity {
 	private LangCodeEnum startLangCode;
 	private LangCodeEnum endLangCode;
 
-	private LocalDate estimateDate;
+	private LocalDate estimateDate; // FIXME : LocalDateTime
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;

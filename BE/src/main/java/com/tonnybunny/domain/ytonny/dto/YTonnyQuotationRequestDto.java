@@ -1,7 +1,8 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
+import com.tonnybunny.common.dto.LangCodeEnum;
+import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -25,23 +26,21 @@ import java.time.LocalDateTime;
 @Data
 public class YTonnyQuotationRequestDto {
 
+	private Long yTonnyQuotationSeq;
+
 	private Long yTonnySeq;
 	private Long clientSeq;
 	private Long helperSeq;
 
-	private Integer unitPrice;
 	private String title;
 	private String content;
+
+	private Integer unitPrice;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 
-	private String startLangCode;
-	private String endLangCode;
-	private String quotationStateCode;
-
-
-	public YTonnyQuotationEntity toEntity() {
-		return (YTonnyQuotationEntity) new Object();
-	}
+	private LangCodeEnum startLangCode;
+	private LangCodeEnum endLangCode;
+	private QuotationStateCodeEnum quotationStateCode;
 
 }

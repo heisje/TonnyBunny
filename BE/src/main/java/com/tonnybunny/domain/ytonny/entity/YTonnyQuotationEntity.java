@@ -1,10 +1,10 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
+import com.tonnybunny.common.dto.LangCodeEnum;
+import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,6 +16,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+@ToString
 public class YTonnyQuotationEntity {
 
 	@Id
@@ -30,11 +33,14 @@ public class YTonnyQuotationEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_seq")
 	private UserEntity client;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
 	private Integer unitPrice;
+	private QuotationStateCodeEnum quotationStateCode;
+
 	private String title;
 	private String content;
 
@@ -42,10 +48,10 @@ public class YTonnyQuotationEntity {
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 
-	private String startLangCode;
-	private String endLangCode;
-	private String quotationStateCode;
+	private LangCodeEnum startLangCode;
+	private LangCodeEnum endLangCode;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "yTonnyQuotation")
 	private List<YTonnyQuotationImageEntity> yTonnyQuotationImageList = new ArrayList<>(); // 견적서 이미지 리스트
 
