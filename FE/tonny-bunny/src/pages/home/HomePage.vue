@@ -18,7 +18,7 @@
         <!-- <hr /> -->
         <!-- <button-test></button-test> -->
         <!-- <hr /> -->
-        <card-test></card-test>
+        <!-- <card-test></card-test> -->
         <!-- <hr /> -->
 
         <!-- part2 -->

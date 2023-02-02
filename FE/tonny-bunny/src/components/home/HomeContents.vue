@@ -5,8 +5,8 @@
                 <div class="main d-flex flex-column justify-content-center align-items-center">
                     <div class="mainDesc d-flex flex-column">
                         <title-text
-                            title="토니버니만의 서비스를 이용해보세요"
-                            type="h1-small"
+                            title="토니버니의 서비스를 이용해보세요"
+                            type="h1"
                             top="0"
                             bottom="0"></title-text>
                         <span class="mt-1 d-flex justify-content-center align-items-center">
@@ -14,8 +14,36 @@
                             <img src="@/assets/emoji/sparkles.png" alt="bunny" width="20" />
                         </span>
                     </div>
+                    <div class="iconsContainer">
+                        <div class="iconsWarp">
+                            <div class="iconsContent" @click="toggleTonnyModalOpen">
+                                <div>
+                                    <img src="@/assets/homeTonnyIcon.png" alt="" />
+                                </div>
+                                <div>
+                                    <h1 class="h1-small">#통역</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="iconsWarp">
+                            <div class="iconsContent" @click="toggleBunnyModalOpen">
+                                <div>
+                                    <img src="@/assets/homeBunnyIcon.png" alt="" />
+                                </div>
+                                <div>
+                                    <h1 class="h1-small">#번역</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <title-text
+                        title="헬퍼전용 페이지"
+                        type="h1"
+                        top="60"
+                        bottom="20"
+                        center></title-text>
                     <div class="mainBtns">
-                        <main-btn text="통역" @click="toggleTonnyModalOpen">
+                        <!-- <main-btn text="통역" @click="toggleTonnyModalOpen">
                             <template #icon>
                                 <span class="material-symbols-outlined"> interpreter_mode </span>
                             </template>
@@ -24,7 +52,7 @@
                             <template #icon>
                                 <span class="material-symbols-outlined"> g_translate </span>
                             </template>
-                        </main-btn>
+                        </main-btn> -->
                         <main-btn text="헬퍼페이지" @click="toggleHelperBtn">
                             <template #icon>
                                 <span class="material-symbols-outlined"> g_translate </span>
@@ -111,7 +139,52 @@ export default {
             color: var(--sub-color);
         }
     }
+    .iconsContainer {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
 
+        .iconsWarp {
+            position: relative;
+            width: 40%;
+            padding-bottom: 40%;
+            .iconsContent {
+                position: absolute;
+                display: flex;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+                justify-content: center;
+                border-radius: 10%;
+                border: 1px solid var(--light-color);
+                cursor: pointer;
+                &:hover {
+                    background-color: var(--primary-color-20);
+
+                    h1 {
+                        margin-top: 10px;
+                        width: 100%;
+                        text-align: center;
+                        color: var(--primary-color);
+                    }
+                }
+                div {
+                    width: 100%;
+                    display: flex;
+                }
+                img {
+                    display: inline-block;
+                    margin: auto;
+                    width: 50%;
+                }
+                h1 {
+                    margin-top: 10px;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+    }
     .mainBtns {
         display: flex;
         justify-content: center;
