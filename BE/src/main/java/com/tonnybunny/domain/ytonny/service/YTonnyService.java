@@ -174,21 +174,36 @@ public class YTonnyService {
 
 		System.out.println("YTonnyService.modifyYTonny");
 
+		// param setting
+		Long yTonnySeq = yTonnyRequestDto.getYTonnySeq();
+		Long clientSeq = yTonnyRequestDto.getClientSeq();
+
+		try {
+			Long helperSeq = yTonnyRequestDto.getHelperSeq();
+		} catch (Exception e) {
+
+		}
+
 		// find
-		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnyRequestDto.getYTonnySeq())
-		                                            .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
 		// dto -> entity
 		yTonnyEntity = YTonnyEntity.builder()
+		                           .seq(yTonnySeq)
+		                           .client(clientEntity)
 		                           .title(yTonnyRequestDto.getTitle())
 		                           .content(yTonnyRequestDto.getContent())
 		                           .estimateDate(yTonnyRequestDto.getEstimateDate())
 		                           .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
 		                           .estimateTime(yTonnyRequestDto.getEstimateTime())
+		                           .estimatePrice(yTonnyRequestDto.getEstimatePrice())
 		                           .startLangCode(yTonnyRequestDto.getStartLangCode())
 		                           .endLangCode(yTonnyRequestDto.getEndLangCode())
 		                           .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
+		                           .taskCode(yTonnyEntity.getTaskCode())
+		                           .isDeleted(yTonnyEntity.getIsDeleted())
 		                           .build();
 
 		// save

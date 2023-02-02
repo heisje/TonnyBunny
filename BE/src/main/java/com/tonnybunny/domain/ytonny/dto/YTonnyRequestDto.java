@@ -41,6 +41,7 @@ public class YTonnyRequestDto {
 
 	private Long yTonnySeq;
 	private Long clientSeq;
+	private Long helperSeq;
 
 	private String title;
 	private String content;

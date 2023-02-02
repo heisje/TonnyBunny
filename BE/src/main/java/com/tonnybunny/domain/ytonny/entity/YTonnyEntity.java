@@ -37,7 +37,9 @@ public class YTonnyEntity extends CommonEntity {
 	private String title;
 	private String content;
 
+	@Enumerated(EnumType.STRING)
 	private LangCodeEnum startLangCode;
+	@Enumerated(EnumType.STRING)
 	private LangCodeEnum endLangCode;
 
 	private LocalDate estimateDate; // FIXME : LocalDateTime

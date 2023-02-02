@@ -6,6 +6,7 @@ import lombok.ToString;
 
 @ToString
 public enum LangCodeEnum {
+	
 	기타("0020000"),
 	한국어("0020001"),
 	영어("0020002"),

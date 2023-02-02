@@ -10,6 +10,8 @@ import com.tonnybunny.domain.ytonny.dto.YTonnyResponseDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyApplyEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
 import com.tonnybunny.domain.ytonny.service.YTonnyService;
+import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -85,6 +87,7 @@ public class YTonnyController {
 	public ResponseEntity<ResultDto<List<YTonnyResponseDto>>> getYTonnyList(YTonnyRequestDto yTonnyRequestDto) {
 
 		System.out.println("YTonnyController.getYTonnyList");
+		System.out.println("yTonnyRequestDto = " + yTonnyRequestDto);
 
 		// service
 		List<YTonnyEntity> yTonnyList = yTonnyService.getYTonnyList(yTonnyRequestDto);
@@ -131,6 +134,8 @@ public class YTonnyController {
 	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq) {
 
 		System.out.println("YTonnyController.getYTonnyDetail");
+
+		if (yTonnySeq == null) throw new CustomException(ErrorCode.ID_IS_NULL);
 
 		// service
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
@@ -179,6 +184,8 @@ public class YTonnyController {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");
 
+		if (yTonnySeq == null) throw new CustomException(ErrorCode.ID_IS_NULL);
+
 		// service
 		List<YTonnyApplyEntity> yTonnyApplyList = yTonnyService.getYTonnyApplyList(yTonnySeq, page, size);
 
@@ -210,6 +217,9 @@ public class YTonnyController {
 	public ResponseEntity<ResultDto<Long>> modifyYTonny(@RequestBody YTonnyRequestDto yTonnyRequestDto) {
 
 		System.out.println("YTonnyController.modifyYTonny");
+		System.out.println("yTonnyRequestDto = " + yTonnyRequestDto);
+
+		if (yTonnyRequestDto.getYTonnySeq() == null) throw new CustomException(ErrorCode.ID_IS_NULL);
 
 		// service
 		Long updatedSeq = yTonnyService.modifyYTonny(yTonnyRequestDto);
