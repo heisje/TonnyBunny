@@ -4,10 +4,7 @@ package com.tonnybunny.domain.user.controller;
 import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.FollowEntity;
-import com.tonnybunny.domain.user.entity.HelperInfoEntity;
-import com.tonnybunny.domain.user.entity.HistoryEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -35,7 +32,7 @@ public class UserController {
 	public ResponseEntity<ResultDto<Boolean>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
 		userService.signup(userRequestDto);
-
+		
 		return ResponseEntity.status(HttpStatus.OK)
 		                     .body(ResultDto.ofSuccess());
 
@@ -46,14 +43,9 @@ public class UserController {
 	@ApiOperation(value = "로그인 기능을 수행합니다.")
 	public ResponseEntity<ResultDto<AuthResponseDto>> signin(@RequestBody UserRequestDto userRequestDto) {
 		AuthResponseDto authResponseDto = userService.signin(userRequestDto);
+
 		return ResponseEntity.ok().body(ResultDto.of(authResponseDto));
 	}
-
-	//	// 테스트용
-	//	@GetMapping("/info")
-	//	public ResponseEntity<List<UserEntity>> findUser() {
-	//		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
-	//	}
 
 
 	/**
@@ -236,6 +228,21 @@ public class UserController {
 	}
 
 	// --------------------------------- 차단 ------------------------------------
+
+
+	/**
+	 * 사용자의 시퀀스값을 제공하면
+	 * 사용자가 차단한 유저들의 시퀀스값을 리스트로 반환함
+	 */
+	@GetMapping("/mypage/{userSeq}/block/{blockSeq}")
+	@ApiOperation(value = "차단 목록을 조회합니다.")
+	public ResponseEntity<ResultDto<List<BlockResponseDto>>> getBlockList(@PathVariable(
+		"userSeq") Long userSeq) {
+
+		List<BlockEntity> blockList = userService.getBlockList(userSeq);
+		List<BlockResponseDto> blockResponseDtoList = BlockResponseDto.fromEntityList(blockList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockResponseDtoList));
+	}
 
 
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
