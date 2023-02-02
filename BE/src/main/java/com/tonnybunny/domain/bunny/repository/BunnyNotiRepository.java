@@ -16,6 +16,5 @@ public interface BunnyNotiRepository extends JpaRepository<BunnyNotiEntity, Long
 
 	List<BunnyNotiEntity> findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(String startLangCode, String bunnySituCode, String endLangCode, String bunnySituCode2);
 	Optional<BunnyNotiEntity> findById(Long bunnyNotiSeq);
-	BunnyNotiEntity save(BunnyNotiEntity bunnyNoti);
 
 }

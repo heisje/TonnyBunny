@@ -20,7 +20,7 @@ public class BunnyNotiHelperResponseDto {
 
 	private Long seq;
 	private UserResponseDto user;
-	private BunnyNotiResponseDto bunnyNoti;
+	private Long bunnyNotiSeq;
 	private Integer estimatePrice;
 
 
