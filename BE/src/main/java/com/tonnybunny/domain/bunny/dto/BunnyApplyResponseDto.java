@@ -1,9 +1,10 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
-import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +20,18 @@ import java.util.List;
 public class BunnyApplyResponseDto {
 
 	private Long seq;
-	private UserResponseDto user;
+	private Long userSeq;
 	private Long bunnySeq;
 	private Integer estimatePrice;
 
 
-	public static BunnyApplyResponseDto fromEntity(BunnyApplyEntity bunnyNotiHelperEntity) {
-		return new BunnyApplyResponseDto();
+	public static BunnyApplyResponseDto fromEntity(BunnyApplyEntity bunnyApply) {
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+
+		// 값 매핑
+		BunnyApplyResponseDto bunnyApplyResponseDto = modelMapper.map(bunnyApply, BunnyApplyResponseDto.class);
+
+		return bunnyApplyResponseDto;
 	}
 
 

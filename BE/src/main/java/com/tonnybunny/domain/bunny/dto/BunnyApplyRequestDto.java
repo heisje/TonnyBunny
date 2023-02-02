@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import lombok.Data;
 
 
@@ -13,13 +12,9 @@ import lombok.Data;
 @Data
 public class BunnyApplyRequestDto {
 
+	private Long bunnyApplySeq;
 	private Long userSeq;
 	private Long bunnySeq;
 	private Integer estimatePrice;
-
-
-	public BunnyApplyEntity toEntity() {
-		return (BunnyApplyEntity) new Object();
-	}
 
 }
