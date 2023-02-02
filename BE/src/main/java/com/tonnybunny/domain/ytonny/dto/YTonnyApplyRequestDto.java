@@ -17,7 +17,7 @@ import lombok.Data;
 public class YTonnyApplyRequestDto {
 
 	private Long yTonnySeq;
-	private Long helperSeq;
+	private Long helperSeq; // 헬퍼의 userSeq
 
 	private Integer totalPrice;
 

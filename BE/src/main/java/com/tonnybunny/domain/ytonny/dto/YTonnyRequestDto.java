@@ -39,6 +39,7 @@ public class YTonnyRequestDto {
 	@Builder.Default
 	private int page = 0; // offset
 
+	private Long yTonnySeq;
 	private Long clientSeq;
 
 	private String title;

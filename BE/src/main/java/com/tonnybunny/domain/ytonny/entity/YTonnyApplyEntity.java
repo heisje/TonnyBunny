@@ -23,12 +23,18 @@ public class YTonnyApplyEntity extends CommonEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "y_tonny_seq")
-	private YTonnyEntity yTonny;
+	private YTonnyEntity yTonny; // FIXME : dto 에서는 seq 만 넘김
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
+	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
 	private Integer totalPrice;
+	private Boolean isDeleted;
+
+
+	public void isDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 }

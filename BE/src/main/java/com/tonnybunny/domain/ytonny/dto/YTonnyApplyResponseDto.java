@@ -20,8 +20,8 @@ public class YTonnyApplyResponseDto {
 
 	private Long seq;
 
-	private YTonnyResponseDto yTonny;
-	private UserResponseDto helper;
+	private Long yTonnySeq;
+	private UserResponseDto helper; // nick 까지 넘겨야하니까
 
 	private Integer totalPrice;
 

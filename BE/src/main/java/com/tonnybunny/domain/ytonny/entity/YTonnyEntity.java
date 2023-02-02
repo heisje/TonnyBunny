@@ -32,7 +32,7 @@ public class YTonnyEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity client;
-	private Long helperSeq;
+	private Long helperSeq; // null 이 될수도 있으니
 
 	private String title;
 	private String content;
@@ -60,5 +60,15 @@ public class YTonnyEntity extends CommonEntity {
 	@Builder.Default
 	@OneToMany(mappedBy = "yTonny")
 	private List<YTonnyQuotationEntity> yTonnyQuotationList = new ArrayList<>();
+
+
+	public void helperSeq(Long helperSeq) {
+		this.helperSeq = helperSeq;
+	}
+
+
+	public void isDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 }

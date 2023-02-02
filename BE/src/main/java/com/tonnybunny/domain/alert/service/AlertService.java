@@ -173,10 +173,10 @@ public class AlertService {
 
 	/**
 	 * MEMO : DELETE
-	 * MARK : 알림 로그 삭제
+	 * MARK : 예약통역 공고를 삭제
 	 *
-	 * @param alertLogSeq : 대상 알림 로그 seq
-	 * @return
+	 * @param yTonnySeq : 삭제할 대상 공고 seq
+	 * @return 공고 삭제 여부
 	 */
 	public void deleteAlertLog(Long alertLogSeq) {
 
