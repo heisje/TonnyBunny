@@ -1,15 +1,9 @@
 package com.tonnybunny.domain.bunny.service;
 
 
-import com.tonnybunny.domain.bunny.dto.BunnyApplyRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyImageRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyRequestDto;
-import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
-import com.tonnybunny.domain.bunny.entity.BunnyEntity;
-import com.tonnybunny.domain.bunny.entity.BunnyImageEntity;
-import com.tonnybunny.domain.bunny.repository.BunnyApplyRepository;
-import com.tonnybunny.domain.bunny.repository.BunnyImageRepository;
-import com.tonnybunny.domain.bunny.repository.BunnyRepository;
+import com.tonnybunny.domain.bunny.dto.*;
+import com.tonnybunny.domain.bunny.entity.*;
+import com.tonnybunny.domain.bunny.repository.*;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
@@ -29,6 +23,8 @@ public class BunnyService {
 	private final BunnyRepository bunnyRepository;
 	private final BunnyApplyRepository bunnyApplyRepository;
 	private final BunnyImageRepository bunnyImageRepository;
+	private final BunnyQuotationRepository bunnyQuotationRepository;
+	private final BunnyQuotationImageRepository bunnyQuotationImageRepository;
 
 	// --------------------------------------- 번역 공고 ---------------------------------------
 
@@ -42,26 +38,26 @@ public class BunnyService {
 	public Long createBunny(BunnyRequestDto bunnyRequestDto) {
 		Optional<UserEntity> user = userRepository.findById(bunnyRequestDto.getClientSeq());
 		BunnyEntity bunny = BunnyEntity.builder()
-		                               .user(user.get())
-		                               .title(bunnyRequestDto.getTitle())
-		                               .content(bunnyRequestDto.getContent())
-		                               .estimatePrice(bunnyRequestDto.getEstimatePrice())
-		                               .startDate(bunnyRequestDto.getStartDate())
-		                               .endDate(bunnyRequestDto.getEndDate())
-		                               .startLangCode(bunnyRequestDto.getStartLangCode())
-		                               .endLangCode(bunnyRequestDto.getEndLangCode())
-		                               .bunnySituCode(bunnyRequestDto.getBunnySituCode())
-		                               .bunnyStateCode(bunnyRequestDto.getBunnyStateCode())
-		                               .build();
+			.user(user.get())
+			.title(bunnyRequestDto.getTitle())
+			.content(bunnyRequestDto.getContent())
+			.estimatePrice(bunnyRequestDto.getEstimatePrice())
+			.startDate(bunnyRequestDto.getStartDate())
+			.endDate(bunnyRequestDto.getEndDate())
+			.startLangCode(bunnyRequestDto.getStartLangCode())
+			.endLangCode(bunnyRequestDto.getEndLangCode())
+			.bunnySituCode(bunnyRequestDto.getBunnySituCode())
+			.bunnyStateCode(bunnyRequestDto.getBunnyStateCode())
+			.build();
 
 		bunny = bunnyRepository.save(bunny);
 
 		for (BunnyImageRequestDto bunnyImageRequestDto : bunnyRequestDto.getBunnyImageList()) {
 
 			BunnyImageEntity bunnyImage = BunnyImageEntity.builder()
-			                                              .bunny(bunny)
-			                                              .imagePath(bunnyImageRequestDto.getImagePath())
-			                                              .build();
+				.bunny(bunny)
+				.imagePath(bunnyImageRequestDto.getImagePath())
+				.build();
 
 			bunnyImage = bunnyImageRepository.save(bunnyImage);
 
@@ -96,7 +92,6 @@ public class BunnyService {
 	 */
 	public BunnyEntity getBunny(Long bunnySeq) {
 		Optional<BunnyEntity> bunny = bunnyRepository.findById(bunnySeq);
-		System.out.println("bunny = " + bunny);
 		return bunny.orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));      // 에러처리
 	}
 
@@ -143,7 +138,7 @@ public class BunnyService {
 		Optional<BunnyEntity> bunny = bunnyRepository.findById(bunnyApplyRequestDto.getBunnySeq());             // 에러처리
 
 		BunnyApplyEntity bunnyApply = BunnyApplyEntity.builder().
-		                                              bunny(bunny.get()).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user.get()).build();
+			bunny(bunny.get()).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user.get()).build();
 
 		BunnyApplyEntity creaetedBunnyApply = bunnyApplyRepository.save(bunnyApply);
 		return creaetedBunnyApply.getSeq();
@@ -175,6 +170,92 @@ public class BunnyService {
 		List<BunnyApplyEntity> bunnyApplyList = bunnyApplyRepository.findByBunnySeq(bunnySeq);
 
 		return bunnyApplyList;
+	}
+
+
+	/**
+	 * 번역 견적서를 작성
+	 *
+	 * @param bunnyQuotationRequestDto : 견적서에 넣는 내용 정보
+	 * @return 생성한 견적서 Seq
+	 */
+	public Long createBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		Optional<BunnyEntity> bunny = bunnyRepository.findById(bunnyQuotationRequestDto.getBunnySeq());                 // 에러처리
+		Optional<UserEntity> client = userRepository.findById(bunnyQuotationRequestDto.getClientSeq());                 // 에러처리
+		Optional<UserEntity> helper = userRepository.findById(bunnyQuotationRequestDto.getHelperSeq());                 // 에러처리
+
+		BunnyQuotationEntity bunnyQuotation = BunnyQuotationEntity.builder()
+			.bunny(bunny.get())
+			.client(client.get())
+			.helper(helper.get())
+			.startDateTime(bunnyQuotationRequestDto.getStartDateTime())
+			.endDateTime(bunnyQuotationRequestDto.getEndDateTime())
+			.title(bunnyQuotationRequestDto.getTitle())
+			.content(bunnyQuotationRequestDto.getContent())
+			.totalPrice(bunnyQuotationRequestDto.getTotalPrice())
+			.startLangCode(bunnyQuotationRequestDto.getStartLangCode())
+			.endLangCode(bunnyQuotationRequestDto.getEndLangCode())
+			.build();
+
+		bunnyQuotation = bunnyQuotationRepository.save(bunnyQuotation);
+
+		for (BunnyQuotationImageRequestDto bunnyQuotationImageRequestDto : bunnyQuotationRequestDto.getBunnyQuotationImageRequestDtoList()) {
+
+			BunnyQuotationImageEntity bunnyQuotationImage = BunnyQuotationImageEntity.builder()
+				.bunnyQuotation(bunnyQuotation)
+				.imagePath(bunnyQuotationImageRequestDto.getImagePath())
+				.build();
+
+			bunnyQuotationImage = bunnyQuotationImageRepository.save(bunnyQuotationImage);
+
+			bunnyQuotation.getBunnyQuotationImageList().add(bunnyQuotationImage);
+
+		}
+
+		return bunnyQuotation.getSeq();
+	}
+
+
+	/**
+	 * FIXME : 조회 기준 Seq를 변경해야 함
+	 * 1:1 상담 채팅방에 올라온 견적 상담 채팅방에 올라온 견적서들의 목록 조회
+	 *
+	 * @param bunnySeq : 번역 공고 게시글 Seq
+	 * @return
+	 */
+	public List<BunnyQuotationEntity> getBunnyQuotationList(Long bunnySeq) {
+
+		List<BunnyQuotationEntity> bunnyQuotationList = bunnyQuotationRepository.findByBunnySeq(bunnySeq);
+
+		return bunnyQuotationList;
+	}
+
+
+	/**
+	 * 번역 견적서 상세 조회
+	 *
+	 * @param bunnyQuotationRequestDto : 조회할 견적서 Seq
+	 * @return 조회한 견적서
+	 */
+	public BunnyQuotationEntity getBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
+		Optional<BunnyQuotationEntity> bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq);
+		return bunnyQuotation.orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));      // 에러처리
+	}
+
+
+	/**
+	 * 견적서 상태 타입 수정
+	 * - 미선택 : 아직 견적서 협의가 확정되지 않은 상태
+	 * - 선택 : 견적서 협의가 확정된 상태. 고객이 견적서를 수락한 상태.
+	 * - 완료 : 번역 업무가 완료된 상태.
+	 *
+	 * @param bunnyQuotationSeq       : 대상 견적서 Seq
+	 * @param bunnyQuotationStateCode : 견적서 상태 타입 코드 (공통 코드)
+	 */
+	public void modifyBunnyQuotationType(Long bunnyQuotationSeq, String bunnyQuotationStateCode) {
+		// TODO : 구현
 	}
 
 

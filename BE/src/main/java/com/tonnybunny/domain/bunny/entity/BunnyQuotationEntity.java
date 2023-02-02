@@ -3,9 +3,7 @@ package com.tonnybunny.domain.bunny.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +13,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BunnyQuotationEntity extends CommonEntity {
 
@@ -34,8 +34,8 @@ public class BunnyQuotationEntity extends CommonEntity {
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 
 	private String title;
 	private String content;
@@ -47,6 +47,7 @@ public class BunnyQuotationEntity extends CommonEntity {
 	private String endLangCode;
 
 	// 견적서
+	@Builder.Default
 	@OneToMany(mappedBy = "bunnyQuotation")
 	private List<BunnyQuotationImageEntity> bunnyQuotationImageList = new ArrayList<>(); // 이미지 리스트
 
