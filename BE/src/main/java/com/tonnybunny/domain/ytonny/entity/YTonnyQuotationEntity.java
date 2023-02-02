@@ -24,8 +24,8 @@ public class YTonnyQuotationEntity {
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "y_tonny_noti_seq")
-	private YTonnyNotiEntity yTonnyNoti;
+	@JoinColumn(name = "y_tonny_seq")
+	private YTonnyEntity yTonny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_seq")

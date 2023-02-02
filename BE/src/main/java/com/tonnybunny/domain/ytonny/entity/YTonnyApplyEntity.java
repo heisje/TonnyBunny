@@ -3,9 +3,7 @@ package com.tonnybunny.domain.ytonny.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,16 +11,19 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YTonnyNotiHelperEntity extends CommonEntity {
+@AllArgsConstructor
+@Builder
+@ToString
+public class YTonnyApplyEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "y_tonny_noti_helper_seq")
+	@Column(name = "y_tonny_apply_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "y_tonny_noti_seq")
-	private YTonnyNotiEntity yTonnyNoti;
+	@JoinColumn(name = "y_tonny_seq")
+	private YTonnyEntity yTonny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
