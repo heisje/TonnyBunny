@@ -28,11 +28,11 @@ public class UserResponseDto {
 
 	private String email;
 	private String nickName;
-	private String password;
+	//	private String password;
 	private String phoneNumber;
 
 	private Long point;
-	private Integer reportCount;
+	//	private Integer reportCount;
 	private String profileImagePath;
 
 	private HelperInfoResponseDto helperInfoResponseDto;

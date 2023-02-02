@@ -200,7 +200,7 @@ public class AuthService {
 	 * @param token
 	 * @return
 	 */
-	public Claims getClaimsAccessToken(String token) { // Access Token 정보 확인
+	private Claims getClaimsAccessToken(String token) { // Access Token 정보 확인
 		return Jwts.parser()
 		           .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
 		           .parseClaimsJws(token)
@@ -214,11 +214,35 @@ public class AuthService {
 	 * @param token
 	 * @return
 	 */
-	public Claims getClaimsRefreshToken(String token) { // Refresh Token 정보 확인
+	private Claims getClaimsRefreshToken(String token) { // Refresh Token 정보 확인
 		return Jwts.parser()
 		           .setSigningKey(DatatypeConverter.parseBase64Binary(REFRESH_KEY))
 		           .parseClaimsJws(token)
 		           .getBody();
 	}
+
+	/**
+	 * Header에 있는 Access Token 정보에서 유저 Seq를 추출
+	 *
+	 * @param accessToken
+	 * @return
+	 */
+	public Long extractAccessTokenInfo(String accessToken) {
+		Claims tokenClaims = getClaimsAccessToken(accessToken);
+		return Long.valueOf(String.valueOf(tokenClaims.get("seq")));
+	}
+
+
+	/**
+	 * Header에 있는 Refresh Token 정보에서 유저 Seq를 추출
+	 *
+	 * @param refreshToken
+	 * @return
+	 */
+	public Long extractRefreshTokenInfo(String refreshToken) {
+		Claims tokenClaims = getClaimsRefreshToken(refreshToken);
+		return Long.valueOf(String.valueOf(tokenClaims.get("seq")));
+	}
+
 
 }
