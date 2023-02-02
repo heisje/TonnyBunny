@@ -2,12 +2,12 @@ package com.tonnybunny.domain.bunny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperResponseDto;
-import com.tonnybunny.domain.bunny.dto.BunnyNotiRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyNotiResponseDto;
-import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
-import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
+import com.tonnybunny.domain.bunny.dto.BunnyApplyRequestDto;
+import com.tonnybunny.domain.bunny.dto.BunnyApplyResponseDto;
+import com.tonnybunny.domain.bunny.dto.BunnyRequestDto;
+import com.tonnybunny.domain.bunny.dto.BunnyResponseDto;
+import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.service.BunnyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,29 +31,29 @@ public class BunnyController {
 	/**
 	 * 번역 공고 생성
 	 *
-	 * @param bunnyNotiRequestDto : 번역 공고 폼 입력
+	 * @param bunnyRequestDto : 번역 공고 폼 입력
 	 * @return : 생성된 번역 공고의 seq
 	 */
 	@PostMapping
 	@ApiOperation(value = "번역 공고 생성")
-	public ResponseEntity<ResultDto<Long>> createBunnyNoti(@RequestBody BunnyNotiRequestDto bunnyNotiRequestDto) {
+	public ResponseEntity<ResultDto<Long>> createBunny(@RequestBody BunnyRequestDto bunnyRequestDto) {
 
-		Long bunnyNotiSeq = bunnyService.createBunnyNoti(bunnyNotiRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiSeq));
+		Long bunnySeq = bunnyService.createBunny(bunnyRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnySeq));
 	}
 
 
 	/**
 	 * 번역 공고 삭제
 	 *
-	 * @param bunnyNotiSeq : 삭제할 번역 공고 seq
+	 * @param bunnySeq : 삭제할 번역 공고 seq
 	 * @return : 삭제 성공 여부
 	 */
-	@DeleteMapping("/{bunnyNotiSeq}")
+	@DeleteMapping("/{bunnySeq}")
 	@ApiOperation(value = "번역 공고 삭제")
-	public ResponseEntity<ResultDto<Boolean>> deleteBunnyNoti(@PathVariable("bunnyNotiSeq") Long bunnyNotiSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteBunny(@PathVariable("bunnySeq") Long bunnySeq) {
 
-		Boolean isSuccess = bunnyService.deleteBunnyNoti(bunnyNotiSeq);
+		Boolean isSuccess = bunnyService.deleteBunny(bunnySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -65,16 +65,17 @@ public class BunnyController {
 	/**
 	 * 번역 공고 상세 조회
 	 *
-	 * @param bunnyNotiSeq : 조회할 번역 공고 seq
+	 * @param bunnySeq : 조회할 번역 공고 seq
 	 * @return : 조회된 번역 공고 Dto
 	 */
-	@GetMapping("/{bunnyNotiSeq}")
+	@GetMapping("/{bunnySeq}")
 	@ApiOperation(value = "번역 공고 상세 조회")
-	public ResponseEntity<ResultDto<BunnyNotiResponseDto>> getBunnyNoti(@PathVariable("bunnyNotiSeq") Long bunnyNotiSeq) {
-
-		BunnyNotiEntity bunnyNotiEntity = bunnyService.getBunnyNoti(bunnyNotiSeq);
-		BunnyNotiResponseDto bunnyNotiResponseDto = BunnyNotiResponseDto.fromEntity(bunnyNotiEntity);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiResponseDto));
+	public ResponseEntity<ResultDto<BunnyResponseDto>> getBunny(@PathVariable("bunnySeq") Long bunnySeq) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 1");
+		BunnyEntity bunnyEntity = bunnyService.getBunny(bunnySeq);
+		BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunnyEntity);
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 4");
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDto));
 	}
 
 
@@ -87,11 +88,11 @@ public class BunnyController {
 	 */
 	@GetMapping
 	@ApiOperation(value = "번역 공고 리스트를 조회합니다 (with Filter)")
-	public ResponseEntity<ResultDto<List<BunnyNotiResponseDto>>> getBunnyListByFilter(@RequestParam("lang") String lang, @RequestParam("category") String category) {
+	public ResponseEntity<ResultDto<List<BunnyResponseDto>>> getBunnyListByFilter(@RequestParam("lang") String lang, @RequestParam("category") String category) {
 
-		List<BunnyNotiEntity> bunnyNotiList = bunnyService.getBunnyListByFilter(lang, category);
-		List<BunnyNotiResponseDto> bunnyNotiResponseDtoList = BunnyNotiResponseDto.fromEntityList(bunnyNotiList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiResponseDtoList));
+		List<BunnyEntity> bunnyList = bunnyService.getBunnyListByFilter(lang, category);
+		List<BunnyResponseDto> bunnyResponseDtoList = BunnyResponseDto.fromEntityList(bunnyList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDtoList));
 
 	}
 
@@ -99,16 +100,16 @@ public class BunnyController {
 	/**
 	 * 번역 공고 신청 생성
 	 *
-	 * @param bunnyNotiHelperRequestDto : 번역 공고 신청 정보
+	 * @param bunnyApplyRequestDto : 번역 공고 신청 정보
 	 * @return : 생성된 신청 seq
 	 */
 	@PostMapping("/enroll")
 	@ApiOperation(value = "번역 공고 신청 생성")
-	public ResponseEntity<ResultDto<Long>> createBunnyNotiHelper(@RequestBody BunnyNotiHelperRequestDto bunnyNotiHelperRequestDto) {
+	public ResponseEntity<ResultDto<Long>> createBunnyApply(@RequestBody BunnyApplyRequestDto bunnyApplyRequestDto) {
 
-		Long bunnyNotiHelperSeq = bunnyService.createBunnyNotiHelper(bunnyNotiHelperRequestDto);
+		Long bunnyApplySeq = bunnyService.createBunnyApply(bunnyApplyRequestDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiHelperSeq));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyApplySeq));
 
 	}
 
@@ -116,14 +117,14 @@ public class BunnyController {
 	/**
 	 * 번역 공고 신청 취소
 	 *
-	 * @param bunnyNotiHelperSeq : 취소할 신청 seq
+	 * @param bunnyApplySeq : 취소할 신청 seq
 	 * @return : 로직 성공 여부
 	 */
-	@DeleteMapping("/enroll/{bunnyNotiHelperSeq}")
+	@DeleteMapping("/enroll/{bunnyApplySeq}")
 	@ApiOperation(value = "번역 공고 신청 취소")
-	public ResponseEntity<ResultDto<Boolean>> deleteBunnyNotiHelper(@PathVariable("bunnyNotiHelperSeq") Long bunnyNotiHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteBunnyApply(@PathVariable("bunnyApplySeq") Long bunnyApplySeq) {
 
-		Boolean isSuccess = bunnyService.deleteBunnyNotiHelper(bunnyNotiHelperSeq);
+		Boolean isSuccess = bunnyService.deleteBunnyApply(bunnyApplySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -139,42 +140,42 @@ public class BunnyController {
 	 */
 	@GetMapping("/enroll")
 	@ApiOperation(value = "번역 공고 신청 목록 조회")
-	public ResponseEntity<ResultDto<List<BunnyNotiHelperResponseDto>>> getBunnyNotiHelperList() {
+	public ResponseEntity<ResultDto<List<BunnyApplyResponseDto>>> getBunnyApplyList() {
 
-		List<BunnyNotiHelperEntity> bunnyNotiHelperList = bunnyService.getBunnyNotiHelperList();
-		List<BunnyNotiHelperResponseDto> bunnyNotiHelperResponseDtoList = BunnyNotiHelperResponseDto.fromEntityList(bunnyNotiHelperList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiHelperResponseDtoList));
+		List<BunnyApplyEntity> bunnyApplyList = bunnyService.getBunnyApplyList();
+		List<BunnyApplyResponseDto> bunnyApplyResponseDtoList = BunnyApplyResponseDto.fromEntityList(bunnyApplyList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyApplyResponseDtoList));
 	}
 
 
 	/**
 	 * 번역 공고 신청 상세 조회
 	 *
-	 * @param bunnyNotiHelperSeq : 조회할 신청 seq
+	 * @param bunnyApplySeq : 조회할 신청 seq
 	 * @return : 조회된 신청 Response Dto
 	 */
-	@GetMapping("/enroll/{bunnyNotiHelperSeq}")
+	@GetMapping("/enroll/{bunnyApplySeq}")
 	@ApiOperation(value = "번역 공고 신청 상세 조회")
-	public ResponseEntity<ResultDto<BunnyNotiHelperResponseDto>> getBunnyNotiHelper(@PathVariable("bunnyNotiHelperSeq") Long bunnyNotiHelperSeq) {
+	public ResponseEntity<ResultDto<BunnyApplyResponseDto>> getBunnyApply(@PathVariable("bunnyApplySeq") Long bunnyApplySeq) {
 
-		BunnyNotiHelperEntity bunnyNotiHelper = bunnyService.getBunnyNotiHelper(bunnyNotiHelperSeq);
-		BunnyNotiHelperResponseDto bunnyNotiHelperResponseDto = BunnyNotiHelperResponseDto.fromEntity(bunnyNotiHelper);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyNotiHelperResponseDto));
+		BunnyApplyEntity bunnyApply = bunnyService.getBunnyApply(bunnyApplySeq);
+		BunnyApplyResponseDto bunnyApplyResponseDto = BunnyApplyResponseDto.fromEntity(bunnyApply);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyApplyResponseDto));
 	}
 
 
 	/**
 	 * 번역 공고 신청 수락
 	 *
-	 * @param bunnyNotiHelperSeq : 수락할 신청 seq
+	 * @param bunnyApplySeq : 수락할 신청 seq
 	 * @return : 로직 성공 여부
 	 */
-	@GetMapping("/{bunnyNotiHelperSeq}/accept")
+	@GetMapping("/{bunnyApplySeq}/accept")
 	@ApiOperation(value = "번역 공고 신청에 수락하기")
 
-	public ResponseEntity<ResultDto<Boolean>> acceptBunnyNotiHelper(@PathVariable("bunnyNotiHelperSeq") Long bunnyNotiHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> acceptBunnyApply(@PathVariable("bunnyApplySeq") Long bunnyApplySeq) {
 
-		Boolean isSuccess = bunnyService.acceptBunnyNotiHelper(bunnyNotiHelperSeq);
+		Boolean isSuccess = bunnyService.acceptBunnyApply(bunnyApplySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -186,14 +187,14 @@ public class BunnyController {
 	/**
 	 * 번역 공고 신청 거절
 	 *
-	 * @param bunnyNotiHelperSeq : 거절할 신청 seq
+	 * @param bunnyApplySeq : 거절할 신청 seq
 	 * @return : 로직 성공 여부
 	 */
-	@GetMapping("/{bunnyNotiHelperSeq}/reject")
+	@GetMapping("/{bunnyApplySeq}/reject")
 	@ApiOperation(value = "번역 공고 신청에 거절하기")
-	public ResponseEntity<ResultDto<Boolean>> rejectBunnyNotiHelper(@PathVariable("bunnyNotiHelperSeq") Long bunnyNotiHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> rejectBunnyApply(@PathVariable("bunnyApplySeq") Long bunnyApplySeq) {
 
-		Boolean isSuccess = bunnyService.rejectBunnyNotiHelper(bunnyNotiHelperSeq);
+		Boolean isSuccess = bunnyService.rejectBunnyApply(bunnyApplySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {

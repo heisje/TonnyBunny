@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-@DiscriminatorValue("bunny")
+@DiscriminatorValue("0030003")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BunnyHistoryEntity extends HistoryEntity {
