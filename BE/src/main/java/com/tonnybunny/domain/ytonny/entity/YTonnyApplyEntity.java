@@ -8,7 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 
 
-@Entity(name = "ytonny_noti_helper_entity")
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -18,12 +18,12 @@ public class YTonnyApplyEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "y_tonny_noti_helper_seq")
+	@Column(name = "y_tonny_apply_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "y_tonny_noti_seq")
-	private YTonnyEntity yTonnyNoti;
+	@JoinColumn(name = "y_tonny_seq")
+	private YTonnyEntity yTonny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")

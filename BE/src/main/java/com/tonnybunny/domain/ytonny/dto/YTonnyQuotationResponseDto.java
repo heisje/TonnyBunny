@@ -33,7 +33,7 @@ import java.util.List;
 public class YTonnyQuotationResponseDto {
 
 	private Long seq;
-	private YTonnyResponseDto yTonnyNoti;
+	private YTonnyResponseDto yTonny;
 	private UserResponseDto client;
 	private UserResponseDto helper;
 

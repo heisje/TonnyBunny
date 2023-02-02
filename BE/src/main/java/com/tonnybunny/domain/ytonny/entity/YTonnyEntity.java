@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity(name = "ytonny_noti_entity")
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class YTonnyEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "y_tonny_noti_seq")
+	@Column(name = "y_tonny_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -52,11 +52,11 @@ public class YTonnyEntity extends CommonEntity {
 	private Boolean isDeleted;
 
 	// 헬퍼 신청 리스트
-	@OneToMany(mappedBy = "yTonnyNoti")
+	@OneToMany(mappedBy = "yTonny")
 	private List<YTonnyApplyEntity> yTonnyApplyList = new ArrayList<>();
 
 	// 헬퍼 견적서 리스트
-	@OneToMany(mappedBy = "yTonnyNoti")
+	@OneToMany(mappedBy = "yTonny")
 	private List<YTonnyQuotationEntity> yTonnyQuotationList = new ArrayList<>();
 
 }

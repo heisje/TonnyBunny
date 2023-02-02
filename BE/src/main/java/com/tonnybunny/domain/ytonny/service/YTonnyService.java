@@ -96,10 +96,10 @@ public class YTonnyService {
 	/**
 	 * MARK : 예약통역 공고 목록을 상세 조회
 	 *
-	 * @param yTonnyNotiSeq
+	 * @param yTonnySeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	public YTonnyEntity getYTonnyDetail(Long yTonnyNotiSeq) {
+	public YTonnyEntity getYTonnyDetail(Long yTonnySeq) {
 		// TODO : 구현
 		return (YTonnyEntity) new Object();
 	}
@@ -108,10 +108,10 @@ public class YTonnyService {
 	/**
 	 * MARK : 예약통역 공고 신청 목록을 상세 조회
 	 *
-	 * @param yTonnyNotiSeq
+	 * @param yTonnySeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	public List<YTonnyApplyEntity> getYTonnyApplyList(Long yTonnyNotiSeq) {
+	public List<YTonnyApplyEntity> getYTonnyApplyList(Long yTonnySeq) {
 		// TODO : 구현
 		return new ArrayList<>();
 	}
@@ -133,11 +133,11 @@ public class YTonnyService {
 	/**
 	 * 해당 예약 통역 공고에서 수락한 신청 외의 모든 신청 필드들을 삭제
 	 *
-	 * @param yTonnyNotiSeq       : 대상 공고 게시글 Seq
-	 * @param yTonnyNotiHelperSeq : 수락한 신청 Seq
+	 * @param yTonnySeq       : 대상 공고 게시글 Seq
+	 * @param yTonnyHelperSeq : 수락한 신청 Seq
 	 * @return 삭제 성공 여부
 	 */
-	public Long matchYTonny(Long yTonnyNotiSeq, Long yTonnyNotiHelperSeq) {
+	public Long acceptYTonnyApply(Long yTonnySeq, Long yTonnyHelperSeq) {
 		// TODO : 구현
 		return 0L;
 	}
@@ -147,10 +147,10 @@ public class YTonnyService {
 	 * MEMO : DELETE
 	 * 예약 통역 공고 삭제
 	 *
-	 * @param yTonnyNotiSeq : 삭제할 공고 게시글 Seq
+	 * @param yTonnySeq : 삭제할 공고 게시글 Seq
 	 * @return 삭제 성공 여부
 	 */
-	public Boolean deleteYTonny(Long yTonnyNotiSeq) {
+	public Boolean deleteYTonny(Long yTonnySeq) {
 		// TODO : 구현
 		return true;
 	}
@@ -159,10 +159,10 @@ public class YTonnyService {
 	/**
 	 * 예약 통역 신청 삭제
 	 *
-	 * @param yTonnyNotiHelperSeq : 삭제할 신청 데이터 Seq
+	 * @param yTonnyHelperSeq : 삭제할 신청 데이터 Seq
 	 * @return 삭제 성공 여부
 	 */
-	public Boolean deleteYTonnyApply(Long yTonnyNotiHelperSeq) {
+	public Boolean deleteYTonnyApply(Long yTonnyHelperSeq) {
 		// TODO : 구현
 		return true;
 	}

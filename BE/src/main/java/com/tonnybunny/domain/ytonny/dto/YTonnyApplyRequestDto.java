@@ -16,7 +16,7 @@ import lombok.Data;
 @Builder
 public class YTonnyApplyRequestDto {
 
-	private Long yTonnyNotiSeq;
+	private Long yTonnySeq;
 	private Long helperSeq;
 
 	private Integer totalPrice;

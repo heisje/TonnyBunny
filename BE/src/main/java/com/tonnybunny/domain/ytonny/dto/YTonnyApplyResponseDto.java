@@ -20,9 +20,9 @@ public class YTonnyApplyResponseDto {
 
 	private Long seq;
 
-	private YTonnyResponseDto yTonnyNoti;
+	private YTonnyResponseDto yTonny;
 	private UserResponseDto helper;
-	
+
 	private Integer totalPrice;
 
 }
