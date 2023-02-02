@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class JTonnyNotiEntity {
+public class JTonnyEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "j_tonny_noti_seq")
+	@Column(name = "j_tonny_seq")
 	private Long seq;
 
 }

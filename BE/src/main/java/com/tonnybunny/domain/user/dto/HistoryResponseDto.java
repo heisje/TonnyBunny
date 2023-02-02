@@ -1,12 +1,15 @@
 package com.tonnybunny.domain.user.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
 import com.tonnybunny.domain.review.dto.ReviewResponseDto;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
+import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
 import lombok.Data;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -68,8 +71,8 @@ public class HistoryResponseDto {
 	private String title;
 
 
-	public static <T extends HistoryEntity> HistoryResponseDto fromEntity(T history) throws Exception {
-		ModelMapper modelMapper = new ModelMapper();
+	public static <T extends HistoryEntity> HistoryResponseDto fromEntity(T history) {
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 
 		// Entity로 들어온 값을 Seq로 타입 변환
 		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(
@@ -97,7 +100,7 @@ public class HistoryResponseDto {
 				historyResponseDto.setRecordVideoPath(jTonnyHistory.getRecordVideoPath());
 				historyResponseDto.setTonnySituCode(jTonnyHistory.getTonnySituCode());
 			} else
-				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
+				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.예약통역.getTaskCode()) {
 			if (history instanceof YTonnyHistoryEntity) {
@@ -109,8 +112,7 @@ public class HistoryResponseDto {
 				historyResponseDto.setTonnySituCode(yTonnyHistory.getTonnySituCode());
 				historyResponseDto.setTitle(yTonnyHistory.getTitle());
 			} else
-				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
-
+				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.번역.getTaskCode()) {
 			if (history instanceof BunnyHistoryEntity) {
@@ -118,7 +120,7 @@ public class HistoryResponseDto {
 
 				historyResponseDto.setTitle(bunnyHistory.getTitle());
 			} else
-				throw new Exception(String.format("taskCode=%s 이지만, 요청된 Entity의 타입은 %s입니다.", history.getTaskCode(), history.getClass().getName()));
+				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		return historyResponseDto;
 	}
@@ -126,13 +128,9 @@ public class HistoryResponseDto {
 
 	public static List<HistoryResponseDto> fromEntityList(List<HistoryEntity> historyList) {
 		List<HistoryResponseDto> result = new ArrayList<>();
-		try { // FIXME : Controller에 exception 넣는거 미루려고 잠시 try-catch 넣어둠
-			for (HistoryEntity history : historyList) {
-				HistoryResponseDto historyResponseDto = fromEntity(history);
-				result.add(historyResponseDto);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		for (HistoryEntity history : historyList) {
+			HistoryResponseDto historyResponseDto = fromEntity(history);
+			result.add(historyResponseDto);
 		}
 		return result;
 	}

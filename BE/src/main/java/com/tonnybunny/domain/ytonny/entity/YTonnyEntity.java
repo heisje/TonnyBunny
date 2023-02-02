@@ -2,10 +2,12 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.dto.LangCodeEnum;
+import com.tonnybunny.common.dto.TaskCodeEnum;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
+import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,11 +19,14 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YTonnyNotiEntity extends CommonEntity {
+@AllArgsConstructor
+@Builder
+@ToString
+public class YTonnyEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "y_tonny_noti_seq")
+	@Column(name = "y_tonny_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -30,24 +35,30 @@ public class YTonnyNotiEntity extends CommonEntity {
 	private Long helperSeq;
 
 	private String title;
+	private String content;
+
+	private LangCodeEnum startLangCode;
+	private LangCodeEnum endLangCode;
+
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
-	private String content;
 
-	private String startLangCode;
-	private String endLangCode;
-	private String tonnySituCode;
-	private String taskCode;
-	private String taskStateCode;
+	private TonnySituCodeEnum tonnySituCode;
+	private TaskCodeEnum taskCode;
+	private TaskStateCodeEnum taskStateCode;
+
+	private Boolean isDeleted;
 
 	// 헬퍼 신청 리스트
-	@OneToMany(mappedBy = "yTonnyNoti")
-	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>();
+	@Builder.Default
+	@OneToMany(mappedBy = "yTonny")
+	private List<YTonnyApplyEntity> yTonnyApplyList = new ArrayList<>();
 
 	// 헬퍼 견적서 리스트
-	@OneToMany(mappedBy = "yTonnyNoti")
+	@Builder.Default
+	@OneToMany(mappedBy = "yTonny")
 	private List<YTonnyQuotationEntity> yTonnyQuotationList = new ArrayList<>();
 
 }

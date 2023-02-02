@@ -1,10 +1,10 @@
 package com.tonnybunny.domain.jtonny.service;
 
 
-import com.tonnybunny.domain.jtonny.dto.JTonnyNotiHelperRequestDto;
-import com.tonnybunny.domain.jtonny.dto.JTonnyNotiRequestDto;
-import com.tonnybunny.domain.jtonny.entity.JTonnyNotiEntity;
-import com.tonnybunny.domain.jtonny.entity.JTonnyNotiHelperEntity;
+import com.tonnybunny.domain.jtonny.dto.JTonnyApplyRequestDto;
+import com.tonnybunny.domain.jtonny.dto.JTonnyRequestDto;
+import com.tonnybunny.domain.jtonny.entity.JTonnyApplyEntity;
+import com.tonnybunny.domain.jtonny.entity.JTonnyEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,38 +15,41 @@ import java.util.List;
 public class JTonnyService {
 
 	/**
+	 * MEMO : CREATE
 	 * 즉시 통역 공고 생성
 	 *
-	 * @param jTonnyNotiRequestDto : 즉시 통역 공고 생성 폼
+	 * @param jTonnyRequestDto : 즉시 통역 공고 생성 폼
 	 * @return : 생성된 공고 seq
 	 */
-	public Long createJTonnyNoti(JTonnyNotiRequestDto jTonnyNotiRequestDto) {
+	public Long createJTonny(JTonnyRequestDto jTonnyRequestDto) {
 		// TODO : 로직
 
-		JTonnyNotiEntity jTonnyNoti = jTonnyNotiRequestDto.toEntity();
-		return jTonnyNoti.getSeq();
+		JTonnyEntity jTonny = jTonnyRequestDto.toEntity();
+		return jTonny.getSeq();
 	}
 
 
 	/**
-	 * 즉시 통역 공고 삭제
+	 * 즉시 통역 공고 신청 생성
 	 *
-	 * @param jTonnySeq : 삭제할 공고 seq
-	 * @return : 로직 성공 여부
+	 * @param jTonnyApplyRequestDto : 즉시 통역 공고 신청 폼
+	 * @return : 생성된 신청 seq
 	 */
-	public Boolean deleteJTonnyNoti(Long jTonnySeq) {
+	public Long createJTonnyApply(JTonnyApplyRequestDto jTonnyApplyRequestDto) {
 		// TODO : 로직
 
-		return true;
+		JTonnyApplyEntity jTonnyApply = jTonnyApplyRequestDto.toEntity();
+		return jTonnyApply.getSeq();
 	}
 
 
 	/**
+	 * MEMO : READ
 	 * 즉시 통역 공고 목록 조회
 	 *
 	 * @return : 즉시 통역 공고 Entity List
 	 */
-	public List<JTonnyNotiEntity> getJTonnyNotiList() {
+	public List<JTonnyEntity> getJTonnyList() {
 		// TODO : 로직
 
 		return new ArrayList<>();
@@ -59,37 +62,10 @@ public class JTonnyService {
 	 * @param jTonnySeq : 조회할 공고 seq
 	 * @return : 조회된 공고 Entity
 	 */
-	public JTonnyNotiEntity getJTonnyNoti(Long jTonnySeq) {
+	public JTonnyEntity getJTonnyDetail(Long jTonnySeq) {
 		// TODO : 로직
 
-		return (JTonnyNotiEntity) new Object();
-	}
-
-
-	/**
-	 * 즉시 통역 공고 신청 생성
-	 *
-	 * @param jTonnyNotiHelperRequestDto : 즉시 통역 공고 신청 폼
-	 * @return : 생성된 신청 seq
-	 */
-	public Long createJTonnyNotiHelper(JTonnyNotiHelperRequestDto jTonnyNotiHelperRequestDto) {
-		// TODO : 로직
-
-		JTonnyNotiHelperEntity jTonnyNotiHelper = jTonnyNotiHelperRequestDto.toEntity();
-		return jTonnyNotiHelper.getSeq();
-	}
-
-
-	/**
-	 * 즉시 통역 공고 신청 삭제
-	 *
-	 * @param jTonnyHelperSeq
-	 * @return
-	 */
-	public Boolean deleteJTonnyNotiHelper(Long jTonnyHelperSeq) {
-		// TODO : 로직
-
-		return true;
+		return (JTonnyEntity) new Object();
 	}
 
 
@@ -98,7 +74,7 @@ public class JTonnyService {
 	 *
 	 * @return 즉시 통역 공고 신청 Entity List
 	 */
-	public List<JTonnyNotiHelperEntity> getJTonnyNotiHelperList() {
+	public List<JTonnyApplyEntity> getJTonnyApplyList() {
 		// TODO : 로직
 
 		return new ArrayList<>();
@@ -111,20 +87,21 @@ public class JTonnyService {
 	 * @param jTonnyHelperSeq : 조회할 신청 seq
 	 * @return : 조회된 신청 Entity
 	 */
-	public JTonnyNotiHelperEntity getJTonnyNotiHelper(Long jTonnyHelperSeq) {
+	public JTonnyApplyEntity getJTonnyApplyDetail(Long jTonnyHelperSeq) {
 		// TODO : 로직
 
-		return (JTonnyNotiHelperEntity) new Object();
+		return (JTonnyApplyEntity) new Object();
 	}
 
 
 	/**
+	 * MEMO : PUT
 	 * 즉시 통역 공고 신청 수락
 	 *
 	 * @param jTonnyHelperSeq : 수락할 공고 seq
 	 * @return : 로직 성공 여부
 	 */
-	public Boolean acceptJTonnyRequestFromHelper(Long jTonnyHelperSeq) {
+	public Boolean acceptJTonnyApply(Long jTonnyHelperSeq) {
 		// TODO : 로직
 
 		/**
@@ -135,15 +112,42 @@ public class JTonnyService {
 
 
 	/**
+	 * MEMO : DELETE
+	 * 즉시 통역 공고 삭제
+	 *
+	 * @param jTonnySeq : 삭제할 공고 seq
+	 * @return : 로직 성공 여부
+	 */
+	public Boolean deleteJTonny(Long jTonnySeq) {
+		// TODO : 로직
+
+		return true;
+	}
+
+
+	/**
+	 * 즉시 통역 공고 신청 삭제
+	 *
+	 * @param jTonnyHelperSeq
+	 * @return
+	 */
+	public Boolean deleteJTonnyApply(Long jTonnyHelperSeq) {
+		// TODO : 로직
+
+		return true;
+	}
+
+
+	/**
 	 * 즉시 통역 공고 신청 거절
 	 *
 	 * @param jTonnyHelperSeq : 거절할 공고 seq
 	 * @return
 	 */
-	public Boolean rejectJTonnyRequestFromHelper(Long jTonnyHelperSeq) {
+	public Boolean rejectJTonnyApply(Long jTonnyHelperSeq) {
 		// TODO : 로직
 
 		return true;
 	}
-	
+
 }

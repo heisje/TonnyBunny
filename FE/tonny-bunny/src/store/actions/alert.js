@@ -1,4 +1,5 @@
 import http from "@/common/axios";
+import global from "@/common/global";
 
 export default {
     /*
@@ -15,27 +16,11 @@ export default {
         try {
             let { data } = await http.get("/alerts/log", { params });
             console.log("async function : ", data);
-            const currentTime = Date.now();
-            const options = {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-            };
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
                     data.data.forEach((d) => {
-                        const oldTime = new Date(d.createdAt);
-                        const pastTime = new Date(currentTime - oldTime);
-                        const sec = Math.floor(pastTime / 1000);
-
-                        if (sec >= 86400) {
-                            d.createdAt = oldTime.toLocaleDateString("ko-KR", options);
-                        } else if (sec >= 3600) {
-                            d.createdAt = Math.floor(sec / 3600) + "시간 지남";
-                        } else {
-                            d.createdAt = Math.floor(sec / 60) + "분 지남";
-                        }
+                        d.createdAt = global.setDate(d.createdAt);
                     });
                     context.commit("SET_ALERT_LIST", data.data);
                     break;
