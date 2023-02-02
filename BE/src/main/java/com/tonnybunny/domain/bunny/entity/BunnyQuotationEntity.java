@@ -42,7 +42,7 @@ public class BunnyQuotationEntity extends CommonEntity {
 
 	private Integer totalPrice;
 
-	private String bunnyQuotationStateCode;
+	private String bunnyQuotationStateCode = "0070001";
 	private String startLangCode;
 	private String endLangCode;
 
@@ -50,5 +50,10 @@ public class BunnyQuotationEntity extends CommonEntity {
 	@Builder.Default
 	@OneToMany(mappedBy = "bunnyQuotation")
 	private List<BunnyQuotationImageEntity> bunnyQuotationImageList = new ArrayList<>(); // 이미지 리스트
+
+
+	public void changeStateCode(String code) {
+		this.bunnyQuotationStateCode = code;
+	}
 
 }
