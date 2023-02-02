@@ -2,12 +2,12 @@ package com.tonnybunny.domain.ytonny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.ytonny.dto.YTonnyNotiHelperRequestDto;
-import com.tonnybunny.domain.ytonny.dto.YTonnyNotiHelperResponseDto;
-import com.tonnybunny.domain.ytonny.dto.YTonnyNotiRequestDto;
-import com.tonnybunny.domain.ytonny.dto.YTonnyNotiResponseDto;
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyApplyResponseDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyRequestDto;
+import com.tonnybunny.domain.ytonny.dto.YTonnyResponseDto;
+import com.tonnybunny.domain.ytonny.entity.YTonnyApplyEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
 import com.tonnybunny.domain.ytonny.service.YTonnyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -28,81 +29,230 @@ public class YTonnyController {
 	private final YTonnyService yTonnyService;
 
 
+	/**
+	 * MEMO : CREATE
+	 * MARK : 예약통역 공고를 생성
+	 *
+	 * @param yTonnyRequestDto
+	 * @return 생성된 예약통역 공고 seq
+	 */
 	@PostMapping
-	@ApiOperation(value = "고객의 예약 통역 공고 생성", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyNoti(@RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
-		Long createdYTonnyNotiSeq = yTonnyService.createYTonnyNoti(yTonnyNotiRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdYTonnyNotiSeq));
+	@ApiOperation(value = "예약통역 공고 생성 API", notes = "고객이 예약통역 공고를 생성한다.")
+	public ResponseEntity<ResultDto<Long>> createYTonny(@RequestBody YTonnyRequestDto yTonnyRequestDto) {
+
+		System.out.println("YTonnyController.createYTonny");
+
+		// service
+		Long createdSeq = yTonnyService.createYTonny(yTonnyRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdSeq));
+
 	}
 
 
-	@PutMapping("/{yTonnyNotiSeq}")
-	@ApiOperation(value = "고객의 예약 통역 공고 수정", notes = "")
-	public ResponseEntity<ResultDto<Long>> modifyYTonnyNoti(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq, @RequestBody YTonnyNotiRequestDto yTonnyNotiRequestDto) {
-		Long updatedYTonnyNotiSeq = yTonnyService.modifyYTonnyNoti(yTonnyNotiSeq, yTonnyNotiRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedYTonnyNotiSeq));
-	}
-
-
-	@DeleteMapping("/{yTonnyNotiSeq}")
-	@ApiOperation(value = "고객의 예약 통역 공고 취소", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNoti(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
-		yTonnyService.deleteYTonnyNoti(yTonnyNotiSeq);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-	}
-
-
-	@GetMapping
-	@ApiOperation(value = "예약 통역 공고 목록 조회", notes = "")
-	public ResponseEntity<ResultDto<List<YTonnyNotiResponseDto>>> getYTonnyNotiList() {
-		List<YTonnyNotiEntity> yTonnyNotiList = yTonnyService.getYTonnyNotiList();
-		List<YTonnyNotiResponseDto> yTonnyNotiResponseDtoList = YTonnyNotiResponseDto.fromEntityList(yTonnyNotiList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiResponseDtoList));
-	}
-
-
-	@GetMapping("/{yTonnyNotiSeq}")
-	@ApiOperation(value = "예약 통역 공고 상세 조회", notes = "")
-	public ResponseEntity<ResultDto<YTonnyNotiResponseDto>> getYTonnyNoti(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
-		YTonnyNotiEntity yTonnyNoti = yTonnyService.getYTonnyNoti(yTonnyNotiSeq);
-		YTonnyNotiResponseDto yTonnyNotiResponseDto = YTonnyNotiResponseDto.fromEntity(yTonnyNoti);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiResponseDto));
-	}
-
-
+	/**
+	 * MARK : (헬퍼가) 예약통역 공고 신청을 생성
+	 *
+	 * @param yTonnyApplyRequestDto
+	 * @return 생성된 예약통역 공고 신청 seq
+	 */
 	@PostMapping("/enroll")
-	@ApiOperation(value = "헬퍼의 예약 통역 신청 등록", notes = "")
-	public ResponseEntity<ResultDto<Long>> createYTonnyNotiHelper(@RequestBody YTonnyNotiHelperRequestDto yTonnyNotiHelperRequestDto) {
-		Long craetedYTonnyNotiHelper = yTonnyService.createYTonnyNotiHelper(yTonnyNotiHelperRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(craetedYTonnyNotiHelper));
+	@ApiOperation(value = "예약통역 공고 신청 생성 API", notes = "헬퍼가 예약통역 공고를 신청한다.")
+	public ResponseEntity<ResultDto<Long>> createYTonnyApply(@RequestBody YTonnyApplyRequestDto yTonnyApplyRequestDto) {
+
+		System.out.println("YTonnyController.createYTonnyApply");
+
+		// service
+		Long createdSeq = yTonnyService.createYTonnyApply(yTonnyApplyRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdSeq));
+
 	}
 
 
-	@DeleteMapping("/enroll/{yTonnyNotiHelperSeq}")
-	@ApiOperation(value = "헬퍼의 예약 통역 신청 취소", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyNotiHelper(@PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
-		yTonnyService.deleteYTonnyNotiHelper(yTonnyNotiHelperSeq);
+	/**
+	 * MEMO : READ
+	 * MARK : 예약통역 공고 목록을 조회 with pagination
+	 *
+	 * @param yTonnyRequestDto
+	 * @return 예약통역 공고 목록 반환
+	 */
+	@GetMapping
+	@ApiOperation(value = "예약통역 공고 목록 조회 API", notes = "사용자가 예약통역 목록을 조회한다.")
+	public ResponseEntity<ResultDto<List<YTonnyResponseDto>>> getYTonnyList(YTonnyRequestDto yTonnyRequestDto) {
+
+		System.out.println("YTonnyController.getYTonnyList");
+
+		// service
+		List<YTonnyEntity> yTonnyList = yTonnyService.getYTonnyList(yTonnyRequestDto);
+
+		// dto 로 변경
+		// isDelete 가 false 인 값들만 반환해야하나?
+		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyList.stream()
+		                                                          .map(m -> YTonnyResponseDto.builder()
+		                                                                                     .title(m.getTitle())
+		                                                                                     .content(m.getContent())
+		                                                                                     .estimatePrice(m.getEstimatePrice())
+		                                                                                     .estimateDate(m.getEstimateDate())
+		                                                                                     .estimateStartTime(m.getEstimateStartTime())
+		                                                                                     .estimateTime(m.getEstimateTime())
+		                                                                                     .startLangCode(m.getStartLangCode())
+		                                                                                     .endLangCode(m.getEndLangCode())
+		                                                                                     .tonnySituCode(m.getTonnySituCode())
+		                                                                                     .taskCode(m.getTaskCode())
+		                                                                                     .taskStateCode(m.getTaskStateCode())
+		                                                                                     .createdAt(m.getCreatedAt())
+		                                                                                     .updatedAt(m.getUpdatedAt())
+		                                                                                     .build())
+		                                                          .collect(Collectors.toList());
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDtoList));
+
+	}
+
+
+	/**
+	 * MARK : 예약통역 공고 목록을 상세 조회
+	 *
+	 * @param yTonnySeq
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	@GetMapping("/{yTonnySeq}")
+	@ApiOperation(value = "예약통역 공고 목록 상세 조회 API", notes = "사용자가 예약통역 공고를 상세 조회한다.")
+	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq) {
+
+		System.out.println("YTonnyController.getYTonnyDetail");
+
+		// service
+		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
+
+		// dto 로 변경
+		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.builder()
+		                                                       .title(yTonnyEntity.getTitle())
+		                                                       .content(yTonnyEntity.getContent())
+		                                                       .estimatePrice(yTonnyEntity.getEstimatePrice())
+		                                                       .estimateDate(yTonnyEntity.getEstimateDate())
+		                                                       .estimateStartTime(yTonnyEntity.getEstimateStartTime())
+		                                                       .estimateTime(yTonnyEntity.getEstimateTime())
+		                                                       .startLangCode(yTonnyEntity.getStartLangCode())
+		                                                       .endLangCode(yTonnyEntity.getEndLangCode())
+		                                                       .tonnySituCode(yTonnyEntity.getTonnySituCode())
+		                                                       .taskCode(yTonnyEntity.getTaskCode())
+		                                                       .taskStateCode(yTonnyEntity.getTaskStateCode())
+		                                                       .createdAt(yTonnyEntity.getCreatedAt())
+		                                                       .updatedAt(yTonnyEntity.getUpdatedAt())
+		                                                       .build();
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
+
+	}
+
+
+	/**
+	 * MARK : 예약통역 공고 신청 목록을 조회
+	 *
+	 * @param yTonnySeq
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	@GetMapping("/enroll/{yTonnySeq}")
+	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
+	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable("yTonnySeq") Long yTonnySeq) {
+
+		System.out.println("YTonnyController.getYTonnyApplyList");
+
+		// service
+		List<YTonnyApplyEntity> yTonnyApplyList = yTonnyService.getYTonnyApplyList(yTonnySeq);
+
+		// dto 로 변경
+		List<YTonnyApplyResponseDto> yTonnyApplyResponseDtoList = yTonnyApplyList.stream()
+		                                                                         .map(m -> YTonnyApplyResponseDto.builder()
+		                                                                                                         .seq(m.getSeq())
+		                                                                                                         .totalPrice(m.getTotalPrice())
+		                                                                                                         .build())
+		                                                                         .collect(Collectors.toList());
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyApplyResponseDtoList));
+
+	}
+
+
+	/**
+	 * MEMO : UPDATE
+	 * MARK : 예약통역 공고를 생성
+	 *
+	 * @param yTonnyRequestDto
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	@PutMapping("/{yTonnySeq}")
+	@ApiOperation(value = "예약통역 공고 수정 API", notes = "고객이 예약통역을 수정한다.")
+	public ResponseEntity<ResultDto<Long>> modifyYTonny(@RequestBody YTonnyRequestDto yTonnyRequestDto) {
+
+		System.out.println("YTonnyController.modifyYTonny");
+
+		// service
+		Long updatedSeq = yTonnyService.modifyYTonny(yTonnyRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedSeq));
+
+	}
+
+
+	/**
+	 * MARK : 헬퍼의 예약통역 신청을 수락
+	 *
+	 * @param yTonnySeq, yTonnyHelperSeq
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	@PutMapping("/match/{yTonnySeq}/{yTonnyHelperSeq}")
+	@ApiOperation(value = "예약통역 신청 수락 API", notes = "고객이 헬퍼의 예약통역 신청을 수락한다.")
+	public ResponseEntity<ResultDto<Long>> acceptYTonnyApply(@PathVariable("yTonnySeq") Long yTonnySeq,
+		@PathVariable("yTonnyHelperSeq") Long yTonnyHelperSeq) {
+
+		Long updatedSeq = yTonnyService.acceptYTonnyApply(yTonnySeq, yTonnyHelperSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedSeq));
+
+	}
+
+
+	/**
+	 * MEMO : DELETE
+	 * MARK : 예약통역 공고를 생성
+	 *
+	 * @param yTonnySeq
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	@DeleteMapping("/{yTonnySeq}")
+	@ApiOperation(value = "예약통역 공고 삭제 API", notes = "고객이 예약통역을 삭제한다.")
+	public ResponseEntity<ResultDto<Boolean>> deleteYTonny(@PathVariable("yTonnySeq") Long yTonnySeq) {
+
+		System.out.println("YTonnyController.deleteYTonny");
+
+		// service
+		yTonnyService.deleteYTonny(yTonnySeq);
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+
 	}
 
 
-	@GetMapping("/enroll/{yTonnyNotiSeq}")
-	@ApiOperation(value = "예약 통역 신청 목록 조회", notes = "")
-	public ResponseEntity<ResultDto<List<YTonnyNotiHelperResponseDto>>> getYTonnyNotiHelperList(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq) {
-		List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = yTonnyService.getYTonnyNotiHelperList(yTonnyNotiSeq);
-		List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperResponseDtoList = YTonnyNotiHelperResponseDto.fromEntityList(yTonnyNotiHelperList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyNotiHelperResponseDtoList));
-	}
+	/**
+	 * MARK : 예약통역 공고를 생성
+	 *
+	 * @param yTonnyHelperSeq
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	@DeleteMapping("/enroll/{yTonnyHelperSeq}")
+	@ApiOperation(value = "예약통역 공고 신청 취소 API", notes = "헬퍼가 예약통역 신청을 취소한다.")
+	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyApply(@PathVariable("yTonnyHelperSeq") Long yTonnyHelperSeq) {
 
+		System.out.println("YTonnyController.deleteYTonnyApply");
 
-	@PostMapping("/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq}")
-	@ApiOperation(value = "예약 통역 공고에서 헬퍼의 신청을 수락", notes = "")
-	public ResponseEntity<ResultDto<Boolean>> matchYTonny(@PathVariable("yTonnyNotiSeq") Long yTonnyNotiSeq, @PathVariable("yTonnyNotiHelperSeq") Long yTonnyNotiHelperSeq) {
-		yTonnyService.matchYTonny(yTonnyNotiSeq, yTonnyNotiHelperSeq);
+		// service
+		yTonnyService.deleteYTonnyApply(yTonnyHelperSeq);
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
 
-	// TODO : 예약 통역 결과 목록 조회 API도 필요한가? 아니면 히스토리 Controller에서 추가?
-	//  만약 추가한다면, 고객 userSeq로 조회 메소드 & 헬퍼 userSeq로 조회 메소드 총 2개가 있어야 할 듯
 }
