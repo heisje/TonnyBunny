@@ -2,6 +2,8 @@ export default {
     isLogin: false,
     isLoginModalOpen: false,
 
+    ACCESS_TOKEN: null,
+    REFRESH_TOKEN: null,
     loginInfo: {
         id: "",
         pw: "",
