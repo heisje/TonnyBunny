@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -30,18 +29,13 @@ public class BunnyQuotationRequestDto {
 	private Long bunnySeq;
 	private Long clientSeq;
 	private Long helperSeq;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 	private String title;
 	private String content;
 	private Integer totalPrice;
 	private String startLangCode;
 	private String endLangCode;
-	private List<BunnyQuotationImageRequestDto> bunnyQuotationImageList;
-
-
-	public BunnyQuotationEntity toEntity() {
-		return (BunnyQuotationEntity) new Object();
-	}
+	private List<BunnyQuotationImageRequestDto> bunnyQuotationImageRequestDtoList;
 
 }
