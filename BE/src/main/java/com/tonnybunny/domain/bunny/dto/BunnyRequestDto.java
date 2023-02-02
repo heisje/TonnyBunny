@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,25 +23,20 @@ import java.util.List;
  * bunnyStateCode       : 번역공고 상태 코드
  */
 @Data
-public class BunnyNotiRequestDto {
+public class BunnyRequestDto {
 
 	private Long clientSeq;
 
 	private String title;
 	private String content;
 	private Integer estimatePrice;
-	private LocalDateTime startDateTime;
-	private LocalDateTime endDateTime;
-	private List<BunnyNotiImageRequestDto> bunnyNotiImageList;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
+	private List<BunnyImageRequestDto> bunnyImageList;
 
 	private String startLangCode;
 	private String endLangCode;
 	private String bunnySituCode;
 	private String bunnyStateCode;
-
-
-	public BunnyNotiEntity toEntity() {
-		return (BunnyNotiEntity) new Object();
-	}
 
 }

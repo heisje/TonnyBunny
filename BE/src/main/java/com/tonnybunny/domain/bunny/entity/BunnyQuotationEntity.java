@@ -24,8 +24,8 @@ public class BunnyQuotationEntity extends CommonEntity {
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bunny_noti_seq")
-	private BunnyNotiEntity bunnyNoti;
+	@JoinColumn(name = "bunny_seq")
+	private BunnyEntity bunny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_seq")

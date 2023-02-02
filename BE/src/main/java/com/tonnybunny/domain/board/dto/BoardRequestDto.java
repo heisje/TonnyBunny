@@ -4,6 +4,8 @@ package com.tonnybunny.domain.board.dto;
 import com.tonnybunny.domain.board.entity.BoardEntity;
 import lombok.Data;
 
+import java.util.List;
+
 
 /**
  * userSeq              : 작성자 seq
@@ -19,7 +21,7 @@ public class BoardRequestDto {
 	private String title;
 	private String content;
 
-	//	private List<BoardImageRequestDto> BoardImageList;
+	private List<BoardImageRequestDto> BoardImageList;
 
 
 	public BoardEntity toEntity() {

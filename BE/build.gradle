@@ -27,6 +27,12 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
 
+    //WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+
     // ModelMapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
 
