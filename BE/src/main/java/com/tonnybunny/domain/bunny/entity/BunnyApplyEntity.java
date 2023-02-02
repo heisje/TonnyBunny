@@ -19,14 +19,14 @@ public class BunnyApplyEntity extends CommonEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "bunny_apply_seq")
 	private Long seq;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
-	private UserEntity user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "bunny_seq")
 	private BunnyEntity bunny;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq")
+	private UserEntity user;
 
 	private Integer estimatePrice;
 

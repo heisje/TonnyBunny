@@ -12,8 +12,8 @@
                     </div>
                     <div class="form mt-3">
                         <div class="inputs w-100">
-                            <input />
-                            <input />
+                            <input type="email" id="email" v-model="email" />
+                            <input type="password" id="password" v-model="password" />
                         </div>
                         <div class="finds mt-2">
                             <div class="find">
@@ -65,6 +65,13 @@ import MediumBtn from "../button/MediumBtn.vue";
 export default {
     name: "LoginModal",
 
+    data() {
+        return {
+            email: "",
+            password: "",
+        };
+    },
+
     components: {
         MediumBtn,
     },
@@ -81,9 +88,14 @@ export default {
             this.$store.commit("TOGGLE_LOGIN_MODAL");
         },
 
-        clickLoginBtn(e) {
+        async clickLoginBtn(e) {
             e.preventDefault();
             console.log("login btn click");
+            const loginInfo = {
+                email: this.email,
+                password: this.password,
+            };
+            this.$store.dispatch("login", loginInfo);
         },
     },
 };

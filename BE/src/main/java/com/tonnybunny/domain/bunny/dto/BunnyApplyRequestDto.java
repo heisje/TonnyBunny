@@ -16,5 +16,5 @@ public class BunnyApplyRequestDto {
 	private Long userSeq;
 	private Long bunnySeq;
 	private Integer estimatePrice;
-	
+
 }

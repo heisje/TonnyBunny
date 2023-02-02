@@ -109,8 +109,8 @@ public class BunnyController {
 	/**
 	 * 번역 공고 신청 취소
 	 *
-	 * @param bunnyApplyRequestDto : 취소할 신청 seq
-	 * @return : 로직 성공 여부
+	 * @param bunnyApplyRequestDto :취소할 신청 seq
+	 * @return :로직 성공 여부
 	 */
 	@DeleteMapping("/{bunnySeq}/apply/{bunnyApplySeq}")
 	@ApiOperation(value = "번역 공고 신청 취소")

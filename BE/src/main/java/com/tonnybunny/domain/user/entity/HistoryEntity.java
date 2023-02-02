@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.user.entity;
 
 
+import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @DiscriminatorColumn(name = "task_code")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class HistoryEntity {
+public class HistoryEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +45,5 @@ public class HistoryEntity {
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "history")
 	private ReviewEntity review;
-
-	@Column(name = "created_at", insertable = false, updatable = false)
-	private LocalDateTime createdAt;
 
 }

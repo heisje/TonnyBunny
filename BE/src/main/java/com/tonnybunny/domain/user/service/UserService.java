@@ -1,14 +1,20 @@
 package com.tonnybunny.domain.user.service;
 
 
-import com.tonnybunny.common.jwt.dto.TokenResponseDto;
-import com.tonnybunny.common.jwt.entity.AuthEntity;
-import com.tonnybunny.common.jwt.repository.AuthRepository;
-import com.tonnybunny.common.jwt.service.JwtService;
-import com.tonnybunny.domain.user.dto.*;
+import com.tonnybunny.common.auth.dto.AuthResponseDto;
+import com.tonnybunny.common.auth.entity.AuthEntity;
+import com.tonnybunny.common.auth.repository.AuthRepository;
+import com.tonnybunny.common.auth.service.AuthService;
+import com.tonnybunny.domain.user.dto.AccountRequestDto;
+import com.tonnybunny.domain.user.dto.AccountResponseDto;
+import com.tonnybunny.domain.user.dto.HistoryRequestDto;
+import com.tonnybunny.domain.user.dto.UserRequestDto;
+import com.tonnybunny.domain.user.entity.BlockEntity;
 import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.BlockRepository;
+import com.tonnybunny.domain.user.repository.FollowRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
@@ -22,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tonnybunny.exception.ErrorCode.*;
+
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +38,11 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	private final HistoryRepository historyRepository;
-	private final JwtService jwtService;
+	private final AuthService authService;
 	private final AuthRepository authRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final FollowRepository followRepository;
+	private final BlockRepository blockRepository;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -41,95 +51,102 @@ public class UserService {
 
 
 	@Transactional
-	public TokenResponseDto signup(UserRequestDto userRequestDto) throws Exception {
+	public Boolean signup(UserRequestDto userRequestDto) {
 
 		/**
 		 * 기존에 요청으로 확인했던 부분들을 여기서 재확인해야 할지에 대한 고민
 		 * 이메일과 닉네임 중복 확인의 경우? 직접 데이터가 들어올 수 있다는 점을 생각하면 검증해야할듯
 		 */
 		if (findByEmail(userRequestDto.getEmail()).isPresent()) {
-			throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+			throw new CustomException(SIGNUP_INVALIDATION);
 		}
 		if (checkNicknameDuplication(userRequestDto)) {
-			throw new IllegalArgumentException("해당하는 닉네임이 이미 존재합니다.");
+			throw new CustomException(SIGNUP_INVALIDATION);
 		}
 		if (!checkPasswordMatch(userRequestDto.getPassword(), userRequestDto.getCheckPassword())) {
-			throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
+			throw new CustomException(SIGNUP_INVALIDATION);
 		}
 
 		// 유저 정보 저장
 		UserEntity user =
 			userRepository.save(
 				UserEntity.builder()
-					.password(passwordEncoder.encode(userRequestDto.getPassword()))
-					.email(userRequestDto.getEmail())
-					.phoneNumber(userRequestDto.getPhoneNumber())
-					.nickName(userRequestDto.getNickName())
-					.userCode(userRequestDto.getUserCode())
-					.build());
+				          .password(passwordEncoder.encode(userRequestDto.getPassword()))
+				          .email(userRequestDto.getEmail())
+				          .phoneNumber(userRequestDto.getPhoneNumber())
+				          .nickName(userRequestDto.getNickName())
+				          .userCode(userRequestDto.getUserCode())
+				          .build());
 
-		String accessToken = jwtService.generateJwtToken(user);
-		String refreshToken = jwtService.saveRefreshToken(user);
+		String refreshToken = authService.saveRefreshToken(user);
 
 		// 토큰 정보 저장
 		authRepository.save(
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
 		// 반환값 생성 및 리턴
-		return TokenResponseDto.builder()
-			.ACCESS_TOKEN(accessToken)
-			.REFRESH_TOKEN(refreshToken)
-			.email(user.getEmail())
-			.nickName(user.getNickName())
-			.profileImagePath(user.getProfileImagePath())
-			.userCode(user.getUserCode())
-			.build();
+		return true;
 	}
 
 
+	/**
+	 * @param userRequestDto
+	 * @return
+	 */
 	@Transactional
-	public TokenResponseDto signin(UserRequestDto userRequestDto) throws Exception {
+	public AuthResponseDto signin(UserRequestDto userRequestDto) {
 		UserEntity user =
 			userRepository
 				.findByEmail(userRequestDto.getEmail())
-				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+				.orElseThrow(() -> new CustomException(LOGIN_BAD_REQUEST)
+				);
 		AuthEntity auth =
 			authRepository
 				.findByUserSeq(user.getSeq())
-				.orElseThrow(() -> new IllegalArgumentException("Token 이 존재하지 않습니다."));
+				.orElseThrow(() -> new CustomException(REFRESH_TOKEN_NOT_FOUND));
 		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
-			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+			throw new CustomException(LOGIN_BAD_REQUEST);
 		}
 		String accessToken = "";
 		String refreshToken = auth.getRefreshToken();
 
-		if (jwtService.isValidRefreshToken(refreshToken)) {
-			accessToken = jwtService.generateJwtToken(auth.getUser());
-			return TokenResponseDto.builder()
-				.ACCESS_TOKEN(accessToken)
-				.REFRESH_TOKEN(auth.getRefreshToken())
-				.email(user.getEmail())
-				.nickName(user.getNickName())
-				.profileImagePath(user.getProfileImagePath())
-				.userCode(user.getUserCode())
-				.build();
-		} else {
-			accessToken = jwtService.generateJwtToken(auth.getUser());
-			refreshToken = jwtService.saveRefreshToken(user);
-			System.out.println("new refreshToken :" + refreshToken);
-			auth.refreshUpdate(refreshToken);
-			authRepository.save(auth);
+		accessToken = authService.generateJwtToken(auth.getUser());
+		refreshToken = authService.saveRefreshToken(user);
+		System.out.println("new refreshToken :" + refreshToken);
+		auth.refreshUpdate(refreshToken);
+		authRepository.save(auth);
 
+		return new AuthResponseDto(accessToken, refreshToken, user.getSeq(), user.getEmail(), user.getNickName(), user.getProfileImagePath(), user.getPoint(), user.getUserCode());
+	}
+
+
+	/**
+	 * 리프레시 토큰의 유효기간과 시퀀스 일치 여부 확인
+	 *
+	 * @return AuthResponseDto
+	 */
+	@Transactional
+	public AuthResponseDto checkRefreshToken(String refreshToken, Long userSeq) {
+		authService.isValidRefreshToken(refreshToken); // token 유효성 확인(유효기간 및 형식)
+		Long tokenUserSeq = authService.extractRefreshTokenInfo(refreshToken);
+		if (!userSeq.equals(tokenUserSeq)) { // 보낸 유저와 토큰 내의 유저정보가 일치하지 않을 경우
+			throw new CustomException(REFRESH_TOKEN_ERROR);
 		}
+		// 위에서 유효성 검사 및 보낸 사용자를 확인했으므로 새로운 Access Token 과 Refresh Token을 발급한다.
+		AuthEntity auth = authRepository.findByUserSeq(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_TOKEN)
+		);
+		if (!auth.getRefreshToken().equals(refreshToken)) { // DB에 있는 정보와 한번 더 비교하여 오류처리
+			System.out.println("refreshToken = " + refreshToken + ", DBToken = " + auth.getRefreshToken());
+			throw new CustomException(REFRESH_TOKEN_ERROR);
+		}
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+		String accessToken = authService.generateJwtToken(user);
+		String newRefreshToken = authService.saveRefreshToken(user);
+		auth.refreshUpdate(newRefreshToken);
+		authRepository.save(auth);
 
-		return TokenResponseDto.builder()
-			.ACCESS_TOKEN(accessToken)
-			.REFRESH_TOKEN(refreshToken)
-			.email(user.getEmail())
-			.nickName(user.getNickName())
-			.profileImagePath(user.getProfileImagePath())
-			.userCode(user.getUserCode())
-			.build();
+		return new AuthResponseDto(accessToken, newRefreshToken);
 	}
 
 
@@ -169,14 +186,14 @@ public class UserService {
 		return true;
 	}
 
-
-	private Boolean checkAgreementStatus(Boolean bool) {
-		/**
-		 * 프론트에서는 모든 약관에 동의했는지에 대한 데이터를 넘겨주어야 한다
-		 * bool (약관동의) 가 true 일때 true를 반환한다
-		 */
-		return bool;
-	}
+	// 회원가입 시 약관동의 여부 True로 받아오기로 합의
+	// private Boolean checkAgreementStatus(Boolean bool) {
+	// 	/**
+	// 	 * 프론트에서는 모든 약관에 동의했는지에 대한 데이터를 넘겨주어야 한다
+	// 	 * bool (약관동의) 가 true 일때 true를 반환한다
+	// 	 */
+	// 	return bool;
+	// }
 
 
 	/**
@@ -232,6 +249,12 @@ public class UserService {
 	//	}
 
 
+	/**
+	 * 유저 정보 찾기 관련
+	 *
+	 * @param accountRequestDto
+	 * @return
+	 */
 	public AccountResponseDto findAccouontInfo(AccountRequestDto accountRequestDto) {
 		/**
 		 * checkAuthCode() 을 통과했을 시
@@ -253,11 +276,12 @@ public class UserService {
 	 * @param userSeq : 조회할 userSeq 포함
 	 * @return findUserBySeq로 조회된 searchedUser
 	 */
-	public UserEntity getUserInfo(Long userSeq) throws Exception {
+	@Transactional
+	public UserEntity getUserInfo(Long userSeq) {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
-			.orElseThrow(
-				() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		                                .orElseThrow(
+			                                () -> new CustomException(NOT_FOUND_USER));
 		return user;
 	}
 
@@ -269,6 +293,7 @@ public class UserService {
 	 * @param userRequestDto : 수정할 데이터
 	 * @return 수정 후 user의 seq
 	 */
+	@Transactional
 	public Long modifyUserInfo(Long userSeq, UserRequestDto userRequestDto) {
 		// TODO : 로직
 		UserEntity _new = userRequestDto.toEntity();
@@ -296,13 +321,15 @@ public class UserService {
 	 *
 	 * repository 에서 findFollowList() 를 수행한다.
 	 *
-	 * @return List<FollowEntity>
+	 * @return List<FollowResponseDto>
 	 */
 
-	public List<FollowEntity> getFollowList(Long userSeq) throws Exception {
+	@Transactional
+	public List<FollowEntity> getFollowList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new IllegalArgumentException("찾는 유저가 없습니다.")
+			() -> new CustomException(NOT_FOUND_USER)
 		);
+
 		List<FollowEntity> followList = user.getFollowUserList();
 
 		return followList;
@@ -312,14 +339,22 @@ public class UserService {
 	/**
 	 * 즐겨찾기 추가
 	 *
-	 * @param userSeq   : 누군가를 추가하기를 원하는 userSeq
-	 * @param followSeq : 추가될 누군가의 seq
+	 * @param userSeq         : 누군가를 추가하기를 원하는 userSeq
+	 * @param followedUserSeq : 추가될 유저의 seq
 	 * @return
 	 */
-	public Boolean createFollow(Long userSeq, Long followSeq) {
-		// TODO : 로직
+	@Transactional
+	public Long createFollow(Long userSeq, Long followedUserSeq) {
+		if (userSeq.equals(followedUserSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		FollowEntity follow = new FollowEntity(user, followedUserSeq);
+		followRepository.save(follow);
 
-		return true;
+		return follow.getFollowedUserSeq();
 	}
 
 
@@ -330,10 +365,37 @@ public class UserService {
 	 * @param followSeq : 삭제될 누군가의 seq
 	 * @return
 	 */
+	@Transactional
 	public Boolean deleteFollow(Long userSeq, Long followSeq) {
-		// TODO : 로직
+		if (userSeq.equals(followSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
 
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		followRepository.deleteFollowBySeq(user, followSeq);
 		return true;
+	}
+
+
+	/**
+	 * 차단목록 조회
+	 *
+	 * repository 에서 findBlockList() 를 수행한다.
+	 *
+	 * @return List<FollowResponseDto>
+	 */
+
+	@Transactional
+	public List<BlockEntity> getBlockList(Long userSeq) {
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+
+		List<BlockEntity> blockList = user.getBlockUserList();
+
+		return blockList;
 	}
 
 
@@ -344,8 +406,19 @@ public class UserService {
 	 * @param blockSeq : 추가될 누군가의 seq
 	 * @return
 	 */
-	public Boolean createBlock(Long userSeq, Long blockSeq) {
-		return true;
+	@Transactional
+	public Long createBlock(Long userSeq, Long blockSeq) {
+		if (userSeq.equals(blockSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		BlockEntity block = new BlockEntity(user, blockSeq);
+		blockRepository.save(block);
+
+		return block.getBlockedUserSeq();
 	}
 
 
@@ -356,18 +429,42 @@ public class UserService {
 	 * @param blockSeq : 삭제될 누군가의 seq
 	 * @return
 	 */
+	@Transactional
 	public Boolean deleteBlock(Long userSeq, Long blockSeq) {
+		if (userSeq.equals(blockSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		blockRepository.deleteBlockBySeq(user, blockSeq);
+
 		return true;
+
 	}
 
 
 	/**
 	 * 유저 신고하기
 	 *
-	 * @param reportRequestDto
+	 * @param userSeq   : 로그인 유저 seq
+	 * @param reportSeq : 신고 당한 유저 seq
 	 * @return
 	 */
-	public Boolean createReport(ReportRequestDto reportRequestDto) {
+	@Transactional
+	public Boolean createReport(Long userSeq, Long reportSeq) {
+		if (userSeq.equals(reportSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+
+		UserEntity reportedUser = userRepository.findById(reportSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+
+		reportedUser.setReportCount(reportedUser.getReportCount() + 1);
+		userRepository.save(reportedUser);
+
 		return true;
 	}
 
@@ -379,6 +476,7 @@ public class UserService {
 	 * @param historyRequestDto : 목록 조회 필터링 조건
 	 * @return 히스토리 목록 EntityList
 	 */
+	@Transactional
 	public List<HistoryEntity> getUserHistoryList(Long userSeq, HistoryRequestDto historyRequestDto) {
 		/**
 		 * 히스토리 목록 조회 로직
@@ -418,6 +516,7 @@ public class UserService {
 	 * @param historySeq : 조회할 히스토리 seq
 	 * @return
 	 */
+	@Transactional
 	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) {
 		/**
 		 * 히스토리 단일 조회

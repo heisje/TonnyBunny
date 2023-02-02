@@ -1,13 +1,10 @@
 package com.tonnybunny.domain.user.controller;
 
 
+import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.common.jwt.dto.TokenResponseDto;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.FollowEntity;
-import com.tonnybunny.domain.user.entity.HelperInfoEntity;
-import com.tonnybunny.domain.user.entity.HistoryEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -32,30 +29,42 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "공통 회원가입을 진행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signup(@RequestBody @Valid UserRequestDto userRequestDto)
-		throws Exception {
+	public ResponseEntity<ResultDto<Boolean>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
-		TokenResponseDto tokenResponseDto = userService.signup(userRequestDto);
-
+		userService.signup(userRequestDto);
+		
 		return ResponseEntity.status(HttpStatus.OK)
-			.body(ResultDto.of(tokenResponseDto));
+		                     .body(ResultDto.ofSuccess());
 
 	}
 
 
 	@PostMapping("/signin")
 	@ApiOperation(value = "로그인 기능을 수행합니다.")
-	public ResponseEntity<ResultDto<TokenResponseDto>> signin(@RequestBody UserRequestDto userRequestDto)
-		throws Exception {
-		TokenResponseDto tokenResponseDto = userService.signin(userRequestDto);
-		return ResponseEntity.ok().body(ResultDto.of(tokenResponseDto));
+	public ResponseEntity<ResultDto<AuthResponseDto>> signin(@RequestBody UserRequestDto userRequestDto) {
+		AuthResponseDto authResponseDto = userService.signin(userRequestDto);
+
+		return ResponseEntity.ok().body(ResultDto.of(authResponseDto));
 	}
 
-	//	// 테스트용
-	//	@GetMapping("/info")
-	//	public ResponseEntity<List<UserEntity>> findUser() {
-	//		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
-	//	}
+
+	/**
+	 * Header에 있는 Refresh Token 확인
+	 * Refresh Token의 seq와 UserSeq가 동일한지 확인
+	 * 유효기간이 남았으면 Success와 함께 새로운 Token 반환
+	 * 유효기간이 지났으면 실패 메세지 전송
+	 */
+	@GetMapping("/refresh/{userSeq}")
+	@ApiOperation(value = "인증 토큰을 확인합니다.")
+	public ResponseEntity<ResultDto<AuthResponseDto>> checkRefreshToken(
+		@RequestHeader(value = "REFRESH_TOKEN") String refreshToken,
+		@PathVariable("userSeq") Long userSeq) {
+
+		System.out.println("refreshToken = " + refreshToken);
+		AuthResponseDto authResponseDto = userService.checkRefreshToken(refreshToken, userSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(authResponseDto));
+
+	}
 
 
 	@PostMapping("/signup/nickname")
@@ -150,7 +159,8 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 조회합니다")
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(
-		@PathVariable("userSeq") Long userSeq) throws Exception {
+		@PathVariable("userSeq") Long userSeq) {
+
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
 		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
@@ -181,55 +191,67 @@ public class UserController {
 	// --------------------------------- 즐겨찾기 ------------------------------------
 
 
+	/**
+	 * 사용자의 시퀀스값을 제공하면
+	 * 사용자가 팔로우한 유저들의 시퀀스값을 리스트로 반환함
+	 */
 	@GetMapping("/mypage/{userSeq}/follow")
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
 	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
-		"userSeq") Long userSeq) throws Exception {
-		List<FollowEntity> followList = userService.getFollowList(userSeq);
-		List<FollowResponseDto> followResponseDtoList =
-			FollowResponseDto.fromEntityList(followList);
+		"userSeq") Long userSeq) {
+
+		List<FollowEntity> followEntityList = userService.getFollowList(userSeq);
+		List<FollowResponseDto> followResponseDtoList = FollowResponseDto.fromEntityList(followEntityList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
 	}
 
 
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
-	public ResponseEntity<ResultDto<Boolean>> createBookmark(@PathVariable("userSeq") Long userSeq,
+	public ResponseEntity<ResultDto<Long>> createFollow(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("followSeq") Long followSeq) {
-		Boolean isSuccess = userService.createFollow(userSeq, followSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		Long followUserSeq = userService.createFollow(userSeq, followSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followUserSeq));
+
 	}
 
 
 	@DeleteMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
-	public ResponseEntity<ResultDto<Boolean>> deleteBookmark(@PathVariable("userSeq") Long userSeq,
+	public ResponseEntity<ResultDto<Boolean>> deleteFollow(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("followSeq") Long followSeq) {
-		Boolean isSuccess = userService.deleteFollow(userSeq, followSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		userService.deleteFollow(userSeq, followSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+
 	}
 
 	// --------------------------------- 차단 ------------------------------------
 
 
+	/**
+	 * 사용자의 시퀀스값을 제공하면
+	 * 사용자가 차단한 유저들의 시퀀스값을 리스트로 반환함
+	 */
+	@GetMapping("/mypage/{userSeq}/block/{blockSeq}")
+	@ApiOperation(value = "차단 목록을 조회합니다.")
+	public ResponseEntity<ResultDto<List<BlockResponseDto>>> getBlockList(@PathVariable(
+		"userSeq") Long userSeq) {
+
+		List<BlockEntity> blockList = userService.getBlockList(userSeq);
+		List<BlockResponseDto> blockResponseDtoList = BlockResponseDto.fromEntityList(blockList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockResponseDtoList));
+	}
+
+
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저를 차단합니다")
-	public ResponseEntity<ResultDto<Boolean>> createBlock(@PathVariable("userSeq") Long userSeq,
+	public ResponseEntity<ResultDto<Long>> createBlock(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("blockSeq") Long blockSeq) {
-		Boolean isSuccess = userService.createBlock(userSeq, blockSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		Long blockedUserSeq = userService.createBlock(userSeq, blockSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockedUserSeq));
+
 	}
 
 
@@ -237,27 +259,27 @@ public class UserController {
 	@ApiOperation(value = "유저 차단을 취소합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteBlock(@PathVariable("userSeq") Long userSeq,
 		@PathVariable("blockSeq") Long blockSeq) {
-		Boolean isSuccess = userService.deleteBlock(userSeq, blockSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+
+		userService.deleteBlock(userSeq, blockSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+
 	}
 
 	// --------------------------------- 신고 ------------------------------------
 
 
-	@PostMapping("/mypage/report")
+	@PostMapping("/mypage/{userSeq}/report/{reportSeq}")
 	@ApiOperation(value = "유저를 신고합니다")
-	public ResponseEntity<ResultDto<Boolean>> createReport(
-		@RequestBody ReportRequestDto reportRequestDto) {
-		Boolean isSuccess = userService.createReport(reportRequestDto);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+	public ResponseEntity<ResultDto<Long>> createReport(
+		@PathVariable("userSeq") Long userSeq,
+		@PathVariable("reportSeq") Long reportSeq) {
+
+		userService.createReport(userSeq, reportSeq);
+		// 신고한 유저 자동 차단
+		userService.createBlock(userSeq, reportSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(reportSeq));
+
 	}
 
 	// --------------------------------- 히스토리 ------------------------------------

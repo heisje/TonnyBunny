@@ -12,7 +12,7 @@
 
             <!-- 이메일 -->
             <label for="email">아이디</label>
-            <input type="text" id="email" v-model="email" placeholder="이메일" /><br /><br />
+            <input type="email" id="email" v-model="email" placeholder="이메일" /><br /><br />
 
             <!-- 비밀번호 -->
             <label for="password">비밀번호</label>
@@ -21,8 +21,7 @@
                 id="password"
                 v-model="password"
                 placeholder="비밀번호"
-                @input="changePwInput"
-            /><br />
+                @input="changePwInput" /><br />
             <div v-show="noticePw" style="color: red">{{ noticePw }}</div>
             <br />
 
@@ -33,8 +32,7 @@
                 id="password2"
                 v-model="password2"
                 @input="changePw2Input"
-                placeholder="비밀번호 확인"
-            /><br />
+                placeholder="비밀번호 확인" /><br />
             <div v-show="noticePw2" style="color: red">{{ noticePw2 }}</div>
             <br />
 
@@ -45,8 +43,7 @@
                 id="nickname"
                 v-model="nickname"
                 placeholder="닉네임"
-                @input="changeNickInput"
-            />
+                @input="changeNickInput" />
             <smallBtn @click.prevent="checkDuplication" text="중복 확인"></smallBtn><br />
             <div v-show="noticeNick" style="color: red">{{ noticeNick }}</div>
             <br />
@@ -58,8 +55,7 @@
                 id="phoneNum"
                 v-model="phoneNum"
                 placeholder="휴대폰 번호"
-                @input="changePhoneInput"
-            />
+                @input="changePhoneInput" />
             <smallBtn @click.prevent="sendAuthCode" text="인증 요청"></smallBtn><br />
             <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
             <br />
@@ -266,8 +262,8 @@ export default {
             try {
                 let res = await http.post("/signup", {
                     email: this.email,
-                    newPassword: this.password2,
-                    nickname: this.nickname,
+                    checkPassword: this.password2,
+                    nickName: this.nickname,
                     password: this.password,
                     phoneNumber: this.phoneNum,
                     userCode: userCode,
