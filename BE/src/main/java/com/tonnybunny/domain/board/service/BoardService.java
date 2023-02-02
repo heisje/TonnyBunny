@@ -2,11 +2,18 @@ package com.tonnybunny.domain.board.service;
 
 
 import com.tonnybunny.domain.board.dto.BoardCommentRequestDto;
+import com.tonnybunny.domain.board.dto.BoardImageRequestDto;
 import com.tonnybunny.domain.board.dto.BoardRequestDto;
 import com.tonnybunny.domain.board.entity.BoardCommentEntity;
 import com.tonnybunny.domain.board.entity.BoardEntity;
+import com.tonnybunny.domain.board.entity.BoardImageEntity;
+import com.tonnybunny.domain.board.repository.BoardCommentRepository;
+import com.tonnybunny.domain.board.repository.BoardImageRepository;
 import com.tonnybunny.domain.board.repository.BoardRepository;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +25,8 @@ import java.util.List;
 public class BoardService {
 
 	private final BoardRepository boardRepository;
-
+	private final BoardCommentRepository boardCommentRepository;
+	private final BoardImageRepository boardImageRepository;
 	private final UserRepository userRepository;
 
 
@@ -29,8 +37,7 @@ public class BoardService {
 	 */
 	public List<BoardEntity> getBoardList() {
 
-		List<BoardEntity> boardList = boardRepository.findAll();
-		//FIXME : 삭제된 보드 제외
+		List<BoardEntity> boardList = boardRepository.findAllByIsDelete("F");
 		return boardList;
 	}
 
@@ -41,10 +48,16 @@ public class BoardService {
 	 * @param boardSeq
 	 * @return BoardEntity
 	 */
-	public BoardEntity getBoard(Long boardSeq) throws Exception {
+	public BoardEntity getBoard(Long boardSeq) {
 		BoardEntity board = boardRepository.findById(boardSeq)
-		                                   .orElseThrow(() -> new Exception("존재하지 않는 게시글입니다."));
-		return board;
+		                                   .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+		// 삭제 됐을 시 excetion
+		if (board.getIsDelete() == "F") {
+			return board;
+		} else {
+			throw new CustomException(ErrorCode.NOT_FOUND_USER);
+		}
 	}
 
 
@@ -53,21 +66,30 @@ public class BoardService {
 	 * JPA 가 board 에 키 값을 넣어줌.
 	 *
 	 * @param boardRequestDto
-	 * @return boardEntity
+	 * @return boardSeq
 	 */
-	public BoardEntity createBoard(BoardRequestDto boardRequestDto) throws Exception {
-		//		UserEntity fromUser = userRepository.findById(boardRequestDto.getUserSeq())
-		//		                                    .orElseThrow(() -> new Exception("존재하지 않는 사용자입니다."));
+	public Long createBoard(BoardRequestDto boardRequestDto) {
+		UserEntity fromUser = userRepository.findById(boardRequestDto.getUserSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
 		BoardEntity board =
 			boardRepository.save(
 				BoardEntity.builder()
-				           //				           .user(fromUser)
+				           .user(fromUser)
 				           .title(boardRequestDto.getTitle())
 				           .content(boardRequestDto.getContent())
-				           //FIXME : 유저, 사진 추가
+				           .isDelete("F")
 				           .build());
 
-		return board;
+		// 보드 저장 후 이미지 저장
+		for (BoardImageRequestDto boardImageRequestDto : boardRequestDto.getBoardImageList()) {
+			BoardImageEntity boardImage = BoardImageEntity.builder()
+			                                              .imagePath(boardImageRequestDto.getImagePath())
+			                                              .board(board)
+			                                              .build();
+
+			boardImageRepository.save(boardImage);
+		}
+		return board.getSeq();
 	}
 
 
@@ -80,10 +102,17 @@ public class BoardService {
 	 * @return boardSeq
 	 */
 	public Long modifyBoard(Long boardSeq, BoardRequestDto boardRequestDto) {
-		BoardEntity newBoard = boardRequestDto.toEntity();
+		// FIXME : 사용자 본인이 쓴 게시글 판별 추가
+		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
-		// common.update(oldDomain, newDomain);
-		return 0L;
+		// param setting
+		String title = boardRequestDto.getTitle();
+		String content = boardRequestDto.getContent();
+
+		//수정
+		board.update(title, content);
+
+		return boardRepository.save(board).getSeq();
 	}
 
 
@@ -93,6 +122,12 @@ public class BoardService {
 	 * @param boardSeq
 	 */
 	public Boolean deleteBoard(Long boardSeq) {
+		// FIXME : 사용자 본인이 쓴 게시글 판별 추가
+		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+		//삭제 isDelete를 T로 바꾼다
+		board.delete("T");
+		boardRepository.save(board);
 
 		return true;
 	}
@@ -107,7 +142,15 @@ public class BoardService {
 	 * @param boardCommentRequestDto : 작성되는 댓글의 정보를 담고 있는 Dto
 	 */
 	public void createBoardComment(Long boardSeq, BoardCommentRequestDto boardCommentRequestDto) {
-		BoardCommentEntity boardComment = boardCommentRequestDto.toEntity();
+		UserEntity fromUser = userRepository.findById(boardCommentRequestDto.getUserSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+		boardCommentRepository.save(
+			BoardCommentEntity.builder()
+			                  .content(boardCommentRequestDto.getContent())
+			                  .board(board)
+			                  .user(fromUser)
+			                  .build());
 	}
 
 
