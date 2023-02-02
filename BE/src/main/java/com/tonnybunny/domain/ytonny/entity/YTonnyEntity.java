@@ -73,4 +73,9 @@ public class YTonnyEntity extends CommonEntity {
 		this.isDeleted = isDeleted;
 	}
 
+
+	public void yTonnyApplyList(List<YTonnyApplyEntity> yTonnyApplyList) {
+		this.yTonnyApplyList = yTonnyApplyList;
+	}
+
 }

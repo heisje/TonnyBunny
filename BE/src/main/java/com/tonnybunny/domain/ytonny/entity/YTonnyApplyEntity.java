@@ -31,11 +31,4 @@ public class YTonnyApplyEntity extends CommonEntity {
 
 	private Integer totalPrice; // FIXME : unitPrice 로 변경? front 랑 확인
 
-	//	private Boolean isDeleted;
-	//
-	//
-	//	public void isDeleted(Boolean isDeleted) {
-	//		this.isDeleted = isDeleted;
-	//	}
-
 }

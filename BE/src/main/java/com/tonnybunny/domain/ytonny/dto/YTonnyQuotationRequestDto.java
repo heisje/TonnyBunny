@@ -4,6 +4,7 @@ package com.tonnybunny.domain.ytonny.dto;
 import com.tonnybunny.common.dto.LangCodeEnum;
 import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
  * quotationStateCode      : 견적서 상태 코드
  */
 @Data
+@NoArgsConstructor
 public class YTonnyQuotationRequestDto {
 
 	private Long yTonnyQuotationSeq;

@@ -64,6 +64,8 @@ public class YTonnyService {
 		                                        .taskCode(TaskCodeEnum.예약통역)
 		                                        .taskStateCode(TaskStateCodeEnum.모집중)
 		                                        .isDeleted(false)
+		                                        .yTonnyApplyList(null)
+		                                        .yTonnyQuotationList(null)
 		                                        .build();
 
 		// save
@@ -79,9 +81,11 @@ public class YTonnyService {
 	 * @param yTonnyApplyRequestDto : 헬퍼 seq, 해당 공고 seq, 견적 금액
 	 * @return 생성된 예약통역 공고 신청 seq
 	 */
+	@Transactional
 	public Long createYTonnyApply(YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
 		System.out.println("YTonnyService.createYTonnyApply");
+		System.out.println("yTonnyApplyRequestDto = " + yTonnyApplyRequestDto);
 
 		// param setting
 		Long yTonnySeq = yTonnyApplyRequestDto.getYTonnySeq();
@@ -95,7 +99,13 @@ public class YTonnyService {
 		// dto -> entity
 		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).totalPrice(totalPrice).build();
 
-		return yTonnyApplyRepository.save(yTonnyApplyEntity).getSeq();
+		// save
+		Long createdSeq = yTonnyApplyRepository.save(yTonnyApplyEntity).getSeq();
+
+		// 공고 신청리스트에 추가
+		//		addYTonnyApplyList(yTonnyEntity, yTonnyApplyEntity); // 이거 왜 필요한?
+
+		return createdSeq;
 
 	}
 
@@ -145,14 +155,17 @@ public class YTonnyService {
 	/**
 	 * MARK : 예약통역 공고 신청 목록을 조회 with pagination
 	 *
-	 * @param yTonnySeq : 조회하려는 대상 예약통역 공고 seq
-	 * @param page      : pagination
-	 * @param size      : pagination
+	 * @param yTonnySeq             : 조회하려는 대상 예약통역 공고 seq
+	 * @param yTonnyApplyRequestDto : pagination
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	public List<YTonnyApplyEntity> getYTonnyApplyList(Long yTonnySeq, int page, int size) {
+	public List<YTonnyApplyEntity> getYTonnyApplyList(Long yTonnySeq, YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
 		System.out.println("YTonnyService.getYTonnyApplyList");
+
+		// paream setting
+		int page = yTonnyApplyRequestDto.getPage();
+		int size = yTonnyApplyRequestDto.getSize();
 
 		// pagination
 		Pageable pageable = PageRequest.of(page, size);
@@ -173,16 +186,12 @@ public class YTonnyService {
 	public Long modifyYTonny(YTonnyRequestDto yTonnyRequestDto) {
 
 		System.out.println("YTonnyService.modifyYTonny");
+		System.out.println("yTonnyRequestDto = " + yTonnyRequestDto);
 
 		// param setting
 		Long yTonnySeq = yTonnyRequestDto.getYTonnySeq();
 		Long clientSeq = yTonnyRequestDto.getClientSeq();
-
-		try {
-			Long helperSeq = yTonnyRequestDto.getHelperSeq();
-		} catch (Exception e) {
-
-		}
+		Long helperSeq = yTonnyRequestDto.getHelperSeq();
 
 		// find
 		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -193,6 +202,7 @@ public class YTonnyService {
 		yTonnyEntity = YTonnyEntity.builder()
 		                           .seq(yTonnySeq)
 		                           .client(clientEntity)
+		                           .helperSeq(helperSeq)
 		                           .title(yTonnyRequestDto.getTitle())
 		                           .content(yTonnyRequestDto.getContent())
 		                           .estimateDate(yTonnyRequestDto.getEstimateDate())
@@ -202,8 +212,11 @@ public class YTonnyService {
 		                           .startLangCode(yTonnyRequestDto.getStartLangCode())
 		                           .endLangCode(yTonnyRequestDto.getEndLangCode())
 		                           .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
+		                           .taskStateCode(yTonnyRequestDto.getTaskStateCode())
 		                           .taskCode(yTonnyEntity.getTaskCode())
 		                           .isDeleted(yTonnyEntity.getIsDeleted())
+		                           .yTonnyApplyList(yTonnyEntity.getYTonnyApplyList())
+		                           .yTonnyQuotationList(yTonnyEntity.getYTonnyQuotationList())
 		                           .build();
 
 		// save
@@ -224,17 +237,38 @@ public class YTonnyService {
 
 		// param setting
 		Long yTonnySeq = yTonnyApplyRequestDto.getYTonnySeq();
+		Long yTonnyApplySeq = yTonnyApplyRequestDto.getYTonnyApplySeq();
 		Long helperSeq = yTonnyApplyRequestDto.getHelperSeq();
 
 		// find
 		//		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq)
+		                                                           .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
 		yTonnyEntity.helperSeq(helperSeq);
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
+	}
+
+
+	/**
+	 * MARK : 예약통역 공고 신청 목록에 신청 게시글 하나 추가하기
+	 *
+	 * @param yTonnyEntity : 해당 예약통역 공고
+	 * @return
+	 */
+	public void addYTonnyApplyList(YTonnyEntity yTonnyEntity, YTonnyApplyEntity yTonnyApplyEntity) {
+
+		List<YTonnyApplyEntity> yTonnyApplyEntityList = yTonnyEntity.getYTonnyApplyList();
+
+		yTonnyApplyEntityList.add(yTonnyApplyEntity); // add
+		yTonnyEntity.yTonnyApplyList(yTonnyApplyEntityList); // 수정
+
+		yTonnyRepository.save(yTonnyEntity); // save
+
 	}
 
 

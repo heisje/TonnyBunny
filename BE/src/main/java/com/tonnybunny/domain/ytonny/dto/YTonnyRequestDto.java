@@ -2,6 +2,7 @@ package com.tonnybunny.domain.ytonny.dto;
 
 
 import com.tonnybunny.common.dto.LangCodeEnum;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,5 +55,6 @@ public class YTonnyRequestDto {
 	private LangCodeEnum startLangCode;
 	private LangCodeEnum endLangCode;
 	private TonnySituCodeEnum tonnySituCode;
+	private TaskStateCodeEnum taskStateCode;
 
 }
