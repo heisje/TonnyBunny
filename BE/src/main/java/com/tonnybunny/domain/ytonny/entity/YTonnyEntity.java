@@ -52,10 +52,12 @@ public class YTonnyEntity extends CommonEntity {
 	private Boolean isDeleted;
 
 	// 헬퍼 신청 리스트
+	@Builder.Default
 	@OneToMany(mappedBy = "yTonny")
 	private List<YTonnyApplyEntity> yTonnyApplyList = new ArrayList<>();
 
 	// 헬퍼 견적서 리스트
+	@Builder.Default
 	@OneToMany(mappedBy = "yTonny")
 	private List<YTonnyQuotationEntity> yTonnyQuotationList = new ArrayList<>();
 
