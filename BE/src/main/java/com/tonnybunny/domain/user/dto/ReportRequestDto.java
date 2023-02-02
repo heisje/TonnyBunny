@@ -6,4 +6,8 @@ import lombok.Data;
 
 @Data
 public class ReportRequestDto {
+
+	Long seq;
+	Long reportedUserSeq;
+
 }
