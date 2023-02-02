@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @Data
 public class YTonnyQuotationRequestDto {
 
-	private Long yTonnyNotiSeq;
+	private Long yTonnySeq;
 	private Long clientSeq;
 	private Long helperSeq;
 
