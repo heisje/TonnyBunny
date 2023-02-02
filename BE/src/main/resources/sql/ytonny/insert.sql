@@ -7,3 +7,7 @@ values (2, now(), now(), "email2", 1, "nickname2", "pw2", "020", 0, "image2", 0,
 select * from user_entity;
 
 select * from ytonny_entity;
+
+select * from ytonny_apply_entity;
+
+select * from ytonny_quotation_entity;

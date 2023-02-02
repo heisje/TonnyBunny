@@ -38,7 +38,7 @@ public class YTonnyQuotationController {
 	@PostMapping("/{yTonnySeq}/quotation")
 	@ApiOperation(value = "예약통역 견적서 생성 API", notes = "헬퍼가 견적서를 생성한다.")
 	public ResponseEntity<ResultDto<Long>> createYTonnyQuotation(@PathVariable Long yTonnySeq,
-	                                                             @RequestBody YTonnyQuotationRequestDto yTonnyQuotationRequestDto,
+	                                                             YTonnyQuotationRequestDto yTonnyQuotationRequestDto,
 	                                                             MultipartHttpServletRequest request
 	) {
 
@@ -56,22 +56,20 @@ public class YTonnyQuotationController {
 	 * MEMO : READ
 	 * MARK : 번역 견적서 목록 조회 with pagination
 	 *
-	 * @param yTonnySeq : 예약통역 공고 관련 정보
-	 * @param page      : pagination
-	 * @param size      : pagination
+	 * @param yTonnySeq                 : 예약통역 공고 관련 정보
+	 * @param yTonnyQuotationRequestDto : pagination
 	 * @return 생성된 예약통역 공고 seq
 	 */
 	@GetMapping("/{yTonnySeq}/quotation")
 	@ApiOperation(value = "예약통역 견적서 목록 조회 API", notes = "고객과 헬퍼가 예약통역 공고 관련 견적서 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyQuotationRequestDto>>> getYTonnyQuotationList(@PathVariable Long yTonnySeq,
-	                                                                                         @RequestParam int page,
-	                                                                                         @RequestParam int size
+	                                                                                         YTonnyQuotationRequestDto yTonnyQuotationRequestDto
 	) {
 
 		System.out.println("YTonnyQuotationController.getYTonnyQuotationList");
 
 		// service
-		List<YTonnyQuotationEntity> yTonnyQuotationEntityList = yTonnyQuotationService.getYTonnyQuotationList(yTonnySeq, page, size);
+		List<YTonnyQuotationEntity> yTonnyQuotationEntityList = yTonnyQuotationService.getYTonnyQuotationList(yTonnySeq, yTonnyQuotationRequestDto);
 
 		// entity -> dto
 		ModelMapper modelMapper = new ModelMapper();

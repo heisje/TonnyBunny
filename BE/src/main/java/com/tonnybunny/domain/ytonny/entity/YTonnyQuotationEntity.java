@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,18 +40,26 @@ public class YTonnyQuotationEntity extends CommonEntity {
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
+	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	private LocalDateTime startDate;
+	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	private LocalDateTime endDate;
+
 	private Integer unitPrice;
+
 	private QuotationStateCodeEnum quotationStateCode;
 
+	// 아래는 YTonnyEntity 내용
 	private String title;
 	private String content;
 
+	private LangCodeEnum startLangCode;
+	private LangCodeEnum endLangCode;
+
+	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
-
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
 
 	@Builder.Default
 	@OneToMany(mappedBy = "yTonnyQuotation")

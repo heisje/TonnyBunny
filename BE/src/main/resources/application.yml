@@ -59,7 +59,7 @@ token:
 app:
   file-upload:
     #    uploadPath: "/var/lib/jenkins/area_deploy/jiniworld/upload-images/"
-    upload-path: "/static/upload"
+    upload-path: /Users/yeomss/Repository/Github/Boot-Project/SSAFY-Project/Tonny-Bunny/BE/src/main/resources
 
 
 

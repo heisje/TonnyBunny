@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +37,7 @@ public class YTonnyQuotationService {
 	private final YTonnyRepository yTonnyRepository;
 	private final YTonnyQuotationRepository yTonnyQuotationRepository;
 
-	private final String uploadFolder = "ytonny" + File.separator + "quotation";
+	private final String uploadFolder = "static" + File.separator + "ytonny" + File.separator + "quotation";
 
 	@Value("${app.file-upload.upload-path}")
 	private String uploadPath;
@@ -58,7 +58,10 @@ public class YTonnyQuotationService {
 
 		// param setting
 		Long clientSeq = yTonnyQuotationRequestDto.getClientSeq();
+
 		Long helperSeq = yTonnyQuotationRequestDto.getHelperSeq();
+
+		LocalDateTime startDate = yTonnyQuotationRequestDto.getStartDate();
 
 		// find
 		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -71,7 +74,16 @@ public class YTonnyQuotationService {
 		                                                                   .client(clientEntity)
 		                                                                   .helper(helperEntity)
 		                                                                   .unitPrice(yTonnyQuotationRequestDto.getUnitPrice())
-		                                                                   .quotationStateCode(yTonnyQuotationRequestDto.getQuotationStateCode())
+		                                                                   .quotationStateCode(QuotationStateCodeEnum.미선택)
+		                                                                   .startDate(yTonnyQuotationRequestDto.getStartDate())
+		                                                                   .endDate(yTonnyQuotationRequestDto.getEndDate())
+		                                                                   .title(yTonnyEntity.getTitle())
+		                                                                   .content(yTonnyEntity.getContent())
+		                                                                   .endLangCode(yTonnyEntity.getEndLangCode())
+		                                                                   .startLangCode(yTonnyEntity.getStartLangCode())
+		                                                                   .estimateDate(yTonnyEntity.getEstimateDate())
+		                                                                   .estimateStartTime(yTonnyEntity.getEstimateStartTime())
+		                                                                   .estimateTime(yTonnyEntity.getEstimateTime())
 		                                                                   .build();
 
 		// save
@@ -79,10 +91,15 @@ public class YTonnyQuotationService {
 
 		// image save
 		try {
+
 			List<YTonnyQuotationImageEntity> yTonnyQuotationImageEntityList = createYTonnyQuotationImageList(yTonnyQuotationSeq, request);
-			yTonnyQuotationEntity.yTonnyQuotationImageList(yTonnyQuotationImageEntityList);
+			System.out.println("yTonnyQuotationImageEntityList = " + yTonnyQuotationImageEntityList);
+
+			yTonnyQuotationEntity.yTonnyQuotationImageList(yTonnyQuotationImageEntityList); // image set
+			yTonnyQuotationRepository.save(yTonnyQuotationEntity); // save
+
 		} catch (Exception e) {
-			System.out.println("오류입니도 !!!!!!!!!!!");
+			System.out.println("파일 미생성 오류!!!!!!!!!!!!!!!!");
 		}
 
 		return yTonnyQuotationSeq;
@@ -103,52 +120,52 @@ public class YTonnyQuotationService {
 
 		List<YTonnyQuotationImageEntity> yTonnyQuotationImageEntityList = new ArrayList<>();
 
-		// upload file path setting
-		// ex) /static/upload/ytonny/quotation
-		File uploadDir = new File(uploadPath + File.separator + uploadFolder);
-		if (!uploadDir.exists()) uploadDir.mkdir();
+		try {
+			// upload file path setting
+			// ex) /static/upload/ytonny/quotation
+			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
+			if (!uploadDir.exists()) uploadDir.mkdirs();
 
-		// form file data 가져오기
-		List<MultipartFile> fileList = request.getFiles("file");
+			// form file data 가져오기
+			List<MultipartFile> fileList = request.getFiles("file");
 
-		if (!fileList.isEmpty() && fileList != null) {
+			if (!fileList.isEmpty() && fileList != null) {
 
-			for (MultipartFile partFile : fileList) {
+				for (MultipartFile partFile : fileList) {
 
-				// file name
-				String originalFilename = partFile.getOriginalFilename(); // file origin name
-				String extension = FilenameUtils.getExtension(originalFilename); // extract file extension
-				UUID uuid = UUID.randomUUID(); // generate Random File UUID
-				String fileName = uuid + "." + extension; // 실제 저장할 file name
+					// file name
+					String originalFilename = partFile.getOriginalFilename(); // file origin name
+					String extension = FilenameUtils.getExtension(originalFilename); // extract file extension
+					UUID uuid = UUID.randomUUID(); // generate Random File UUID
+					String fileName = uuid + "." + extension; // 실제 저장할 file name
 
-				// file object
-				String filePath = uploadFolder + File.separator + fileName;
-				File saveFile = new File(uploadPath + File.separator + filePath);
+					// file object
+					String filePath = uploadFolder + File.separator + fileName;
+					File saveFile = new File(uploadPath + File.separator + filePath);
 
-				// file save
-				try {
+					// file save
 					partFile.transferTo(saveFile);
-				} catch (IOException e) {
-					e.printStackTrace();
+
+					// find quotation
+					YTonnyQuotationEntity yTonnyQuotationEntity = yTonnyQuotationRepository.findById(yTonnyQuotationSeq)
+					                                                                       .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+
+					// image file entity
+					YTonnyQuotationImageEntity yTonnyQuotationImageEntity = YTonnyQuotationImageEntity.builder()
+					                                                                                  .yTonnyQuotation(yTonnyQuotationEntity)
+					                                                                                  .imageName(originalFilename)
+					                                                                                  .imageContentType(partFile.getContentType())
+					                                                                                  .imageFileSize(partFile.getSize())
+					                                                                                  .imagePath(filePath)
+					                                                                                  .build();
+
+					// list add
+					yTonnyQuotationImageEntityList.add(yTonnyQuotationImageEntity);
 				}
-
-				// find quotation
-				YTonnyQuotationEntity yTonnyQuotationEntity = yTonnyQuotationRepository.findById(yTonnyQuotationSeq)
-				                                                                       .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-
-				// image file entity
-				YTonnyQuotationImageEntity yTonnyQuotationImageEntity = YTonnyQuotationImageEntity.builder()
-				                                                                                  .yTonnyQuotation(yTonnyQuotationEntity)
-				                                                                                  .imageName(originalFilename)
-				                                                                                  .imageContentType(partFile.getContentType())
-				                                                                                  .imageFileSize(partFile.getSize())
-				                                                                                  .imagePath(filePath)
-				                                                                                  .build();
-
-				// list add
-				yTonnyQuotationImageEntityList.add(yTonnyQuotationImageEntity);
-
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException();
 		}
 
 		// entity list return
@@ -160,14 +177,17 @@ public class YTonnyQuotationService {
 	 * MEMO : READ
 	 * MARK : 번역 견적서 목록 조회 with pagination
 	 *
-	 * @param yTonnySeq : 예약통역 공고 관련 정보
-	 * @param page      : pagination
-	 * @param size      : pagination
+	 * @param yTonnySeq                 : 예약통역 공고 관련 정보
+	 * @param yTonnyQuotationRequestDto : pagination
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	public List<YTonnyQuotationEntity> getYTonnyQuotationList(Long yTonnySeq, int page, int size) {
+	public List<YTonnyQuotationEntity> getYTonnyQuotationList(Long yTonnySeq, YTonnyQuotationRequestDto yTonnyQuotationRequestDto) {
 
 		System.out.println("YTonnyQuotationService.getYTonnyQuotationList");
+
+		// param setting
+		int page = yTonnyQuotationRequestDto.getPage();
+		int size = yTonnyQuotationRequestDto.getSize();
 
 		// pagination
 		Pageable pageable = PageRequest.of(page, size);

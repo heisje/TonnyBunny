@@ -5,6 +5,7 @@ import com.tonnybunny.common.dto.LangCodeEnum;
 import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class YTonnyQuotationRequestDto {
 
+	private int page = 0; // offset
+	private int size = 10; // limit
+
 	private Long yTonnyQuotationSeq;
 
 	private Long yTonnySeq;
@@ -38,7 +42,10 @@ public class YTonnyQuotationRequestDto {
 	private String content;
 
 	private Integer unitPrice;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime startDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime endDate;
 
 	private LangCodeEnum startLangCode;
