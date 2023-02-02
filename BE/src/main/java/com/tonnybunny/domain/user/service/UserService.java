@@ -121,10 +121,7 @@ public class UserService {
 		auth.refreshUpdate(refreshToken);
 		authRepository.save(auth);
 
-		return AuthResponseDto.builder()
-		                      .ACCESS_TOKEN(accessToken)
-		                      .REFRESH_TOKEN(refreshToken)
-		                      .build();
+		return new AuthResponseDto(accessToken, refreshToken);
 	}
 
 

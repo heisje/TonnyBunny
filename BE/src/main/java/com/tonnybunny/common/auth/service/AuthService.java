@@ -3,10 +3,9 @@ package com.tonnybunny.common.auth.service;
 
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.exception.CustomException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -20,15 +19,20 @@ import static com.tonnybunny.exception.ErrorCode.ACCESS_TOKEN_ERROR;
 import static com.tonnybunny.exception.ErrorCode.REFRESH_TOKEN_ERROR;
 
 
-@RequiredArgsConstructor
 @Service
 public class AuthService {
 
-	private final String SECRET_KEY = "dG9ubnlidW5ueXRvbm55YnVubnljYXJyb3RjYXJyb3QK";
-	// tonnybunnytonnybunnycarrotcarrot base64로 변환한 키. 근데 공개되면 안돼서 분리시켜야 함
-	private final String REFRESH_KEY = "Y2h1bmdoeWVvbmhlaWplc2V1bmd0YWVqZW9uZ2FjaGF3b25rd29ubWluCg";
-	// chunghyeonheijeseungtaejeongachawonkwonmin
-	private final String DATA_KEY = "seq";
+	private String SECRET_KEY;
+	private String REFRESH_KEY;
+	private String DATA_KEY;
+
+
+	@Autowired
+	public AuthService(@Value("${token.accesskey}") String SECRET_KEY, @Value("${token.refreshkey}") String REFRESH_KEY, @Value("${token.datakey}") String DATA_KEY) {
+		this.SECRET_KEY = SECRET_KEY;
+		this.REFRESH_KEY = REFRESH_KEY;
+		this.DATA_KEY = DATA_KEY;
+	}
 
 
 	/**
@@ -39,10 +43,10 @@ public class AuthService {
 	 */
 	public String generateJwtToken(UserEntity userEntity) {
 		return Jwts.builder()
-		           .setSubject(userEntity.getEmail()) // 들어가는 정보 세팅 - 토큰 제목
+		           .setSubject("Access Token") // 들어가는 정보 세팅 - 토큰 제목
 		           .setHeader(createHeader()) // 헤더 : 알고리즘, 토큰타입, 생성시간
 		           .setClaims(createClaims(userEntity)) // 내부에 들어가는 정보 설정. 현재는 seq. 다른 정보 추가 가능
-		           .setExpiration(createExpireDate(1000 * 60 * 5)) // 만료시간 설정
+		           .setExpiration(createExpireDate(1000 * 60 * 5)) // 만료시간 설정(5분)
 		           .signWith(SignatureAlgorithm.HS256, createSigningKey(SECRET_KEY)) // 알고리즘과 시크릿키 설정
 		           .compact();
 	}
@@ -56,10 +60,10 @@ public class AuthService {
 	 */
 	public String saveRefreshToken(UserEntity usersEntity) {
 		return Jwts.builder()
-		           .setSubject(usersEntity.getEmail())
+		           .setSubject("Refresh Token")
 		           .setHeader(createHeader())
 		           .setClaims(createClaims(usersEntity))
-		           .setExpiration(createExpireDate(1000 * 60 * 10)) // 만료시간 설정
+		           .setExpiration(createExpireDate(1000 * 60 * 30)) // 만료시간 설정(10분)
 		           .signWith(SignatureAlgorithm.HS256, createSigningKey(REFRESH_KEY))
 		           .compact();
 	}
@@ -71,17 +75,6 @@ public class AuthService {
 	 * @param token
 	 * @return
 	 */
-	public boolean isValidToken(String token) {
-		System.out.println("isValidToken is : " + token);
-		try {
-			Claims accessClaims = getClaimsAccessToken(token);
-			System.out.println("Access expireTime: " + accessClaims.getExpiration());
-			System.out.println("Access User Seq: " + accessClaims.get("seq"));
-			return true;
-		} catch (Exception e) { // 에러 발생 시 자세한 내용은 주지 않고, 하나의 에러로 제공
-			throw new CustomException(ACCESS_TOKEN_ERROR);
-		}
-	}
 	//	public boolean isValidToken(String token) {
 	//		System.out.println("isValidToken is : " + token);
 	//		try {
@@ -89,17 +82,28 @@ public class AuthService {
 	//			System.out.println("Access expireTime: " + accessClaims.getExpiration());
 	//			System.out.println("Access User Seq: " + accessClaims.get("seq"));
 	//			return true;
-	//		} catch (ExpiredJwtException exception) { // 토큰이 만료되었을 경우
-	//			System.out.println("Token Expired seq : " + exception.getClaims().getSubject());
-	//			return false;
-	//		} catch (JwtException exception) { // 이상한 토큰 들어왔을 경우
-	//			System.out.println("Token Tampered");
-	//			return false;
-	//		} catch (NullPointerException exception) { // 널 값 들어온 경우
-	//			System.out.println("Token is null");
-	//			return false;
+	//		} catch (Exception e) { // 에러 발생 시 자세한 내용은 주지 않고, 하나의 에러로 제공
+	//			throw new CustomException(ACCESS_TOKEN_ERROR);
 	//		}
 	//	}
+	public boolean isValidToken(String token) {
+		System.out.println("isValidToken is : " + token);
+		try {
+			Claims accessClaims = getClaimsAccessToken(token);
+			System.out.println("Access expireTime: " + accessClaims.getExpiration());
+			System.out.println("Access User Seq: " + accessClaims.get("seq"));
+			return true;
+		} catch (ExpiredJwtException exception) { // 토큰이 만료되었을 경우
+			System.out.println("Access Token Expired seq : " + exception.getClaims().getSubject());
+			throw new CustomException(ACCESS_TOKEN_ERROR);
+		} catch (JwtException exception) { // 이상한 토큰 들어왔을 경우
+			System.out.println("Access Token Tampered");
+			throw new CustomException(ACCESS_TOKEN_ERROR);
+		} catch (NullPointerException exception) { // 널 값 들어온 경우
+			System.out.println("Access Token is null");
+			throw new CustomException(ACCESS_TOKEN_ERROR);
+		}
+	}
 
 
 	/**
@@ -108,33 +112,33 @@ public class AuthService {
 	 * @param token
 	 * @return
 	 */
-	public boolean isValidRefreshToken(String token) {
-		try {
-			Claims accessClaims = getClaimsRefreshToken(token);
-			System.out.println("Access expireTime: " + accessClaims.getExpiration());
-			System.out.println("Access User Seq: " + accessClaims.get("seq"));
-			return true;
-		} catch (Exception e) { // 에러 발생 시 자세한 내용은 주지 않고, 하나의 에러로 제공
-			throw new CustomException(REFRESH_TOKEN_ERROR);
-		}
-	}
 	//	public boolean isValidRefreshToken(String token) {
 	//		try {
 	//			Claims accessClaims = getClaimsRefreshToken(token);
 	//			System.out.println("Access expireTime: " + accessClaims.getExpiration());
 	//			System.out.println("Access User Seq: " + accessClaims.get("seq"));
 	//			return true;
-	//		} catch (ExpiredJwtException exception) {
-	//			System.out.println("Token Expired seq : " + exception.getClaims().getSubject());
-	//			return false;
-	//		} catch (JwtException exception) {
-	//			System.out.println("Token Tampered");
-	//			return false;
-	//		} catch (NullPointerException exception) {
-	//			System.out.println("Token is null");
-	//			return false;
+	//		} catch (Exception e) { // 에러 발생 시 자세한 내용은 주지 않고, 하나의 에러로 제공
+	//			throw new CustomException(REFRESH_TOKEN_ERROR);
 	//		}
 	//	}
+	public boolean isValidRefreshToken(String token) {
+		try {
+			Claims accessClaims = getClaimsRefreshToken(token);
+			System.out.println("Access expireTime: " + accessClaims.getExpiration());
+			System.out.println("Access User Seq: " + accessClaims.get("seq"));
+			return true;
+		} catch (ExpiredJwtException exception) {
+			System.out.println("Refresh Token Expired seq : " + exception.getClaims().getSubject());
+			throw new CustomException(REFRESH_TOKEN_ERROR);
+		} catch (JwtException exception) {
+			System.out.println("Refresh Token Tampered");
+			throw new CustomException(REFRESH_TOKEN_ERROR);
+		} catch (NullPointerException exception) {
+			System.out.println("Refresh Token is null");
+			throw new CustomException(REFRESH_TOKEN_ERROR);
+		}
+	}
 
 
 	/**

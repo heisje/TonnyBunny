@@ -8,6 +8,7 @@ spring:
   output:
     ansi:
       enabled: always
+
   
   # swagger \uAD00\uB828 \uC124\uC815
   mvc:
@@ -43,6 +44,13 @@ spring:
 logging:
   level:
     org.hibernate: info
+
+token:
+  accesskey: ${auth.accesskey}
+  refreshkey: ${auth.refreshkey}
+  datakey: ${auth.datakey}
+
+
 
 # charset
 # server.servlet.encoding.charset=UTF-8
