@@ -11,10 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -53,15 +51,6 @@ public class BoardController {
 	@ApiOperation(value = "게시글을 작성합니다.", notes = "")
 	public ResponseEntity<ResultDto<Long>> createBoard(
 		@RequestBody BoardRequestDto boardRequestDto) {
-		Long boardSeq = boardService.createBoard(boardRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardSeq));
-	}
-
-
-	@GetMapping(value = "/board/img", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-	@ApiOperation(value = "사진이 든 게시글을 작성합니다.", notes = "")
-	public ResponseEntity<ResultDto<Long>> createImgBoard(@RequestPart(name = "jsonData") BoardRequestDto boardRequestDto, @RequestPart(name = "img") MultipartFile multipartFile) {
-		System.out.println("d와!!!!!!!!!!!!!!!!");
 		Long boardSeq = boardService.createBoard(boardRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardSeq));
 	}
