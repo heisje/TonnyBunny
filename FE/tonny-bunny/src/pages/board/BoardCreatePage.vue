@@ -24,14 +24,28 @@
                     style="width: 100%"
                     text="게시글 작성"
                     color="carrot"
-                    @click="insertBoard" />
+                    @click="submitFiles" />
                 <router-link :to="{ name: 'BoardDetailPage', params: { id: 1 } }"> </router-link>
             </form>
+
+            <input type="file" accept="image/*" @change="insertBoardImageList" />
+            <div class="fileListWrap">
+                <div
+                    v-for="(boardImageItem, index) in boardImageList"
+                    :key="boardImageItem"
+                    @click="removeBoardImageList(index)">
+                    <span>
+                        {{ boardImageItem.name }}
+                    </span>
+                    <span class="material-symbols-outlined"> close </span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from "axios";
 import TitleText from "@/components/common/TitleText.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 export default {
@@ -45,10 +59,12 @@ export default {
             },
 
             content: {
-                id: "title",
+                id: "content",
                 value: "",
                 notice: "",
             },
+
+            boardImageList: [],
         };
     },
 
@@ -59,11 +75,37 @@ export default {
         },
 
         insertBoard() {
-            const temp = {
-                title: this.title.value,
-                content: this.content.value,
-            };
-            this.$store.dispatch("insertBoard", temp);
+            // const payload = {
+            //     title: this.title.value,
+            //     content: this.content.value,
+            //     boardImageList: this.boardImageList,
+            // };
+            // this.$store.dispatch("insertBoard", payload);
+            this.submitFiles();
+            // this.$store.dispatch("submitFiles", payload);
+        },
+
+        insertBoardImageList(e) {
+            this.boardImageList.push(e.target.files[0]);
+        },
+
+        removeBoardImageList(index) {
+            this.boardImageList.splice(index, 1);
+        },
+
+        async submitFiles() {
+            const formData = new FormData();
+            formData.append("title", this.title);
+            formData.append("content", this.content);
+
+            for (let i = 0; i < this.boardImageList.length; i++) {
+                formData.append("files", this.boardImageList[i]);
+            }
+
+            const response = await axios.get("http://localhost:8080/api/board/img", formData, {
+                withCredentials: true,
+            });
+            console.log(response);
         },
     },
 };
