@@ -27,7 +27,7 @@ import java.util.List;
 public class BunnyQuotationRequestDto {
 
 	private Long seq;
-	private Long bunnyNotiSeq;
+	private Long bunnySeq;
 	private Long clientSeq;
 	private Long helperSeq;
 	private LocalDateTime startDate;

@@ -29,7 +29,7 @@ import java.util.List;
 public class BunnyQuotationResponseDto {
 
 	private Long seq;
-	private BunnyNotiResponseDto bunnyNoti;
+	private Long bunnyNotiSeq;
 	private UserResponseDto client;
 	private UserResponseDto helper;
 	private LocalDateTime startDate;

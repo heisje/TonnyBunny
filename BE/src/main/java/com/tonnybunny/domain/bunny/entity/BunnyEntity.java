@@ -3,9 +3,7 @@ package com.tonnybunny.domain.bunny.entity;
 
 import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,12 +13,14 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BunnyNotiEntity extends CommonEntity {
+@AllArgsConstructor
+public class BunnyEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bunny_noti_seq")
+	@Column(name = "bunny_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,16 +41,27 @@ public class BunnyNotiEntity extends CommonEntity {
 	private String bunnySituCode;
 	private String bunnyStateCode;
 
+	@Builder.Default
+	private String isDeleted = "F";
+
 	// 번역 공고 지원 헬퍼 리스트
-	@OneToMany(mappedBy = "bunnyNoti")
-	private List<BunnyNotiHelperEntity> bunnyNotiHelperList = new ArrayList<>();
+	@OneToMany(mappedBy = "bunny")
+	@Builder.Default
+	private List<BunnyApplyEntity> bunnyApplyList = new ArrayList<>();
 
 	// 번역 공고 이미지 리스트
-	@OneToMany(mappedBy = "bunnyNoti")
-	private List<BunnyNotiImageEntity> bunnyNotiImageList = new ArrayList<>();
+	@OneToMany(mappedBy = "bunny")
+	@Builder.Default
+	private List<BunnyImageEntity> bunnyImageList = new ArrayList<>();
 
 	// 번역 공고 견적서 리스트
-	@OneToMany(mappedBy = "bunnyNoti")
+	@OneToMany(mappedBy = "bunny")
+	@Builder.Default
 	private List<BunnyQuotationEntity> bunnyQuotationList = new ArrayList<>();
+
+
+	public void delete() {
+		this.isDeleted = "T";
+	}
 
 }
