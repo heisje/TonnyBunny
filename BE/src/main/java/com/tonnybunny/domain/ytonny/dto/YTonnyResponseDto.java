@@ -1,13 +1,20 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tonnybunny.common.dto.LangCodeEnum;
+import com.tonnybunny.common.dto.TaskCodeEnum;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
+import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,7 +42,11 @@ import java.util.List;
  * yTonnyQuotationList      : 헬퍼의 견적서 목록
  */
 @Data
-public class YTonnyNotiResponseDto {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class YTonnyResponseDto {
 
 	private Long seq;
 
@@ -43,37 +54,23 @@ public class YTonnyNotiResponseDto {
 	private UserResponseDto helper;
 
 	private String title;
+	private String content;
+
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
-	private String content;
 
-	private String startLangCode;
-	private String endLangCode;
-	private String tonnySituCode;
-	private String taskCode;
-	private String taskStateCode;
+	private LangCodeEnum startLangCode;
+	private LangCodeEnum endLangCode;
+	private TonnySituCodeEnum tonnySituCode;
+	private TaskCodeEnum taskCode;
+	private TaskStateCodeEnum taskStateCode;
 
-	private List<YTonnyNotiHelperResponseDto> yTonnyNotiHelperList;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 
+	private List<YTonnyApplyResponseDto> yTonnyApplyList;
 	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
-
-
-	public static YTonnyNotiResponseDto fromEntity(YTonnyNotiEntity yTonnyNoti) {
-		return new YTonnyNotiResponseDto();
-	}
-
-
-	public static List<YTonnyNotiResponseDto> fromEntityList(
-		List<YTonnyNotiEntity> yTonnyNotiList) {
-		List<YTonnyNotiResponseDto> result = new ArrayList<>();
-		for (YTonnyNotiEntity yTonnyNoti : yTonnyNotiList) {
-			YTonnyNotiResponseDto yTonnyNotiResponseDto = YTonnyNotiResponseDto.fromEntity(
-				yTonnyNoti);
-			result.add(yTonnyNotiResponseDto);
-		}
-		return result;
-	}
 
 }

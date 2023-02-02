@@ -12,8 +12,8 @@ import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiEntity;
-import com.tonnybunny.domain.ytonny.entity.YTonnyNotiHelperEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyApplyEntity;
+import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -57,9 +57,9 @@ public class UserEntity extends CommonEntity {
 	private HelperInfoEntity helperInfo;                            // 헬퍼 정보
 	// 예약통역
 	@OneToMany(mappedBy = "client")
-	private List<YTonnyNotiEntity> yTonnyNotiList = new ArrayList<>(); // 예약통역공고리스트
+	private List<YTonnyEntity> yTonnyNotiList = new ArrayList<>(); // 예약통역공고리스트
 	@OneToMany(mappedBy = "helper")
-	private List<YTonnyNotiHelperEntity> yTonnyNotiHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
+	private List<YTonnyApplyEntity> yTonnyNotiHelperList = new ArrayList<>(); // 예약통역공고신청자리스트
 	// 스케쥴
 	@OneToMany(mappedBy = "user")
 	private List<ScheduleEntity> scheduleList = new ArrayList<>(); // 고객 스케쥴 리스트
