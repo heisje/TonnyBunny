@@ -5,6 +5,8 @@ import com.tonnybunny.domain.jtonny.dto.JTonnyApplyRequestDto;
 import com.tonnybunny.domain.jtonny.dto.JTonnyRequestDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyApplyEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,20 +14,21 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class JTonnyService {
 
+	private final RedisTemplate<String, Object> redisTemplate;
+
+
 	/**
-	 * MEMO : CREATE
 	 * 즉시 통역 공고 생성
 	 *
 	 * @param jTonnyRequestDto : 즉시 통역 공고 생성 폼
 	 * @return : 생성된 공고 seq
 	 */
-	public Long createJTonny(JTonnyRequestDto jTonnyRequestDto) {
-		// TODO : 로직
-
+	public void createJTonny(JTonnyRequestDto jTonnyRequestDto) {
 		JTonnyEntity jTonny = jTonnyRequestDto.toEntity();
-		return jTonny.getSeq();
+		redisTemplate.convertAndSend("jtonny/request", jTonny);
 	}
 
 
@@ -35,11 +38,9 @@ public class JTonnyService {
 	 * @param jTonnyApplyRequestDto : 즉시 통역 공고 신청 폼
 	 * @return : 생성된 신청 seq
 	 */
-	public Long createJTonnyApply(JTonnyApplyRequestDto jTonnyApplyRequestDto) {
-		// TODO : 로직
-
+	public void createJTonnyApply(JTonnyApplyRequestDto jTonnyApplyRequestDto) {
 		JTonnyApplyEntity jTonnyApply = jTonnyApplyRequestDto.toEntity();
-		return jTonnyApply.getSeq();
+		redisTemplate.convertAndSend("jtonny/apply", jTonnyApply);
 	}
 
 

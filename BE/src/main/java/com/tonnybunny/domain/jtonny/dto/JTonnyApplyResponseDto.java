@@ -2,6 +2,7 @@ package com.tonnybunny.domain.jtonny.dto;
 
 
 import com.tonnybunny.domain.jtonny.entity.JTonnyApplyEntity;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -9,10 +10,16 @@ import java.util.List;
 
 
 @Data
+@Builder
 public class JTonnyApplyResponseDto {
 
+	private Long seq;
+
+
 	public static JTonnyApplyResponseDto fromEntity(JTonnyApplyEntity jTonnyHelper) {
-		return new JTonnyApplyResponseDto();
+		return JTonnyApplyResponseDto.builder()
+		                             .seq(jTonnyHelper.getSeq())
+		                             .build();
 	}
 
 
