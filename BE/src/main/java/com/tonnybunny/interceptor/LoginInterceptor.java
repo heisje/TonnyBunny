@@ -1,13 +1,17 @@
 package com.tonnybunny.interceptor;
 
 
-import com.tonnybunny.common.jwt.service.AuthService;
+import com.tonnybunny.common.auth.service.AuthService;
+import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.tonnybunny.exception.ErrorCode.ACCESS_TOKEN_ERROR;
+import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_TOKEN;
 
 
 @Component
@@ -34,25 +38,20 @@ public class LoginInterceptor implements HandlerInterceptor {
 		 *         return false;
 		 */
 
-		//		System.out.println("JwtToken 호출");
-		//		String accessToken = request.getHeader("ACCESS_TOKEN");
-		//		System.out.println("AccessToken:" + accessToken);
-		//		String refreshToken = request.getHeader("REFRESH_TOKEN");
-		//		System.out.println("RefreshToken:" + refreshToken);
-		//
-		//		if (accessToken != null) {
-		//			if (jwtService.isValidToken(accessToken)) {
-		//				return true;
-		//			}
-		//		}
-		//		response.setStatus(401);
-		//		response.setHeader("ACCESS_TOKEN", accessToken);
-		//		response.setHeader("REFRESH_TOKEN", refreshToken);
-		//		response.setHeader("msg", "Check the tokens.");
-		//		return false;
-		// 만료되었을 경우 어떻게 할 지 로직 추가해야 함
+		System.out.println("JwtToken 호출");
+		String accessToken = request.getHeader("ACCESS_TOKEN");
+		System.out.println("AccessToken:" + accessToken);
 
-		return true;
+		if (accessToken != null) {
+			if (authService.isValidToken(accessToken)) {
+				return true;
+			} else {
+				throw new CustomException(ACCESS_TOKEN_ERROR);
+				
+			}
+		} else {
+			throw new CustomException(NOT_FOUND_TOKEN);
+		}
 
 	}
 

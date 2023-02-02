@@ -1,7 +1,7 @@
-package com.tonnybunny.common.jwt.dto;
+package com.tonnybunny.common.auth.dto;
 
 
-import com.tonnybunny.common.jwt.entity.AuthEntity;
+import com.tonnybunny.common.auth.entity.AuthEntity;
 import lombok.*;
 
 import java.util.ArrayList;

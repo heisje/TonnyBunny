@@ -1,8 +1,8 @@
 package com.tonnybunny.domain.user.controller;
 
 
+import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.common.jwt.dto.AuthResponseDto;
 import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
@@ -54,6 +54,25 @@ public class UserController {
 	//	public ResponseEntity<List<UserEntity>> findUser() {
 	//		return ResponseEntity.status(HttpStatus.OK).body(userService.findUsers());
 	//	}
+
+
+	/**
+	 * Header에 있는 Refresh Token 확인
+	 * Refresh Token의 seq와 UserSeq가 동일한지 확인
+	 * 유효기간이 남았으면 Success와 함께 새로운 Token 반환
+	 * 유효기간이 지났으면 실패 메세지 전송
+	 */
+	@GetMapping("/refresh/{userSeq}")
+	@ApiOperation(value = "인증 토큰을 확인합니다.")
+	public ResponseEntity<ResultDto<AuthResponseDto>> checkRefreshToken(
+		@RequestHeader(value = "REFRESH_TOKEN") String refreshToken,
+		@PathVariable("userSeq") Long userSeq) {
+
+		System.out.println("refreshToken = " + refreshToken);
+		AuthResponseDto authResponseDto = userService.checkRefreshToken(refreshToken, userSeq);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(authResponseDto));
+
+	}
 
 
 	@PostMapping("/signup/nickname")
@@ -149,6 +168,7 @@ public class UserController {
 	@ApiOperation(value = "회원정보를 조회합니다")
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(
 		@PathVariable("userSeq") Long userSeq) {
+
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
 		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
@@ -187,6 +207,7 @@ public class UserController {
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
 	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
 		"userSeq") Long userSeq) {
+
 		List<FollowEntity> followEntityList = userService.getFollowList(userSeq);
 		List<FollowResponseDto> followResponseDtoList = FollowResponseDto.fromEntityList(followEntityList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));

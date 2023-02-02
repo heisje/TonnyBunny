@@ -1,10 +1,10 @@
 package com.tonnybunny.domain.user.service;
 
 
-import com.tonnybunny.common.jwt.dto.AuthResponseDto;
-import com.tonnybunny.common.jwt.entity.AuthEntity;
-import com.tonnybunny.common.jwt.repository.AuthRepository;
-import com.tonnybunny.common.jwt.service.AuthService;
+import com.tonnybunny.common.auth.dto.AuthResponseDto;
+import com.tonnybunny.common.auth.entity.AuthEntity;
+import com.tonnybunny.common.auth.repository.AuthRepository;
+import com.tonnybunny.common.auth.service.AuthService;
 import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AccountResponseDto;
 import com.tonnybunny.domain.user.dto.HistoryRequestDto;
@@ -19,6 +19,7 @@ import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -114,21 +115,70 @@ public class UserService {
 		String accessToken = "";
 		String refreshToken = auth.getRefreshToken();
 
-		if (authService.isValidRefreshToken(refreshToken)) {
-			accessToken = authService.generateJwtToken(auth.getUser());
-
-		} else {
-			accessToken = authService.generateJwtToken(auth.getUser());
-			refreshToken = authService.saveRefreshToken(user);
-			System.out.println("new refreshToken :" + refreshToken);
-			auth.refreshUpdate(refreshToken);
-			authRepository.save(auth);
-		}
+		accessToken = authService.generateJwtToken(auth.getUser());
+		refreshToken = authService.saveRefreshToken(user);
+		System.out.println("new refreshToken :" + refreshToken);
+		auth.refreshUpdate(refreshToken);
+		authRepository.save(auth);
 
 		return AuthResponseDto.builder()
 		                      .ACCESS_TOKEN(accessToken)
 		                      .REFRESH_TOKEN(refreshToken)
 		                      .build();
+	}
+
+
+	/**
+	 * 리프레시 토큰의 유효기간과 시퀀스 일치 여부 확인
+	 *
+	 * @return AuthResponseDto
+	 */
+	@Transactional
+	public AuthResponseDto checkRefreshToken(String refreshToken, Long userSeq) {
+		authService.isValidRefreshToken(refreshToken); // token 유효성 확인(유효기간 및 형식)
+		Long tokenUserSeq = extractRefreshTokenInfo(refreshToken);
+		if (!userSeq.equals(tokenUserSeq)) { // 보낸 유저와 토큰 내의 유저정보가 일치하지 않을 경우
+			throw new CustomException(REFRESH_TOKEN_ERROR);
+		}
+		// 위에서 유효성 검사 및 보낸 사용자를 확인했으므로 새로운 Access Token 과 Refresh Token을 발급한다.
+		AuthEntity auth = authRepository.findByUserSeq(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_TOKEN)
+		);
+		if (!auth.getRefreshToken().equals(refreshToken)) { // DB에 있는 정보와 한번 더 비교하여 오류처리
+			System.out.println("refreshToken = " + refreshToken + ", DBToken = " + auth.getRefreshToken());
+			throw new CustomException(REFRESH_TOKEN_ERROR);
+		}
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+		String accessToken = authService.generateJwtToken(user);
+		String newRefreshToken = authService.saveRefreshToken(user);
+		auth.refreshUpdate(newRefreshToken);
+		authRepository.save(auth);
+
+		return new AuthResponseDto(accessToken, newRefreshToken);
+	}
+
+
+	/**
+	 * Header에 있는 Access Token 정보에서 유저 Seq를 추출
+	 *
+	 * @param accessToken
+	 * @return
+	 */
+	public Long extractAccessTokenInfo(String accessToken) {
+		Claims tokenClaims = authService.getClaimsAccessToken(accessToken);
+		return Long.valueOf(String.valueOf(tokenClaims.get("seq")));
+	}
+
+
+	/**
+	 * Header에 있는 Refresh Token 정보에서 유저 Seq를 추출
+	 *
+	 * @param refreshToken
+	 * @return
+	 */
+	public Long extractRefreshTokenInfo(String refreshToken) {
+		Claims tokenClaims = authService.getClaimsRefreshToken(refreshToken);
+		return Long.valueOf(String.valueOf(tokenClaims.get("seq")));
 	}
 
 

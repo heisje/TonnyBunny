@@ -26,10 +26,13 @@ public enum ErrorCode {
 	ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "토큰의 유효기간이 만료되었습니다."),
 	ACCESS_TOKEN_NOT_FOUND(UNAUTHORIZED, "액세스 토큰이 존재하지 않습니다."),
 	REFRESH_TOKEN_NOT_FOUND(UNAUTHORIZED, "리프레시 토큰이 존재하지 않습니다."),
+	ACCESS_TOKEN_ERROR(UNAUTHORIZED, "액세스 토큰에 문제가 있습니다."),
+	REFRESH_TOKEN_ERROR(UNAUTHORIZED, "리프레시 토큰에 문제가 있습니다."),
 
 	NOT_FOUND_ALERT_LOG(NOT_FOUND, "알림 로그가 존재하지 않습니다."),
 	NOT_FOUND_ENTITY(NOT_FOUND, "엔티티가 존재하지 않습니다."),
-	NOT_FOUND_USER(NOT_FOUND, "대상이 존재하지 않습니다.");
+	NOT_FOUND_USER(NOT_FOUND, "대상이 존재하지 않습니다."),
+	NOT_FOUND_TOKEN(NOT_FOUND, "토큰이 존재하지 않습니다.");
 
 	private final HttpStatus httpStatus;
 	private final String message;
