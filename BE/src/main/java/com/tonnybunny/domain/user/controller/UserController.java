@@ -32,7 +32,7 @@ public class UserController {
 	public ResponseEntity<ResultDto<Boolean>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
 		userService.signup(userRequestDto);
-		
+
 		return ResponseEntity.status(HttpStatus.OK)
 		                     .body(ResultDto.ofSuccess());
 
@@ -176,16 +176,22 @@ public class UserController {
 	}
 
 
+	@PutMapping("/mypage/{userSeq}/password")
+	@ApiOperation(value = "비밀번호를 수정합니다")
+	public ResponseEntity<ResultDto<Long>> modifyUserPassword(@PathVariable("userSeq") Long userSeq,
+		@RequestBody UserRequestDto userRequestDto) {
+		Long updatedUserSeq = userService.modifyUserPassword(userSeq, userRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
+	}
+
+
 	@DeleteMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 삭제합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteUserInfo(
 		@PathVariable("userSeq") Long userSeq) {
-		Boolean isSuccess = userService.deleteUserInfo(userSeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		userService.deleteUserInfo(userSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
 
 	// --------------------------------- 즐겨찾기 ------------------------------------
