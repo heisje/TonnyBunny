@@ -10,9 +10,9 @@
             <TitleText
                 title="이제 다양한 토니버니 서비스를 이용하실 수 있습니다"
                 type="h2"
-                center
-            />
+                center />
             <br /><br /><br /><br />
+
             <smallBtn style="width: 100%" text="로그인 하러가기"></smallBtn><br /><br />
             <smallBtn style="width: 100%" text="홈으로 돌아가기"></smallBtn>
         </div>
