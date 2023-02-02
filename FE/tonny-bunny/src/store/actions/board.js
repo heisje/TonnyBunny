@@ -1,4 +1,5 @@
 import http from "@/common/axios";
+import axios from "axios";
 import global from "@/common/global";
 
 export default {
@@ -21,6 +22,7 @@ export default {
                 d.createdAt = global.setDate(d.createdAt);
             });
 
+            context;
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -36,10 +38,10 @@ export default {
     },
 
     // POST /api/board 게시글을 작성합니다.
-    async insertBoard(context, json) {
+    async insertBoard(context, payload) {
         console.log("게시글을 작성합니다.");
 
-        let { data } = await http.post(`/board`, json);
+        let { data } = await http.post(`/board`, payload);
 
         try {
             console.log("async function : ", data);
@@ -63,6 +65,24 @@ export default {
 
             return data.resultCode;
         }
+    },
+
+    async submitFiles(context, payload) {
+        const { title, content, boardImageList } = payload;
+
+        console.log(payload);
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+
+        for (let i = 0; i < boardImageList.length; i++) {
+            formData.append("files", boardImageList[i]);
+        }
+
+        const response = await axios.get("http://localhost:8080/api/board/img", formData, {
+            withCredentials: true,
+        });
+        console.log(response);
     },
 
     // GET /api/board/{boardSeq} 게시글을 열람합니다.

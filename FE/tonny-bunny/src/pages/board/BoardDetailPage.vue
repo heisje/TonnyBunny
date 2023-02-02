@@ -22,8 +22,7 @@ export default {
         ...mapGetters({ boardDetail: "getBoardDetail" }),
     },
 
-    mounted() {
-        console.log(this.$route.params.id);
+    created() {
         this.$store.dispatch("getBoardDetail", this.$route.params.id);
     },
 };
