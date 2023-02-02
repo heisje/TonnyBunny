@@ -25,9 +25,13 @@ export default {
 
             // service logic
             if (data.resultCode == "SUCCESS") {
-                const { ACCESS_TOKEN, REFRESH_TOKEN, ...userInfo } = data;
-                context.commit("SET_TOKENS", { ACCESS_TOKEN, REFRESH_TOKEN });
-                http.defaults.headers.common["access_TOKEN"] = ACCESS_TOKEN;
+                const { access_TOKEN, refresh_TOKEN, ...userInfo } = data.data;
+                console.log(access_TOKEN);
+                console.log(refresh_TOKEN);
+                console.log("userInfo", userInfo);
+
+                context.commit("SET_TOKENS", { access_TOKEN, refresh_TOKEN });
+                http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
                 context.commit("SET_USER_INFO", userInfo);
             } else if (data.resultCode == "FAIL") {
                 //
