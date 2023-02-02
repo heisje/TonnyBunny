@@ -6,7 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface BunnyImageRepository extends JpaRepository<BunnyImageEntity, Long> {
-
-	BunnyImageEntity save(BunnyImageEntity bunnyNotiImage);
-
 }
