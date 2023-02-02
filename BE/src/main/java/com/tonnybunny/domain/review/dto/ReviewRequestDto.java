@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 public class ReviewRequestDto {
 
+    Long seq;
+    
+
     public ReviewEntity toEntity() {
         return (ReviewEntity) new Object();
     }
