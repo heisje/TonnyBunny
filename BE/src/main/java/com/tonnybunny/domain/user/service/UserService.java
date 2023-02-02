@@ -5,7 +5,10 @@ import com.tonnybunny.common.jwt.dto.AuthResponseDto;
 import com.tonnybunny.common.jwt.entity.AuthEntity;
 import com.tonnybunny.common.jwt.repository.AuthRepository;
 import com.tonnybunny.common.jwt.service.AuthService;
-import com.tonnybunny.domain.user.dto.*;
+import com.tonnybunny.domain.user.dto.AccountRequestDto;
+import com.tonnybunny.domain.user.dto.AccountResponseDto;
+import com.tonnybunny.domain.user.dto.HistoryRequestDto;
+import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.BlockEntity;
 import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
@@ -249,6 +252,7 @@ public class UserService {
 	 * @param userSeq : 조회할 userSeq 포함
 	 * @return findUserBySeq로 조회된 searchedUser
 	 */
+	@Transactional
 	public UserEntity getUserInfo(Long userSeq) {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
@@ -265,6 +269,7 @@ public class UserService {
 	 * @param userRequestDto : 수정할 데이터
 	 * @return 수정 후 user의 seq
 	 */
+	@Transactional
 	public Long modifyUserInfo(Long userSeq, UserRequestDto userRequestDto) {
 		// TODO : 로직
 		UserEntity _new = userRequestDto.toEntity();
@@ -299,6 +304,7 @@ public class UserService {
 	 * @return List<FollowResponseDto>
 	 */
 
+	@Transactional
 	public List<FollowEntity> getFollowList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
@@ -335,8 +341,11 @@ public class UserService {
 	 * @param followSeq : 추가될 누군가의 seq
 	 * @return
 	 */
+	@Transactional
 	public Long createFollow(Long userSeq, Long followSeq) {
-
+		if (userSeq.equals(followSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
@@ -354,7 +363,12 @@ public class UserService {
 	 * @param followSeq : 삭제될 누군가의 seq
 	 * @return
 	 */
+	@Transactional
 	public Boolean deleteFollow(Long userSeq, Long followSeq) {
+		if (userSeq.equals(followSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
@@ -370,7 +384,11 @@ public class UserService {
 	 * @param blockSeq : 추가될 누군가의 seq
 	 * @return
 	 */
+	@Transactional
 	public Long createBlock(Long userSeq, Long blockSeq) {
+		if (userSeq.equals(blockSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
@@ -389,11 +407,16 @@ public class UserService {
 	 * @param blockSeq : 삭제될 누군가의 seq
 	 * @return
 	 */
+	@Transactional
 	public Boolean deleteBlock(Long userSeq, Long blockSeq) {
+		if (userSeq.equals(blockSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
-		blockRepository.deleteFollowBySeq(user, blockSeq);
+		blockRepository.deleteBlockBySeq(user, blockSeq);
 
 		return true;
 
@@ -403,10 +426,23 @@ public class UserService {
 	/**
 	 * 유저 신고하기
 	 *
-	 * @param reportRequestDto
+	 * @param userSeq   : 로그인 유저 seq
+	 * @param reportSeq : 신고 당한 유저 seq
 	 * @return
 	 */
-	public Boolean createReport(ReportRequestDto reportRequestDto) {
+	@Transactional
+	public Boolean createReport(Long userSeq, Long reportSeq) {
+		if (userSeq.equals(reportSeq)) {
+			throw new CustomException(SAME_USER_REQUEST);
+		}
+
+		UserEntity reportedUser = userRepository.findById(reportSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+
+		reportedUser.setReportCount(reportedUser.getReportCount() + 1);
+		userRepository.save(reportedUser);
+
 		return true;
 	}
 
@@ -418,6 +454,7 @@ public class UserService {
 	 * @param historyRequestDto : 목록 조회 필터링 조건
 	 * @return 히스토리 목록 EntityList
 	 */
+	@Transactional
 	public List<HistoryEntity> getUserHistoryList(Long userSeq, HistoryRequestDto historyRequestDto) {
 		/**
 		 * 히스토리 목록 조회 로직
@@ -457,6 +494,7 @@ public class UserService {
 	 * @param historySeq : 조회할 히스토리 seq
 	 * @return
 	 */
+	@Transactional
 	public HistoryEntity getUserHistory(Long userSeq, Long historySeq) {
 		/**
 		 * 히스토리 단일 조회

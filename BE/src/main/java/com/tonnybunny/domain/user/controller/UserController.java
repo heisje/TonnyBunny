@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -181,17 +180,15 @@ public class UserController {
 
 
 	/**
-	 * FollowEntity로 받으면 넣을 수 있는 정보가 없어서 Controller 상에서 추가 로직이 수행되어야 하는데
-	 * 굳이 그럴 필요가 없을 것 같아서 그냥 바로 ResponseDto 형태로 주고 받음
+	 * 사용자의 시퀀스값을 제공하면
+	 * 사용자가 팔로우한 유저들의 시퀀스값을 리스트로 반환함
 	 */
 	@GetMapping("/mypage/{userSeq}/follow")
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
 	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
 		"userSeq") Long userSeq) {
 		List<FollowEntity> followEntityList = userService.getFollowList(userSeq);
-		List<UserEntity> userEntityList = new ArrayList<>(); // 관련 UserService 완성 이후 사용 예정
-		List<HelperInfoEntity> helperInfoEntityList = new ArrayList<>();
-		List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
+		List<FollowResponseDto> followResponseDtoList = FollowResponseDto.fromEntityList(followEntityList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
 	}
 
@@ -243,16 +240,18 @@ public class UserController {
 	// --------------------------------- 신고 ------------------------------------
 
 
-	@PostMapping("/mypage/report")
+	@PostMapping("/mypage/{userSeq}/report/{reportSeq}")
 	@ApiOperation(value = "유저를 신고합니다")
-	public ResponseEntity<ResultDto<Boolean>> createReport(
-		@RequestBody ReportRequestDto reportRequestDto) {
-		Boolean isSuccess = userService.createReport(reportRequestDto);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+	public ResponseEntity<ResultDto<Long>> createReport(
+		@PathVariable("userSeq") Long userSeq,
+		@PathVariable("reportSeq") Long reportSeq) {
+
+		userService.createReport(userSeq, reportSeq);
+		// 신고한 유저 자동 차단
+		userService.createBlock(userSeq, reportSeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(reportSeq));
+
 	}
 
 	// --------------------------------- 히스토리 ------------------------------------
