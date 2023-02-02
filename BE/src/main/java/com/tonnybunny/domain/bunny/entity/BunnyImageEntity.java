@@ -13,17 +13,17 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BunnyNotiImageEntity extends CommonEntity {
+public class BunnyImageEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bunny_noti_image_seq")
+	@Column(name = "bunny_image_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
-	@JoinColumn(name = "bunny_noti_seq")
-	private BunnyNotiEntity bunnyNoti;
+	@JoinColumn(name = "bunny_seq")
+	private BunnyEntity bunny;
 
 	private String imagePath;
 

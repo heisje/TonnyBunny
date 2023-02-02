@@ -13,16 +13,16 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BunnyNotiHelperEntity extends CommonEntity {
+public class BunnyApplyEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bunny_noti_helper_seq")
+	@Column(name = "bunny_apply_seq")
 	private Long seq;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bunny_noti_seq")
-	private BunnyNotiEntity bunnyNoti;
+	@JoinColumn(name = "bunny_seq")
+	private BunnyEntity bunny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")

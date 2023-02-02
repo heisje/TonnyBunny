@@ -23,7 +23,7 @@ import java.util.List;
  * bunnyStateCode       : 번역공고 상태 코드
  */
 @Data
-public class BunnyNotiRequestDto {
+public class BunnyRequestDto {
 
 	private Long clientSeq;
 
@@ -32,11 +32,11 @@ public class BunnyNotiRequestDto {
 	private Integer estimatePrice;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
-	private List<BunnyNotiImageRequestDto> bunnyNotiImageList;
+	private List<BunnyImageRequestDto> bunnyImageList;
 
 	private String startLangCode;
 	private String endLangCode;
 	private String bunnySituCode;
 	private String bunnyStateCode;
-	
+
 }

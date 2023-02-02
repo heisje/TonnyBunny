@@ -2,7 +2,7 @@ package com.tonnybunny.domain.bunny.dto;
 
 
 import com.tonnybunny.config.ModelMapperFactory;
-import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.Data;
 import org.modelmapper.Converter;
@@ -33,7 +33,7 @@ import java.util.List;
  * bunnyQuotationList   : 번역 견적서 리스트
  */
 @Data
-public class BunnyNotiResponseDto {
+public class BunnyResponseDto {
 
 	private Long seq;
 	private Long clientSeq;
@@ -49,35 +49,35 @@ public class BunnyNotiResponseDto {
 	private String bunnySituCode;
 	private String bunnyStateCode;
 
-	private List<BunnyNotiHelperResponseDto> bunnyNotiHelperList;
-	private List<BunnyNotiImageResponseDto> bunnyNotiImageList;
+	private List<BunnyApplyResponseDto> bunnyApplyList;
+	private List<BunnyImageResponseDto> bunnyImageList;
 	private List<BunnyQuotationResponseDto> bunnyQuotationList;
 
 
-	public static BunnyNotiResponseDto fromEntity(BunnyNotiEntity bunnyNoti) {
+	public static BunnyResponseDto fromEntity(BunnyEntity bunnyNoti) {
 
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 		//		modelMapper.getConfiguration().getMatchingStrategy(MatchingStrategies)
 
-		modelMapper.typeMap(BunnyNotiEntity.class, BunnyNotiResponseDto.class).addMappings(
+		modelMapper.typeMap(BunnyEntity.class, BunnyResponseDto.class).addMappings(
 			mapper -> {
 				// 고객 Entity -> 고객 Seq
 				mapper.using((Converter<UserEntity, Long>) test -> test.getSource().getSeq())
-					.map(BunnyNotiEntity::getUser, BunnyNotiResponseDto::setClientSeq);
+					.map(BunnyEntity::getUser, BunnyResponseDto::setClientSeq);
 			}
 		);
 		// 값 매핑
-		BunnyNotiResponseDto bunnyNotiResponseDto = modelMapper.map(bunnyNoti, BunnyNotiResponseDto.class);
+		BunnyResponseDto bunnyNotiResponseDto = modelMapper.map(bunnyNoti, BunnyResponseDto.class);
 
 		return bunnyNotiResponseDto;
 	}
 
 
-	public static List<BunnyNotiResponseDto> fromEntityList(List<BunnyNotiEntity> bunnyNotiList) {
-		List<BunnyNotiResponseDto> result = new ArrayList<>();
+	public static List<BunnyResponseDto> fromEntityList(List<BunnyEntity> bunnyNotiList) {
+		List<BunnyResponseDto> result = new ArrayList<>();
 
-		for (BunnyNotiEntity bunnyNoti : bunnyNotiList) {
-			BunnyNotiResponseDto bunnyNotiResponseDto = fromEntity(bunnyNoti);
+		for (BunnyEntity bunnyNoti : bunnyNotiList) {
+			BunnyResponseDto bunnyNotiResponseDto = fromEntity(bunnyNoti);
 			result.add(bunnyNotiResponseDto);
 		}
 

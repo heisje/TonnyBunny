@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyNotiImageEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyImageEntity;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -21,15 +21,15 @@ public class BunnyQuotationImageResponseDto {
 	private String imagePath;
 
 
-	public static BunnyQuotationImageResponseDto fromEntity(BunnyNotiImageEntity bunnyNotiImage) {
+	public static BunnyQuotationImageResponseDto fromEntity(BunnyImageEntity bunnyNotiImage) {
 		return new BunnyQuotationImageResponseDto();
 	}
 
 
-	public static List<BunnyQuotationImageResponseDto> fromEntityList(List<BunnyNotiImageEntity> bunnyNotiImageList) {
+	public static List<BunnyQuotationImageResponseDto> fromEntityList(List<BunnyImageEntity> bunnyNotiImageList) {
 		List<BunnyQuotationImageResponseDto> result = new ArrayList<>();
 
-		for (BunnyNotiImageEntity bunnyNotiImage : bunnyNotiImageList) {
+		for (BunnyImageEntity bunnyNotiImage : bunnyNotiImageList) {
 			BunnyQuotationImageResponseDto bunnyQuotationImageResponseDto = fromEntity(bunnyNotiImage);
 			result.add(bunnyQuotationImageResponseDto);
 		}
