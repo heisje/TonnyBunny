@@ -1,4 +1,5 @@
 import http from "@/common/axios";
+// import axios from "axios";
 import global from "@/common/global";
 
 export default {
@@ -36,10 +37,10 @@ export default {
     },
 
     // POST /api/board 게시글을 작성합니다.
-    async insertBoard(context, json) {
+    async insertBoard(context, payload) {
         console.log("게시글을 작성합니다.");
 
-        let { data } = await http.post(`/board`, json);
+        let { data } = await http.post(`/board`, payload);
 
         try {
             console.log("async function : ", data);
@@ -64,6 +65,42 @@ export default {
             return data.resultCode;
         }
     },
+
+    // submitFiles(context, payload) {
+    //     const { title, content, boardImageList } = payload;
+    //     title;
+    //     content;
+    //     console.log(payload);
+    //     const formData = new FormData();
+
+    //     // for (let i = 0; i < boardImageList.length; i++) {
+    //     //     let file = boardImageList[i];
+    //     //     console.log(file);
+    //     //     formData.append("img" + i, file);
+    //     // }
+    //     formData.append("img", boardImageList[0]);
+    //     formData.append(
+    //         "jsonData",
+    //         new Blob([JSON.stringify({ title: title, content: content })], {
+    //             type: "application/json",
+    //         })
+    //     );
+
+    //     formData.forEach((f) => {
+    //         console.log(f);
+    //     });
+    //     axios
+    //         .get("http://localhost:8080/api/board/img", formData, {
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data",
+    //             },
+    //             baseURL: "",
+
+    //             withCredentials: true,
+    //         })
+    //         .then(function () {})
+    //         .catch(function () {});
+    // },
 
     // GET /api/board/{boardSeq} 게시글을 열람합니다.
     async getBoardDetail(context, seq) {

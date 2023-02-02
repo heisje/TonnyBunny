@@ -27,6 +27,21 @@
                     @click="insertBoard" />
                 <router-link :to="{ name: 'BoardDetailPage', params: { id: 1 } }"> </router-link>
             </form>
+
+            <input type="file" accept="image/*" @change="insertBoardImageList" />
+            <div class="fileListWrap">
+                <div
+                    v-for="(boardImageItem, index) in boardImageList"
+                    :key="boardImageItem"
+                    @click="removeBoardImageList(index)">
+                    <span>
+                        {{ boardImageItem.name }}
+                    </span>
+                    <span class="material-symbols-outlined"> close </span>
+                </div>
+            </div>
+
+            <button @click="boardImageList">사진전송</button>
         </div>
     </div>
 </template>
@@ -49,6 +64,8 @@ export default {
                 value: "",
                 notice: "",
             },
+
+            boardImageList: [],
         };
     },
 
@@ -59,11 +76,21 @@ export default {
         },
 
         insertBoard() {
-            const temp = {
+            const payload = {
                 title: this.title.value,
                 content: this.content.value,
+                boardImageList: this.boardImageList,
             };
-            this.$store.dispatch("insertBoard", temp);
+            // this.$store.dispatch("insertBoard", payload);
+            this.$store.dispatch("insertBoard", payload);
+        },
+
+        insertBoardImageList(e) {
+            this.boardImageList.push(e.target.files[0]);
+        },
+
+        removeBoardImageList(index) {
+            this.boardImageList.splice(index, 1);
         },
     },
 };
