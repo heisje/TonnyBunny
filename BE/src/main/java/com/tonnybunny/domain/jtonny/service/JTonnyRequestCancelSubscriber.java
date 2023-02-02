@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class JTonnyRequestSubscriber implements MessageListener {
+public class JTonnyRequestCancelSubscriber implements MessageListener {
 
 	private final ObjectMapper objectMapper;
 	private final SimpMessagingTemplate template;
@@ -32,11 +32,11 @@ public class JTonnyRequestSubscriber implements MessageListener {
 			String url;
 
 			/**
-			 * 요청 언어를 구독중인 helper 에게 공고를 보내는 subscriber
-			 * "/sub/jtonny/request/0020002"
+			 * 요청 언어를 구독중인 helper 에게 뜬 공고를 지우는 subscriber
+			 * "/sub/jtonny/request/0020002/cancel"
 			 */
-			if (jTonnyDto.getStartLangCode() == "0020001") url = "/sub/jtonny/request/" + jTonnyDto.getEndLangCode();
-			else url = "/sub/jtonny/request/" + jTonnyDto.getStartLangCode();
+			if (jTonnyDto.getStartLangCode() == "0020001") url = "/sub/jtonny/request/" + jTonnyDto.getEndLangCode() + "/cancel";
+			else url = "/sub/jtonny/request/" + jTonnyDto.getStartLangCode() + "/cancel";
 
 			template.convertAndSend(url, jTonnyDto);
 

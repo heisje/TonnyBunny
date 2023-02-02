@@ -2,8 +2,7 @@ package com.tonnybunny.domain.jtonny.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tonnybunny.domain.jtonny.dto.JTonnyApplyResponseDto;
-import com.tonnybunny.domain.jtonny.entity.JTonnyApplyEntity;
+import com.tonnybunny.domain.jtonny.dto.JTonnyDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.connection.Message;
@@ -24,12 +23,16 @@ public class JTonnyApplySubscriber implements MessageListener {
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
 		try {
-			String msg = new String(message.getBody());
-			JTonnyApplyEntity jTonnyApply = objectMapper.readValue(msg, JTonnyApplyEntity.class);
 
-			log.info("jTonnyApply = {}", jTonnyApply);
-			JTonnyApplyResponseDto jTonnyApplyResponseDto = JTonnyApplyResponseDto.fromEntity(jTonnyApply);
-			template.convertAndSend("/sub/jtonny/user/{jtonny.getLanguage()}", jTonnyApplyResponseDto);
+			String msg = new String(message.getBody());
+			JTonnyDto jTonnyDto = objectMapper.readValue(msg, JTonnyDto.class);
+
+			log.info("jTonnyDto = {}", jTonnyDto);
+
+			// clientSeq 로 요청, "/sub/jtonny/apply/17"
+			String url = "/sub/jtonny/apply/" + jTonnyDto.getClientSeq();
+
+			template.convertAndSend(url, jTonnyDto);
 
 		} catch (Exception e) {
 			e.printStackTrace();
