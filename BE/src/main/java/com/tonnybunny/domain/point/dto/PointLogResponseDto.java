@@ -42,7 +42,7 @@ public class PointLogResponseDto {
 			mapper.map(PointLogEntity::getTypeCode, PointLogResponseDto::setPointRequestType);
 			// 매핑 필드의 타입이 다른 경우
 			mapper.using((Converter<UserEntity, Long>) user -> user.getSource().getSeq())
-				.map(PointLogEntity::getUser, PointLogResponseDto::setUserSeq);
+			      .map(PointLogEntity::getUser, PointLogResponseDto::setUserSeq);
 		});
 		PointLogResponseDto pointLogResponseDto = modelMapper.map(pointLog, PointLogResponseDto.class);
 		return pointLogResponseDto;

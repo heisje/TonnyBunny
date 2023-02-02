@@ -50,7 +50,7 @@ public class BoardController {
 	@PostMapping
 	@ApiOperation(value = "게시글을 작성합니다.", notes = "")
 	public ResponseEntity<ResultDto<Long>> createBoard(
-		@RequestBody BoardRequestDto boardRequestDto) throws Exception {
+		@RequestBody BoardRequestDto boardRequestDto) {
 		Long boardSeq = boardService.createBoard(boardRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardSeq));
 	}

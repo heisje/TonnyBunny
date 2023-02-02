@@ -10,6 +10,7 @@ import com.tonnybunny.domain.board.entity.BoardImageEntity;
 import com.tonnybunny.domain.board.repository.BoardCommentRepository;
 import com.tonnybunny.domain.board.repository.BoardImageRepository;
 import com.tonnybunny.domain.board.repository.BoardRepository;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
@@ -36,8 +37,7 @@ public class BoardService {
 	 */
 	public List<BoardEntity> getBoardList() {
 
-		List<BoardEntity> boardList = boardRepository.findAll();
-		//FIXME : 삭제된 보드 제외
+		List<BoardEntity> boardList = boardRepository.findAllByIsDelete("F");
 		return boardList;
 	}
 
@@ -50,8 +50,14 @@ public class BoardService {
 	 */
 	public BoardEntity getBoard(Long boardSeq) {
 		BoardEntity board = boardRepository.findById(boardSeq)
-			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-		return board;
+		                                   .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+		// 삭제 됐을 시 excetion
+		if (board.getIsDelete() == "F") {
+			return board;
+		} else {
+			throw new CustomException(ErrorCode.NOT_FOUND_USER);
+		}
 	}
 
 
@@ -63,28 +69,26 @@ public class BoardService {
 	 * @return boardSeq
 	 */
 	public Long createBoard(BoardRequestDto boardRequestDto) {
-		//		UserEntity fromUser = userRepository.findById(boardRequestDto.getUserSeq())
-		//		                                    .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		UserEntity fromUser = userRepository.findById(boardRequestDto.getUserSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		BoardEntity board =
 			boardRepository.save(
 				BoardEntity.builder()
-					//				           .user(fromUser)
-					.title(boardRequestDto.getTitle())
-					.content(boardRequestDto.getContent())
-					//FIXME : 유저, 사진 추가
-					.build());
+				           .user(fromUser)
+				           .title(boardRequestDto.getTitle())
+				           .content(boardRequestDto.getContent())
+				           .isDelete("F")
+				           .build());
 
+		// 보드 저장 후 이미지 저장
 		for (BoardImageRequestDto boardImageRequestDto : boardRequestDto.getBoardImageList()) {
-			System.out.println("boardImageRequestDto = " + boardImageRequestDto);
-			boardImageRepository.save(
-				BoardImageEntity.builder()
-					.imagePath(boardImageRequestDto.getImagePath())
-					.board(board)
-					//FIXME : 유저 추가
-					.build());
-		}
+			BoardImageEntity boardImage = BoardImageEntity.builder()
+			                                              .imagePath(boardImageRequestDto.getImagePath())
+			                                              .board(board)
+			                                              .build();
 
+			boardImageRepository.save(boardImage);
+		}
 		return board.getSeq();
 	}
 
@@ -98,6 +102,7 @@ public class BoardService {
 	 * @return boardSeq
 	 */
 	public Long modifyBoard(Long boardSeq, BoardRequestDto boardRequestDto) {
+		// FIXME : 사용자 본인이 쓴 게시글 판별 추가
 		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// param setting
@@ -117,6 +122,12 @@ public class BoardService {
 	 * @param boardSeq
 	 */
 	public Boolean deleteBoard(Long boardSeq) {
+		// FIXME : 사용자 본인이 쓴 게시글 판별 추가
+		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+		//삭제 isDelete를 T로 바꾼다
+		board.delete("T");
+		boardRepository.save(board);
 
 		return true;
 	}
@@ -131,15 +142,15 @@ public class BoardService {
 	 * @param boardCommentRequestDto : 작성되는 댓글의 정보를 담고 있는 Dto
 	 */
 	public void createBoardComment(Long boardSeq, BoardCommentRequestDto boardCommentRequestDto) {
-
+		UserEntity fromUser = userRepository.findById(boardCommentRequestDto.getUserSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		boardCommentRepository.save(
 			BoardCommentEntity.builder()
-				.content(boardCommentRequestDto.getContent())
-				.board(board)
-				//FIXME : 유저 추가
-				.build());
+			                  .content(boardCommentRequestDto.getContent())
+			                  .board(board)
+			                  .user(fromUser)
+			                  .build());
 	}
 
 

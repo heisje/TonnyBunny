@@ -33,6 +33,7 @@ public class BoardEntity extends CommonEntity {
 
 	private String title;
 	private String content;
+	private String isDelete;
 
 	/* 게시글의 댓글 리스트 */
 	@OneToMany(mappedBy = "board")
@@ -42,16 +43,15 @@ public class BoardEntity extends CommonEntity {
 	@OneToMany(mappedBy = "board")
 	private List<BoardImageEntity> boardImageList = new ArrayList<>();
 
-	//	@Builder
-	//	public BoardEntity(String title, String content) {
-	//		this.title = title;
-	//		this.content = content;
-	//	}
-
 
 	public void update(String title, String content) {
 		this.title = title;
 		this.content = content;
+	}
+
+
+	public void delete(String isDelete) {
+		this.isDelete = isDelete;
 	}
 
 }
