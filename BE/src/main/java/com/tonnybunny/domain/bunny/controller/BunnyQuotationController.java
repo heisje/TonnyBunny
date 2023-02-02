@@ -35,10 +35,10 @@ public class BunnyQuotationController {
 
 
 	// FIXME : 신청 기준 Seq를 변경해야 함
-	@GetMapping("/{bunnyNotiSeq}")
+	@GetMapping("/{bunnySeq}")
 	@ApiOperation(value = "번역 공고에 포함되는 번역 견적서 목록 조회")
-	public ResponseEntity<ResultDto<List<BunnyQuotationResponseDto>>> getBunnyQuotationList(@PathVariable("bunnyNotiSeq") Long bunnyNotiSeq) {
-		List<BunnyQuotationEntity> bunnyQuotationList = bunnyQuotationService.getBunnyQuotationList(bunnyNotiSeq);
+	public ResponseEntity<ResultDto<List<BunnyQuotationResponseDto>>> getBunnyQuotationList(@PathVariable("bunnySeq") Long bunnySeq) {
+		List<BunnyQuotationEntity> bunnyQuotationList = bunnyQuotationService.getBunnyQuotationList(bunnySeq);
 		List<BunnyQuotationResponseDto> bunnyQuotationResponseDtoList = BunnyQuotationResponseDto.fromEntityList((bunnyQuotationList));
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyQuotationResponseDtoList));
 	}
