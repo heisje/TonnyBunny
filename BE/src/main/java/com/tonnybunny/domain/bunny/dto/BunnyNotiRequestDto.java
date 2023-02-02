@@ -1,9 +1,7 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,16 +38,5 @@ public class BunnyNotiRequestDto {
 	private String endLangCode;
 	private String bunnySituCode;
 	private String bunnyStateCode;
-
-
-	public BunnyNotiEntity toEntity() {
-
-		ModelMapper modelMapper = new ModelMapper();
-
-		// 값 매핑
-		BunnyNotiEntity bunnyNoti = modelMapper.map(this, BunnyNotiEntity.class);
-
-		return bunnyNoti;
-	}
-
+	
 }
