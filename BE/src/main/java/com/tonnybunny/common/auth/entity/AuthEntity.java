@@ -1,4 +1,4 @@
-package com.tonnybunny.common.jwt.entity;
+package com.tonnybunny.common.auth.entity;
 
 
 import com.tonnybunny.common.CommonEntity;

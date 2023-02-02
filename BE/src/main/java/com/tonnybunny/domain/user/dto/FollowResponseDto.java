@@ -10,20 +10,17 @@ import java.util.List;
 
 /**
  * seq                  : 반환하는 유저의 키 값
- * email                : 유저의 이메일
- * nickName             : 유저의 닉네임
- * profileImagePath     : 유저프로필사진 경로
+ * followedUserSeq      : 팔로우한 유저의 키 값
  */
 @Data
 public class FollowResponseDto {
 
 	private Long seq;
-	private String email;
-	private String nickName;
-	private String profileImagePath;
+	private Long followedUserSeq;
 
 
 	public static FollowResponseDto fromEntity(FollowEntity follow) {
+
 		return new FollowResponseDto();
 	}
 

@@ -25,4 +25,11 @@ public class FollowEntity extends CommonEntity {
 
 	private Long followedUserSeq;
 
+
+	public FollowEntity(UserEntity user, Long followedUserSeq) {
+		this.user = user;
+		this.followedUserSeq = followedUserSeq;
+
+	}
+
 }

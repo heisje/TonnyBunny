@@ -22,7 +22,13 @@ public class BlockEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity user;
-	
+
 	private Long blockedUserSeq;
+
+
+	public BlockEntity(UserEntity user, Long blockedUserSeq) {
+		this.user = user;
+		this.blockedUserSeq = blockedUserSeq;
+	}
 
 }
