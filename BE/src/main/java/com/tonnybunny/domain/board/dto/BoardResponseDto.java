@@ -38,7 +38,7 @@ public class BoardResponseDto {
 	private List<BoardImageResponseDto> BoardImageList;
 
 
-	public static <T extends BoardEntity> BoardResponseDto fromEntity(T board) throws Exception {
+	public static BoardResponseDto fromEntity(BoardEntity board) {
 		ModelMapper modelMapper = new ModelMapper();
 
 		// 값 매핑
