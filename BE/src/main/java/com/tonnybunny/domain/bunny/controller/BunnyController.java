@@ -158,10 +158,10 @@ public class BunnyController {
 	}
 
 
-	@GetMapping("/{bunnySeq}/quotation/{quotationSeq}")
+	@GetMapping("/{bunnySeq}/quotation/{bunnyQuotationSeq}")
 	@ApiOperation(value = "번역 견적서 상세 조회")
-	public ResponseEntity<ResultDto<BunnyQuotationResponseDto>> getBunnyQuotation(@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq) {
-		BunnyQuotationEntity bunnyQuotation = bunnyService.getBunnyQuotation(bunnyQuotationSeq);
+	public ResponseEntity<ResultDto<BunnyQuotationResponseDto>> getBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+		BunnyQuotationEntity bunnyQuotation = bunnyService.getBunnyQuotation(bunnyQuotationRequestDto);
 		BunnyQuotationResponseDto bunnyQuotationResponseDto = BunnyQuotationResponseDto.fromEntity(bunnyQuotation);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyQuotationResponseDto));
 	}
