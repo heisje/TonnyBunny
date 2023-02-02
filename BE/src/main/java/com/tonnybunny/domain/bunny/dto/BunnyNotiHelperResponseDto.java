@@ -2,7 +2,6 @@ package com.tonnybunny.domain.bunny.dto;
 
 
 import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
-import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -19,8 +18,8 @@ import java.util.List;
 public class BunnyNotiHelperResponseDto {
 
 	private Long seq;
-	private UserResponseDto user;
-	private BunnyNotiResponseDto bunnyNoti;
+	private Long userSeq;
+	private Long bunnyNotiSeq;
 	private Integer estimatePrice;
 
 

@@ -19,9 +19,8 @@ public class BunnyQuotationImageEntity extends CommonEntity {
 	@Column(name = "bunny_quotation_image_seq")
 	private Long seq;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bunny_quotation_seq")
-	private BunnyQuotationEntity bunnyQuotation;
+	@Column(name = "bunny_quotation_seq")
+	private Long bunnyQuotationSeq;
 
 	private String imagePath;
 

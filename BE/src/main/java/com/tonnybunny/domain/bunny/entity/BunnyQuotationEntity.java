@@ -2,8 +2,8 @@ package com.tonnybunny.domain.bunny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,16 +23,13 @@ public class BunnyQuotationEntity extends CommonEntity {
 	@Column(name = "bunny_quotation_seq")
 	private Long seq;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bunny_noti_seq")
-	private BunnyNotiEntity bunnyNoti;
+	@Column(name = "bunny_noti_seq")
+	private Long bunnyNotiSeq;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "client_seq")
-	private UserEntity client;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "helper_seq")
-	private UserEntity helper;
+	@Column(name = "client_seq")
+	private Long clientSeq;
+	@Column(name = "helper_seq")
+	private Long helperSeq;
 
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
@@ -47,7 +44,8 @@ public class BunnyQuotationEntity extends CommonEntity {
 	private String endLangCode;
 
 	// 견적서
-	@OneToMany(mappedBy = "bunnyQuotation")
+	@OneToMany(mappedBy = "bunnyQuotationSeq")
+	@Builder.Default
 	private List<BunnyQuotationImageEntity> bunnyQuotationImageList = new ArrayList<>(); // 이미지 리스트
 
 }

@@ -2,17 +2,66 @@ package com.tonnybunny.domain.bunny.service;
 
 
 import com.tonnybunny.domain.bunny.dto.BunnyNotiHelperRequestDto;
+import com.tonnybunny.domain.bunny.dto.BunnyNotiImageRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyNotiRequestDto;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyNotiImageEntity;
+import com.tonnybunny.domain.bunny.repository.BunnyNotiImageRepository;
+import com.tonnybunny.domain.bunny.repository.BunnyNotiRepository;
+import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class BunnyService {
+
+	private final UserRepository userRepository;
+	private final BunnyNotiRepository bunnyNotiRepository;
+	private final BunnyNotiImageRepository bunnyNotiImageRepository;
+
+
+	private BunnyNotiEntity bunnyNotiToEntity(BunnyNotiRequestDto bunnyNotiRequestDto) {
+
+		Optional<UserEntity> user = userRepository.findById(bunnyNotiRequestDto.getClientSeq());
+		BunnyNotiEntity bunnyNoti = BunnyNotiEntity.builder()
+			.user(user.get())
+			.title(bunnyNotiRequestDto.getTitle())
+			.content(bunnyNotiRequestDto.getContent())
+			.estimatePrice(bunnyNotiRequestDto.getEstimatePrice())
+			.startDate(bunnyNotiRequestDto.getStartDate())
+			.endDate(bunnyNotiRequestDto.getEndDate())
+			.startLangCode(bunnyNotiRequestDto.getStartLangCode())
+			.endLangCode(bunnyNotiRequestDto.getEndLangCode())
+			.bunnySituCode(bunnyNotiRequestDto.getBunnySituCode())
+			.bunnyStateCode(bunnyNotiRequestDto.getBunnyStateCode())
+			.build();
+
+		bunnyNoti = bunnyNotiRepository.save(bunnyNoti);
+		for (BunnyNotiImageRequestDto bunnyNotiImageRequestDto : bunnyNotiRequestDto.getBunnyNotiImageList()) {
+
+			BunnyNotiImageEntity bunnyNotiImage = BunnyNotiImageEntity.builder()
+				.bunnyNotiSeq(bunnyNoti.getSeq())
+				.imagePath(bunnyNotiImageRequestDto.getImagePath())
+				.build();
+
+			bunnyNotiImage = bunnyNotiImageRepository.save(bunnyNotiImage);
+
+			bunnyNoti.getBunnyNotiImageList().add(bunnyNotiImage);
+
+		}
+
+		return bunnyNoti;
+	}
 
 	// --------------------------------------- 번역 공고 ---------------------------------------
 
@@ -25,7 +74,8 @@ public class BunnyService {
 	 */
 	public Long createBunnyNoti(BunnyNotiRequestDto bunnyNotiRequestDto) {
 		// TODO : 로직
-		BunnyNotiEntity bunnyNoti = bunnyNotiRequestDto.toEntity();
+		BunnyNotiEntity bunnyNoti = bunnyNotiToEntity(bunnyNotiRequestDto);
+
 		return bunnyNoti.getSeq();
 	}
 
@@ -38,7 +88,9 @@ public class BunnyService {
 	 */
 	public Boolean deleteBunnyNoti(Long bunnyNotiSeq) {
 		// TODO : 로직
-
+		BunnyNotiEntity bunnyNoti = bunnyNotiRepository.findById(bunnyNotiSeq).orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));
+		bunnyNoti.deleteBunnyNoti();
+		bunnyNotiRepository.save(bunnyNoti);
 		return true;
 	}
 
@@ -51,7 +103,8 @@ public class BunnyService {
 	 */
 	public BunnyNotiEntity getBunnyNoti(Long bunnyNotiSeq) {
 		// TODO : 로직
-		return (BunnyNotiEntity) new Object();
+		Optional<BunnyNotiEntity> bunnyNoti = bunnyNotiRepository.findById(bunnyNotiSeq);
+		return bunnyNoti.orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));      // 이따 엔티티 없음으로 바꿈
 	}
 
 
@@ -64,18 +117,24 @@ public class BunnyService {
 	 */
 	public List<BunnyNotiEntity> getBunnyListByFilter(String lang, String category) {
 		// TODO : 로직
+		List<BunnyNotiEntity> bunnyNotiList;
 
-		if (lang == null && category == null) {
-			// 둘 다 필터하여 조회
-		} else if (category == null) {
-			// 언어만 필터하여 조회
-		} else if (lang == null) {
-			// 카테고리만 필터하여 조회
-		} else {
+		if (lang.isEmpty() && category.isEmpty()) {
 			// 필터하지 않고 전체 조회
+			bunnyNotiList = bunnyNotiRepository.findAllByOrderByCreatedAtDesc();
+		} else if (category.isEmpty()) {
+			// 언어만 필터하여 조회
+			bunnyNotiList = bunnyNotiRepository.findByStartLangCodeOrEndLangCodeOrderByCreatedAtDesc(lang, lang);
+		} else if (lang.isEmpty()) {
+			// 카테고리만 필터하여 조회
+			bunnyNotiList = bunnyNotiRepository.findByBunnySituCodeOrderByCreatedAtDesc(category);
+		} else {
+			// 둘 다 필터하여 조회
+			// 아직 미구현
+			bunnyNotiList = bunnyNotiRepository.findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(lang, category, lang, category);
 		}
 
-		return new ArrayList<>();
+		return bunnyNotiList;
 	}
 
 

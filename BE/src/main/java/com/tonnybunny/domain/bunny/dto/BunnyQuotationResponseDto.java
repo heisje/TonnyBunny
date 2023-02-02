@@ -2,7 +2,6 @@ package com.tonnybunny.domain.bunny.dto;
 
 
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
-import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -29,9 +28,9 @@ import java.util.List;
 public class BunnyQuotationResponseDto {
 
 	private Long seq;
-	private BunnyNotiResponseDto bunnyNoti;
-	private UserResponseDto client;
-	private UserResponseDto helper;
+	private Long bunnyNotiSeq;
+	private Long clientSeq;
+	private Long helperSeq;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private String title;
