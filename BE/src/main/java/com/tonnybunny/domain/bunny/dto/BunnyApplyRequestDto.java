@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyNotiHelperEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import lombok.Data;
 
 
@@ -11,15 +11,15 @@ import lombok.Data;
  * estimatePrice    : 견적 금액
  */
 @Data
-public class BunnyNotiHelperRequestDto {
+public class BunnyApplyRequestDto {
 
 	private Long userSeq;
-	private Long bunnyNotiSeq;
+	private Long bunnySeq;
 	private Integer estimatePrice;
 
 
-	public BunnyNotiHelperEntity toEntity() {
-		return (BunnyNotiHelperEntity) new Object();
+	public BunnyApplyEntity toEntity() {
+		return (BunnyApplyEntity) new Object();
 	}
 
 }
