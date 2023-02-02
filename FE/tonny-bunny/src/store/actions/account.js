@@ -18,15 +18,22 @@ export default {
     async login(context, loginInfo) {
         console.log("async login !");
 
-        let { data } = await http.post(`/login`, loginInfo);
+        let { data } = await http.post(`/signin`, loginInfo);
 
         try {
             console.log("async login function : ", data);
 
             // service logic
-            if (data.resultCode == "success") {
-                context.commit("SET_USER_INFO", data.userResponseDto);
-            } else if (data.resultCode == "fail") {
+            if (data.resultCode == "SUCCESS") {
+                const { access_TOKEN, refresh_TOKEN, ...userInfo } = data.data;
+                console.log(access_TOKEN);
+                console.log(refresh_TOKEN);
+                console.log("userInfo", userInfo);
+
+                context.commit("SET_TOKENS", { access_TOKEN, refresh_TOKEN });
+                http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
+                context.commit("SET_USER_INFO", userInfo);
+            } else if (data.resultCode == "FAIL") {
                 //
             }
 

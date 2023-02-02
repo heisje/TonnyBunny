@@ -32,7 +32,7 @@ public class UserController {
 	public ResponseEntity<ResultDto<Boolean>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
 		userService.signup(userRequestDto);
-
+		
 		return ResponseEntity.status(HttpStatus.OK)
 		                     .body(ResultDto.ofSuccess());
 
