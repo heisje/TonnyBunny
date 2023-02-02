@@ -109,14 +109,14 @@ public class JTonnyController {
 	/**
 	 * 즉시 통역 공고 신청 목록 조회
 	 *
-	 * @param jTonnyHelperSeq : 조회할 신청 seq
+	 * @param jTonnyApplySeq : 조회할 신청 seq
 	 * @return : 조회된 신청 Response Dto
 	 */
-	@GetMapping("/enroll/{jTonnyHelperSeq}")
+	@GetMapping("/enroll/{jTonnyApplySeq}")
 	@ApiOperation(value = "즉시통역 공고 신청 목록 상세 조회 API")
-	public ResponseEntity<ResultDto<JTonnyApplyResponseDto>> getJTonnyApplyDetail(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
+	public ResponseEntity<ResultDto<JTonnyApplyResponseDto>> getJTonnyApplyDetail(@PathVariable("jTonnyApplySeq") Long jTonnyApplySeq) {
 
-		JTonnyApplyEntity jTonnyApply = jTonnyService.getJTonnyApplyDetail(jTonnyHelperSeq);
+		JTonnyApplyEntity jTonnyApply = jTonnyService.getJTonnyApplyDetail(jTonnyApplySeq);
 		JTonnyApplyResponseDto jTonnyApplyResponseDto = JTonnyApplyResponseDto.fromEntity(jTonnyApply);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(jTonnyApplyResponseDto));
 	}
@@ -124,16 +124,17 @@ public class JTonnyController {
 
 	/**
 	 * MEMO : UPDATE
+	 * FIXME : Get, Post 다시 생각
 	 * 즉시 통역 공고 신청 수락
 	 *
-	 * @param jTonnyHelperSeq : 수락할 신청 seq
+	 * @param jTonnyApplySeq : 수락할 신청 seq
 	 * @return : 로직 성공 여부
 	 */
-	@GetMapping("/{jTonnyHelperSeq}/accept")
+	@PutMapping("/{jTonnyApplySeq}/accept")
 	@ApiOperation(value = "즉시통역 공고 신청 수락 API", notes = "고객이 즉시통역 공고 신청을 수락한다.")
-	public ResponseEntity<ResultDto<Boolean>> acceptJTonnyApply(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> acceptJTonnyApply(@PathVariable("jTonnyApplySeq") Long jTonnyApplySeq) {
 
-		Boolean isSuccess = jTonnyService.acceptJTonnyApply(jTonnyHelperSeq);
+		Boolean isSuccess = jTonnyService.acceptJTonnyApply(jTonnyApplySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -165,14 +166,14 @@ public class JTonnyController {
 	/**
 	 * 즉시 통역 공고 신청 삭제
 	 *
-	 * @param jTonnyHelperSeq : 삭제할 신청 seq
+	 * @param jTonnyApplySeq : 삭제할 신청 seq
 	 * @return : 로직 성공 여부
 	 */
-	@DeleteMapping("/enroll/{jTonnyHelperSeq}")
+	@DeleteMapping("/enroll/{jTonnyApplySeq}")
 	@ApiOperation(value = "즉시통역 공고 신청 삭제 API", notes = "헬퍼가 즉시통역 공고 신청을 삭제한다.")
-	public ResponseEntity<ResultDto<Boolean>> deleteJTonnyApply(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> deleteJTonnyApply(@PathVariable("jTonnyApplySeq") Long jTonnyApplySeq) {
 
-		Boolean isSuccess = jTonnyService.deleteJTonnyApply(jTonnyHelperSeq);
+		Boolean isSuccess = jTonnyService.deleteJTonnyApply(jTonnyApplySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
@@ -184,14 +185,14 @@ public class JTonnyController {
 	/**
 	 * 즉시 통역 공고 신청 거절
 	 *
-	 * @param jTonnyHelperSeq : 거절할 신청 seq
+	 * @param jTonnyApplySeq : 거절할 신청 seq
 	 * @return : 로직 성공 여부
 	 */
-	@GetMapping("/{jTonnyHelperSeq}/reject")
+	@GetMapping("/{jTonnyApplySeq}/reject")
 	@ApiOperation(value = "즉시통역 공고 신청 거절 API", notes = "고객이 들어온 즉시통역 공고 신청을 거절한다.")
-	public ResponseEntity<ResultDto<Boolean>> rejectJTonnyApply(@PathVariable("jTonnyHelperSeq") Long jTonnyHelperSeq) {
+	public ResponseEntity<ResultDto<Boolean>> rejectJTonnyApply(@PathVariable("jTonnyApplySeq") Long jTonnyApplySeq) {
 
-		Boolean isSuccess = jTonnyService.rejectJTonnyApply(jTonnyHelperSeq);
+		Boolean isSuccess = jTonnyService.rejectJTonnyApply(jTonnyApplySeq);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
