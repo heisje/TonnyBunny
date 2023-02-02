@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
+import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.ytonny.dto.YTonnyQuotationRequestDto;
@@ -14,12 +15,15 @@ import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +39,7 @@ public class YTonnyQuotationService {
 
 	private final String uploadFolder = "ytonny" + File.separator + "quotation";
 
-	@Value("${app.fileupload.uploadPath}")
+	@Value("${app.file-upload.upload-path}")
 	private String uploadPath;
 
 
@@ -73,14 +77,12 @@ public class YTonnyQuotationService {
 		// save
 		Long yTonnyQuotationSeq = yTonnyQuotationRepository.save(yTonnyQuotationEntity).getSeq();
 
-		// image list load
-		// image load
-		// create 하고
-		// get 해서 entity 만들기 (어케 하지?)
+		// image save
 		try {
 			List<YTonnyQuotationImageEntity> yTonnyQuotationImageEntityList = createYTonnyQuotationImageList(yTonnyQuotationSeq, request);
+			yTonnyQuotationEntity.yTonnyQuotationImageList(yTonnyQuotationImageEntityList);
 		} catch (Exception e) {
-			System.out.println("오류입니도");
+			System.out.println("오류입니도 !!!!!!!!!!!");
 		}
 
 		return yTonnyQuotationSeq;
@@ -88,7 +90,14 @@ public class YTonnyQuotationService {
 	}
 
 
-	private List<YTonnyQuotationImageEntity> createYTonnyQuotationImageList(Long yTonnyQuotationSeq, MultipartHttpServletRequest request) throws Exception {
+	/**
+	 * MARK : 예약통역 견적서 이미지 파일 업로드
+	 *
+	 * @param yTonnyQuotationSeq : 대상 견적서 seq
+	 * @param request
+	 * @return 파일로 저장된 예약통역 견적서 이미지 리스트
+	 */
+	private List<YTonnyQuotationImageEntity> createYTonnyQuotationImageList(Long yTonnyQuotationSeq, MultipartHttpServletRequest request) {
 
 		System.out.println("YTonnyQuotationService.createYTonnyQuotationImageList");
 
@@ -117,7 +126,11 @@ public class YTonnyQuotationService {
 				File saveFile = new File(uploadPath + File.separator + filePath);
 
 				// file save
-				partFile.transferTo(saveFile);
+				try {
+					partFile.transferTo(saveFile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 				// find quotation
 				YTonnyQuotationEntity yTonnyQuotationEntity = yTonnyQuotationRepository.findById(yTonnyQuotationSeq)
@@ -142,15 +155,69 @@ public class YTonnyQuotationService {
 		return yTonnyQuotationImageEntityList;
 	}
 
-	//	public List<YTonnyQuotationEntity> getYTonnyQuotationList(Long yTonnySeq) {
-	//	}
-	//
-	//
-	//	public YTonnyQuotationEntity getYTonnyQuotationDetail(Long yTonnyQuotationSeq) {
-	//	}
-	//
-	//
-	//	public Long modifyYTonnyQuotationState(YTonnyQuotationRequestDto yTonnyQuotationRequestDto) {
-	//	}
+
+	/**
+	 * MEMO : READ
+	 * MARK : 번역 견적서 목록 조회 with pagination
+	 *
+	 * @param yTonnySeq : 예약통역 공고 관련 정보
+	 * @param page      : pagination
+	 * @param size      : pagination
+	 * @return 생성된 예약통역 공고 seq
+	 */
+	public List<YTonnyQuotationEntity> getYTonnyQuotationList(Long yTonnySeq, int page, int size) {
+
+		System.out.println("YTonnyQuotationService.getYTonnyQuotationList");
+
+		// pagination
+		Pageable pageable = PageRequest.of(page, size);
+
+		return yTonnyQuotationRepository.findByyTonnySeqOrderByCreatedAtDesc(yTonnySeq, pageable).getContent();
+	}
+
+
+	/**
+	 * MARK : 번역 견적서 상세 조회
+	 *
+	 * @param yTonnyQuotationSeq : 대상 견적서 seq
+	 * @return 견적서 내용 반환
+	 */
+	public YTonnyQuotationEntity getYTonnyQuotationDetail(Long yTonnyQuotationSeq) {
+
+		System.out.println("YTonnyQuotationService.getYTonnyQuotationDetail");
+
+		// find
+		return yTonnyQuotationRepository.findById(yTonnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+
+	}
+
+
+	/**
+	 * MEMO : UPDATE
+	 * MARK : 예약통역 견적서의 상태를 수정
+	 *
+	 * @param yTonnySeq                 : 대상 예약통역 seq
+	 * @param yTonnyQuotationRequestDto : 대상 견적서 관련 정보
+	 * @return 수정된 견적서 seq
+	 */
+	public Long modifyYTonnyQuotationState(Long yTonnySeq, YTonnyQuotationRequestDto yTonnyQuotationRequestDto) {
+
+		System.out.println("YTonnyQuotationService.modifyYTonnyQuotationState");
+
+		// param setting
+		Long yTonnyQuotationSeq = yTonnyQuotationRequestDto.getYTonnyQuotationSeq();
+		QuotationStateCodeEnum quotationStateCodeEnum = yTonnyQuotationRequestDto.getQuotationStateCode();
+
+		// find
+		YTonnyQuotationEntity yTonnyQuotationEntity = yTonnyQuotationRepository.findById(yTonnyQuotationSeq)
+		                                                                       .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+
+		// 수정
+		yTonnyQuotationEntity.quotationStateCode(quotationStateCodeEnum);
+
+		// save
+		return yTonnyQuotationRepository.save(yTonnyQuotationEntity).getSeq();
+
+	}
 
 }

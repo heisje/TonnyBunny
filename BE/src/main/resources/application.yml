@@ -57,9 +57,9 @@ token:
 
 # app file path
 app:
-  fileupload:
+  file-upload:
     #    uploadPath: "/var/lib/jenkins/area_deploy/jiniworld/upload-images/"
-    uploadPath: "/static/upload"
+    upload-path: "/static/upload"
 
 
 

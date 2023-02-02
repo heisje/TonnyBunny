@@ -6,7 +6,9 @@ import lombok.ToString;
 
 @ToString
 public enum TonnySituCodeEnum {
-	기타("0040000"), 일상("0040001"), 경찰("0040002");
+	기타("0040000"),
+	일상("0040001"),
+	경찰("0040002");
 
 	private final String tonnySituCode;
 

@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.jtonny.entity;
 
 
+import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,6 +21,6 @@ public class JTonnyHistoryEntity extends HistoryEntity {
 	private LocalTime totalTime;
 	private Integer unitPrice;
 	private String recordVideoPath;
-	private String tonnySituCode = "0";       // 디폴트 "일상" 코드 넣기
+	private TonnySituCodeEnum tonnySituCode = TonnySituCodeEnum.일상;       // 디폴트 "일상" 코드 넣기
 
 }

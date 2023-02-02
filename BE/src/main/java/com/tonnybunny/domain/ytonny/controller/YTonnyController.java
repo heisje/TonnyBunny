@@ -163,19 +163,24 @@ public class YTonnyController {
 
 
 	/**
-	 * MARK : 예약통역 공고 신청 목록을 조회
+	 * MARK : 예약통역 공고 신청 목록을 조회 with pagination
 	 *
-	 * @param yTonnySeq
+	 * @param yTonnySeq : 조회하려는 대상 예약통역 공고 seq
+	 * @param page      : pagination
+	 * @param size      : pagination
 	 * @return 생성된 예약통역 공고 seq
 	 */
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
-	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq) {
+	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
+	                                                                                  @RequestParam int page,
+	                                                                                  @RequestParam int size
+	) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");
 
 		// service
-		List<YTonnyApplyEntity> yTonnyApplyList = yTonnyService.getYTonnyApplyList(yTonnySeq);
+		List<YTonnyApplyEntity> yTonnyApplyList = yTonnyService.getYTonnyApplyList(yTonnySeq, page, size);
 
 		// entity -> dto
 		ModelMapper modelMapper = new ModelMapper();

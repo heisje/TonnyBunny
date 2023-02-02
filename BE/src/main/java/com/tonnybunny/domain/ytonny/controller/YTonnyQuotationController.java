@@ -39,7 +39,8 @@ public class YTonnyQuotationController {
 	@ApiOperation(value = "예약통역 견적서 생성 API", notes = "헬퍼가 견적서를 생성한다.")
 	public ResponseEntity<ResultDto<Long>> createYTonnyQuotation(@PathVariable Long yTonnySeq,
 	                                                             @RequestBody YTonnyQuotationRequestDto yTonnyQuotationRequestDto,
-	                                                             MultipartHttpServletRequest request) {
+	                                                             MultipartHttpServletRequest request
+	) {
 
 		System.out.println("YTonnyQuotationController.createYTonnyQuotation");
 
@@ -53,24 +54,30 @@ public class YTonnyQuotationController {
 
 	/**
 	 * MEMO : READ
-	 * MARK : 번역 견적서 목록 조회
+	 * MARK : 번역 견적서 목록 조회 with pagination
 	 *
 	 * @param yTonnySeq : 예약통역 공고 관련 정보
+	 * @param page      : pagination
+	 * @param size      : pagination
 	 * @return 생성된 예약통역 공고 seq
 	 */
 	@GetMapping("/{yTonnySeq}/quotation")
-	@ApiOperation(value = "예약통역 견적서 조회 API", notes = "고객과 헬퍼가 예약통역 공고 관련 견적서를 조회한다.")
-	public ResponseEntity<ResultDto<List<YTonnyQuotationRequestDto>>> getYTonnyQuotationList(@PathVariable Long yTonnySeq) {
+	@ApiOperation(value = "예약통역 견적서 목록 조회 API", notes = "고객과 헬퍼가 예약통역 공고 관련 견적서 목록을 조회한다.")
+	public ResponseEntity<ResultDto<List<YTonnyQuotationRequestDto>>> getYTonnyQuotationList(@PathVariable Long yTonnySeq,
+	                                                                                         @RequestParam int page,
+	                                                                                         @RequestParam int size
+	) {
 
 		System.out.println("YTonnyQuotationController.getYTonnyQuotationList");
 
 		// service
-		List<YTonnyQuotationEntity> yTonnyQuotationEntityList = yTonnyQuotationService.getYTonnyQuotationList(yTonnySeq);
+		List<YTonnyQuotationEntity> yTonnyQuotationEntityList = yTonnyQuotationService.getYTonnyQuotationList(yTonnySeq, page, size);
 
 		// entity -> dto
 		ModelMapper modelMapper = new ModelMapper();
 		List<YTonnyQuotationRequestDto> yTonnyQuotationRequestDtoList = yTonnyQuotationEntityList.stream()
-		                                                                                         .map(m -> modelMapper.map(m, YTonnyQuotationRequestDto.class)).collect(Collectors.toList());
+		                                                                                         .map(m -> modelMapper.map(m, YTonnyQuotationRequestDto.class))
+		                                                                                         .collect(Collectors.toList());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyQuotationRequestDtoList));
 
@@ -86,7 +93,9 @@ public class YTonnyQuotationController {
 	 */
 	@GetMapping("/{yTonnySeq}/quotation/{yTonnyQuotationSeq}")
 	@ApiOperation(value = "예약통역 견적서 상세 조회 API", notes = "고객과 헬퍼가 예약통역 공고 관련 견적서를 상세 조회한다.")
-	public ResponseEntity<ResultDto<YTonnyQuotationRequestDto>> getYTonnyQuotationDetail(@PathVariable Long yTonnySeq, @PathVariable Long yTonnyQuotationSeq) {
+	public ResponseEntity<ResultDto<YTonnyQuotationRequestDto>> getYTonnyQuotationDetail(@PathVariable Long yTonnySeq,
+	                                                                                     @PathVariable Long yTonnyQuotationSeq
+	) {
 
 		System.out.println("YTonnyQuotationController.getYTonnyQuotationList");
 
@@ -104,7 +113,7 @@ public class YTonnyQuotationController {
 
 	/**
 	 * MEMO : UPDATE
-	 * MARK : 예약통역 견석서의 상태를 수정
+	 * MARK : 예약통역 견적서의 상태를 수정
 	 *
 	 * @param yTonnySeq                 : 대상 예약통역 seq
 	 * @param yTonnyQuotationRequestDto : 대상 견적서 관련 정보
@@ -112,12 +121,14 @@ public class YTonnyQuotationController {
 	 */
 	@PutMapping("/{yTonnySeq}/quotation")
 	@ApiOperation(value = "예약통역 견적서 상태 수정 API", notes = "고객이 예약통역 공고를 생성한다.")
-	public ResponseEntity<ResultDto<Long>> modifyYTonnyQuotationState(@PathVariable Long yTonnySeq, @RequestBody YTonnyQuotationRequestDto yTonnyQuotationRequestDto) {
+	public ResponseEntity<ResultDto<Long>> modifyYTonnyQuotationState(@PathVariable Long yTonnySeq,
+	                                                                  @RequestBody YTonnyQuotationRequestDto yTonnyQuotationRequestDto
+	) {
 
 		System.out.println("YTonnyQuotationController.modifyYTonnyQuotation");
 
 		// service
-		Long updatedSeq = yTonnyQuotationService.modifyYTonnyQuotationState(yTonnyQuotationRequestDto);
+		Long updatedSeq = yTonnyQuotationService.modifyYTonnyQuotationState(yTonnySeq, yTonnyQuotationRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedSeq));
 

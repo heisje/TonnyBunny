@@ -22,6 +22,7 @@ public enum ErrorCode {
 	LOGIN_BAD_REQUEST(BAD_REQUEST, "로그인 정보가 등록된 정보와 다릅니다."),
 	LACK_OF_POINTS(BAD_REQUEST, "포인트가 부족합니다."),
 	SAME_USER_REQUEST(BAD_REQUEST, "요청하는 대상과 요청받는 대상이 동일합니다."),
+
 	/* 401 UNAUTHORIZED : 권한 인증 문제. JWT 토큰과 관련된 에러 */
 	ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "토큰의 유효기간이 만료되었습니다."),
 	ACCESS_TOKEN_NOT_FOUND(UNAUTHORIZED, "액세스 토큰이 존재하지 않습니다."),
@@ -29,7 +30,7 @@ public enum ErrorCode {
 	ACCESS_TOKEN_ERROR(UNAUTHORIZED, "액세스 토큰에 문제가 있습니다."),
 	REFRESH_TOKEN_ERROR(UNAUTHORIZED, "리프레시 토큰에 문제가 있습니다."),
 
-	NOT_FOUND_ALERT_LOG(NOT_FOUND, "알림 로그가 존재하지 않습니다."),
+	/* 404 NOT_FOUND : 대상이 존재하지 않음 */
 	NOT_FOUND_ENTITY(NOT_FOUND, "엔티티가 존재하지 않습니다."),
 	NOT_FOUND_USER(NOT_FOUND, "대상이 존재하지 않습니다."),
 	NOT_FOUND_TOKEN(NOT_FOUND, "토큰이 존재하지 않습니다.");

@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
+import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.common.dto.LangCodeEnum;
 import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
@@ -19,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
-public class YTonnyQuotationEntity {
+public class YTonnyQuotationEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +55,16 @@ public class YTonnyQuotationEntity {
 	@Builder.Default
 	@OneToMany(mappedBy = "yTonnyQuotation")
 	private List<YTonnyQuotationImageEntity> yTonnyQuotationImageList = new ArrayList<>(); // 견적서 이미지 리스트
+
+
+	public void yTonnyQuotationImageList(List<YTonnyQuotationImageEntity> yTonnyQuotationImageList) {
+		this.yTonnyQuotationImageList = yTonnyQuotationImageList;
+	}
+
+
+	public void quotationStateCode(QuotationStateCodeEnum quotationStateCode) {
+		this.quotationStateCode = quotationStateCode;
+	}
 
 }
 

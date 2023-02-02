@@ -93,11 +93,7 @@ public class YTonnyService {
 		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// dto -> entity
-		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder()
-		                                                       .yTonny(yTonnyEntity)
-		                                                       .helper(helperEntity)
-		                                                       .totalPrice(totalPrice)
-		                                                       .build();
+		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).totalPrice(totalPrice).build();
 
 		return yTonnyApplyRepository.save(yTonnyApplyEntity).getSeq();
 
@@ -147,17 +143,22 @@ public class YTonnyService {
 
 
 	/**
-	 * MARK : 예약통역 공고 신청 목록을 조회
+	 * MARK : 예약통역 공고 신청 목록을 조회 with pagination
 	 *
-	 * @param yTonnySeq
+	 * @param yTonnySeq : 조회하려는 대상 예약통역 공고 seq
+	 * @param page      : pagination
+	 * @param size      : pagination
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	public List<YTonnyApplyEntity> getYTonnyApplyList(Long yTonnySeq) {
+	public List<YTonnyApplyEntity> getYTonnyApplyList(Long yTonnySeq, int page, int size) {
 
 		System.out.println("YTonnyService.getYTonnyApplyList");
 
+		// pagination
+		Pageable pageable = PageRequest.of(page, size);
+
 		// find
-		return yTonnyApplyRepository.findByyTonnySeq(yTonnySeq);
+		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAt(yTonnySeq, pageable).getContent();
 
 	}
 
