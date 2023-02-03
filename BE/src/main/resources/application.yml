@@ -55,17 +55,10 @@ token:
   refreshkey: ${auth.refreshkey}
   datakey: ${auth.datakey}
 
-# app file path
-app:
-  file-upload:
-    #    uploadPath: "/var/lib/jenkins/area_deploy/jiniworld/upload-images/"
-    upload-path: /Users/yeomss/Repository/Github/Boot-Project/SSAFY-Project/Tonny-Bunny/BE/src/main/resources
-
-
 
 # charset
-# server.servlet.encoding.charset=UTF-8
-# server.servlet.encoding.force=true
+#server.servlet.encoding.charset=UTF-8
+#server.servlet.encoding.force=true
 
 
 

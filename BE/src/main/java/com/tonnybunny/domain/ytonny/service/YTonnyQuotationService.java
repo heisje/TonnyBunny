@@ -8,6 +8,7 @@ import com.tonnybunny.domain.ytonny.dto.YTonnyQuotationRequestDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationImageEntity;
+import com.tonnybunny.domain.ytonny.repository.YTonnyQuotationImageRepository;
 import com.tonnybunny.domain.ytonny.repository.YTonnyQuotationRepository;
 import com.tonnybunny.domain.ytonny.repository.YTonnyRepository;
 import com.tonnybunny.exception.CustomException;
@@ -23,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,10 +36,11 @@ public class YTonnyQuotationService {
 	private final UserRepository userRepository;
 	private final YTonnyRepository yTonnyRepository;
 	private final YTonnyQuotationRepository yTonnyQuotationRepository;
+	private final YTonnyQuotationImageRepository yTonnyQuotationImageRepository;
 
-	private final String uploadFolder = "static" + File.separator + "ytonny" + File.separator + "quotation";
+	private final String uploadFolder = "ytonny" + File.separator + "quotation";
 
-	@Value("${app.file-upload.upload-path}")
+	@Value("${app.file.path}")
 	private String uploadPath;
 
 
@@ -58,10 +59,7 @@ public class YTonnyQuotationService {
 
 		// param setting
 		Long clientSeq = yTonnyQuotationRequestDto.getClientSeq();
-
 		Long helperSeq = yTonnyQuotationRequestDto.getHelperSeq();
-
-		LocalDateTime startDate = yTonnyQuotationRequestDto.getStartDate();
 
 		// find
 		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -93,7 +91,6 @@ public class YTonnyQuotationService {
 		try {
 
 			List<YTonnyQuotationImageEntity> yTonnyQuotationImageEntityList = createYTonnyQuotationImageList(yTonnyQuotationSeq, request);
-			System.out.println("yTonnyQuotationImageEntityList = " + yTonnyQuotationImageEntityList);
 
 			yTonnyQuotationEntity.yTonnyQuotationImageList(yTonnyQuotationImageEntityList); // image set
 			yTonnyQuotationRepository.save(yTonnyQuotationEntity); // save
@@ -114,6 +111,7 @@ public class YTonnyQuotationService {
 	 * @param request
 	 * @return 파일로 저장된 예약통역 견적서 이미지 리스트
 	 */
+	@Transactional
 	private List<YTonnyQuotationImageEntity> createYTonnyQuotationImageList(Long yTonnyQuotationSeq, MultipartHttpServletRequest request) {
 
 		System.out.println("YTonnyQuotationService.createYTonnyQuotationImageList");
@@ -125,9 +123,11 @@ public class YTonnyQuotationService {
 			// ex) /static/upload/ytonny/quotation
 			File uploadDir = new File(uploadPath + File.separator + uploadFolder);
 			if (!uploadDir.exists()) uploadDir.mkdirs();
+			System.out.println("uploadDir = " + uploadDir);
 
 			// form file data 가져오기
 			List<MultipartFile> fileList = request.getFiles("file");
+			System.out.println("fileList = " + fileList);
 
 			if (!fileList.isEmpty() && fileList != null) {
 
@@ -138,10 +138,12 @@ public class YTonnyQuotationService {
 					String extension = FilenameUtils.getExtension(originalFilename); // extract file extension
 					UUID uuid = UUID.randomUUID(); // generate Random File UUID
 					String fileName = uuid + "." + extension; // 실제 저장할 file name
+					System.out.println("fileName = " + fileName);
 
 					// file object
 					String filePath = uploadFolder + File.separator + fileName;
 					File saveFile = new File(uploadPath + File.separator + filePath);
+					System.out.println("saveFile = " + saveFile);
 
 					// file save
 					partFile.transferTo(saveFile);
@@ -156,11 +158,15 @@ public class YTonnyQuotationService {
 					                                                                                  .imageName(originalFilename)
 					                                                                                  .imageContentType(partFile.getContentType())
 					                                                                                  .imageFileSize(partFile.getSize())
-					                                                                                  .imagePath(filePath)
+					                                                                                  .imagePath(File.separator + filePath)
 					                                                                                  .build();
+
+					// image db save
+					yTonnyQuotationImageRepository.save(yTonnyQuotationImageEntity);
 
 					// list add
 					yTonnyQuotationImageEntityList.add(yTonnyQuotationImageEntity);
+
 				}
 			}
 		} catch (Exception e) {
