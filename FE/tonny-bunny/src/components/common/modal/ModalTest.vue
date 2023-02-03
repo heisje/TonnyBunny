@@ -47,7 +47,7 @@ export default {
         },
 
         closeModal() {
-            this.isOpen = false;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         checkTest() {

@@ -21,7 +21,7 @@
                                     <img src="@/assets/homeTonnyIcon.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h1-small">#통역</h1>
+                                    <h1 class="h2">#통역</h1>
                                 </div>
                             </div>
                         </div>
@@ -31,29 +31,29 @@
                                     <img src="@/assets/homeBunnyIcon.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h1-small">#번역</h1>
+                                    <h1 class="h2">#번역</h1>
                                 </div>
                             </div>
                         </div>
-                        <div class="iconsWarp">
-                            <div class="iconsContent" @click="toggleBunnyModalOpen">
+                        <div class="iconsWarp" v-if="true">
+                            <div class="iconsContent searchIcon" @click="toggleBunnyModalOpen">
                                 <div>
-                                    <img src="@/assets/homeBunnyIcon.png" alt="" />
+                                    <img src="@/assets/homeSearchIcon.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h1-small">#헬퍼 전용 페이지</h1>
+                                    <h1 class="h2">#헬퍼 페이지</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <title-text
+                    <!-- <title-text
                         title="헬퍼전용 페이지"
                         type="h1"
                         top="60"
                         bottom="20"
                         center></title-text>
                     <div class="mainBtns">
-                        <!-- <main-btn text="통역" @click="toggleTonnyModalOpen">
+                        <main-btn text="통역" @click="toggleTonnyModalOpen">
                             <template #icon>
                                 <span class="material-symbols-outlined"> interpreter_mode </span>
                             </template>
@@ -62,13 +62,13 @@
                             <template #icon>
                                 <span class="material-symbols-outlined"> g_translate </span>
                             </template>
-                        </main-btn> -->
+                        </main-btn>
                         <main-btn text="헬퍼페이지" @click="toggleHelperBtn">
                             <template #icon>
                                 <span class="material-symbols-outlined"> g_translate </span>
                             </template>
                         </main-btn>
-                    </div>
+                    </div> -->
                 </div>
 
                 <hr />
@@ -87,8 +87,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import TitleText from "@/components/common/TitleText.vue";
-import MainBtn from "./MainBtn.vue";
+// import MainBtn from "./MainBtn.vue";
 import HomeScheduleList from "./HomeScheduleList.vue";
 import HomeBoardList from "./HomeBoardList.vue";
 
@@ -97,9 +98,14 @@ export default {
 
     components: {
         TitleText,
-        MainBtn,
+        // MainBtn,
         HomeScheduleList,
         HomeBoardList,
+    },
+
+    computed: {
+        ...mapGetters({ isLogin: "getIsLogin" }),
+        ...mapGetters({ userInfo: "getUserInfo" }),
     },
 
     methods: {
@@ -150,21 +156,22 @@ export default {
     }
     .iconsContainer {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
         width: 100%;
 
         .iconsWarp {
             position: relative;
-            width: 40%;
-            max-width: 200px;
-            padding-bottom: 40%;
+            width: 30%;
+            max-width: 150px;
+            padding-bottom: 30%;
+            margin: 2%;
             .iconsContent {
                 position: absolute;
                 display: flex;
                 width: 100%;
                 height: 100%;
 
-                max-height: 200px;
+                max-height: 150px;
                 flex-direction: column;
                 justify-content: center;
                 border-radius: 10%;
@@ -172,7 +179,6 @@ export default {
                 cursor: pointer;
                 &:hover {
                     background-color: var(--primary-color-20);
-
                     h1 {
                         margin-top: 10px;
                         width: 100%;
@@ -193,6 +199,21 @@ export default {
                     margin-top: 10px;
                     width: 100%;
                     text-align: center;
+                }
+                &.searchIcon {
+                    background: var(--carrot-color);
+                    color: var(--white-color);
+                    h1 {
+                        color: var(--white-color);
+                        font-weight: 400;
+                        letter-spacing: -0.05rem;
+                    }
+                    &:hover {
+                        background: var(--primary-color-50);
+                        h1 {
+                            color: var(--primary-color);
+                        }
+                    }
                 }
             }
         }
