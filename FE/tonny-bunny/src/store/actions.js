@@ -1,7 +1,8 @@
 import temp from "./actions/temp";
 import account from "./actions/account";
 import board from "./actions/board";
-import tonny from "./actions/tonny";
+import jtonny from "./actions/jtonny";
+import ytonny from "./actions/ytonny";
 import bunny from "./actions/bunny";
 import common from "./actions/common";
 import alert from "./actions/alert";
@@ -11,7 +12,8 @@ export default {
     ...temp,
     ...account,
     ...board,
-    ...tonny,
+    ...jtonny,
+    ...ytonny,
     ...bunny,
     ...common,
     ...alert,

@@ -30,15 +30,12 @@
             <smallBtn style="width: 100%" text="다음" @click="goSignUpCreatePage"></smallBtn>
         </div>
         <alarm-modal
-            v-show="isOpen"
-            :isOpen="isOpen"
             title="경고"
             type="danger"
             btnText2="닫기"
             btnColor2="carrot"
             btnFontColor2="white"
-            @clickBtn2="closeModal"
-        >
+            @clickBtn2="closeModal">
             <template #content> 필수 약관에 동의해주세요. </template>
         </alarm-modal>
     </div>
@@ -106,6 +103,8 @@ export default {
         },
 
         goSignUpCreatePage(event) {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+
             event.preventDefault();
             let result = true;
             this.clientTerms.forEach((term) => {
