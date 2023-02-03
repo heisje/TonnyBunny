@@ -1,13 +1,13 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
+import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,10 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YTonnyQuotationEntity {
+@AllArgsConstructor
+@Builder
+@ToString
+public class YTonnyQuotationEntity extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,24 +33,46 @@ public class YTonnyQuotationEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_seq")
 	private UserEntity client;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
+	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	private LocalDateTime startDate;
+	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+	private LocalDateTime endDate;
+
 	private Integer unitPrice;
+
+	@Builder.Default
+	private String quotationStateCode = "0070001"; // 미선택
+
+	// 아래는 YTonnyEntity 내용
 	private String title;
 	private String content;
 
+	private String startLangCode;
+	private String endLangCode;
+
+	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 
-	private String startLangCode;
-	private String endLangCode;
-	private String quotationStateCode;
-
+	@Builder.Default
 	@OneToMany(mappedBy = "yTonnyQuotation")
 	private List<YTonnyQuotationImageEntity> yTonnyQuotationImageList = new ArrayList<>(); // 견적서 이미지 리스트
+
+
+	public void yTonnyQuotationImageList(List<YTonnyQuotationImageEntity> yTonnyQuotationImageList) {
+		this.yTonnyQuotationImageList = yTonnyQuotationImageList;
+	}
+
+
+	public void quotationStateCode(String quotationStateCode) {
+		this.quotationStateCode = quotationStateCode;
+	}
 
 }
 

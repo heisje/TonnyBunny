@@ -43,12 +43,13 @@ public class UserEntity extends CommonEntity {
 	private Long point = 0L;
 	private Integer reportCount = 0;
 
-	private String profileImagePath;
+	private String profileImagePath = "/img/default.jpg";
 
 	private String userCode;
 
-	private Boolean isAgreement; // 약관 동의 여부(true)
+	private Boolean isAgreement = true; // 약관 동의 여부(true)
 
+	private String isDeleted = "F";
 	@OneToMany(mappedBy = "user")
 	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 	@OneToMany(mappedBy = "user")
@@ -132,6 +133,22 @@ public class UserEntity extends CommonEntity {
 
 	public void setReportCount(Integer reportCount) {
 		this.reportCount = reportCount;
+	}
+
+
+	public void deleteUserInfo() {
+		this.isDeleted = "T";
+	}
+
+
+	public void updateUserInfo(String profileImagePath, String nickName) {
+		this.profileImagePath = profileImagePath;
+		this.nickName = nickName;
+	}
+
+
+	public void updatePassword(String password) {
+		this.password = password;
 	}
 
 }

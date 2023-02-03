@@ -2,10 +2,6 @@ package com.tonnybunny.domain.ytonny.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.TaskCodeEnum;
-import com.tonnybunny.common.dto.TaskStateCodeEnum;
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +11,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 
 /**
@@ -61,16 +56,18 @@ public class YTonnyResponseDto {
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private TonnySituCodeEnum tonnySituCode;
-	private TaskCodeEnum taskCode;
-	private TaskStateCodeEnum taskStateCode;
+	private String startLangCode;
+	private String endLangCode;
+	private String tonnySituCode;
+	private String taskCode;
+	private String taskStateCode;
 
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	private List<YTonnyApplyResponseDto> yTonnyApplyList;
-	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
+	// FIXME : 이거 두 개는 ? 조금 더 생각을 해봐야할듯
+	// 그냥 따로 메서드를 만들어서 넘겨주는게 낫지않나?
+	//	private List<YTonnyApplyResponseDto> yTonnyApplyList;
+	//	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
 
 }

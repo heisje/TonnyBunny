@@ -64,7 +64,7 @@ public class HistoryResponseDto {
 	private LocalTime totalTime;
 	private Integer unitPrice;
 	private String recordVideoPath;
-	private String tonnySituCode = "0";       // 디폴트 "일상" 코드 넣기
+	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
 
 	/************************ 예통 & 번역 **************************/
 
@@ -75,17 +75,15 @@ public class HistoryResponseDto {
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 
 		// Entity로 들어온 값을 Seq로 타입 변환
-		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(
-			mapper -> {
-				// 고객 Entity -> 고객 Seq
-				mapper.using((Converter<UserEntity, Long>) client -> client.getSource().getSeq())
-					.map(HistoryEntity::getClient, HistoryResponseDto::setClientSeq);
-				// 헬퍼 Entity -> 헬퍼 Seq
-				mapper.using((Converter<UserEntity, Long>) helper -> helper.getSource().getSeq())
-					.map(HistoryEntity::getHelper, HistoryResponseDto::setHelperSeq);
+		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(mapper -> {
+			// 고객 Entity -> 고객 Seq
+			mapper.using((Converter<UserEntity, Long>) client -> client.getSource().getSeq())
+			      .map(HistoryEntity::getClient, HistoryResponseDto::setClientSeq);
+			// 헬퍼 Entity -> 헬퍼 Seq
+			mapper.using((Converter<UserEntity, Long>) helper -> helper.getSource().getSeq())
+			      .map(HistoryEntity::getHelper, HistoryResponseDto::setHelperSeq);
 
-			}
-		);
+		});
 		// 값 매핑
 		HistoryResponseDto historyResponseDto = modelMapper.map(history, HistoryResponseDto.class);
 
@@ -99,8 +97,7 @@ public class HistoryResponseDto {
 				historyResponseDto.setUnitPrice(jTonnyHistory.getUnitPrice());
 				historyResponseDto.setRecordVideoPath(jTonnyHistory.getRecordVideoPath());
 				historyResponseDto.setTonnySituCode(jTonnyHistory.getTonnySituCode());
-			} else
-				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
+			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.예약통역.getTaskCode()) {
 			if (history instanceof YTonnyHistoryEntity) {
@@ -111,16 +108,14 @@ public class HistoryResponseDto {
 				historyResponseDto.setRecordVideoPath(yTonnyHistory.getRecordVideoPath());
 				historyResponseDto.setTonnySituCode(yTonnyHistory.getTonnySituCode());
 				historyResponseDto.setTitle(yTonnyHistory.getTitle());
-			} else
-				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
+			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.번역.getTaskCode()) {
 			if (history instanceof BunnyHistoryEntity) {
 				BunnyHistoryEntity bunnyHistory = (BunnyHistoryEntity) history;
 
 				historyResponseDto.setTitle(bunnyHistory.getTitle());
-			} else
-				throw new CustomException(ErrorCode.MISMATCH_REQUEST);
+			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		return historyResponseDto;
 	}

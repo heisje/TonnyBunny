@@ -12,6 +12,6 @@ public interface PointLogRepository extends JpaRepository<PointLogEntity, Long> 
 
 	List<PointLogEntity> findAllByUserOrderByCreatedAtDesc(UserEntity user);
 
-	PointLogEntity save(PointLogEntity pointLog);
+	//	PointLogEntity save(PointLogEntity pointLog);
 
 }
