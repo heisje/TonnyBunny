@@ -2,24 +2,16 @@ export default {
     isLogin: false,
     isLoginModalOpen: false,
 
-    ACCESS_TOKEN: null,
-    REFRESH_TOKEN: null,
     loginInfo: {
         id: "",
         pw: "",
     },
-    userInfo: {
-        seq: 1,
-        userCode: "0010001",
-        email: "",
-        ninkName: "nick네임",
-        // 저장되면 안될듯
-        // password: "",
-        phoneNumber: "",
-        point: 0,
-        reportCount: 0,
-        profileImagePath: "",
-        helperInfo: {},
-    },
+
+    // 로그인 관련 정보
+    isHelper: false,
+    possibleLanguage: null,
+    ACCESS_TOKEN: null,
+    REFRESH_TOKEN: null,
+    userInfo: {},
     helperInfo: {},
 };
