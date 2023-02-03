@@ -144,11 +144,12 @@ export default {
     methods: {
         openModal(e) {
             e.preventDefault();
-            this.isOpen = true;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
-        closeModal() {
-            this.isOpen = false;
+        closeModal(e) {
+            e.preventDefault();
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         clickBtn2() {
