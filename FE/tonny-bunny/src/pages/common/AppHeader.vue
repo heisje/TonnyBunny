@@ -125,7 +125,23 @@
                         <img src="@/assets/logo.png" alt="" width="100" />
                     </a>
                     <div class="d-flex">
-                        <span class="material-symbols-outlined notification"> notifications </span>
+                        <div v-if="isLogin">
+                            <span class="material-symbols-outlined notification">
+                                notifications
+                            </span>
+                        </div>
+                        <div v-else>
+                            <medium-btn
+                                class="me-2"
+                                text="로그인"
+                                color="outline"
+                                font="main"
+                                @click="toggleLoginModal"></medium-btn>
+                            <medium-btn
+                                text="회원가입"
+                                color="main"
+                                @click="clickSignUpBtn"></medium-btn>
+                        </div>
                     </div>
                     <div
                         class="offcanvas offcanvas-start text-bg-light"
