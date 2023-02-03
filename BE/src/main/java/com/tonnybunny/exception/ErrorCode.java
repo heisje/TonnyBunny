@@ -23,6 +23,8 @@ public enum ErrorCode {
 	LACK_OF_POINTS(BAD_REQUEST, "포인트가 부족합니다."),
 	SAME_USER_REQUEST(BAD_REQUEST, "요청하는 대상과 요청받는 대상이 동일합니다."),
 	ID_IS_NULL(BAD_REQUEST, "ID 값이 존재하지 않습니다."),
+	PASSWORD_NOT_MATCH(BAD_REQUEST, "패스워드가 일치하지 않습니다."),
+	DATA_BAD_REQUEST(BAD_REQUEST, "입력된 데이터에 문제가 있습니다."),
 
 	/* 401 UNAUTHORIZED : 권한 인증 문제. JWT 토큰과 관련된 에러 */
 	ACCESS_TOKEN_EXPIRED(UNAUTHORIZED, "토큰의 유효기간이 만료되었습니다."),
