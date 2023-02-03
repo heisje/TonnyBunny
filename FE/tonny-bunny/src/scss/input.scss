@@ -16,44 +16,112 @@
     textarea {
         @extend .inputTextBox;
         width: 100%;
-        max-width: 320px;
+        // max-width: 320px;
     }
 
     // input설정
     input[type="text"] {
         @extend .inputTextBox;
         width: 100%;
-        max-width: 320px;
+        // max-width: 320px;
         min-width: 100px;
     }
     input[type="number"] {
         @extend .inputTextBox;
         width: 100%;
-        max-width: 320px;
+        // max-width: 320px;
         min-width: 100px;
     }
     input[type="password"] {
         @extend .inputTextBox;
         width: 100%;
-        max-width: 320px;
-        min-width: 100px;
-    }
-    input[type="email"] {
-        @extend .inputTextBox;
-        width: 100%;
-        max-width: 320px;
+        // max-width: 320px;
         min-width: 100px;
     }
 
+    //임포트용으로 사용되는 기본 inputTextBox
+    .inputTextBox {
+        // 유효성 체크박스
+        ~ .notice {
+            min-height: 1rem;
+            color: var(--danger-color);
+        }
+
+        @extend .text;
+        background-color: var(--background-color);
+        padding: 10px 14px;
+        border-radius: 4px;
+        color: var(--active-color);
+        border: 1px solid var(--disable-color);
+        cursor: text;
+        outline: none;
+        transition: border 0.3s, box-shadow 0.3s;
+
+        // 선택
+        &:focus {
+            border: 1px solid var(--active-color);
+            box-shadow: 0px 0px 0px 3px #424b5a80;
+        }
+
+        //정규표현식 유효성검사
+        &:invalid {
+            border: 1px solid var(--danger-color);
+            box-shadow: 0px 0px 0px 3px #f96a6340;
+            &:focus {
+                border: 1px solid var(--danger-color);
+                box-shadow: 0px 0px 0px 3px #f96a6380;
+            }
+        }
+
+        // 선택불가능
+        &.disable {
+            background-color: var(--light-color);
+            cursor: default;
+            &:focus {
+                border: 1px solid var(--disable-color);
+                box-shadow: none;
+            }
+        }
+
+        // 성공시
+        &.success {
+            border: 1px solid var(--success-color);
+            &:focus {
+                border: 1px solid var(--success-color);
+                box-shadow: 0px 0px 0px 3px #87d14680;
+            }
+        }
+
+        // 실패시
+        &.danger {
+            border: 1px solid var(--danger-color);
+            &:focus {
+                border: 1px solid var(--danger-color);
+                box-shadow: 0px 0px 0px 3px #f96a6380;
+            }
+        }
+
+        // placeholder 색상변경
+        &::placeholder {
+            color: var(--disable-color);
+        }
+        &::-webkit-input-placeholder {
+            color: var(--disable-color);
+        }
+        &:-ms-input-placeholder {
+            color: var(--disable-color);
+        }
+    }
     // dropdown
     .dropdown {
-        width: 100%;
-        max-width: 320px;
+        // width: 200px;
+        // max-width: 320px;
         .dropdown-toggle {
             @extend .text;
             background-color: var(--background-color);
-            width: 100%;
-            min-width: 100px;
+            // width: 500px;
+            // width: 100%;
+            // min-width: 100px;
             padding: 10px 14px;
             border-radius: 4px;
             color: var(--active-color);
@@ -77,9 +145,13 @@
         .ariaCurrent {
             color: var(--primary-color);
         }
+        .dropdown-item {
+            width: 500px;
+            // background-color: red;
+        }
         .dropdown-item:hover {
-            background-color: var(--primary-color);
-            color: var(--white-color);
+            background-color: var(--light-color);
+            // color: var(--main-color);
         }
         .dropdown-item:active {
             background-color: var(--primary-color);
@@ -108,7 +180,7 @@
     }
 }
 .w120 {
-    max-width: 120px;
+    // max-width: 120px;
 }
 @media (min-width: 100px) {
 }
@@ -119,101 +191,5 @@
         padding: 60px 120px;
         border: 1px solid var(--light-color);
         border-radius: 32px;
-    }
-}
-
-// input설정
-input[type="text"].input {
-    @extend .inputTextBox;
-    width: 100%;
-    min-width: 100px;
-}
-input[type="number"].input {
-    @extend .inputTextBox;
-    width: 100%;
-    min-width: 100px;
-}
-input[type="password"].input {
-    @extend .inputTextBox;
-    width: 100%;
-    min-width: 100px;
-}
-input[type="email"].input {
-    @extend .inputTextBox;
-    width: 100%;
-    min-width: 100px;
-}
-
-//임포트용으로 사용되는 기본 inputTextBox
-.inputTextBox {
-    // 유효성 체크박스
-    ~ .notice {
-        min-height: 1rem;
-        color: var(--danger-color);
-    }
-
-    @extend .text;
-    background-color: var(--background-color);
-    padding: 8px 12px;
-    border-radius: 4px;
-    color: var(--active-color);
-    border: 1px solid var(--disable-color);
-    cursor: text;
-    outline: none;
-    transition: border 0.3s, box-shadow 0.3s;
-
-    // 선택
-    &:focus {
-        border: 1px solid var(--active-color);
-        box-shadow: 0px 0px 0px 3px #424b5a80;
-    }
-
-    //정규표현식 유효성검사
-    &:invalid {
-        border: 1px solid var(--danger-color);
-        box-shadow: 0px 0px 0px 3px #f96a6340;
-        &:focus {
-            border: 1px solid var(--danger-color);
-            box-shadow: 0px 0px 0px 3px #f96a6380;
-        }
-    }
-
-    // 선택불가능
-    &.disable {
-        background-color: var(--light-color);
-        cursor: default;
-        &:focus {
-            border: 1px solid var(--disable-color);
-            box-shadow: none;
-        }
-    }
-
-    // 성공시
-    &.success {
-        border: 1px solid var(--success-color);
-        &:focus {
-            border: 1px solid var(--success-color);
-            box-shadow: 0px 0px 0px 3px #87d14680;
-        }
-    }
-
-    // 실패시
-    &.danger {
-        border: 1px solid var(--danger-color);
-        &:focus {
-            border: 1px solid var(--danger-color);
-            box-shadow: 0px 0px 0px 3px #f96a6380;
-        }
-    }
-
-    // placeholder 색상변경
-    &::placeholder {
-        color: var(--disable-color);
-    }
-    &::-webkit-input-placeholder {
-        color: var(--disable-color);
-    }
-    &:-ms-input-placeholder {
-        color: var(--disable-color);
     }
 }
