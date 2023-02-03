@@ -35,6 +35,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="iconsWarp">
+                            <div class="iconsContent" @click="toggleBunnyModalOpen">
+                                <div>
+                                    <img src="@/assets/homeBunnyIcon.png" alt="" />
+                                </div>
+                                <div>
+                                    <h1 class="h1-small">#헬퍼 전용 페이지</h1>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <title-text
                         title="헬퍼전용 페이지"
@@ -67,7 +77,6 @@
                     <div class="col-12 col-lg-6">
                         <home-schedule-list></home-schedule-list>
                     </div>
-                    <!-- <div class="col-12 col-lg-2"></div> -->
                     <div class="col-12 col-lg-6">
                         <home-board-list></home-board-list>
                     </div>
@@ -147,12 +156,15 @@ export default {
         .iconsWarp {
             position: relative;
             width: 40%;
+            max-width: 200px;
             padding-bottom: 40%;
             .iconsContent {
                 position: absolute;
                 display: flex;
                 width: 100%;
                 height: 100%;
+
+                max-height: 200px;
                 flex-direction: column;
                 justify-content: center;
                 border-radius: 10%;
