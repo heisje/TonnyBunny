@@ -24,6 +24,8 @@ import javax.validation.constraints.Pattern;
 @Data
 public class UserRequestDto {
 
+	private Long seq;
+
 	/* 일반 유저 회원가입 */
 	private String userCode;
 
@@ -53,7 +55,7 @@ public class UserRequestDto {
 	private String profileImagePath = "default.png";
 
 	private String newPassword;
-
+	
 
 	/**
 	 * 1. 빌더패턴으로 작성 2. UserEntity 내부의 비즈니스 로직(팩토리 메소드)으로 인스턴스 생성 후 반환
