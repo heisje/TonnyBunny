@@ -2,7 +2,6 @@
     <div>
         <home-banner></home-banner>
         <home-contents></home-contents>
-
         <!-- <title-banner
             title="🐰 실시간 동시 통역"
             text="실시간으로 필요한 통역 서비스를 신청합니다" />
@@ -19,7 +18,7 @@
         <!-- <hr /> -->
         <!-- <button-test></button-test> -->
         <!-- <hr /> -->
-        <card-test></card-test>
+        <!-- <card-test></card-test> -->
         <!-- <hr /> -->
 
         <!-- part2 -->

@@ -19,7 +19,6 @@ import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -91,10 +90,6 @@ public class UserService {
 
 
 	/**
-	 * 리프레시 토큰만 만료 여부 확인해서 리턴해줘야 할 듯?
-	 * Dto로 반환 못하면, Access Token은 Controller단에서 따로 Service 호출
-	 * AuthEntity에는 Refresh Token만 저장
-	 *
 	 * @param userRequestDto
 	 * @return
 	 */
@@ -121,7 +116,7 @@ public class UserService {
 		auth.refreshUpdate(refreshToken);
 		authRepository.save(auth);
 
-		return new AuthResponseDto(accessToken, refreshToken);
+		return new AuthResponseDto(accessToken, refreshToken, user.getSeq(), user.getEmail(), user.getNickName(), user.getProfileImagePath(), user.getPoint(), user.getUserCode());
 	}
 
 
@@ -133,7 +128,7 @@ public class UserService {
 	@Transactional
 	public AuthResponseDto checkRefreshToken(String refreshToken, Long userSeq) {
 		authService.isValidRefreshToken(refreshToken); // token 유효성 확인(유효기간 및 형식)
-		Long tokenUserSeq = extractRefreshTokenInfo(refreshToken);
+		Long tokenUserSeq = authService.extractRefreshTokenInfo(refreshToken);
 		if (!userSeq.equals(tokenUserSeq)) { // 보낸 유저와 토큰 내의 유저정보가 일치하지 않을 경우
 			throw new CustomException(REFRESH_TOKEN_ERROR);
 		}
@@ -152,30 +147,6 @@ public class UserService {
 		authRepository.save(auth);
 
 		return new AuthResponseDto(accessToken, newRefreshToken);
-	}
-
-
-	/**
-	 * Header에 있는 Access Token 정보에서 유저 Seq를 추출
-	 *
-	 * @param accessToken
-	 * @return
-	 */
-	public Long extractAccessTokenInfo(String accessToken) {
-		Claims tokenClaims = authService.getClaimsAccessToken(accessToken);
-		return Long.valueOf(String.valueOf(tokenClaims.get("seq")));
-	}
-
-
-	/**
-	 * Header에 있는 Refresh Token 정보에서 유저 Seq를 추출
-	 *
-	 * @param refreshToken
-	 * @return
-	 */
-	public Long extractRefreshTokenInfo(String refreshToken) {
-		Claims tokenClaims = authService.getClaimsRefreshToken(refreshToken);
-		return Long.valueOf(String.valueOf(tokenClaims.get("seq")));
 	}
 
 
@@ -215,14 +186,14 @@ public class UserService {
 		return true;
 	}
 
-
-	private Boolean checkAgreementStatus(Boolean bool) {
-		/**
-		 * 프론트에서는 모든 약관에 동의했는지에 대한 데이터를 넘겨주어야 한다
-		 * bool (약관동의) 가 true 일때 true를 반환한다
-		 */
-		return bool;
-	}
+	// 회원가입 시 약관동의 여부 True로 받아오기로 합의
+	// private Boolean checkAgreementStatus(Boolean bool) {
+	// 	/**
+	// 	 * 프론트에서는 모든 약관에 동의했는지에 대한 데이터를 넘겨주어야 한다
+	// 	 * bool (약관동의) 가 true 일때 true를 반환한다
+	// 	 */
+	// 	return bool;
+	// }
 
 
 	/**
@@ -278,6 +249,12 @@ public class UserService {
 	//	}
 
 
+	/**
+	 * 유저 정보 찾기 관련
+	 *
+	 * @param accountRequestDto
+	 * @return
+	 */
 	public AccountResponseDto findAccouontInfo(AccountRequestDto accountRequestDto) {
 		/**
 		 * checkAuthCode() 을 통과했을 시
@@ -304,7 +281,7 @@ public class UserService {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
 		                                .orElseThrow(
-			                                () -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+			                                () -> new CustomException(NOT_FOUND_USER));
 		return user;
 	}
 
@@ -343,10 +320,6 @@ public class UserService {
 	 * 즐겨찾기 조회
 	 *
 	 * repository 에서 findFollowList() 를 수행한다.
-	 * FollowList 에는 user seq밖에 없으므로 해당 seq로 userEntity와 HelperInfoEntity를 가져와야 함
-	 * userEntity에 HelperInfoEntity도 매핑이 되어 있으므로 같이 가져오면 될 듯
-	 * FollowEntity 형태로 반환하면 관련 정보를 주입할 수 없기 때문에
-	 * FollowResponseDto 형태로 반환한다.
 	 *
 	 * @return List<FollowResponseDto>
 	 */
@@ -358,24 +331,6 @@ public class UserService {
 		);
 
 		List<FollowEntity> followList = user.getFollowUserList();
-		//		List<FollowResponseDto> followResponseDtoList = new ArrayList<>();
-		//		for (FollowEntity follow : followList) {
-		//			UserEntity follower = userRepository.findById(follow.getFollowedUserSeq()).orElseThrow(
-		//				() -> new CustomException(NOT_FOUND_USER)
-		//			);
-		//			HelperInfoEntity helperInfo = follower.getHelperInfo();
-		//			FollowResponseDto followResponseDto = FollowResponseDto.builder()
-		//			                                                       .seq(follower.getSeq())
-		//			                                                       .nickName(follower.getNickName())
-		//			                                                       .profileImagePath(follower.getProfileImagePath())
-		//			                                                       .avgScore(helperInfo.getAvgScore())
-		//			                                                       .reviewCount(helperInfo.getReviewCount())
-		//			                                                       .unitPrice(helperInfo.getUnitPrice())
-		//			                                                       .oneLineIntroduction(helperInfo.getOneLineIntroduction())
-		//			                                                       .build();
-		//			followResponseDtoList.add(followResponseDto);
-		//
-		//		}
 
 		return followList;
 	}
@@ -384,19 +339,19 @@ public class UserService {
 	/**
 	 * 즐겨찾기 추가
 	 *
-	 * @param userSeq   : 누군가를 추가하기를 원하는 userSeq
-	 * @param followSeq : 추가될 누군가의 seq
+	 * @param userSeq         : 누군가를 추가하기를 원하는 userSeq
+	 * @param followedUserSeq : 추가될 유저의 seq
 	 * @return
 	 */
 	@Transactional
-	public Long createFollow(Long userSeq, Long followSeq) {
-		if (userSeq.equals(followSeq)) {
+	public Long createFollow(Long userSeq, Long followedUserSeq) {
+		if (userSeq.equals(followedUserSeq)) {
 			throw new CustomException(SAME_USER_REQUEST);
 		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
-		FollowEntity follow = new FollowEntity(user, followSeq);
+		FollowEntity follow = new FollowEntity(user, followedUserSeq);
 		followRepository.save(follow);
 
 		return follow.getFollowedUserSeq();
@@ -421,6 +376,26 @@ public class UserService {
 		);
 		followRepository.deleteFollowBySeq(user, followSeq);
 		return true;
+	}
+
+
+	/**
+	 * 차단목록 조회
+	 *
+	 * repository 에서 findBlockList() 를 수행한다.
+	 *
+	 * @return List<FollowResponseDto>
+	 */
+
+	@Transactional
+	public List<BlockEntity> getBlockList(Long userSeq) {
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+
+		List<BlockEntity> blockList = user.getBlockUserList();
+
+		return blockList;
 	}
 
 

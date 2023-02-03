@@ -24,8 +24,8 @@ spring:
     # Google smtp server 사용
     host: smtp.gmail.com
     port: 587
-    username: wkfgodhwh@gmail.com #앱 비밀번호 발급받은 google 계정
-    password: mtlyanzhvpomoszq #발급받은 앱 비밀번호
+    username: ${auth.smtp.username} #앱 비밀번호 발급받은 google 계정
+    password: ${auth.smtp.password} #발급받은 앱 비밀번호
     properties:
       mail:
         smtp:
