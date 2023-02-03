@@ -2,10 +2,6 @@ package com.tonnybunny.domain.ytonny.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.TaskCodeEnum;
-import com.tonnybunny.common.dto.TaskStateCodeEnum;
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,11 +56,11 @@ public class YTonnyResponseDto {
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private TonnySituCodeEnum tonnySituCode;
-	private TaskCodeEnum taskCode;
-	private TaskStateCodeEnum taskStateCode;
+	private String startLangCode;
+	private String endLangCode;
+	private String tonnySituCode;
+	private String taskCode;
+	private String taskStateCode;
 
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;

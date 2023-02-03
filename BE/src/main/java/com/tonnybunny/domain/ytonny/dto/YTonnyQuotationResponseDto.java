@@ -1,8 +1,6 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,10 +47,10 @@ public class YTonnyQuotationResponseDto {
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private QuotationStateCodeEnum quotationStateCode;
-	
+	private String startLangCode;
+	private String endLangCode;
+	private String quotationStateCode;
+
 	private List<YTonnyQuotationImageResponseDto> yTonnyQuotationImageList;
 
 }

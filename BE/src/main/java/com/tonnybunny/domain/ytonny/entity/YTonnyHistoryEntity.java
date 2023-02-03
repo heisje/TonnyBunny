@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import lombok.*;
 
@@ -26,6 +25,6 @@ public class YTonnyHistoryEntity extends HistoryEntity {
 	private String recordVideoPath;
 
 	@Builder.Default
-	private TonnySituCodeEnum tonnySituCode = TonnySituCodeEnum.일상;       // 디폴트 "일상" 코드 넣기
+	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
 
 }

@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
-import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.ytonny.dto.YTonnyQuotationRequestDto;
@@ -72,13 +71,12 @@ public class YTonnyQuotationService {
 		                                                                   .client(clientEntity)
 		                                                                   .helper(helperEntity)
 		                                                                   .unitPrice(yTonnyQuotationRequestDto.getUnitPrice())
-		                                                                   .quotationStateCode(QuotationStateCodeEnum.미선택)
 		                                                                   .startDate(yTonnyQuotationRequestDto.getStartDate())
 		                                                                   .endDate(yTonnyQuotationRequestDto.getEndDate())
 		                                                                   .title(yTonnyEntity.getTitle())
 		                                                                   .content(yTonnyEntity.getContent())
-		                                                                   .endLangCode(yTonnyEntity.getEndLangCode())
-		                                                                   .startLangCode(yTonnyEntity.getStartLangCode())
+		                                                                   .endLangCode(yTonnyEntity.getEndLangCode().toString())
+		                                                                   .startLangCode(yTonnyEntity.getStartLangCode().toString())
 		                                                                   .estimateDate(yTonnyEntity.getEstimateDate())
 		                                                                   .estimateStartTime(yTonnyEntity.getEstimateStartTime())
 		                                                                   .estimateTime(yTonnyEntity.getEstimateTime())
@@ -232,14 +230,14 @@ public class YTonnyQuotationService {
 
 		// param setting
 		Long yTonnyQuotationSeq = yTonnyQuotationRequestDto.getYTonnyQuotationSeq();
-		QuotationStateCodeEnum quotationStateCodeEnum = yTonnyQuotationRequestDto.getQuotationStateCode();
+		String yTonnyQuotationStateCode = yTonnyQuotationRequestDto.getQuotationStateCode();
 
 		// find
 		YTonnyQuotationEntity yTonnyQuotationEntity = yTonnyQuotationRepository.findById(yTonnyQuotationSeq)
 		                                                                       .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
-		yTonnyQuotationEntity.quotationStateCode(quotationStateCodeEnum);
+		yTonnyQuotationEntity.quotationStateCode(yTonnyQuotationStateCode);
 
 		// save
 		return yTonnyQuotationRepository.save(yTonnyQuotationEntity).getSeq();

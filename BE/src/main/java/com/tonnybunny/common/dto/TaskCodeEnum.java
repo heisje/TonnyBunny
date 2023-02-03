@@ -16,4 +16,9 @@ public enum TaskCodeEnum {
 	TaskCodeEnum(String taskCode) {
 		this.taskCode = taskCode;
 	}
+
+
+	public String getTaskCode() {
+		return taskCode;
+	}
 }

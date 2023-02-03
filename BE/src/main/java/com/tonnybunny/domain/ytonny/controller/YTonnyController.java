@@ -233,12 +233,13 @@ public class YTonnyController {
 	 * @param yTonnyApplyRequestDto : yTonnySeq, helperSeq
 	 * @return 생성된 예약통역 공고 seq
 	 */
-	@PutMapping("/apply/accept")
+	@PutMapping("/{yTonnySeq}/apply/{yTonnyApplySeq}/accept")
 	@ApiOperation(value = "예약통역 신청 수락 API", notes = "고객이 헬퍼의 예약통역 신청을 수락한다.")
 	public ResponseEntity<ResultDto<Long>> acceptYTonnyApply(YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
 		System.out.println("YTonnyController.acceptYTonnyApply");
 
+		System.out.println("yTonnyApplyRequestDto = " + yTonnyApplyRequestDto);
 		// service
 		Long updatedSeq = yTonnyService.acceptYTonnyApply(yTonnyApplyRequestDto);
 

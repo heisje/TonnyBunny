@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @ToString
 public enum LangCodeEnum {
-	
+
 	기타("0020000"),
 	한국어("0020001"),
 	영어("0020002"),
@@ -17,5 +17,10 @@ public enum LangCodeEnum {
 
 	LangCodeEnum(String langCode) {
 		this.langCode = langCode;
+	}
+
+
+	public String getLangCode() {
+		return langCode;
 	}
 }

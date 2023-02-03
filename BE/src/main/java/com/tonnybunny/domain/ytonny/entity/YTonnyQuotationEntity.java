@@ -2,8 +2,6 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
@@ -47,14 +45,15 @@ public class YTonnyQuotationEntity extends CommonEntity {
 
 	private Integer unitPrice;
 
-	private QuotationStateCodeEnum quotationStateCode;
+	@Builder.Default
+	private String quotationStateCode = "0070001"; // 미선택
 
 	// 아래는 YTonnyEntity 내용
 	private String title;
 	private String content;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
+	private String startLangCode;
+	private String endLangCode;
 
 	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDate estimateDate;
@@ -71,7 +70,7 @@ public class YTonnyQuotationEntity extends CommonEntity {
 	}
 
 
-	public void quotationStateCode(QuotationStateCodeEnum quotationStateCode) {
+	public void quotationStateCode(String quotationStateCode) {
 		this.quotationStateCode = quotationStateCode;
 	}
 

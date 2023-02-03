@@ -1,8 +1,6 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -48,8 +46,8 @@ public class YTonnyQuotationRequestDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime endDate;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private QuotationStateCodeEnum quotationStateCode;
+	private String startLangCode;
+	private String endLangCode;
+	private String quotationStateCode;
 
 }

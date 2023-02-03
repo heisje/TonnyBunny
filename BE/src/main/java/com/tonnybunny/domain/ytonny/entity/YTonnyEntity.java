@@ -2,10 +2,6 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.TaskCodeEnum;
-import com.tonnybunny.common.dto.TaskStateCodeEnum;
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
@@ -37,19 +33,17 @@ public class YTonnyEntity extends CommonEntity {
 	private String title;
 	private String content;
 
-	@Enumerated(EnumType.STRING)
-	private LangCodeEnum startLangCode;
-	@Enumerated(EnumType.STRING)
-	private LangCodeEnum endLangCode;
+	private String startLangCode;
+	private String endLangCode;
 
-	private LocalDate estimateDate; // FIXME : LocalDateTime
+	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
-	private TonnySituCodeEnum tonnySituCode;
-	private TaskCodeEnum taskCode;
-	private TaskStateCodeEnum taskStateCode;
+	private String tonnySituCode;
+	private String taskCode;
+	private String taskStateCode;
 
 	private Boolean isDeleted;
 

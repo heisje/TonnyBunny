@@ -1,8 +1,6 @@
 package com.tonnybunny.domain.user.dto;
 
 
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
@@ -53,9 +51,9 @@ public class HistoryResponseDto {
 	private LocalDateTime startDateTime;
 	private LocalDateTime endDateTime;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private TaskCodeEnum taskCode;
+	private String startLangCode;
+	private String endLangCode;
+	private String taskCode;
 
 	private Long notiSeq;                   // 즉통, 예통의 경우 NotiSeq, 번역의 경우 QuotationSeq
 
@@ -66,7 +64,7 @@ public class HistoryResponseDto {
 	private LocalTime totalTime;
 	private Integer unitPrice;
 	private String recordVideoPath;
-	private TonnySituCodeEnum tonnySituCode = TonnySituCodeEnum.일상;       // 디폴트 "일상" 코드 넣기
+	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
 
 	/************************ 예통 & 번역 **************************/
 
@@ -99,8 +97,7 @@ public class HistoryResponseDto {
 				historyResponseDto.setUnitPrice(jTonnyHistory.getUnitPrice());
 				historyResponseDto.setRecordVideoPath(jTonnyHistory.getRecordVideoPath());
 				historyResponseDto.setTonnySituCode(jTonnyHistory.getTonnySituCode());
-			}
-			else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
+			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.예약통역.getTaskCode()) {
 			if (history instanceof YTonnyHistoryEntity) {
@@ -111,16 +108,14 @@ public class HistoryResponseDto {
 				historyResponseDto.setRecordVideoPath(yTonnyHistory.getRecordVideoPath());
 				historyResponseDto.setTonnySituCode(yTonnyHistory.getTonnySituCode());
 				historyResponseDto.setTitle(yTonnyHistory.getTitle());
-			}
-			else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
+			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		if (history.getTaskCode() == TaskCodeEnum.번역.getTaskCode()) {
 			if (history instanceof BunnyHistoryEntity) {
 				BunnyHistoryEntity bunnyHistory = (BunnyHistoryEntity) history;
 
 				historyResponseDto.setTitle(bunnyHistory.getTitle());
-			}
-			else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
+			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		return historyResponseDto;
 	}

@@ -1,9 +1,6 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.TaskStateCodeEnum;
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,9 +49,9 @@ public class YTonnyRequestDto {
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private TonnySituCodeEnum tonnySituCode;
-	private TaskStateCodeEnum taskStateCode;
+	private String startLangCode;
+	private String endLangCode;
+	private String tonnySituCode;
+	private String taskStateCode;
 
 }
