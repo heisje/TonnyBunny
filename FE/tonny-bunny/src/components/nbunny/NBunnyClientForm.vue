@@ -8,9 +8,10 @@
                 <div class="">
                     <label for="">내 언어</label>
                     <DropdownInput
-                        :dropdownArray="['아이템1', '아이템2', '아이템3']"
+                        :dropdownArray="Object.keys(getLangCode)"
                         placeholder="내 언어"
-                        @toggle="(e) => (dropdownValue = e)" />
+                        @toggle="(e) => (startLangCode = e)"
+                    />
                 </div>
                 <div class="swap">
                     <span class="material-symbols-outlined"> compare_arrows </span>
@@ -18,9 +19,10 @@
                 <div class="">
                     <label for="">필요 언어</label>
                     <DropdownInput
-                        :dropdownArray="['아이템1', '아이템2', '아이템3']"
+                        :dropdownArray="Object.keys(getLangCode)"
                         placeholder="필요 언어"
-                        @toggle="(e) => (dropdownValue = e)" />
+                        @toggle="(e) => (endLangCode = e)"
+                    />
                 </div>
             </div>
 
@@ -28,41 +30,40 @@
 
             <DropdownInput
                 class="w120"
-                :dropdownArray="['인쇄물', '아이템2', '아이템3']"
+                :dropdownArray="Object.keys(getBunnySituCode)"
                 placeholder="카테고리 선택"
-                @toggle="(e) => (dropdownValue = e)" />
+                @toggle="(e) => (bunnySituCode = e)"
+            />
 
             <title-text
                 important
                 type="h2"
                 title="마감 기한을 설정해주세요"
-                text="번역이 마감되어야할 날짜를 선택해주세요" />
+                text="번역이 마감되어야할 날짜를 선택해주세요"
+            />
 
-            <div class="w120">
-                <input
-                    type="date"
-                    :name="input1.id"
-                    :id="input1.id"
-                    :pattern="input1.pattern"
-                    @input="changeInput"
-                    placeholder="시작일 마감일 선택" />
+            <div class="d-flex flex-row">
+                <div class="">
+                    <input type="date" v-model="startDate" />
+                </div>
+                <div class="swap">
+                    <span class="material-symbols-outlined"> compare_arrows </span>
+                </div>
+                <div class="">
+                    <input type="date" v-model="endDate" />
+                </div>
             </div>
 
             <title-text
                 important
                 type="h2"
                 title="예상 금액을 설정해주세요"
-                text="번역의 예상 금액을 입력해주세요" />
+                text="번역의 예상 금액을 입력해주세요"
+            />
 
             <div class="d-flex">
                 <div class="w120">
-                    <input
-                        type="number"
-                        :name="input1.id"
-                        :id="input1.id"
-                        :pattern="input1.pattern"
-                        @input="changeInput"
-                        placeholder="ex)1000" />
+                    <input type="number" v-model="estimatePrice" placeholder="ex)1000" />
                 </div>
                 <div class="backlabel">
                     <h3>캐럿</h3>
@@ -71,24 +72,26 @@
 
             <title-text important type="h2" title="제목" text="최상단에 노출 될 제목입니다" />
 
-            <input
-                type="number"
-                :name="input1.id"
-                :id="input1.id"
-                :pattern="input1.pattern"
-                @input="changeInput"
-                placeholder="제목을 입력해주세요" />
+            <input type="text" v-model="title" placeholder="제목을 입력해주세요" />
 
             <title-text type="h2" title="내용" text="번역에 대한 내용을 작성해주세요" />
 
-            <textarea type="textarea" placeholder="내용을 입력해주세요" value="" />
+            <textarea
+                type="textarea"
+                placeholder="내용을 입력해주세요"
+                value=""
+                @input="changeInput"
+            ></textarea>
+
+            <title-text type="h2" title="[선택] 사진" text="작업물의 예시를 올려주세요" />
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
             <medium-btn
                 style="width: 100%"
                 text="예약 의뢰 하기"
                 color="carrot"
-                @click.prevent="submitForm" />
+                @click.prevent="submitForm"
+            />
         </form>
     </div>
 </template>
@@ -97,13 +100,25 @@ import MediumBtn from "../common/button/MediumBtn.vue";
 import AgreeInput from "../common/input/AgreeInput.vue";
 import DropdownInput from "../common/input/DropdownInput.vue";
 import TitleText from "../common/TitleText.vue";
+import { mapGetters } from "vuex";
 
 export default {
     name: "NBunnyClientForm",
     components: { TitleText, DropdownInput, MediumBtn, AgreeInput },
     data() {
         return {
-            dropdownValue: "",
+            startLangCode: "",
+            endLangCode: "",
+            bunnySituCode: "",
+            bunnyStateCode: "0100001",
+
+            startDate: "",
+            endDate: "",
+
+            estimatePrice: "",
+            title: "",
+            content: "",
+
             input1: {
                 id: "input1",
                 value: "",
@@ -114,20 +129,48 @@ export default {
             agreeValue: false,
         };
     },
+
+    computed: {
+        ...mapGetters({ getLangCode: "getLangCode" }),
+        ...mapGetters({ getBunnySituCode: "getBunnySituCode" }),
+    },
+
     methods: {
         changeInput(e) {
-            // v-model 대체용
-            this[e.target.id].value = e.target.value;
-
-            // 유효성 검사
-            this[e.target.id].notice = "";
-            if (!this[e.target.id].validate.test(this[e.target.id].value)) {
-                this[e.target.id].notice =
-                    "최소 8자 이상, 숫자와 문자를 포함한 비밀번호를 입력해주세요.";
-            }
+            this.content = e.target.value;
         },
         submitForm(e) {
-            this.$emit("toggleSubmit", e);
+            e.preventDefault();
+            console.log(this.startLangCode, this.getLangCode[this.startLangCode]);
+            console.log(this.endLangCode, this.getLangCode[this.endLangCode]);
+            console.log(this.bunnySituCode, this.getBunnySituCode[this.bunnySituCode]);
+            console.log(this.startDate);
+            console.log(this.endDate);
+            console.log(this.estimatePrice);
+            console.log(this.title);
+            console.log(this.content);
+            console.log(this.agreeValue);
+
+            if (!this.agreeValue) {
+                return;
+            }
+
+            const payload = {
+                startLangCode: this.getLangCode[this.startLangCode],
+                endLangCode: this.getLangCode[this.endLangCode],
+                bunnySituCode: this.getBunnySituCode[this.bunnySituCode],
+                startDate: this.startLangCode,
+                endDate: this.startLangCode,
+                estimatePrice: this.startLangCode,
+                title: this.startLangCode,
+                content: this.startLangCode,
+            };
+
+            console.log(payload);
+
+            this.$store.dispatch("insertBunny");
+
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
         },
     },
 };

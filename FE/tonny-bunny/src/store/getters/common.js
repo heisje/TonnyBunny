@@ -37,4 +37,10 @@ export default {
     getMinuteCodeList(state) {
         return state.common.minuteCodeList;
     },
+    getLangCode(state) {
+        return state.common.langCode;
+    },
+    getBunnySituCode(state) {
+        return state.common.bunnySituCode;
+    },
 };
