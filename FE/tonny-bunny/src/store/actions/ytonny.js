@@ -1,10 +1,46 @@
 import http from "@/common/axios";
 
+const SUCCESS = "SUCCESS";
+const FAIL = "FAIL";
+
 export default {
-    /*
-        예약통역 CRUD
+    /* 
+        예약 통역 CREATE
     */
 
+    // /api/ytonny 고객의 예약 통역 공고 생성
+    async insertYTonny(context, json) {
+        console.log("예약통역 공고 생성");
+
+        let res = await http.post(`/ytonny`, json);
+
+        try {
+            console.log("async function : ", res);
+
+            // service logic
+            switch (res.resultCode) {
+                case SUCCESS:
+                    break;
+                case FAIL:
+                    break;
+            }
+
+            return res.data;
+        } catch (err) {
+            console.error(err);
+
+            // exception
+            if (err.response.status == 403) {
+                alert("로그인 하세요");
+            }
+
+            return res.data;
+        }
+    },
+
+    /* 
+        예약 통역 READ
+    */
     // GET /api/ytonny 예약 통역 공고 목록 조회
     async getYtonnyList(context) {
         console.log("예약 통역 공고 목록 조회");
@@ -16,44 +52,14 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     context.commit("SET_YTONNY_LIST", data.data);
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
         } catch (err) {
             console.error(err);
-        }
-    },
-
-    // POST /api/ytonny 고객의 예약 통역 공고 생성
-    async insertYtonny(context, json) {
-        console.log("고객의 예약 통역 공고 생성");
-
-        let { data } = await http.post(`/ytonny`, json);
-
-        try {
-            console.log("async function : ", data);
-
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
-
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
-
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
-
-            return data.resultCode;
         }
     },
 
@@ -67,10 +73,10 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     context.commit("SET_YTONNY_DETAIL", data.data);
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
         } catch (err) {
@@ -89,10 +95,10 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     context.commit("SET_YTONNY_DETAIL", data.data);
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
             return data.resultCode;
@@ -119,9 +125,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
             return data.resultCode;
@@ -151,9 +157,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
 
@@ -181,9 +187,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
             return data.resultCode;
@@ -209,10 +215,10 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     context.commit("SET_YTONNY_DETAIL", data.data);
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
         } catch (err) {
@@ -235,9 +241,9 @@ export default {
 
             // service logic
             switch (data.resultCode) {
-                case "success":
+                case SUCCESS:
                     break;
-                case "fail":
+                case FAIL:
                     break;
             }
 
