@@ -24,5 +24,11 @@ public class HelperInfoImageEntity extends CommonEntity {
 	private HelperInfoEntity helperInfo;
 
 	private String imagePath;
+	private String isDeleted = "F";
+
+
+	public void deleteHelperInfoImage() {
+		this.isDeleted = "T";
+	}
 
 }

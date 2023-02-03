@@ -24,6 +24,13 @@ public class PossibleLanguageEntity extends CommonEntity {
 	private HelperInfoEntity helperInfo;
 
 	private String langCode; // 언어공통코드
-	private String language; // 언어명
+
+	//	private String language; // 언어명
+
+
+	public PossibleLanguageEntity(HelperInfoEntity helperInfo, String langCode) {
+		this.helperInfo = helperInfo;
+		this.langCode = langCode;
+	}
 
 }

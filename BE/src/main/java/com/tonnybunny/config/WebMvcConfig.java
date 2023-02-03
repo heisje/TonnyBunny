@@ -23,6 +23,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		        .excludePathPatterns("/signup/**")  // 제외 2
 		        .excludePathPatterns("/signin/**")  // 제외 3
 		        .excludePathPatterns("/refresh/**") // 제외 4
+		        .excludePathPatterns("/send/**")
+		        .excludePathPatterns("/check/**")
 		        .excludePathPatterns("/swagger-resources/**")   // swagger
 		        .excludePathPatterns("/swagger-ui/**")          // swagger
 		        .excludePathPatterns("/v2/**");  // swagger

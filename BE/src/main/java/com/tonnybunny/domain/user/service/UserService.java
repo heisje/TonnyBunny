@@ -352,10 +352,13 @@ public class UserService {
 		);
 		user.deleteUserInfo();
 		userRepository.save(user);
-		
+
 		return true;
 	}
 
+	/**
+	 * 삭제된 회원인지 확인
+	 */
 
 	/**
 	 * 즐겨찾기 조회
@@ -564,6 +567,25 @@ public class UserService {
 		 */
 		Optional<HistoryEntity> history = historyRepository.findById(historySeq);
 		return history.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+	}
+
+
+	/**
+	 * 유저의 공통코드를 헬퍼로 변경
+	 *
+	 * @param userSeq
+	 * @return
+	 */
+	@Transactional
+	public Long modifyUserCode(Long userSeq) {
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		user.changeUserCode();
+		userRepository.save(user);
+
+		return userSeq;
 	}
 
 }
