@@ -14,4 +14,10 @@ export default {
     getIsBunnyModalOpen(state) {
         return state.common.isBunnyModalOpen;
     },
+    getLangCode(state) {
+        return state.common.langCode;
+    },
+    getBunnySituCode(state) {
+        return state.common.bunnySituCode;
+    },
 };
