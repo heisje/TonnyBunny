@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
-import com.tonnybunny.common.dto.LangCodeEnum;
 import com.tonnybunny.common.dto.TaskCodeEnum;
 import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
@@ -54,11 +53,13 @@ public class YTonnyService {
 		                                        .client(userEntity)
 		                                        .title(yTonnyRequestDto.getTitle())
 		                                        .content(yTonnyRequestDto.getContent())
-		                                        .estimateDate(yTonnyRequestDto.getEstimateDate())
-		                                        .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
+		                                        .startDateTime(yTonnyRequestDto.getStartDateTime())
+		                                        //		                                        .estimateDate(yTonnyRequestDto.getEstimateDate())
+		                                        //		                                        .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
 		                                        .estimateTime(yTonnyRequestDto.getEstimateTime())
 		                                        .estimatePrice(yTonnyRequestDto.getEstimatePrice())
-		                                        .startLangCode(LangCodeEnum.한국어.getLangCode())
+		                                        //		                                        .startLangCode(LangCodeEnum.한국어.getLangCode())
+		                                        .startLangCode(yTonnyRequestDto.getStartLangCode())
 		                                        .endLangCode(yTonnyRequestDto.getEndLangCode())
 		                                        .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
 		                                        .taskCode(TaskCodeEnum.예약통역.getTaskCode())
@@ -205,8 +206,9 @@ public class YTonnyService {
 		                           .helperSeq(helperSeq)
 		                           .title(yTonnyRequestDto.getTitle())
 		                           .content(yTonnyRequestDto.getContent())
-		                           .estimateDate(yTonnyRequestDto.getEstimateDate())
-		                           .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
+		                           .startDateTime(yTonnyRequestDto.getStartDateTime())
+		                           //		                           .estimateDate(yTonnyRequestDto.getEstimateDate())
+		                           //		                           .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
 		                           .estimateTime(yTonnyRequestDto.getEstimateTime())
 		                           .estimatePrice(yTonnyRequestDto.getEstimatePrice())
 		                           .startLangCode(yTonnyRequestDto.getStartLangCode())
