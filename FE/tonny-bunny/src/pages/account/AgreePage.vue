@@ -1,27 +1,25 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <TitleText title="약관 동의" center text="당신의 귀여운 통역가, TonnyBunny!" />
+            <TitleText title="약관 동의" center text="약관을 모두 읽고 동의해주세요" />
             <!-- 공통 약관 -->
             <div v-for="(term, index) in clientTerms" :key="index">
-                <div style="background-color: beige">
-                    <h4>{{ term.title }}</h4>
-                    <p>{{ term.content }}</p>
+                <div class="p-2 m-2">
+                    <input type="checkbox" name="color" @click="clientTermToggle(index)" />
+                    <span> {{ term.title }}<span>(필수)</span> </span>
                 </div>
-                <input type="checkbox" name="color" @click="clientTermToggle(index)" /> (필수)
-                약관에 동의합니다.
-                <br />
-                <br />
             </div>
             <!-- 헬퍼 약관 -->
             <div v-show="select == 'helper'">
                 <div v-for="(term, index) in helperTerms" :key="index">
-                    <div style="background-color: beige">
+                    <div class="p-4 m-2 answer">
                         <h4>{{ term.title }}</h4>
                         <p>{{ term.content }}</p>
                     </div>
-                    <input type="checkbox" name="color" @click="helperTermToggle(index)" /> (필수)
-                    약관에 동의합니다.
+                    <div class="p-4 m-2">
+                        <input type="checkbox" name="color" @click="helperTermToggle(index)" />
+                        (필수) 약관에 동의합니다.
+                    </div>
                     <br />
                     <br />
                 </div>
@@ -58,20 +56,25 @@ export default {
             isOpen: false,
             clientTerms: [
                 {
-                    title: "약관 1",
-                    content: "내용 1",
+                    title: "만 14세 이상입니다.",
                     isAgree: false,
                 },
                 {
-                    title: "약관 2",
-                    content: "내용 2",
+                    title: "서비스 이용약관에 동의합니다.",
+                    isAgree: false,
+                },
+                {
+                    title: "개인정보 수집·이용에 동의합니다.",
+                    isAgree: false,
+                },
+                {
+                    title: "개인정보 제3자 제공에 동의합니다.",
                     isAgree: false,
                 },
             ],
             helperTerms: [
                 {
-                    title: "약관 3",
-                    content: "내용 3",
+                    title: "중계서비스 이용약관에 동의합니다.",
                     isAgree: false,
                 },
             ],
@@ -135,4 +138,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.answer {
+    border: 1px solid var(--light-color);
+}
+</style>

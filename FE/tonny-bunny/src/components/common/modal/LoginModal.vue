@@ -10,7 +10,7 @@
                     <div class="title">
                         <img src="@/assets/logo3.png" alt="logo" />
                     </div>
-                    <div class="form mt-3">
+                    <div class="form mt-3" @keyup.enter="clickLoginBtn">
                         <div class="inputs w-100">
                             <input class="input" type="email" id="email" v-model="email" />
                             <input
