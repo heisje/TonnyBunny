@@ -1,6 +1,6 @@
 <template>
-    <div class="modalContainer">
-        <Transition name="bounce" v-show="isOpen">
+    <div class="modalContainer" @click="closeModal">
+        <Transition name="bounce" v-show="isAlarmModalOpen">
             <div class="modalWrap">
                 <div class="modalCustom">
                     <div class="titleWrap">
@@ -35,13 +35,13 @@
                                 :color="btnColor1"
                                 :font="btnFontColor1"
                                 :text="btnText1"
-                                @click="clickBtn1"></small-btn>
+                                @click.stop="clickBtn1"></small-btn>
                         </div>
                         <small-btn
                             :color="btnColor2"
                             :font="btnFontColor2"
                             :text="btnText2"
-                            @click="clickBtn2"></small-btn>
+                            @click.stop="clickBtn2"></small-btn>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-/* eslint-disable */
+import { mapGetters } from "vuex";
 import SmallBtn from "../button/SmallBtn.vue";
 
 export default {
@@ -59,8 +59,6 @@ export default {
     },
 
     props: {
-        isOpen: false,
-
         title: {
             type: String,
             default: "경고",
@@ -116,6 +114,10 @@ export default {
         },
     },
 
+    computed: {
+        ...mapGetters({ isAlarmModalOpen: "getIsAlarmModalOpen" }),
+    },
+
     methods: {
         clickBtn1(e) {
             e.preventDefault();
@@ -126,21 +128,12 @@ export default {
             e.preventDefault();
             this.$emit("clickBtn2");
         },
+
+        closeModal(e) {
+            e.preventDefault();
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
     },
-
-    // emits: ["isOpen"],
-
-    // setup(props, context) {
-    // 	const { emit } = context;
-    // 	const openModal = (e) => {
-    // 		e.preventDefault();
-    // 		// emit("isOpen");
-    // 		console.log("open");
-    // 	};
-    // 	const closeModal = () => {};
-
-    // 	return { openModal, closeModal };
-    // }
 };
 </script>
 

@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+## TEST UPLOAD FILE ###
+/src/main/resources/**/*.JPG
+/src/main/resources/**/*.jpg
+/src/main/resources/**/*.PNG
+/src/main/resources/**/*.png
+

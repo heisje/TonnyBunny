@@ -1,7 +1,6 @@
 <template lang="">
-    <div>
-        <form class="customForm borderForm" @submit.prevent="submitForm(event)">
-            <title-text type="h2" title="🐇통역 예약 신청" />
+    <div class="d-flex justify-content-center customFormWrap w-100">
+        <form class="customForm" @submit.prevent="submitForm(event)">
             <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
 
             <div class="d-flex flex-row">

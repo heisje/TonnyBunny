@@ -2,13 +2,11 @@
     <div>
         <h1>Modal Test</h1>
 
-        {{ isOpen }}
         <br />
         <medium-btn text="modal test" @click="openModal"></medium-btn>
 
         <!-- <alarm-modal v-show="isOpen" :isOpen="isOpen"></alarm-modal> -->
         <alarm-modal
-            :isOpen="isOpen"
             title="경고"
             type="danger"
             btnText1="아니오"
@@ -42,16 +40,10 @@ export default {
 
     props: {},
 
-    data() {
-        return {
-            isOpen: false,
-        };
-    },
-
     methods: {
         openModal(e) {
             e.preventDefault();
-            this.isOpen = true;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         closeModal() {
