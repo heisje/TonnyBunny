@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -38,9 +37,9 @@ public class BunnyService {
 	 * @return : 생성된 공고의 seq
 	 */
 	public Long createBunny(BunnyRequestDto bunnyRequestDto) {
-		Optional<UserEntity> user = userRepository.findById(bunnyRequestDto.getClientSeq());
+		UserEntity user = userRepository.findById(bunnyRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		BunnyEntity bunny = BunnyEntity.builder()
-			.user(user.get())
+			.user(user)
 			.title(bunnyRequestDto.getTitle())
 			.content(bunnyRequestDto.getContent())
 			.estimatePrice(bunnyRequestDto.getEstimatePrice())
@@ -79,7 +78,7 @@ public class BunnyService {
 	 */
 	public Long deleteBunny(Long bunnySeq) {
 
-		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		bunny.delete();
 		bunnyRepository.save(bunny);
 		return bunny.getSeq();
@@ -93,8 +92,8 @@ public class BunnyService {
 	 * @return : 조회된 공고의 Entity
 	 */
 	public BunnyEntity getBunny(Long bunnySeq) {
-		Optional<BunnyEntity> bunny = bunnyRepository.findById(bunnySeq);
-		return bunny.orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));      // 에러처리
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		return bunny;
 	}
 
 
@@ -120,7 +119,6 @@ public class BunnyService {
 			bunnyList = bunnyRepository.findByBunnySituCodeOrderByCreatedAtDesc(category);
 		} else {
 			// 둘 다 필터하여 조회
-			// 아직 미구현
 			bunnyList = bunnyRepository.findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(lang, category, lang, category);
 		}
 
@@ -136,11 +134,11 @@ public class BunnyService {
 	 */
 	public Long createBunnyApply(BunnyApplyRequestDto bunnyApplyRequestDto) {
 
-		Optional<UserEntity> user = userRepository.findById(bunnyApplyRequestDto.getUserSeq());                 // 에러처리
-		Optional<BunnyEntity> bunny = bunnyRepository.findById(bunnyApplyRequestDto.getBunnySeq());             // 에러처리
+		UserEntity user = userRepository.findById(bunnyApplyRequestDto.getUserSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		BunnyEntity bunny = bunnyRepository.findById(bunnyApplyRequestDto.getBunnySeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		BunnyApplyEntity bunnyApply = BunnyApplyEntity.builder().
-			bunny(bunny.get()).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user.get()).build();
+			bunny(bunny).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user).build();
 
 		BunnyApplyEntity creaetedBunnyApply = bunnyApplyRepository.save(bunnyApply);
 		return creaetedBunnyApply.getSeq();
@@ -155,7 +153,7 @@ public class BunnyService {
 	 */
 	public Boolean deleteBunnyApply(BunnyApplyRequestDto bunnyApplyRequestDto) {
 
-		BunnyApplyEntity bunnyApply = bunnyApplyRepository.findById(bunnyApplyRequestDto.getBunnyApplySeq()).orElseThrow(); // 에러처리
+		BunnyApplyEntity bunnyApply = bunnyApplyRepository.findById(bunnyApplyRequestDto.getBunnyApplySeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		bunnyApplyRepository.delete(bunnyApply);
 
 		return true;
@@ -183,14 +181,14 @@ public class BunnyService {
 	 */
 	public Long createBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
 
-		Optional<BunnyEntity> bunny = bunnyRepository.findById(bunnyQuotationRequestDto.getBunnySeq());                 // 에러처리
-		Optional<UserEntity> client = userRepository.findById(bunnyQuotationRequestDto.getClientSeq());                 // 에러처리
-		Optional<UserEntity> helper = userRepository.findById(bunnyQuotationRequestDto.getHelperSeq());                 // 에러처리
+		BunnyEntity bunny = bunnyRepository.findById(bunnyQuotationRequestDto.getBunnySeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		UserEntity client = userRepository.findById(bunnyQuotationRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		UserEntity helper = userRepository.findById(bunnyQuotationRequestDto.getHelperSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		BunnyQuotationEntity bunnyQuotation = BunnyQuotationEntity.builder()
-			.bunny(bunny.get())
-			.client(client.get())
-			.helper(helper.get())
+			.bunny(bunny)
+			.client(client)
+			.helper(helper)
 			.startDateTime(bunnyQuotationRequestDto.getStartDateTime())
 			.endDateTime(bunnyQuotationRequestDto.getEndDateTime())
 			.title(bunnyQuotationRequestDto.getTitle())
@@ -241,9 +239,10 @@ public class BunnyService {
 	 * @return 조회한 견적서
 	 */
 	public BunnyQuotationEntity getBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
 		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
-		Optional<BunnyQuotationEntity> bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq);
-		return bunnyQuotation.orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME));      // 에러처리
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		return bunnyQuotation;
 	}
 
 	/**
@@ -266,13 +265,13 @@ public class BunnyService {
 
 		// 번역 견적서 상태코드 변경
 		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
-		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME)); // 에러 수정
-		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.수락됨.getQuotationStateCode());     // 이부분 ???????? 자잘한 수정???? 예정
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY))
+		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.수락됨.getQuotationStateCode());
 		bunnyQuotationRepository.save(bunnyQuotation);
 
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
-		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow();  // 에러 수정
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		bunny.changeStateCode(BunnyStateCodeEnum.매칭완료.getBunnyStateCode());
 		bunnyRepository.save(bunny);
 		return true;
@@ -289,13 +288,13 @@ public class BunnyService {
 
 		// 번역 견적서 상태코드 변경
 		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
-		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.ERROR_NAME)); // 에러 수정
-		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.거절됨.getQuotationStateCode());     // 이부분 ???????? 자잘한 수정???? 예정
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.거절됨.getQuotationStateCode());
 		bunnyQuotationRepository.save(bunnyQuotation);
 
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
-		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow();  // 에러 수정
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		bunny.changeStateCode(BunnyStateCodeEnum.시작전.getBunnyStateCode());
 		bunnyRepository.save(bunny);
 		return true;
