@@ -1,12 +1,13 @@
-<template lang="">
+<template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <form class="customForm" @submit.prevent="submitForm(event)">
-            <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
+            <title-text important type="h2" title="어떤 언어를 통역하실건가요?" bottom="10" />
 
-            <div class="d-flex flex-row">
-                <div class="">
+            <div class="d-flex flex-row w-100">
+                <div class="w-100">
                     <label for="">내 언어</label>
                     <DropdownInput
+                        class="w-100"
                         :dropdownArray="['아이템1', '아이템2', '아이템3']"
                         placeholder="내 언어"
                         @toggle="(e) => (dropdownValue = e)" />
@@ -14,8 +15,8 @@
                 <div class="swap">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
-                <div class="">
-                    <label for="">필요 언어</label>
+                <div class="w-100">
+                    <label for="">통역 언어</label>
                     <DropdownInput
                         :dropdownArray="['아이템1', '아이템2', '아이템3']"
                         placeholder="필요 언어"
@@ -167,4 +168,7 @@ export default {
 
 <style lang="scss">
 @import "@/scss/input.scss";
+
+.dropdown {
+}
 </style>

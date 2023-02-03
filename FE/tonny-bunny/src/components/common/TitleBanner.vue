@@ -63,7 +63,7 @@ export default {
 }
 
 .bannerWrap {
-    background: var(--carrot-color);
+    background: var(--banner-color);
     position: absolute;
     left: 0;
     width: 100%;
