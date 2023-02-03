@@ -156,19 +156,21 @@ export default {
             }
 
             const payload = {
+                clientSeq: 1,
                 startLangCode: this.getLangCode[this.startLangCode],
                 endLangCode: this.getLangCode[this.endLangCode],
                 bunnySituCode: this.getBunnySituCode[this.bunnySituCode],
-                startDate: this.startLangCode,
-                endDate: this.startLangCode,
-                estimatePrice: this.startLangCode,
-                title: this.startLangCode,
-                content: this.startLangCode,
+                startDate: `${this.startDate}T00:00:00.000Z`,
+                endDate: `${this.startDate}T00:00:00.000Z`,
+                estimatePrice: this.estimatePrice,
+                title: this.title,
+                content: this.content,
+                bunnyImageList: [],
             };
 
             console.log(payload);
 
-            this.$store.dispatch("insertBunny");
+            this.$store.dispatch("insertBunny", payload);
 
             // this.$store.commit("TOGGLE_ALARM_MODAL");
         },
