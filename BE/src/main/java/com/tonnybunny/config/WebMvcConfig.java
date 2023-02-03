@@ -18,14 +18,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
-		        .addPathPatterns("/**")             // 모든 url 에 대해 적용
-		        .excludePathPatterns("/login/**")   // 제외 1
-		        .excludePathPatterns("/signup/**")  // 제외 2
-		        .excludePathPatterns("/signin/**")  // 제외 3
-		        .excludePathPatterns("/refresh/**") // 제외 4
-		        .excludePathPatterns("/swagger-resources/**")   // swagger
-		        .excludePathPatterns("/swagger-ui/**")          // swagger
-		        .excludePathPatterns("/v2/**");  // swagger
+			.addPathPatterns("/**")             // 모든 url 에 대해 적용
+			.excludePathPatterns("/login/**")   // 제외 1
+			.excludePathPatterns("/signup/**")  // 제외 2
+			.excludePathPatterns("/signin/**")  // 제외 3
+			.excludePathPatterns("/refresh/**") // 제외 4
+			.excludePathPatterns("/swagger-resources/**")   // swagger
+			.excludePathPatterns("/swagger-ui/**")          // swagger
+			.excludePathPatterns("/v2/**");  // swagger
 	}
 
 }

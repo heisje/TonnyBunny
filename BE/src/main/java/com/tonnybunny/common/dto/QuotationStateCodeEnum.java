@@ -6,9 +6,7 @@ import lombok.ToString;
 
 @ToString
 public enum QuotationStateCodeEnum {
-	미선택("0070001"),
-	선택("0070002"),
-	작업완료("0070003");
+	미선택("0070001"), 수락됨("0070002"), 완료됨("0070003"), 거절됨("0070004");
 
 	private final String quotationStateCode;
 
@@ -17,4 +15,8 @@ public enum QuotationStateCodeEnum {
 		this.quotationStateCode = quotationStateCode;
 	}
 
+
+	public String getQuotationStateCode() {
+		return this.quotationStateCode;
+	}
 }
