@@ -1,4 +1,5 @@
 export default {
+    /* Loading */
     setIsLoading(context, bool) {
         if (bool) {
             context.commit("SET_ISLOADING", true);

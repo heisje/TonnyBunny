@@ -1,9 +1,9 @@
 <template>
-    <div class="tonnyModalContainer modalContainer">
+    <div class="tonnyModalContainer modalContainer" @click="closeModal">
         <Transition name="bounce" v-show="isTonnyModalOpen">
             <div class="tonnyModalWrap modalWrap">
                 <div class="tonnyModal modalCustom">
-                    <div class="closeBtn" @click="toggleTonnyModalOpen">
+                    <div class="closeBtn" @click.stop="toggleTonnyModalOpen">
                         <span class="material-symbols-outlined"> close </span>
                     </div>
 
@@ -20,13 +20,13 @@
                     <div class="btns d-flex mt-5">
                         <router-link
                             :to="{ name: 'JTonnyFormPage' }"
-                            @click="this.$store.commit('TOGGLE_TONNY_MODAL')">
+                            @click.stop="this.$store.commit('TOGGLE_TONNY_MODAL')">
                             <div class="jtonnyBtn">즉시통역</div>
                         </router-link>
 
                         <router-link
                             :to="{ name: 'YTonnyFormPage' }"
-                            @click="this.$store.commit('TOGGLE_TONNY_MODAL')">
+                            @click.stop="this.$store.commit('TOGGLE_TONNY_MODAL')">
                             <div class="ytonnyBtn">통역예약</div>
                         </router-link>
                     </div>
@@ -56,6 +56,11 @@ export default {
 
     methods: {
         toggleTonnyModalOpen(e) {
+            e.preventDefault();
+            this.$store.commit("TOGGLE_TONNY_MODAL");
+        },
+
+        closeModal(e) {
             e.preventDefault();
             this.$store.commit("TOGGLE_TONNY_MODAL");
         },

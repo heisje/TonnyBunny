@@ -1,6 +1,6 @@
 <template>
     <div>
-        <title-banner title="🐰 통역예약" text="헬퍼에게 통역 서비스를 예약합니다." />
+        <title-banner title="예약통역 서비스 신청" text="헬퍼에게 통역 서비스를 예약합니다." />
 
         <YTonnyClientForm @toggleSubmit="openModal" />
 

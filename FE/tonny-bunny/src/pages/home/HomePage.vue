@@ -14,7 +14,7 @@
         <!-- part1 -->
         <!-- <tag-test></tag-test> -->
         <!-- <hr /> -->
-        <!-- <modal-test></modal-test> -->
+        <modal-test></modal-test>
         <!-- <hr /> -->
         <!-- <button-test></button-test> -->
         <!-- <hr /> -->

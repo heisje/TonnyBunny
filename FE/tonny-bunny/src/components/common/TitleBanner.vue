@@ -52,17 +52,18 @@ export default {
 
         h1 {
             margin-bottom: 4px;
+            color: var(--background-color);
         }
 
         p {
-            color: var(--sub-color);
+            color: var(--thin-color);
             @extend .label;
         }
     }
 }
 
 .bannerWrap {
-    background-color: var(--thin-color);
+    background: var(--carrot-color);
     position: absolute;
     left: 0;
     width: 100%;
