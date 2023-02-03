@@ -39,7 +39,7 @@ public class BunnyEntity extends CommonEntity {
 	private String startLangCode;
 	private String endLangCode;
 	private String bunnySituCode;
-	private String bunnyStateCode;
+	private String bunnyStateCode = "0100001";
 
 	@Builder.Default
 	private String isDeleted = "F";
@@ -62,6 +62,11 @@ public class BunnyEntity extends CommonEntity {
 
 	public void delete() {
 		this.isDeleted = "T";
+	}
+
+
+	public void changeStateCode(String stateCode) {
+		this.bunnyStateCode = stateCode;
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
-import com.tonnybunny.domain.bunny.entity.BunnyImageEntity;
+import com.tonnybunny.config.ModelMapperFactory;
+import com.tonnybunny.domain.bunny.entity.BunnyQuotationImageEntity;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,20 +19,24 @@ import java.util.List;
 public class BunnyQuotationImageResponseDto {
 
 	private Long seq;
-	private Long bunnyQuatationSeq;
+	private Long bunnyQuotationSeq;
 	private String imagePath;
 
 
-	public static BunnyQuotationImageResponseDto fromEntity(BunnyImageEntity bunnyNotiImage) {
-		return new BunnyQuotationImageResponseDto();
+	public static BunnyQuotationImageResponseDto fromEntity(BunnyQuotationImageEntity bunnyQuotationImage) {
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+
+		BunnyQuotationImageResponseDto bunnyQuotationImageResponseDto = modelMapper.map(bunnyQuotationImage, BunnyQuotationImageResponseDto.class);
+
+		return bunnyQuotationImageResponseDto;
 	}
 
 
-	public static List<BunnyQuotationImageResponseDto> fromEntityList(List<BunnyImageEntity> bunnyNotiImageList) {
+	public static List<BunnyQuotationImageResponseDto> fromEntityList(List<BunnyQuotationImageEntity> bunnyQuotationImageList) {
 		List<BunnyQuotationImageResponseDto> result = new ArrayList<>();
 
-		for (BunnyImageEntity bunnyNotiImage : bunnyNotiImageList) {
-			BunnyQuotationImageResponseDto bunnyQuotationImageResponseDto = fromEntity(bunnyNotiImage);
+		for (BunnyQuotationImageEntity bunnyQuotationImage : bunnyQuotationImageList) {
+			BunnyQuotationImageResponseDto bunnyQuotationImageResponseDto = fromEntity(bunnyQuotationImage);
 			result.add(bunnyQuotationImageResponseDto);
 		}
 
