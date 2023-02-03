@@ -77,8 +77,8 @@ public class YTonnyQuotationService {
 		                                                                   .content(yTonnyEntity.getContent())
 		                                                                   .endLangCode(yTonnyEntity.getEndLangCode().toString())
 		                                                                   .startLangCode(yTonnyEntity.getStartLangCode().toString())
-		                                                                   .estimateDate(yTonnyEntity.getEstimateDate())
-		                                                                   .estimateStartTime(yTonnyEntity.getEstimateStartTime())
+		                                                                   //		                                                                   .estimateDate(yTonnyEntity.getEstimateDate())
+		                                                                   //		                                                                   .estimateStartTime(yTonnyEntity.getEstimateStartTime())
 		                                                                   .estimateTime(yTonnyEntity.getEstimateTime())
 		                                                                   .build();
 

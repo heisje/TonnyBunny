@@ -6,7 +6,7 @@ import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,9 @@ public class YTonnyEntity extends CommonEntity {
 	private String startLangCode;
 	private String endLangCode;
 
-	private LocalDate estimateDate;
-	private LocalTime estimateStartTime;
+	private LocalDateTime startDateTime;
+	//	private LocalDate estimateDate;
+	//	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
