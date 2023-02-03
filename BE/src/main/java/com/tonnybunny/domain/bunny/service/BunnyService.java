@@ -148,7 +148,7 @@ public class BunnyService {
 	/**
 	 * 번역 공고 신청 취소
 	 *
-	 * @param bunnyApplyRequestDto :취소할 신청 seq
+	 * @param bunnyApplyRequestDto
 	 * @return :로직 성공 여부
 	 */
 	public Boolean deleteBunnyApply(BunnyApplyRequestDto bunnyApplyRequestDto) {
@@ -235,7 +235,7 @@ public class BunnyService {
 	/**
 	 * 번역 견적서 상세 조회
 	 *
-	 * @param bunnyQuotationRequestDto : 조회할 견적서 Seq
+	 * @param bunnyQuotationRequestDto
 	 * @return 조회한 견적서
 	 */
 	public BunnyQuotationEntity getBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
@@ -245,27 +245,18 @@ public class BunnyService {
 		return bunnyQuotation;
 	}
 
-	/**
-	 * 견적서 상태 타입 수정
-	 * - 미선택 : 아직 견적서 협의가 확정되지 않은 상태
-	 * - 선택 : 견적서 협의가 확정된 상태. 고객이 견적서를 수락한 상태.
-	 * - 완료 : 번역 업무가 완료된 상태.
-	 *
-	 * @param bunnyQuotationSeq       : 대상 견적서 Seq
-	 * @param bunnyQuotationStateCode : 견적서 상태 타입 코드 (공통 코드)
-	 */
 
 	/**
-	 * 번역 견적서 신청 수락
+	 * 번역 견적서 수락
 	 *
-	 * @param bunnyQuotationRequestDto : 수락할 번역 공고로의 신청 seq
+	 * @param bunnyQuotationRequestDto
 	 * @return 로직 성공 여부
 	 */
 	public Boolean acceptBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
 
 		// 번역 견적서 상태코드 변경
 		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
-		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY))
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.수락됨.getQuotationStateCode());
 		bunnyQuotationRepository.save(bunnyQuotation);
 
@@ -279,9 +270,9 @@ public class BunnyService {
 
 
 	/**
-	 * 번역 공고 신청 거절
+	 * 번역 견적서 거절
 	 *
-	 * @param bunnyQuotationRequestDto : 거절된 번역 공고로의 신청 seq
+	 * @param bunnyQuotationRequestDto
 	 * @return 로직 성공 여부
 	 */
 	public Boolean rejectBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
@@ -300,8 +291,27 @@ public class BunnyService {
 		return true;
 	}
 
-	//	public void modifyBunnyQuotationType(Long bunnyQuotationSeq, String bunnyQuotationStateCode) {
-	//		// TODO : 구현
-	//	}
+
+	/**
+	 * 번역 공고 완료
+	 *
+	 * @param bunnyQuotationRequestDto
+	 * @return
+	 */
+	public Boolean completeBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		// 번역 견적서 상태코드 변경
+		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.완료됨.getQuotationStateCode());
+		bunnyQuotationRepository.save(bunnyQuotation);
+
+		// 번역 공고 상태코드 변경
+		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunny.changeStateCode(BunnyStateCodeEnum.완료.getBunnyStateCode());
+		bunnyRepository.save(bunny);
+		return true;
+	}
 
 }

@@ -184,13 +184,6 @@ public class BunnyController {
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyQuotationResponseDto));
 	}
 
-	//	@PutMapping("/{bunnySeq}/quotation/{quotationSeq}")
-	//	@ApiOperation(value = "번역 견적서의 상태 코드를 수정", notes = "견적서의 상태 (미선택/선택/작업완료)를 변경합니다.")
-	//	public ResponseEntity<ResultDto<Boolean>> modifyBunnyQuotationType(@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq, @RequestBody String bunnyQuotationStateCode) {
-	//		bunnyService.modifyBunnyQuotationType(bunnyQuotationSeq, bunnyQuotationStateCode);
-	//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-	//	}
-
 
 	/**
 	 * 번역 견적서 수락
@@ -223,6 +216,25 @@ public class BunnyController {
 	public ResponseEntity<ResultDto<Boolean>> rejectBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
 
 		Boolean isSuccess = bunnyService.rejectBunnyQuotation(bunnyQuotationRequestDto);
+		if (isSuccess) {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
+		}
+	}
+
+
+	/**
+	 * 번역 공고 완료
+	 *
+	 * @param bunnyQuotationRequestDto
+	 * @return
+	 */
+	@PutMapping("/{bunnySeq}/quotation/{bunnyQuotationSeq}/complete")
+	@ApiOperation(value = "번역 공고 완료하기")
+	public ResponseEntity<ResultDto<Boolean>> completeBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		Boolean isSuccess = bunnyService.completeBunnyQuotation(bunnyQuotationRequestDto);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 		} else {
