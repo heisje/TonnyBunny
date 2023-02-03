@@ -1,134 +1,105 @@
 <template>
-    <div class="navBarWrap">
-        <div class="navBar d-lg-block d-none">
-            <nav class="navbar navbar-white">
-                <div class="container-fluid container">
-                    <div class="d-flex">
-                        <a class="navbar-brand" href="/">
-                            <img src="@/assets/logo.png" alt="" width="100" />
-                        </a>
+    <div class="navBarContainer">
+        <div class="navBarWrap">
+            <div class="navBar d-lg-block d-none">
+                <nav class="navbar navbar-white">
+                    <div class="container-fluid container">
+                        <div class="d-flex">
+                            <a class="navbar-brand" href="/">
+                                <img src="@/assets/logo.png" alt="" width="100" />
+                            </a>
 
-                        <div class="navBarTexts d-flex">
-                            <ul class="navbar-nav flex-row">
-                                <li class="nav-item">
-                                    <router-link
-                                        :to="{ name: 'HomePage' }"
-                                        class="nav-link"
-                                        aria-current="page">
-                                        <h2>HOME</h2>
-                                    </router-link>
-                                </li>
+                            <div class="navBarTexts d-flex">
+                                <ul class="navbar-nav flex-row">
+                                    <li class="nav-item">
+                                        <router-link
+                                            :to="{ name: 'HomePage' }"
+                                            class="nav-link"
+                                            aria-current="page">
+                                            <h2>HOME</h2>
+                                        </router-link>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <router-link :to="{ name: 'IntroPage' }" class="nav-link">
-                                        <h2>토니버니란?</h2>
-                                    </router-link>
-                                </li>
+                                    <li class="nav-item">
+                                        <router-link :to="{ name: 'IntroPage' }" class="nav-link">
+                                            <h2>토니버니란?</h2>
+                                        </router-link>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <div class="nav-link" @click="toggleTonnyModalOpen">
-                                        <h2>통역하기</h2>
-                                    </div>
-                                </li>
+                                    <li class="nav-item">
+                                        <div class="nav-link" @click="toggleTonnyModalOpen">
+                                            <h2>통역하기</h2>
+                                        </div>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <div class="nav-link" @click="toggleBunnyModalOpen">
-                                        <h2>번역하기</h2>
-                                    </div>
-                                </li>
+                                    <li class="nav-item">
+                                        <div class="nav-link" @click="toggleBunnyModalOpen">
+                                            <h2>번역하기</h2>
+                                        </div>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <router-link :to="{ name: 'BoardPage' }" class="nav-link">
-                                        <h2>커뮤니티</h2>
-                                    </router-link>
-                                </li>
-                            </ul>
+                                    <li class="nav-item">
+                                        <router-link :to="{ name: 'BoardPage' }" class="nav-link">
+                                            <h2>커뮤니티</h2>
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="navBarProfile" v-if="isLogin">
-                        <router-link :to="{ name: 'AlertPage' }">
-                            <span class="material-symbols-outlined notification">
-                                notifications
-                            </span>
-                        </router-link>
+                        <div class="navBarProfile" v-if="isLogin">
+                            <router-link :to="{ name: 'AlertPage' }">
+                                <span class="material-symbols-outlined notification">
+                                    notifications
+                                </span>
+                            </router-link>
 
-                        <div class="d-flex align-items-center">
-                            <span class="nickName" @click="openPopOver">
-                                {{ userInfo?.nickName }}
-                            </span>
-                            <img
-                                src="@/assets/noProfile.png"
-                                width="40"
-                                height="40"
-                                @click="openPopOver" />
-                        </div>
-                        <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
-                            <div class="popOverArrow"></div>
-                            <ul>
-                                <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'ChatPage' }">
-                                        채팅함
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'ChatPage' }">
-                                        즐겨찾기
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'MyPage' }">
-                                        마이페이지
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <router-link class="dropdown-item" :to="{ name: 'NoticePage' }">
-                                        설정
-                                    </router-link>
-                                </li>
-                                <li>
-                                    <router-link class="dropdown-item" to="logout">
-                                        로그아웃
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <medium-btn
-                            class="me-2"
-                            text="로그인"
-                            color="outline"
-                            font="main"
-                            @click="toggleLoginModal"></medium-btn>
-                        <medium-btn
-                            text="회원가입"
-                            color="main"
-                            @click="clickSignUpBtn"></medium-btn>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-        <div class="navBarMobile d-lg-none">
-            <nav class="navbar navbar-white">
-                <div class="container-fluid container">
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasDarkNavbar"
-                        aria-controls="offcanvasDarkNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">
-                        <img src="@/assets/logo.png" alt="" width="100" />
-                    </a>
-                    <div class="d-flex">
-                        <div v-if="isLogin">
-                            <span class="material-symbols-outlined notification">
-                                notifications
-                            </span>
+                            <div class="d-flex align-items-center">
+                                <span class="nickName" @click="openPopOver">
+                                    {{ userInfo?.nickName }}
+                                </span>
+                                <img
+                                    src="@/assets/noProfile.png"
+                                    width="40"
+                                    height="40"
+                                    @click="openPopOver" />
+                            </div>
+                            <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
+                                <div class="popOverArrow"></div>
+                                <ul>
+                                    <li>
+                                        <router-link
+                                            class="dropdown-item"
+                                            :to="{ name: 'ChatPage' }">
+                                            채팅함
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link
+                                            class="dropdown-item"
+                                            :to="{ name: 'ChatPage' }">
+                                            즐겨찾기
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link class="dropdown-item" :to="{ name: 'MyPage' }">
+                                            마이페이지
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link
+                                            class="dropdown-item"
+                                            :to="{ name: 'NoticePage' }">
+                                            설정
+                                        </router-link>
+                                    </li>
+                                    <li>
+                                        <router-link class="dropdown-item" to="logout">
+                                            로그아웃
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div v-else>
                             <medium-btn
@@ -143,123 +114,165 @@
                                 @click="clickSignUpBtn"></medium-btn>
                         </div>
                     </div>
-                    <div
-                        class="offcanvas offcanvas-start text-bg-light"
-                        tabindex="-1"
-                        id="offcanvasDarkNavbar"
-                        aria-labelledby="offcanvasDarkNavbarLabel">
-                        <div class="offcanvas-header">
-                            <h4 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h4>
-                            <button
-                                type="button"
-                                class="btn-close btn-close-light"
-                                data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
+                </nav>
+            </div>
+
+            <div class="navBarMobile d-lg-none">
+                <nav class="navbar navbar-white">
+                    <div class="container-fluid container mx-4">
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasDarkNavbar"
+                            aria-controls="offcanvasDarkNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">
+                            <img src="@/assets/logo.png" alt="" width="100" />
+                        </a>
+                        <div class="d-flex">
+                            <div v-if="isLogin">
+                                <router-link :to="{ name: 'AlertPage' }">
+                                    <span class="material-symbols-outlined notification">
+                                        notifications
+                                    </span>
+                                </router-link>
+                            </div>
+                            <div v-else>
+                                <medium-btn
+                                    class="me-2"
+                                    text="로그인"
+                                    color="outline"
+                                    font="main"
+                                    @click="toggleLoginModal"></medium-btn>
+                                <medium-btn
+                                    text="회원가입"
+                                    color="main"
+                                    @click="clickSignUpBtn"></medium-btn>
+                            </div>
                         </div>
+                        <div
+                            class="offcanvas offcanvas-start text-bg-light"
+                            tabindex="-1"
+                            id="offcanvasDarkNavbar"
+                            aria-labelledby="offcanvasDarkNavbarLabel">
+                            <div class="offcanvas-header">
+                                <h4 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h4>
+                                <button
+                                    type="button"
+                                    class="btn-close btn-close-light"
+                                    data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                            </div>
 
-                        <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                <li class="nav-item">
-                                    <router-link
-                                        :to="{ name: 'HomePage' }"
-                                        class="nav-link"
-                                        aria-current="page">
-                                        <h2>HOME</h2>
-                                    </router-link>
-                                </li>
+                            <div class="offcanvas-body">
+                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                    <li class="nav-item">
+                                        <router-link
+                                            :to="{ name: 'HomePage' }"
+                                            class="nav-link"
+                                            aria-current="page">
+                                            <h2>HOME</h2>
+                                        </router-link>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <router-link :to="{ name: 'IntroPage' }" class="nav-link">
-                                        <h2>토니버니란?</h2>
-                                    </router-link>
-                                </li>
+                                    <li class="nav-item">
+                                        <router-link :to="{ name: 'IntroPage' }" class="nav-link">
+                                            <h2>토니버니란?</h2>
+                                        </router-link>
+                                    </li>
 
-                                <li class="nav-item">
-                                    <div class="nav-link" @click="toggleTonnyModalOpen">
-                                        <h2>통역하기</h2>
+                                    <li class="nav-item">
+                                        <div class="nav-link" @click="toggleTonnyModalOpen">
+                                            <h2>통역하기</h2>
+                                        </div>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <div class="nav-link" @click="toggleBunnyModalOpen">
+                                            <h2>번역하기</h2>
+                                        </div>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <router-link :to="{ name: 'BoardPage' }" class="nav-link">
+                                            <h2>커뮤니티</h2>
+                                        </router-link>
+                                    </li>
+
+                                    <li class="nav-item dropdown" v-if="isLogin">
+                                        <a
+                                            class="nav-link dropdown-toggle"
+                                            href="#"
+                                            role="button"
+                                            data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <img
+                                                src="@/assets/noProfile.png"
+                                                width="40"
+                                                height="40" />
+                                            <h3>닉네임</h3>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <router-link
+                                                    class="dropdown-item"
+                                                    :to="{ name: 'ChatPage' }">
+                                                    채팅함
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link
+                                                    class="dropdown-item"
+                                                    :to="{ name: 'ChatPage' }">
+                                                    즐겨찾기
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link
+                                                    class="dropdown-item"
+                                                    :to="{ name: 'MyPage' }">
+                                                    마이페이지
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link
+                                                    class="dropdown-item"
+                                                    :to="{ name: 'NoticePage' }">
+                                                    설정
+                                                </router-link>
+                                            </li>
+
+                                            <li>
+                                                <hr class="dropdown-divider" />
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="#">로그아웃</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <div v-else>
+                                        <medium-btn
+                                            class="mt-3 w-100"
+                                            text="로그인"
+                                            color="outline"
+                                            font="main"
+                                            @click="toggleLoginModal"></medium-btn>
+                                        <medium-btn
+                                            class="mt-2 w-100"
+                                            text="회원가입"
+                                            color="main"
+                                            @click="clickSignUpBtn"></medium-btn>
                                     </div>
-                                </li>
-
-                                <li class="nav-item">
-                                    <div class="nav-link" @click="toggleBunnyModalOpen">
-                                        <h2>번역하기</h2>
-                                    </div>
-                                </li>
-
-                                <li class="nav-item">
-                                    <router-link :to="{ name: 'BoardPage' }" class="nav-link">
-                                        <h2>커뮤니티</h2>
-                                    </router-link>
-                                </li>
-
-                                <li class="nav-item dropdown" v-if="isLogin">
-                                    <a
-                                        class="nav-link dropdown-toggle"
-                                        href="#"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <img src="@/assets/noProfile.png" width="40" height="40" />
-                                        <h3>닉네임</h3>
-                                    </a>
-
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <router-link
-                                                class="dropdown-item"
-                                                :to="{ name: 'ChatPage' }">
-                                                채팅함
-                                            </router-link>
-                                        </li>
-                                        <li>
-                                            <router-link
-                                                class="dropdown-item"
-                                                :to="{ name: 'ChatPage' }">
-                                                즐겨찾기
-                                            </router-link>
-                                        </li>
-                                        <li>
-                                            <router-link
-                                                class="dropdown-item"
-                                                :to="{ name: 'MyPage' }">
-                                                마이페이지
-                                            </router-link>
-                                        </li>
-                                        <li>
-                                            <router-link
-                                                class="dropdown-item"
-                                                :to="{ name: 'NoticePage' }">
-                                                설정
-                                            </router-link>
-                                        </li>
-
-                                        <li>
-                                            <hr class="dropdown-divider" />
-                                        </li>
-
-                                        <li>
-                                            <a class="dropdown-item" href="#">로그아웃</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <div v-else>
-                                    <medium-btn
-                                        class="mt-3 w-100"
-                                        text="로그인"
-                                        color="outline"
-                                        font="main"
-                                        @click="toggleLoginModal"></medium-btn>
-                                    <medium-btn
-                                        class="mt-2 w-100"
-                                        text="회원가입"
-                                        color="main"
-                                        @click="clickSignUpBtn"></medium-btn>
-                                </div>
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
         </div>
     </div>
 </template>
@@ -340,12 +353,13 @@ export default {
 }
 
 .navBarWrap {
-    // margin-bottom: 100px;
-    // height: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; // height: 500px;
+    z-index: 100;
 }
 .navBar {
-    // height: 500px;
-
     .navbar-brand {
         margin-right: 20px;
     }
@@ -454,8 +468,8 @@ export default {
     background-color: var(--background-color);
     box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.03);
     // margin-bottom: 54px;
-    padding: 16px 0;
-    height: 80px;
+    padding: 8px 0;
+
     z-index: 100;
 
     .nav-link {
@@ -535,15 +549,20 @@ export default {
     // text-decoration: underline;
 }
 
-// @media (min-width: 1200px) {
-//     .navBarMobile {
-//         display: none;
-//     }
-// }
-
-// @media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
-//     .modalCustom {
-//         width: 85%;
-//     }
-// }
+@media (min-width: 756px) {
+    .navbar {
+        height: 80px;
+    }
+    .navBarContainer {
+        height: 80px;
+    }
+}
+@media (max-width: 755px) {
+    .navbar {
+        height: 72px;
+    }
+    .navBarContainer {
+        height: 72px;
+    }
+}
 </style>
