@@ -295,12 +295,48 @@ public class UserService {
 	 */
 	@Transactional
 	public Long modifyUserInfo(Long userSeq, UserRequestDto userRequestDto) {
-		// TODO : 로직
-		UserEntity _new = userRequestDto.toEntity();
-		/**
-		 * UserEntity _old = boardRepository.findUserBySeq(userSeq);
-		 */
-		return _new.getSeq();
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+
+		user.updateUserInfo(userRequestDto.getProfileImagePath(), userRequestDto.getNickName());
+		userRepository.save(user);
+
+		return user.getSeq();
+	}
+
+
+	/**
+	 * 회원 비밀번호 수정
+	 *
+	 * @param userSeq        : 수정할 user의 seq
+	 * @param userRequestDto : 수정할 데이터
+	 * @return 수정 후 user의 seq
+	 */
+	@Transactional
+	public Long modifyUserPassword(Long userSeq, UserRequestDto userRequestDto) {
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		if (!userRequestDto.getNewPassword().equals(userRequestDto.getCheckPassword())) {
+			System.out.println("확인용 비밀번호가 일치하지 않습니다.");
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+		if (!passwordEncoder.encode(userRequestDto.getPassword()).equals(user.getPassword())) {
+			System.out.println("현재 비밀번호와 일치하지 않는 비밀번호입니다.");
+			throw new CustomException(PASSWORD_NOT_MATCH);
+		}
+		if (passwordEncoder.encode(userRequestDto.getNewPassword()).equals(user.getPassword())) {
+			System.out.println("이전 비밀번호와 현재 비밀번호가 같습니다.");
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+
+		user.updatePassword(passwordEncoder.encode(userRequestDto.getNewPassword()));
+		userRepository.save(user);
+
+		return user.getSeq();
 	}
 
 
@@ -311,7 +347,12 @@ public class UserService {
 	 * @return 유저 삭제 로직 성공 여부
 	 */
 	public Boolean deleteUserInfo(Long userSeq) {
-		// TODO : 로직
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		user.deleteUserInfo();
+		userRepository.save(user);
+		
 		return true;
 	}
 
