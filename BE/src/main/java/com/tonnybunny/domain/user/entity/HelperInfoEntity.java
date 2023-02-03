@@ -43,4 +43,11 @@ public class HelperInfoEntity extends CommonEntity {
 	@OneToMany(mappedBy = "helperInfo")
 	private List<HelperInfoImageEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
 
+
+	public HelperInfoEntity(UserEntity user, List<PossibleLanguageEntity> possibleLanguageList, List<CertificateEntity> certificateList) {
+		this.user = user;
+		this.possibleLanguageList = possibleLanguageList;
+		this.certificateList = certificateList;
+	}
+
 }

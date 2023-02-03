@@ -13,10 +13,7 @@ import com.tonnybunny.domain.user.entity.BlockEntity;
 import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import com.tonnybunny.domain.user.repository.BlockRepository;
-import com.tonnybunny.domain.user.repository.FollowRepository;
-import com.tonnybunny.domain.user.repository.HistoryRepository;
-import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +40,7 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final FollowRepository followRepository;
 	private final BlockRepository blockRepository;
+	private final HelperInfoRepository helperInfoRepository;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -567,25 +565,6 @@ public class UserService {
 		 */
 		Optional<HistoryEntity> history = historyRepository.findById(historySeq);
 		return history.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-	}
-
-
-	/**
-	 * 유저의 공통코드를 헬퍼로 변경
-	 *
-	 * @param userSeq
-	 * @return
-	 */
-	@Transactional
-	public Long modifyUserCode(Long userSeq) {
-
-		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
-		user.changeUserCode();
-		userRepository.save(user);
-
-		return userSeq;
 	}
 
 }

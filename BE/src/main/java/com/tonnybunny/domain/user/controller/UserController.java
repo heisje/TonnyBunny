@@ -311,6 +311,16 @@ public class UserController {
 	// ------------------------------ 헬퍼 프로필 ---------------------------------------
 
 
+	@PostMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
+	public ResponseEntity<ResultDto<Long>> createHelperInfo(@PathVariable("userSeq") Long userSeq,
+	                                                        @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		//		Long resultSeq = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto);
+		// 추가작성예정
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(1L));
+	}
+
+
 	@PutMapping("/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
@@ -340,7 +350,7 @@ public class UserController {
 	@PutMapping("/mypage/{userSeq}/userCode")
 	@ApiOperation(value = "일반 고객의 유저코드를 헬퍼로 변경합니다.")
 	public ResponseEntity<ResultDto<Long>> modifyUserCode(@PathVariable("userSeq") Long userSeq) {
-		Long seq = userService.modifyUserCode(userSeq);
+		Long seq = helperInfoService.modifyUserCode(userSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(seq));
 	}

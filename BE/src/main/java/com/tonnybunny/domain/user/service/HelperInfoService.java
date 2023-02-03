@@ -8,6 +8,7 @@ import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -79,7 +80,7 @@ public class HelperInfoService {
 	 * @return 삭제 성공 여부
 	 */
 	public Boolean deleteCertificateList(List<Long> certificateSeqList) {
-		// TODO : 로직 구현
+
 		for (Long seq : certificateSeqList) {
 			CertificateEntity certificate = certificateRepository.findById(seq).orElseThrow(
 				() -> new CustomException(NOT_FOUND_USER)
@@ -268,5 +269,45 @@ public class HelperInfoService {
 		 */
 		return (HelperInfoEntity) new Object();
 	}
+
+
+	/**
+	 * 유저의 공통코드를 헬퍼로 변경
+	 *
+	 * @param userSeq
+	 * @return
+	 */
+	@Transactional
+	public Long modifyUserCode(Long userSeq) {
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		user.changeUserCode();
+		userRepository.save(user);
+
+		return userSeq;
+	}
+
+	/**
+	 * 헬퍼 정보를 최초로 등록 (자격증 및 언어능력)
+	 *
+	 * @param userSeq
+	 * @param helperInfoRequestDto
+	 * @return
+	 */
+	//	public Long createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
+	//		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+	//			() -> new CustomException(NOT_FOUND_USER)
+	//		);
+	//		if (!helperInfoRepository.findByUser(user).isPresent()) {
+	//			throw new CustomException(DUPLICATE_RESOURCE);
+	//		}
+	//		List<PossibleLanguageEntity> possibleLanguageList = createPossibleLangList(userSeq, helperInfoRequestDto.getPossibleLanguageList());
+	//		List<CertificateEntity> certificateList = createCertificateList(userSeq, helperInfoRequestDto.getCertificateList());
+	//
+	//		HelperInfoEntity helperInfo = new HelperInfoEntity(user, possibleLanguageList, helperInfoRequestDto.getCertificateList());
+	//
+	//	}
 
 }
