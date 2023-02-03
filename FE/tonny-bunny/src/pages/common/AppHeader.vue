@@ -47,11 +47,15 @@
                     </div>
 
                     <div class="navBarProfile" v-if="isLogin">
-                        <span class="material-symbols-outlined notification"> notifications </span>
+                        <router-link :to="{ name: 'AlertPage' }">
+                            <span class="material-symbols-outlined notification">
+                                notifications
+                            </span>
+                        </router-link>
 
                         <div class="d-flex align-items-center">
-                            <span class="nickName">
-                                <router-link :to="{ name: 'MyPage' }">닉네임님</router-link>
+                            <span class="nickName" @click="openPopOver">
+                                {{ userInfo?.nickName }}
                             </span>
                             <img
                                 src="@/assets/noProfile.png"
@@ -258,13 +262,14 @@ export default {
 
     data() {
         return {
-            isLogin: false,
             isPopOverOpen: false,
         };
     },
 
     computed: {
         ...mapGetters({ isLoginModalOpen: "getIsLoginModalOpen" }),
+        ...mapGetters({ isLogin: "getIsLogin" }),
+        ...mapGetters({ userInfo: "getUserInfo" }),
     },
 
     methods: {
@@ -365,10 +370,9 @@ export default {
                 font-weight: 500;
                 color: var(--main-color);
                 text-decoration: none;
-
-                &:hover {
-                    text-decoration: underline;
-                }
+            }
+            &:hover {
+                text-decoration: underline;
             }
 
             span {

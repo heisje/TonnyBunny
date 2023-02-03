@@ -17,15 +17,22 @@
                         </div>
                         <div class="finds mt-2">
                             <div class="find">
-                                <router-link :to="{ name: 'FindIdPage' }" class="me-2">
+                                <router-link
+                                    :to="{ name: 'FindIdPage' }"
+                                    class="me-2"
+                                    @click="toggleLoginModalOpen">
                                     <div>아이디 찾기</div>
                                 </router-link>
-                                <router-link :to="{ name: 'FindPwPage' }">
+                                <router-link
+                                    :to="{ name: 'FindPwPage' }"
+                                    @click="toggleLoginModalOpen">
                                     <div>비밀번호 찾기</div>
                                 </router-link>
                             </div>
                             <div class="signUpBtn">
-                                <router-link :to="{ name: 'SignUpPage' }">
+                                <router-link
+                                    :to="{ name: 'SignUpPage' }"
+                                    @click="toggleLoginModalOpen">
                                     <div>회원가입</div>
                                 </router-link>
                             </div>
@@ -95,7 +102,12 @@ export default {
                 email: this.email,
                 password: this.password,
             };
-            this.$store.dispatch("login", loginInfo);
+
+            const resultCode = await this.$store.dispatch("login", loginInfo);
+
+            if (resultCode == "SUCCESS") {
+                this.$store.commit("TOGGLE_LOGIN_MODAL");
+            }
         },
     },
 };
