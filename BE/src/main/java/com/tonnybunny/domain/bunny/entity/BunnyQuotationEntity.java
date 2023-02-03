@@ -42,6 +42,7 @@ public class BunnyQuotationEntity extends CommonEntity {
 
 	private Integer totalPrice;
 
+	@Builder.Default
 	private String bunnyQuotationStateCode = "0070001";
 	private String startLangCode;
 	private String endLangCode;
