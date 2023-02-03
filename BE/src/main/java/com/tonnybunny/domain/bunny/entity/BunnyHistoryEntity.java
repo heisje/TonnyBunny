@@ -18,4 +18,6 @@ public class BunnyHistoryEntity extends HistoryEntity {
 
 	private String title;
 
+	private Integer totalPrice;
+
 }
