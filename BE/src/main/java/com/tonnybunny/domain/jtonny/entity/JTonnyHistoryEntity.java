@@ -20,6 +20,6 @@ public class JTonnyHistoryEntity extends HistoryEntity {
 	private LocalTime totalTime;
 	private Integer unitPrice;
 	private String recordVideoPath;
-	private String tonnySituCode = "0";       // 디폴트 "일상" 코드 넣기
+	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
 
 }

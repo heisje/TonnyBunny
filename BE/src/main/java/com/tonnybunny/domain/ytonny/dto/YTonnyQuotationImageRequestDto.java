@@ -1,7 +1,6 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationImageEntity;
 import lombok.Data;
 
 
@@ -13,11 +12,7 @@ import lombok.Data;
 public class YTonnyQuotationImageRequestDto {
 
 	private Long yTonnyQuotationSeq;
+	
 	private String imagePath;
-
-
-	public YTonnyQuotationImageEntity toEntity() {
-		return (YTonnyQuotationImageEntity) new Object();
-	}
 
 }

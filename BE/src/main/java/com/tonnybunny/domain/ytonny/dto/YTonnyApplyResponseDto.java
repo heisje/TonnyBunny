@@ -5,6 +5,7 @@ import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -15,13 +16,14 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class YTonnyApplyResponseDto {
 
 	private Long seq;
 
-	private YTonnyResponseDto yTonny;
-	private UserResponseDto helper;
+	private Long yTonnySeq;
+	private UserResponseDto helper; // nick 까지 넘겨야하니까
 
 	private Integer totalPrice;
 

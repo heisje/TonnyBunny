@@ -1,6 +1,10 @@
 server:
   servlet:
     context-path: /api
+    # file upload
+    multipart:
+      enabled: true
+      max-file-size: 200MB
 
 spring:
   profiles:
@@ -45,13 +49,16 @@ logging:
   level:
     org.hibernate: info
 
+# token
 token:
   accesskey: ${auth.accesskey}
   refreshkey: ${auth.refreshkey}
   datakey: ${auth.datakey}
 
 
-
 # charset
-# server.servlet.encoding.charset=UTF-8
-# server.servlet.encoding.force=true
+#server.servlet.encoding.charset=UTF-8
+#server.servlet.encoding.force=true
+
+
+

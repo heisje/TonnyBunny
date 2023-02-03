@@ -26,9 +26,9 @@ public class YTonnyApplyEntity extends CommonEntity {
 	private YTonnyEntity yTonny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
+	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
-	private Integer totalPrice;
+	private Integer totalPrice; // FIXME : unitPrice 로 변경? front 랑 확인
 
 }
