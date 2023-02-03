@@ -6,7 +6,7 @@
 
             <div class="iconsContainer">
                 <div class="iconsWarp">
-                    <router-link :to="{ name: 'AgreePage', params: { select: 'client' } }">
+                    <router-link :to="{ name: 'SignUpCreatePage', params: { select: 'client' } }">
                         <div class="iconsContent" @click="toggleTonnyModalOpen">
                             <div>
                                 <img src="@/assets/homeTonnyIcon.png" alt="" />
@@ -18,7 +18,7 @@
                     </router-link>
                 </div>
                 <div class="iconsWarp">
-                    <router-link :to="{ name: 'AgreePage', params: { select: 'helper' } }">
+                    <router-link :to="{ name: 'SignUpCreatePage', params: { select: 'helper' } }">
                         <div class="iconsContent" @click="toggleBunnyModalOpen">
                             <div>
                                 <img src="@/assets/homeBunnyIcon.png" alt="" />
