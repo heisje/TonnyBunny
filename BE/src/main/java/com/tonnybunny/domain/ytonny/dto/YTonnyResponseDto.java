@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -51,8 +50,9 @@ public class YTonnyResponseDto {
 	private String title;
 	private String content;
 
-	private LocalDate estimateDate;
-	private LocalTime estimateStartTime;
+	private LocalDateTime startDateTime;
+	//	private LocalDate estimateDate;
+	//	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 

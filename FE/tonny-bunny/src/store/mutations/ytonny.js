@@ -1,7 +1,9 @@
 export default {
-    /*
-        Board
-    */
+    /* yTonny Form */
+    SET_Y_TONNY_FORM(state, payload) {
+        state.ytonny.ytonnyForm = payload;
+    },
+
     SET_BOARD_LIST(state, payload) {
         state.board.boardList = payload;
     },
