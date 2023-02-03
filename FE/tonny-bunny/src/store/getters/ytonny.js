@@ -1,7 +1,4 @@
 export default {
-    /*
-        Ytonny
-    */
     getYtonnyList(state) {
         return state.ytonny.ytonnyList;
     },
@@ -10,5 +7,10 @@ export default {
     },
     getYtonnyDetail(state) {
         return state.ytonny.ytonnyDetail;
+    },
+
+    /* yTonny Form */
+    getYTonnyForm(state) {
+        return state.ytonny.ytonnyForm;
     },
 };

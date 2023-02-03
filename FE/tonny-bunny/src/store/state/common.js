@@ -5,4 +5,13 @@ export default {
     isAlarmModalOpen: false,
     isTonnyModalOpen: false,
     isBunnyModalOpen: false,
+
+    /* Code */
+    langCodeList: ["0020000", "0020001", "0020002"], // 기타, 한국어, 영어
+    taskCodeList: ["0030001", "0030002", "0030003"], // 즉시통역, 예약통역, 번역
+    tonnySituCodeList: ["0040000", "0040001", "0030002", "0030003"], // 기타, 일상, 경찰..
+    quotationStateCodeList: ["0070001", "0070002", "0070003", "0070004"], // 선택, 미선택, 완료됨, 거절됨
+    taskStateCodeList: ["0090001", "0090002", "0090003"], // 모집중, 진행중, 완료됨
+    hourCodeList: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"], // 시간
+    minuteCodeList: ["05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"], // 분
 };
