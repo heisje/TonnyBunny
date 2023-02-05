@@ -1,13 +1,12 @@
 package com.tonnybunny.domain.user.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.entity.AlertSettingsEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
-import com.tonnybunny.domain.chat.entity.ChatLogEntity;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
@@ -96,8 +95,8 @@ public class UserEntity extends CommonEntity {
 	// 채팅방
 	@OneToMany(mappedBy = "helper")
 	private List<ChatRoomEntity> helperChatRoomList = new ArrayList<>(); // 헬퍼 쪽 채팅방 리스트
-	@OneToMany(mappedBy = "user")
-	private List<ChatLogEntity> chatLogList = new ArrayList<>(); // 채팅 로그 리스트
+	//	@OneToMany(mappedBy = "user")
+	//	private List<ChatLogEntity> chatLogList = new ArrayList<>(); // 채팅 로그 리스트
 	@OneToMany(mappedBy = "user")
 	private List<BunnyEntity> bunnyNotiList = new ArrayList<>(); // 번역 공고 리스트
 

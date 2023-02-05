@@ -7,6 +7,7 @@ server:
     whitelabel.enabled: true
 
 spring:
+  # config
   config:
     activate:
       on-profile: local

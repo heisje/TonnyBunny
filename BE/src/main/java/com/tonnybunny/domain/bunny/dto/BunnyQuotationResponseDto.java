@@ -1,9 +1,10 @@
 package com.tonnybunny.domain.bunny.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
-import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,22 +30,25 @@ import java.util.List;
 public class BunnyQuotationResponseDto {
 
 	private Long seq;
-	private Long bunnyNotiSeq;
-	private UserResponseDto client;
-	private UserResponseDto helper;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private Long bunnySeq;
+	private Long clientSeq;
+	private Long helperSeq;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 	private String title;
 	private String content;
 	private Integer totalPrice;
-	private String bunnyQuotationStateCode;
 	private String startLangCode;
 	private String endLangCode;
 	private List<BunnyQuotationImageResponseDto> bunnyQuotationImageList;
 
 
 	public static BunnyQuotationResponseDto fromEntity(BunnyQuotationEntity bunnyQuotation) {
-		return new BunnyQuotationResponseDto();
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+
+		BunnyQuotationResponseDto bunnyQuotationResponseDto = modelMapper.map(bunnyQuotation, BunnyQuotationResponseDto.class);
+
+		return bunnyQuotationResponseDto;
 	}
 
 

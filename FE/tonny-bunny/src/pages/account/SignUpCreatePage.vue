@@ -70,6 +70,34 @@
                 </div>
             </div>
 
+            <TitleText title="약관 동의" text="약관을 모두 읽고 동의해주세요." type="h2" />
+            <div class="p-4" style="border: 1px solid var(--light-color)">
+                <!-- 공통 약관 -->
+                <div v-for="(term, index) in clientTerms" :key="index">
+                    <div class="p-2 m-2">
+                        <input type="checkbox" name="color" @click="clientTermToggle(index)" />
+                        <span> {{ term.title }}<span>(필수)</span> </span>
+                    </div>
+                </div>
+                <!-- 헬퍼 약관 -->
+                <div v-show="select == 'helper'">
+                    <div v-for="(term, index) in helperTerms" :key="index">
+                        <div class="p-2 m-2">
+                            <input type="checkbox" name="color" @click="helperTermToggle(index)" />
+                            <span> {{ term.title }}<span>(필수)</span> </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <alarm-modal
+                title="실패"
+                type="danger"
+                btnText2="닫기"
+                btnColor2="carrot"
+                btnFontColor2="white"
+                @clickBtn2="closeModal">
+                <template #content> {{ exception }} </template>
+            </alarm-modal>
             <smallBtn style="width: 100%" text="회원 가입" @click="submitForm"></smallBtn>
         </div>
     </div>
@@ -79,11 +107,13 @@
 import TitleText from "@/components/common/TitleText.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import http from "@/common/axios";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
     components: {
         TitleText,
         smallBtn,
+        AlarmModal,
     },
 
     data() {
@@ -116,6 +146,34 @@ export default {
             authCode: "",
             isCheckAuthCode: false,
             noticeAuth2: "",
+
+            // 약관정보
+            clientTerms: [
+                {
+                    title: "만 14세 이상입니다.",
+                    isAgree: false,
+                },
+                {
+                    title: "서비스 이용약관에 동의합니다.",
+                    isAgree: false,
+                },
+                {
+                    title: "개인정보 수집·이용에 동의합니다.",
+                    isAgree: false,
+                },
+                {
+                    title: "개인정보 제3자 제공에 동의합니다.",
+                    isAgree: false,
+                },
+            ],
+            helperTerms: [
+                {
+                    title: "중계서비스 이용약관에 동의합니다.",
+                    isAgree: false,
+                },
+            ],
+
+            exception: "해주세요",
         };
     },
 
@@ -127,6 +185,10 @@ export default {
     },
 
     methods: {
+        closeModal() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+
         // 비밀번호 유효성 검사
         changePwInput() {
             // 유효성 검사
@@ -222,39 +284,93 @@ export default {
             }
         },
 
+        // 약관 토글시
+        clientTermToggle(index) {
+            if (this.clientTerms[index].isAgree) {
+                this.clientTerms[index].isAgree = false;
+            } else {
+                this.clientTerms[index].isAgree = true;
+            }
+        },
+
+        helperTermToggle(index) {
+            if (this.helperTerms[index].isAgree) {
+                this.helperTerms[index].isAgree = false;
+            } else {
+                this.helperTerms[index].isAgree = true;
+            }
+        },
+
         // 폼 제출
         async submitForm(event) {
             event.preventDefault();
-
+            if (!this.email) {
+                this.exception = "이메일을 입력해 주세요.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
+                return;
+            }
             if (this.password == "") {
-                this.noticePw = "비밀번호를 입력해 주세요";
+                this.noticePw = "비밀번호를 입력해 주세요.";
+                this.exception = "비밀번호를 입력해 주세요.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
                 return;
             }
 
             if (!this.isValidPw) {
+                this.exception = "패스워드가 정상적이지 않습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
                 return;
             }
 
             this.changePw2Input();
 
             if (!this.isValidPw2) {
+                this.exception = "비밀번호 확인이 틀립니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
                 return;
             }
 
             if (!this.isCheckNickname) {
-                this.noticeNick = "닉네임 중복확인을 해주세요";
+                this.noticeNick = "닉네임 중복확인을 해주세요.";
+                this.exception = "닉네임 중복확인을 해주세요.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
                 return;
             }
 
             if (!this.isSendAuthCode) {
-                this.noticeAuth = "인증코드 전송이 완료되지 않았습니다";
+                this.noticeAuth = "인증코드 전송이 완료되지 않았습니다.";
+                this.exception = "인증코드 전송이 완료되지 않았습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
                 return;
             }
 
             if (!this.isCheckAuthCode) {
-                this.noticeAuth2 = "인증이 완료되지 않았습니다";
+                this.noticeAuth2 = "인증이 완료되지 않았습니다.";
+                this.exception = "인증이 완료되지 않았습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
                 return;
             }
+
+            // 약관동의
+            let checkTerms = true;
+            this.clientTerms.forEach((term) => {
+                if (!term.isAgree) {
+                    checkTerms = false;
+                }
+            });
+
+            if (this.$route.params.select == "helper") {
+                this.helperTerms.forEach((term) => {
+                    if (!term.isAgree) {
+                        checkTerms = false;
+                    }
+                });
+            }
+            if (!checkTerms) {
+                this.exception = "약관에 동의하지 않았습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
+            }
+
             // 모두 참일 때 폼 제출 가능
 
             const userCode = this.$route.params.select;
@@ -277,6 +393,8 @@ export default {
                         this.$router.push({ name: "AbilityPage" });
                     }
                 } else {
+                    this.exception = "회원가입에 실패하였습니다.";
+                    this.$store.commit("TOGGLE_ALARM_MODAL");
                     // 회원가입 실패
                     console.log("회원가입 실패");
                 }

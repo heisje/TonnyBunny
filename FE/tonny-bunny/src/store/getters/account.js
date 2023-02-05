@@ -11,4 +11,7 @@ export default {
     getUserInfo(state) {
         return state.account.userInfo;
     },
+    getIsHelper(state) {
+        return state.account.isHelper;
+    },
 };

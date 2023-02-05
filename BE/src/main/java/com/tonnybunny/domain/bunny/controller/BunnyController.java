@@ -141,43 +141,4 @@ public class BunnyController {
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyApplyResponseDtoList));
 	}
 
-
-	/**
-	 * 번역 공고 신청 수락
-	 *
-	 * @param bunnyApplySeq : 수락할 신청 seq
-	 * @return : 로직 성공 여부
-	 */
-	@GetMapping("/{bunnyApplySeq}/accept")
-	@ApiOperation(value = "번역 공고 신청에 수락하기")
-
-	public ResponseEntity<ResultDto<Boolean>> acceptBunnyApply(@PathVariable("bunnyApplySeq") Long bunnyApplySeq) {
-
-		Boolean isSuccess = bunnyService.acceptBunnyApply(bunnyApplySeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
-	}
-
-
-	/**
-	 * 번역 공고 신청 거절
-	 *
-	 * @param bunnyApplySeq : 거절할 신청 seq
-	 * @return : 로직 성공 여부
-	 */
-	@GetMapping("/{bunnyApplySeq}/reject")
-	@ApiOperation(value = "번역 공고 신청에 거절하기")
-	public ResponseEntity<ResultDto<Boolean>> rejectBunnyApply(@PathVariable("bunnyApplySeq") Long bunnyApplySeq) {
-
-		Boolean isSuccess = bunnyService.rejectBunnyApply(bunnyApplySeq);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
-	}
-
 }

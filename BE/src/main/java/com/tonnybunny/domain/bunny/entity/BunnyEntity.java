@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.bunny.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
@@ -39,7 +39,10 @@ public class BunnyEntity extends CommonEntity {
 	private String startLangCode;
 	private String endLangCode;
 	private String bunnySituCode;
-	private String bunnyStateCode;
+	@Builder.Default
+	private String taskCode = "0030003";
+	@Builder.Default
+	private String bunnyStateCode = "0100001";
 
 	@Builder.Default
 	private String isDeleted = "F";
@@ -62,6 +65,11 @@ public class BunnyEntity extends CommonEntity {
 
 	public void delete() {
 		this.isDeleted = "T";
+	}
+
+
+	public void changeStateCode(String stateCode) {
+		this.bunnyStateCode = stateCode;
 	}
 
 }

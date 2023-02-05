@@ -1,8 +1,9 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -23,25 +24,30 @@ import java.time.LocalDateTime;
  * quotationStateCode      : 견적서 상태 코드
  */
 @Data
+@NoArgsConstructor
 public class YTonnyQuotationRequestDto {
+
+	private int page = 0; // offset
+	private int size = 10; // limit
+
+	private Long yTonnyQuotationSeq;
 
 	private Long yTonnySeq;
 	private Long clientSeq;
 	private Long helperSeq;
 
-	private Integer unitPrice;
 	private String title;
 	private String content;
+
+	private Integer unitPrice;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime startDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime endDate;
 
 	private String startLangCode;
 	private String endLangCode;
 	private String quotationStateCode;
-
-
-	public YTonnyQuotationEntity toEntity() {
-		return (YTonnyQuotationEntity) new Object();
-	}
 
 }

@@ -49,8 +49,7 @@ public class AlertService {
 		String content = alertLogRequestDto.getContent();
 
 		// find
-		UserEntity userEntity = userRepository.findById(userSeq)
-		                                      .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		AlertLogEntity alertLogEntity = AlertLogEntity.builder()
 		                                              .user(userEntity)
@@ -129,8 +128,7 @@ public class AlertService {
 		Boolean isEnd = alertLogRequestDto.getIsEnd();
 
 		// find
-		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq)
-		                                                  .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ALERT_LOG));
+		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
 		alertLogEntity.update(isRead, isEnd);
@@ -173,9 +171,9 @@ public class AlertService {
 
 	/**
 	 * MEMO : DELETE
-	 * MARK : 알림 로그 삭제
+	 * MARK : 알람 로그 삭제
 	 *
-	 * @param alertLogSeq : 대상 알림 로그 seq
+	 * @param alertLogSeq : 삭제할 대상 알람 로그 seq
 	 * @return
 	 */
 	public void deleteAlertLog(Long alertLogSeq) {
@@ -183,8 +181,7 @@ public class AlertService {
 		System.out.println("AlertService.deleteAlertLog");
 
 		// find
-		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq)
-		                                                  .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// delete
 		alertLogRepository.delete(alertLogEntity);

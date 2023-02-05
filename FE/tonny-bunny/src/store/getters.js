@@ -1,7 +1,8 @@
 import temp from "./getters/temp";
 import account from "./getters/account";
 import board from "./getters/board";
-import tonny from "./getters/tonny";
+import jtonny from "./getters/jtonny";
+import ytonny from "./getters/ytonny";
 import bunny from "./getters/bunny";
 import common from "./getters/common";
 import alert from "./getters/alert";
@@ -11,7 +12,8 @@ export default {
     ...temp,
     ...account,
     ...board,
-    ...tonny,
+    ...jtonny,
+    ...ytonny,
     ...bunny,
     ...common,
     ...alert,

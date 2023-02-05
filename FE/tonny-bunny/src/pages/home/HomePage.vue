@@ -14,7 +14,7 @@
         <!-- part1 -->
         <!-- <tag-test></tag-test> -->
         <!-- <hr /> -->
-        <!-- <modal-test></modal-test> -->
+        <modal-test></modal-test>
         <!-- <hr /> -->
         <!-- <button-test></button-test> -->
         <!-- <hr /> -->
@@ -66,10 +66,10 @@ import HomeContents from "@/components/home/HomeContents.vue";
 import LoginModal from "@/components/common/modal/LoginModal.vue";
 
 // import TagTest from "@/components/common/tag/TagTest.vue";
-// import ModalTest from "@/components/common/modal/ModalTest.vue";
+import ModalTest from "@/components/common/modal/ModalTest.vue";
 // import ButtonTest from "@/components/common/button/ButtonTest.vue";
 // import InputTest from "@/components/common/input/InputTest.vue";
-import CardTest from "@/components/common/card/CardTest.vue";
+// import CardTest from "@/components/common/card/CardTest.vue";
 // import TitleBanner from "@/components/common/TitleBanner.vue";
 // import TitleText from "@/components/common/TitleText.vue";
 // import MainBtn from "@/components/home/MainBtn.vue";
@@ -88,10 +88,10 @@ export default {
         LoginModal,
 
         // TagTest,
-        // ModalTest,
+        ModalTest,
         // ButtonTest,
         // InputTest,
-        CardTest,
+        // CardTest,
         // TitleBanner,
         // TitleText,
         // MainBtn,

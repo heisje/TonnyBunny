@@ -1,16 +1,35 @@
 package com.tonnybunny.domain.bunny.service;
 
 
+import com.tonnybunny.common.dto.BunnyStateCodeEnum;
+import com.tonnybunny.common.dto.QuotationStateCodeEnum;
+import com.tonnybunny.domain.bunny.dto.BunnyQuotationImageRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyQuotationRequestDto;
+import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyQuotationImageEntity;
+import com.tonnybunny.domain.bunny.repository.BunnyQuotationImageRepository;
+import com.tonnybunny.domain.bunny.repository.BunnyQuotationRepository;
+import com.tonnybunny.domain.bunny.repository.BunnyRepository;
+import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.exception.CustomException;
+import com.tonnybunny.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class BunnyQuotationService {
+
+	private final UserRepository userRepository;
+	private final BunnyRepository bunnyRepository;
+	private final BunnyQuotationRepository bunnyQuotationRepository;
+	private final BunnyQuotationImageRepository bunnyQuotationImageRepository;
+
 
 	/**
 	 * 번역 견적서를 작성
@@ -19,8 +38,40 @@ public class BunnyQuotationService {
 	 * @return 생성한 견적서 Seq
 	 */
 	public Long createBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
-		// TODO : 구현
-		return 0L;
+
+		BunnyEntity bunny = bunnyRepository.findById(bunnyQuotationRequestDto.getBunnySeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		UserEntity client = userRepository.findById(bunnyQuotationRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		UserEntity helper = userRepository.findById(bunnyQuotationRequestDto.getHelperSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+		BunnyQuotationEntity bunnyQuotation = BunnyQuotationEntity.builder()
+			.bunny(bunny)
+			.client(client)
+			.helper(helper)
+			.startDateTime(bunnyQuotationRequestDto.getStartDateTime())
+			.endDateTime(bunnyQuotationRequestDto.getEndDateTime())
+			.title(bunnyQuotationRequestDto.getTitle())
+			.content(bunnyQuotationRequestDto.getContent())
+			.totalPrice(bunnyQuotationRequestDto.getTotalPrice())
+			.startLangCode(bunnyQuotationRequestDto.getStartLangCode())
+			.endLangCode(bunnyQuotationRequestDto.getEndLangCode())
+			.build();
+
+		bunnyQuotation = bunnyQuotationRepository.save(bunnyQuotation);
+
+		for (BunnyQuotationImageRequestDto bunnyQuotationImageRequestDto : bunnyQuotationRequestDto.getBunnyQuotationImageRequestDtoList()) {
+
+			BunnyQuotationImageEntity bunnyQuotationImage = BunnyQuotationImageEntity.builder()
+				.bunnyQuotation(bunnyQuotation)
+				.imagePath(bunnyQuotationImageRequestDto.getImagePath())
+				.build();
+
+			bunnyQuotationImage = bunnyQuotationImageRepository.save(bunnyQuotationImage);
+
+			bunnyQuotation.getBunnyQuotationImageList().add(bunnyQuotationImage);
+
+		}
+
+		return bunnyQuotation.getSeq();
 	}
 
 
@@ -28,38 +79,97 @@ public class BunnyQuotationService {
 	 * FIXME : 조회 기준 Seq를 변경해야 함
 	 * 1:1 상담 채팅방에 올라온 견적 상담 채팅방에 올라온 견적서들의 목록 조회
 	 *
-	 * @param bunnyNotiSeq : 번역 공고 게시글 Seq
+	 * @param bunnySeq : 번역 공고 게시글 Seq
 	 * @return
 	 */
-	public List<BunnyQuotationEntity> getBunnyQuotationList(Long bunnyNotiSeq) {
-		// TODO : 구현
-		return new ArrayList<>();
+	public List<BunnyQuotationEntity> getBunnyQuotationList(Long bunnySeq) {
+
+		List<BunnyQuotationEntity> bunnyQuotationList = bunnyQuotationRepository.findByBunnySeq(bunnySeq);
+
+		return bunnyQuotationList;
 	}
 
 
 	/**
 	 * 번역 견적서 상세 조회
 	 *
-	 * @param bunnyQuotationSeq : 조회할 견적서 Seq
+	 * @param bunnyQuotationRequestDto
 	 * @return 조회한 견적서
 	 */
-	public BunnyQuotationEntity getBunnyQuotation(Long bunnyQuotationSeq) {
-		// TODO : 구현
-		return (BunnyQuotationEntity) new Object();
+	public BunnyQuotationEntity getBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		return bunnyQuotation;
 	}
 
 
 	/**
-	 * 견적서 상태 타입 수정
-	 * - 미선택 : 아직 견적서 협의가 확정되지 않은 상태
-	 * - 선택 : 견적서 협의가 확정된 상태. 고객이 견적서를 수락한 상태.
-	 * - 완료 : 번역 업무가 완료된 상태.
+	 * 번역 견적서 수락
 	 *
-	 * @param bunnyQuotationSeq       : 대상 견적서 Seq
-	 * @param bunnyQuotationStateCode : 견적서 상태 타입 코드 (공통 코드)
+	 * @param bunnyQuotationRequestDto
+	 * @return 로직 성공 여부
 	 */
-	public void modifyBunnyQuotationType(Long bunnyQuotationSeq, String bunnyQuotationStateCode) {
-		// TODO : 구현
+	public Boolean acceptBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		// 번역 견적서 상태코드 변경
+		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.수락됨.getQuotationStateCode());
+		bunnyQuotationRepository.save(bunnyQuotation);
+
+		// 번역 공고 상태코드 변경
+		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunny.changeStateCode(BunnyStateCodeEnum.진행중.getBunnyStateCode());
+		bunnyRepository.save(bunny);
+		return true;
+	}
+
+
+	/**
+	 * 번역 견적서 거절
+	 *
+	 * @param bunnyQuotationRequestDto
+	 * @return 로직 성공 여부
+	 */
+	public Boolean rejectBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		// 번역 견적서 상태코드 변경
+		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.거절됨.getQuotationStateCode());
+		bunnyQuotationRepository.save(bunnyQuotation);
+
+		// 번역 공고 상태코드 변경
+		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunny.changeStateCode(BunnyStateCodeEnum.모집중.getBunnyStateCode());
+		bunnyRepository.save(bunny);
+		return true;
+	}
+
+
+	/**
+	 * 번역 공고 완료
+	 *
+	 * @param bunnyQuotationRequestDto
+	 * @return
+	 */
+	public Boolean completeBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+
+		// 번역 견적서 상태코드 변경
+		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunnyQuotation.changeStateCode(QuotationStateCodeEnum.완료됨.getQuotationStateCode());
+		bunnyQuotationRepository.save(bunnyQuotation);
+
+		// 번역 공고 상태코드 변경
+		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
+		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		bunny.changeStateCode(BunnyStateCodeEnum.완료됨.getBunnyStateCode());
+		bunnyRepository.save(bunny);
+		return true;
 	}
 
 }

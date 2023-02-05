@@ -2,12 +2,12 @@ package com.tonnybunny.domain.ytonny.dto;
 
 
 import com.tonnybunny.domain.user.dto.UserResponseDto;
-import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +30,8 @@ import java.util.List;
  * quotationStateCode      : 견적서 상태 코드
  */
 @Data
+@AllArgsConstructor
+@Builder
 public class YTonnyQuotationResponseDto {
 
 	private Long seq;
@@ -37,31 +39,18 @@ public class YTonnyQuotationResponseDto {
 	private UserResponseDto client;
 	private UserResponseDto helper;
 
-	private Integer unitPrice;
 	private String title;
 	private String content;
+	private Integer unitPrice;
+
 	private LocalDate estimateDate;
 	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
-	private List<YTonnyQuotationImageResponseDto> yTonnyQuotationImageList;
 
 	private String startLangCode;
 	private String endLangCode;
 	private String quotationStateCode;
 
-
-	public static YTonnyQuotationResponseDto fromEntity(YTonnyQuotationEntity yTonnyQuotation) {
-		return new YTonnyQuotationResponseDto();
-	}
-
-
-	public static List<YTonnyQuotationResponseDto> fromEntityList(List<YTonnyQuotationEntity> yTonnyQuotationList) {
-		List<YTonnyQuotationResponseDto> result = new ArrayList<>();
-		for (YTonnyQuotationEntity yTonnyQuatation : yTonnyQuotationList) {
-			YTonnyQuotationResponseDto yTonnyQuotationResponseDto = YTonnyQuotationResponseDto.fromEntity(yTonnyQuatation);
-			result.add(yTonnyQuotationResponseDto);
-		}
-		return result;
-	}
+	private List<YTonnyQuotationImageResponseDto> yTonnyQuotationImageList;
 
 }

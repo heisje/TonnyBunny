@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.board.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
@@ -36,10 +36,12 @@ public class BoardEntity extends CommonEntity {
 	private String isDelete;
 
 	/* 게시글의 댓글 리스트 */
+	@Builder.Default
 	@OneToMany(mappedBy = "board")
 	private List<BoardCommentEntity> boardCommentList = new ArrayList<>();
 
 	/* 게시글의 첨부 이미지 리스트 */
+	@Builder.Default
 	@OneToMany(mappedBy = "board")
 	private List<BoardImageEntity> boardImageList = new ArrayList<>();
 

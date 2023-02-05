@@ -1,4 +1,5 @@
 import http from "@/common/axios";
+// import global from "@/common/global";
 // import utils from "@/common/utils";
 
 export default {
@@ -23,16 +24,31 @@ export default {
         try {
             console.log("async login function : ", data);
 
-            // service logic
+            // 로그인 성공 로직
             if (data.resultCode == "SUCCESS") {
+                // 데이터 분할
                 const { access_TOKEN, refresh_TOKEN, ...userInfo } = data.data;
-                console.log(access_TOKEN);
-                console.log(refresh_TOKEN);
-                console.log("userInfo", userInfo);
 
+                // 토큰 저장
                 context.commit("SET_TOKENS", { access_TOKEN, refresh_TOKEN });
-                http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
+
+                // 유저 정보 저장
                 context.commit("SET_USER_INFO", userInfo);
+
+                // 로그인 변경
+                context.commit("SET_LOG_IN");
+
+                // 공통코드를 저장
+                switch (userInfo.userCode) {
+                    case "client":
+                        context.commit("SET_USER_CODE", false);
+                        break;
+                    case "helper":
+                        context.commit("SET_USER_CODE", true);
+                        break;
+                }
+
+                // http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
             } else if (data.resultCode == "FAIL") {
                 //
             }

@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
@@ -26,9 +26,9 @@ public class YTonnyApplyEntity extends CommonEntity {
 	private YTonnyEntity yTonny;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_seq")
+	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
-	private Integer totalPrice;
+	private Integer totalPrice; // FIXME : unitPrice 로 변경? front 랑 확인
 
 }

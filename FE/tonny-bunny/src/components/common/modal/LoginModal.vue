@@ -8,36 +8,50 @@
                     </div>
 
                     <div class="title">
-                        <img src="@/assets/logo3.png" alt="logo" width="300" />
+                        <img src="@/assets/logo3.png" alt="logo" />
                     </div>
-                    <div class="form mt-3">
+                    <div class="form mt-3" @keyup.enter="clickLoginBtn">
                         <div class="inputs w-100">
-                            <input type="email" id="email" v-model="email" />
-                            <input type="password" id="password" v-model="password" />
+                            <input class="input" type="email" id="email" v-model="email" />
+                            <input
+                                class="input password"
+                                type="password"
+                                id="password"
+                                v-model="password" />
                         </div>
-                        <div class="finds mt-2">
+                        <div class="finds">
                             <div class="find">
-                                <router-link :to="{ name: 'FindIdPage' }" class="me-2">
-                                    <div>아이디 찾기</div>
-                                </router-link>
-                                <router-link :to="{ name: 'FindPwPage' }">
-                                    <div>비밀번호 찾기</div>
-                                </router-link>
-                            </div>
-                            <div class="signUpBtn">
-                                <router-link :to="{ name: 'SignUpPage' }">
-                                    <div>회원가입</div>
-                                </router-link>
+                                <div>
+                                    <router-link
+                                        :to="{ name: 'FindIdPage' }"
+                                        class="me-3"
+                                        @click="toggleLoginModalOpen">
+                                        아이디 찾기
+                                    </router-link>
+                                    <router-link
+                                        :to="{ name: 'FindPwPage' }"
+                                        @click="toggleLoginModalOpen">
+                                        비밀번호 찾기
+                                    </router-link>
+                                </div>
+                                <div class="signUpBtn">
+                                    <router-link
+                                        :to="{ name: 'SignUpPage' }"
+                                        @click="toggleLoginModalOpen">
+                                        회원가입
+                                    </router-link>
+                                </div>
                             </div>
                         </div>
-                        <div class="loginBtn w-100 mt-3">
-                            <medium-btn
+                        <div class="loginBtn w-100">
+                            <small-btn
                                 class="w-100"
                                 text="로그인"
-                                @click="clickLoginBtn"></medium-btn>
+                                color="carrot"
+                                @click="clickLoginBtn"></small-btn>
                         </div>
                     </div>
-                    <div class="auth mt-5">
+                    <div v-if="false" class="auth mt-5">
                         <div>간편 로그인</div>
                         <div class="icons mt-3">
                             <router-link :to="{ name: 'NotFoundPage' }">
@@ -60,7 +74,8 @@
 <script>
 import { mapGetters } from "vuex";
 
-import MediumBtn from "../button/MediumBtn.vue";
+// import MediumBtn from "../button/MediumBtn.vue";
+import SmallBtn from "../button/SmallBtn.vue";
 
 export default {
     name: "LoginModal",
@@ -73,7 +88,8 @@ export default {
     },
 
     components: {
-        MediumBtn,
+        // MediumBtn,
+        SmallBtn,
     },
 
     props: {},
@@ -95,7 +111,12 @@ export default {
                 email: this.email,
                 password: this.password,
             };
-            this.$store.dispatch("login", loginInfo);
+
+            const resultCode = await this.$store.dispatch("login", loginInfo);
+
+            if (resultCode == "SUCCESS") {
+                this.$store.commit("TOGGLE_LOGIN_MODAL");
+            }
         },
     },
 };
@@ -120,30 +141,44 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        width: 350px;
+        width: 50%;
+        margin-bottom: 1rem;
+        img {
+            width: 100%;
+        }
     }
+
     .form {
-        width: 350px;
+        margin: auto;
+        width: 80%;
         .inputs {
             display: flex;
             flex-direction: column;
         }
 
-        .finds {
-            display: flex;
-            justify-content: space-between;
+        .password {
+            margin-top: 0.6rem;
+        }
 
+        .finds {
+            margin-top: 1rem;
+            margin-bottom: 3rem;
+            width: 100%;
+            a {
+                text-decoration: none;
+                border-bottom: 1px solid var(--sub-color);
+            }
+            .signUpBtn {
+                display: inline-block;
+                margin-left: auto;
+            }
             .find {
                 display: flex;
-            }
-
-            .signUpBtn {
             }
         }
 
         .loginBtn {
-            width: 350px;
+            margin-bottom: 8px;
         }
     }
     .auth {

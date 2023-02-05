@@ -1,14 +1,13 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.common.dto.LangCodeEnum;
-import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 
@@ -39,18 +38,22 @@ public class YTonnyRequestDto {
 	@Builder.Default
 	private int page = 0; // offset
 
+	private Long yTonnySeq;
 	private Long clientSeq;
+	private Long helperSeq;
 
 	private String title;
 	private String content;
 
-	private LocalDate estimateDate;
-	private LocalTime estimateStartTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	private LocalDateTime startDateTime;
+	//	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
-	private LangCodeEnum startLangCode;
-	private LangCodeEnum endLangCode;
-	private TonnySituCodeEnum tonnySituCode;
+	private String startLangCode;
+	private String endLangCode;
+	private String tonnySituCode;
+	private String taskStateCode;
 
 }

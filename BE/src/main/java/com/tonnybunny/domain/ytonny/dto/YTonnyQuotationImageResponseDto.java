@@ -1,11 +1,9 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
-import com.tonnybunny.domain.ytonny.entity.YTonnyQuotationImageEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -14,25 +12,13 @@ import java.util.List;
  * imagePath            : 이미지 경로
  */
 @Data
+@AllArgsConstructor
+@Builder
 public class YTonnyQuotationImageResponseDto {
 
 	private Long seq;
+	
 	private YTonnyQuotationResponseDto yTonnyQuotation;
 	private String imagePath;
-
-
-	public static YTonnyQuotationImageResponseDto fromEntity(YTonnyQuotationImageEntity yTonnyQuotationImage) {
-		return new YTonnyQuotationImageResponseDto();
-	}
-
-
-	public static List<YTonnyQuotationImageResponseDto> fromEntityList(List<YTonnyQuotationImageEntity> yTonnyQuotationImageList) {
-		List<YTonnyQuotationImageResponseDto> result = new ArrayList<>();
-		for (YTonnyQuotationImageEntity yTonnyQuotationImage : yTonnyQuotationImageList) {
-			YTonnyQuotationImageResponseDto yTonnyQuotationImageResponseDto = YTonnyQuotationImageResponseDto.fromEntity(yTonnyQuotationImage);
-			result.add(yTonnyQuotationImageResponseDto);
-		}
-		return result;
-	}
 
 }

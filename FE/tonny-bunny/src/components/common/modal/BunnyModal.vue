@@ -1,9 +1,9 @@
 <template>
-    <div class="bunnyModalContainer modalContainer">
+    <div class="bunnyModalContainer modalContainer" @click="closeModal">
         <Transition name="bounce" v-show="isBunnyModalOpen">
             <div class="bunnyModalWrap modalWrap">
                 <div class="bunnyModal modalCustom">
-                    <div class="closeBtn" @click="toggleBunnyModalOpen">
+                    <div class="closeBtn" @click.stop="toggleBunnyModalOpen">
                         <span class="material-symbols-outlined"> close </span>
                     </div>
 
@@ -20,7 +20,7 @@
                     <div class="btns d-flex mt-5">
                         <router-link
                             :to="{ name: 'NBunnyFormPage' }"
-                            @click="this.$store.commit('TOGGLE_BUNNY_MODAL')">
+                            @click.stop="this.$store.commit('TOGGLE_BUNNY_MODAL')">
                             <div class="nbunnyBtn">번역의뢰</div>
                         </router-link>
 
@@ -52,6 +52,11 @@ export default {
 
     methods: {
         toggleBunnyModalOpen(e) {
+            e.preventDefault();
+            this.$store.commit("TOGGLE_BUNNY_MODAL");
+        },
+
+        closeModal(e) {
             e.preventDefault();
             this.$store.commit("TOGGLE_BUNNY_MODAL");
         },

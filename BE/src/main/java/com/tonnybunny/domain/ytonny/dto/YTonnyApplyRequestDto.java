@@ -4,6 +4,7 @@ package com.tonnybunny.domain.ytonny.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -13,11 +14,18 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class YTonnyApplyRequestDto {
 
+	@Builder.Default
+	private int size = 10; // limit
+	@Builder.Default
+	private int page = 0; // offset
+
+	private Long yTonnyApplySeq;
 	private Long yTonnySeq;
-	private Long helperSeq;
+	private Long helperSeq; // 헬퍼의 userSeq
 
 	private Integer totalPrice;
 

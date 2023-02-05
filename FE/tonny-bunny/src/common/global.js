@@ -24,4 +24,41 @@ export default {
         }
         return temp;
     },
+
+    // 공통코드 변환 코드. 지금 백에서 변환되어 오기때문에 필요없음
+    // setUserCode(userCode) {
+    //     let isHelper = false;
+    //     // let isAdmin = false;
+    //     console.log(userCode);
+
+    //     // 앞 세글자는 유저코드
+    //     const FRONT = userCode.substr(0, 3);
+    //     const BACK = userCode.substr(0, 3);
+
+    //     console.log(FRONT);
+    //     console.log(BACK);
+
+    //     switch (FRONT) {
+    //         case "001":
+    //             isHelper = false;
+    //             break;
+    //         case "002":
+    //             isHelper = true;
+    //             break;
+    //         case "003":
+    //             // isAdmin = true;
+    //             break;
+    //     }
+
+    //     // 뒤 네글자는 언어코드
+    //     switch (BACK) {
+    //         case "0001":
+    //             break;
+    //         case "0002":
+    //             break;
+    //         case "003":
+    //             break;
+    //     }
+    //     return { isHelper: isHelper, possibleLanguage: 1 };
+    // },
 };

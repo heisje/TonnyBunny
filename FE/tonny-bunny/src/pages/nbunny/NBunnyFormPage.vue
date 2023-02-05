@@ -3,17 +3,14 @@
         <title-banner title="🐰 번역 맡기기" text="헬퍼에게 번역을 맡길 수 있습니다" />
         <NBunnyClientForm @toggleSubmit="openModal"></NBunnyClientForm>
         <AlarmModal
-            v-show="isOpen"
-            :isOpen="isOpen"
-            title="번역 의뢰 작성 완료"
+            title="성공"
             type="success"
-            btnText2="다음"
+            btnText2="예"
             btnColor1="main"
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @close-modal="closeModal"
-            @clickBtn.prevent="clickBtn">
+            @clickBtn2="clickBtn2">
             <template #content>
                 글이 성공적으로 작성되었습니다!
                 <br />
@@ -30,23 +27,20 @@ import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 export default {
     name: "NBunnyFormPage",
     data() {
-        return {
-            isOpen: false,
-        };
+        return {};
     },
     components: { NBunnyClientForm, TitleBanner, AlarmModal },
     methods: {
         openModal(e) {
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
             e.preventDefault();
-            this.isOpen = true;
         },
 
-        closeModal() {
-            this.isOpen = false;
-        },
-
-        clickBtn() {
-            // this.$router.push({ name: "NBunnyDetailPage", params: { id: 1 } });
+        clickBtn2() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            const bunnySeq = this.$store.state.bunny.bunnySeq;
+            console.log(bunnySeq);
+            this.$router.push({ name: "NBunnyDetailPage", params: { id: bunnySeq } });
         },
     },
 };

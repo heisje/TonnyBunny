@@ -53,6 +53,9 @@ dependencies {
     // Validation
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.5'
 
+    // file upload
+    implementation 'commons-io:commons-io:2.5'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -62,6 +65,9 @@ dependencies {
 
     // sms
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
+    // json object
+    implementation group: 'org.json', name: 'json', version: '20210307'
 
 }
 
