@@ -28,6 +28,9 @@ export default {
         BunnyModal,
         AppLoading,
     },
+    mounted() {
+        this.$store.dispatch("setCommonCode");
+    },
 };
 </script>
 

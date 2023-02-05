@@ -19,7 +19,7 @@ public class CommonCodeResponseDto {
 
 	public static CommonCodeResponseDto fromEntity(CommonCodeEntity commonCode) {
 		return CommonCodeResponseDto.builder()
-		                            .code(commonCode.getCode())
+		                            .code(commonCode.getGroupCode().getGroupCode() + commonCode.getCode())
 		                            .codeName(commonCode.getCodeName())
 		                            .build();
 	}
