@@ -1,4 +1,4 @@
-import http from "axios";
+import http from "@/common/axios";
 
 export default {
     /* Loading */
@@ -14,7 +14,7 @@ export default {
         }
     },
     setCommonCode(context) {
-        http.get("http://localhost:8080/common")
+        http.get("/common")
             .then(({ data }) => {
                 let {
                     userCode,

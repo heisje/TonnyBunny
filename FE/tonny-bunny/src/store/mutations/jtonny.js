@@ -11,4 +11,7 @@ export default {
     SET_JTONNY_DETAIL(state, payload) {
         state.jtonny.jtonnyDetail = payload;
     },
+    SET_JTONNY_REQUEST(state, payload) {
+        state.jtonny.jtonnyRequest = payload;
+    },
 };
