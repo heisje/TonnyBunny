@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <TitleText title="약관 동의" center text="약관을 모두 읽고 동의해주세요" />
+            <TitleText title="약관 동의" center text="약관을 모두 읽고 동의해주세요." />
             <!-- 공통 약관 -->
             <div v-for="(term, index) in clientTerms" :key="index">
                 <div class="p-2 m-2">
