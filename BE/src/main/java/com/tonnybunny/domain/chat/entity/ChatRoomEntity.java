@@ -18,7 +18,7 @@ public class ChatRoomEntity extends CommonEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chat_room_seq")
-	private Long seq;
+	private String seq;    // FIXME : String으로 변경함
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_seq")

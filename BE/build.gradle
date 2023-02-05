@@ -62,6 +62,9 @@ dependencies {
     //spring email
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
 
+    // json object
+    implementation group: 'org.json', name: 'json', version: '20210307'
+
 }
 
 tasks.named('test') {
