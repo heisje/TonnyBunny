@@ -1,7 +1,7 @@
-<template>
+<template lang="">
     <div>
         <Vue3Lottie
-            :animationLink="`https://lottie.host/b162872c-29b1-4195-a818-a20ea5a46343/AHLhXNb0eX.json`"
+            :animationLink="`https://lottie.host/a5716bf6-cf0e-4f59-9127-f1660f329507/zSnVNdBJBp.json`"
             background="transparent"
             style="width: 100%; height: 100%"
             loop
@@ -9,11 +9,7 @@
         </Vue3Lottie>
     </div>
 </template>
-
 <script>
-export default {
-    name: "LoadingItem",
-};
+export default {};
 </script>
-
-<style></style>
+<style lang=""></style>
