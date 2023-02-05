@@ -16,10 +16,10 @@ import javax.validation.constraints.Pattern;
  * [password2]          : 입력 비밀번호 일치 여부를 서버에서도 확인 할것인가?
  * nickname             : 가입을 희망하는 닉네임. 중복 불가능
  * phoneNumber          : 본인 인증을 통과한 전화번호
+ * isAuthed             : 본인 인증 여부
  * profileImagePath     : 프로필 이미지 경로
  * newPassword          : 변경할 비밀번호
  * [newPassword2]       : 입력 비밀번호
- * 일치 여부를 서버에서도 확인 할 것인가?
  */
 @Data
 public class UserRequestDto {
@@ -51,11 +51,14 @@ public class UserRequestDto {
 	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력 가능합니다.")
 	private String phoneNumber;
 
+	@NotBlank(message = "휴대전화 인증이 필요합니다.")
+	private String isAuthed; // 인증 여부를 확인하는 변수 (백에서도 인증 사실을 확인하기 위함)
+
 	/* 일반 유저 회원정보 수정 */
 	private String profileImagePath = "default.png";
 
 	private String newPassword;
-	
+
 
 	/**
 	 * 1. 빌더패턴으로 작성 2. UserEntity 내부의 비즈니스 로직(팩토리 메소드)으로 인스턴스 생성 후 반환

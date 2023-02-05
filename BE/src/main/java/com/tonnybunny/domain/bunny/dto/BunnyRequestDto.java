@@ -37,6 +37,5 @@ public class BunnyRequestDto {
 	private String startLangCode;
 	private String endLangCode;
 	private String bunnySituCode;
-	private String bunnyStateCode;
 
 }

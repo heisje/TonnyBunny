@@ -12,7 +12,7 @@ spring:
   output:
     ansi:
       enabled: always
-
+  
   
   # swagger \uAD00\uB828 \uC124\uC815
   mvc:
@@ -21,23 +21,22 @@ spring:
 
   # Mail 인증
   mail:
-    # Google smtp server 사용
-    host: smtp.gmail.com
-    port: 587
-    username: ${auth.smtp.username} #앱 비밀번호 발급받은 google 계정
-    password: ${auth.smtp.password} #발급받은 앱 비밀번호
+    # Naver smtp server 사용
+    host: smtp.naver.com
+    port: 465
+    username: ${auth.smtp.username}
+    password: ${auth.smtp.password}
     properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
-          timeout: 5000
+      debug: true
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
+    #      mail.smtp.starttls.enable: true
 
-
+  
   # JPA
   jpa:
-    show-sql: true
+    show-sql: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
@@ -49,7 +48,7 @@ logging:
   level:
     org.hibernate: info
 
-# token
+# JWT Login
 token:
   accesskey: ${auth.accesskey}
   refreshkey: ${auth.refreshkey}
@@ -59,6 +58,5 @@ token:
 # charset
 #server.servlet.encoding.charset: UTF-8
 #server.servlet.encoding.force: true
-
 
 

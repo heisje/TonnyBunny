@@ -6,7 +6,7 @@ import com.tonnybunny.common.auth.entity.AuthEntity;
 import com.tonnybunny.common.auth.repository.AuthRepository;
 import com.tonnybunny.common.auth.service.AuthService;
 import com.tonnybunny.domain.user.dto.AccountRequestDto;
-import com.tonnybunny.domain.user.dto.AccountResponseDto;
+import com.tonnybunny.domain.user.dto.AuthCodeRequestDto;
 import com.tonnybunny.domain.user.dto.HistoryRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
 import com.tonnybunny.domain.user.entity.BlockEntity;
@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,7 @@ public class UserService {
 	private final FollowRepository followRepository;
 	private final BlockRepository blockRepository;
 	private final HelperInfoRepository helperInfoRepository;
+	private final RedisUtill redisUtil;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -169,49 +171,28 @@ public class UserService {
 	}
 
 
-	public Boolean sendAuthCode(String phoneNumber) {
-		/**
-		 * 휴대폰으로 인증코드 발송 해야함
-		 */
+	/**
+	 * 작성한 코드와 핸드폰번호를 입력받아서 동일한 값인지 확인한다.
+	 *
+	 * @param authCodeRequestDto
+	 * @return
+	 */
+	public Boolean checkAuthCode(AuthCodeRequestDto authCodeRequestDto) {
+		String authCode = authCodeRequestDto.getAuthCode();
+		String phoneNumber = authCodeRequestDto.getPhoneNumber();
+		String value = redisUtil.getData(authCode);
+		if (value == null | value != phoneNumber) {
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
 		return true;
 	}
-
-
-	public Boolean checkAuthCode(String authCode) {
-		/**
-		 * 인증코드 일치 여부 검증
-		 */
-		return true;
-	}
-
-	// 회원가입 시 약관동의 여부 True로 받아오기로 합의
-	// private Boolean checkAgreementStatus(Boolean bool) {
-	// 	/**
-	// 	 * 프론트에서는 모든 약관에 동의했는지에 대한 데이터를 넘겨주어야 한다
-	// 	 * bool (약관동의) 가 true 일때 true를 반환한다
-	// 	 */
-	// 	return bool;
-	// }
 
 
 	/**
 	 * Email 과 Password 에 대한 유효성 검사는
 	 * Spring Validation으로 수행
 	 */
-	//	private Boolean checkEmailValidation(String email) {
-	//		/**
-	//		 * 이메일 유효성 검사 로직
-	//		 */
-	//		return true;
-	//	}
 
-	//	private Boolean checkPasswordValidation(String password) {
-	//		/**
-	//		 * 비밀번호 유효성 확인 로직
-	//		 * 불일치 시 비밀번호 양식에 맞지 않다고 출력
-	//		 */
-	//		return true;
-	//	}
 	private Boolean checkPasswordMatch(String password, String checkPassword) {
 		/**
 		 * 비밀번호 일치 확인 로직
@@ -224,47 +205,65 @@ public class UserService {
 		}
 	}
 
-	//	public Boolean login(UserRequestDto userRequestDto) {
-	//		UserEntity user = userRequestDto.toEntity();
-	//		/**
-	//		 * user.email로 user를 조회 => findUserByEmail
-	//		 * 조회가 안될 시 익셉션 터트리기
-	//		 * user.password를 encryptPassword로 복호화 후 비교하여 결과 반환
-	//		 * 일치하지 않을 시 익셉션 터트리기
-	//		 */
-	//		return true;
-	//	}
-
-	//
-	//	public Boolean logout(UserRequestDto userRequestDto) {
-	//		UserEntity user = userRequestDto.toEntity();
-	//		/**
-	//		 * 로그아웃 진행 코드
-	//		 * 토큰 회수? 무슨 방식?
-	//		 * access token 의 유효시간을 짧게 하는 것으로 대체
-	//		 */
-	//		return true;
-	//	}
-
 
 	/**
 	 * 유저 정보 찾기 관련
+	 * 인증은 다른 서비스에서 진행된다.
+	 * 휴대폰번호와 인증 사실만 확인받는다.
 	 *
 	 * @param accountRequestDto
 	 * @return
 	 */
-	public AccountResponseDto findAccouontInfo(AccountRequestDto accountRequestDto) {
-		/**
-		 * checkAuthCode() 을 통과했을 시
-		 * 프론트에서 userDto의 type을 보내주어야 한다 => Email or Password
-		 * 만약 Email 이면
-		 * Email찾기 로직을 실행 => findUserByPhoneNumber 하여 유저의 이메일을 반환
-		 *
-		 * 만약 Passwrod 이면 Password찾기 로직을 실행
-		 * findUserByPhoneNumber 하여 userEntity를 조회하고
-		 * 조회된 user의 email이 userDto의 email과 같으면 true / false 반환? 재설정하기 위해?
-		 */
-		return new AccountResponseDto();
+	public String findEmailByPhoneNumber(AccountRequestDto accountRequestDto) {
+		if ((accountRequestDto.getIsAuthed()).isBlank()) {
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+		UserEntity user = userRepository.findByEmail(accountRequestDto.getEmail()).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		                                                                                      );
+
+		return user.getEmail();
+	}
+
+
+	public Long findPasswordByPhoneNumber(AccountRequestDto accountRequestDto) {
+		if ((accountRequestDto.getIsAuthed()).isBlank()) {
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+		String email = accountRequestDto.getEmail();
+		String phoneNumber = accountRequestDto.getPhoneNumber();
+		UserEntity user = userRepository.findByEmail(email).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		                                                               );
+		if (!user.equals(userRepository.findByPhoneNumber(phoneNumber))) {
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+
+		return user.getSeq();
+	}
+
+
+	/**
+	 * seq
+	 * password
+	 * checkPassword
+	 *
+	 * @param accountRequestDto
+	 * @return Long
+	 */
+	@Transactional
+	public Long resetPassword(Long userSeq, AccountRequestDto accountRequestDto) {
+		if (!accountRequestDto.getPassword().equals(accountRequestDto.getCheckPassword())) {
+			throw new CustomException(PASSWORD_NOT_MATCH);
+		}
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		                                                              );
+		user.updatePassword(passwordEncoder.encode(accountRequestDto.getPassword()));
+		userRepository.save(user);
+
+		return user.getSeq();
+
 	}
 
 
@@ -281,6 +280,27 @@ public class UserService {
 		                                .orElseThrow(
 			                                () -> new CustomException(NOT_FOUND_USER));
 		return user;
+	}
+
+
+	/**
+	 * 유저 Seq 리스트로 받으면
+	 * 유저 Entity List로 반환하는 서비스
+	 *
+	 * @param userSeqList
+	 * @return
+	 */
+	public List<UserEntity> getUserInfoList(List<Long> userSeqList) {
+		List<UserEntity> result = new ArrayList<>();
+
+		for (Long seq : userSeqList) {
+			UserEntity user = userRepository.findById(seq).orElseThrow(
+				() -> new CustomException(NOT_FOUND_USER)
+			                                                          );
+			result.add(user);
+		}
+
+		return result;
 	}
 
 
@@ -367,14 +387,16 @@ public class UserService {
 	 */
 
 	@Transactional
-	public List<FollowEntity> getFollowList(Long userSeq) {
-		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		                                                              );
-
+	public List<Long> getFollowList(Long userSeq) {
+		UserEntity user = userRepository.findById(userSeq)
+		                                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+		List<Long> followedUserList = new ArrayList<>();
 		List<FollowEntity> followList = user.getFollowUserList();
+		for (FollowEntity followEntity : followList) {
+			followedUserList.add(followEntity.getFollowedUserSeq());
+		}
 
-		return followList;
+		return followedUserList;
 	}
 
 
@@ -430,14 +452,18 @@ public class UserService {
 	 */
 
 	@Transactional
-	public List<BlockEntity> getBlockList(Long userSeq) {
+	public List<Long> getBlockList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		                                                              );
 
+		List<Long> blockedUserList = new ArrayList<>();
 		List<BlockEntity> blockList = user.getBlockUserList();
+		for (BlockEntity blockEntity : blockList) {
+			blockedUserList.add(blockEntity.getBlockedUserSeq());
+		}
 
-		return blockList;
+		return blockedUserList;
 	}
 
 
