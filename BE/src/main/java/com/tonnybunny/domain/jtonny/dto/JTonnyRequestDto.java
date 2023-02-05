@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class JTonnyRequestDto {
-
+	
 	public JTonnyEntity toEntity() {
 		return (JTonnyEntity) new Object();
 	}

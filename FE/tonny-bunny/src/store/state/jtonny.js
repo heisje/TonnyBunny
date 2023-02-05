@@ -10,4 +10,6 @@ export default {
     jtonnyListTotalCount: 0,
     jtonnyList: [],
     jtonnyDetail: {},
+
+    jtonnyRequest: {},
 };

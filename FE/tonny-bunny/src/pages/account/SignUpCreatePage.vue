@@ -387,10 +387,15 @@ export default {
 
                 if (res.data.resultCode == "SUCCESS") {
                     // 회원가입 성공
+                    console.log("dd", res.data);
+                    console.log(typeof res.data.data);
                     if (this.$route.params.select == "client") {
                         this.$router.push({ name: "SignUpCompletePage" });
                     } else if (this.$route.params.select == "helper") {
-                        this.$router.push({ name: "AbilityPage" });
+                        this.$router.push({
+                            name: "AbilityPage",
+                            params: { userSeq: res.data.data },
+                        });
                     }
                 } else {
                     this.exception = "회원가입에 실패하였습니다.";

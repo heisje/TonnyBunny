@@ -36,12 +36,12 @@ public class UserController {
 
 	@PostMapping("/signup")
 	@ApiOperation(value = "공통 회원가입을 진행합니다.")
-	public ResponseEntity<ResultDto<Boolean>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
+	public ResponseEntity<ResultDto<Long>> signup(@RequestBody @Valid UserRequestDto userRequestDto) {
 
-		userService.signup(userRequestDto);
+		Long userSeq = userService.signup(userRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK)
-		                     .body(ResultDto.ofSuccess());
+		                     .body(ResultDto.of(userSeq));
 
 	}
 
