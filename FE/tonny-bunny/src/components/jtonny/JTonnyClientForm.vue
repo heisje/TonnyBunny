@@ -116,8 +116,10 @@ export default {
         },
         test() {
             this.jtonnyRequest.clientSeq = this.userInfo.seq;
-            console.log(this.dropdownValue);
-            console.log(this.jtonnyRequest);
+            console.log("jtonnyRequest", this.jtonnyRequest);
+            this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
+
+            this.$router.push({ name: "JTonnyWaitingPage" });
         },
     },
     computed: {

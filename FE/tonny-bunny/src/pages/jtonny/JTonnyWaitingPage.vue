@@ -45,12 +45,18 @@ import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import LargeBtn from "@/components/common/button/LargeBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import { mapGetters } from "vuex";
+
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
 
 export default {
     data() {
         return {
             isFind: false,
             isOpen1: false,
+            stompClient: null, // 페이지 이탈할 때 끊어주기
+            jtonnyList: {},
         };
     },
     components: {
@@ -73,6 +79,57 @@ export default {
         closeModal() {
             this.isOpen1 = false;
         },
+        accept() {
+            this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
+        },
+        reject() {
+            this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
+        },
+    },
+    mounted() {
+        let clientSeq = this.jtonnyRequest.clientSeq;
+        const serverURL = "http://localhost:8080/stomp";
+        let socket = new SockJS(serverURL);
+        this.stompClient = Stomp.over(socket);
+        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+        this.stompClient.connect(
+            {},
+            () => {
+                // 소켓 연결 성공
+                this.connected = true;
+                console.log("소켓 연결 성공");
+                // 본인 seq 를 구독합니다.
+                this.stompClient.subscribe(`/sub/jtonny/apply/${clientSeq}`, (res) => {
+                    console.log("즉시통역 요청이 도착했습니다.", res.body);
+
+                    // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+                    let request = JSON.parse(res.body);
+                    this.jtonnyList[request.helperSeq] = request;
+                });
+                this.stompClient.subscribe(`/sub/jtonny/apply/${clientSeq}/cancel`, (res) => {
+                    console.log("즉시통역 요청이 취소되었습니다.", res.body);
+
+                    // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+                    let request = JSON.parse(res.body);
+                    delete this.jtonnyList[request.helperSeq];
+                });
+                this.stompClient.send(
+                    `/pub/jtonny/request`,
+                    JSON.stringify(this.jtonnyRequest),
+                    {}
+                );
+            },
+            (error) => {
+                // 소켓 연결 실패
+                console.log("소켓 연결 실패", error);
+                this.connected = false;
+            }
+        );
+    },
+    computed: {
+        ...mapGetters({
+            jtonnyRequest: "getJtonnyRequest",
+        }),
     },
 };
 </script>
