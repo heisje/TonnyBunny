@@ -1,4 +1,4 @@
-package com.tonnybunny.common;
+package com.tonnybunny.common.entity;
 
 
 import lombok.AccessLevel;
