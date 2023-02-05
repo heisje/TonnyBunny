@@ -8,4 +8,7 @@ export default {
     getBunnyDetail(state) {
         return state.board.bunnyDetail;
     },
+    getBunnyList(state) {
+        return state.board.bunnyList;
+    },
 };
