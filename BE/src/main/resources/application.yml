@@ -1,6 +1,6 @@
 server:
   servlet:
-    #    context-path: /api
+    context-path: /api
     # file upload
     multipart:
       enabled: true
@@ -36,7 +36,7 @@ spring:
   
   # JPA
   jpa:
-    show-sql: false
+    show-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
