@@ -1,4 +1,5 @@
 <template>
+	<title-banner></title-banner>
 	<div class="yTonnyDetailWrap">
 		<!-- yTonny Detail View -->
 		<div class="yTonnyDetail customForm">
@@ -128,6 +129,7 @@ import TitleText from "@/components/common/TitleText.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 // import LargeBtn from "@/components/common/button/LargeBtn.vue";
 
 export default {
@@ -137,7 +139,8 @@ export default {
 		TitleText,
 		HelperCard,
 		SquareTag,
-		MediumBtn
+		MediumBtn,
+		TitleBanner
 		// LargeBtn
 	},
 
