@@ -1,28 +1,29 @@
+div
 <template lang="">
-    <div>
-        <form class="customForm borderForm" @submit.prevent="submitForm(event)">
+    <div class="d-flex justify-content-center customFormWrap w-100">
+        <form class="customForm" @submit.prevent="submitForm(event)">
             <title-text type="h2" title="🐇번역 신청" />
             <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
 
-            <div class="d-flex flex-row">
-                <div class="">
+            <div class="d-flex flex-row w-100 mb-5">
+                <div class="w-100">
                     <label for="">내 언어</label>
                     <DropdownInput
+                        class="w-100"
                         :dropdownArray="Object.keys(getLangCode)"
                         placeholder="내 언어"
-                        @toggle="(e) => (startLangCode = e)"
-                    />
+                        @toggle="(e) => (startLangCode = e)" />
                 </div>
                 <div class="swap">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
-                <div class="">
+                <div class="w-100">
                     <label for="">필요 언어</label>
                     <DropdownInput
+                        class="w-100"
                         :dropdownArray="Object.keys(getLangCode)"
                         placeholder="필요 언어"
-                        @toggle="(e) => (endLangCode = e)"
-                    />
+                        @toggle="(e) => (endLangCode = e)" />
                 </div>
             </div>
 
@@ -32,24 +33,22 @@
                 class="w120"
                 :dropdownArray="Object.keys(getBunnySituCode)"
                 placeholder="카테고리 선택"
-                @toggle="(e) => (bunnySituCode = e)"
-            />
+                @toggle="(e) => (bunnySituCode = e)" />
 
             <title-text
                 important
                 type="h2"
                 title="마감 기한을 설정해주세요"
-                text="번역이 마감되어야할 날짜를 선택해주세요"
-            />
+                text="번역이 마감되어야할 날짜를 선택해주세요" />
 
-            <div class="d-flex flex-row">
-                <div class="">
+            <div class="d-flex flex-row w-100 mb-5">
+                <div class="w-100">
                     <input type="date" v-model="startDate" />
                 </div>
                 <div class="swap">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
-                <div class="">
+                <div class="w-100">
                     <input type="date" v-model="endDate" />
                 </div>
             </div>
@@ -58,14 +57,13 @@
                 important
                 type="h2"
                 title="예상 금액을 설정해주세요"
-                text="번역의 예상 금액을 입력해주세요"
-            />
+                text="번역의 예상 금액을 입력해주세요" />
 
-            <div class="d-flex">
-                <div class="w120">
+            <div class="d-flex w-100">
+                <div class="col-11">
                     <input type="number" v-model="estimatePrice" placeholder="ex)1000" />
                 </div>
-                <div class="backlabel">
+                <div class="backlabel col-2">
                     <h3>캐럿</h3>
                 </div>
             </div>
@@ -80,8 +78,7 @@
                 type="textarea"
                 placeholder="내용을 입력해주세요"
                 value=""
-                @input="changeInput"
-            ></textarea>
+                @input="changeInput"></textarea>
 
             <title-text type="h2" title="[선택] 사진" text="작업물의 예시를 올려주세요" />
 
@@ -90,8 +87,7 @@
                 style="width: 100%"
                 text="예약 의뢰 하기"
                 color="carrot"
-                @click.prevent="submitForm"
-            />
+                @click.prevent="submitForm" />
         </form>
     </div>
 </template>
@@ -161,7 +157,7 @@ export default {
                 endLangCode: this.getLangCode[this.endLangCode],
                 bunnySituCode: this.getBunnySituCode[this.bunnySituCode],
                 startDate: `${this.startDate}T00:00:00.000Z`,
-                endDate: `${this.startDate}T00:00:00.000Z`,
+                endDate: `${this.endDate}T00:00:00.000Z`,
                 estimatePrice: this.estimatePrice,
                 title: this.title,
                 content: this.content,
@@ -171,8 +167,7 @@ export default {
             console.log(payload);
 
             this.$store.dispatch("insertBunny", payload);
-
-            // this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
     },
 };
