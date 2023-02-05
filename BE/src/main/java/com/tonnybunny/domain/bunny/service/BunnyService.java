@@ -50,7 +50,6 @@ public class BunnyService {
 			.startLangCode(bunnyRequestDto.getStartLangCode())
 			.endLangCode(bunnyRequestDto.getEndLangCode())
 			.bunnySituCode(bunnyRequestDto.getBunnySituCode())
-			.bunnyStateCode(bunnyRequestDto.getBunnyStateCode())
 			.build();
 
 		bunny = bunnyRepository.save(bunny);

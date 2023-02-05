@@ -5,5 +5,8 @@ import lombok.Data;
 
 
 @Data
-public class AccountResponseDto {
+public class EmailRequestDto {
+
+	String email;
+
 }

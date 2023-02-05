@@ -48,6 +48,7 @@ public class BunnyResponseDto {
 	private String endLangCode;
 	private String bunnySituCode;
 	private String bunnyStateCode;
+	private String taskCode;
 
 	private List<BunnyApplyResponseDto> bunnyApplyList;
 	private List<BunnyImageResponseDto> bunnyImageList;
@@ -57,7 +58,6 @@ public class BunnyResponseDto {
 	public static BunnyResponseDto fromEntity(BunnyEntity bunnyNoti) {
 
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
-		//		modelMapper.getConfiguration().getMatchingStrategy(MatchingStrategies)
 
 		modelMapper.typeMap(BunnyEntity.class, BunnyResponseDto.class).addMappings(
 			mapper -> {
