@@ -121,7 +121,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.매칭완료.getBunnyStateCode());
+		bunny.changeStateCode(BunnyStateCodeEnum.진행중.getBunnyStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
@@ -144,7 +144,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.시작전.getBunnyStateCode());
+		bunny.changeStateCode(BunnyStateCodeEnum.모집중.getBunnyStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
@@ -167,7 +167,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.완료.getBunnyStateCode());
+		bunny.changeStateCode(BunnyStateCodeEnum.완료됨.getBunnyStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
