@@ -21,11 +21,13 @@
                         <router-link
                             :to="{ name: 'NBunnyFormPage' }"
                             @click.stop="this.$store.commit('TOGGLE_BUNNY_MODAL')">
-                            <div class="nbunnyBtn">번역의뢰</div>
+                            <div class="nbunnyBtn">번역 의뢰<br /><br />신청하기</div>
                         </router-link>
 
-                        <router-link :to="{ name: 'YTonnyFormPage' }">
-                            <div class="ytonnyBtn">번역상담</div>
+                        <router-link
+                            :to="{ name: 'NBunnyListPage' }"
+                            @click.stop="this.$store.commit('TOGGLE_BUNNY_MODAL')">
+                            <div class="nbunnyBtn">번역 의뢰<br /><br />목록보기</div>
                         </router-link>
                     </div>
                 </div>
