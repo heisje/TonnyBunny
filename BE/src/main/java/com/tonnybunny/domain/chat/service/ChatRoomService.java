@@ -2,14 +2,21 @@ package com.tonnybunny.domain.chat.service;
 
 
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
+import com.tonnybunny.domain.chat.repository.ChatRoomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
+@RequiredArgsConstructor
 public class ChatRoomService {
+
+	private final ChatRoomRepository chatRoomRepository;
+
 
 	/**
 	 * userSeq1과 userSeq2가 참여한 채팅방 Seq를 생성합니다.
@@ -20,7 +27,18 @@ public class ChatRoomService {
 	 * @return 채팅방 Seq
 	 */
 	public String createChatRoomSeq(Long userSeq1, Long userSeq2) {
-		return "";
+		Long userLessSeq = Math.min(userSeq1, userSeq2);
+		Long userLargerSeq = Math.max(userSeq1, userSeq2);
+		Optional<ChatRoomEntity> chatRoomOptional = chatRoomRepository.findByUserLessSeqAndUserLargerSeq(userLessSeq, userLargerSeq);
+		ChatRoomEntity chatRoom;
+		if (chatRoomOptional.isEmpty()) { // 만들어진 방이 없으면 방 번호 새로 생성
+			String roomSeq = UUID.randomUUID().toString();
+			chatRoom = ChatRoomEntity.builder().seq(roomSeq).userLessSeq(userLessSeq).userLargerSeq(userLargerSeq).build();
+			chatRoomRepository.save(chatRoom);
+		} else { // 이미 있으면 기존의 방 번호 반환
+			chatRoom = chatRoomOptional.get();
+		}
+		return chatRoom.getSeq();
 	}
 
 
@@ -31,7 +49,7 @@ public class ChatRoomService {
 	 * @return 채팅방 Seq 목록
 	 */
 	public List<ChatRoomEntity> getChatRoomList(Long userSeq) {
-		return new ArrayList<>();
+		return chatRoomRepository.findByUserLessSeqOrUserLargerSeq(userSeq, userSeq);
 	}
 
 

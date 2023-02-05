@@ -7,7 +7,6 @@ import com.tonnybunny.domain.alert.entity.AlertSettingsEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
-import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.point.entity.PointLogEntity;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
@@ -87,12 +86,12 @@ public class UserEntity extends CommonEntity {
 	// 리뷰
 	@OneToMany(mappedBy = "user")
 	private List<ReviewEntity> reviewList = new ArrayList<>(); // 리뷰 리스트
-	@OneToMany(mappedBy = "client")
-	private List<ChatRoomEntity> clientChatRoomList = new ArrayList<>(); // 고객 쪽 채팅방 리스트
+	//	@OneToMany(mappedBy = "client")
+	//	private List<ChatRoomEntity> clientChatRoomList = new ArrayList<>(); // 고객 쪽 채팅방 리스트
 
 	// 채팅방
-	@OneToMany(mappedBy = "helper")
-	private List<ChatRoomEntity> helperChatRoomList = new ArrayList<>(); // 헬퍼 쪽 채팅방 리스트
+	//	@OneToMany(mappedBy = "helper")
+	//	private List<ChatRoomEntity> helperChatRoomList = new ArrayList<>(); // 헬퍼 쪽 채팅방 리스트
 	//	@OneToMany(mappedBy = "user")
 	//	private List<ChatLogEntity> chatLogList = new ArrayList<>(); // 채팅 로그 리스트
 	@OneToMany(mappedBy = "user")

@@ -12,7 +12,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,8 +35,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	private HashOperations<String, Long, Map<String, Integer>> notReadInfo; // "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
 
 
-	@PostConstruct
-	public void init() {
+	public ChatSocketTextHandler() {
+		chatService = new ChatService();
+		redisTemplate = new RedisTemplate<>();
 		roomInfo = redisTemplate.opsForHash();
 		chatLogInfo = redisTemplate.opsForHash();
 		notReadInfo = redisTemplate.opsForHash();
