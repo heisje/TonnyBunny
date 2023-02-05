@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.user.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.entity.AlertSettingsEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;

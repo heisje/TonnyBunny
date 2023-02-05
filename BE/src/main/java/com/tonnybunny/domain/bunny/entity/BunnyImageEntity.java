@@ -2,7 +2,7 @@ package com.tonnybunny.domain.bunny.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import lombok.*;
 
 import javax.persistence.*;
