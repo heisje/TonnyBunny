@@ -23,6 +23,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tonnybunny.domain.user.dto.UserCodeEnum.헬퍼;
+
 
 @Entity
 @Getter
@@ -143,6 +145,11 @@ public class UserEntity extends CommonEntity {
 	public void updateUserInfo(String profileImagePath, String nickName) {
 		this.profileImagePath = profileImagePath;
 		this.nickName = nickName;
+	}
+
+
+	public void changeUserCode() {
+		this.userCode = 헬퍼.getUserCode();
 	}
 
 

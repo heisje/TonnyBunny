@@ -5,33 +5,20 @@ import com.tonnybunny.common.entity.CommonGroupCodeEntity;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Data
 @Builder
 public class CommonGroupCodeResponseDto {
 
-	private String groupCode;
-	private String groupCodeName;
-	private List<CommonCodeResponseDto> commonCodeList;
-
-
-	public static CommonGroupCodeResponseDto fromEntity(CommonGroupCodeEntity commonGroupCode) {
-		return CommonGroupCodeResponseDto.builder()
-		                                 .groupCode(commonGroupCode.getGroupCode())
-		                                 .groupCodeName(commonGroupCode.getGroupCodeName())
-		                                 .commonCodeList(CommonCodeResponseDto.fromEntityList(commonGroupCode.getCodeList()))
-		                                 .build();
-	}
-
-
-	public static List<CommonGroupCodeResponseDto> fromEntityList(List<CommonGroupCodeEntity> commonGroupCodeList) {
-		ArrayList<CommonGroupCodeResponseDto> result = new ArrayList<>();
+	public static Map<String, List<CommonCodeResponseDto>> fromEntityList(List<CommonGroupCodeEntity> commonGroupCodeList) {
+		Map<String, List<CommonCodeResponseDto>> result = new HashMap<>();
 
 		for (CommonGroupCodeEntity commonGroupCode : commonGroupCodeList) {
-			result.add(CommonGroupCodeResponseDto.fromEntity(commonGroupCode));
+			result.put(commonGroupCode.getGroupCodeName(), CommonCodeResponseDto.fromEntityList(commonGroupCode.getCodeList()));
 		}
 
 		return result;
