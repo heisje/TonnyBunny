@@ -1,11 +1,27 @@
-<template>
+<template lang="">
 	<div class="d-flex justify-content-center customFormWrap w-100">
 		<form class="customForm" @submit.prevent="submitForm(event)">
 			<title-text
 				important
 				type="h2"
+				title="고객의 어떤 공고를 해결하시겠어요?"
+				text="해결하고 싶은 공고를 선택해주세요"
+				class="mb-3" />
+
+			<div class="">
+				<label for=""></label>
+				<DropdownInput
+					:dropdownArray="['아이템1', '아이템2', '아이템3']"
+					placeholder="공고를 선택하세요"
+					@toggle="(e) => (dropdownValue = e)" />
+			</div>
+
+			<title-text
+				important
+				type="h2"
 				title="언어 선택"
 				text="어떤 언어를 통역하실건가요?"
+				top="70"
 				bottom="20" />
 
 			<div class="d-flex flex-row w-100 mb-5">
@@ -90,39 +106,6 @@
 			</div>
 
 			<title-text
-				important
-				type="h2"
-				title="제목"
-				text="최상단에 노출 될 제목입니다"
-				top="70"
-				bottom="20" />
-
-			<!-- <input
-                type="text"
-                :pattern="title.pattern"
-                @input="changeInput"
-                :value="title.value"
-                class="mb-5"
-                placeholder="제목을 입력해주세요" /> -->
-			<input type="text" class="mb-5" placeholder="제목을 입력해주세요" v-model="title" />
-
-			<title-text
-				important
-				type="h2"
-				title="예약통역 지불 캐럿"
-				text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
-				bottom="20" />
-
-			<div class="d-flex mb-5">
-				<div class="col-11">
-					<input type="text" placeholder="ex) 1000" v-model="estimatePrice" />
-				</div>
-				<div class="backlabel col-2">
-					<h5>CRT/5분</h5>
-				</div>
-			</div>
-
-			<title-text
 				type="h2"
 				title="[선택] 상황 카테고리"
 				text="해당 상황을 한 단어로 요약하자면?"
@@ -136,25 +119,39 @@
 				@toggle="(e) => (tonnySituCode = e)" />
 
 			<title-text
+				important
 				type="h2"
-				title="[선택] 상황 설명"
-				text="어떤 상황인가요?"
+				title="예약통역 지불 캐럿"
+				text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
 				top="70"
 				bottom="20" />
 
-			<textarea
-				type="textarea"
-				placeholder="내용을 입력해주세요"
-				class="mb"
-				rows="7"
-				v-model="content" />
+			<div class="d-flex mb-5">
+				<div class="col-11">
+					<input type="text" placeholder="ex) 1000" v-model="unitPrice" />
+				</div>
+				<div class="backlabel col-2">
+					<h5>CRT/5분</h5>
+				</div>
+			</div>
+
+			<title-text
+				type="h2"
+				title="[선택] 사진"
+				text="추가 사진을 올려주세요"
+				top="70"
+				bottom="30" />
+			<input type="file" class="quotationFileList mb" multiple />
 
 			<agree-input @toggle="(e) => (agreeValue = e)" />
-			<medium-btn text="예약하기" class="w-100" color="main" @click.prevent="insertYTonny" />
+			<medium-btn
+				style="width: 100%"
+				text="작성하기"
+				color="main"
+				@click.prevent="insertYTonnyQuotation(event)" />
 		</form>
 	</div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 
@@ -164,7 +161,7 @@ import DropdownInput from "../common/input/DropdownInput.vue";
 import TitleText from "../common/TitleText.vue";
 
 export default {
-	name: "YTonnyClientForm",
+	name: "QuotationForm",
 
 	components: {
 		TitleText,
@@ -175,6 +172,7 @@ export default {
 
 	data() {
 		return {
+			dropdownValue: "",
 			input1: {
 				id: "input1",
 				value: "",
@@ -182,7 +180,6 @@ export default {
 				validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
 				notice: "" // 유효성검사 결과 텍스트
 			},
-
 			agreeValue: false,
 
 			// ytonny Form
@@ -193,10 +190,11 @@ export default {
 			startTime: "",
 			estimateHour: "",
 			estimateMinute: "",
-			estimatePrice: null,
+			unitPrice: null,
 			tonnySituCode: "",
 			title: "",
-			content: ""
+			content: "",
+			fileList: []
 		};
 	},
 
@@ -217,55 +215,45 @@ export default {
 
 			// 유효성 검사
 			this[e.target.id].notice = "";
-
 			if (!this[e.target.id].validate.test(this[e.target.id].value)) {
 				this[e.target.id].notice =
 					"최소 8자 이상, 숫자와 문자를 포함한 비밀번호를 입력해주세요.";
 			}
 		},
 
-		insertYTonny() {
-			console.log("insertYTonny");
-			console.log(this.clientSeq);
-			console.log(this.startLangCode);
-			console.log(this.endLangCode);
-			console.log(this.startDate);
-			console.log(this.startTime);
-			console.log(this.estimateHour);
-			console.log(this.estimateMinute);
-			console.log(this.estimatePrice);
-			console.log(this.tonnySituCode);
-			console.log(this.title);
-			console.log(this.content);
+		insertYTonnyQuotation() {
+			// form data
+			let formData = new FormData();
 
-			let payload = {
-				clientSeq: 1,
+			formData.append("yTonnySeq", 1);
+			formData.append("clientSeq", 1);
+			formData.append("helperSeq", 2);
+			formData.append("startLangCode", this.startLangCode);
+			formData.append("endLangCode", this.endLangCode);
+			formData.append("startDateTime", `${this.startDate}T${this.startTime}`);
+			formData.append("startTime", `${this.estimateHour}:${this.estimateMinute}`);
+			formData.append("unitPrice", this.unitPrice);
 
-				title: this.title,
-				content: this.content,
+			// file upload
+			this.fileList = document.querySelector(".quotationFileList").files;
 
-				startDateTime: `${this.startDate}T${this.startTime}`,
-				estimateTime: `${this.estimateHour}:${this.estimateMinute}`,
-				estimatePrice: this.estimatePrice,
+			if (this.fileList.length > 0) {
+				const quotationFileList = Array.from(this.fileList);
+				quotationFileList.forEach((file) => formData.append("file", file));
+			}
 
-				startLangCode: this.startLangCode,
-				endLangCode: this.endLangCode,
-
-				tonnySituCode: this.tonnySituCode
-			};
-
-			console.log(payload);
-			this.$store.dispatch("insertYTonny", payload).then((id) => {
-				if (id != -1) {
-					this.$store.commit("TOGGLE_ALARM_MODAL");
-				}
+			this.$store.dispatch("insertYTonnyQuotation", formData).then((id) => {
+				console.log(id);
+				// if (id != -1) {
+				// 	this.$store.commit("TOGGLE_ALARM_MODAL");
+				// }
 			});
 		}
 	}
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/scss/input.scss";
 
 .mb {

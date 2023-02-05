@@ -1,5 +1,7 @@
 use tonny_bunny;
 
+select * from user_entity;
+
 -- YTonny
 select * from ytonny_history_entity;
 select * from ytonny_entity;

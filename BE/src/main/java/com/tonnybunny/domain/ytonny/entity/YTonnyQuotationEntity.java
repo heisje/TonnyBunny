@@ -6,7 +6,6 @@ import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -39,9 +38,9 @@ public class YTonnyQuotationEntity extends CommonEntity {
 	private UserEntity helper;
 
 	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime startDate;
+	//	private LocalDateTime startDateTime;
 	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime endDate;
+	//	private LocalDateTime endDate;
 
 	private Integer unitPrice;
 
@@ -56,8 +55,7 @@ public class YTonnyQuotationEntity extends CommonEntity {
 	private String endLangCode;
 
 	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-	private LocalDate estimateDate;
-	private LocalTime estimateStartTime;
+	private LocalDateTime startDateTime;
 	private LocalTime estimateTime;
 
 	@Builder.Default

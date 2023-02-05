@@ -41,7 +41,8 @@ public class YTonnyQuotationController {
 	                                                             YTonnyQuotationRequestDto yTonnyQuotationRequestDto,
 	                                                             MultipartHttpServletRequest request
 	) {
-
+		System.out.println("들어오기는 하니?");
+		System.out.println("yTonnySeq = " + yTonnySeq + ", yTonnyQuotationRequestDto = " + yTonnyQuotationRequestDto + ", request = " + request);
 		System.out.println("YTonnyQuotationController.createYTonnyQuotation");
 
 		// service
