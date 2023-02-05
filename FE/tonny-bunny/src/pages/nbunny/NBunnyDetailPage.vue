@@ -124,22 +124,22 @@
                     style="width: 100%"
                     text="의뢰 취소 하기"
                     color="active"
-                    @click.prevent="submitForm" />
+                    @click.prevent="deleteBunny(getBunnyDetail.seq)" />
             </div>
-            <div v-elif="$store.state.account.isHelper">
+            <div v-else-if="$store.state.account.isHelper">
                 <div v-if="isApplyed(getBunnyDetail.bunnyApplyList)">
                     <medium-btn
                         style="width: 100%"
                         text="신청 취소 하기"
                         color="active"
-                        @click.prevent="submitForm" />
+                        @click.prevent="deleteApply" />
                 </div>
                 <div v-else>
                     <medium-btn
                         style="width: 100%"
                         text="의뢰 신청 하기"
                         color="carrot"
-                        @click.prevent="submitForm" />
+                        @click.prevent="goToBunnyApplyPage" />
                 </div>
             </div>
         </div>
@@ -209,6 +209,26 @@ export default {
             return ApplyList.find(
                 (apply) => apply.userSeq === this.$store.state.account.userInfo.seq
             );
+        },
+        deleteBunny(bunnySeq) {
+            this.$store.dispatch("removeBunny", bunnySeq);
+        },
+        deleteApply() {
+            const payload = {
+                bunnySeq: this.getBunnyDetail.seq,
+                bunnyApplySeq: 0,
+            };
+            this.getBunnyDetail.bunnyApplyList.forEach((apply) => {
+                if (apply.userSeq == this.$store.state.account.userInfo.seq) {
+                    payload.bunnyApplySeq = apply.seq;
+                }
+            });
+            this.$store.dispatch("removeBunnyApply", payload);
+        },
+        goToBunnyApplyPage() {
+            this.$router.push({
+                name: "NBunnyMatchingPage",
+            });
         },
     },
 };

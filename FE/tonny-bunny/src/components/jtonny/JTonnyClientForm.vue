@@ -6,20 +6,20 @@
             <div class="d-flex flex-row">
                 <div class="">
                     <label for="">내 언어</label>
-                    <DropdownInput
-                        :dropdownArray="['아이템1', '아이템2', '아이템3']"
+                    <DropdownInputCode
+                        :dropdownArray="langCode"
                         placeholder="내 언어"
-                        @toggle="(e) => (dropdownValue = e)" />
+                        @toggle="(e) => (jtonnyRequest.startLangCode = e)" />
                 </div>
                 <div class="swap">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
                 <div class="">
                     <label for="">필요 언어</label>
-                    <DropdownInput
-                        :dropdownArray="['아이템1', '아이템2', '아이템3']"
+                    <DropdownInputCode
+                        :dropdownArray="langCode"
                         placeholder="필요 언어"
-                        @toggle="(e) => (dropdownValue = e)" />
+                        @toggle="(e) => (jtonnyRequest.endLangCode = e)" />
                 </div>
             </div>
 
@@ -36,6 +36,7 @@
                         :name="input1.id"
                         :id="input1.id"
                         :pattern="input1.pattern"
+                        v-model="jtonnyRequest.estimateTime"
                         @input="changeInput"
                         placeholder="ex)30" />
                 </div>
@@ -49,20 +50,23 @@
                 title="[선택] 상황 카테고리"
                 text="해당 상황을 한 단어로 요약하자면?" />
 
-            <DropdownInput
+            <DropdownInputCode
                 class="w120"
-                :dropdownArray="['아이템1', '아이템2', '아이템3']"
+                :dropdownArray="tonnySituCode"
                 placeholder="상황 선택"
-                @toggle="(e) => (dropdownValue = e)" />
+                @toggle="(e) => (jtonnyRequest.tonnySituCode = e)" />
 
             <title-text type="h2" title="[선택] 상황 설명" text="어떤 상황인가요?" />
 
-            <textarea type="textarea" placeholder="내용을 입력해주세요" value="" />
+            <textarea
+                type="textarea"
+                placeholder="내용을 입력해주세요"
+                v-model="jtonnyRequest.content" />
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
-            <router-link :to="{ name: 'JTonnyWaitingPage' }">
-                <medium-btn style="width: 100%" text="즉시찾기" color="carrot" />
-            </router-link>
+            <!-- <router-link :to="{ name: 'JTonnyWaitingPage' }"> -->
+            <medium-btn @click="test" style="width: 100%" text="즉시찾기" color="carrot" />
+            <!-- </router-link> -->
         </form>
     </div>
 </template>
@@ -70,12 +74,13 @@
 <script>
 import MediumBtn from "../common/button/MediumBtn.vue";
 import AgreeInput from "../common/input/AgreeInput.vue";
-import DropdownInput from "../common/input/DropdownInput.vue";
+import DropdownInputCode from "../common/input/DropdownInputCode.vue";
 import TitleText from "../common/TitleText.vue";
+import { mapGetters } from "vuex";
 
 export default {
     name: "JTonnyClientForm",
-    components: { TitleText, DropdownInput, MediumBtn, AgreeInput },
+    components: { TitleText, DropdownInputCode, MediumBtn, AgreeInput },
     data() {
         return {
             dropdownValue: "",
@@ -87,6 +92,14 @@ export default {
                 notice: "", // 유효성검사 결과 텍스트
             },
             agreeValue: false,
+            jtonnyRequest: {
+                clientSeq: 0,
+                startLangCode: "",
+                endLangCode: "",
+                tonnySituCode: "",
+                content: "",
+                estimateTime: 0,
+            },
         };
     },
     methods: {
@@ -101,6 +114,20 @@ export default {
                     "최소 8자 이상, 숫자와 문자를 포함한 비밀번호를 입력해주세요.";
             }
         },
+        test() {
+            this.jtonnyRequest.clientSeq = this.userInfo.seq;
+            console.log("jtonnyRequest", this.jtonnyRequest);
+            this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
+
+            this.$router.push({ name: "JTonnyWaitingPage" });
+        },
+    },
+    computed: {
+        ...mapGetters({
+            langCode: "getLangCode",
+            tonnySituCode: "getTonnySituCode",
+            userInfo: "getUserInfo",
+        }),
     },
 };
 </script>

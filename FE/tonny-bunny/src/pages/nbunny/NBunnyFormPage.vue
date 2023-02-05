@@ -39,7 +39,6 @@ export default {
         clickBtn2() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             const bunnySeq = this.$store.state.bunny.bunnySeq;
-            console.log(bunnySeq);
             this.$router.push({ name: "NBunnyDetailPage", params: { id: bunnySeq } });
         },
     },

@@ -138,13 +138,14 @@ export default createRouter({
         },
 
         {
-            path: "/account/ability",
+            path: "/account/ability/:userSeq",
             name: "AbilityPage",
             components: {
                 header: AppHeader,
                 default: AbilityPage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         {

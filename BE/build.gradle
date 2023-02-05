@@ -29,7 +29,7 @@ dependencies {
 
     //WebSocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+    implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.4'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 
