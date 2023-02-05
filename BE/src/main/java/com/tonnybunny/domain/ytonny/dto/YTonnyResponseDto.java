@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 
 /**
@@ -65,9 +66,7 @@ public class YTonnyResponseDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	// FIXME : 이거 두 개는 ? 조금 더 생각을 해봐야할듯
-	// 그냥 따로 메서드를 만들어서 넘겨주는게 낫지않나?
-	//	private List<YTonnyApplyResponseDto> yTonnyApplyList;
-	//	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
+	private List<YTonnyApplyResponseDto> yTonnyApplyList;
+	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
 
 }

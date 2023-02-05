@@ -2,6 +2,8 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.dto.TaskCodeEnum;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
@@ -37,16 +39,17 @@ public class YTonnyEntity extends CommonEntity {
 	private String endLangCode;
 
 	private LocalDateTime startDateTime;
-	//	private LocalDate estimateDate;
-	//	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
 	private String tonnySituCode;
-	private String taskCode;
-	private String taskStateCode;
+	@Builder.Default
+	private String taskCode = TaskCodeEnum.예약통역.getTaskCode();
+	@Builder.Default
+	private String taskStateCode = TaskStateCodeEnum.모집중.getTaskStateCode();
 
-	private Boolean isDeleted;
+	@Builder.Default
+	private Boolean isDeleted = false;
 
 	// 헬퍼 신청 리스트
 	@Builder.Default

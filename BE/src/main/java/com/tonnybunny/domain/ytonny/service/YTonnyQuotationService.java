@@ -92,6 +92,8 @@ public class YTonnyQuotationService {
 
 			yTonnyQuotationEntity.yTonnyQuotationImageList(yTonnyQuotationImageEntityList); // image set
 			yTonnyQuotationRepository.save(yTonnyQuotationEntity); // save
+			yTonnyEntity.getYTonnyQuotationList().add(yTonnyQuotationEntity); // quotation list 저장 
+			yTonnyRepository.save(yTonnyEntity); // save
 
 		} catch (Exception e) {
 			System.out.println("파일 미생성 오류!!!!!!!!!!!!!!!!");

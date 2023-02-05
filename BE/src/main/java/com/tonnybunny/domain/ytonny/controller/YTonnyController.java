@@ -61,7 +61,7 @@ public class YTonnyController {
 	 * @param yTonnyApplyRequestDto : 헬퍼 seq, 해당 공고 seq, 견적 금액
 	 * @return 생성된 예약통역 공고 신청 seq
 	 */
-	@PostMapping("/apply")
+	@PostMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 공고 신청 생성 API", notes = "헬퍼가 예약통역 공고에 신청한다.")
 	public ResponseEntity<ResultDto<Long>> createYTonnyApply(@RequestBody YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
@@ -103,8 +103,6 @@ public class YTonnyController {
 		                                                                                     .client(modelMapper.map(m.getClient(), UserResponseDto.class))
 		                                                                                     .startDateTime(m.getStartDateTime())
 		                                                                                     //		                                                                                     .helper()
-		                                                                                     //		                                                                                     .estimateDate(m.getEstimateDate())
-		                                                                                     //		                                                                                     .estimateStartTime(m.getEstimateStartTime())
 		                                                                                     .estimateTime(m.getEstimateTime())
 		                                                                                     .estimatePrice(m.getEstimatePrice())
 		                                                                                     .startLangCode(m.getStartLangCode())
@@ -114,8 +112,8 @@ public class YTonnyController {
 		                                                                                     .taskStateCode(m.getTaskStateCode())
 		                                                                                     .createdAt(m.getCreatedAt())
 		                                                                                     .updatedAt(m.getUpdatedAt())
-		                                                                                     //			                                                          .yTonnyApplyList()
-		                                                                                     //			                                                          .yTonnyQuotationList()
+		                                                                                     .yTonnyApplyList(modelMapper.map(m.getYTonnyApplyList(), List.class))
+		                                                                                     .yTonnyQuotationList(modelMapper.map(m.getYTonnyQuotationList(), List.class))
 		                                                                                     .build())
 		                                                          .collect(Collectors.toList());
 
@@ -148,9 +146,6 @@ public class YTonnyController {
 		                                                       .content(yTonnyEntity.getContent())
 		                                                       .client((modelMapper.map(yTonnyEntity.getClient(), UserResponseDto.class)))
 		                                                       .startDateTime(yTonnyEntity.getStartDateTime())
-		                                                       //			                                                       .helper()
-		                                                       //		                                                       .estimateDate(yTonnyEntity.getEstimateDate())
-		                                                       //		                                                       .estimateStartTime(yTonnyEntity.getEstimateStartTime())
 		                                                       .estimateTime(yTonnyEntity.getEstimateTime())
 		                                                       .estimatePrice(yTonnyEntity.getEstimatePrice())
 		                                                       .startLangCode(yTonnyEntity.getStartLangCode())
@@ -160,8 +155,8 @@ public class YTonnyController {
 		                                                       .taskStateCode(yTonnyEntity.getTaskStateCode())
 		                                                       .createdAt(yTonnyEntity.getCreatedAt())
 		                                                       .updatedAt(yTonnyEntity.getUpdatedAt())
-		                                                       //			.yTonnyApplyList()
-		                                                       //			.yTonnyQuotationList()
+		                                                       .yTonnyApplyList((modelMapper.map(yTonnyEntity.getYTonnyApplyList(), List.class)))
+		                                                       .yTonnyQuotationList((modelMapper.map(yTonnyEntity.getYTonnyQuotationList(), List.class)))
 		                                                       .build();
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
@@ -212,7 +207,7 @@ public class YTonnyController {
 	 * @param yTonnyRequestDto : 수정 예약통역 공고 내용
 	 * @return 수정된 예약통역 공고 seq
 	 */
-	@PutMapping
+	@PutMapping("/{yTonnySeq}")
 	@ApiOperation(value = "예약통역 공고 수정 API", notes = "고객이 예약통역을 수정한다.")
 	public ResponseEntity<ResultDto<Long>> modifyYTonny(@RequestBody YTonnyRequestDto yTonnyRequestDto) {
 
@@ -240,8 +235,8 @@ public class YTonnyController {
 	public ResponseEntity<ResultDto<Long>> acceptYTonnyApply(YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
 		System.out.println("YTonnyController.acceptYTonnyApply");
-
 		System.out.println("yTonnyApplyRequestDto = " + yTonnyApplyRequestDto);
+
 		// service
 		Long updatedSeq = yTonnyService.acceptYTonnyApply(yTonnyApplyRequestDto);
 
@@ -277,7 +272,7 @@ public class YTonnyController {
 	 * @param yTonnyApplySeq : 공고 신청한 seq
 	 * @return 공고 취소 여부
 	 */
-	@DeleteMapping("/{yTonnyApplySeq}/apply")
+	@DeleteMapping("/{yTonnySeq}/apply/{yTonnyApplySeq}")
 	@ApiOperation(value = "예약통역 공고 신청 취소 API", notes = "헬퍼가 예약통역 신청을 취소한다.")
 	public ResponseEntity<ResultDto<Boolean>> deleteYTonnyApply(@PathVariable Long yTonnyApplySeq) {
 

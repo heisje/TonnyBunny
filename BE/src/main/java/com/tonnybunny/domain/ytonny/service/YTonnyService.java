@@ -1,8 +1,6 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
-import com.tonnybunny.common.dto.TaskCodeEnum;
-import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
@@ -54,19 +52,11 @@ public class YTonnyService {
 		                                        .title(yTonnyRequestDto.getTitle())
 		                                        .content(yTonnyRequestDto.getContent())
 		                                        .startDateTime(yTonnyRequestDto.getStartDateTime())
-		                                        //		                                        .estimateDate(yTonnyRequestDto.getEstimateDate())
-		                                        //		                                        .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
 		                                        .estimateTime(yTonnyRequestDto.getEstimateTime())
 		                                        .estimatePrice(yTonnyRequestDto.getEstimatePrice())
-		                                        //		                                        .startLangCode(LangCodeEnum.한국어.getLangCode())
 		                                        .startLangCode(yTonnyRequestDto.getStartLangCode())
 		                                        .endLangCode(yTonnyRequestDto.getEndLangCode())
 		                                        .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
-		                                        .taskCode(TaskCodeEnum.예약통역.getTaskCode())
-		                                        .taskStateCode(TaskStateCodeEnum.모집중.getTaskStateCode())
-		                                        .isDeleted(false)
-		                                        .yTonnyApplyList(null)
-		                                        .yTonnyQuotationList(null)
 		                                        .build();
 
 		// save
@@ -99,14 +89,10 @@ public class YTonnyService {
 
 		// dto -> entity
 		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).totalPrice(totalPrice).build();
+		yTonnyEntity.getYTonnyApplyList().add(yTonnyApplyEntity);
 
 		// save
-		Long createdSeq = yTonnyApplyRepository.save(yTonnyApplyEntity).getSeq();
-
-		// 공고 신청리스트에 추가
-		//		addYTonnyApplyList(yTonnyEntity, yTonnyApplyEntity); // 이거 왜 필요한?
-
-		return createdSeq;
+		return yTonnyApplyRepository.save(yTonnyApplyEntity).getSeq();
 
 	}
 

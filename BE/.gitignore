@@ -37,8 +37,9 @@ out/
 .vscode/
 
 ## TEST UPLOAD FILE ###
-/src/main/resources/**/*.JPG
-/src/main/resources/**/*.jpg
-/src/main/resources/**/*.PNG
-/src/main/resources/**/*.png
+/src/main/resources/static/**/*.*
+/src/main/resources/static/**/*.JPG
+/src/main/resources/static/**/*.jpg
+/src/main/resources/static/**/*.PNG
+/src/main/resources/static/**/*.png
 
