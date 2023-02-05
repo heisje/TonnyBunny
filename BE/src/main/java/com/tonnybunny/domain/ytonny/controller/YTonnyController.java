@@ -138,6 +138,7 @@ public class YTonnyController {
 
 		// service
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
+		//		System.out.println("yTonnyEntity = " + yTonnyEntity);
 
 		// entity -> dto
 		ModelMapper modelMapper = new ModelMapper();
@@ -155,8 +156,9 @@ public class YTonnyController {
 		                                                       .taskStateCode(yTonnyEntity.getTaskStateCode())
 		                                                       .createdAt(yTonnyEntity.getCreatedAt())
 		                                                       .updatedAt(yTonnyEntity.getUpdatedAt())
-		                                                       .yTonnyApplyList((modelMapper.map(yTonnyEntity.getYTonnyApplyList(), List.class)))
-		                                                       .yTonnyQuotationList((modelMapper.map(yTonnyEntity.getYTonnyQuotationList(), List.class)))
+		                                                       //		                                                       .yTonnyApplyList((modelMapper.map(yTonnyEntity.getYTonnyApplyList(), List.class)))
+		                                                       //		                                                       .yTonnyQuotationList((modelMapper.map(yTonnyEntity.getYTonnyQuotationList(), List.class)))
+		                                                       //		                                                       .isApplyHelper(yTonnyEntity.getIsApplyHelper())
 		                                                       .build();
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));

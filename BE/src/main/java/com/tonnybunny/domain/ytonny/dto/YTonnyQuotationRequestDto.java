@@ -1,11 +1,14 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 /**
@@ -25,6 +28,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class YTonnyQuotationRequestDto {
 
 	private int page = 0; // offset
@@ -41,10 +46,10 @@ public class YTonnyQuotationRequestDto {
 
 	private Integer unitPrice;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime startDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	private LocalDateTime startDateTime;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime estimateTime;
 
 	private String startLangCode;
 	private String endLangCode;

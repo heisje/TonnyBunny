@@ -63,16 +63,48 @@ export default {
 		}
 	},
 
+	// POST /api/ytonny 고객의 예약 통역 견적서 생성
+	async insertYTonnyQuotation(context, formData) {
+		console.log("예약통역 공고 견적서 생성");
+		console.log(formData);
+
+		let yTonnySeq = formData.get("yTonnySeq");
+
+		let options = {
+			headers: { "Content-Type": "multipart/form-data" }
+		};
+
+		let { data } = await http.post(`/ytonny/${yTonnySeq}/quotation`, formData, options);
+
+		try {
+			console.log("async insertYTonnyQuotation : ", data);
+
+			// service logic
+			switch (data.resultCode) {
+				case SUCCESS:
+					return data.data;
+				case FAIL:
+					return -1;
+			}
+		} catch (err) {
+			console.error(err);
+
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
+		}
+	},
+
 	/* 
         예약 통역 READ
     */
 	// GET /api/ytonny 예약 통역 공고 목록 조회
 	async getYTonnyList(context) {
 		console.log("예약 통역 공고 목록 조회");
-		let params = {};
 
 		try {
-			let { data } = await http.get(`/ytonny`, { params });
+			let { data } = await http.get(`/ytonny`);
 			console.log("async getYTonnyList : ", data);
 
 			// service logic
@@ -91,6 +123,10 @@ export default {
 	// GET /api/ytonny/{yTonnySeq} 예약 통역 공고 상세 조회
 	async getYTonnyDetail(context, yTonnySeq) {
 		console.log("예약 통역 공고 상세 조회");
+
+		// let params = {
+		// 	isApplyHelper: this.state.account.userInfo.seq;
+		// };
 
 		try {
 			let { data } = await http.get(`/ytonny/${yTonnySeq}`);

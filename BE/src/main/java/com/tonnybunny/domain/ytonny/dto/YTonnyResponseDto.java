@@ -52,8 +52,6 @@ public class YTonnyResponseDto {
 	private String content;
 
 	private LocalDateTime startDateTime;
-	//	private LocalDate estimateDate;
-	//	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 
@@ -65,6 +63,8 @@ public class YTonnyResponseDto {
 
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+
+	//	private Boolean isApplyHelper;
 
 	private List<YTonnyApplyResponseDto> yTonnyApplyList;
 	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;

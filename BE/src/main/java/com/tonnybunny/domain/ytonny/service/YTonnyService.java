@@ -133,6 +133,8 @@ public class YTonnyService {
 
 		System.out.println("YTonnyService.getYTonnyDetail");
 
+		//		yTonnyEntity.updateIsApplyHelper(yTonnyApplyRepository.findByHelperSeq(isApplyHelper).isPresent());
+
 		// find
 		return yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 

@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
+import com.tonnybunny.common.dto.QuotationStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.ytonny.dto.YTonnyQuotationRequestDto;
@@ -60,6 +61,8 @@ public class YTonnyQuotationService {
 		Long clientSeq = yTonnyQuotationRequestDto.getClientSeq();
 		Long helperSeq = yTonnyQuotationRequestDto.getHelperSeq();
 
+		System.out.println("yTonnySeq = " + yTonnySeq + ", yTonnyQuotationRequestDto = " + yTonnyQuotationRequestDto + ", request = " + request);
+
 		// find
 		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -71,15 +74,13 @@ public class YTonnyQuotationService {
 		                                                                   .client(clientEntity)
 		                                                                   .helper(helperEntity)
 		                                                                   .unitPrice(yTonnyQuotationRequestDto.getUnitPrice())
-		                                                                   .startDate(yTonnyQuotationRequestDto.getStartDate())
-		                                                                   .endDate(yTonnyQuotationRequestDto.getEndDate())
 		                                                                   .title(yTonnyEntity.getTitle())
 		                                                                   .content(yTonnyEntity.getContent())
 		                                                                   .endLangCode(yTonnyEntity.getEndLangCode().toString())
 		                                                                   .startLangCode(yTonnyEntity.getStartLangCode().toString())
-		                                                                   //		                                                                   .estimateDate(yTonnyEntity.getEstimateDate())
-		                                                                   //		                                                                   .estimateStartTime(yTonnyEntity.getEstimateStartTime())
 		                                                                   .estimateTime(yTonnyEntity.getEstimateTime())
+		                                                                   .startDateTime(yTonnyEntity.getStartDateTime())
+		                                                                   .quotationStateCode(QuotationStateCodeEnum.미선택.getQuotationStateCode())
 		                                                                   .build();
 
 		// save
@@ -92,7 +93,7 @@ public class YTonnyQuotationService {
 
 			yTonnyQuotationEntity.yTonnyQuotationImageList(yTonnyQuotationImageEntityList); // image set
 			yTonnyQuotationRepository.save(yTonnyQuotationEntity); // save
-			yTonnyEntity.getYTonnyQuotationList().add(yTonnyQuotationEntity); // quotation list 저장 
+			yTonnyEntity.getYTonnyQuotationList().add(yTonnyQuotationEntity); // quotation list 저장
 			yTonnyRepository.save(yTonnyEntity); // save
 
 		} catch (Exception e) {

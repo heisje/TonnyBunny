@@ -51,6 +51,9 @@ public class YTonnyEntity extends CommonEntity {
 	@Builder.Default
 	private Boolean isDeleted = false;
 
+	//	@Builder.Default
+	//	private Boolean isApplyHelper = false;
+
 	// 헬퍼 신청 리스트
 	@Builder.Default
 	@OneToMany(mappedBy = "yTonny")
@@ -75,5 +78,9 @@ public class YTonnyEntity extends CommonEntity {
 	public void yTonnyApplyList(List<YTonnyApplyEntity> yTonnyApplyList) {
 		this.yTonnyApplyList = yTonnyApplyList;
 	}
+
+	//	public void updateIsApplyHelper(Boolean isApplyHelper) {
+	//		this.isApplyHelper = isApplyHelper;
+	//	}
 
 }

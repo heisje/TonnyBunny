@@ -33,12 +33,12 @@ export default {
 	},
 
 	computed: {
-		...mapGetters({ createdId: "getYTonnyId" })
+		...mapGetters({ yTonnySeq: "getYTonnySeq" })
 	},
 
 	methods: {
 		successYtonnyCreate() {
-			this.$router.push({ name: "YTonnyDetailPage", params: { id: this.createdId } });
+			this.$router.push({ name: "YTonnyDetailPage", params: { id: this.yTonnySeq } });
 		}
 	}
 };
