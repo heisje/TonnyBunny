@@ -119,7 +119,7 @@
 
             <div class="navBarMobile d-lg-none">
                 <nav class="navbar navbar-white">
-                    <div class="container-fluid container mx-4">
+                    <div class="container-fluid container px-3">
                         <button
                             class="navbar-toggler"
                             type="button"
@@ -146,10 +146,6 @@
                                     color="outline"
                                     font="main"
                                     @click="toggleLoginModal"></medium-btn>
-                                <medium-btn
-                                    text="회원가입"
-                                    color="main"
-                                    @click="clickSignUpBtn"></medium-btn>
                             </div>
                         </div>
                         <div
@@ -560,6 +556,7 @@ export default {
 @media (max-width: 755px) {
     .navbar {
         height: 72px;
+        width: 100vw;
     }
     .navBarContainer {
         height: 72px;
