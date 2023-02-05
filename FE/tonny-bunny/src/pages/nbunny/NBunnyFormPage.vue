@@ -10,8 +10,7 @@
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="clickBtn2"
-        >
+            @clickBtn2="clickBtn2">
             <template #content>
                 글이 성공적으로 작성되었습니다!
                 <br />
@@ -33,12 +32,15 @@ export default {
     components: { NBunnyClientForm, TitleBanner, AlarmModal },
     methods: {
         openModal(e) {
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
             e.preventDefault();
         },
 
         clickBtn2() {
-            this.$router.push({ name: "NBunnyDetailPage", params: { id: 1 } });
-            // this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            const bunnySeq = this.$store.state.bunny.bunnySeq;
+            console.log(bunnySeq);
+            this.$router.push({ name: "NBunnyDetailPage", params: { id: bunnySeq } });
         },
     },
 };
