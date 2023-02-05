@@ -1,17 +1,16 @@
 -- 공통그룹코드
 INSERT INTO common_group_code_entity(group_code, group_code_name)
-VALUES ('001', "유저타입"),
-       ('002', "언어종류"),
-       ('003', "의뢰타입"),
-       ('004', "통역상황카테고리"),
-       ('005', "번역상황카테고리"),
-       ('007', "견적서상태코드"),
-       ('009', "예약통역공고게시글상태"),
-       ('010', "번역공고게시글상태"),
-       ('011', "포인트로그상태");
+VALUES ('001', "userCode"),
+       ('002', "langCode"),
+       ('003', "taskCode"),
+       ('004', "tonnySituCode"),
+       ('005', "bunnySituCode"),
+       ('007', "quotationStateCode"),
+       ('009', "taskStateCode"),
+       ('011', "pointLogStateCode");
 
 -- 공통코드
-INSERT INTO common_code_entity(code_seq, group_code, code, code_name)
+INSERT INTO common_code_entity(code_seq, group_code, code_name, code)
 VALUES (1, '001', "고객", '0001'),
        (2, '001', "헬퍼", '0002'),
        (3, '001', "관리자", '0003'),
@@ -36,12 +35,9 @@ VALUES (1, '001', "고객", '0001'),
        (22, '009', "모집중", '0001'),
        (23, '009', "진행중", '0002'),
        (24, '009', "완료됨", '0003'),
-       (25, '010', "시작전", '0001'),
-       (26, '010', "매칭완료", '0002'),
-       (27, '010', "완료", '0003'),
-       (28, '011', "충전", '0001'),
-       (29, '011', "출금", '0002'),
-       (30, '011', "거래", '0003');
+       (25, '011', "충전", '0001'),
+       (26, '011', "출금", '0002'),
+       (27, '011', "거래", '0003');
 
 -- 유저 정보
 INSERT INTO user_entity(user_seq, created_at, updated_at, email, is_agreement, is_deleted, nick_name, password,
