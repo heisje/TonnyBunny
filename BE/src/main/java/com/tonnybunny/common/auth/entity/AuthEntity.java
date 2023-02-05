@@ -1,7 +1,7 @@
 package com.tonnybunny.common.auth.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
