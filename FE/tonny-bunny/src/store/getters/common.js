@@ -16,6 +16,37 @@ export default {
     },
 
     /* Code */
+    getUserCode(state) {
+        return state.common.userCode;
+    },
+    getLangCode(state) {
+        return state.common.langCode;
+    },
+    getTaskCode(state) {
+        return state.common.taskCode;
+    },
+    getTonnySituCode(state) {
+        return state.common.tonnySituCode;
+    },
+    getBunnySituCode(state) {
+        return state.common.bunnySituCode;
+    },
+    getQuotationStateCode(state) {
+        return state.common.quotationStateCode;
+    },
+    getTaskStateCode(state) {
+        return state.common.taskStateCode;
+    },
+    getPointLogStateCode(state) {
+        return state.common.pointLogStateCode;
+    },
+    getHourCodeList(state) {
+        return state.common.hourCodeList;
+    },
+    getMinuteCodeList(state) {
+        return state.common.minuteCodeList;
+    },
+    /*
     getLangCodeList(state) {
         return state.common.langCodeList;
     },
@@ -30,20 +61,5 @@ export default {
     },
     getTaskStateCodeList(state) {
         return state.common.taskStateCodeList;
-    },
-    getHourCodeList(state) {
-        return state.common.hourCodeList;
-    },
-    getMinuteCodeList(state) {
-        return state.common.minuteCodeList;
-    },
-    getLangCode(state) {
-        return state.common.langCode;
-    },
-    getBunnySituCode(state) {
-        return state.common.bunnySituCode;
-    },
-    getBunnyStateCode(state) {
-        return state.common.bunnyStateCode;
-    },
+    }, */
 };

@@ -1,6 +1,7 @@
 package com.tonnybunny.common;
 
 
+import com.tonnybunny.common.dto.CommonCodeResponseDto;
 import com.tonnybunny.common.dto.CommonGroupCodeResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.common.entity.CommonGroupCodeEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -26,10 +28,10 @@ public class CommonController {
 	private final CommonGroupCodeRepository commonGroupCodeRepository;
 
 
-	@GetMapping
+	@GetMapping("/common")
 	public ResponseEntity<?> getRootPath() {
 		List<CommonGroupCodeEntity> CommonGroupCodeList = commonGroupCodeRepository.findAll();
-		List<CommonGroupCodeResponseDto> CommonGroupCodeResponseDtoList = CommonGroupCodeResponseDto.fromEntityList(CommonGroupCodeList);
+		Map<String, List<CommonCodeResponseDto>> CommonGroupCodeResponseDtoList = CommonGroupCodeResponseDto.fromEntityList(CommonGroupCodeList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(CommonGroupCodeResponseDtoList));
 	}
 

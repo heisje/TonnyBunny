@@ -7,17 +7,17 @@ export default {
     isBunnyModalOpen: false,
 
     /* Code */
-    langCode: {
-        한국어: "0020001",
-        영어: "0020002",
-        일본어: "0020003",
-    },
+    // langCode: {
+    //     한국어: "0020001",
+    //     영어: "0020002",
+    //     일본어: "0020003",
+    // },
 
-    bunnySituCode: {
-        인쇄물: "0050001",
-        영상: "0050002",
-        기타: "0050003",
-    },
+    // bunnySituCode: {
+    //     인쇄물: "0050001",
+    //     영상: "0050002",
+    //     기타: "0050003",
+    // },
 
     bunnyStateCode: {
         모집중: "0100001",
@@ -32,4 +32,13 @@ export default {
     taskStateCodeList: ["0090001", "0090002", "0090003"], // 모집중, 진행중, 완료됨
     hourCodeList: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"], // 시간
     minuteCodeList: ["05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"], // 분
+
+    userCode: null,
+    langCode: null,
+    taskCode: null,
+    tonnySituCode: null,
+    bunnySituCode: null,
+    quotationStateCode: null,
+    taskStateCode: null,
+    pointLogStatusCode: null,
 };
