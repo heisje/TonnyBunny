@@ -11,7 +11,17 @@ import lombok.Data;
 @Data
 public class ParticipantDto {
 
-	private Integer port;
-	private Boolean isConnectedRoom;
+	private Integer port; // TODO : Set으로 저장 -> 한 유저가 여러 브라우저 창에서 같은 채팅방에 접속할 수 있음
+	private Integer enterRoomCount = 0;
+
+
+	public void increaseEnterRoomCount() {
+		this.enterRoomCount++;
+	}
+
+
+	public void decreaseEnterRoomCount() {
+		this.enterRoomCount--;
+	}
 
 }

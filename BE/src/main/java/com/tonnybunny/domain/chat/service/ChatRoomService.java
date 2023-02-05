@@ -61,6 +61,7 @@ public class ChatRoomService {
 	 * @return
 	 */
 	public Integer getNotReadCount(String roomSeq, Long userSeq) {
+		// TODO
 		return 0;
 	}
 
@@ -72,6 +73,7 @@ public class ChatRoomService {
 	 * @return
 	 */
 	public String getRecentMessage(String roomSeq) {
+		// TODO
 		return "";
 	}
 
