@@ -40,6 +40,8 @@ public class BunnyEntity extends CommonEntity {
 	private String endLangCode;
 	private String bunnySituCode;
 	@Builder.Default
+	private String taskCode = "0030003";
+	@Builder.Default
 	private String bunnyStateCode = "0100001";
 
 	@Builder.Default
