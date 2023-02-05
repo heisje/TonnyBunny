@@ -13,13 +13,13 @@ import lombok.Data;
 @Data
 public class CertificateRequestDto {
 
-    private String langCode;
-    private String certName;
-    private String score;
+	private String langCode;
+	private String certName;
+	private String content;
 
 
-    public CertificateEntity toEntity() {
-        return (CertificateEntity) new Object();
-    }
+	public CertificateEntity toEntity() {
+		return (CertificateEntity) new Object();
+	}
 
 }

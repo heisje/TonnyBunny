@@ -1,7 +1,9 @@
 package com.tonnybunny.domain.user.dto;
 
 
+import com.tonnybunny.domain.user.entity.CertificateEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
+import com.tonnybunny.domain.user.entity.PossibleLanguageEntity;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.List;
 
 /**
  * possibleLanguageList     : 언어공통코드가 담긴 리스트
- * certificateList          : 자격증 정보(언어공통코드, 자격증 이름, 점수)가 담긴 리스트
+ * certificateList          : 자격증 정보(언어공통코드, 자격증 이름, 내용)가 담긴 리스트
  *
  * oneLineIntroduction      : 한 줄 소개
  * introduction             : 본인소개
@@ -20,13 +22,14 @@ import java.util.List;
 public class HelperInfoRequestDto {
 
 	/* 헬퍼 유저 회원가입 */
-	private List<String> possibleLanguageList = new ArrayList<>();
-	private List<CertificateRequestDto> certificateList = new ArrayList<>();
+	private List<PossibleLanguageEntity> possibleLanguageList = new ArrayList<>();
+
+	private List<CertificateEntity> certificateList = new ArrayList<>();
 
 	/* 헬퍼 유저 회원정보 수정 */
 	private String oneLineIntroduction = "";
 	private String introduction = "";
-	private List<String> HelperInfoImageList = new ArrayList<>();
+	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
 
 
 	/**
