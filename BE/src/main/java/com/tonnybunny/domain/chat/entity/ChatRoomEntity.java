@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.chat.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class ChatRoomEntity extends CommonEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chat_room_seq")
-	private Long seq;
+	private String seq;    // FIXME : String으로 변경함
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_seq")

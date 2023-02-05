@@ -4,22 +4,23 @@ const SUCCESS = "SUCCESS";
 const FAIL = "FAIL";
 
 export default {
+    // POST /api/bunny 번역 공고 등록
     async insertBunny(context, json) {
-        console.log("예약통역 공고 생성");
-
         let res = await http.post(`/bunny`, json);
 
         try {
             console.log("async function : ", res);
 
             // service logic
-            switch (res.resultCode) {
+            switch (res.data.resultCode) {
                 case SUCCESS:
+                    context.commit("SET_BUNNY_SEQ", res.data.data);
+                    console.log(res.data.data);
+                    // context.commit("TOGGLE_ALARM_MODAL");
                     break;
                 case FAIL:
                     break;
             }
-
             return res.data;
         } catch (err) {
             console.error(err);
@@ -31,5 +32,31 @@ export default {
 
             return res.data;
         }
+    },
+
+    // GET /api/bunny 번역 상세 조회
+    async getBunnyDetail(context, bunnySeq) {
+        console.log("번역 상세 조회");
+
+        this.dispatch("setIsLoading", true);
+        try {
+            let { data } = await http.get(`/bunny/${bunnySeq}`);
+            console.log("async function : ", data);
+
+            context;
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("SET_BUNNY_DETAIL", data.data);
+                    this.dispatch("setIsLoading", false);
+                    break;
+                case "FAIL":
+                    this.dispatch("setIsLoading", false);
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+        this.dispatch("setIsLoading", false);
     },
 };

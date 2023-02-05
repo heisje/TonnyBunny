@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.board.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
+import com.tonnybunny.common.entity.CommonEntity;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,9 +1,9 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
-import com.tonnybunny.common.CommonEntity;
 import com.tonnybunny.common.dto.TaskCodeEnum;
 import com.tonnybunny.common.dto.TaskStateCodeEnum;
+import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
