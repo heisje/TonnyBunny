@@ -13,14 +13,14 @@ import java.util.List;
 @Builder
 public class CommonCodeResponseDto {
 
-	private String code;
-	private String codeName;
+	private String value;
+	private String name;
 
 
 	public static CommonCodeResponseDto fromEntity(CommonCodeEntity commonCode) {
 		return CommonCodeResponseDto.builder()
-		                            .code(commonCode.getGroupCode().getGroupCode() + commonCode.getCode())
-		                            .codeName(commonCode.getCodeName())
+		                            .value(commonCode.getGroupCode().getGroupCode() + commonCode.getCode())
+		                            .name(commonCode.getCodeName())
 		                            .build();
 	}
 

@@ -6,7 +6,10 @@
             <!-- 언어 선택 -->
             <TitleText title="언어 선택" type="h2" text="하실 수 있는 언어를 선택해주세요" />
             <select v-model="selected" :onchange="selectLang">
-                <option v-for="(item, index) in selectList" :key="index" :value="item.value">
+                <option
+                    v-for="(item, index) in langCode"
+                    :key="index"
+                    :value="JSON.stringify(item)">
                     {{ item.name }}
                 </option></select
             ><br />
@@ -17,8 +20,7 @@
                         background-color: pink;
                         display: inline-block;
                         border-radius: 20px;
-                    "
-                >
+                    ">
                     {{ lang }}
                     <span @click="cancleSelect(index)">❌</span>
                 </div>
@@ -28,13 +30,16 @@
             <TitleText title="자격증 추가" type="h2" text="어학 관련 자격증을 추가해주세요" />
             <!-- 등록한 자격증 목록 -->
             <div v-for="(certificate, index) in certificateList" :key="index">
-                [{{ certificate.language }}] {{ certificate.title }} : {{ certificate.content }}
+                [{{ certificate.languageName }}] {{ certificate.title }} : {{ certificate.content }}
                 <SmallBtn text="삭제" @click="deleteCertificate(index)"></SmallBtn>
             </div>
             <!-- 자격증 폼 -->
             <div>
                 <select v-model="selected2">
-                    <option v-for="(item, index) in selectList" :key="index" :value="item.value">
+                    <option
+                        v-for="(item, index) in langCode"
+                        :key="index"
+                        :value="JSON.stringify(item)">
                         {{ item.name }}
                     </option>
                 </select>
@@ -55,9 +60,18 @@
 import TitleText from "@/components/common/TitleText.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import SmallBtn from "@/components/common/button/XSmallBtn.vue";
+import http from "@/common/axios.js";
+import { mapGetters } from "vuex";
 // import http from "@/common/axios";
 
 export default {
+    name: "AbilityPage",
+    props: {
+        userSeq: {
+            type: String,
+            default: "",
+        },
+    },
     components: {
         TitleText,
         smallBtn,
@@ -68,13 +82,8 @@ export default {
         return {
             // select box
             selected: "",
-            selectList: [
-                { name: "언어", value: "" },
-                { name: "영어", value: "영어" },
-                { name: "일본어", value: "일본어" },
-                { name: "스페인어", value: "스페인어" },
-            ],
             possibleLanguageList: [],
+            possibleLanguageCodeList: [],
 
             // certificate
             selected2: "",
@@ -87,21 +96,25 @@ export default {
     methods: {
         // 언어 선택
         selectLang(event) {
-            if (event.target.value == "") {
+            let { name, value } = { ...JSON.parse(event.target.value) };
+
+            if (value == "") {
                 return;
             }
-            const isExist = this.possibleLanguageList.some((lang) => {
-                return lang == event.target.value;
+            const isExist = this.possibleLanguageCodeList.some((lang) => {
+                return lang == value;
             });
 
             if (!isExist) {
-                this.possibleLanguageList.push(event.target.value);
+                this.possibleLanguageList.push(name);
+                this.possibleLanguageCodeList.push(value);
             }
         },
 
         // 언어 선택 취소
         cancleSelect(index) {
             this.possibleLanguageList.splice(index, 1);
+            this.possibleLanguageCodeList.splice(index, 1);
         },
 
         // 자격증 추가
@@ -111,9 +124,10 @@ export default {
             }
 
             const data = {
-                title: this.titleInput,
+                certName: this.titleInput,
                 content: this.contentInput,
-                language: this.selected2,
+                langCode: JSON.parse(this.selected2).value,
+                languageName: JSON.parse(this.selected2).name,
             };
 
             this.certificateList.push(data);
@@ -130,24 +144,25 @@ export default {
         // 폼 제출
         async submitForm(event) {
             event.preventDefault();
+            let userSeq2 = this.userSeq * 1;
 
             // 일단 잠시 주석
-            // try {
-            //     let res = await http.post("/mypage/{userSeq}/helper", {
-            //         possibleLanguageList: this.possibleLanguageList,
-            //         certificateList: this.certificateList,
-            //     });
+            try {
+                let res = await http.post(`/mypage/${userSeq2}/helper`, {
+                    possibleLanguageList: this.possibleLanguageCodeList,
+                    certificateList: this.certificateList,
+                });
 
-            //     if (res.data.resultCodef == "SUCCESS") {
-            //         // 헬퍼정보 등록 성공 후 완료 페이지로
-            //         this.$router.push({ name: "SignUpCompletePage" });
-            //     } else {
-            //         // 헬퍼정보 등록 실패
-            //         console.log("실패");
-            //     }
-            // } catch (error) {
-            //     console.log(error);
-            // }
+                if (res.data.resultCode == "SUCCESS") {
+                    // 헬퍼정보 등록 성공 후 완료 페이지로
+                    this.$router.push({ name: "SignUpCompletePage" });
+                } else {
+                    // 헬퍼정보 등록 실패
+                    console.log("실패");
+                }
+            } catch (error) {
+                console.log(error);
+            }
             this.$router.push({ name: "SignUpCompletePage" });
         },
 
@@ -155,6 +170,11 @@ export default {
             event.preventDefault();
             this.$router.push({ name: "SignUpCompletePage" });
         },
+    },
+    computed: {
+        ...mapGetters({
+            langCode: "getLangCode",
+        }),
     },
 };
 </script>
