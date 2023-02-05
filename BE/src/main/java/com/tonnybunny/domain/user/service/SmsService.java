@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,24 +33,23 @@ import java.util.Random;
 
 @Slf4j
 @RequiredArgsConstructor
+@PropertySource("classpath:properties/env.properties")
 @Service
 public class SmsService {
 
-	//휴대폰 인증 번호
-	private final String smsConfirmNum = createSmsKey();
 	private final RedisUtill redisUtil;
 
-	@Value("${naver-cloud-sms.smsAccessKey}")
+	@Value("${naver-cloud-sms.accesskey}")
 	private String accessKey;
 
-	@Value("${naver-cloud-sms.smsSecretKey}")
+	@Value("${naver-cloud-sms.secretkey}")
 	private String secretKey;
 
-	@Value("${naver-cloud-sms.smsServiceId}")
+	@Value("${naver-cloud-sms.serviceid}")
 	private String serviceId;
 
-	@Value("${naver-cloud-sms.smsSenderPhone}")
-	private String phone;
+	@Value("${naver-cloud-sms.senderphone}")
+	private String phoneNumber;
 
 
 	public String createSmsKey() {
@@ -95,7 +95,7 @@ public class SmsService {
 	public SmsResponseDto sendSms(MessageRequestDto messageRequestDto) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException,
 		UnsupportedEncodingException {
 		String time = Long.toString(System.currentTimeMillis());
-
+		String smsConfirmNum = createSmsKey(); // 인증번호 생성
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("x-ncp-apigw-timestamp", time);
@@ -109,7 +109,7 @@ public class SmsService {
 		                                     .type("SMS")
 		                                     .contentType("COMM")
 		                                     .countryCode("82")
-		                                     .from(phone)
+		                                     .from(phoneNumber)
 		                                     .content("[TonnyBunny] 인증번호 [" + smsConfirmNum + "]를 입력해주세요.")
 		                                     .messages(messages)
 		                                     .build();
@@ -124,9 +124,24 @@ public class SmsService {
 		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 		//restTemplate로 post 요청 보내고 오류가 없으면 202코드 반환
 		SmsResponseDto smsResponseDto = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + serviceId + "/messages"), httpBody, SmsResponseDto.class);
-		SmsResponseDto responseDto = new SmsResponseDto(smsConfirmNum);
 		redisUtil.setDataExpire(smsConfirmNum, messageRequestDto.getTo(), 60 * 3L); // 유효시간 3분
 		return smsResponseDto;
+	}
+
+
+	/**
+	 * 메세지 실제로 보내면 돈 드니까, Redis에 저장까지만 하는 로직
+	 * 실제로는 프론트단에 data로 코드를 넘겨주지는 않음
+	 * 테스트단이기 때문에 data에 만들어진 코드를 넘겨줌
+	 *
+	 * @param messageRequestDto
+	 * @return
+	 */
+	public String smsTest(MessageRequestDto messageRequestDto) {
+		String smsConfirmNum = createSmsKey();
+		redisUtil.setDataExpire(smsConfirmNum, messageRequestDto.getTo(), 60 * 10L);
+		return smsConfirmNum;
+
 	}
 
 }

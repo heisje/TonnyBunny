@@ -57,7 +57,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     //spring email
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.0'
+
+    // sms
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 
 }
 

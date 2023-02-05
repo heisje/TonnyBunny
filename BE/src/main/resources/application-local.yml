@@ -25,3 +25,10 @@ spring:
   jpa:
     show-sql: false
     hibernate.ddl-auto: ${jpa.ddl.option}
+  # Redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+
+

@@ -4,7 +4,9 @@ package com.tonnybunny.domain.user.controller;
 import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.*;
+import com.tonnybunny.domain.user.entity.HelperInfoEntity;
+import com.tonnybunny.domain.user.entity.HistoryEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.EmailService;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.SmsService;
@@ -87,47 +89,62 @@ public class UserController {
 	}
 
 
+	/**
+	 * Request : "to" 유의(phoneNumber로 하니 에러)
+	 * 사용자의 번호를 입력받아서 해당 번호로 랜덤으로 생성된 인증코드 전송
+	 * 해당 코드 Redis에 저장. 저장기한 3분
+	 *
+	 * @param messageRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/send/authcode")
 	@ApiOperation(value = "입력한 휴대폰 번호에 인증코드를 발송합니다")
 	public ResponseEntity<ResultDto<Boolean>> sendAuthCode(@RequestBody MessageRequestDto messageRequestDto) throws Exception {
-		/**
-		 * 프론트에서 phoneNumber JSON으로 보내줘야 합니다
-		 * service에서 인증코드 전송 성공 여부를 반환받습니다
-		 * userService.sendAuthCode
-		 */
+
 		smsService.sendSms(messageRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-
 	}
 
 
-	@PostMapping("/send/authcode/email")
-	@ApiOperation(value = "입력한 이메일에 인증코드를 발송합니다")
-	public ResponseEntity<ResultDto<String>> sendAuthCodeEmail(@RequestBody EmailRequestDto emailRequestDto) throws Exception {
-		String email = emailRequestDto.getEmail();
-		System.out.println("email = " + email);
-		String authenticCode = emailService.sendSimpleMessage(email);
-		System.out.println("authenticCode = " + authenticCode);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(authenticCode));
+	@PostMapping("/send/authcode/test")
+	@ApiOperation(value = "입력한 휴대폰 번호에 인증코드를 발송합니다(테스트)")
+	public ResponseEntity<ResultDto<String>> sendAuthCodeTest(@RequestBody MessageRequestDto messageRequestDto) {
 
+		String code = smsService.smsTest(messageRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(code));
 	}
 
+	// 이메일 전송 오류 해결해야 해서, 일단 주석처리
+	//	@PostMapping("/send/authcode/email")
+	//	@ApiOperation(value = "입력한 이메일에 인증코드를 발송합니다")
+	//	public ResponseEntity<ResultDto<String>> sendAuthCodeEmail(@RequestBody EmailRequestDto emailRequestDto) throws Exception {
+	//		String email = emailRequestDto.getEmail();
+	//		System.out.println("email = " + email);
+	//		String authenticCode = emailService.sendSimpleMessage(email);
+	//		System.out.println("authenticCode = " + authenticCode);
+	//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(authenticCode));
+	//
+	//	}
 
+
+	/**
+	 * 프론트에서 전송받은 인증코드와 휴대전화를 확인
+	 * 해당하는 인증코드가 없거나 만료되었을 경우 에러
+	 * value와 번호가 일치할 경우 true
+	 *
+	 * @param authCodeRequestDto
+	 * @return
+	 */
 	@PostMapping("/check/authcode")
 	@ApiOperation(value = "인증코드를 확인합니다")
-	public ResponseEntity<ResultDto<Boolean>> checkAuthCode(@RequestBody String authCode) {
-		/**
-		 * 프론트에서 authCode를 JSON으로 보내줘야 합니다
-		 * service에서 인증코드 일치 여부를 반환받습니다
-		 * userService.checkAuthCode
-		 */
-		Boolean isSuccess = userService.checkAuthCode(authCode);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+	public ResponseEntity<ResultDto<Boolean>> checkAuthCode(@RequestBody AuthCodeRequestDto authCodeRequestDto) {
+
+		userService.checkAuthCode(authCodeRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+
 	}
 
 	//	@PostMapping("/login")
@@ -154,15 +171,57 @@ public class UserController {
 	//	}
 
 
-	@PostMapping("/login/find")
-	@ApiOperation(value = "아이디/비밀번호 찾기를 진행합니다")
-	public ResponseEntity<ResultDto<AccountResponseDto>> findAccountInfo(@RequestBody AccountRequestDto accountRequestDto) {
+	/**
+	 * 두 과정이 요구값과 로직이 다르므로 별도로 구분
+	 * 아이디 찾기의 경우 찾는 Email을 반환
+	 *
+	 * @param accountRequestDto
+	 * @return
+	 */
+	@PostMapping("/login/find/email")
+	@ApiOperation(value = "아이디 찾기를 진행합니다")
+	public ResponseEntity<ResultDto<String>> findEmailByPhoneNumber(@RequestBody AccountRequestDto accountRequestDto) {
 		/**
 		 * 프론트에서는 accountResponseDto에서 필요한 정보를 꺼내 쓴다 (Email or Boolean)
 		 */
-		AccountResponseDto accountResponseDto = userService.findAccouontInfo(accountRequestDto);
+		String email = userService.findEmailByPhoneNumber(accountRequestDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(accountResponseDto));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(email));
+	}
+
+
+	/**
+	 * 비밀번호 찾기의 경우 인증되었을 경우, 새 비밀번호 설정 페이지로 이동
+	 * 해당 로직의 경우 리턴값을 Boolean으로 설정
+	 *
+	 * @param accountRequestDto
+	 * @return
+	 */
+	@PostMapping("/login/find/password")
+	@ApiOperation(value = "비밀번호 찾기를 진행합니다")
+	public ResponseEntity<ResultDto<Long>> findPasswordByPhoneNumber(@RequestBody AccountRequestDto accountRequestDto) {
+
+		Long userSeq = userService.findPasswordByPhoneNumber(accountRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userSeq));
+	}
+
+
+	/**
+	 * 비밀번호를 알려준다는 것은 불가능하므로
+	 * 비밀번호를 재설정하는 로직으로
+	 * 유저정보에 있는 비밀번호변경을 재활용
+	 *
+	 * @param accountRequestDto
+	 * @return
+	 */
+	@PostMapping("/login/find/password/{userSeq}")
+	@ApiOperation(value = "비밀번호를 재설정 합니다.")
+	public ResponseEntity<ResultDto<Long>> resetPassword(@PathVariable("userSeq") Long userSeq, @RequestBody AccountRequestDto accountRequestDto) {
+
+		userService.resetPassword(userSeq, accountRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userSeq));
 	}
 
 	// -------------------------------------- 마이페이지 ---------------------------------------------
@@ -209,16 +268,18 @@ public class UserController {
 
 	/**
 	 * 사용자의 시퀀스값을 제공하면
-	 * 사용자가 팔로우한 유저들의 시퀀스값을 리스트로 반환함
+	 * 사용자가 팔로우한 유저들의 RequestDto를 리스트로 반환함
 	 */
 	@GetMapping("/mypage/{userSeq}/follow")
 	@ApiOperation(value = "즐겨찾기 목록을 조회합니다.")
-	public ResponseEntity<ResultDto<List<FollowResponseDto>>> getFollowList(@PathVariable(
+	public ResponseEntity<ResultDto<List<UserResponseDto>>> getFollowList(@PathVariable(
 		"userSeq") Long userSeq) {
 
-		List<FollowEntity> followEntityList = userService.getFollowList(userSeq);
-		List<FollowResponseDto> followResponseDtoList = FollowResponseDto.fromEntityList(followEntityList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followResponseDtoList));
+		List<Long> followedUserList = userService.getFollowList(userSeq);
+		List<UserEntity> userEntityList = userService.getUserInfoList(followedUserList);
+		List<UserResponseDto> userResponseDtoList = UserResponseDto.fromEntityList(userEntityList);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDtoList));
 	}
 
 
@@ -248,15 +309,17 @@ public class UserController {
 
 	/**
 	 * 사용자의 시퀀스값을 제공하면
-	 * 사용자가 차단한 유저들의 시퀀스값을 리스트로 반환함
+	 * 사용자가 차단한 유저들의 RequestDto를 리스트로 반환함
 	 */
 	@GetMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "차단 목록을 조회합니다.")
-	public ResponseEntity<ResultDto<List<BlockResponseDto>>> getBlockList(@PathVariable("userSeq") Long userSeq) {
+	public ResponseEntity<ResultDto<List<UserResponseDto>>> getBlockList(@PathVariable("userSeq") Long userSeq) {
 
-		List<BlockEntity> blockList = userService.getBlockList(userSeq);
-		List<BlockResponseDto> blockResponseDtoList = BlockResponseDto.fromEntityList(blockList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockResponseDtoList));
+		List<Long> blockedUserList = userService.getBlockList(userSeq);
+		List<UserEntity> userEntityList = userService.getUserInfoList(blockedUserList);
+		List<UserResponseDto> userResponseDtoList = UserResponseDto.fromEntityList(userEntityList);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDtoList));
 	}
 
 
