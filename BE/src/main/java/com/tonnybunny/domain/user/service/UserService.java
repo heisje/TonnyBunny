@@ -13,10 +13,7 @@ import com.tonnybunny.domain.user.entity.BlockEntity;
 import com.tonnybunny.domain.user.entity.FollowEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import com.tonnybunny.domain.user.repository.BlockRepository;
-import com.tonnybunny.domain.user.repository.FollowRepository;
-import com.tonnybunny.domain.user.repository.HistoryRepository;
-import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +41,7 @@ public class UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final FollowRepository followRepository;
 	private final BlockRepository blockRepository;
+	private final HelperInfoRepository helperInfoRepository;
 	private final RedisUtill redisUtil;
 
 
@@ -53,7 +51,7 @@ public class UserService {
 
 
 	@Transactional
-	public Boolean signup(UserRequestDto userRequestDto) {
+	public Long signup(UserRequestDto userRequestDto) {
 
 		/**
 		 * 기존에 요청으로 확인했던 부분들을 여기서 재확인해야 할지에 대한 고민
@@ -87,7 +85,7 @@ public class UserService {
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
 		// 반환값 생성 및 리턴
-		return true;
+		return user.getSeq();
 	}
 
 
@@ -101,7 +99,7 @@ public class UserService {
 			userRepository
 				.findByEmail(userRequestDto.getEmail())
 				.orElseThrow(() -> new CustomException(LOGIN_BAD_REQUEST)
-				);
+				            );
 		AuthEntity auth =
 			authRepository
 				.findByUserSeq(user.getSeq())
@@ -137,7 +135,7 @@ public class UserService {
 		// 위에서 유효성 검사 및 보낸 사용자를 확인했으므로 새로운 Access Token 과 Refresh Token을 발급한다.
 		AuthEntity auth = authRepository.findByUserSeq(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_TOKEN)
-		);
+		                                                                   );
 		if (!auth.getRefreshToken().equals(refreshToken)) { // DB에 있는 정보와 한번 더 비교하여 오류처리
 			System.out.println("refreshToken = " + refreshToken + ", DBToken = " + auth.getRefreshToken());
 			throw new CustomException(REFRESH_TOKEN_ERROR);
@@ -222,7 +220,7 @@ public class UserService {
 		}
 		UserEntity user = userRepository.findByEmail(accountRequestDto.getEmail()).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                                                      );
 
 		return user.getEmail();
 	}
@@ -236,7 +234,7 @@ public class UserService {
 		String phoneNumber = accountRequestDto.getPhoneNumber();
 		UserEntity user = userRepository.findByEmail(email).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                               );
 		if (!user.equals(userRepository.findByPhoneNumber(phoneNumber))) {
 			throw new CustomException(DATA_BAD_REQUEST);
 		}
@@ -260,7 +258,7 @@ public class UserService {
 		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		user.updatePassword(passwordEncoder.encode(accountRequestDto.getPassword()));
 		userRepository.save(user);
 
@@ -298,7 +296,7 @@ public class UserService {
 		for (Long seq : userSeqList) {
 			UserEntity user = userRepository.findById(seq).orElseThrow(
 				() -> new CustomException(NOT_FOUND_USER)
-			);
+			                                                          );
 			result.add(user);
 		}
 
@@ -318,7 +316,7 @@ public class UserService {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 
 		user.updateUserInfo(userRequestDto.getProfileImagePath(), userRequestDto.getNickName());
 		userRepository.save(user);
@@ -339,7 +337,7 @@ public class UserService {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		if (!userRequestDto.getNewPassword().equals(userRequestDto.getCheckPassword())) {
 			System.out.println("확인용 비밀번호가 일치하지 않습니다.");
 			throw new CustomException(DATA_BAD_REQUEST);
@@ -369,7 +367,7 @@ public class UserService {
 	public Boolean deleteUserInfo(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		user.deleteUserInfo();
 		userRepository.save(user);
 
@@ -390,9 +388,8 @@ public class UserService {
 
 	@Transactional
 	public List<Long> getFollowList(Long userSeq) {
-		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+		UserEntity user = userRepository.findById(userSeq)
+		                                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 		List<Long> followedUserList = new ArrayList<>();
 		List<FollowEntity> followList = user.getFollowUserList();
 		for (FollowEntity followEntity : followList) {
@@ -417,7 +414,7 @@ public class UserService {
 		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		FollowEntity follow = new FollowEntity(user, followedUserSeq);
 		followRepository.save(follow);
 
@@ -440,7 +437,7 @@ public class UserService {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		followRepository.deleteFollowBySeq(user, followSeq);
 		return true;
 	}
@@ -458,7 +455,7 @@ public class UserService {
 	public List<Long> getBlockList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 
 		List<Long> blockedUserList = new ArrayList<>();
 		List<BlockEntity> blockList = user.getBlockUserList();
@@ -485,7 +482,7 @@ public class UserService {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		BlockEntity block = new BlockEntity(user, blockSeq);
 		blockRepository.save(block);
 
@@ -508,7 +505,7 @@ public class UserService {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                              );
 		blockRepository.deleteBlockBySeq(user, blockSeq);
 
 		return true;
@@ -531,7 +528,7 @@ public class UserService {
 
 		UserEntity reportedUser = userRepository.findById(reportSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
-		);
+		                                                                        );
 
 		reportedUser.setReportCount(reportedUser.getReportCount() + 1);
 		userRepository.save(reportedUser);

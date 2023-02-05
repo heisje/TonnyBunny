@@ -1,10 +1,11 @@
 package com.tonnybunny.domain.user.dto;
 
 
-import com.tonnybunny.domain.user.entity.CertificateEntity;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
-import com.tonnybunny.domain.user.entity.PossibleLanguageEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,15 @@ import java.util.List;
  * HelperInfoImageList      : 헬퍼 정보 이미지 경로가 담긴 리스트
  */
 @Data
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class HelperInfoRequestDto {
 
 	/* 헬퍼 유저 회원가입 */
-	private List<PossibleLanguageEntity> possibleLanguageList = new ArrayList<>();
+	private List<String> possibleLanguageList = new ArrayList<>();
 
-	private List<CertificateEntity> certificateList = new ArrayList<>();
+	private List<CertificateRequestDto> certificateList = new ArrayList<>();
 
 	/* 헬퍼 유저 회원정보 수정 */
 	private String oneLineIntroduction = "";
