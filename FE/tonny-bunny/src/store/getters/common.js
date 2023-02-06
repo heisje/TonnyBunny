@@ -16,6 +16,10 @@ export default {
     },
 
     /* Code */
+    getAllCode(state) {
+        return state.common.allCode;
+    },
+
     getUserCode(state) {
         return state.common.userCode;
     },

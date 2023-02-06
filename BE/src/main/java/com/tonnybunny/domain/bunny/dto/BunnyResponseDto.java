@@ -3,14 +3,14 @@ package com.tonnybunny.domain.bunny.dto;
 
 import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.Data;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -36,7 +36,7 @@ import java.util.List;
 public class BunnyResponseDto {
 
 	private Long seq;
-	private Long clientSeq;
+	private Map<String, String> client = new HashMap<>();
 	private Long helperSeq;
 	private String title;
 	private String content;
@@ -58,15 +58,7 @@ public class BunnyResponseDto {
 	public static BunnyResponseDto fromEntity(BunnyEntity bunnyNoti) {
 
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
-
-		modelMapper.typeMap(BunnyEntity.class, BunnyResponseDto.class).addMappings(
-			mapper -> {
-				// 고객 Entity -> 고객 Seq
-				mapper.using((Converter<UserEntity, Long>) test -> test.getSource().getSeq())
-					.map(BunnyEntity::getUser, BunnyResponseDto::setClientSeq);
-			}
-		);
-		// 값 매핑
+		
 		BunnyResponseDto bunnyNotiResponseDto = modelMapper.map(bunnyNoti, BunnyResponseDto.class);
 
 		return bunnyNotiResponseDto;

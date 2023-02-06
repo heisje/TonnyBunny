@@ -118,9 +118,9 @@ public class UserController {
 	public ResponseEntity<ResultDto<Boolean>> sendAuthCode(@RequestBody MessageRequestDto messageRequestDto) {
 
 		//		smsService.sendSms(messageRequestDto); 테스트 중에는 주석처리
-		smsService.smsTest(messageRequestDto);
+		String code = smsService.smsTest(messageRequestDto);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(code));
 	}
 
 
@@ -157,7 +157,7 @@ public class UserController {
 	@PostMapping("/check/authcode")
 	@ApiOperation(value = "인증코드를 확인합니다")
 	public ResponseEntity<ResultDto<Boolean>> checkAuthCode(@RequestBody AuthCodeRequestDto authCodeRequestDto) {
-
+		System.out.println("authCodeRequestDto = " + authCodeRequestDto);
 		userService.checkAuthCode(authCodeRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 

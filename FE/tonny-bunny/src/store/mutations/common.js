@@ -40,4 +40,8 @@ export default {
     SET_POINT_LOG_STATE_CODE(state, pointLogStateCode) {
         state.common.pointLogStateCode = pointLogStateCode;
     },
+
+    SET_ALL_CODE(state, payload) {
+        state.common.allCode = payload;
+    },
 };
