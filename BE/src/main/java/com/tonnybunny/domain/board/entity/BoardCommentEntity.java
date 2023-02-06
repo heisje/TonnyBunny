@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor // @Builder와 같이 씀
 @Builder
+@Table(name = "board_comment_table")
 public class BoardCommentEntity extends CommonEntity {
 
 	@Id

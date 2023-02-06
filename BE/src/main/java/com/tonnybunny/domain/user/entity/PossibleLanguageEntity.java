@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "possible_language_table")
 public class PossibleLanguageEntity extends CommonEntity {
 
 	@Id

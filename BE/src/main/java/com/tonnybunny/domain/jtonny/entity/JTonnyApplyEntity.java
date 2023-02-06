@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "jtonny_apply_table")
 public class JTonnyApplyEntity {
 
 	@Id

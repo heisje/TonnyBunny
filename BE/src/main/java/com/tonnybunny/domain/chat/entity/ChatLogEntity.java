@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(name = "chat_log_table")
 public class ChatLogEntity extends CommonEntity {
 
 	@Id

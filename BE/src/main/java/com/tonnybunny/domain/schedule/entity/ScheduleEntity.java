@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "schedule_table")
 public class ScheduleEntity extends CommonEntity {
 
 	@Id

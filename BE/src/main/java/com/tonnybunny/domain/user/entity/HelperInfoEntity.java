@@ -17,6 +17,7 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Table(name = "helper_info_table")
 public class HelperInfoEntity extends CommonEntity {
 
 	@Id

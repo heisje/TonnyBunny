@@ -115,7 +115,7 @@ public class UserController {
 	 */
 	@PostMapping("/send/authcode")
 	@ApiOperation(value = "입력한 휴대폰 번호에 인증코드를 발송합니다")
-	public ResponseEntity<ResultDto<Boolean>> sendAuthCode(@RequestBody MessageRequestDto messageRequestDto) {
+	public ResponseEntity<ResultDto<String>> sendAuthCode(@RequestBody MessageRequestDto messageRequestDto) {
 
 		//		smsService.sendSms(messageRequestDto); 테스트 중에는 주석처리
 		String code = smsService.smsTest(messageRequestDto);

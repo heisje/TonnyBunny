@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor // @Builder와 같이 씀
 @Builder
+@Table(name = "board_table")
 public class BoardEntity extends CommonEntity {
 
 	@Id

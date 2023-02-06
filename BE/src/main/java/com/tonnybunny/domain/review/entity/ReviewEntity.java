@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "review_table")
 public class ReviewEntity extends CommonEntity {
 
 	@Id

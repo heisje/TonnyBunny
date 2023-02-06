@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @DiscriminatorColumn(name = "task_code")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "history_table")
 public class HistoryEntity extends CommonEntity {
 
 	@Id
