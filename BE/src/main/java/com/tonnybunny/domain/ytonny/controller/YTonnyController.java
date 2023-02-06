@@ -147,7 +147,8 @@ public class YTonnyController {
 
 		// entity -> dto
 		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
-		
+		yTonnyResponseDto.setEndLangCode(yTonnyResponseDto.getEndLangCode());
+
 		// 해당 공고의 creator 와 조회하려는 user 가 같은 사람인가?
 		if (userSeq == yTonnyEntity.getClient().getSeq()) yTonnyResponseDto.setIsCreator(true);
 
