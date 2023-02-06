@@ -9,30 +9,30 @@
             <div class="d-flex justify-content-between">
                 <SquareTag text="번역의뢰" sub></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode[0].value"
+                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[0].value"
                     success
                 ></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode[1].value"
+                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[1].value"
                     info
                 ></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode[2].value"
+                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[2].value"
                     white
                 ></SquareTag>
             </div>
-            <TitleText type="h2" :title="getBunnyDetail.title"></TitleText>
+            <TitleText type="h2" :title="getBunnyDetail?.title"></TitleText>
 
             <!-- 이미지 추후 삽입 -->
-            <div>getBunnyDetail.clientSeq로 axios 요청을 보내서 닉네임과 이미지패스를 받기</div>
+            <div>getBunnyDetail?.clientSeq로 axios 요청을 보내서 닉네임과 이미지패스를 받기</div>
             <br /><br />
             <div>
                 통역언어<br />
                 <SquareTag
                     :text="`${getKeyByValue(
                         getLangCode,
-                        getBunnyDetail.startLangCode
-                    )} <-> ${getKeyByValue(getLangCode, getBunnyDetail.endLangCode)}`"
+                        getBunnyDetail?.startLangCode
+                    )} ↔ ${getKeyByValue(getLangCode, getBunnyDetail?.endLangCode)}`"
                     sub
                 ></SquareTag>
             </div>
@@ -42,8 +42,8 @@
             <div>
                 마감기한<br />
                 <h3>
-                    {{ getBunnyDetail.startDate.substr(0, 10) }} ~
-                    {{ getBunnyDetail.endDate.substr(0, 10) }}
+                    {{ getBunnyDetail?.startDate.substr(0, 10) }} ~
+                    {{ getBunnyDetail?.endDate.substr(0, 10) }}
                 </h3>
             </div>
 
@@ -51,14 +51,14 @@
 
             <div>
                 예상 금액<br />
-                <h3>{{ getBunnyDetail.estimatePrice }} 캐럿</h3>
+                <h3>{{ getBunnyDetail?.estimatePrice }} 캐럿</h3>
             </div>
 
             <br /><br />
             <div>
                 카테고리<br />
                 <SquareTag
-                    :text="`${getKeyByValue(getBunnySituCode, getBunnyDetail.bunnySituCode)}`"
+                    :text="`${getKeyByValue(getBunnySituCode, getBunnyDetail?.bunnySituCode)}`"
                     sub
                 ></SquareTag>
             </div>
@@ -67,15 +67,15 @@
 
             <div>
                 내용<br />
-                <h3>{{ getBunnyDetail.content }}</h3>
+                <h3>{{ getBunnyDetail?.content }}</h3>
             </div>
 
             <br /><br />
 
             <div class="w-100">
                 사진<br />
-                <h3>{{ getBunnyDetail.bunnyImageList }}</h3>
-                <div v-for="(image, index) in getBunnyDetail.bunnyImageList" :key="index">
+                <h3>{{ getBunnyDetail?.bunnyImageList }}</h3>
+                <div v-for="(image, index) in getBunnyDetail?.bunnyImageList" :key="index">
                     image{{ index }}
                 </div>
             </div>
@@ -89,14 +89,14 @@
                             type="h2"
                             top="0"
                             bottom="0"
-                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail.bunnyApplyList.length})`"
+                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"
                         ></TitleText>
                     </div>
                     <div>
                         <router-link
                             :to="{
                                 name: 'NBunnyHelperListPage',
-                                params: { id: getBunnyDetail.seq },
+                                params: { id: getBunnyDetail?.seq },
                             }"
                             style="color: var(--sub-text)"
                             >더보기</router-link
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div
-                    v-for="(apply, index) in getBunnyDetail.bunnyApplyList"
+                    v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                     :key="index"
                     class="w-100"
                 >
@@ -128,16 +128,16 @@
             </div>
             <br /><br />
             {{ $store.state.account.userInfo }}
-            <div v-if="$store.state.account.userInfo.seq == getBunnyDetail.clientSeq">
+            <div v-if="$store.state.account.userInfo.seq == getBunnyDetail?.clientSeq">
                 <medium-btn
                     style="width: 100%"
                     text="의뢰 취소 하기"
                     color="active"
-                    @click.prevent="deleteBunny(getBunnyDetail.seq)"
+                    @click.prevent="deleteBunny(getBunnyDetail?.seq)"
                 />
             </div>
             <div v-else-if="$store.state.account.userInfo.userCode === `helper`">
-                <div v-if="isApplyed(getBunnyDetail.bunnyApplyList)">
+                <div v-if="isApplyed(getBunnyDetail?.bunnyApplyList)">
                     <medium-btn
                         style="width: 100%"
                         text="신청 취소 하기"
@@ -165,9 +165,12 @@
             btnFontColor2="white"
             @clickBtn2="clickBtn2"
         >
-            <template #content> 의뢰 신청이 취소되었습니다! </template>
+            <template #content> 의뢰가 취소되었습니다! </template>
         </AlarmModal>
     </div>
+    {{ getLangCode }}
+    {{ getBunnySituCode }}
+    {{ getBunnyStateCode }}
 </template>
 
 <script>
@@ -238,20 +241,21 @@ export default {
             );
         },
         deleteBunny(bunnySeq) {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$store.dispatch("removeBunny", bunnySeq);
         },
-        deleteApply() {
+        async deleteApply() {
             const payload = {
-                bunnySeq: this.getBunnyDetail.seq,
+                bunnySeq: this.getBunnyDetail?.seq,
                 bunnyApplySeq: 0,
             };
-            this.getBunnyDetail.bunnyApplyList.forEach((apply) => {
+            this.getBunnyDetail?.bunnyApplyList.forEach((apply) => {
                 if (apply.userSeq == this.$store.state.account.userInfo.seq) {
                     payload.bunnyApplySeq = apply.seq;
                 }
             });
-            this.$store.dispatch("removeBunnyApply", payload);
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            await this.$store.dispatch("removeBunnyApply", payload);
+            this.$store.dispatch("getBunnyDetail", this.$route.params.id);
         },
         goToBunnyApplyPage() {
             this.$router.push({
@@ -260,7 +264,7 @@ export default {
         },
         clickBtn2() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
-            this.$store.dispatch("getBunnyDetail", this.$route.params.id);
+            this.$router.push({ name: "HomePage" });
         },
     },
 };

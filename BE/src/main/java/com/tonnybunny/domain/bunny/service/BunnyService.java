@@ -7,7 +7,9 @@ import com.tonnybunny.domain.bunny.dto.BunnyRequestDto;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyImageEntity;
-import com.tonnybunny.domain.bunny.repository.*;
+import com.tonnybunny.domain.bunny.repository.BunnyApplyRepository;
+import com.tonnybunny.domain.bunny.repository.BunnyImageRepository;
+import com.tonnybunny.domain.bunny.repository.BunnyRepository;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
@@ -15,6 +17,7 @@ import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,8 +29,6 @@ public class BunnyService {
 	private final BunnyRepository bunnyRepository;
 	private final BunnyApplyRepository bunnyApplyRepository;
 	private final BunnyImageRepository bunnyImageRepository;
-	private final BunnyQuotationRepository bunnyQuotationRepository;
-	private final BunnyQuotationImageRepository bunnyQuotationImageRepository;
 
 	// --------------------------------------- 번역 공고 ---------------------------------------
 
@@ -93,7 +94,7 @@ public class BunnyService {
 	 * @return : 조회된 공고의 Entity
 	 */
 	public BunnyEntity getBunny(Long bunnySeq) {
-		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		BunnyEntity bunny = bunnyRepository.findBySeqAndIsDeleted(bunnySeq, "F").orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		return bunny;
 	}
 
@@ -107,20 +108,31 @@ public class BunnyService {
 	 */
 	public List<BunnyEntity> getBunnyListByFilter(String lang, String category) {
 
-		List<BunnyEntity> bunnyList;
+		List<BunnyEntity> bunnyList = new ArrayList<>();
 
 		if (lang.isEmpty() && category.isEmpty()) {
 			// 필터하지 않고 전체 조회
-			bunnyList = bunnyRepository.findAllByOrderByCreatedAtDesc();
+			bunnyList = bunnyRepository.findByIsDeletedOrderByCreatedAtDesc("F");
 		} else if (category.isEmpty()) {
 			// 언어만 필터하여 조회
-			bunnyList = bunnyRepository.findByStartLangCodeOrEndLangCodeOrderByCreatedAtDesc(lang, lang);
+			bunnyList = bunnyRepository.findByStartLangCodeAndIsDeletedOrEndLangCodeAndIsDeletedOrderByCreatedAtDesc(lang, "F", lang, "F");
 		} else if (lang.isEmpty()) {
 			// 카테고리만 필터하여 조회
-			bunnyList = bunnyRepository.findByBunnySituCodeOrderByCreatedAtDesc(category);
+			List<BunnyEntity> tempBunnyList = bunnyRepository.findByBunnySituCodeOrderByCreatedAtDesc(category);
+			for (BunnyEntity bunny : tempBunnyList) {
+				if (bunny.getIsDeleted().equals("F")) {
+					bunnyList.add(bunny);
+				}
+			}
+			System.out.println("bunnyList = " + bunnyList);
 		} else {
 			// 둘 다 필터하여 조회
-			bunnyList = bunnyRepository.findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(lang, category, lang, category);
+			List<BunnyEntity> tempBunnyList = bunnyRepository.findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(lang, category, lang, category);
+			for (BunnyEntity bunny : tempBunnyList) {
+				if (bunny.getIsDeleted().equals("F")) {
+					bunnyList.add(bunny);
+				}
+			}
 		}
 
 		return bunnyList;
