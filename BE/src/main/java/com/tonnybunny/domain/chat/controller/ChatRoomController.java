@@ -7,6 +7,7 @@ import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class ChatRoomController {
 
 	private final ChatRoomService chatRoomService;
@@ -45,6 +47,13 @@ public class ChatRoomController {
 			chatRoomResponseDtoList.add(chatRoomResponseDto);
 		}
 		return ResponseEntity.ok(ResultDto.of(chatRoomResponseDtoList));
+	}
+
+
+	@PostMapping("/chat/room/{userSeq1}/{userSeq2}")
+	public ResponseEntity<ResultDto<String>> createRoom(@PathVariable("userSeq1") Long userSeq1, @PathVariable("userSeq2") Long userSeq2) {
+		String chatRoomSeq = chatRoomService.createChatRoomSeq(userSeq1, userSeq2);
+		return ResponseEntity.ok(ResultDto.of(chatRoomSeq));
 	}
 
 }

@@ -2,7 +2,10 @@ package com.tonnybunny.domain.chat.dto;
 
 
 import com.tonnybunny.domain.chat.entity.ChatLogEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +18,9 @@ import java.time.LocalDateTime;
  * dataTypeCode : 메세지/파일 공통코드
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ChatLogDto {
 
 	private String roomSeq;
