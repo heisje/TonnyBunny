@@ -12,7 +12,11 @@ spring:
   output:
     ansi:
       enabled: always
-  
+
+  # Redis
+  redis:
+    host: ${spring.redis.host}
+    port: ${spring.redis.port}
   
   # swagger \uAD00\uB828 \uC124\uC815
   mvc:
