@@ -197,7 +197,11 @@ public class UserService {
 		String authCode = authCodeRequestDto.getAuthCode();
 		String phoneNumber = authCodeRequestDto.getPhoneNumber();
 		String value = redisUtil.getData(authCode);
-		if (value == null | value != phoneNumber) {
+		System.out.println("value = " + value);
+		if (value.equals(null)) {
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+		if (!value.equals(phoneNumber)) {
 			throw new CustomException(DATA_BAD_REQUEST);
 		}
 		redisUtil.deleteData(authCode);
