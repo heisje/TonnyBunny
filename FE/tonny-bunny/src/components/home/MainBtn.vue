@@ -44,8 +44,8 @@ export default {
     }
 }
 .mainBtn {
-    width: 200px;
-    height: 200px;
+    width: 170px;
+    height: 170px;
 
     display: flex;
     justify-content: center;
@@ -54,19 +54,19 @@ export default {
 
     background-color: var(--light-color);
     box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.05);
-    border-radius: 100%;
+    // border-radius: 8px;
 
     transition: all 0.13s;
 
     .btnIcon {
         &::v-deep span {
-            font-size: 5rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
         }
     }
 
     .btnText {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 600;
     }
 

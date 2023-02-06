@@ -110,7 +110,8 @@
                                 @click="toggleLoginModal"></medium-btn>
                             <medium-btn
                                 text="회원가입"
-                                color="main"
+                                color="carrot"
+                                font="white"
                                 @click="clickSignUpBtn"></medium-btn>
                         </div>
                     </div>
@@ -260,7 +261,7 @@
                                         <medium-btn
                                             class="mt-2 w-100"
                                             text="회원가입"
-                                            color="main"
+                                            color="carrot"
                                             @click="clickSignUpBtn"></medium-btn>
                                     </div>
                                 </ul>
@@ -340,7 +341,7 @@ export default {
     font-variation-settings: "FILL" 0, "wght" 300;
     margin: 0;
     padding: 0;
-    transition: all 0.15s;
+    transition: all 0.13s;
 
     &:hover {
         color: var(--primary-color);
