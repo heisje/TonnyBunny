@@ -341,46 +341,46 @@ export default {
                 return;
             }
 
-            if (!this.isCheckNickname) {
-                this.noticeNick = "닉네임 중복확인을 해주세요.";
-                this.exception = "닉네임 중복확인을 해주세요.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-                return;
-            }
+            // if (!this.isCheckNickname) {
+            //     this.noticeNick = "닉네임 중복확인을 해주세요.";
+            //     this.exception = "닉네임 중복확인을 해주세요.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            //     return;
+            // }
 
-            if (!this.isSendAuthCode) {
-                this.noticeAuth = "인증코드 전송이 완료되지 않았습니다.";
-                this.exception = "인증코드 전송이 완료되지 않았습니다.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-                return;
-            }
+            // if (!this.isSendAuthCode) {
+            //     this.noticeAuth = "인증코드 전송이 완료되지 않았습니다.";
+            //     this.exception = "인증코드 전송이 완료되지 않았습니다.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            //     return;
+            // }
 
-            if (!this.isCheckAuthCode) {
-                this.noticeAuth2 = "인증이 완료되지 않았습니다.";
-                this.exception = "인증이 완료되지 않았습니다.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-                return;
-            }
+            // if (!this.isCheckAuthCode) {
+            //     this.noticeAuth2 = "인증이 완료되지 않았습니다.";
+            //     this.exception = "인증이 완료되지 않았습니다.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            //     return;
+            // }
 
-            // 약관동의
-            let checkTerms = true;
-            this.clientTerms.forEach((term) => {
-                if (!term.isAgree) {
-                    checkTerms = false;
-                }
-            });
+            // // 약관동의
+            // let checkTerms = true;
+            // this.clientTerms.forEach((term) => {
+            //     if (!term.isAgree) {
+            //         checkTerms = false;
+            //     }
+            // });
 
-            if (this.$route.params.select == "helper") {
-                this.helperTerms.forEach((term) => {
-                    if (!term.isAgree) {
-                        checkTerms = false;
-                    }
-                });
-            }
-            if (!checkTerms) {
-                this.exception = "약관에 동의하지 않았습니다.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-            }
+            // if (this.$route.params.select == "helper") {
+            //     this.helperTerms.forEach((term) => {
+            //         if (!term.isAgree) {
+            //             checkTerms = false;
+            //         }
+            //     });
+            // }
+            // if (!checkTerms) {
+            //     this.exception = "약관에 동의하지 않았습니다.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            // }
 
             // 모두 참일 때 폼 제출 가능
 
