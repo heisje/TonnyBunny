@@ -4,10 +4,6 @@ package com.tonnybunny.domain.user.dto;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 
 /**
  * userCode             : 일반유저, 헬퍼유저 구분하는 공통코드
@@ -29,30 +25,30 @@ public class UserRequestDto {
 	/* 일반 유저 회원가입 */
 	private String userCode;
 
-	@NotBlank(message = "이메일은 필수값입니다.")
-	@Email(message = "유효하지 않은 이메일 형식입니다.")
+	//	@NotBlank(message = "이메일은 필수값입니다.")
+	//	@Email(message = "유효하지 않은 이메일 형식입니다.")
 	private String email;
 
-	@NotBlank(message = "비밀번호는 필수값입니다.")
-	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}",
-		message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 16자의 비밀번호여야 합니다.")
+	//	@NotBlank(message = "비밀번호는 필수값입니다.")
+	//	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}",
+	//		message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 16자의 비밀번호여야 합니다.")
 	private String password;
 
-	@NotBlank(message = "비밀번호확인은 필수값입니다.")
-	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}",
-		message = "비밀번호는 영문 대소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 16자의 비밀번호여야 합니다.")
+	//	@NotBlank(message = "비밀번호확인은 필수값입니다.")
+	//	@Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}",
+	//		message = "비밀번호는 영문 대소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 16자의 비밀번호여야 합니다.")
 	private String checkPassword;
 
-	@NotBlank(message = "닉네임은 필수값입니다.")
-	@Pattern(regexp = "(?=.*[가-힣a-zA-Z0-9]).{2,16}",
-		message = "닉네임은 영문, 숫자, 한글만 사용이 가능합니다.")
+	//	@NotBlank(message = "닉네임은 필수값입니다.")
+	//	@Pattern(regexp = "(?=.*[가-힣a-zA-Z0-9]).{2,16}",
+	//		message = "닉네임은 영문, 숫자, 한글만 사용이 가능합니다.")
 	private String nickName;
-	@NotBlank(message = "핸드폰 번호는 필수값입니다.")
-	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력 가능합니다.")
+	//	@NotBlank(message = "핸드폰 번호는 필수값입니다.")
+	//	@Pattern(regexp = "[0-9]{10,11}", message = "10~11자리의 숫자만 입력 가능합니다.")
 	private String phoneNumber;
 
-	@NotBlank(message = "휴대전화 인증이 필요합니다.")
-	private String isAuthed; // 인증 여부를 확인하는 변수 (백에서도 인증 사실을 확인하기 위함)
+	//	@NotBlank(message = "휴대전화 인증이 필요합니다.")
+	//	private String isAuthed; // 인증 여부를 확인하는 변수 (백에서도 인증 사실을 확인하기 위함)
 
 	/* 일반 유저 회원정보 수정 */
 	private String profileImagePath = "default.png";
