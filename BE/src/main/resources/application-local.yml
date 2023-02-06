@@ -34,8 +34,8 @@ spring:
 
   # Redis
   redis:
-    host: 127.0.0.1
-    port: 6379
+    host: ${db.redis.host}
+    port: ${db.redis.port}
 
 
 
