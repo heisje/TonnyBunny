@@ -52,6 +52,7 @@ public class UserResponseDto {
 		                                                 .profileImagePath(user.getProfileImagePath())
 		                                                 .point(user.getPoint())
 		                                                 .userCode(user.getUserCode())
+		                                                 .helperInfoResponseDto(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
 		                                                 .build();
 		return userResponseDto;
 	}
