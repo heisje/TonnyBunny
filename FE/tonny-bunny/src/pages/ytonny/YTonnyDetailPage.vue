@@ -20,20 +20,32 @@
 						:title="yTonnyDetail.title"
 						top="10"
 						bottom="10"></title-text>
+					<div>{{ yTonnyDetail.createdAt }}</div>
 				</div>
 
-				<div class="metas mb-5">
+				<div class="metas mt-3 mb-5">
 					<div class="writers">
-						<img
-							:src="yTonnyDetail.client.profileImagePath"
-							width="40"
-							height="40"
-							class="me-3" />
-						<div>{{ yTonnyDetail.client.nickName }}</div>
+						<a>
+							<img
+								:src="yTonnyDetail.client.profileImagePath"
+								width="40"
+								height="40"
+								class="me-3" />
+						</a>
+
+						<a>
+							<div>{{ yTonnyDetail.client.nickName }}</div>
+						</a>
 					</div>
-					<div class="edits">
-						<div>{{ yTonnyDetail.createdAt }}</div>
-						<span class="material-symbols-outlined fs-4"> more_vert </span>
+					<div class="edits" v-if="yTonnyDetail.isCreator">
+						<div @click="toggleEditOpen">
+							<span class="material-symbols-outlined fs-4"> more_vert </span>
+						</div>
+						<div class="editPopOver" v-show="isEditOpen">
+							<div @click="updateFormOpen">예약 수정</div>
+							<div @click="removeYTonny">예약 삭제</div>
+							<div @click="applyListOpen">가격 제안 헬퍼 보기</div>
+						</div>
 					</div>
 				</div>
 
@@ -92,7 +104,7 @@
 					<medium-btn
 						class="w-100"
 						text="통역 헬퍼 신청하기"
-						@click="insertYTonnyApply"></medium-btn>
+						@click.prevent="insertYTonnyApply"></medium-btn>
 					<!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
 				</div>
 				<div v-else>
@@ -147,6 +159,7 @@ export default {
 		return {
 			isHelper: true,
 			isApply: true,
+			isEditOpen: false,
 
 			totalPrice: ""
 		};
@@ -167,9 +180,19 @@ export default {
 			this.$router.push({ name: "ChatDetailPage" });
 		},
 
-		insertYTonnyApply(e) {
-			e.preventDefault();
+		toggleEditOpen() {
+			this.isEditOpen = !this.isEditOpen;
+		},
+		// eslint-disable-next-line
+		// onClickOutside(e) {
+		// 	console.log(e);
+		// 	this.isEditOpen = false;
+		// },
+		onClickOutside(event) {
+			console.log("Clicked outside. Event: ", event);
+		},
 
+		insertYTonnyApply() {
 			let payload = {
 				helperSeq: 1,
 				ytonnySeq: this.yTonnySeq,
@@ -177,6 +200,20 @@ export default {
 			};
 
 			this.$store.dispatch("insertYTonnyApply", payload);
+			this.closeEditOpen();
+		},
+
+		updateFormOpen() {
+			this.$router.push({ name: "YTonnyUpdatePage" });
+			this.closeEditOpen();
+		},
+
+		removeYTonny() {
+			console.log("remove ytonny");
+			this.closeEditOpen();
+		},
+		applyListOpen() {
+			this.closeEditOpen();
 		}
 	},
 
@@ -203,6 +240,8 @@ export default {
 	align-items: center;
 }
 .yTonnyDetail {
+	cursor: default;
+
 	.infos {
 		margin-bottom: 100px;
 		.tag {
@@ -223,10 +262,39 @@ export default {
 			.writers {
 				display: flex;
 				align-items: center;
+				cursor: pointer;
 			}
 			.edits {
-				display: flex;
-				align-items: center;
+				// display: flex;
+				// align-items: center;
+				cursor: pointer;
+
+				.editPopOver {
+					position: absolute;
+					// left: 0;
+					right: 310px;
+					width: 120px;
+					padding: 10px;
+
+					background-color: #fff;
+					border: 1px solid rgba(0, 0, 0, 0.08);
+					box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+					z-index: 99;
+
+					div:nth-child(1) {
+						margin-top: 0;
+					}
+					> div {
+						// border-bottom: 1px solid var(--light-color);
+						margin-top: 4px;
+						// line-height: 20px;
+						// margin-bottom: 3px;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
 			}
 		}
 

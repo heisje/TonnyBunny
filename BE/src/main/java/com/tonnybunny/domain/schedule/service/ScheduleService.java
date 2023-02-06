@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
 
-	private final UserEntity userEntity;
 	private final ScheduleRepository scheduleRepository;
 	private final UserRepository userRepository;
 
