@@ -25,9 +25,9 @@ public class RedisConfig {
 	private final JTonnyApplyCancelSubscriber jTonnyApplyCancelSubscriber;
 	private final JTonnyAcceptSubscriber jTonnyAcceptSubscriber;
 	private final JTonnyRejectSubscriber jTonnyRejectSubscriber;
-	@Value("${db.redis.host}")
+	@Value("${spring.redis.host}")
 	private String redisHost;
-	@Value("${db.redis.port}")
+	@Value("${spring.redis.port}")
 	private Integer redisPort;
 
 
