@@ -3,9 +3,7 @@ package com.tonnybunny.domain.schedule.entity;
 
 import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+@ToString
 public class ScheduleEntity extends CommonEntity {
 
 	@Id
@@ -35,5 +36,10 @@ public class ScheduleEntity extends CommonEntity {
 	private String content;
 
 	private Boolean isComplete;
+
+
+	public void updateIsComplete(Boolean isComplete) {
+		this.isComplete = isComplete;
+	}
 
 }
