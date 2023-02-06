@@ -2,6 +2,7 @@ package com.tonnybunny.domain.user.dto;
 
 
 import com.tonnybunny.domain.user.entity.UserEntity;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
  * helperInfoResponseDto: 헬퍼 정보
  */
 @Data
+@Builder
 public class UserResponseDto {
 
 	private Long seq;
@@ -43,7 +45,15 @@ public class UserResponseDto {
 	 */
 
 	public static UserResponseDto fromEntity(UserEntity user) {
-		return new UserResponseDto();
+		UserResponseDto userResponseDto = UserResponseDto.builder()
+		                                                 .seq(user.getSeq())
+		                                                 .email(user.getEmail())
+		                                                 .nickName(user.getNickName())
+		                                                 .profileImagePath(user.getProfileImagePath())
+		                                                 .point(user.getPoint())
+		                                                 .userCode(user.getUserCode())
+		                                                 .build();
+		return userResponseDto;
 	}
 
 
