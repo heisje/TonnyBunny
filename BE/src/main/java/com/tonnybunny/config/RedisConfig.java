@@ -3,6 +3,7 @@ package com.tonnybunny.config;
 
 import com.tonnybunny.domain.jtonny.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -24,11 +25,15 @@ public class RedisConfig {
 	private final JTonnyApplyCancelSubscriber jTonnyApplyCancelSubscriber;
 	private final JTonnyAcceptSubscriber jTonnyAcceptSubscriber;
 	private final JTonnyRejectSubscriber jTonnyRejectSubscriber;
+	@Value("${db.redis.host}")
+	private String redisHost;
+	@Value("${db.redis.port}")
+	private Integer redisPort;
 
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
-		return new LettuceConnectionFactory();
+		return new LettuceConnectionFactory(redisHost, redisPort);
 	}
 
 
