@@ -51,26 +51,26 @@ public class HelperInfoService {
 	/**
 	 * 대상 유저에 속하는 자격증을 추가, 한번에 여러 자격증을 등록
 	 *
-	 * @param userSeq         : 대상 유저 seq
+	 * @param helperInfo      : 대상 유저 헬퍼 정보
 	 * @param certificateList : 등록할 자격증 목록
 	 * @return 등록한 자격증 entity의 seq 목록
 	 */
-	public List<CertificateEntity> createCertificateList(Long userSeq, List<CertificateRequestDto> certificateList) {
-
-		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
-		HelperInfoEntity helperInfo = user.getHelperInfo(); // 대상 유저 헬퍼정보 가져오기
+	@Transactional
+	public List<CertificateEntity> createCertificateList(HelperInfoEntity helperInfo, List<CertificateRequestDto> certificateList) {
 
 		//		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
 		List<CertificateEntity> result = new ArrayList<>();
 
 		for (CertificateRequestDto certificateRequestDto : certificateList) {
-			CertificateEntity certificate = new CertificateEntity(certificateRequestDto.getCertName(), certificateRequestDto.getContent(), helperInfo); // 새 Entity 생성
+			CertificateEntity certificate = CertificateEntity.builder()
+			                                                 .helperInfo(helperInfo)
+			                                                 .certName(certificateRequestDto.getCertName())
+			                                                 .content(certificateRequestDto.getCertName())
+			                                                 .build();
 			certificateRepository.save(certificate); // Entity 저장
 			result.add(certificate); // 결과 리스트에 시퀀스 추가
 		}
-
+		System.out.println("HelperInfoService.createCertificateList");
 		return result;
 	}
 
@@ -200,16 +200,12 @@ public class HelperInfoService {
 	/**
 	 * 대상 유저에 속하는 언어 정보 리스트 생성
 	 *
-	 * @param userSeq
+	 * @param helperInfo
 	 * @param possibleLanguageList
 	 * @return
 	 */
-	public List<PossibleLanguageEntity> createPossibleLangList(Long userSeq, List<PossibleLanguageDto> possibleLanguageList) {
-
-		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
-		HelperInfoEntity helperInfo = user.getHelperInfo(); // 대상 유저 헬퍼정보 가져오기
+	@Transactional
+	public List<PossibleLanguageEntity> createPossibleLangList(HelperInfoEntity helperInfo, List<PossibleLanguageDto> possibleLanguageList) {
 
 		//		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
 		List<PossibleLanguageEntity> result = new ArrayList<>();
@@ -223,7 +219,7 @@ public class HelperInfoService {
 			possibleLanguageRepository.save(possibleLang);
 			result.add(possibleLang);
 		}
-
+		System.out.println("HelperInfoService.createPossibleLangList");
 		return result;
 	}
 
@@ -324,6 +320,7 @@ public class HelperInfoService {
 
 	/**
 	 * 헬퍼 정보를 최초로 등록 (자격증 및 언어능력)
+	 * Transactional 관계로 빈 헬퍼정보가 생기는 걸 막기 위해서 자격증 및 가능언어 생성도 같은 로직에 둠
 	 *
 	 * @param userSeq
 	 * @param helperInfoRequestDto
@@ -340,15 +337,15 @@ public class HelperInfoService {
 		 * CertificateList
 		 * 나머지 소개글은 Default 값 사용
 		 */
-		List<CertificateEntity> certificateList = createCertificateList(userSeq, helperInfoRequestDto.getCertificateList());
-		List<PossibleLanguageEntity> possibleLangList = createPossibleLangList(userSeq, helperInfoRequestDto.getPossibleLanguageList());
 		HelperInfoEntity helperInfo = HelperInfoEntity.builder()
-		                                              .possibleLanguageList(possibleLangList)
-		                                              .certificateList(certificateList)
+		                                              .user(user)
 		                                              .introduction(helperInfoRequestDto.getIntroduction())
 		                                              .oneLineIntroduction(helperInfoRequestDto.getOneLineIntroduction())
 		                                              .build();
 		helperInfoRepository.save(helperInfo);
+		createCertificateList(helperInfo, helperInfoRequestDto.getCertificateList()); // 자격증 리스트 생성
+		createPossibleLangList(helperInfo, helperInfoRequestDto.getPossibleLanguageList()); // 가능언어 리스트 생성
+		System.out.println("HelperInfoService.createHelperInfo");
 		return helperInfo; // HelperInfo 리턴
 
 	}

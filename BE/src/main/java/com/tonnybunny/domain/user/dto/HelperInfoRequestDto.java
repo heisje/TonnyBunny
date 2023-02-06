@@ -31,8 +31,8 @@ public class HelperInfoRequestDto {
 	private List<CertificateRequestDto> certificateList = new ArrayList<>();
 
 	/* 헬퍼 유저 회원정보 수정 */
-	private String oneLineIntroduction = "안녕하세요, 언제나 성심성의껏 도와드리겠습니다.";
-	private String introduction = "안녕하세요, 당신을 도와드릴 토니버니의 헬퍼입니다. 언제나 성심성의껏 도와드리겠습니다.";
+	private String oneLineIntroduction;
+	private String introduction;
 	//	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
 
 
