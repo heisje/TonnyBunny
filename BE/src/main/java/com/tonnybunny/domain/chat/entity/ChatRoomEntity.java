@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class ChatRoomEntity extends CommonEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "chat_room_seq")
 	private String seq;    // FIXME : String으로 변경함
 
