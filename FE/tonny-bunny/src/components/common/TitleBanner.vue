@@ -52,11 +52,13 @@ export default {
 
         h1 {
             margin-bottom: 4px;
-            color: var(--background-color);
+            // color: var(--main-color);
+            color: #fff;
         }
 
         p {
-            color: var(--thin-color);
+            // color: var(--main-color);
+            color: #fff;
             @extend .label;
         }
     }
@@ -64,6 +66,8 @@ export default {
 
 .bannerWrap {
     background: var(--banner-color);
+    // background: var(--banner-color2);
+    // background-color: var(--light-color);
     position: absolute;
     left: 0;
     width: 100%;

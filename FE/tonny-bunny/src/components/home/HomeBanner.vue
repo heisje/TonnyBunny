@@ -92,7 +92,7 @@ export default {};
                 }
                 .title {
                     span {
-                        font-size: 7vw;
+                        font-size: 6vw;
                         font-weight: 900;
                         letter-spacing: -2px;
 

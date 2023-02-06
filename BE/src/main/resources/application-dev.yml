@@ -15,8 +15,3 @@ spring:
   # Jpa
   jpa:
     hibernate.ddl-auto: ${dev.ddl.option}
-
-# app file path
-app:
-  file:
-    path: ${app.file.path}

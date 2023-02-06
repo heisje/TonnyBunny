@@ -94,9 +94,7 @@
                                         </router-link>
                                     </li>
                                     <li>
-                                        <router-link class="dropdown-item" to="logout">
-                                            로그아웃
-                                        </router-link>
+                                        <div class="dropdown-item" @click="logout">로그아웃</div>
                                     </li>
                                 </ul>
                             </div>
@@ -110,7 +108,8 @@
                                 @click="toggleLoginModal"></medium-btn>
                             <medium-btn
                                 text="회원가입"
-                                color="main"
+                                color="carrot"
+                                font="white"
                                 @click="clickSignUpBtn"></medium-btn>
                         </div>
                     </div>
@@ -164,7 +163,7 @@
 
                             <div class="offcanvas-body">
                                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                    <li class="nav-item">
+                                    <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <router-link
                                             :to="{ name: 'HomePage' }"
                                             class="nav-link"
@@ -173,25 +172,25 @@
                                         </router-link>
                                     </li>
 
-                                    <li class="nav-item">
+                                    <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <router-link :to="{ name: 'IntroPage' }" class="nav-link">
                                             <h2>토니버니란?</h2>
                                         </router-link>
                                     </li>
 
-                                    <li class="nav-item">
+                                    <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <div class="nav-link" @click="toggleTonnyModalOpen">
                                             <h2>통역하기</h2>
                                         </div>
                                     </li>
 
-                                    <li class="nav-item">
+                                    <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <div class="nav-link" @click="toggleBunnyModalOpen">
                                             <h2>번역하기</h2>
                                         </div>
                                     </li>
 
-                                    <li class="nav-item">
+                                    <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <router-link :to="{ name: 'BoardPage' }" class="nav-link">
                                             <h2>커뮤니티</h2>
                                         </router-link>
@@ -212,28 +211,28 @@
                                         </a>
 
                                         <ul class="dropdown-menu">
-                                            <li>
+                                            <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
                                                     :to="{ name: 'ChatPage' }">
                                                     채팅함
                                                 </router-link>
                                             </li>
-                                            <li>
+                                            <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
                                                     :to="{ name: 'ChatPage' }">
                                                     즐겨찾기
                                                 </router-link>
                                             </li>
-                                            <li>
+                                            <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
                                                     :to="{ name: 'MyPage' }">
                                                     마이페이지
                                                 </router-link>
                                             </li>
-                                            <li>
+                                            <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
                                                     :to="{ name: 'NoticePage' }">
@@ -245,22 +244,26 @@
                                                 <hr class="dropdown-divider" />
                                             </li>
 
-                                            <li>
-                                                <a class="dropdown-item" href="#">로그아웃</a>
+                                            <li data-bs-dismiss="offcanvas">
+                                                <a class="dropdown-item" @click="logout"
+                                                    >로그아웃</a
+                                                >
                                             </li>
                                         </ul>
                                     </li>
                                     <div v-else>
                                         <medium-btn
+                                            data-bs-dismiss="offcanvas"
                                             class="mt-3 w-100"
                                             text="로그인"
                                             color="outline"
                                             font="main"
                                             @click="toggleLoginModal"></medium-btn>
                                         <medium-btn
+                                            data-bs-dismiss="offcanvas"
                                             class="mt-2 w-100"
                                             text="회원가입"
-                                            color="main"
+                                            color="carrot"
                                             @click="clickSignUpBtn"></medium-btn>
                                     </div>
                                 </ul>
@@ -307,8 +310,6 @@ export default {
         // login btn click -> login modal 띄우기
         toggleLoginModal(e) {
             e.preventDefault();
-            // console.log("login");
-            // this.$router.push("/login");
             this.$store.commit("TOGGLE_LOGIN_MODAL");
         },
 
@@ -329,6 +330,11 @@ export default {
             e.preventDefault();
             this.$router.push("/account/signup");
         },
+
+        // 로그아웃
+        logout() {
+            this.$store.dispatch("logout");
+        },
     },
 };
 </script>
@@ -340,7 +346,7 @@ export default {
     font-variation-settings: "FILL" 0, "wght" 300;
     margin: 0;
     padding: 0;
-    transition: all 0.15s;
+    transition: all 0.13s;
 
     &:hover {
         color: var(--primary-color);

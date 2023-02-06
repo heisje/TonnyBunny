@@ -256,7 +256,7 @@ export default {
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
-                let res = await http.post("/send/authcode", { phoneNumber: this.phoneNum });
+                let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
@@ -269,9 +269,15 @@ export default {
         // 인증코드 확인
         async checkAuthCode(event) {
             event.preventDefault();
-
+            const payload = {
+                authCode: this.authCode,
+                phoneNumber: this.phoneNum,
+            };
+            console.log(payload);
             try {
-                let res = await http.post("/check/authcode", { authCode: this.authCode });
+                let res = await http.post("/check/authcode", {
+                    payload,
+                });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
                     this.noticeAuth = "인증이 완료되었습니다";
@@ -330,51 +336,55 @@ export default {
                 return;
             }
 
-            if (!this.isCheckNickname) {
-                this.noticeNick = "닉네임 중복확인을 해주세요.";
-                this.exception = "닉네임 중복확인을 해주세요.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-                return;
-            }
+            // if (!this.isCheckNickname) {
+            //     this.noticeNick = "닉네임 중복확인을 해주세요.";
+            //     this.exception = "닉네임 중복확인을 해주세요.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            //     return;
+            // }
 
-            if (!this.isSendAuthCode) {
-                this.noticeAuth = "인증코드 전송이 완료되지 않았습니다.";
-                this.exception = "인증코드 전송이 완료되지 않았습니다.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-                return;
-            }
+            // if (!this.isSendAuthCode) {
+            //     this.noticeAuth = "인증코드 전송이 완료되지 않았습니다.";
+            //     this.exception = "인증코드 전송이 완료되지 않았습니다.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            //     return;
+            // }
 
-            if (!this.isCheckAuthCode) {
-                this.noticeAuth2 = "인증이 완료되지 않았습니다.";
-                this.exception = "인증이 완료되지 않았습니다.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-                return;
-            }
+            // if (!this.isCheckAuthCode) {
+            //     this.noticeAuth2 = "인증이 완료되지 않았습니다.";
+            //     this.exception = "인증이 완료되지 않았습니다.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            //     return;
+            // }
 
-            // 약관동의
-            let checkTerms = true;
-            this.clientTerms.forEach((term) => {
-                if (!term.isAgree) {
-                    checkTerms = false;
-                }
-            });
+            // // 약관동의
+            // let checkTerms = true;
+            // this.clientTerms.forEach((term) => {
+            //     if (!term.isAgree) {
+            //         checkTerms = false;
+            //     }
+            // });
 
-            if (this.$route.params.select == "helper") {
-                this.helperTerms.forEach((term) => {
-                    if (!term.isAgree) {
-                        checkTerms = false;
-                    }
-                });
-            }
-            if (!checkTerms) {
-                this.exception = "약관에 동의하지 않았습니다.";
-                this.$store.commit("TOGGLE_ALARM_MODAL");
-            }
+            // if (this.$route.params.select == "helper") {
+            //     this.helperTerms.forEach((term) => {
+            //         if (!term.isAgree) {
+            //             checkTerms = false;
+            //         }
+            //     });
+            // }
+            // if (!checkTerms) {
+            //     this.exception = "약관에 동의하지 않았습니다.";
+            //     this.$store.commit("TOGGLE_ALARM_MODAL");
+            // }
 
             // 모두 참일 때 폼 제출 가능
 
-            const userCode = this.$route.params.select;
-
+            let userCode;
+            if (this.$route.params.select == "helper") {
+                userCode = "0010001";
+            } else if (this.$route.params.select == "client") {
+                userCode = "0010002";
+            }
             try {
                 let res = await http.post("/signup", {
                     email: this.email,
@@ -405,6 +415,8 @@ export default {
                 }
             } catch (error) {
                 console.log(error);
+                this.exception = "회원가입에 실패하였습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
             }
         },
     },

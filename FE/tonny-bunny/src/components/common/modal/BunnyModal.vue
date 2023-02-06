@@ -21,11 +21,13 @@
                         <router-link
                             :to="{ name: 'NBunnyFormPage' }"
                             @click.stop="this.$store.commit('TOGGLE_BUNNY_MODAL')">
-                            <div class="nbunnyBtn">번역의뢰</div>
+                            <div class="nbunnyBtn">번역<br />의뢰 신청</div>
                         </router-link>
 
-                        <router-link :to="{ name: 'YTonnyFormPage' }">
-                            <div class="ytonnyBtn">번역상담</div>
+                        <router-link
+                            :to="{ name: 'NBunnyListPage' }"
+                            @click.stop="this.$store.commit('TOGGLE_BUNNY_MODAL')">
+                            <div class="nbunnyBtn">번역<br />의뢰 목록</div>
                         </router-link>
                     </div>
                 </div>
@@ -93,9 +95,14 @@ export default {
         }
 
         .nbunnyBtn {
+            text-align: center;
             width: 150px;
             height: 100px;
-            background-color: var(--light-color);
+            line-height: 25px;
+            // background-color: var(--light-color);
+            // border: 1px solid var(--light-color);
+            background: var(--carrot-color);
+            color: #fff;
             border-radius: 6px;
             margin-right: 12px;
             font-weight: 500;
@@ -109,8 +116,8 @@ export default {
 
             &:hover {
                 box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-                background: var(--carrot-color);
-                color: #fff;
+                // background: var(--carrot-color);
+                // color: #fff;
             }
         }
     }

@@ -1,13 +1,79 @@
 <template lang="">
-    <div>
-        <h1>클라이언트 헬퍼폼</h1>
+    <div class="d-flex justify-content-center customFormWrap w-100">
+        <form class="customForm" @submit.prevent="submitForm(event)">
+            <title-text important type="h2" title="제안 금액" />
+
+            <div class="d-flex w-100">
+                <div class="col-11">
+                    <input type="number" v-model="estimatePrice" placeholder="ex)1000" />
+                </div>
+                <div class="backlabel col-2">
+                    <h3>캐럿</h3>
+                </div>
+            </div>
+            <br /><br /><br /><br /><br /><br /><br />
+            <div>
+                <div class="d-flex w-100">
+                    <div class="col-2">
+                        <medium-btn
+                            style="width: 100%"
+                            text="취소"
+                            color="main"
+                            @click.prevent="clickCancle" />
+                    </div>
+                    <div class="backlabel col-10">
+                        <medium-btn
+                            style="width: 100%"
+                            text="고객에게 제안하기"
+                            color="carrot"
+                            @click.prevent="submitForm" />
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </template>
 <script>
+import TitleText from "@/components/common/TitleText.vue";
+import MediumBtn from "../common/button/MediumBtn.vue";
+import { mapGetters } from "vuex";
+
 export default {
-    
-}
+    components: {
+        TitleText,
+        MediumBtn,
+    },
+
+    computed: {
+        ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
+    },
+
+    data() {
+        return {
+            estimatePrice: "",
+        };
+    },
+
+    methods: {
+        clickCancle() {
+            this.$router.go(-1);
+        },
+
+        submitForm() {
+            if (this.estimatePrice === "") {
+                return;
+            }
+
+            const payload = {
+                userSeq: this.$store.state.account.userInfo.seq,
+                bunnySeq: this.getBunnyDetail.seq,
+                estimatePrice: this.estimatePrice,
+            };
+
+            this.$store.dispatch("insertBunnyApply", payload);
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+    },
+};
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

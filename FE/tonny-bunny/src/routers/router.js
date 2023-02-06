@@ -449,7 +449,7 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quatation/create",
+            path: "/chat/quotation/create",
             name: "QuotationCreatePage",
             components: {
                 header: AppHeader,
@@ -459,7 +459,7 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quatation/:id",
+            path: "/chat/quotation/:id",
             name: "QuotationDetailPage",
             components: {
                 header: AppHeader,

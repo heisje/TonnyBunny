@@ -12,8 +12,10 @@ import ytonny from "./state/ytonny";
 import bunny from "./state/bunny";
 import common from "./state/common";
 import alert from "./state/alert";
+import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
+    plugins: [createPersistedState()],
     state: {
         // 공통 state
         common,

@@ -11,4 +11,7 @@ export default {
     getJtonnyDetail(state) {
         return state.jtonny.jtonnyDetail;
     },
+    getJtonnyRequest(state) {
+        return state.jtonny.jtonnyRequest;
+    },
 };

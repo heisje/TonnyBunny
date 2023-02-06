@@ -21,7 +21,7 @@
                                     <img src="@/assets/homeTonnyIcon.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h2">#통역</h1>
+                                    <h1 class="h3">#통역</h1>
                                 </div>
                             </div>
                         </div>
@@ -31,17 +31,17 @@
                                     <img src="@/assets/homeBunnyIcon.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h2">#번역</h1>
+                                    <h1 class="h3">#번역</h1>
                                 </div>
                             </div>
                         </div>
                         <div class="iconsWarp" v-if="true">
-                            <div class="iconsContent searchIcon" @click="toggleBunnyModalOpen">
+                            <div class="iconsContent searchIcon" @click="toggleHelperBtn">
                                 <div>
                                     <img src="@/assets/homeSearchIcon.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h2">#헬퍼 페이지</h1>
+                                    <h1 class="h3">#헬퍼 페이지</h1>
                                 </div>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
                         type="h1"
                         top="60"
                         bottom="20"
-                        center></title-text>
-                    <div class="mainBtns">
+                        center></title-text> -->
+                    <!-- <div class="mainBtns">
                         <main-btn text="통역" @click="toggleTonnyModalOpen">
                             <template #icon>
                                 <span class="material-symbols-outlined"> interpreter_mode </span>
@@ -88,6 +88,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 import TitleText from "@/components/common/TitleText.vue";
 // import MainBtn from "./MainBtn.vue";
 import HomeScheduleList from "./HomeScheduleList.vue";
@@ -165,6 +166,7 @@ export default {
             max-width: 150px;
             padding-bottom: 30%;
             margin: 2%;
+
             .iconsContent {
                 position: absolute;
                 display: flex;
@@ -177,6 +179,8 @@ export default {
                 border-radius: 10%;
                 border: 1px solid var(--light-color);
                 cursor: pointer;
+
+                transition: all 0.13s;
                 &:hover {
                     background-color: var(--primary-color-20);
                     h1 {
