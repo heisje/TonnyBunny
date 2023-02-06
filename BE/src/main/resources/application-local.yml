@@ -29,6 +29,9 @@ spring:
   sql:
     init:
       mode: ${sql.init.mode}
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
   # Redis
   redis:
     host: 127.0.0.1
