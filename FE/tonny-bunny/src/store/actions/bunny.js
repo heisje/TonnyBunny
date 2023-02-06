@@ -48,10 +48,8 @@ export default {
             switch (data.resultCode) {
                 case "SUCCESS":
                     context.commit("SET_BUNNY_DETAIL", data.data);
-                    this.dispatch("setIsLoading", false);
                     break;
                 case "FAIL":
-                    this.dispatch("setIsLoading", false);
                     break;
             }
         } catch (err) {
@@ -120,7 +118,7 @@ export default {
         try {
             let { data } = await http.delete(
                 `/bunny/${payload.bunnySeq}/apply/${payload.bunnyApplySeq}`,
-                payload
+                { data: payload }
             );
             console.log("async function : ", data);
 

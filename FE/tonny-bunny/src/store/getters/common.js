@@ -31,6 +31,9 @@ export default {
     getBunnySituCode(state) {
         return state.common.bunnySituCode;
     },
+    getBunnyStateCode(state) {
+        return state.common.bunnyStateCode;
+    },
     getQuotationStateCode(state) {
         return state.common.quotationStateCode;
     },

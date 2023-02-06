@@ -21,7 +21,8 @@
                 id="password"
                 v-model="password"
                 placeholder="비밀번호"
-                @input="changePwInput" /><br />
+                @input="changePwInput"
+            /><br />
             <div v-show="noticePw" style="color: red">{{ noticePw }}</div>
             <br />
 
@@ -32,7 +33,8 @@
                 id="password2"
                 v-model="password2"
                 @input="changePw2Input"
-                placeholder="비밀번호 확인" /><br />
+                placeholder="비밀번호 확인"
+            /><br />
             <div v-show="noticePw2" style="color: red">{{ noticePw2 }}</div>
             <br />
 
@@ -43,7 +45,8 @@
                 id="nickname"
                 v-model="nickname"
                 placeholder="닉네임"
-                @input="changeNickInput" />
+                @input="changeNickInput"
+            />
             <smallBtn @click.prevent="checkDuplication" text="중복 확인"></smallBtn><br />
             <div v-show="noticeNick" style="color: red">{{ noticeNick }}</div>
             <br />
@@ -55,7 +58,8 @@
                 id="phoneNum"
                 v-model="phoneNum"
                 placeholder="휴대폰 번호"
-                @input="changePhoneInput" />
+                @input="changePhoneInput"
+            />
             <smallBtn @click.prevent="sendAuthCode" text="인증 요청"></smallBtn><br />
             <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
             <br />
@@ -95,7 +99,8 @@
                 btnText2="닫기"
                 btnColor2="carrot"
                 btnFontColor2="white"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> {{ exception }} </template>
             </alarm-modal>
             <smallBtn style="width: 100%" text="회원 가입" @click="submitForm"></smallBtn>
@@ -256,7 +261,7 @@ export default {
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
-                let res = await http.post("/send/authcode", { phoneNumber: this.phoneNum });
+                let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
@@ -269,9 +274,15 @@ export default {
         // 인증코드 확인
         async checkAuthCode(event) {
             event.preventDefault();
-
+            const payload = {
+                authCode: this.authCode,
+                phoneNumber: this.phoneNum,
+            };
+            console.log(payload);
             try {
-                let res = await http.post("/check/authcode", { authCode: this.authCode });
+                let res = await http.post("/check/authcode", {
+                    payload,
+                });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
                     this.noticeAuth = "인증이 완료되었습니다";
