@@ -29,10 +29,6 @@ spring:
   sql:
     init:
       mode: ${sql.init.mode}
-  # Redis
-  redis:
-    host: 127.0.0.1
-    port: 6379
 
 
 
