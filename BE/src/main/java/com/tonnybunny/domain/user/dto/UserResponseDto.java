@@ -50,6 +50,7 @@ public class UserResponseDto {
 		                                                 .email(user.getEmail())
 		                                                 .nickName(user.getNickName())
 		                                                 .profileImagePath(user.getProfileImagePath())
+		                                                 .phoneNumber(user.getPhoneNumber())
 		                                                 .point(user.getPoint())
 		                                                 .userCode(user.getUserCode())
 		                                                 .helperInfo(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
