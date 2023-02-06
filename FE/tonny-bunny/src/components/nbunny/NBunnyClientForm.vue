@@ -158,7 +158,7 @@ export default {
             }
 
             const payload = {
-                clientSeq: 1,
+                clientSeq: this.$store.state.account.userInfo.seq,
                 startLangCode: this.startLangCode,
                 endLangCode: this.endLangCode,
                 bunnySituCode: this.bunnySituCode,

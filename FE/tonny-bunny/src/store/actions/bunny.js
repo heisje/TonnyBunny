@@ -16,7 +16,6 @@ export default {
                 case SUCCESS:
                     context.commit("SET_BUNNY_SEQ", res.data.data);
                     console.log(res.data.data);
-                    // context.commit("TOGGLE_ALARM_MODAL");
                     break;
                 case FAIL:
                     break;
@@ -38,7 +37,6 @@ export default {
     async getBunnyDetail(context, bunnySeq) {
         console.log("번역 상세 조회");
 
-        this.dispatch("setIsLoading", true);
         try {
             let { data } = await http.get(`/bunny/${bunnySeq}`);
             console.log("async function : ", data);
@@ -54,17 +52,19 @@ export default {
             }
         } catch (err) {
             console.error(err);
+
+            if (err.response.status == 404) {
+                alert("조회에 실패했습니다!");
+            }
         }
-        this.dispatch("setIsLoading", false);
     },
 
     // GET /api/bunny 번역 목록 조회
     async getBunnyList(context, payload) {
         console.log("번역 목록 조회");
         console.log(payload);
-        this.dispatch("setIsLoading", true);
         try {
-            let { data } = await http.get(`/bunny`, payload);
+            let { data } = await http.get(`/bunny`, { params: payload });
             console.log("async function : ", data);
 
             context;
@@ -72,23 +72,19 @@ export default {
             switch (data.resultCode) {
                 case "SUCCESS":
                     context.commit("SET_BUNNY_LIST", data.data);
-                    this.dispatch("setIsLoading", false);
                     break;
                 case "FAIL":
-                    this.dispatch("setIsLoading", false);
                     break;
             }
         } catch (err) {
             console.error(err);
         }
-        this.dispatch("setIsLoading", false);
     },
 
     // DELETE /api/bunny/{bunnySeq} 번역 공고 삭제
     async removeBunny(context, bunnySeq) {
         console.log("번역 공고 삭제");
 
-        this.dispatch("setIsLoading", true);
         try {
             let { data } = await http.delete(`/bunny/${bunnySeq}`);
             console.log("async function : ", data);
@@ -97,24 +93,24 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
-                    console.log(context);
-                    this.dispatch("setIsLoading", false);
+                    context.commit("SET_BUNNY_DETAIL", {});
                     break;
                 case "FAIL":
-                    this.dispatch("setIsLoading", false);
                     break;
             }
         } catch (err) {
             console.error(err);
+
+            if (err.response.status == 404) {
+                alert("삭제에 실패했습니다!");
+            }
         }
-        this.dispatch("setIsLoading", false);
     },
 
     // DELETE /api/bunny/{bunnySeq}/apply/{bunnyApplySeq} 번역 공고 신청 삭제
     async removeBunnyApply(context, payload) {
         console.log("번역 공고 신청 삭제");
         console.log(payload);
-        this.dispatch("setIsLoading", true);
         try {
             let { data } = await http.delete(
                 `/bunny/${payload.bunnySeq}/apply/${payload.bunnyApplySeq}`,
@@ -126,24 +122,19 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
-                    console.log(context);
-                    this.dispatch("setIsLoading", false);
                     break;
                 case "FAIL":
-                    this.dispatch("setIsLoading", false);
                     break;
             }
         } catch (err) {
             console.error(err);
         }
-        this.dispatch("setIsLoading", false);
     },
 
     // POST /api/bunny/{bunnySeq}/apply 번역 공고 신청 생성
     async insertBunnyApply(context, payload) {
         console.log("번역 공고 신청 생성");
         console.log(payload);
-        this.dispatch("setIsLoading", true);
         try {
             let { data } = await http.post(`/bunny/${payload.bunnySeq}/apply`, payload);
             console.log("async function : ", data);
@@ -153,15 +144,12 @@ export default {
             switch (data.resultCode) {
                 case "SUCCESS":
                     console.log(context);
-                    this.dispatch("setIsLoading", false);
                     break;
                 case "FAIL":
-                    this.dispatch("setIsLoading", false);
                     break;
             }
         } catch (err) {
             console.error(err);
         }
-        this.dispatch("setIsLoading", false);
     },
 };
