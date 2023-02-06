@@ -117,7 +117,8 @@ public class UserController {
 	@ApiOperation(value = "입력한 휴대폰 번호에 인증코드를 발송합니다")
 	public ResponseEntity<ResultDto<Boolean>> sendAuthCode(@RequestBody MessageRequestDto messageRequestDto) throws Exception {
 
-		smsService.sendSms(messageRequestDto);
+		//		smsService.sendSms(messageRequestDto); 테스트 중에는 주석처리
+		smsService.smsTest(messageRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
