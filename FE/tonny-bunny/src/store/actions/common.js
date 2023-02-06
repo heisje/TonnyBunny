@@ -16,6 +16,17 @@ export default {
     setCommonCode(context) {
         http.get("/common")
             .then(({ data }) => {
+                // all code로 통합하는 코드
+                let allCommonCode = new Object();
+                for (let key in data.data) {
+                    data.data[key].forEach((e) => {
+                        allCommonCode[e.value] = e.name;
+                    });
+                }
+                console.log(allCommonCode);
+                context.commit("SET_ALL_CODE", userCode);
+
+                // 기존 개별코드
                 let {
                     userCode,
                     langCode,

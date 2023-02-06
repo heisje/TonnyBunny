@@ -21,8 +21,7 @@
                 id="password"
                 v-model="password"
                 placeholder="비밀번호"
-                @input="changePwInput"
-            /><br />
+                @input="changePwInput" /><br />
             <div v-show="noticePw" style="color: red">{{ noticePw }}</div>
             <br />
 
@@ -33,8 +32,7 @@
                 id="password2"
                 v-model="password2"
                 @input="changePw2Input"
-                placeholder="비밀번호 확인"
-            /><br />
+                placeholder="비밀번호 확인" /><br />
             <div v-show="noticePw2" style="color: red">{{ noticePw2 }}</div>
             <br />
 
@@ -45,8 +43,7 @@
                 id="nickname"
                 v-model="nickname"
                 placeholder="닉네임"
-                @input="changeNickInput"
-            />
+                @input="changeNickInput" />
             <smallBtn @click.prevent="checkDuplication" text="중복 확인"></smallBtn><br />
             <div v-show="noticeNick" style="color: red">{{ noticeNick }}</div>
             <br />
@@ -58,8 +55,7 @@
                 id="phoneNum"
                 v-model="phoneNum"
                 placeholder="휴대폰 번호"
-                @input="changePhoneInput"
-            />
+                @input="changePhoneInput" />
             <smallBtn @click.prevent="sendAuthCode" text="인증 요청"></smallBtn><br />
             <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
             <br />
@@ -99,8 +95,7 @@
                 btnText2="닫기"
                 btnColor2="carrot"
                 btnFontColor2="white"
-                @clickBtn2="closeModal"
-            >
+                @clickBtn2="closeModal">
                 <template #content> {{ exception }} </template>
             </alarm-modal>
             <smallBtn style="width: 100%" text="회원 가입" @click="submitForm"></smallBtn>
@@ -384,8 +379,12 @@ export default {
 
             // 모두 참일 때 폼 제출 가능
 
-            const userCode = this.$route.params.select;
-
+            let userCode;
+            if (this.$route.params.select == "helper") {
+                userCode = "0010001";
+            } else if (this.$route.params.select == "client") {
+                userCode = "0010002";
+            }
             try {
                 let res = await http.post("/signup", {
                     email: this.email,
@@ -416,6 +415,8 @@ export default {
                 }
             } catch (error) {
                 console.log(error);
+                this.exception = "회원가입에 실패하였습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
             }
         },
     },

@@ -13,8 +13,14 @@
                 center />
             <br /><br /><br /><br />
 
-            <smallBtn style="width: 100%" text="로그인 하러가기"></smallBtn><br /><br />
-            <smallBtn style="width: 100%" text="홈으로 돌아가기"></smallBtn>
+            <smallBtn
+                style="width: 100%"
+                text="로그인 하러가기"
+                @click="toggleLoginModal"></smallBtn
+            ><br /><br />
+            <router-link :to="{ name: 'HomePage' }">
+                <smallBtn style="width: 100%" text="홈으로 돌아가기"></smallBtn>
+            </router-link>
         </div>
     </div>
 </template>
@@ -27,6 +33,12 @@ export default {
     components: {
         TitleText,
         smallBtn,
+    },
+    methods: {
+        toggleLoginModal(e) {
+            e.preventDefault();
+            this.$store.commit("TOGGLE_LOGIN_MODAL");
+        },
     },
 };
 </script>
