@@ -24,7 +24,7 @@
                     style="width: 100%"
                     text="게시글 작성"
                     color="carrot"
-                    @click="submitFiles" />
+                    @click="insertBoard" />
                 <router-link :to="{ name: 'BoardDetailPage', params: { id: 1 } }"> </router-link>
             </form>
 
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import TitleText from "@/components/common/TitleText.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 export default {
@@ -75,13 +75,14 @@ export default {
         },
 
         insertBoard() {
-            // const payload = {
-            //     title: this.title.value,
-            //     content: this.content.value,
-            //     boardImageList: this.boardImageList,
-            // };
-            // this.$store.dispatch("insertBoard", payload);
-            this.submitFiles();
+            const payload = {
+                user: this.$store.state.account.userInfo.seq,
+                title: this.title.value,
+                content: this.content.value,
+                boardImageList: this.boardImageList,
+            };
+            this.$store.dispatch("insertBoard", payload);
+            // this.submitFiles();
             // this.$store.dispatch("submitFiles", payload);
         },
 
@@ -94,18 +95,16 @@ export default {
         },
 
         async submitFiles() {
-            const formData = new FormData();
-            formData.append("title", this.title);
-            formData.append("content", this.content);
-
-            for (let i = 0; i < this.boardImageList.length; i++) {
-                formData.append("files", this.boardImageList[i]);
-            }
-
-            const response = await axios.get("http://localhost:8080/api/board/img", formData, {
-                withCredentials: true,
-            });
-            console.log(response);
+            // const formData = new FormData();
+            // formData.append("title", this.title);
+            // formData.append("content", this.content);
+            // for (let i = 0; i < this.boardImageList.length; i++) {
+            //     formData.append("files", this.boardImageList[i]);
+            // }
+            // const response = await axios.get("http://localhost:8080/api/board/img", formData, {
+            //     withCredentials: true,
+            // });
+            // console.log(response);
         },
     },
 };

@@ -78,7 +78,7 @@ export default {
         position: relative;
         width: 40%;
         max-width: 150px;
-        padding-bottom: 40%;
+        padding-bottom: #{"min(150px, 40%)"};
         margin: 2%;
         .iconsContent {
             position: absolute;
