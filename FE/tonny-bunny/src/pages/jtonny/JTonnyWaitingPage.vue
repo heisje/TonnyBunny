@@ -88,7 +88,7 @@ export default {
     },
     mounted() {
         let clientSeq = this.jtonnyRequest.clientSeq;
-        const serverURL = "http://localhost:8080/stomp";
+        const serverURL = "http://localhost:8080/api/stomp";
         let socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
         console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
