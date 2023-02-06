@@ -9,6 +9,7 @@ VALUES ('001', "userCode"),
        ('009', "taskStateCode"),
        ('011', "pointLogStateCode");
 
+
 -- 공통코드
 INSERT INTO common_code_entity(code_seq, group_code, code_name, code)
 VALUES (1, '001', "고객", '0001'),
@@ -39,6 +40,7 @@ VALUES (1, '001', "고객", '0001'),
        (26, '011', "출금", '0002'),
        (27, '011', "거래", '0003');
 
+
 -- 유저 정보
 INSERT INTO user_entity(user_seq, created_at, updated_at, email, is_agreement, is_deleted, nick_name, password,
                         phone_number, point,
@@ -46,12 +48,62 @@ INSERT INTO user_entity(user_seq, created_at, updated_at, email, is_agreement, i
 VALUES (1, now(), now(), "client@ssafy.com", 0, 0, "nickname1", "pw1", "010", 0, "image", 0, "0010001"),
        (2, now(), now(), "helper@ssafy.com", 1, 0, "nickname2", "pw2", "020", 0, "image2", 0, "0010002");
 
+
+-- 헬퍼 정보
+/*
+helper_info_seq
+user_seq
+unit_price
+one_line_introduction
+introduction
+review_count
+avg_score
+is_active
+created_at
+updated_at
+*/
+INSERT INTO helper_info_entity(helper_info_seq, user_seq, unit_price, one_line_introduction, introduction, review_count,
+                               avg_score, is_active, created_at, updated_at)
+VALUES (1, 2, 5000, "한 줄 소개", "긴 자기소개", 0, 0, 'F', now(), now());
+
+
+-- 가능 언어 정보
+/*
+possible_language_seq
+helper_info_seq
+lang_code
+created_at
+updated_at
+*/
+INSERT INTO possible_language_entity(possible_language_seq, helper_info_seq, lang_code, created_at, updated_at)
+VALUES (1, 1, "0020002", now(), now()),
+       (2, 1, "0020003", now(), now());
+
+
+-- 보유 자격증 정보
+/*
+certificate_seq
+helper_info_seq
+lang_code
+cert_name
+content
+is_deleted
+created_at
+updated_at
+*/
+INSERT INTO certificate_entity(certificate_seq, helper_info_seq, lang_code, cert_name, content, is_deleted, created_at,
+                               updated_at)
+VALUES (1, 1, "0020002", "토익", "무려 535점", 'F', now(), now()),
+       (2, 1, "0020003", "JPT", "1급", 'F', now(), now());
+
+
 -- 알림 로그
 INSERT INTO alert_log_entity(alert_log_seq, created_at, updated_at, content, is_end, is_read, task_code, user_seq)
 VALUES (1, now(), now(), 'content1', false, false, "0030001", 1),
        (2, now(), now(), 'content2', true, false, "0030002", 2),
        (3, now(), now(), 'content3', false, true, "0030003", 1),
        (4, now(), now(), 'content4', true, true, "0030003", 2);
+
 
 -- 알림 설정
 INSERT INTO alert_settings_entity(alert_settings_seq, created_at, updated_at, is_all, is_chat, is_community,
