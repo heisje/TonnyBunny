@@ -47,7 +47,6 @@ public class YTonnyRequestDto {
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime startDateTime;
-	//	private LocalTime estimateStartTime;
 	private LocalTime estimateTime;
 	private Integer estimatePrice;
 

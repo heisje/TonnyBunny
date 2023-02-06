@@ -1,16 +1,15 @@
 export default {
-    /* yTonny Form */
-    SET_Y_TONNY_FORM(state, payload) {
-        state.ytonny.ytonnyForm = payload;
-    },
-
-    SET_BOARD_LIST(state, payload) {
-        state.board.boardList = payload;
-    },
-    SET_BOARD_LIST_TOTAL_COUNT(state, payload) {
-        state.board.boardListTotalCount = payload;
-    },
-    SET_BOARD_DETAIL(state, payload) {
-        state.board.boardDetail = payload;
-    },
+	/* yTonny Form */
+	SET_Y_TONNY_FORM(state, payload) {
+		state.ytonny.ytonnyForm = payload;
+	},
+	SET_Y_TONNY_SEQ(state, payload) {
+		state.ytonny.yTonnySeq = payload;
+	},
+	SET_Y_TONNY_DETAIL(state, payload) {
+		state.ytonny.yTonnyDetail = payload;
+	},
+	SET_Y_TONNY_APPLY_LIST(state, payload) {
+		state.ytonny.yTonnyApplyList = payload;
+	}
 };
