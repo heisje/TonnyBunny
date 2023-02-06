@@ -9,14 +9,17 @@
             <div class="d-flex justify-content-between">
                 <SquareTag text="번역의뢰" sub></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode['모집중']"
-                    success></SquareTag>
+                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode[0].value"
+                    success
+                ></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode['진행중']"
-                    info></SquareTag>
+                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode[1].value"
+                    info
+                ></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode['완료됨']"
-                    white></SquareTag>
+                    v-if="getBunnyDetail.bunnyStateCode == getBunnyStateCode[2].value"
+                    white
+                ></SquareTag>
             </div>
             <TitleText type="h2" :title="getBunnyDetail.title"></TitleText>
 
@@ -30,7 +33,8 @@
                         getLangCode,
                         getBunnyDetail.startLangCode
                     )} <-> ${getKeyByValue(getLangCode, getBunnyDetail.endLangCode)}`"
-                    sub></SquareTag>
+                    sub
+                ></SquareTag>
             </div>
 
             <br /><br />
@@ -55,7 +59,8 @@
                 카테고리<br />
                 <SquareTag
                     :text="`${getKeyByValue(getBunnySituCode, getBunnyDetail.bunnySituCode)}`"
-                    sub></SquareTag>
+                    sub
+                ></SquareTag>
             </div>
 
             <br /><br />
@@ -84,7 +89,8 @@
                             type="h2"
                             top="0"
                             bottom="0"
-                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail.bunnyApplyList.length})`"></TitleText>
+                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail.bunnyApplyList.length})`"
+                        ></TitleText>
                     </div>
                     <div>
                         <router-link
@@ -100,7 +106,8 @@
                 <div
                     v-for="(apply, index) in getBunnyDetail.bunnyApplyList"
                     :key="index"
-                    class="w-100">
+                    class="w-100"
+                >
                     {{ Apply }}
                     <helper-card
                         class="w-100 m-0 mb-3"
@@ -115,34 +122,51 @@
                         @remove-card="close"
                         @toggle-like-btn="toggleLike"
                         @click-btn1="check1"
-                        @click-btn2="check2"></helper-card>
+                        @click-btn2="check2"
+                    ></helper-card>
                 </div>
             </div>
             <br /><br />
+            {{ $store.state.account.userInfo }}
             <div v-if="$store.state.account.userInfo.seq == getBunnyDetail.clientSeq">
                 <medium-btn
                     style="width: 100%"
                     text="의뢰 취소 하기"
                     color="active"
-                    @click.prevent="deleteBunny(getBunnyDetail.seq)" />
+                    @click.prevent="deleteBunny(getBunnyDetail.seq)"
+                />
             </div>
-            <div v-else-if="$store.state.account.isHelper">
+            <div v-else-if="$store.state.account.userInfo.userCode === `helper`">
                 <div v-if="isApplyed(getBunnyDetail.bunnyApplyList)">
                     <medium-btn
                         style="width: 100%"
                         text="신청 취소 하기"
                         color="active"
-                        @click.prevent="deleteApply" />
+                        @click.prevent="deleteApply"
+                    />
                 </div>
                 <div v-else>
                     <medium-btn
                         style="width: 100%"
                         text="의뢰 신청 하기"
                         color="carrot"
-                        @click.prevent="goToBunnyApplyPage" />
+                        @click.prevent="goToBunnyApplyPage"
+                    />
                 </div>
             </div>
         </div>
+        <AlarmModal
+            title="성공"
+            type="success"
+            btnText2="완료"
+            btnColor1="main"
+            btnColor2="main"
+            btnFontColor1="white"
+            btnFontColor2="white"
+            @clickBtn2="clickBtn2"
+        >
+            <template #content> 의뢰 신청이 취소되었습니다! </template>
+        </AlarmModal>
     </div>
 </template>
 
@@ -152,6 +176,7 @@ import TitleText from "@/components/common/TitleText.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -163,6 +188,7 @@ export default {
         HelperCard,
         TitleBanner,
         MediumBtn,
+        AlarmModal,
     },
 
     computed: {
@@ -203,7 +229,8 @@ export default {
 
     methods: {
         getKeyByValue(obj, value) {
-            return Object.keys(obj).find((key) => obj[key] === value);
+            const findObj = obj.find((e) => e.value == value);
+            return findObj.name;
         },
         isApplyed(ApplyList) {
             return ApplyList.find(
@@ -224,11 +251,16 @@ export default {
                 }
             });
             this.$store.dispatch("removeBunnyApply", payload);
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
         goToBunnyApplyPage() {
             this.$router.push({
                 name: "NBunnyMatchingPage",
             });
+        },
+        clickBtn2() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.dispatch("getBunnyDetail", this.$route.params.id);
         },
     },
 };
