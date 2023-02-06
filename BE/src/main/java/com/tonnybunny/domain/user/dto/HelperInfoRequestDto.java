@@ -31,16 +31,17 @@ public class HelperInfoRequestDto {
 	private List<CertificateRequestDto> certificateList = new ArrayList<>();
 
 	/* 헬퍼 유저 회원정보 수정 */
-	private String oneLineIntroduction = "";
-	private String introduction = "";
-	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
+	private String oneLineIntroduction = "안녕하세요, 언제나 성심성의껏 도와드리겠습니다.";
+	private String introduction = "안녕하세요, 당신을 도와드릴 토니버니의 헬퍼입니다. 언제나 성심성의껏 도와드리겠습니다.";
+	//	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
 
 
 	/**
 	 * 1. 빌더패턴으로 작성
 	 * 2. HelperInfoEntity 내부의 비즈니스 로직(팩토리 메소드)으로 인스턴스 생성 후 반환
 	 */
-	public HelperInfoEntity toEntity() {
+	public HelperInfoEntity toEntity(HelperInfoRequestDto helperInfoRequestDto) {
+
 		return (HelperInfoEntity) new Object();
 	}
 

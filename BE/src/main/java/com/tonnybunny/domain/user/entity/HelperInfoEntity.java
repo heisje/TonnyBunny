@@ -2,6 +2,8 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.entity.CommonEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +14,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class HelperInfoEntity extends CommonEntity {
 
 	@Id

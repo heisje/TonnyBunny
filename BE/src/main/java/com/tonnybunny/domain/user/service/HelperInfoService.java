@@ -3,6 +3,7 @@ package com.tonnybunny.domain.user.service;
 
 import com.tonnybunny.domain.user.dto.CertificateRequestDto;
 import com.tonnybunny.domain.user.dto.HelperInfoRequestDto;
+import com.tonnybunny.domain.user.dto.PossibleLanguageDto;
 import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
@@ -54,19 +55,20 @@ public class HelperInfoService {
 	 * @param certificateList : 등록할 자격증 목록
 	 * @return 등록한 자격증 entity의 seq 목록
 	 */
-	public List<Long> createCertificateList(Long userSeq, List<CertificateRequestDto> certificateList) {
+	public List<CertificateEntity> createCertificateList(Long userSeq, List<CertificateRequestDto> certificateList) {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
 		HelperInfoEntity helperInfo = user.getHelperInfo(); // 대상 유저 헬퍼정보 가져오기
 
-		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
+		//		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
+		List<CertificateEntity> result = new ArrayList<>();
 
 		for (CertificateRequestDto certificateRequestDto : certificateList) {
 			CertificateEntity certificate = new CertificateEntity(certificateRequestDto.getCertName(), certificateRequestDto.getContent(), helperInfo); // 새 Entity 생성
 			certificateRepository.save(certificate); // Entity 저장
-			result.add(certificate.getSeq()); // 결과 리스트에 시퀀스 추가
+			result.add(certificate); // 결과 리스트에 시퀀스 추가
 		}
 
 		return result;
@@ -157,7 +159,6 @@ public class HelperInfoService {
 		return possibleLanguageList;
 	}
 
-
 	/**
 	 * 대상 유저의 가능 언어를 추가, 한번에 여러 언어 추가 가능
 	 * 대상 유저가 이미 가지고 있는 언어인지 확인 해야 함(N*M?)
@@ -166,30 +167,61 @@ public class HelperInfoService {
 	 * @param possibleLangCodeList : 추가할 언어의 공통코드 목록
 	 * @return 추가한 가능 언어 Entity의 seq 목록
 	 */
-	public List<Long> createPossibleLangList(Long userSeq, List<String> possibleLangCodeList) {
+	//	public List<PossibleLanguageEntity> createPossibleLangList(Long userSeq, List<String> possibleLangCodeList) {
+	//
+	//		UserEntity user = userRepository.findById(userSeq).orElseThrow( // 유저 정보 추출
+	//			() -> new CustomException(NOT_FOUND_USER)
+	//		);
+	//		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow( // 헬퍼정보 추출
+	//			() -> new CustomException(NOT_FOUND_ENTITY)
+	//		);
+	//		List<PossibleLanguageEntity> possibleLanguageList = helperInfo.getPossibleLanguageList(); // 가능언어리스트 추출
+	//		List<String> oldLangCode = new ArrayList<>();
+	//		// 등록된 언어인지 확인
+	//		for (PossibleLanguageEntity possibleLanguage : possibleLanguageList) {
+	//			String langCode = possibleLanguage.getLangCode();
+	//			oldLangCode.add(langCode);
+	//		}
+	//
+	//		List<PossibleLanguageEntity> result = new ArrayList<>();
+	//
+	//		for (String newLang : possibleLangCodeList) {
+	//			if (!oldLangCode.contains(newLang)) {
+	//				PossibleLanguageEntity possibleLanguage = new PossibleLanguageEntity(helperInfo, newLang);
+	//				possibleLanguageRepository.save(possibleLanguage);
+	//				result.add(possibleLanguage);
+	//			}
+	//		}
+	//
+	//		return result;
+	//	}
 
-		UserEntity user = userRepository.findById(userSeq).orElseThrow( // 유저 정보 추출
+
+	/**
+	 * 대상 유저에 속하는 언어 정보 리스트 생성
+	 *
+	 * @param userSeq
+	 * @param possibleLanguageList
+	 * @return
+	 */
+	public List<PossibleLanguageEntity> createPossibleLangList(Long userSeq, List<PossibleLanguageDto> possibleLanguageList) {
+
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
-		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow( // 헬퍼정보 추출
-			() -> new CustomException(NOT_FOUND_ENTITY)
-		);
-		List<PossibleLanguageEntity> possibleLanguageList = helperInfo.getPossibleLanguageList(); // 가능언어리스트 추출
-		List<String> oldLangCode = new ArrayList<>();
-		// 등록된 언어인지 확인
-		for (PossibleLanguageEntity possibleLanguage : possibleLanguageList) {
-			String langCode = possibleLanguage.getLangCode();
-			oldLangCode.add(langCode);
-		}
+		HelperInfoEntity helperInfo = user.getHelperInfo(); // 대상 유저 헬퍼정보 가져오기
 
-		List<Long> result = new ArrayList<>();
+		//		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
+		List<PossibleLanguageEntity> result = new ArrayList<>();
 
-		for (String newLang : possibleLangCodeList) {
-			if (!oldLangCode.contains(newLang)) {
-				PossibleLanguageEntity possibleLanguage = new PossibleLanguageEntity(helperInfo, newLang);
-				possibleLanguageRepository.save(possibleLanguage);
-				result.add(possibleLanguage.getSeq());
-			}
+		for (PossibleLanguageDto possibleLanguage : possibleLanguageList) {
+			PossibleLanguageEntity possibleLang = PossibleLanguageEntity.builder()
+			                                                            .helperInfo(helperInfo)
+			                                                            .langCode(possibleLanguage.getValue())
+			                                                            .langName(possibleLanguage.getName())
+			                                                            .build();
+			possibleLanguageRepository.save(possibleLang);
+			result.add(possibleLang);
 		}
 
 		return result;
@@ -289,6 +321,7 @@ public class HelperInfoService {
 		return userSeq;
 	}
 
+
 	/**
 	 * 헬퍼 정보를 최초로 등록 (자격증 및 언어능력)
 	 *
@@ -296,18 +329,28 @@ public class HelperInfoService {
 	 * @param helperInfoRequestDto
 	 * @return
 	 */
-	//	public Long createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
-	//		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-	//			() -> new CustomException(NOT_FOUND_USER)
-	//		);
-	//		if (!helperInfoRepository.findByUser(user).isPresent()) {
-	//			throw new CustomException(DUPLICATE_RESOURCE);
-	//		}
-	//		List<PossibleLanguageEntity> possibleLanguageList = createPossibleLangList(userSeq, helperInfoRequestDto.getPossibleLanguageList());
-	//		List<CertificateEntity> certificateList = createCertificateList(userSeq, helperInfoRequestDto.getCertificateList());
-	//
-	//		HelperInfoEntity helperInfo = new HelperInfoEntity(user, possibleLanguageList, helperInfoRequestDto.getCertificateList());
-	//
-	//	}
+	@Transactional
+	public HelperInfoEntity createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
+		UserEntity user = userRepository.findById(userSeq).orElseThrow( // 유저 정보 가져오기
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		/**
+		 * HelperInfoRequestDto 에 있는 정보
+		 * possibleLanguageList
+		 * CertificateList
+		 * 나머지 소개글은 Default 값 사용
+		 */
+		List<CertificateEntity> certificateList = createCertificateList(userSeq, helperInfoRequestDto.getCertificateList());
+		List<PossibleLanguageEntity> possibleLangList = createPossibleLangList(userSeq, helperInfoRequestDto.getPossibleLanguageList());
+		HelperInfoEntity helperInfo = HelperInfoEntity.builder()
+		                                              .possibleLanguageList(possibleLangList)
+		                                              .certificateList(certificateList)
+		                                              .introduction(helperInfoRequestDto.getIntroduction())
+		                                              .oneLineIntroduction(helperInfoRequestDto.getOneLineIntroduction())
+		                                              .build();
+		helperInfoRepository.save(helperInfo);
+		return helperInfo; // HelperInfo 리턴
+
+	}
 
 }

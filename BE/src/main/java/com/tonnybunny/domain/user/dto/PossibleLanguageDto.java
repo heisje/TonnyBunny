@@ -5,6 +5,7 @@ import com.tonnybunny.domain.user.entity.PossibleLanguageEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class PossibleLanguageDto {
 
 	private String name;    // 언어명

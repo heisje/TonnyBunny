@@ -30,7 +30,6 @@ public class HelperInfoResponseDto {
 
 	private Long seq;
 
-	private Boolean isActive;
 	private Float avgScore;
 	private Integer reviewCount;
 	private Integer unitPrice;
@@ -38,7 +37,7 @@ public class HelperInfoResponseDto {
 	private String introduction;
 	private List<PossibleLanguageDto> possibleLanguageList;
 	private List<CertificateResponseDto> certificateList;
-	private List<HelperInfoImageResponseDto> helperInfoImageList;
+	//	private List<HelperInfoImageResponseDto> helperInfoImageList;
 
 
 	public static HelperInfoResponseDto fromEntity(HelperInfoEntity helperInfo) {
@@ -51,7 +50,7 @@ public class HelperInfoResponseDto {
 		                            .introduction(helperInfo.getIntroduction())
 		                            .possibleLanguageList(PossibleLanguageDto.fromEntityList(helperInfo.getPossibleLanguageList()))
 		                            .certificateList(CertificateResponseDto.fromEntityList(helperInfo.getCertificateList()))
-		                            .helperInfoImageList(HelperInfoImageResponseDto.fromEntityList(helperInfo.getHelperInfoImageList()))
+		                            //		                            .helperInfoImageList(HelperInfoImageResponseDto.fromEntityList(helperInfo.getHelperInfoImageList()))
 		                            .build();
 	}
 
