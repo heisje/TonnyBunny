@@ -100,7 +100,8 @@ export default {
         .ytonnyBtn {
             width: 150px;
             height: 100px;
-            background-color: var(--light-color);
+            // background: var(--carrot-color);
+            // border: 1px solid var(--light-color);
             border-radius: 6px;
             margin-right: 12px;
             font-weight: 500;
@@ -112,10 +113,19 @@ export default {
             font-size: 1.5rem;
             transition: all 0.13s;
 
+            background: var(--carrot-color);
+            color: white;
+            // opacity: 0.8;
+
             &:hover {
+                // opacity: 1;
+                // background: var(--carrot-color);
                 box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-                background: var(--carrot-color);
-                color: #fff;
+                // background-color: var(--primary-color-20);
+                // color: #fff;
+                // color: var(--primary-color);
+
+                // color: var(--carrot-color);
             }
         }
     }

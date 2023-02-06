@@ -1,31 +1,31 @@
 <template lang="">
-	<div id="titleBanner">
-		<div class="bannerWrap">
-			<div class="fullSizeBanner">
-				<div>
-					<h1 class="h1-small">{{ title }}</h1>
-					<p>{{ text }}</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div id="titleBanner">
+        <div class="bannerWrap">
+            <div class="fullSizeBanner">
+                <div>
+                    <h1 class="h1-small">{{ title }}</h1>
+                    <p>{{ text }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
-	name: "TitleBanner",
-	props: {
-		title: {
-			type: String,
-			default: "title",
-			description: "button tag"
-		},
-		text: {
-			type: String,
-			default: "description",
-			description: "button link"
-		}
-	}
+    name: "TitleBanner",
+    props: {
+        title: {
+            type: String,
+            default: "title",
+            description: "button tag",
+        },
+        text: {
+            type: String,
+            default: "description",
+            description: "button link",
+        },
+    },
 };
 </script>
 
@@ -33,41 +33,43 @@ export default {
 @import "@/scss/variable.scss";
 
 #titleBanner {
-	// position: static;
-	width: 100%;
-	height: 120px;
-	left: 0;
+    // position: static;
+    width: 100%;
+    height: 120px;
+    left: 0;
 
-	margin-bottom: 64px;
+    margin-bottom: 64px;
 
-	cursor: default;
+    cursor: default;
 
-	.fullSizeBanner {
-		height: 150px;
+    .fullSizeBanner {
+        height: 150px;
 
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
 
-		h1 {
-			margin-bottom: 4px;
-			color: var(--main-color);
-		}
+        h1 {
+            margin-bottom: 4px;
+            // color: var(--main-color);
+            color: #fff;
+        }
 
-		p {
-			color: var(--main-color);
-			@extend .label;
-		}
-	}
+        p {
+            // color: var(--main-color);
+            color: #fff;
+            @extend .label;
+        }
+    }
 }
 
 .bannerWrap {
-	// background: var(--banner-color);
-	// background: var(--banner-color2);
-	background-color: var(--light-color);
-	position: absolute;
-	left: 0;
-	width: 100%;
+    background: var(--banner-color);
+    // background: var(--banner-color2);
+    // background-color: var(--light-color);
+    position: absolute;
+    left: 0;
+    width: 100%;
 }
 </style>
