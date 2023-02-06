@@ -3,6 +3,8 @@ package com.tonnybunny.domain.ytonny.controller;
 
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
+import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.service.UserService;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyResponseDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyRequestDto;
@@ -16,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,7 @@ import java.util.stream.Collectors;
 @Api(tags = "예약통역 관련 API")
 public class YTonnyController {
 
+	private final UserService userService;
 	private final YTonnyService yTonnyService;
 
 
@@ -112,8 +116,8 @@ public class YTonnyController {
 		                                                                                     .taskStateCode(m.getTaskStateCode())
 		                                                                                     .createdAt(m.getCreatedAt())
 		                                                                                     .updatedAt(m.getUpdatedAt())
-		                                                                                     .yTonnyApplyList(modelMapper.map(m.getYTonnyApplyList(), List.class))
-		                                                                                     .yTonnyQuotationList(modelMapper.map(m.getYTonnyQuotationList(), List.class))
+		                                                                                     //		                                                                                     .yTonnyApplyList(modelMapper.map(m.getYTonnyApplyList(), List.class))
+		                                                                                     //		                                                                                     .yTonnyQuotationList(modelMapper.map(m.getYTonnyQuotationList(), List.class))
 		                                                                                     .build())
 		                                                          .collect(Collectors.toList());
 
@@ -128,38 +132,24 @@ public class YTonnyController {
 	 * @param yTonnySeq : 해당 조회 공고 seq
 	 * @return YTonnyResponseDto : 예약통역 상세 정보
 	 */
-	@GetMapping("/{yTonnySeq}")
+	@GetMapping("/{yTonnySeq}/{userSeq}")
 	@ApiOperation(value = "예약통역 공고 목록 상세 조회 API", notes = "사용자가 예약통역 공고를 상세 조회한다.")
-	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq) {
+	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq, @PathVariable Long userSeq, @RequestHeader HttpHeaders header) {
 
 		System.out.println("YTonnyController.getYTonnyDetail");
+		System.out.println("yTonnySeq = " + yTonnySeq + ", header = " + header);
 
 		if (yTonnySeq == null) throw new CustomException(ErrorCode.ID_IS_NULL);
 
 		// service
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
-		//		System.out.println("yTonnyEntity = " + yTonnyEntity);
+		UserEntity userEntity = userService.getUserInfo(userSeq); // FIXME: token 으로 변경될 예정
 
 		// entity -> dto
-		ModelMapper modelMapper = new ModelMapper();
-		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.builder()
-		                                                       .title(yTonnyEntity.getTitle())
-		                                                       .content(yTonnyEntity.getContent())
-		                                                       .client((modelMapper.map(yTonnyEntity.getClient(), UserResponseDto.class)))
-		                                                       .startDateTime(yTonnyEntity.getStartDateTime())
-		                                                       .estimateTime(yTonnyEntity.getEstimateTime())
-		                                                       .estimatePrice(yTonnyEntity.getEstimatePrice())
-		                                                       .startLangCode(yTonnyEntity.getStartLangCode())
-		                                                       .endLangCode(yTonnyEntity.getEndLangCode())
-		                                                       .tonnySituCode(yTonnyEntity.getTonnySituCode())
-		                                                       .taskCode(yTonnyEntity.getTaskCode())
-		                                                       .taskStateCode(yTonnyEntity.getTaskStateCode())
-		                                                       .createdAt(yTonnyEntity.getCreatedAt())
-		                                                       .updatedAt(yTonnyEntity.getUpdatedAt())
-		                                                       //		                                                       .yTonnyApplyList((modelMapper.map(yTonnyEntity.getYTonnyApplyList(), List.class)))
-		                                                       //		                                                       .yTonnyQuotationList((modelMapper.map(yTonnyEntity.getYTonnyQuotationList(), List.class)))
-		                                                       //		                                                       .isApplyHelper(yTonnyEntity.getIsApplyHelper())
-		                                                       .build();
+		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
+		
+		// 해당 공고의 creator 와 조회하려는 user 가 같은 사람인가?
+		if (userSeq == yTonnyEntity.getClient().getSeq()) yTonnyResponseDto.setIsCreator(true);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
 

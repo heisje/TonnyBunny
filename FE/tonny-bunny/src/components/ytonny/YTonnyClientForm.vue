@@ -1,11 +1,56 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <form class="customForm" @submit.prevent="submitForm(event)">
+            <div class="situation mt-5">
+                <title-text
+                    important
+                    type="h2"
+                    title="제목"
+                    text="헬퍼에게 어떤 상황인지 제목으로 알려볼까요?"
+                    bottom="20" />
+
+                <!-- <input
+                type="text"
+                :pattern="title.pattern"
+                @input="changeInput"
+                :value="title.value"
+                class="mb-5"
+                placeholder="제목을 입력해주세요" /> -->
+                <input type="text" placeholder="제목을 입력해주세요" v-model="title" />
+
+                <title-text
+                    type="h2"
+                    title="[선택] 상황 카테고리"
+                    text="어떤 상황의 통역을 원하시나요?"
+                    top="70"
+                    bottom="20" />
+
+                <DropdownInputCode
+                    class="w120"
+                    :dropdownArray="tonnySituCodeList"
+                    placeholder="상황 선택"
+                    @toggle="(e) => (tonnySituCode = e)" />
+
+                <title-text
+                    type="h2"
+                    title="[선택] 상황 설명"
+                    text="통역이 필요한 상황을 헬퍼에게 설명해볼까요?"
+                    top="70"
+                    bottom="20" />
+
+                <textarea
+                    type="textarea"
+                    placeholder="내용을 입력해주세요"
+                    rows="7"
+                    v-model="content" />
+            </div>
+
             <title-text
                 important
                 type="h2"
                 title="언어 선택"
                 text="어떤 언어를 통역하실건가요?"
+                top="70"
                 bottom="20" />
 
             <div class="d-flex flex-row w-100 mb-5">
@@ -92,25 +137,9 @@
             <title-text
                 important
                 type="h2"
-                title="제목"
-                text="최상단에 노출 될 제목입니다"
-                top="70"
-                bottom="20" />
-
-            <!-- <input
-                type="text"
-                :pattern="title.pattern"
-                @input="changeInput"
-                :value="title.value"
-                class="mb-5"
-                placeholder="제목을 입력해주세요" /> -->
-            <input type="text" class="mb-5" placeholder="제목을 입력해주세요" v-model="title" />
-
-            <title-text
-                important
-                type="h2"
                 title="예약통역 지불 캐럿"
                 text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
+                top="70"
                 bottom="20" />
 
             <div class="d-flex mb-5">
@@ -122,34 +151,7 @@
                 </div>
             </div>
 
-            <title-text
-                type="h2"
-                title="[선택] 상황 카테고리"
-                text="해당 상황을 한 단어로 요약하자면?"
-                top="70"
-                bottom="20" />
-
-            <DropdownInputCode
-                class="w120"
-                :dropdownArray="tonnySituCodeList"
-                placeholder="상황 선택"
-                @toggle="(e) => (tonnySituCode = e)" />
-
-            <title-text
-                type="h2"
-                title="[선택] 상황 설명"
-                text="어떤 상황인가요?"
-                top="70"
-                bottom="20" />
-
-            <textarea
-                type="textarea"
-                placeholder="내용을 입력해주세요"
-                class="mb"
-                rows="7"
-                v-model="content" />
-
-            <agree-input @toggle="(e) => (agreeValue = e)" />
+            <agree-input class="mt-5" @toggle="(e) => (agreeValue = e)" />
             <medium-btn text="예약하기" class="w-100" color="main" @click.prevent="insertYTonny" />
         </form>
     </div>
@@ -188,17 +190,16 @@ export default {
             agreeValue: false,
 
             // ytonny Form
-            clientSeq: null,
+            title: "",
+            tonnySituCode: "",
+            content: "",
             startLangCode: "",
             endLangCode: "",
             startDate: "",
             startTime: "",
             estimateHour: "",
             estimateMinute: "",
-            estimatePrice: null,
-            tonnySituCode: "",
-            title: "",
-            content: "",
+            estimatePrice: "",
         };
     },
 
@@ -206,9 +207,10 @@ export default {
         ...mapGetters({
             langCodeList: "getLangCode",
             tonnySituCodeList: "getTonnySituCode",
-            yTonnyForm: "getYTonnyForm",
             hourCodeList: "getHourCodeList",
             minuteCodeList: "getMinuteCodeList",
+            yTonnyForm: "getYTonnyForm",
+            userInfo: "getUserInfo",
         }),
     },
 
@@ -228,7 +230,6 @@ export default {
 
         insertYTonny() {
             console.log("insertYTonny");
-            console.log(this.clientSeq);
             console.log(this.startLangCode);
             console.log(this.endLangCode);
             console.log(this.startDate);
@@ -241,32 +242,37 @@ export default {
             console.log(this.content);
 
             let payload = {
-                clientSeq: 1,
-
+                clientSeq: this.userInfo.seq,
                 title: this.title,
+                tonnySituCode: this.tonnySituCode,
                 content: this.content,
-
+                startLangCode: this.startLangCode,
+                endLangCode: this.endLangCode,
                 startDateTime: `${this.startDate}T${this.startTime}`,
                 estimateTime: `${this.estimateHour}:${this.estimateMinute}`,
                 estimatePrice: this.estimatePrice,
-
-                startLangCode: this.startLangCode,
-                endLangCode: this.endLangCode,
-
-                tonnySituCode: this.tonnySituCode,
             };
 
             console.log(payload);
-            this.$store.dispatch("insertYTonny", payload).then((id) => {
-                if (id != -1) {
-                    this.$store.commit("TOGGLE_ALARM_MODAL");
-                }
-            });
-        },
-    },
 
-    created() {
-        // this.$store.dispatch("setCommonCode");
+            if (this.startLangCode == "" || this.endLangCode == "") {
+                alert("언어를 선택해주세요");
+            } else if (this.startDate == "" || this.startTime == "") {
+                alert("날짜를 선택해주세요");
+            } else if (this.estimateHour == "" || this.estimateMinute == "") {
+                alert("시간을 선택해주세요");
+            } else if (this.title == "") {
+                alert("제목을 선택해주세요");
+            } else if (this.estimatePrice == "") {
+                alert("지불 금액을 설정해주세요");
+            } else {
+                this.$store.dispatch("insertYTonny", payload).then((id) => {
+                    if (id != -1) {
+                        this.$store.commit("TOGGLE_ALARM_MODAL");
+                    }
+                });
+            }
+        },
     },
 };
 </script>
@@ -276,5 +282,12 @@ export default {
 
 .mb {
     margin-bottom: 60px;
+}
+
+.situation {
+    background-color: var(--light-color);
+    border-radius: 6px;
+    padding: 5px 30px;
+    padding-bottom: 32px;
 }
 </style>

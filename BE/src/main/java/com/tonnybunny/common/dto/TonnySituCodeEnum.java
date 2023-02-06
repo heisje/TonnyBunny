@@ -16,4 +16,9 @@ public enum TonnySituCodeEnum {
 	TonnySituCodeEnum(String tonnySituCode) {
 		this.tonnySituCode = tonnySituCode;
 	}
+
+
+	public String getTonnySituCode() {
+		return tonnySituCode;
+	}
 }

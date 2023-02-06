@@ -224,7 +224,7 @@ export default createRouter({
 
         //ytonny
         {
-            path: "/ytonny/:id",
+            path: "/ytonny/:id/:userSeq",
             name: "YTonnyDetailPage",
             components: {
                 header: AppHeader,
