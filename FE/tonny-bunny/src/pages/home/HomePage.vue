@@ -14,11 +14,11 @@
         <!-- part1 -->
         <!-- <tag-test></tag-test> -->
         <!-- <hr /> -->
-        <modal-test></modal-test>
+        <!-- <modal-test></modal-test> -->
         <!-- <hr /> -->
         <!-- <button-test></button-test> -->
         <!-- <hr /> -->
-        <!-- <card-test></card-test> -->
+        <card-test></card-test>
         <!-- <hr /> -->
 
         <!-- part2 -->
@@ -69,7 +69,7 @@ import LoginModal from "@/components/common/modal/LoginModal.vue";
 import ModalTest from "@/components/common/modal/ModalTest.vue";
 // import ButtonTest from "@/components/common/button/ButtonTest.vue";
 // import InputTest from "@/components/common/input/InputTest.vue";
-// import CardTest from "@/components/common/card/CardTest.vue";
+import CardTest from "@/components/common/card/CardTest.vue";
 // import TitleBanner from "@/components/common/TitleBanner.vue";
 // import TitleText from "@/components/common/TitleText.vue";
 // import MainBtn from "@/components/home/MainBtn.vue";
@@ -91,7 +91,7 @@ export default {
         ModalTest,
         // ButtonTest,
         // InputTest,
-        // CardTest,
+        CardTest,
         // TitleBanner,
         // TitleText,
         // MainBtn,

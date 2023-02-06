@@ -46,20 +46,4 @@ export default {
     getMinuteCodeList(state) {
         return state.common.minuteCodeList;
     },
-    /*
-    getLangCodeList(state) {
-        return state.common.langCodeList;
-    },
-    getTaskCodeList(state) {
-        return state.common.taskCodeList;
-    },
-    getTonnySituCodeList(state) {
-        return state.common.tonnySituCodeList;
-    },
-    getQuotationStateCodeList(state) {
-        return state.common.quotationStateCodeList;
-    },
-    getTaskStateCodeList(state) {
-        return state.common.taskStateCodeList;
-    }, */
 };
