@@ -256,7 +256,7 @@ export default {
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
-                let res = await http.post("/send/authcode", { phoneNumber: this.phoneNum });
+                let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
@@ -269,9 +269,15 @@ export default {
         // 인증코드 확인
         async checkAuthCode(event) {
             event.preventDefault();
-
+            const payload = {
+                authCode: this.authCode,
+                phoneNumber: this.phoneNum,
+            };
+            console.log(payload);
             try {
-                let res = await http.post("/check/authcode", { authCode: this.authCode });
+                let res = await http.post("/check/authcode", {
+                    payload,
+                });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
                     this.noticeAuth = "인증이 완료되었습니다";
@@ -373,8 +379,12 @@ export default {
 
             // 모두 참일 때 폼 제출 가능
 
-            const userCode = this.$route.params.select;
-
+            let userCode;
+            if (this.$route.params.select == "helper") {
+                userCode = "0010001";
+            } else if (this.$route.params.select == "client") {
+                userCode = "0010002";
+            }
             try {
                 let res = await http.post("/signup", {
                     email: this.email,
@@ -405,6 +415,8 @@ export default {
                 }
             } catch (error) {
                 console.log(error);
+                this.exception = "회원가입에 실패하였습니다.";
+                this.$store.commit("TOGGLE_ALARM_MODAL");
             }
         },
     },

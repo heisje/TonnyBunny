@@ -16,6 +16,10 @@ export default {
     },
 
     /* Code */
+    getAllCode(state) {
+        return state.common.allCode;
+    },
+
     getUserCode(state) {
         return state.common.userCode;
     },
@@ -30,6 +34,9 @@ export default {
     },
     getBunnySituCode(state) {
         return state.common.bunnySituCode;
+    },
+    getBunnyStateCode(state) {
+        return state.common.bunnyStateCode;
     },
     getQuotationStateCode(state) {
         return state.common.quotationStateCode;

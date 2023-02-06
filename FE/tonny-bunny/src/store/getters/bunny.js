@@ -6,9 +6,12 @@ export default {
         return state.bunny.isBunnyModalOpen;
     },
     getBunnyDetail(state) {
-        return state.board.bunnyDetail;
+        return state.bunny.bunnyDetail;
     },
     getBunnyList(state) {
-        return state.board.bunnyList;
+        return state.bunny.bunnyList;
+    },
+    getBunnyStateCode(state) {
+        return state.bunny.getBunnyStateCode;
     },
 };

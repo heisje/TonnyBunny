@@ -310,8 +310,6 @@ export default {
         // login btn click -> login modal 띄우기
         toggleLoginModal(e) {
             e.preventDefault();
-            // console.log("login");
-            // this.$router.push("/login");
             this.$store.commit("TOGGLE_LOGIN_MODAL");
         },
 

@@ -9,6 +9,7 @@ import com.tonnybunny.domain.bunny.dto.BunnyResponseDto;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.service.BunnyService;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -67,11 +69,22 @@ public class BunnyController {
 	@GetMapping("/{bunnySeq}")
 	@ApiOperation(value = "번역 공고 상세 조회")
 	public ResponseEntity<ResultDto<BunnyResponseDto>> getBunny(@PathVariable("bunnySeq") Long bunnySeq) {
+
 		BunnyEntity bunnyEntity = bunnyService.getBunny(bunnySeq);
+
+		UserEntity user = bunnyEntity.getUser();
 		BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunnyEntity);
+		bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
+		bunnyResponseDto.getClient().put("nickname", user.getNickName());
+		bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDto));
 	}
 
+	/**
+	 *  DTO 수정해야하고
+	 *  clinetSeq -> client Entity
+	 */
 
 	/**
 	 * 번역 공고 목록 조회 (필터기능)
@@ -85,7 +98,18 @@ public class BunnyController {
 	public ResponseEntity<ResultDto<List<BunnyResponseDto>>> getBunnyListByFilter(@RequestParam("lang") String lang, @RequestParam("category") String category) {
 
 		List<BunnyEntity> bunnyList = bunnyService.getBunnyListByFilter(lang, category);
-		List<BunnyResponseDto> bunnyResponseDtoList = BunnyResponseDto.fromEntityList(bunnyList);
+		List<BunnyResponseDto> bunnyResponseDtoList = new ArrayList<>();
+
+		for (BunnyEntity bunny : bunnyList) {
+			UserEntity user = bunny.getUser();
+			BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunny);
+			bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
+			bunnyResponseDto.getClient().put("nickname", user.getNickName());
+			bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
+
+			bunnyResponseDtoList.add(bunnyResponseDto);
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDtoList));
 
 	}

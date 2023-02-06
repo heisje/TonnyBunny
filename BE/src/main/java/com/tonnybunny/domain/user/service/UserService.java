@@ -130,7 +130,7 @@ public class UserService {
 		UserEntity user =
 			userRepository
 				.findByEmail(userRequestDto.getEmail())
-				.orElseThrow(() -> new CustomException(LOGIN_BAD_REQUEST)
+				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)
 				);
 
 		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
@@ -171,11 +171,6 @@ public class UserService {
 	}
 
 
-	public List<UserEntity> findUsers() {
-		return userRepository.findAll();
-	}
-
-
 	public Boolean checkNicknameDuplication(UserRequestDto userRequestDto) {
 
 		if (userRepository.findByNickName(userRequestDto.getNickName()).isPresent()) {
@@ -202,9 +197,15 @@ public class UserService {
 		String authCode = authCodeRequestDto.getAuthCode();
 		String phoneNumber = authCodeRequestDto.getPhoneNumber();
 		String value = redisUtil.getData(authCode);
-		if (value == null | value != phoneNumber) {
+		System.out.println("value = " + value);
+		if (value.equals(null)) {
 			throw new CustomException(DATA_BAD_REQUEST);
 		}
+		if (!value.equals(phoneNumber)) {
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+		redisUtil.deleteData(authCode);
+
 		return true;
 	}
 

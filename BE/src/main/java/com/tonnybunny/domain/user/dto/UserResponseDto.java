@@ -41,7 +41,7 @@ public class UserResponseDto {
 	//	private Integer reportCount;
 	private String profileImagePath;
 
-	private HelperInfoResponseDto helperInfoResponseDto;
+	private HelperInfoResponseDto helperInfo;
 
 
 	/**
@@ -54,8 +54,10 @@ public class UserResponseDto {
 		                                                 .email(user.getEmail())
 		                                                 .nickName(user.getNickName())
 		                                                 .profileImagePath(user.getProfileImagePath())
+		                                                 .phoneNumber(user.getPhoneNumber())
 		                                                 .point(user.getPoint())
 		                                                 .userCode(user.getUserCode())
+		                                                 .helperInfo(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
 		                                                 .build();
 		return userResponseDto;
 	}

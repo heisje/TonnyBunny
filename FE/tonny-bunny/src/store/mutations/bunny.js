@@ -10,9 +10,9 @@ export default {
     },
 
     SET_BUNNY_DETAIL(state, data) {
-        state.board.bunnyDetail = data;
+        state.bunny.bunnyDetail = data;
     },
-    SET_BUNNY_List(state, data) {
-        state.board.bunnyList = data;
+    SET_BUNNY_LIST(state, data) {
+        state.bunny.bunnyList = data;
     },
 };
