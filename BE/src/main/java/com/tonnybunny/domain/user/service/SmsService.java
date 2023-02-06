@@ -139,7 +139,9 @@ public class SmsService {
 	 */
 	public String smsTest(MessageRequestDto messageRequestDto) {
 		String smsConfirmNum = createSmsKey();
+		System.out.println("smsConfirmNum = " + smsConfirmNum);
 		redisUtil.setDataExpire(smsConfirmNum, messageRequestDto.getTo(), 60 * 10L);
+		
 		return smsConfirmNum;
 
 	}
