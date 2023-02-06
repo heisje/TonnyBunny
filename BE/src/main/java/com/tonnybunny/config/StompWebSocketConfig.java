@@ -15,6 +15,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class StompWebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	/**
+	 * git
 	 * WebSocket 커넥션을 생성할 경로를 설정한다.
 	 */
 	@Override

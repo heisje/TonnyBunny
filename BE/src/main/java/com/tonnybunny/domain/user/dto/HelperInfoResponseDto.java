@@ -2,6 +2,8 @@ package com.tonnybunny.domain.user.dto;
 
 
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import java.util.List;
  * HelperInfoImageList  : 헬퍼 정보 이미지 경로가 담긴 리스트
  */
 @Data
+@Builder
+@AllArgsConstructor
 public class HelperInfoResponseDto {
 
 	private Long seq;
@@ -32,13 +36,23 @@ public class HelperInfoResponseDto {
 	private Integer unitPrice;
 	private String oneLineIntroduction;
 	private String introduction;
-	private List<String> possibleLanguageList;
+	private List<PossibleLanguageDto> possibleLanguageList;
 	private List<CertificateResponseDto> certificateList;
-	private List<String> HelperInfoImageList;
+	private List<HelperInfoImageResponseDto> helperInfoImageList;
 
 
 	public static HelperInfoResponseDto fromEntity(HelperInfoEntity helperInfo) {
-		return new HelperInfoResponseDto();
+		return HelperInfoResponseDto.builder()
+		                            .seq(helperInfo.getSeq())
+		                            .avgScore(helperInfo.getAvgScore())
+		                            .reviewCount(helperInfo.getReviewCount())
+		                            .unitPrice(helperInfo.getUnitPrice())
+		                            .oneLineIntroduction(helperInfo.getOneLineIntroduction())
+		                            .introduction(helperInfo.getIntroduction())
+		                            .possibleLanguageList(PossibleLanguageDto.fromEntityList(helperInfo.getPossibleLanguageList()))
+		                            .certificateList(CertificateResponseDto.fromEntityList(helperInfo.getCertificateList()))
+		                            .helperInfoImageList(HelperInfoImageResponseDto.fromEntityList(helperInfo.getHelperInfoImageList()))
+		                            .build();
 	}
 
 

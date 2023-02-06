@@ -26,7 +26,7 @@ import java.util.List;
 public class HelperInfoRequestDto {
 
 	/* 헬퍼 유저 회원가입 */
-	private List<String> possibleLanguageList = new ArrayList<>();
+	private List<PossibleLanguageDto> possibleLanguageList = new ArrayList<>();
 
 	private List<CertificateRequestDto> certificateList = new ArrayList<>();
 

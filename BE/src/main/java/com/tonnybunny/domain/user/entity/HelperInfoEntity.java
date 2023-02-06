@@ -2,9 +2,8 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.entity.CommonEntity;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class HelperInfoEntity extends CommonEntity {
 
 	@Id
@@ -42,12 +41,5 @@ public class HelperInfoEntity extends CommonEntity {
 
 	@OneToMany(mappedBy = "helperInfo")
 	private List<HelperInfoImageEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
-
-
-	public HelperInfoEntity(UserEntity user, List<PossibleLanguageEntity> possibleLanguageList, List<CertificateEntity> certificateList) {
-		this.user = user;
-		this.possibleLanguageList = possibleLanguageList;
-		this.certificateList = certificateList;
-	}
 
 }
