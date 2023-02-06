@@ -54,7 +54,51 @@
             <!-- <ClientCard />
             -->
             <quest-card
-                :questDetail="questDetail"
+                :questDetail="{
+                    seq: 2,
+                    clientSeq: 1,
+                    helperSeq: null,
+                    title: '제목',
+                    content: '내용',
+                    startDate: '2023-02-07T00:00:00',
+                    endDate: '2023-02-08T00:00:00',
+                    estimatePrice: 100,
+                    startLangCode: '0020001',
+                    endLangCode: '0020002',
+                    bunnySituCode: '0050001',
+                    bunnyStateCode: '0100001',
+                    taskCode: '0030003',
+                    bunnyApplyList: [
+                        {
+                            seq: 7,
+                            userSeq: 3,
+                            bunnySeq: 2,
+                            estimatePrice: 100,
+                        },
+                    ],
+                    bunnyImageList: [],
+                    bunnyQuotationList: [],
+                }"
+                @click-btn1="check1"
+                @click-btn2="check2"></quest-card>
+            <quest-card
+                :questDetail="{
+                    ytonnySeq: 1,
+                    clientSeq: 1,
+
+                    title: 'title1 수정',
+                    content: 'content1 수정',
+
+                    estimateDate: '2023-02-02',
+                    estimateStartTime: '12:01',
+                    estimateTime: '12:01',
+                    estimatePrice: 9999,
+
+                    startLangCode: '0020001',
+                    endLangCode: '0020002',
+                    tonnySituCode: '0040001',
+                    taskStateCode: '0090002',
+                }"
                 @click-btn1="check1"
                 @click-btn2="check2"></quest-card>
         </div>
@@ -109,7 +153,7 @@ import InputTest from "@/components/common/input/InputTest.vue";
 
 // import ClientCard from "@/components/common/card/ClientCard.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
-// import QuestCard from "@/components/common/card/QuestCard.vue";
+import QuestCard from "@/components/common/card/QuestCard.vue";
 
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 // import LoginModalVue from "@/components/common/modal/LoginModal.vue";
@@ -131,7 +175,7 @@ export default {
 
         // ClientCard,
         HelperCard,
-        // QuestCard,
+        QuestCard,
 
         AlarmModal,
         // LoginModalVue,
