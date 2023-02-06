@@ -2,6 +2,7 @@ package com.tonnybunny.domain.user.dto;
 
 
 import com.tonnybunny.domain.user.entity.CertificateEntity;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -14,16 +15,22 @@ import java.util.List;
  * score        : 자격증 점수
  */
 @Data
+@Builder
 public class CertificateResponseDto {
 
 	private Long seq;
 	private String langCode;
 	private String certName;
-	private String score;
+	private String content;
 
 
 	public static CertificateResponseDto fromEntity(CertificateEntity certificate) {
-		return new CertificateResponseDto();
+		return CertificateResponseDto.builder()
+		                             .langCode(certificate.getLangCode())
+		                             .certName(certificate.getCertName())
+		                             .content(certificate.getContent())
+		                             .build();
+
 	}
 
 

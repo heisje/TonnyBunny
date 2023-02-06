@@ -2,15 +2,15 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.entity.CommonEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PossibleLanguageEntity extends CommonEntity {
 
@@ -24,8 +24,7 @@ public class PossibleLanguageEntity extends CommonEntity {
 	private HelperInfoEntity helperInfo;
 
 	private String langCode; // 언어공통코드
-
-	//	private String language; // 언어명
+	private String langName; // 언어명
 
 
 	public PossibleLanguageEntity(HelperInfoEntity helperInfo, String langCode) {
