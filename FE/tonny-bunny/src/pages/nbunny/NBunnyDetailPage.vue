@@ -128,7 +128,7 @@
             </div>
             <br /><br />
             {{ $store.state.account.userInfo }}
-            <div v-if="$store.state.account.userInfo.seq == getBunnyDetail?.clientSeq">
+            <div v-if="$store.state.account.userInfo.seq == getBunnyDetail?.client.seq">
                 <medium-btn
                     style="width: 100%"
                     text="의뢰 취소 하기"
