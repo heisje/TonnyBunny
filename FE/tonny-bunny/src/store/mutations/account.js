@@ -12,10 +12,9 @@ export default {
 
     // userInfo 정보 세팅하기
     SET_USER_INFO(state, payload) {
-        const { isHelper, ...userInfo } = payload;
+        const { ...userInfo } = payload;
         state.account.isLogin = true;
         state.account.userInfo = userInfo;
-        state.account.isHelper = isHelper;
         console.log("state.account.userInfo", state.account.userInfo);
     },
     // token 정보 세팅하기
@@ -34,6 +33,10 @@ export default {
     // logout
     SET_LOG_OUT(state) {
         state.account.userInfo = {};
+        state.account.isLogin = true;
+        state.account.isHelper = false;
         state.account.isLogin = false;
+        state.account.ACCESS_TOKEN = "";
+        state.account.REFRESH_TOKEN = "";
     },
 };

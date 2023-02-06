@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="iconsWarp" v-if="true">
-                            <div class="iconsContent searchIcon" @click="toggleBunnyModalOpen">
+                            <div class="iconsContent searchIcon" @click="toggleHelperBtn">
                                 <div>
                                     <img src="@/assets/homeSearchIcon.png" alt="" />
                                 </div>
