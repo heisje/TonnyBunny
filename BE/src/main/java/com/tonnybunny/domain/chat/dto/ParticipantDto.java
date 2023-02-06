@@ -1,7 +1,10 @@
 package com.tonnybunny.domain.chat.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -9,6 +12,9 @@ import lombok.Data;
  * isConnectedRoom  : 채팅방에 들어간 상태
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ParticipantDto {
 
 	private Integer port; // TODO : Set으로 저장 -> 한 유저가 여러 브라우저 창에서 같은 채팅방에 접속할 수 있음

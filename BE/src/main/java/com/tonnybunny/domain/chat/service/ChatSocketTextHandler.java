@@ -1,9 +1,11 @@
 package com.tonnybunny.domain.chat.service;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tonnybunny.domain.chat.dto.ChatLogDto;
 import com.tonnybunny.domain.chat.dto.ParticipantDto;
-import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,20 +20,29 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ChatSocketTextHandler extends TextWebSocketHandler {
 
-	private final ChatService chatService;
+	//	private final ChatService chatService;
 	private final RedisTemplate<String, Object> redisTemplate;
 	private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
 
-	/** userSeq:roomId:anotherUserSeq 정보 저장 -> 같은 방 다른 유저를 쉽게 찾기 위함 */
-	private HashOperations<String, Long, Map<String, Long>> userMapInfo; // "USER_MAP", userSeq : {roomSeq : anotherUserSeq}
+	/**
+	 * userSeq:roomId:anotherUserSeq 정보 저장 -> 같은 방 다른 유저를 쉽게 찾기 위함
+	 * 데이터 추가 시점 : 한 명이라도 방을 만들면 -> 양쪽다 만듦
+	 */
+	private HashOperations<String, String, Map<String, Long>> userMapInfo; // "USER_MAP", userSeq : {roomSeq : anotherUserSeq}
 
-	/** 방에 포함된 사람의 세션 정보 저장 */
-	private HashOperations<String, String, Map<Long, ParticipantDto>> roomInfo; // "CHAT_ROOM", roomSeq, {userSeq1: {...}, userSeq2: {...}}
+	/**
+	 * 방에 포함된 사람의 세션 정보 저장
+	 * 데이터 추가 시점 : 한 명이라도 방을 만들면 -> 양쪽 다 만듦 (port는 비워둠)
+	 */
+	private HashOperations<String, String, Map<String, ParticipantDto>> roomInfo; // "CHAT_ROOM", roomSeq, {userSeq1: {...}, userSeq2: {...}}
 
-	/** 각 방에 오고간 채팅 로그 저장 */
+	/**
+	 * 각 방에 오고간 채팅 로그 저장
+	 * 데이터 추가 시점 : 메세지 보냈을 때
+	 */
 	private HashOperations<String, String, List<ChatLogDto>> chatLogInfo; // "CHAT_LOG", roomSeq, [{userSeq, msg, ...}, ...]
 
 	/**
@@ -43,16 +54,20 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 *
 	 * -> 브라우저 여러개 열어서 동시에 같은 채팅방을 열었을 때 문제가 됨.
 	 * => status를 boolean으로 하지 말고, Integer 카운트로 셈하자!
+	 *
+	 * 데이터 추가 시점 : 방이 만들어 졌을 때 -> 양쪽 다 만듦 (count는 0)
 	 */
-	private HashOperations<String, Long, Map<String, Integer>> notReadInfo; // "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
+	private HashOperations<String, String, Map<String, Integer>> notReadInfo; // "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
 
 
-	public ChatSocketTextHandler() {
-		chatService = new ChatService();
-		redisTemplate = new RedisTemplate<>();
-		roomInfo = redisTemplate.opsForHash();
-		chatLogInfo = redisTemplate.opsForHash();
-		notReadInfo = redisTemplate.opsForHash();
+	public ChatSocketTextHandler(RedisTemplate<String, Object> redisTemplate) {
+		//		System.out.println(" !!! Constructor !!! ");
+		//		chatService = new ChatService();
+		this.redisTemplate = redisTemplate;
+		this.userMapInfo = redisTemplate.opsForHash();
+		this.roomInfo = redisTemplate.opsForHash();
+		this.chatLogInfo = redisTemplate.opsForHash();
+		this.notReadInfo = redisTemplate.opsForHash();
 	}
 
 
@@ -81,52 +96,95 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String payload = message.getPayload();
-		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonObject = new JSONObject(payload);
 		switch (jsonObject.getString("type")) {
-		case "no_enter": { // 채팅방에 들어가지 않은 상태
-
+		case "exit": { // 채팅방에 들어가지 않은 상태
+			String roomId = jsonObject.getString("roomId");
+			String userSeq = jsonObject.getString("userSeq");
+			// 입장 카운트 감소함
+			decreaseEnterRoomCount(roomId, userSeq);
+			break;
 		}
 		case "enter": { // 채팅방에 들어간 상태
 			String roomId = jsonObject.getString("roomId");
 			Long userSeq = Long.valueOf(jsonObject.getString("userSeq"));
+			Long anotherSeq = Long.valueOf(jsonObject.getString("anotherSeq"));
 
-			System.out.println(" enter Setting " + roomId + " " + userSeq);
+			//			System.out.println(" enter Setting " + roomId + " \n\tRoomStatus : " + roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId)
+			//				+ " \n\tNotReadInfo : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 			// 안 읽은 메세지 수를 0으로 초기화
 			initNotReadCount(roomId, userSeq);
 
+			// user:room 을 추가
+			addUserMapInfo(roomId, userSeq, anotherSeq);
+
 			// 방에 참가자 세션 정보가 추가(redis)
+			initParticipantInfoInChatRoom(roomId, userSeq, anotherSeq);
+
+			// 방에 재접속시 정보 갱신
 			updateParticipantInfoInChatRoom(roomId, userSeq, session);
 
 			// 이전에 남아있던 메세지 로그를 전달
-			sendLogInChatRoom(roomId, session);
+			//			ChatLogDto chat = ChatLogDto.builder().roomSeq(roomId).userSeq(userSeq).message(jsonObject.getString("message")).date(LocalDateTime.now()).build();
+			sendChatInChatRoom(roomId, session);
 
 			break;
 		}
 		case "message": { // 메세지 전달
+
+			roomInfo = redisTemplate.opsForHash();
 			System.out.println("[채팅 " + session.getId() + "] " + jsonObject + " / " + jsonObject.getString("message"));
-			System.out.print("\t - " + jsonObject.getString("roomId") + " 방에 연결된 포트 번호 : ");
-			System.out.println(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), jsonObject.getString("roomId")));
+			//			System.out.println("\t\t** participant info: " + roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), jsonObject.getString("roomId")));
 
 			String roomId = jsonObject.getString("roomId");
 			Long userSeq = Long.valueOf(jsonObject.getString("userSeq"));
 
-			// 메세지 로그 저장
+			// 메세지 로그 Redis에 저장
 			saveChatLog(roomId, userSeq, jsonObject.getString("message"));
 
 			// 채팅방에 연결된 유저들의 port 번호로 메세지 전달 -> 접속 안한 사람도 최근 메세지를 받아야 하므로 계속 보냄
 			// 그러면 ChatRoom에서 줄 필요 없음! 그냥 소켓으로 보내면 됨 -> 아님 소켓 연결 안된 곳은 못 받으므로 별도로 보내줘야 함
-			sendMessageByRoomId(roomId, session.getId() + " : " + jsonObject.getString("message"));
+			ChatLogDto chat = ChatLogDto.builder().roomSeq(roomId).userSeq(userSeq).message(jsonObject.getString("message")).date(LocalDateTime.now()).build();
+			sendMessageByRoomId(roomId, chat);
 
 			// 같은 방인데 접속 안한 유저면 -> 안 읽은 메세지 카운트 ++
-			Long anotherUserSeq = userMapInfo.get(ChatTypeEnum.USER_MAP.toString(), userSeq).get(roomId);
-			ParticipantDto anotherUserStatus = roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId).get(anotherUserSeq);
-			if (anotherUserStatus.getEnterRoomCount() == 0) { // 어느 세션에서도 접속하지 않은 상태
-				increaseNotReadCount(roomId, userSeq);
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, Long> usermap = objectMapper.convertValue(userMapInfo.get(ChatTypeEnum.USER_MAP.toString(), userSeq.toString()), new TypeReference<Map<String, Long>>() {});
+			//			System.out.println(" Usermap : " + usermap);
+			Long anotherUserSeq = usermap.get(roomId);
+
+			Map<String, ParticipantDto> anotherUser = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
+			//			System.out.println("another User: " + anotherUser + " class : " + anotherUser.getClass());
+			//			System.out.println(String.format("Keys : %s, antoherSeq: %s", anotherUser.keySet(), anotherUserSeq));
+			ParticipantDto anotherUserInfo = anotherUser.get(anotherUserSeq.toString());
+			if (anotherUserInfo.getEnterRoomCount() == 0) { // 어느 세션에서도 접속하지 않은 상태
+				increaseNotReadCount(roomId, anotherUserSeq);
 			}
 			break;
 
 		}
 		}
+	}
+
+
+	/**
+	 * UserMapperInfo에 userSeq : {roomId : anotherSeq} 를 저장
+	 *
+	 * @param roomId
+	 * @param userSeq
+	 * @param anotherSeq
+	 */
+	private void addUserMapInfo(String roomId, Long userSeq, Long anotherSeq) {
+		// 나 추가
+		Map<String, Long> userMapper = new HashMap<>();
+		userMapper.put(roomId, anotherSeq);
+		userMapInfo.put(ChatTypeEnum.USER_MAP.toString(), userSeq.toString(), userMapper);
+
+		// 상대 추가
+		Map<String, Long> anotherMapper = new HashMap<>();
+		anotherMapper.put(roomId, userSeq);
+		userMapInfo.put(ChatTypeEnum.USER_MAP.toString(), anotherSeq.toString(), anotherMapper);
+
 	}
 
 
@@ -137,9 +195,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @param userSeq
 	 */
 	private void initNotReadCount(String roomId, Long userSeq) {
-		Map<String, Integer> notRead = notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq);
+		Map<String, Integer> notRead = new HashMap<>();
 		notRead.put(roomId, 0);
-		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq, notRead);
+		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
 	}
 
 
@@ -150,10 +208,11 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @param userSeq
 	 */
 	private void increaseNotReadCount(String roomId, Long userSeq) {
-		Map<String, Integer> notRead = notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq);
-		Integer notReadCount = notRead.get(roomId);
-		notRead.put(roomId, notReadCount + 1);
-		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq, notRead);
+		Map<String, Integer> notRead = notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString());
+		Integer notReadCount = notRead.get(roomId) + 1;
+		notRead.put(roomId, notReadCount);
+		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
+		System.out.println("\t\t *** Increase Not Read Count : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 	}
 
 
@@ -167,17 +226,22 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * 채팅방에 입장한 유저들에게 메세지 전달
 	 *
 	 * @param roomId
-	 * @param message
+	 * @param chatLogDto
 	 * @throws Exception
 	 */
-	private void sendMessageByRoomId(String roomId, String message) throws IOException {
-		roomInfo = redisTemplate.opsForHash();
-		Map<Long, ParticipantDto> userInfos = roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId);
+	private void sendMessageByRoomId(String roomId, ChatLogDto chatLogDto) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, ParticipantDto> userInfos = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
+		// 포트 번호 모음
+		List<Integer> ports = new ArrayList<>();
+		for (ParticipantDto participantDto : userInfos.values()) ports.add(participantDto.getPort());
+		//		System.out.println("ports: " + ports);
+
 		// 서버에 연결된 세션(클라이언트)들에게 채팅 메세지를 전달함
 		for (WebSocketSession s : sessions) {
 			// 채팅방에 속한 유저들에게만 채팅을 전달함.
-			if (userInfos.containsValue(s.getRemoteAddress().getPort())) {
-				s.sendMessage(new TextMessage(message));
+			if (ports.contains(s.getRemoteAddress().getPort())) {
+				s.sendMessage(new TextMessage(chatLogDto.toString()));
 			}
 		}
 	}
@@ -191,7 +255,6 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @param message
 	 */
 	private void saveChatLog(String roomId, Long userSeq, String message) {
-		chatLogInfo = redisTemplate.opsForHash();
 		List<ChatLogDto> chatLogList;
 		if (chatLogInfo.hasKey(ChatTypeEnum.CHAT_LOG.toString(), roomId)) {
 			// 채팅 로그가 이미 존재하는 방이면
@@ -200,11 +263,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			// 채팅 로그가 없는 방이면
 			chatLogList = new ArrayList<>();
 		}
-		ChatLogDto chatLogDto = new ChatLogDto();
-		chatLogDto.setUserSeq(userSeq);
-		chatLogDto.setMessage(message);
-		chatLogDto.setDate(LocalDateTime.now());
-
+		ChatLogDto chatLogDto = ChatLogDto.builder().userSeq(userSeq).message(message).date(LocalDateTime.now()).build();
 		chatLogList.add(chatLogDto);
 		chatLogInfo.put(ChatTypeEnum.CHAT_LOG.toString(), roomId, chatLogList);
 	}
@@ -218,52 +277,90 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @param session
 	 * @throws IOException
 	 */
-	private void sendLogInChatRoom(String roomId, WebSocketSession session) throws IOException {
-		chatLogInfo = redisTemplate.opsForHash();
+	private void sendChatInChatRoom(String roomId, WebSocketSession session) throws IOException {
 		if (chatLogInfo.hasKey(ChatTypeEnum.CHAT_LOG.toString(), roomId)) {
-			List<ChatLogDto> chatLogList = chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId);
+			//			System.out.println(" IN sendLogInChatRoom : " + chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId).toString()
+			//				+ "type : " + chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId).getClass());
+			ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+			List<ChatLogDto> chatLogList = objectMapper.convertValue(chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId), new TypeReference<List<ChatLogDto>>() {});
 			for (ChatLogDto chatLog : chatLogList) {
 				// TODO : JSON Object 같은 객체로 전달하기
-				session.sendMessage(new TextMessage(String.format(" [이전 채팅] %s : %s", chatLog.getUserSeq(), chatLog.getMessage())));
+				//				session.sendMessage(new TextMessage(String.format(" [이전 채팅] %s : %s", chatLog.getUserSeq(), chatLog.getMessage())));
+				session.sendMessage(new TextMessage(chatLog.toString()));
 			}
 		}
 	}
 
 
 	/**
-	 * 채팅방에 입장한 유저의 정보(userSeq, port)를 Redis에 저장
+	 * 채팅방에 입장한 유저의 정보(userSeq, port)를 Redis에 저장.
+	 * 이미 추가된 유저면 추가 X
+	 *
+	 * @param roomId
+	 * @param userSeq
+	 * @param anotherSeq
+	 */
+	private void initParticipantInfoInChatRoom(String roomId, Long userSeq, Long anotherSeq) {
+		if (roomInfo.hasKey(ChatTypeEnum.CHAT_ROOM.toString(), roomId)) {
+			// 방이 만들어져있으면 추가 안된 사용자 추가함
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, ParticipantDto> userMapper = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
+			userMapper.putIfAbsent(userSeq.toString(), ParticipantDto.builder().port(-1).enterRoomCount(0).build());
+			userMapper.putIfAbsent(anotherSeq.toString(), ParticipantDto.builder().port(-1).enterRoomCount(0).build());
+			roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, userMapper);
+		} else {
+			// 방이 안 만들어져있으면, 방 & 사용자 정보 추가
+			Map<String, ParticipantDto> userMapper = new HashMap<>();
+			userMapper.put(userSeq.toString(), ParticipantDto.builder().port(-1).enterRoomCount(0).build());
+			userMapper.put(anotherSeq.toString(), ParticipantDto.builder().port(-1).enterRoomCount(0).build());
+			roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, userMapper);
+		}
+		System.out.println("Init Participant : " + roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId));
+	}
+
+
+	/**
+	 * 채팅방에 다시 접속했을때 채팅방에 입장한 유저의 정보(userSeq, port)를 업데이트
 	 *
 	 * @param roomId
 	 * @param userSeq
 	 * @param session
 	 * @throws IOException
 	 */
+
 	private void updateParticipantInfoInChatRoom(String roomId, Long userSeq, WebSocketSession session) throws IOException {
-		roomInfo = redisTemplate.opsForHash();
+		ObjectMapper objectMapper = new ObjectMapper();
 		// key-vaalue로 유저 seq : port, seq, .. 정보를 묶음
-		Map<Long, ParticipantDto> userMapper;
-		ParticipantDto participantDto;
-		if (roomInfo.hasKey(ChatTypeEnum.CHAT_ROOM.toString(), roomId)) {
-			// 입장한 유저가 있다면
-			userMapper = roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId); // FIXME: 꺼내고 데이터 새로 넣은다음에 Map을 새로 redis에 넣는게 옳은걸까? 아닌 것 같음.. 일단 동작 확인만 하자
-			participantDto = userMapper.get(userSeq);
-		} else {
-			// 방이 처음 만들어졌다면 (유저 정보가 없다면)
-			userMapper = new HashMap<>();
-			participantDto = new ParticipantDto();
-		}
+		Map<String, ParticipantDto> userMapper = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
+		ParticipantDto participantDto = userMapper.get(userSeq.toString());
+
 		// 포트 번호와 방 입장 카운트++ 설정
-		participantDto = userMapper.get(userSeq);
+		//		System.out.println(" participant Dto : " + participantDto);
+		//		System.out.println(" Port: " + session.getRemoteAddress().getPort());
 		participantDto.setPort(session.getRemoteAddress().getPort());
 		participantDto.increaseEnterRoomCount();
 		// 설정한 값으로 갱신
-		userMapper.put(userSeq, participantDto);
-		// redis에 넣기
+		userMapper.put(userSeq.toString(), participantDto);
 		roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, userMapper);
 
 		// 로그 찍는 용도
 		session.sendMessage(new TextMessage("Enter " + roomId + "'s Room."));
+	}
 
+
+	/**
+	 * 세션 종료 했을 때 enter room count 감소
+	 *
+	 * @param roomId
+	 * @param userSeq
+	 */
+	public void decreaseEnterRoomCount(String roomId, String userSeq) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		Map<String, ParticipantDto> dtoMap = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
+		ParticipantDto participant = dtoMap.get(userSeq.toString());
+		participant.decreaseEnterRoomCount();
+		dtoMap.put(userSeq.toString(), participant);
+		roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, dtoMap);
 	}
 
 

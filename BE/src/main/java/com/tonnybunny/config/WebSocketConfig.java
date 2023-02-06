@@ -4,6 +4,7 @@ package com.tonnybunny.config;
 import com.tonnybunny.domain.chat.service.ChatSocketTextHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -14,9 +15,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
 
+	private final RedisTemplate<String, Object> redisTemplate;
+
+
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(new ChatSocketTextHandler(), "/chat", "/no-chat")
+		registry.addHandler(new ChatSocketTextHandler(redisTemplate), "/chat", "/no-chat")
 			.setAllowedOriginPatterns("*")
 			.withSockJS();
 	}
