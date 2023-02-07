@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
-	List<BoardEntity> findAllByIsDelete(String isDelete);
+	List<BoardEntity> findAllByIsDelete(Boolean isDelete);
 	Optional<BoardEntity> findById(Long boardSeq);
 
 }

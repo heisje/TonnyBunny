@@ -11,7 +11,7 @@
                 <div class="helperInfo">
                     <!-- 1.1 프로필 이미지, 닉네임, 한줄 소개 라인 -->
                     <div class="helperProfile">
-                        <img class="profileImg" src="@/assets/noProfile_white.png" width="70" />
+                        <img class="profileImg" src="@/assets/noProfile_white.png" />
                         <div class="likeBtn" @click="toggleLikeBtn">
                             <span
                                 v-if="isLikeEmpty"
@@ -21,7 +21,7 @@
                             <span v-else class="material-symbols-outlined likeIcon">
                                 favorite
                             </span>
-                            <span class="likeText">{{ likeText }}</span>
+                            <span class="likeText">100</span>
                         </div>
                     </div>
 
@@ -29,8 +29,10 @@
                     <div class="helperDesc">
                         <!-- 1.2.1 닉네임 & 한 줄 소개 -->
                         <div class="helperNick mb-2">
-                            <h3 class="nickName">{{ nickName }}</h3>
-                            <div class="oneLine label mt-1">{{ oneLine }}</div>
+                            <h3 class="nickName">{{ userInfo?.nickName }}</h3>
+                            <div class="oneLine label mt-1">
+                                {{ userInfo?.helperInfo?.oneLineIntroduction }}
+                            </div>
                         </div>
                         <!-- 1.2.2 실력 표시 라인 -->
                         <div class="helperSkill">
@@ -46,7 +48,7 @@
                                 <div class="star">
                                     <span class="material-symbols-outlined starIcon"> star </span>
                                     <div class="starText">
-                                        {{ starText }}
+                                        {{ userInfo?.helperInfo?.avgScore }}
                                         <div class="label" style="display: inline">점</div>
                                     </div>
                                 </div>
@@ -54,7 +56,7 @@
                             <div class="reviewCount">
                                 <div class="label">리뷰건수</div>
                                 <div class="countText">
-                                    {{ countText }}
+                                    {{ userInfo?.helperInfo?.reviewCount }}
                                     <div class="label" style="display: inline">건</div>
                                 </div>
                             </div>
@@ -64,7 +66,7 @@
 
                 <!-- 3. 하단 버튼 라인 -->
                 <div class="helperBtns">
-                    <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                    <XSmallBtn text="자세히보기" color="white" font="active" @click="clickBtn1" />
                     <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
@@ -81,47 +83,20 @@ export default {
     components: {
         XSmallBtn,
     },
-
     props: {
-        nickName: {
-            type: String,
-            default: "닉네임",
+        userInfo: {
+            type: Object,
         },
-
-        oneLine: {
+        rightBtnText: {
             type: String,
-            default: "헬퍼 한 줄 소개",
-        },
-
-        fareText: {
-            type: String,
-            default: "1000",
-        },
-        starText: {
-            type: String,
-            default: "5.0",
-        },
-        countText: {
-            type: String,
-            default: "1000",
-        },
-
-        likeText: {
-            type: String,
-            default: "like",
-            description: "몇명이나 해당 헬퍼를 좋아하는지 [ex. 10, 100K ..]",
+            default: "수락하기",
+            description: "오른쪽 버튼 텍스트 [수락하기, 상담하기 etc]",
         },
 
         isLikeEmpty: {
             type: Boolean,
             default: false,
             description: "like(favorite) 하트 아이콘 비었는가 아닌가",
-        },
-
-        rightBtnText: {
-            type: String,
-            default: "수락하기",
-            description: "오른쪽 버튼 텍스트 [수락하기, 상담하기 etc]",
         },
     },
     methods: {

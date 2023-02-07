@@ -14,4 +14,7 @@ export default {
     getIsHelper(state) {
         return state.account.isHelper;
     },
+    getAccessToken(state) {
+        return state.account.ACCESS_TOKEN;
+    },
 };

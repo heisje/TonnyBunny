@@ -34,6 +34,7 @@ export default {
 
                 // 토큰 저장
                 context.commit("SET_TOKENS", { access_TOKEN, refresh_TOKEN });
+                // console.log("login : ", data.data);
 
                 // 유저 정보 저장
                 context.commit("SET_USER_INFO", userInfo);

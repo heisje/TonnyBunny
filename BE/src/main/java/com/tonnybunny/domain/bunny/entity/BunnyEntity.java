@@ -46,7 +46,7 @@ public class BunnyEntity extends CommonEntity {
 	private String bunnyStateCode = "0100001";
 
 	@Builder.Default
-	private String isDeleted = "F";
+	private Boolean isDeleted = false;
 
 	// 번역 공고 지원 헬퍼 리스트
 	@OneToMany(mappedBy = "bunny")
@@ -65,7 +65,7 @@ public class BunnyEntity extends CommonEntity {
 
 
 	public void delete() {
-		this.isDeleted = "T";
+		this.isDeleted = true;
 	}
 
 

@@ -1,6 +1,8 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
+import com.tonnybunny.common.dto.TonnySituCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,16 +45,21 @@ public class YTonnyRequestDto {
 	private Long helperSeq;
 
 	private String title;
-	private String content;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	private LocalDateTime startDateTime;
-	private LocalTime estimateTime;
-	private Integer estimatePrice;
+	@Builder.Default
+	private String tonnySituCode = TonnySituCodeEnum.기타.getTonnySituCode();
+	@Builder.Default
+	private String content = "";
 
 	private String startLangCode;
 	private String endLangCode;
-	private String tonnySituCode;
-	private String taskStateCode;
+
+	@DateTimeFormat(pattern = "'yyyy-MM-dd'T'HH:mm'")
+	private LocalDateTime startDateTime;
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime estimateTime;
+	private Integer estimatePrice;
+
+	@Builder.Default
+	private String taskStateCode = TaskStateCodeEnum.모집중.getTaskStateCode();
 
 }

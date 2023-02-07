@@ -1,24 +1,35 @@
 <template>
     <div class="cardContainer">
         <div class="cardWrap">
-            <div class="clientCard">
-                <div class="profile">
-                    <img src="@/assets/noProfile_white.png" alt="" width="70" />
+            <div class="helperCard pt-2">
+                <!-- 2. 정보 라인 -->
+                <div class="helperInfo">
+                    <!-- 1.1 프로필 이미지, 닉네임, 한줄 소개 라인 -->
+                    <div class="helperProfile">
+                        <img class="profileImg" src="@/assets/noProfile_white.png" />
+                    </div>
+
+                    <!-- 1.2 헬퍼 요금 소개 라인 -->
+                    <div class="helperDesc">
+                        <!-- 1.2.1 닉네임 & 한 줄 소개 -->
+                        <div class="helperNick mb-2">
+                            <h3 class="nickName">
+                                {{ userInfo?.nickName }}<span class="label edit">정보수정</span>
+                            </h3>
+                        </div>
+                        <!-- 1.2.2 실력 표시 라인 -->
+                        <div class="clientPoint">
+                            <div>보유 캐럿</div>
+                            <div class="carrot">{{ userInfo?.point }}개</div>
+                            <div class="carrotSetting">포인트관리</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="info">
-                    <div class="edit">
-                        <h3>{{ userInfo.ninkName }}</h3>
-                        <div>
-                            <router-link :to="{ name: 'InfoPage' }">정보수정</router-link>
-                        </div>
-                    </div>
-                    <div class="carrot">
-                        <div>{{ userInfo.point }}</div>
-                        <div>{{ userInfo.point }}개</div>
-                        <div>
-                            <router-link :to="{ name: 'CarrotPage' }">포인트관리</router-link>
-                        </div>
-                    </div>
+
+                <!-- 3. 하단 버튼 라인 -->
+                <div class="helperBtns">
+                    <XSmallBtn text="자세히보기" color="white" font="active" @click="clickBtn1" />
+                    <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
         </div>
@@ -41,16 +52,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/card.scss";
-
-.clientCard {
-    display: flex;
-    .info {
-        .edit {
-            display: flex;
-        }
-        .carrot {
-            display: flex;
-        }
-    }
-}
 </style>

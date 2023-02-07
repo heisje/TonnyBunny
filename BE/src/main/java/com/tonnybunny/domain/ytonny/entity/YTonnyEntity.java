@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tonnybunny.common.dto.TaskCodeEnum;
 import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.common.entity.CommonEntity;
@@ -31,19 +32,20 @@ public class YTonnyEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity client;
-	private Long helperSeq; // null 이 될수도 있으니
+	private Long helperSeq; // nullable
 
 	private String title;
+	private String tonnySituCode; // 상황 카테고리
 	private String content;
 
 	private String startLangCode;
 	private String endLangCode;
 
-	private LocalDateTime startDateTime;
-	private LocalTime estimateTime;
-	private Integer estimatePrice;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+	private LocalDateTime startDateTime; // 날짜 + 시간
+	private LocalTime estimateTime; // 소요시간
+	private Integer estimatePrice; // 지불금액
 
-	private String tonnySituCode;
 	@Builder.Default
 	private String taskCode = TaskCodeEnum.예약통역.getTaskCode();
 	@Builder.Default
@@ -51,9 +53,6 @@ public class YTonnyEntity extends CommonEntity {
 
 	@Builder.Default
 	private Boolean isDeleted = false;
-
-	//	@Builder.Default
-	//	private Boolean isApplyHelper = false;
 
 	// 헬퍼 신청 리스트
 	@Builder.Default
@@ -66,22 +65,18 @@ public class YTonnyEntity extends CommonEntity {
 	private List<YTonnyQuotationEntity> yTonnyQuotationList = new ArrayList<>();
 
 
-	public void helperSeq(Long helperSeq) {
+	public void updateHelperSeq(Long helperSeq) {
 		this.helperSeq = helperSeq;
 	}
 
 
-	public void isDeleted(Boolean isDeleted) {
+	public void updateIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
 
-	public void yTonnyApplyList(List<YTonnyApplyEntity> yTonnyApplyList) {
+	public void updateYTonnyApplyList(List<YTonnyApplyEntity> yTonnyApplyList) {
 		this.yTonnyApplyList = yTonnyApplyList;
 	}
-
-	//	public void updateIsApplyHelper(Boolean isApplyHelper) {
-	//		this.isApplyHelper = isApplyHelper;
-	//	}
 
 }

@@ -34,7 +34,7 @@ public class BoardEntity extends CommonEntity {
 
 	private String title;
 	private String content;
-	private String isDelete;
+	private Boolean isDelete;
 
 	/* 게시글의 댓글 리스트 */
 	@Builder.Default
@@ -53,7 +53,7 @@ public class BoardEntity extends CommonEntity {
 	}
 
 
-	public void delete(String isDelete) {
+	public void delete(Boolean isDelete) {
 		this.isDelete = isDelete;
 	}
 

@@ -50,7 +50,7 @@ public class UserEntity extends CommonEntity {
 
 	private Boolean isAgreement = true; // 약관 동의 여부(true)
 
-	private String isDeleted = "F";
+	private Boolean isDeleted = false;
 	@OneToMany(mappedBy = "user")
 	private List<BlockEntity> blockUserList = new ArrayList<>(); // 차단한 유저
 	@OneToMany(mappedBy = "user")
@@ -138,7 +138,7 @@ public class UserEntity extends CommonEntity {
 
 
 	public void deleteUserInfo() {
-		this.isDeleted = "T";
+		this.isDeleted = true;
 	}
 
 

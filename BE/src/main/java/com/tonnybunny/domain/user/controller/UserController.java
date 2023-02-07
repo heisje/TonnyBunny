@@ -13,6 +13,7 @@ import com.tonnybunny.domain.user.service.EmailService;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.SmsService;
 import com.tonnybunny.domain.user.service.UserService;
+import com.tonnybunny.exception.CustomException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_ENTITY;
+import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_USER;
 
 
 @RestController
