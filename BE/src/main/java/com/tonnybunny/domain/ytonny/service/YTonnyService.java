@@ -158,7 +158,7 @@ public class YTonnyService {
 		Pageable pageable = PageRequest.of(page, size);
 
 		// find
-		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAt(yTonnySeq, pageable).getContent();
+		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAtDesc(yTonnySeq, pageable).getContent();
 
 	}
 

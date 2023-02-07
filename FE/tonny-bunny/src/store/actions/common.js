@@ -25,7 +25,7 @@ export default {
 						allCommonCode[e.value] = e.name;
 					});
 				}
-				console.log(allCommonCode);
+				// console.log(allCommonCode);
 
 				context.commit("SET_ALL_CODE", allCommonCode);
 
