@@ -50,13 +50,13 @@ public class YTonnyService {
 		YTonnyEntity yTonnyEntity = YTonnyEntity.builder()
 		                                        .client(userEntity)
 		                                        .title(yTonnyRequestDto.getTitle())
+		                                        .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
 		                                        .content(yTonnyRequestDto.getContent())
+		                                        .startLangCode(yTonnyRequestDto.getStartLangCode())
+		                                        .endLangCode(yTonnyRequestDto.getEndLangCode())
 		                                        .startDateTime(yTonnyRequestDto.getStartDateTime())
 		                                        .estimateTime(yTonnyRequestDto.getEstimateTime())
 		                                        .estimatePrice(yTonnyRequestDto.getEstimatePrice())
-		                                        .startLangCode(yTonnyRequestDto.getStartLangCode())
-		                                        .endLangCode(yTonnyRequestDto.getEndLangCode())
-		                                        .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
 		                                        .build();
 
 		// save
@@ -133,8 +133,6 @@ public class YTonnyService {
 
 		System.out.println("YTonnyService.getYTonnyDetail");
 
-		//		yTonnyEntity.updateIsApplyHelper(yTonnyApplyRepository.findByHelperSeq(isApplyHelper).isPresent());
-
 		// find
 		return yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
@@ -160,7 +158,7 @@ public class YTonnyService {
 		Pageable pageable = PageRequest.of(page, size);
 
 		// find
-		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAt(yTonnySeq, pageable).getContent();
+		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAtDesc(yTonnySeq, pageable).getContent();
 
 	}
 
@@ -237,7 +235,7 @@ public class YTonnyService {
 		                                                           .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
-		yTonnyEntity.helperSeq(helperSeq);
+		yTonnyEntity.updateHelperSeq(helperSeq);
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
@@ -255,7 +253,7 @@ public class YTonnyService {
 		List<YTonnyApplyEntity> yTonnyApplyEntityList = yTonnyEntity.getYTonnyApplyList();
 
 		yTonnyApplyEntityList.add(yTonnyApplyEntity); // add
-		yTonnyEntity.yTonnyApplyList(yTonnyApplyEntityList); // 수정
+		yTonnyEntity.updateYTonnyApplyList(yTonnyApplyEntityList); // 수정
 
 		yTonnyRepository.save(yTonnyEntity); // save
 
@@ -277,7 +275,7 @@ public class YTonnyService {
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// delete
-		yTonnyEntity.isDeleted(true);
+		yTonnyEntity.updateIsDeleted(true);
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();

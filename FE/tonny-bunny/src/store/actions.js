@@ -6,6 +6,7 @@ import ytonny from "./actions/ytonny";
 import bunny from "./actions/bunny";
 import common from "./actions/common";
 import alert from "./actions/alert";
+import mypage from "./actions/mypage";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -17,4 +18,5 @@ export default {
     ...bunny,
     ...common,
     ...alert,
+    ...mypage,
 };

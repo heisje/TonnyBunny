@@ -30,7 +30,7 @@ public class HelperInfoImageEntity extends CommonEntity {
 
 
 	public void deleteHelperInfoImage() {
-		this.isDeleted = "T";
+		this.isDeleted = true;
 	}
 
 }

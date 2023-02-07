@@ -5,22 +5,24 @@
 
             <!-- 언어 선택 -->
             <TitleText title="언어 선택" type="h2" text="하실 수 있는 언어를 선택해주세요" />
-            <select v-model="selected" :onchange="selectLang">
+
+            <!-- <select v-model="selected" :onchange="selectLang">
                 <option
                     v-for="(item, index) in langCode"
                     :key="index"
                     :value="JSON.stringify(item)">
                     {{ item.name }}
                 </option></select
-            ><br />
+            ><br /> -->
+
+            {{ possibleLanguageCodeList }}
+
+            <dropdown-input-code :dropdownArray="langCode" @toggle="selectLang2" />
+
+            <br />
+
             <span v-for="(lang, index) in possibleLanguageList" :key="index">
-                <div
-                    style="
-                        padding: 10px 20px;
-                        background-color: pink;
-                        display: inline-block;
-                        border-radius: 20px;
-                    ">
+                <div class="selected">
                     {{ lang }}
                     <span @click="cancleSelect(index)">❌</span>
                 </div>
@@ -58,10 +60,10 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-import smallBtn from "@/components/common/button/SmallBtn.vue";
-import SmallBtn from "@/components/common/button/XSmallBtn.vue";
 import http from "@/common/axios.js";
 import { mapGetters } from "vuex";
+import DropdownInputCode from "@/components/common/input/DropdownInputCode.vue";
+import SmallBtn from "@/components/common/button/SmallBtn.vue";
 // import http from "@/common/axios";
 
 export default {
@@ -74,7 +76,7 @@ export default {
     },
     components: {
         TitleText,
-        smallBtn,
+        DropdownInputCode,
         SmallBtn,
     },
 
@@ -94,6 +96,11 @@ export default {
     },
 
     methods: {
+        //
+        selectLang2(e) {
+            this.possibleLanguageCodeList.push(e);
+        },
+
         // 언어 선택
         selectLang(event) {
             let { name, value } = { ...JSON.parse(event.target.value) };
@@ -146,14 +153,34 @@ export default {
             event.preventDefault();
             let userSeq2 = this.userSeq * 1;
 
+            // const possibleLanguageCodeList = this.possibleLanguageCodeList;
+            const jsonData = {
+                certificateList: [
+                    {
+                        certName: "Korean",
+                        content: "HiHi",
+                        langCode: "0010000",
+                    },
+                    {
+                        certName: "Korean2",
+                        content: "HiHi2",
+                        langCode: "0010002",
+                    },
+                ],
+                helperInfoImageReqeustDtoList: [],
+                introduction: "new introduction",
+                oneLineIntroduction: "new oneLineIntroduction",
+                possibleLanguageList: [
+                    { value: "0020001", name: "한국어" },
+                    { value: "0020002", name: "영어" },
+                ],
+            };
             // 일단 잠시 주석
             try {
-                let res = await http.post(`/mypage/${userSeq2}/helper`, {
-                    possibleLanguageList: this.possibleLanguageCodeList,
-                    certificateList: this.certificateList,
-                });
+                let res = await http.post(`/mypage/${userSeq2}/helper`, jsonData);
 
                 if (res.data.resultCode == "SUCCESS") {
+                    console.log(res);
                     // 헬퍼정보 등록 성공 후 완료 페이지로
                     this.$router.push({ name: "SignUpCompletePage" });
                 } else {
@@ -163,7 +190,6 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-            this.$router.push({ name: "SignUpCompletePage" });
         },
 
         goSignUpCompletePage(event) {
@@ -179,4 +205,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.selected {
+    padding: 10px 20px;
+    background-color: pink;
+    display: inline-block;
+    border-radius: 20px;
+}
+</style>

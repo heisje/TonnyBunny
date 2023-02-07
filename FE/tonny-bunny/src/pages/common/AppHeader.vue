@@ -116,7 +116,7 @@
                 </nav>
             </div>
 
-            <div class="navBarMobile d-lg-none">
+            <div class="navBarMobile d-lg-none d-block">
                 <nav class="navbar navbar-white">
                     <div class="container-fluid container px-3">
                         <button
@@ -373,7 +373,7 @@ export default {
         h2 {
             color: var(--main-color);
             font-weight: 500;
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin-right: 24px;
             // transition: all 0.13s;
 

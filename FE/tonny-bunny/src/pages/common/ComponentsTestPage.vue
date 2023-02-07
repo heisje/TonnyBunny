@@ -37,7 +37,8 @@
         <hr />
 
         <button>cards</button>
-        <div>
+        <div style="display: flex; flex-direction: column">
+            <client-card />
             <helper-card
                 nickName="아스파라거스"
                 oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
@@ -46,6 +47,47 @@
                 countText="100"
                 likeText="10"
                 isLikeEmpty
+                :userInfo="{
+                    seq: 1,
+                    userCode: '1',
+                    email: 'test251@gmail.com',
+                    nickName: 'nickck111',
+                    phoneNumber: null,
+                    point: 0,
+                    profileImagePath: '/img/default.jpg',
+                    helperInfo: {
+                        seq: 1,
+                        avgScore: 3.5,
+                        reviewCount: 213,
+                        unitPrice: 123,
+                        oneLineIntroduction: 'ㄻㄴㄴㄻㅁㄹㄴ',
+                        introduction: 'ㄹㄴㅁㅁㄻㄴㄹ',
+                        possibleLanguageList: [
+                            {
+                                name: 'Korean',
+                                value: '0000111',
+                            },
+                            {
+                                name: 'English',
+                                value: '0010101',
+                            },
+                        ],
+                        certificateList: [
+                            {
+                                seq: null,
+                                langCode: null,
+                                certName: 'Korean',
+                                content: 'Korean',
+                            },
+                            {
+                                seq: null,
+                                langCode: null,
+                                certName: 'Canana',
+                                content: 'Canana',
+                            },
+                        ],
+                    },
+                }"
                 rightBtnText="상담하기"
                 @remove-card="close"
                 @toggle-like-btn="toggleLike"
@@ -56,8 +98,16 @@
             <quest-card
                 :questDetail="{
                     seq: 2,
-                    clientSeq: 1,
-                    helperSeq: null,
+                    client: {
+                        imagePath: 'image',
+                        nickName: 'nicknamasdfadsfasdfe1',
+                        seq: '1',
+                    },
+                    helper: {
+                        imagePath: 'image',
+                        nickName: 'nicknamadsffadsdfe2',
+                        seq: '1',
+                    },
                     title: '제목',
                     content: '내용',
                     startDate: '2023-02-07T00:00:00',
@@ -151,7 +201,7 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 
 import InputTest from "@/components/common/input/InputTest.vue";
 
-// import ClientCard from "@/components/common/card/ClientCard.vue";
+import ClientCard from "@/components/common/card/ClientCard.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import QuestCard from "@/components/common/card/QuestCard.vue";
 
@@ -173,7 +223,7 @@ export default {
 
         InputTest,
 
-        // ClientCard,
+        ClientCard,
         HelperCard,
         QuestCard,
 

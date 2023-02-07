@@ -1,6 +1,6 @@
 import http from "@/common/axios";
 import axios from "axios";
-import global from "@/common/global";
+import utils from "@/common/utils";
 
 export default {
     /*
@@ -19,7 +19,7 @@ export default {
 
             data.data.forEach((d) => {
                 d.count = d.boardCommentList.length;
-                d.createdAt = global.setDate(d.createdAt);
+                d.createdAt = utils.setDate(d.createdAt);
             });
 
             context;

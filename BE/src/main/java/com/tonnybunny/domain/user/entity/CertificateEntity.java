@@ -25,7 +25,7 @@ public class CertificateEntity extends CommonEntity {
 	private String certName;
 	private String content;
 
-	private String isDeleted = "F";
+	private Boolean isDeleted = false;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_info_seq")
@@ -33,7 +33,7 @@ public class CertificateEntity extends CommonEntity {
 
 
 	public void deleteCertificate() {
-		this.isDeleted = "T";
+		this.isDeleted = true;
 	}
 
 }

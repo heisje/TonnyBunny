@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -322,8 +324,7 @@ public class HelperInfoService {
 	 * @param helperInfoRequestDto : 수정할 헬퍼 정보
 	 * @return 수정한 HelperInfoEntity의 seq
 	 */
-	@Transactional
-	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto, MultipartHttpServletRequest request) {
+	public Long modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
 		/** TODO : 로직 구현
 		 1. 가능 언어 목록 수정
 		 createPossibleLangList(), deletePossibleLangList();
