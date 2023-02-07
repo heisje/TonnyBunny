@@ -486,7 +486,7 @@ hr {
     }
 
     .yTonnyDetail {
-        // background-color: red;
+        background-color: red;
         // position: sticky;
         // margin-top: 100px;
         // top: 100px;
