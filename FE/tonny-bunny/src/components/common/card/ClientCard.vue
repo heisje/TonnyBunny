@@ -4,7 +4,7 @@
             <div class="helperCard pt-2">
                 <!-- 2. 정보 라인 -->
                 <div class="helperInfo">
-                    <!-- 1.1 프로필 이미지, 닉네임, 한줄 소개 라인 -->
+                    <!-- 1.1 프로필 이미지, 닉네임, 한 줄 소개 라인 -->
                     <div class="helperProfile">
                         <img class="profileImg" src="@/assets/noProfile_white.png" />
                     </div>
@@ -21,7 +21,7 @@
                         <div class="clientPoint">
                             <div>보유 캐럿</div>
                             <div class="carrot">{{ userInfo?.point }}개</div>
-                            <div class="carrotSetting">포인트관리</div>
+                            <div class="carrotSetting" @click="togglePoint">포인트관리</div>
                         </div>
                     </div>
                 </div>
@@ -47,9 +47,22 @@ export default {
             userInfo: "getUserInfo",
         }),
     },
+
+    methods: {
+        togglePoint() {
+            this.$router.push({ name: "CarrotPage" });
+        },
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/card.scss";
+
+.carrotSetting {
+    cursor: pointer;
+    &:hover {
+        color: var(--primary-color);
+    }
+}
 </style>
