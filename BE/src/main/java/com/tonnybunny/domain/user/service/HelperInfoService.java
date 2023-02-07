@@ -59,7 +59,7 @@ public class HelperInfoService {
 	public List<CertificateEntity> createCertificateList(HelperInfoEntity helperInfo, List<CertificateRequestDto> certificateList) {
 
 		//		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
-		List<CertificateEntity> result = new ArrayList<>();
+		List<CertificateEntity> newCertificateList = new ArrayList<>();
 
 		for (CertificateRequestDto certificateRequestDto : certificateList) {
 			CertificateEntity certificate = CertificateEntity.builder()
@@ -68,10 +68,10 @@ public class HelperInfoService {
 			                                                 .content(certificateRequestDto.getCertName())
 			                                                 .build();
 			certificateRepository.save(certificate); // Entity 저장
-			result.add(certificate); // 결과 리스트에 시퀀스 추가
+			newCertificateList.add(certificate); // 결과 리스트에 시퀀스 추가
 		}
 		System.out.println("HelperInfoService.createCertificateList");
-		return result;
+		return newCertificateList;
 	}
 
 
@@ -314,40 +314,43 @@ public class HelperInfoService {
 		user.changeUserCode();
 		userRepository.save(user);
 
+		HelperInfoEntity helperInfo = HelperInfoEntity.builder()
+		                                              .oneLineIntroduction("안녕하세요 토니버니 헬퍼입니다.")
+		                                              .introduction("안녕하세요 토니버니 헬퍼입니다.")
+		                                              .reviewCount(0)
+		                                              .unitPrice(0)
+		                                              .user(user)
+		                                              .build();
+		helperInfoRepository.save(helperInfo);
+
 		return userSeq;
 	}
 
-
-	/**
-	 * 헬퍼 정보를 최초로 등록 (자격증 및 언어능력)
-	 * Transactional 관계로 빈 헬퍼정보가 생기는 걸 막기 위해서 자격증 및 가능언어 생성도 같은 로직에 둠
-	 *
-	 * @param userSeq
-	 * @param helperInfoRequestDto
-	 * @return
-	 */
-	@Transactional
-	public HelperInfoEntity createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
-		UserEntity user = userRepository.findById(userSeq).orElseThrow( // 유저 정보 가져오기
-			() -> new CustomException(NOT_FOUND_USER)
-		);
-		/**
-		 * HelperInfoRequestDto 에 있는 정보
-		 * possibleLanguageList
-		 * CertificateList
-		 * 나머지 소개글은 Default 값 사용
-		 */
-		HelperInfoEntity helperInfo = HelperInfoEntity.builder()
-		                                              .user(user)
-		                                              .introduction(helperInfoRequestDto.getIntroduction())
-		                                              .oneLineIntroduction(helperInfoRequestDto.getOneLineIntroduction())
-		                                              .build();
-		helperInfoRepository.save(helperInfo);
-		createCertificateList(helperInfo, helperInfoRequestDto.getCertificateList()); // 자격증 리스트 생성
-		createPossibleLangList(helperInfo, helperInfoRequestDto.getPossibleLanguageList()); // 가능언어 리스트 생성
-		System.out.println("HelperInfoService.createHelperInfo");
-		return helperInfo; // HelperInfo 리턴
-
-	}
+	//	/**
+	//	 * 헬퍼 정보를 최초로 등록 (자격증 및 언어능력)
+	//	 * Transactional 관계로 빈 헬퍼정보가 생기는 걸 막기 위해서 자격증 및 가능언어 생성도 같은 로직에 둠
+	//	 *
+	//	 * @param userSeq
+	//	 * @param helperInfoRequestDto
+	//	 * @return
+	//	 */
+	//	@Transactional
+	//	public HelperInfoEntity createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
+	//		UserEntity user = userRepository.findById(userSeq).orElseThrow( // 유저 정보 가져오기
+	//			() -> new CustomException(NOT_FOUND_USER)
+	//		);
+	//		/**
+	//		 * HelperInfoRequestDto 에 있는 정보
+	//		 * possibleLanguageList
+	//		 * CertificateList
+	//		 * 나머지 소개글은 Default 값 사용
+	//		 */
+	//
+	//		createCertificateList(helperInfo, helperInfoRequestDto.getCertificateList()); // 자격증 리스트 생성
+	//		createPossibleLangList(helperInfo, helperInfoRequestDto.getPossibleLanguageList()); // 가능언어 리스트 생성
+	//		System.out.println("HelperInfoService.createHelperInfo");
+	//		return helperInfo; // HelperInfo 리턴
+	//
+	//	}
 
 }
