@@ -9,7 +9,6 @@
                     <div class="tag">
                         <div>
                             <square-tag sub :text="yTonnyDetail.taskCode" class="me-2"></square-tag>
-                            <square-tag sub :text="yTonnyDetail.taskStateCode"></square-tag>
                         </div>
                         <div>
                             <square-tag success></square-tag>
@@ -21,14 +20,20 @@
                             :title="yTonnyDetail.title"
                             top="10"
                             bottom="10"></title-text>
-                        <div>{{ yTonnyDetail.createdAt }}</div>
+                        <div class="label">{{ createdAt }}</div>
                     </div>
 
                     <div class="metas mt-3 mb-5">
                         <div class="writers">
                             <a>
-                                <img
+                                <!-- <img
                                     :src="yTonnyDetail.client.profileImagePath"
+                                    width="40"
+                                    height="40"
+                                    class="me-3" /> -->
+
+                                <img
+                                    src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
                                     class="me-3" />
@@ -88,18 +93,17 @@
 
                                 <tr>
                                     <td>예약 날짜</td>
-                                    <td>
-                                        <div>{{ yTonnyDetail.startDateTime }}</div>
-                                        <div>{{ yTonnyDetail.estimateTime }}</div>
-                                    </td>
+                                    <td>{{ startDate }}</td>
                                 </tr>
 
                                 <tr>
-                                    <td>소요 시간</td>
-                                    <td>
-                                        <div>{{ yTonnyDetail.startDateTime }}</div>
-                                        <div>{{ yTonnyDetail.estimateTime }}</div>
-                                    </td>
+                                    <td>예약 시간</td>
+                                    <td>{{ startTime }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>예상 소요 시간</td>
+                                    <td>{{ estimateTime }}</td>
                                 </tr>
 
                                 <tr>
@@ -121,7 +125,7 @@
 
                                 <tr>
                                     <td>상황 설명</td>
-                                    <td>{{ yTonnyDetail.content }}</td>
+                                    <td class="pt-4">{{ yTonnyDetail.content }}</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -225,6 +229,7 @@
 <script>
 import { mapGetters } from "vuex";
 
+import utils from "@/common/utils";
 import TitleText from "@/components/common/TitleText.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
@@ -265,17 +270,37 @@ export default {
             yTonnyApplyList: "getYTonnyApplyList",
             userInfo: "getUserInfo",
         }),
+
+        createdAt() {
+            return this.yTonnyDetail.createdAt.split("T").join(" ").substr(0, 16);
+        },
+        startDate() {
+            let date = utils.dateSplit(this.yTonnyDetail.startDateTime);
+            return date.year + "년 " + date.month + "월 " + date.day + "일";
+        },
+        startTime() {
+            let time = utils.dateTimeSplit(this.yTonnyDetail.startDateTime);
+            return time.hour + "시 " + time.minute + "분";
+        },
+        estimateTime() {
+            let time = utils.timeSplit(this.yTonnyDetail.estimateTime);
+            return "대략 " + time.hour + "시간 " + time.minute + "분";
+        },
     },
 
     methods: {
         onScroll() {
-            let yTonnyMarginTop = this.yTonnyDetailElement.style.marginTop.replace("px", "");
+            // FIXME: 여기서 500이 아니라 카드의 height 로
+            if (window.innerWidth >= 992) {
+                let yTonnyMarginTop = this.yTonnyDetailElement.style.marginTop.replace("px", "");
 
-            if (yTonnyMarginTop == "") yTonnyMarginTop = 0;
-            else yTonnyMarginTop = parseInt(yTonnyMarginTop);
+                if (yTonnyMarginTop == "") yTonnyMarginTop = 0;
+                else yTonnyMarginTop = parseInt(yTonnyMarginTop);
 
-            if (window.scrollY < this.windowHeight)
-                this.yTonnyDetailElement.style.marginTop = window.scrollY + "px";
+                if (500 <= window.scrollY && window.scrollY < this.windowHeight)
+                    this.yTonnyDetailElement.style.marginTop = window.scrollY + "px";
+                else if (500 > window.scrollY) this.yTonnyDetailElement.style.marginTop = 0;
+            }
         },
 
         startChat() {
@@ -331,7 +356,7 @@ export default {
         this.windowHeight =
             parseInt(
                 window.getComputedStyle(this.yTonnyApplyListElement).height.replace("px", "")
-            ) - 500;
+            ) - 450;
     },
 };
 </script>
@@ -425,6 +450,14 @@ export default {
         .contents {
             padding-right: 16px;
 
+            table {
+                th,
+                td,
+                tr {
+                    font-size: 1rem;
+                }
+            }
+
             .langs {
                 display: flex;
                 flex-direction: column;
@@ -441,7 +474,6 @@ export default {
         padding: 100px;
         border: 1px solid rgba(0, 0, 0, 0.08);
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-        background-color: red;
     }
 
     .yTonnyApplyList {
@@ -473,6 +505,21 @@ hr {
     opacity: 0;
 }
 
+.slide-up {
+    transition: all 0.25s;
+}
+.slide-up-enter-active {
+    transition: all 0.25s ease;
+}
+.slide-up-leave-active {
+    transition: all 0.25s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-up-enter,
+.slide-up-leave-active {
+    opacity: 0;
+    transform: translateY(100%);
+}
+
 @media (min-width: 1264px) {
     .yTonnyDetailWrap {
         // position: relative;
@@ -486,7 +533,7 @@ hr {
     }
 
     .yTonnyDetail {
-        background-color: red;
+        // background-color: red;
         // position: sticky;
         // margin-top: 100px;
         // top: 100px;
