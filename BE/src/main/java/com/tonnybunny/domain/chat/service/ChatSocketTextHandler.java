@@ -170,7 +170,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 				increaseNotReadCount(roomId, anotherUserSeq);
 			}
 
-			// 같은 방 다른 유저한테 Subscribe
+			// 같은 방 다른 유저한테 Publish
 			template.convertAndSend("/sub/chat/" + anotherUserSeq, " * Subs : " + chat.toString());
 			break;
 
