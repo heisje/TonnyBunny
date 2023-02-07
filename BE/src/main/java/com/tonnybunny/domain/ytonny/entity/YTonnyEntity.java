@@ -79,4 +79,19 @@ public class YTonnyEntity extends CommonEntity {
 		this.yTonnyApplyList = yTonnyApplyList;
 	}
 
+
+	public void update(String title, String tonnySituCode, String content, String startLangCode, String endLangCode, LocalDateTime startDateTime,
+	                   LocalTime estimateTime, Integer estimatePrice) {
+		this.title = title;
+		this.tonnySituCode = tonnySituCode;
+		this.content = content;
+		this.startLangCode = startLangCode;
+		this.endLangCode = endLangCode;
+		this.startDateTime = startDateTime;
+		this.estimateTime = estimateTime;
+		this.estimatePrice = estimatePrice;
+		this.taskCode = taskCode;
+		this.taskStateCode = taskStateCode;
+	}
+
 }
