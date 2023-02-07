@@ -9,17 +9,14 @@
             <div class="d-flex justify-content-between">
                 <SquareTag text="번역의뢰" sub></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[0].value"
-                    success
-                ></SquareTag>
+                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[0]?.value"
+                    success></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[1].value"
-                    info
-                ></SquareTag>
+                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[1]?.value"
+                    info></SquareTag>
                 <SquareTag
-                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[2].value"
-                    white
-                ></SquareTag>
+                    v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[2]?.value"
+                    white></SquareTag>
             </div>
             <TitleText type="h2" :title="getBunnyDetail?.title"></TitleText>
 
@@ -33,8 +30,7 @@
                         getLangCode,
                         getBunnyDetail?.startLangCode
                     )} ↔ ${getKeyByValue(getLangCode, getBunnyDetail?.endLangCode)}`"
-                    sub
-                ></SquareTag>
+                    sub></SquareTag>
             </div>
 
             <br /><br />
@@ -59,8 +55,7 @@
                 카테고리<br />
                 <SquareTag
                     :text="`${getKeyByValue(getBunnySituCode, getBunnyDetail?.bunnySituCode)}`"
-                    sub
-                ></SquareTag>
+                    sub></SquareTag>
             </div>
 
             <br /><br />
@@ -89,8 +84,7 @@
                             type="h2"
                             top="0"
                             bottom="0"
-                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"
-                        ></TitleText>
+                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"></TitleText>
                     </div>
                     <div>
                         <router-link
@@ -106,52 +100,41 @@
                 <div
                     v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                     :key="index"
-                    class="w-100"
-                >
-                    {{ Apply }}
+                    class="w-100">
+                    {{ apply }}
                     <helper-card
                         class="w-100 m-0 mb-3"
-                        nickName="아스파라거스"
-                        oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
+                        :userInfo="apply"
                         :fareText="apply.estimatePrice"
-                        starText="4.0"
-                        countText="100"
-                        likeText="10"
-                        isLikeEmpty
                         rightBtnText="상담하기"
                         @remove-card="close"
                         @toggle-like-btn="toggleLike"
                         @click-btn1="check1"
-                        @click-btn2="check2"
-                    ></helper-card>
+                        @click-btn2="check2"></helper-card>
                 </div>
             </div>
             <br /><br />
-            {{ $store.state.account.userInfo }}
             <div v-if="$store.state.account.userInfo.seq == getBunnyDetail?.client.seq">
-                <medium-btn
+                <large-btn
                     style="width: 100%"
                     text="의뢰 취소 하기"
                     color="active"
-                    @click.prevent="deleteBunny(getBunnyDetail?.seq)"
-                />
+                    @click.prevent="deleteBunny(getBunnyDetail?.seq)" />
             </div>
             <div v-else-if="$store.state.account.userInfo.userCode === `helper`">
                 <div v-if="isApplyed(getBunnyDetail?.bunnyApplyList)">
-                    <medium-btn
+                    <large-btn
                         style="width: 100%"
                         text="신청 취소 하기"
                         color="active"
-                        @click.prevent="deleteApply"
-                    />
+                        @click.prevent="deleteApply" />
                 </div>
                 <div v-else>
-                    <medium-btn
+                    <large-btn
                         style="width: 100%"
                         text="의뢰 신청 하기"
                         color="carrot"
-                        @click.prevent="goToBunnyApplyPage"
-                    />
+                        @click.prevent="goToBunnyApplyPage" />
                 </div>
             </div>
         </div>
@@ -163,8 +146,7 @@
             btnColor2="main"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="clickBtn2"
-        >
+            @clickBtn2="clickBtn2">
             <template #content> 의뢰가 취소되었습니다! </template>
         </AlarmModal>
     </div>
@@ -178,9 +160,9 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
-import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import { mapGetters } from "vuex";
+import LargeBtn from "@/components/common/button/LargeBtn.vue";
 
 export default {
     name: "NBunnyDetailPage",
@@ -190,8 +172,8 @@ export default {
         TitleText,
         HelperCard,
         TitleBanner,
-        MediumBtn,
         AlarmModal,
+        LargeBtn,
     },
 
     computed: {
@@ -226,7 +208,7 @@ export default {
         };
     },
 
-    created() {
+    mounted() {
         this.$store.dispatch("getBunnyDetail", this.$route.params.id);
     },
 

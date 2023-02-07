@@ -6,6 +6,7 @@
                 <div class="helperInfo">
                     <!-- 1.1 프로필 이미지, 닉네임, 한 줄 소개 라인 -->
                     <div class="helperProfile">
+                        <img class="profileImg" :src="userInfo?.profileImagePath" />
                         <img class="profileImg" src="@/assets/noProfile_white.png" />
                     </div>
 
@@ -14,7 +15,10 @@
                         <!-- 1.2.1 닉네임 & 한 줄 소개 -->
                         <div class="helperNick mb-2">
                             <h3 class="nickName">
-                                {{ userInfo?.nickName }}<span class="label edit">정보수정</span>
+                                {{ userInfo?.nickName
+                                }}<span class="label edit carrotSetting" @click="toggleEdit"
+                                    >정보수정</span
+                                >
                             </h3>
                         </div>
                         <!-- 1.2.2 실력 표시 라인 -->
@@ -51,6 +55,10 @@ export default {
     methods: {
         togglePoint() {
             this.$router.push({ name: "CarrotPage" });
+        },
+
+        toggleEdit() {
+            this.$router.push({ name: "InfoUpdatePage" });
         },
     },
 };

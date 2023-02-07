@@ -149,7 +149,17 @@ export default {
         XSmallBtn,
     },
 
-    props: ["questDetail"],
+    props: {
+        questDetail: {
+            typeof: Array,
+        },
+
+        rightBtnText: {
+            type: String,
+            default: "수락하기",
+            description: "오른쪽 버튼 텍스트 [수락하기, 상담하기 etc]",
+        },
+    },
 
     computed: {
         ...mapGetters({ allCode: "getAllCode" }),
