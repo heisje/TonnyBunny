@@ -34,7 +34,9 @@ public class HelperInfoEntity extends CommonEntity {
 	private UserEntity user;
 
 	private Integer unitPrice = 0;
+	@Builder.Default
 	private String oneLineIntroduction = "안녕하세요, 언제나 성심성의껏 도와드리겠습니다.";
+	@Builder.Default
 	private String introduction = "안녕하세요, 당신을 도와드릴 토니버니의 헬퍼입니다. 언제나 성심성의껏 도와드리겠습니다.";
 
 	// 연결
@@ -48,6 +50,31 @@ public class HelperInfoEntity extends CommonEntity {
 
 	@OneToMany(mappedBy = "helperInfo")
 	@Builder.Default
-	private List<HelperInfoImageEntity> HelperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
+	private List<HelperInfoImageEntity> helperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
+
+
+	public void updateCertificateList(List<CertificateEntity> certificateList) {
+		this.certificateList = certificateList;
+	}
+
+
+	public void updatePossibleLanguageList(List<PossibleLanguageEntity> possibleLanguageList) {
+		this.possibleLanguageList = possibleLanguageList;
+	}
+
+
+	public void updateHelperInfoImageList(List<HelperInfoImageEntity> helperInfoImageList) {
+		this.helperInfoImageList = helperInfoImageList;
+	}
+
+
+	public void updateOneLineIntroduction(String oneLineIntroduction) {
+		this.oneLineIntroduction = oneLineIntroduction;
+	}
+
+
+	public void updateIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
 
 }
