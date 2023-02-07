@@ -121,10 +121,10 @@
                     <router-link :to="{ name: 'BlockListPage' }">차단목록</router-link>
                 </div>
                 <hr />
-                <div>
+                <!-- <div>
                     <router-link :to="{ name: 'PushAlarmPage' }">푸시알림(미구현)</router-link>
                 </div>
-                <hr />
+                <hr /> -->
                 <div>
                     <router-link :to="{ name: 'NoticePage' }">고객센터</router-link>
                 </div>
@@ -187,6 +187,10 @@ export default {
         closeModal() {
             this.isOpen = false;
         },
+    },
+
+    mounted() {
+        this.$store.dispatch("getMypage");
     },
 };
 </script>

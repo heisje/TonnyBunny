@@ -2,6 +2,57 @@ import http from "@/common/axios";
 import utils from "@/common/utils";
 export default {
     /*
+        회원 정보 관련
+    */
+    // /api/mypage/{userSeq} 회원정보를 조회합니다.
+    async getMypage(context) {
+        try {
+            let { data } = await http.get(`/mypage/${context.state.account.userInfo.seq}`);
+            console.log("async function : ", data);
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("SET_USER_INFO", data.data);
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    /*
+        프로필 이미지
+    */
+    // /api/mypage/{userSeq}/profileImage  프로필사진을 수정합니다
+    async putProfileImage(context, payload) {
+        const formData = new FormData();
+        formData.append("file", payload);
+        try {
+            let { data } = await http.put(
+                `/mypage/${context.state.account.userInfo.seq}/profileImage`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            console.log("async function : ", data);
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    /*
         포인트 관련
     */
     // /api/point-log 대상 유저의 포인트 로그 목록 조회

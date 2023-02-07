@@ -20,9 +20,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.tonnybunny.domain.user.dto.UserCodeEnum.클라이언트;
 
 
 @Log4j2
@@ -254,7 +257,7 @@ public class UserController {
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(@PathVariable("userSeq") Long userSeq) {
 		System.out.println("userSeq = " + userSeq);
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
-		if (searchedUser.getUserCode().equals("0010001")) {
+		if (searchedUser.getUserCode().equals(클라이언트.getUserCode())) {
 			UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
 		} else {
@@ -265,12 +268,34 @@ public class UserController {
 	}
 
 
+	/**
+	 * 유저 닉네임만 수정
+	 *
+	 * @param userSeq
+	 * @param userRequestDto
+	 * @return
+	 */
 	@PutMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq,
 		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
+	}
+
+
+	/**
+	 * 생성과 동일한 로직
+	 *
+	 * @param userSeq
+	 * @param request
+	 * @return
+	 */
+	@PutMapping("/mypage/{userSeq}/profileImage")
+	@ApiOperation(value = "프로필사진을 수정합니다")
+	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, @RequestBody MultipartHttpServletRequest request) {
+		String profileFilePath = userService.modifyProfileImage(userSeq, request);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(profileFilePath));
 	}
 
 
@@ -416,30 +441,28 @@ public class UserController {
 
 	// ------------------------------ 헬퍼 프로필 ---------------------------------------
 
-	//	@PostMapping("/mypage/{userSeq}/helper")
-	//	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
-	//	public ResponseEntity<ResultDto<HelperInfoResponseDto>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
-	//		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-	//			() -> new CustomException(NOT_FOUND_USER)
-	//		);
-	//		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow(
-	//			() -> new CustomException(NOT_FOUND_ENTITY)
-	//		);
-	//		HelperInfoResponseDto helperInfoResponseDto = HelperInfoResponseDto.fromEntity(helperInfo);
-	//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponseDto));
-	//	}
+
+	@PostMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
+	public ResponseEntity<ResultDto<Long>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		System.out.println("UserController.createHelperInfo");
+		HelperInfoEntity helperInfo = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto);
+
+		Long helperInfoSeq = helperInfo.getSeq();
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
+	}
 
 
-	//	@PutMapping("/mypage/{userSeq}/helper")
-	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST }, value = "/mypage/{userSeq}/helper")
-	@ApiOperation(value = "헬퍼의 프로필 정보를 등록 및 수정합니다")
-	public ResponseEntity<ResultDto<HelperInfoResponseDto>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-		@RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+	@PutMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
+	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
+		@RequestBody HelperInfoRequestDto helperInfoRequestDto,
+		@RequestBody MultipartHttpServletRequest request) {
 		System.out.println("UserController.modifyHelperInfo");
-		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto);
-		HelperInfoResponseDto helperInfoResponse = HelperInfoResponseDto.fromEntity(helperInfo);
+		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto, request);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponse));
+		Long helperInfoSeq = helperInfo.getSeq();
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
 	}
 
 
