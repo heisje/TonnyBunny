@@ -30,7 +30,7 @@ public class JTonnyApplyCancelSubscriber implements MessageListener {
 			log.info("jTonnyDto = {}", jTonnyDto);
 
 			// clientSeq 로 요청, "/sub/jtonny/apply/17/cancel"
-			String url = "/sub/jtonny/apply/" + jTonnyDto.getClientSeq() + "/cancel";
+			String url = "/sub/jtonny/apply/" + jTonnyDto.getClient().getSeq() + "/cancel";
 
 			template.convertAndSend(url, jTonnyDto);
 

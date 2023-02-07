@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 public class JTonnyDto {
 
 	/* 즉시 통역 공고 정보 (client 입력) */
-	private Long clientSeq;
+	private JTonnyUserDto client;
 
+	private String taskCode;
+	private String taskStateCode;
 	private String startLangCode;
 	private String endLangCode;
 	private String tonnySituCode;
@@ -20,9 +22,9 @@ public class JTonnyDto {
 	private String estimateTime;
 
 	/* 즉시 통역 신청 정보 (helper 입력) */
-	private Long helperSeq;
+	private JTonnyUserDto helper;
 
-	private Integer unit_price;
+	private Integer unitPrice;
 
 
 	public JTonnyEntity toEntity() {
