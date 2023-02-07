@@ -112,8 +112,6 @@ export default {
                 margin: 1rem 0rem;
                 padding: 1rem 1.5rem;
                 border-radius: 1rem;
-                .pointItemContent {
-                }
             }
         }
     }

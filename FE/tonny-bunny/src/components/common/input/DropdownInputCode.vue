@@ -32,6 +32,7 @@ export default {
         changeValue(item) {
             this.value = item.name;
             this.$emit("toggle", item.value);
+            this.$emit("toggleItem", item);
         },
     },
     props: {
