@@ -64,7 +64,7 @@ export default {
         charge() {
             const payload = {
                 bankAccount: "string",
-                fromUserSeq: 1,
+                fromUserSeq: this.$store.state.account.userInfo.seq,
                 pointAmount: 100,
                 pointRequestType: "충전",
                 toUserSeq: 0,
