@@ -188,6 +188,10 @@ export default {
             this.isOpen = false;
         },
     },
+
+    mounted() {
+        this.$store.dispatch("getMypage");
+    },
 };
 </script>
 
