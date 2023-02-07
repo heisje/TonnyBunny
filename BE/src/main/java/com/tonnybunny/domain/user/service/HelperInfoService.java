@@ -2,12 +2,14 @@ package com.tonnybunny.domain.user.service;
 
 
 import com.tonnybunny.domain.user.dto.CertificateRequestDto;
+import com.tonnybunny.domain.user.dto.HelperInfoImageRequestDto;
 import com.tonnybunny.domain.user.dto.HelperInfoRequestDto;
 import com.tonnybunny.domain.user.dto.PossibleLanguageDto;
 import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +19,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_ENTITY;
-import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_USER;
+import static com.tonnybunny.exception.ErrorCode.*;
 
 
 @Service
@@ -138,11 +140,42 @@ public class HelperInfoService {
 			List<MultipartFile> fileList = request.getFiles("file");
 			System.out.println("fileList = " + fileList);
 
-		} catch (Exception e) {
+			if (!fileList.isEmpty() && fileList != null) {
 
+				for (MultipartFile partFile : fileList) {
+
+					// file name
+					String originalFilename = partFile.getOriginalFilename(); // 오리지널 파일 명
+					String extension = FilenameUtils.getExtension(originalFilename); // 확장자 뽑아내기
+					UUID uuid = UUID.randomUUID(); // 랜덤 생성된 파일 UUID
+					String fileName = uuid + "." + extension; // 실제 저장되는 file name
+					System.out.println("fileName = " + fileName);
+
+					// file object
+					String filePath = uploadFolder + File.separator + fileName;
+					File saveFile = new File(uploadPath + File.separator + filePath);
+					System.out.println("saveFile = " + saveFile);
+
+					// file save
+					partFile.transferTo(saveFile);
+
+					// 이미지 Entity 생성
+					HelperInfoImageEntity helperInfoImage = HelperInfoImageEntity.builder()
+					                                                             .helperInfo(helperInfo)
+					                                                             .imagePath(filePath)
+					                                                             .build();
+					helperInfoImageRepository.save(helperInfoImage);
+					helperInfoImageList.add(helperInfoImage);
+				}
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CustomException(DATA_BAD_REQUEST);
 		}
 
-		return new ArrayList<>();
+		return helperInfoImageList;
 	}
 
 
@@ -290,7 +323,7 @@ public class HelperInfoService {
 	 * @return 수정한 HelperInfoEntity의 seq
 	 */
 	@Transactional
-	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
+	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto, MultipartHttpServletRequest request) {
 		/** TODO : 로직 구현
 		 1. 가능 언어 목록 수정
 		 createPossibleLangList(), deletePossibleLangList();
@@ -311,9 +344,8 @@ public class HelperInfoService {
 		// 각자 로직 구현하기
 		// 삭제하고, create로 다시 생성
 		certificateRepository.deleteAllByHelperInfo(helperInfo);
-
 		possibleLanguageRepository.deleteAllByHelperInfo(helperInfo);
-		//		helperInfoImageRepository.deleteAllByHelperInfo(helperInfo);
+
 		// 삭제 로직
 
 		// 자격증 리스트
@@ -321,7 +353,7 @@ public class HelperInfoService {
 		if (certificateList.isEmpty()) { // 만약 빈 리스트를 받았을 경우
 			System.out.println("empty certificate");
 			List<CertificateEntity> newCertificateList = new ArrayList<>();
-			helperInfo.updateCertificateList(newCertificateList);
+			helperInfo.updateCertificateList(newCertificateList); // 빈 리스트로 업데이트
 		} else {
 			List<CertificateEntity> newCertificateList = createCertificateList(helperInfo, certificateList);
 			helperInfo.updateCertificateList(newCertificateList);
@@ -331,21 +363,22 @@ public class HelperInfoService {
 		if (possibleLanguageList.isEmpty()) { // 만약 빈 리스트를 받았을 경우
 			System.out.println("empty language");
 			List<PossibleLanguageEntity> newPossibleLangList = new ArrayList<>();
-			helperInfo.updatePossibleLanguageList(newPossibleLangList);
+			helperInfo.updatePossibleLanguageList(newPossibleLangList); // 빈 리스트로 업데이트
 		} else {
 			List<PossibleLanguageEntity> newPossibleLangList = createPossibleLangList(helperInfo, possibleLanguageList);
 			helperInfo.updatePossibleLanguageList(newPossibleLangList);
 		}
 
-		//		/**
-		//		 * 이미지 저장하는 방법 공부하기
-		//		 */
-		//		List<HelperInfoImageRequestDto> helperInfoImageList = helperInfoRequestDto.getHelperInfoImageReqeustDtoList();
-		//		if (helperInfoImageList.isEmpty()) {
-		//
-		//		} else {
-		//			createHelperInfoImageList();
-		//		}
+		/**
+		 * 이미지 저장하는 방법 공부하기
+		 */
+		List<HelperInfoImageRequestDto> helperInfoImageList = helperInfoRequestDto.getHelperInfoImageReqeustDtoList();
+		if (helperInfoImageList.isEmpty()) {
+			System.out.println("empty list");
+			helperInfoImageRepository.deleteAllByHelperInfo(helperInfo);
+		} else {
+			createHelperInfoImageList(helperInfo, request);
+		}
 
 		String oneLineIntroduction = helperInfoRequestDto.getOneLineIntroduction();
 		String introduction = helperInfoRequestDto.getIntroduction();

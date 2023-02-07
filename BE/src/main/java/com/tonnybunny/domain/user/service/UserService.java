@@ -454,9 +454,18 @@ public class UserService {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
+		// 새로운 즐겨찾기 생성
 		FollowEntity follow = new FollowEntity(user, followedUserSeq);
 		followRepository.save(follow);
 
+		// 즐겨찾기 카운터 수정
+		UserEntity followedUser = userRepository.findById(followedUserSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		HelperInfoEntity helperInfo = followedUser.getHelperInfo();
+
+		helperInfo.updateLikedCount(1);
+		helperInfoRepository.save(helperInfo);
 		return follow.getFollowedUserSeq();
 	}
 
@@ -464,20 +473,27 @@ public class UserService {
 	/**
 	 * 즐겨찾기 삭제
 	 *
-	 * @param userSeq   : 누군가를 삭제하기를 원하는 userSeq
-	 * @param followSeq : 삭제될 누군가의 seq
+	 * @param userSeq         : 누군가를 삭제하기를 원하는 userSeq
+	 * @param followedUserSeq : 삭제될 누군가의 seq
 	 * @return
 	 */
 	@Transactional
-	public Boolean deleteFollow(Long userSeq, Long followSeq) {
-		if (userSeq.equals(followSeq)) {
+	public Boolean deleteFollow(Long userSeq, Long followedUserSeq) {
+		if (userSeq.equals(followedUserSeq)) {
 			throw new CustomException(SAME_USER_REQUEST);
 		}
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
-		followRepository.deleteFollowBySeq(user, followSeq);
+		followRepository.deleteFollowBySeq(user, followedUserSeq);
+
+		UserEntity followedUser = userRepository.findById(followedUserSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+		HelperInfoEntity helperInfo = followedUser.getHelperInfo();
+		helperInfo.updateLikedCount(-1);
+
 		return true;
 	}
 

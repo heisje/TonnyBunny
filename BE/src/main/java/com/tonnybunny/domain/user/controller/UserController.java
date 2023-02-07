@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -431,13 +432,15 @@ public class UserController {
 	//	@PutMapping("/mypage/{userSeq}/helper")
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST }, value = "/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 프로필 정보를 등록 및 수정합니다")
-	public ResponseEntity<ResultDto<HelperInfoResponseDto>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-	                                                                         @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
+	                                                        @RequestBody HelperInfoRequestDto helperInfoRequestDto,
+	                                                        @RequestBody MultipartHttpServletRequest request) {
 		System.out.println("UserController.modifyHelperInfo");
-		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto);
-		HelperInfoResponseDto helperInfoResponse = HelperInfoResponseDto.fromEntity(helperInfo);
-
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponse));
+		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto, request);
+		//		HelperInfoResponseDto helperInfoResponse = HelperInfoResponseDto.fromEntity(helperInfo);
+		//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponse));
+		Long helperInfoSeq = helperInfo.getSeq();
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
 	}
 
 

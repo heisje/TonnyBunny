@@ -33,6 +33,7 @@ public class HelperInfoEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity user;
 
+	@Builder.Default
 	private Integer unitPrice = 0;
 	@Builder.Default
 	private String oneLineIntroduction = "안녕하세요, 언제나 성심성의껏 도와드리겠습니다.";
@@ -51,6 +52,9 @@ public class HelperInfoEntity extends CommonEntity {
 	@OneToMany(mappedBy = "helperInfo")
 	@Builder.Default
 	private List<HelperInfoImageEntity> helperInfoImageList = new ArrayList<>(); // 프로필이미지 리스트
+
+	@Builder.Default
+	private Integer likedCount = 0;
 
 
 	public void updateCertificateList(List<CertificateEntity> certificateList) {
@@ -75,6 +79,11 @@ public class HelperInfoEntity extends CommonEntity {
 
 	public void updateIntroduction(String introduction) {
 		this.introduction = introduction;
+	}
+
+
+	public void updateLikedCount(Integer like) {
+		this.likedCount += like;
 	}
 
 }
