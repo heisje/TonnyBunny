@@ -37,7 +37,7 @@ public class BoardService {
 	 */
 	public List<BoardEntity> getBoardList() {
 
-		List<BoardEntity> boardList = boardRepository.findAllByIsDelete("F");
+		List<BoardEntity> boardList = boardRepository.findAllByIsDelete(false);
 		return boardList;
 	}
 
@@ -53,7 +53,7 @@ public class BoardService {
 		                                   .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// 삭제 됐을 시 excetion
-		if (board.getIsDelete() == "F") {
+		if (board.getIsDelete() == false) {
 			return board;
 		} else {
 			throw new CustomException(ErrorCode.NOT_FOUND_USER);
@@ -77,7 +77,7 @@ public class BoardService {
 				           .user(fromUser)
 				           .title(boardRequestDto.getTitle())
 				           .content(boardRequestDto.getContent())
-				           .isDelete("F")
+				           .isDelete(false)
 				           .build());
 
 		// 보드 저장 후 이미지 저장
@@ -126,7 +126,7 @@ public class BoardService {
 		BoardEntity board = boardRepository.findById(boardSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		//삭제 isDelete를 T로 바꾼다
-		board.delete("T");
+		board.delete(true);
 		boardRepository.save(board);
 
 		return true;

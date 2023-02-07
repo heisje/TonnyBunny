@@ -42,25 +42,25 @@ public class BunnyService {
 	public Long createBunny(BunnyRequestDto bunnyRequestDto) {
 		UserEntity user = userRepository.findById(bunnyRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		BunnyEntity bunny = BunnyEntity.builder()
-			.user(user)
-			.title(bunnyRequestDto.getTitle())
-			.content(bunnyRequestDto.getContent())
-			.estimatePrice(bunnyRequestDto.getEstimatePrice())
-			.startDate(bunnyRequestDto.getStartDate())
-			.endDate(bunnyRequestDto.getEndDate())
-			.startLangCode(bunnyRequestDto.getStartLangCode())
-			.endLangCode(bunnyRequestDto.getEndLangCode())
-			.bunnySituCode(bunnyRequestDto.getBunnySituCode())
-			.build();
+		                               .user(user)
+		                               .title(bunnyRequestDto.getTitle())
+		                               .content(bunnyRequestDto.getContent())
+		                               .estimatePrice(bunnyRequestDto.getEstimatePrice())
+		                               .startDate(bunnyRequestDto.getStartDate())
+		                               .endDate(bunnyRequestDto.getEndDate())
+		                               .startLangCode(bunnyRequestDto.getStartLangCode())
+		                               .endLangCode(bunnyRequestDto.getEndLangCode())
+		                               .bunnySituCode(bunnyRequestDto.getBunnySituCode())
+		                               .build();
 
 		bunny = bunnyRepository.save(bunny);
 
 		for (BunnyImageRequestDto bunnyImageRequestDto : bunnyRequestDto.getBunnyImageList()) {
 
 			BunnyImageEntity bunnyImage = BunnyImageEntity.builder()
-				.bunny(bunny)
-				.imagePath(bunnyImageRequestDto.getImagePath())
-				.build();
+			                                              .bunny(bunny)
+			                                              .imagePath(bunnyImageRequestDto.getImagePath())
+			                                              .build();
 
 			bunnyImage = bunnyImageRepository.save(bunnyImage);
 
@@ -94,7 +94,7 @@ public class BunnyService {
 	 * @return : 조회된 공고의 Entity
 	 */
 	public BunnyEntity getBunny(Long bunnySeq) {
-		BunnyEntity bunny = bunnyRepository.findBySeqAndIsDeleted(bunnySeq, "F").orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		BunnyEntity bunny = bunnyRepository.findBySeqAndIsDeleted(bunnySeq, false).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		return bunny;
 	}
 
@@ -112,15 +112,15 @@ public class BunnyService {
 
 		if (lang.isEmpty() && category.isEmpty()) {
 			// 필터하지 않고 전체 조회
-			bunnyList = bunnyRepository.findByIsDeletedOrderByCreatedAtDesc("F");
+			bunnyList = bunnyRepository.findByIsDeletedOrderByCreatedAtDesc(false);
 		} else if (category.isEmpty()) {
 			// 언어만 필터하여 조회
-			bunnyList = bunnyRepository.findByStartLangCodeAndIsDeletedOrEndLangCodeAndIsDeletedOrderByCreatedAtDesc(lang, "F", lang, "F");
+			bunnyList = bunnyRepository.findByStartLangCodeAndIsDeletedOrEndLangCodeAndIsDeletedOrderByCreatedAtDesc(lang, false, lang, false);
 		} else if (lang.isEmpty()) {
 			// 카테고리만 필터하여 조회
 			List<BunnyEntity> tempBunnyList = bunnyRepository.findByBunnySituCodeOrderByCreatedAtDesc(category);
 			for (BunnyEntity bunny : tempBunnyList) {
-				if (bunny.getIsDeleted().equals("F")) {
+				if (bunny.getIsDeleted().equals(false)) {
 					bunnyList.add(bunny);
 				}
 			}
@@ -129,7 +129,7 @@ public class BunnyService {
 			// 둘 다 필터하여 조회
 			List<BunnyEntity> tempBunnyList = bunnyRepository.findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(lang, category, lang, category);
 			for (BunnyEntity bunny : tempBunnyList) {
-				if (bunny.getIsDeleted().equals("F")) {
+				if (bunny.getIsDeleted().equals(false)) {
 					bunnyList.add(bunny);
 				}
 			}
@@ -151,7 +151,7 @@ public class BunnyService {
 		BunnyEntity bunny = bunnyRepository.findById(bunnyApplyRequestDto.getBunnySeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		BunnyApplyEntity bunnyApply = BunnyApplyEntity.builder().
-			bunny(bunny).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user).build();
+		                                              bunny(bunny).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user).build();
 
 		BunnyApplyEntity creaetedBunnyApply = bunnyApplyRepository.save(bunnyApply);
 		return creaetedBunnyApply.getSeq();
