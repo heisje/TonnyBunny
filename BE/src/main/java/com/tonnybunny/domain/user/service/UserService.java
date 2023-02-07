@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tonnybunny.domain.user.dto.UserCodeEnum.헬퍼;
 import static com.tonnybunny.exception.ErrorCode.*;
 
 
@@ -82,7 +83,7 @@ public class UserService {
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
 		// 헬퍼일 경우, 헬퍼 정보 생성
-		if (user.getUserCode().equals("0010002")) {
+		if (user.getUserCode().equals(헬퍼.getUserCode())) {
 			HelperInfoEntity helperInfo = HelperInfoEntity.builder()
 			                                              .oneLineIntroduction("안녕하세요 토니버니 헬퍼입니다.")
 			                                              .introduction("안녕하세요 토니버니 헬퍼입니다.")
@@ -90,7 +91,7 @@ public class UserService {
 			                                              .unitPrice(0)
 			                                              .user(user)
 			                                              .avgScore(0f)
-			                                              .HelperInfoImageList(new ArrayList<>())
+			                                              .helperInfoImageList(new ArrayList<>())
 			                                              .certificateList(new ArrayList<>())
 			                                              .possibleLanguageList(new ArrayList<>())
 			                                              .build();
