@@ -320,6 +320,10 @@ public class HelperInfoService {
 		                                              .reviewCount(0)
 		                                              .unitPrice(0)
 		                                              .user(user)
+		                                              .avgScore(0f)
+		                                              .HelperInfoImageList(new ArrayList<>())
+		                                              .certificateList(new ArrayList<>())
+		                                              .possibleLanguageList(new ArrayList<>())
 		                                              .build();
 		helperInfoRepository.save(helperInfo);
 
