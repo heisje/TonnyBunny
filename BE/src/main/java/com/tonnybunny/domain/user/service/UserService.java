@@ -14,14 +14,20 @@ import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.tonnybunny.domain.user.dto.UserCodeEnum.헬퍼;
 import static com.tonnybunny.exception.ErrorCode.*;
@@ -41,6 +47,11 @@ public class UserService {
 	private final BlockRepository blockRepository;
 	private final HelperInfoRepository helperInfoRepository;
 	private final RedisUtill redisUtil;
+
+	private final String uploadFolder = "user" + File.separator + "profile";
+
+	@Value("${app.file.path}")
+	private String uploadPath;
 
 
 	public Optional<UserEntity> findByEmail(String email) {
@@ -357,10 +368,59 @@ public class UserService {
 			() -> new CustomException(NOT_FOUND_USER)
 		);
 
-		user.updateUserInfo(userRequestDto.getProfileImagePath(), userRequestDto.getNickName());
+		user.updateNickname(userRequestDto.getNickName());
 		userRepository.save(user);
 
 		return user.getSeq();
+	}
+
+
+	/**
+	 * 프로필 사진 수정
+	 *
+	 * @param userSeq
+	 * @param request
+	 * @return
+	 */
+	public String modifyProfileImage(Long userSeq, MultipartHttpServletRequest request) {
+		System.out.println("UserService.modifyProfileImage");
+		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+			() -> new CustomException(NOT_FOUND_USER)
+		);
+
+		try {
+			File uploadDir = new File(uploadPath + File.separator + uploadFolder); // 폴더가 없을 경우 생성하는 로직
+			if (!uploadDir.exists()) uploadDir.mkdirs();
+			System.out.println("uploadDir = " + uploadDir);
+
+			MultipartFile file = request.getFile("file"); // 하나만 전송되기 때문에 file
+			System.out.println("file = " + file);
+
+			if (file != null) {
+				String originalFilename = file.getOriginalFilename();
+				String extension = FilenameUtils.getExtension(originalFilename);
+				UUID uuid = UUID.randomUUID();
+				String fileName = uuid + "." + extension;
+				System.out.println("fileName = " + fileName);
+
+				String filePath = uploadFolder + File.separator + fileName;
+				File saveFile = new File(uploadPath + File.separator + filePath);
+				System.out.println("saveFile = " + saveFile);
+
+				file.transferTo(saveFile);
+
+				user.updateProfileImage(filePath);
+
+			} else {
+				user.updateProfileImage("/img/default.jpg"); // 디폴트로 변경
+			}
+			userRepository.save(user);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+		return user.getProfileImagePath();
 	}
 
 

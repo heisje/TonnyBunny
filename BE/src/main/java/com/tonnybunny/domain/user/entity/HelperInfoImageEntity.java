@@ -26,11 +26,11 @@ public class HelperInfoImageEntity extends CommonEntity {
 
 	private String imagePath;
 	@Builder.Default
-	private String isDeleted = "F";
+	private Boolean isDeleted = false;
 
 
 	public void deleteHelperInfoImage() {
-		this.isDeleted = true;
+		this.isDeleted = !isDeleted;
 	}
 
 }

@@ -9,13 +9,10 @@ import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.HelperInfoRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
-import com.tonnybunny.domain.user.repository.HelperInfoRepository;
-import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.EmailService;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.SmsService;
 import com.tonnybunny.domain.user.service.UserService;
-import com.tonnybunny.exception.CustomException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_ENTITY;
-import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_USER;
+import static com.tonnybunny.domain.user.dto.UserCodeEnum.클라이언트;
 
 
 @RestController
@@ -90,7 +86,7 @@ public class UserController {
 	@GetMapping("/refresh/{userSeq}")
 	@ApiOperation(value = "인증 토큰을 확인합니다.")
 	public ResponseEntity<ResultDto<AuthResponseDto>> checkRefreshToken(@RequestHeader(value = "REFRESH_TOKEN") String refreshToken,
-	                                                                    @PathVariable("userSeq") Long userSeq) {
+		@PathVariable("userSeq") Long userSeq) {
 
 		System.out.println("refreshToken = " + refreshToken);
 		AuthResponseDto authResponseDto = userService.checkRefreshToken(refreshToken, userSeq);
@@ -259,7 +255,7 @@ public class UserController {
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(@PathVariable("userSeq") Long userSeq) {
 		System.out.println("userSeq = " + userSeq);
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
-		if (searchedUser.getUserCode().equals("0010001")) {
+		if (searchedUser.getUserCode().equals(클라이언트.getUserCode())) {
 			UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
 		} else {
@@ -270,19 +266,41 @@ public class UserController {
 	}
 
 
+	/**
+	 * 유저 닉네임만 수정
+	 *
+	 * @param userSeq
+	 * @param userRequestDto
+	 * @return
+	 */
 	@PutMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq,
-	                                                      @RequestBody UserRequestDto userRequestDto) {
+		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
+	}
+
+
+	/**
+	 * 생성과 동일한 로직
+	 *
+	 * @param userSeq
+	 * @param request
+	 * @return
+	 */
+	@PutMapping("/mypage/{userSeq}/profileImage")
+	@ApiOperation(value = "프로필사진을 수정합니다")
+	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, @RequestBody MultipartHttpServletRequest request) {
+		String profileFilePath = userService.modifyProfileImage(userSeq, request);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(profileFilePath));
 	}
 
 
 	@PutMapping("/mypage/{userSeq}/password")
 	@ApiOperation(value = "비밀번호를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyUserPassword(@PathVariable("userSeq") Long userSeq,
-	                                                          @RequestBody UserRequestDto userRequestDto) {
+		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserPassword(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
 	}
@@ -319,7 +337,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
 	public ResponseEntity<ResultDto<Long>> createFollow(@PathVariable("userSeq") Long userSeq,
-	                                                    @PathVariable("followSeq") Long followSeq) {
+		@PathVariable("followSeq") Long followSeq) {
 		Long followUserSeq = userService.createFollow(userSeq, followSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followUserSeq));
@@ -330,7 +348,7 @@ public class UserController {
 	@DeleteMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteFollow(@PathVariable("userSeq") Long userSeq,
-	                                                       @PathVariable("followSeq") Long followSeq) {
+		@PathVariable("followSeq") Long followSeq) {
 		userService.deleteFollow(userSeq, followSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -359,7 +377,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저를 차단합니다")
 	public ResponseEntity<ResultDto<Long>> createBlock(@PathVariable("userSeq") Long userSeq,
-	                                                   @PathVariable("blockSeq") Long blockSeq) {
+		@PathVariable("blockSeq") Long blockSeq) {
 		Long blockedUserSeq = userService.createBlock(userSeq, blockSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockedUserSeq));
 
@@ -369,7 +387,7 @@ public class UserController {
 	@DeleteMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저 차단을 취소합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteBlock(@PathVariable("userSeq") Long userSeq,
-	                                                      @PathVariable("blockSeq") Long blockSeq) {
+		@PathVariable("blockSeq") Long blockSeq) {
 
 		userService.deleteBlock(userSeq, blockSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -382,7 +400,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/report/{reportSeq}")
 	@ApiOperation(value = "유저를 신고합니다")
 	public ResponseEntity<ResultDto<Long>> createReport(@PathVariable("userSeq") Long userSeq,
-	                                                    @PathVariable("reportSeq") Long reportSeq) {
+		@PathVariable("reportSeq") Long reportSeq) {
 
 		userService.createReport(userSeq, reportSeq);
 		// 신고한 유저 자동 차단
@@ -402,7 +420,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history")
 	@ApiOperation(value = "히스토리 목록을 조회합니다", notes = "조회 필터링 조건은 하나씩만 적용됩니다. 아무 조건을 넣지 않으면 내역 전체 조회를 합니다.")
 	public ResponseEntity<ResultDto<List<HistoryResponseDto>>> getUserHistoryList(@PathVariable("userSeq") Long userSeq,
-	                                                                              @RequestBody HistoryRequestDto historyRequestDto) {
+		@RequestBody HistoryRequestDto historyRequestDto) {
 		List<HistoryEntity> historyList = userService.getUserHistoryList(userSeq, historyRequestDto);
 		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(
 			historyList);
@@ -413,7 +431,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history/{historySeq}")
 	@ApiOperation(value = "히스토리 하나를 조회합니다")
 	public ResponseEntity<ResultDto<HistoryResponseDto>> getUserHistory(@PathVariable("userSeq") Long userSeq,
-	                                                                    @PathVariable("historySeq") Long historySeq) {
+		@PathVariable("historySeq") Long historySeq) {
 		HistoryEntity history = userService.getUserHistory(userSeq, historySeq);
 		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(history);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
@@ -421,30 +439,26 @@ public class UserController {
 
 	// ------------------------------ 헬퍼 프로필 ---------------------------------------
 
-	//	@PostMapping("/mypage/{userSeq}/helper")
-	//	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
-	//	public ResponseEntity<ResultDto<HelperInfoResponseDto>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
-	//		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-	//			() -> new CustomException(NOT_FOUND_USER)
-	//		);
-	//		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow(
-	//			() -> new CustomException(NOT_FOUND_ENTITY)
-	//		);
-	//		HelperInfoResponseDto helperInfoResponseDto = HelperInfoResponseDto.fromEntity(helperInfo);
-	//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponseDto));
-	//	}
+
+	@PostMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
+	public ResponseEntity<ResultDto<Long>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		System.out.println("UserController.createHelperInfo");
+		HelperInfoEntity helperInfo = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto);
+
+		Long helperInfoSeq = helperInfo.getSeq();
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
+	}
 
 
-	//	@PutMapping("/mypage/{userSeq}/helper")
-	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST }, value = "/mypage/{userSeq}/helper")
-	@ApiOperation(value = "헬퍼의 프로필 정보를 등록 및 수정합니다")
+	@PutMapping("/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-	                                                        @RequestBody HelperInfoRequestDto helperInfoRequestDto,
-	                                                        @RequestBody MultipartHttpServletRequest request) {
+		@RequestBody HelperInfoRequestDto helperInfoRequestDto,
+		@RequestBody MultipartHttpServletRequest request) {
 		System.out.println("UserController.modifyHelperInfo");
 		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto, request);
-		//		HelperInfoResponseDto helperInfoResponse = HelperInfoResponseDto.fromEntity(helperInfo);
-		//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponse));
+
 		Long helperInfoSeq = helperInfo.getSeq();
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
 	}
