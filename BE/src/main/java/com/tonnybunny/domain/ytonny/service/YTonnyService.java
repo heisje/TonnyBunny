@@ -178,35 +178,21 @@ public class YTonnyService {
 		// param setting
 		Long yTonnySeq = yTonnyRequestDto.getYTonnySeq();
 		Long clientSeq = yTonnyRequestDto.getClientSeq();
-		Long helperSeq = yTonnyRequestDto.getHelperSeq();
 
 		// find
 		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
-		// dto -> entity
-		yTonnyEntity = YTonnyEntity.builder()
-		                           .seq(yTonnySeq)
-		                           .client(clientEntity)
-		                           .helperSeq(helperSeq)
-		                           .title(yTonnyRequestDto.getTitle())
-		                           .content(yTonnyRequestDto.getContent())
-		                           .startDateTime(yTonnyRequestDto.getStartDateTime())
-		                           //		                           .estimateDate(yTonnyRequestDto.getEstimateDate())
-		                           //		                           .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
-		                           .estimateTime(yTonnyRequestDto.getEstimateTime())
-		                           .estimatePrice(yTonnyRequestDto.getEstimatePrice())
-		                           .startLangCode(yTonnyRequestDto.getStartLangCode())
-		                           .endLangCode(yTonnyRequestDto.getEndLangCode())
-		                           .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
-		                           .taskStateCode(yTonnyRequestDto.getTaskStateCode())
-		                           .taskCode(yTonnyEntity.getTaskCode())
-		                           .isDeleted(yTonnyEntity.getIsDeleted())
-		                           .yTonnyApplyList(yTonnyEntity.getYTonnyApplyList())
-		                           .yTonnyQuotationList(yTonnyEntity.getYTonnyQuotationList())
-		                           .build();
-
+		yTonnyEntity.update(yTonnyRequestDto.getTitle(),
+		                    yTonnyRequestDto.getTonnySituCode(),
+		                    yTonnyRequestDto.getContent(),
+		                    yTonnyRequestDto.getStartLangCode(),
+		                    yTonnyRequestDto.getEndLangCode(),
+		                    yTonnyRequestDto.getStartDateTime(),
+		                    yTonnyRequestDto.getEstimateTime(),
+		                    yTonnyRequestDto.getEstimatePrice());
+		
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
 

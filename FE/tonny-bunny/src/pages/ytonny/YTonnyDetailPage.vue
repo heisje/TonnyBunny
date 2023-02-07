@@ -157,15 +157,15 @@
 							<input
 								type="text"
 								placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
-								v-model="totalPrice" />
+								v-model="totalPrice"
+								@keydown.enter="insertYTonnyApply" />
 						</div>
 						<medium-btn
 							class="w-100"
 							color="primary"
 							font="white"
 							text="헬퍼 신청하기"
-							@click.prevent="insertYTonnyApply"
-							@keydown.enter="insertYTonnyApply"></medium-btn>
+							@click.prevent="insertYTonnyApply"></medium-btn>
 						<!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
 					</div>
 					<div v-else>
@@ -362,7 +362,7 @@ export default {
 		},
 
 		updateFormOpen() {
-			this.$router.push({ name: "YTonnyUpdatePage" });
+			this.$router.push({ name: "YTonnyUpdatePage", params: { id: this.yTonnySeq } });
 		},
 
 		removeYTonny() {

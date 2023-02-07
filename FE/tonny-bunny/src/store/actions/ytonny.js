@@ -9,10 +9,10 @@ export default {
     */
 
 	// POST /api/ytonny 고객의 예약 통역 공고 생성
-	async insertYTonny(context, json) {
+	async insertYTonny(context, payload) {
 		console.log("예약통역 공고 생성");
 
-		let { data } = await http.post(`/ytonny`, json);
+		let { data } = await http.post(`/ytonny`, payload);
 
 		try {
 			console.log("async insertYTonny : ", data);
@@ -36,12 +36,12 @@ export default {
 	},
 
 	// POST /api/ytonny 고객의 예약 통역 공고 생성
-	async insertYTonnyApply(context, json) {
+	async insertYTonnyApply(context, payload) {
 		console.log("예약통역 공고 신청 생성");
 
-		console.log(json);
-		let yTonnySeq = json.ytonnySeq;
-		let { data } = await http.post(`/ytonny/${yTonnySeq}/apply`, json);
+		console.log(payload);
+		let yTonnySeq = payload.ytonnySeq;
+		let { data } = await http.post(`/ytonny/${yTonnySeq}/apply`, payload);
 
 		try {
 			console.log("async insertYTonnyApply : ", data);
@@ -167,23 +167,21 @@ export default {
 	},
 
 	// PUT /api/ytonny/{yTonnyNotiSeq} 게시글을 수정합니다.
-	async updateYtonny(context, yTonnyNotiSeq, json) {
-		console.log("게시글을 수정합니다.");
+	async updateYTonny(context, payload) {
+		console.log("예약통역 수정");
 
-		let { data } = await http.put(`/ytonny/${yTonnyNotiSeq}`, json);
+		let { data } = await http.put(`/ytonny/${payload.ytonnySeq}`, payload);
 
 		try {
-			console.log("async function : ", data);
+			console.log("async updateYTonny : ", data);
 
 			// service logic
 			switch (data.resultCode) {
 				case SUCCESS:
-					context.commit("SET_YTONNY_DETAIL", data.data);
-					break;
+					return data.data;
 				case FAIL:
-					break;
+					return -1;
 			}
-			return data.resultCode;
 		} catch (err) {
 			console.error(err);
 
@@ -191,8 +189,6 @@ export default {
 			if (err.response.status == 403) {
 				alert("로그인 하세요");
 			}
-
-			return data.resultCode;
 		}
 	},
 
