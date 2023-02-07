@@ -2,15 +2,15 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.entity.CommonEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "helper_info_image_table")
 public class HelperInfoImageEntity extends CommonEntity {
@@ -25,11 +25,12 @@ public class HelperInfoImageEntity extends CommonEntity {
 	private HelperInfoEntity helperInfo;
 
 	private String imagePath;
+	@Builder.Default
 	private Boolean isDeleted = false;
 
 
 	public void deleteHelperInfoImage() {
-		this.isDeleted = true;
+		this.isDeleted = !isDeleted;
 	}
 
 }
