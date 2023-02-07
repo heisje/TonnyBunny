@@ -11,11 +11,16 @@
             <JTonnyLoading />
         </div>
         <router-link :to="{ name: 'JTonnyMatchingPage' }"><button>다음페이지</button></router-link>
-        <large-btn text="대기 취소" @click.prevent="openModal" />
 
-        <div v-for="i in 5" :key="i">
-            <helper-card />
+        <div v-for="jtonny in Object.values(jtonnyList)" :key="jtonny.client.seq">
+            <!-- 누르면 취소하기로 바뀌고 cancel -->
+            <quest-card :questDetail="jtonny"
+                        rightBtnText="신청하기"
+                        @clickBtn2="apply(jtonny.client.seq)"  />
         </div>
+
+        <!-- 얘도 click 하면 unsubscribe() -->
+        <large-btn text="대기 취소" @click.prevent="openModal" />
 
         <AlarmModal
             v-show="isOpen"
@@ -38,7 +43,7 @@
 import JTonnyLoading from "@/components/jtonny/JTonnyLoading.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import LargeBtn from "@/components/common/button/LargeBtn.vue";
-import HelperCard from "@/components/common/card/HelperCard.vue";
+import QuestCard from "@/components/common/card/QuestCard.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 import Stomp from "webstomp-client";
@@ -51,7 +56,7 @@ export default {
         JTonnyLoading,
         TitleText,
         LargeBtn,
-        HelperCard,
+        QuestCard,
         AlarmModal,
     },
     data() {
@@ -74,9 +79,17 @@ export default {
         closeModal() {
             this.isOpen = false;
         },
-        apply() {
+        apply(seq) {
             // this.jtonnyRequest 에 단가, this.userInfo.seq 넣기
-            this.stompClient.send("/pub/jtonny/apply", JSON.stringify(this.jtonnyRequst), {});
+            let jtonnyApply = this.jtonnyList[seq];
+            console.log("jta", jtonnyApply);
+            jtonnyApply.helper = { 
+                seq: this.userInfo.seq,
+                nickName: this.userInfo.nickName 
+            };
+            jtonnyApply.unitPrice = 5000;
+
+            this.stompClient.send("/pub/jtonny/apply", JSON.stringify(jtonnyApply), {});
         },
         cancel() {
             this.stompClient.send(
@@ -85,13 +98,19 @@ export default {
                 {}
             );
         },
+        unsubscribe() {
+            this.subs.forEach((sub) => {
+                sub.unsubscribe();
+            })
+        }
     },
     mounted() {
+        let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
         console.log("userInfo", this.userInfo);
         console.log("helperInfo", this.userInfo.helperInfo);
-        console.log("possibleLanguageList", this.userInfo.helperInfo.possibleLanguageList);
+        console.log("가능언어", possibleLanguageList);
+        console.log("타입", typeof possibleLanguageList);
 
-        let possibleLanguageList = this.userInfo.possibleLanguageList;
         const serverURL = "http://localhost:8080/api/stomp";
         let socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
@@ -104,22 +123,22 @@ export default {
                 console.log("소켓 연결 성공");
                 // 본인 seq 를 구독합니다.
                 possibleLanguageList.forEach((lang) => {
-                    let sub = this.stompClient.subscribe(`/sub/jtonny/request/${lang}`, (res) => {
-                        console.log("즉시통역 요청이 도착했습니다.", res.body);
+                    let sub = this.stompClient.subscribe(`/sub/jtonny/request/${lang.value}`, (res) => {
+                        console.log(`즉시통역(${lang.name}) 요청이 도착했습니다.`, res.body);
 
                         // 받은 데이터를 json 으로 파싱하고 dictionary 에 넣어줍니다.
                         let request = JSON.parse(res.body);
-                        this.jtonnyList[request.clientSeq] = request;
+                        this.jtonnyList[request.client.seq] = request;
                     });
                     this.subs.push(sub);
 
                     sub = this.stompClient.subscribe(
-                        `/sub/jtonny/request/${lang}/cancel`,
+                        `/sub/jtonny/request/${lang.value}/cancel`,
                         (res) => {
                             console.log("즉시통역 요청이 취소되었습니다.", res.body);
 
                             let request = JSON.parse(res.body);
-                            delete this.jtonnyList[request.clientSeq];
+                            delete this.jtonnyList[request.client.seq];
                         }
                     );
                     this.subs.push(sub);
@@ -137,6 +156,9 @@ export default {
             userInfo: "getUserInfo",
         }),
     },
+    beforeUnmount() {
+        this.unsubscribe();
+    }
 };
 
 // import JTonnyLoading from '@/components/jtonny/JTonnyLoading.vue';

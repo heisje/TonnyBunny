@@ -87,7 +87,7 @@ export default {
         },
     },
     mounted() {
-        let clientSeq = this.jtonnyRequest.clientSeq;
+        let clientSeq = this.jtonnyRequest.client.seq;
         const serverURL = "http://localhost:8080/api/stomp";
         let socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
@@ -104,14 +104,14 @@ export default {
 
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
                     let request = JSON.parse(res.body);
-                    this.jtonnyList[request.helperSeq] = request;
+                    this.jtonnyList[request.helper.seq] = request;
                 });
                 this.stompClient.subscribe(`/sub/jtonny/apply/${clientSeq}/cancel`, (res) => {
                     console.log("즉시통역 요청이 취소되었습니다.", res.body);
 
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
                     let request = JSON.parse(res.body);
-                    delete this.jtonnyList[request.helperSeq];
+                    delete this.jtonnyList[request.helper.seq];
                 });
                 this.stompClient.send(
                     `/pub/jtonny/request`,
