@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
+@Table(name = "schedule_table")
 public class ScheduleEntity extends CommonEntity {
 
 	@Id

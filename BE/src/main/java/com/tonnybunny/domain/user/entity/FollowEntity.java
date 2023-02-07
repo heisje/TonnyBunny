@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "follow_table")
 public class FollowEntity extends CommonEntity {
 
 	@Id

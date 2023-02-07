@@ -28,6 +28,7 @@ import static com.tonnybunny.domain.user.dto.UserCodeEnum.헬퍼;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "user_table")
 public class UserEntity extends CommonEntity {
 
 	@Id

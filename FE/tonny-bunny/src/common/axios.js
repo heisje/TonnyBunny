@@ -4,6 +4,7 @@ import axios from "axios";
 export default axios.create({
     // 백엔드 localhost:8080
     baseURL: "http://localhost:8080/api",
+    // baseURL: "http://localhost:8080",
 
     headers: {
         "Content-Type": "application/json",

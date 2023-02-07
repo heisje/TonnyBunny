@@ -21,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
+@Table(name = "ytonny_table")
 public class YTonnyEntity extends CommonEntity {
 
 	@Id

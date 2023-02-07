@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor // @Builder와 같이 씀
 @Builder
+@Table(name = "board_image_table")
 public class BoardImageEntity extends CommonEntity {
 
 	@Id

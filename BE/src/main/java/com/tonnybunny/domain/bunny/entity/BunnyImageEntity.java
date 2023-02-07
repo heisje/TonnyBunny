@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "bunny_image_table")
 public class BunnyImageEntity extends CommonEntity {
 
 	@Id

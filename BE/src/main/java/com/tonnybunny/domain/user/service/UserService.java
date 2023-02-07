@@ -195,7 +195,9 @@ public class UserService {
 	 */
 	public Boolean checkAuthCode(AuthCodeRequestDto authCodeRequestDto) {
 		String authCode = authCodeRequestDto.getAuthCode();
+		System.out.println("authCode = " + authCode);
 		String phoneNumber = authCodeRequestDto.getPhoneNumber();
+
 		String value = redisUtil.getData(authCode);
 		System.out.println("value = " + value);
 		if (value.equals(null)) {
