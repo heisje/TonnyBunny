@@ -57,7 +57,8 @@ public class UserResponseDto {
 		                                                 .phoneNumber(user.getPhoneNumber())
 		                                                 .point(user.getPoint())
 		                                                 .userCode(user.getUserCode())
-		                                                 //		                                                 .helperInfo(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
+		                                                 .helperInfo(user.getUserCode().equals("0010002") ? HelperInfoResponseDto.fromEntity(user.getHelperInfo()) : new HelperInfoResponseDto())
+		                                                 // .helperInfo(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
 		                                                 .build();
 		return userResponseDto;
 	}
