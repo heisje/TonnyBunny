@@ -2,8 +2,10 @@ package com.tonnybunny.domain.user.dto;
 
 
 import com.tonnybunny.domain.user.entity.UserEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.List;
  * helperInfoResponseDto: 헬퍼 정보
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserResponseDto {
 
