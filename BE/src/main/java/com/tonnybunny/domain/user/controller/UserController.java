@@ -7,10 +7,13 @@ import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HelperInfoRepository;
+import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.EmailService;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.SmsService;
 import com.tonnybunny.domain.user.service.UserService;
+import com.tonnybunny.exception.CustomException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_ENTITY;
+import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_USER;
 
 
 @RestController
@@ -32,6 +38,8 @@ public class UserController {
 
 	private final SmsService smsService;
 	private final EmailService emailService;
+	private final HelperInfoRepository helperInfoRepository;
+	private final UserRepository userRepository;
 
 
 	@PostMapping("/signup")
@@ -410,23 +418,30 @@ public class UserController {
 
 	// ------------------------------ 헬퍼 프로필 ---------------------------------------
 
+	//	@PostMapping("/mypage/{userSeq}/helper")
+	//	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
+	//	public ResponseEntity<ResultDto<HelperInfoResponseDto>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+	//		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+	//			() -> new CustomException(NOT_FOUND_USER)
+	//		);
+	//		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow(
+	//			() -> new CustomException(NOT_FOUND_ENTITY)
+	//		);
+	//		HelperInfoResponseDto helperInfoResponseDto = HelperInfoResponseDto.fromEntity(helperInfo);
+	//		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponseDto));
+	//	}
 
-	@PostMapping("/mypage/{userSeq}/helper")
-	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
-	public ResponseEntity<ResultDto<HelperInfoResponseDto>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
-		HelperInfoEntity helperInfo = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto); // 기본 헬퍼정보 생성
-		HelperInfoResponseDto helperInfoResponseDto = HelperInfoResponseDto.fromEntity(helperInfo);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponseDto));
-	}
 
+	//	@PutMapping("/mypage/{userSeq}/helper")
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST }, value = "/mypage/{userSeq}/helper")
+	@ApiOperation(value = "헬퍼의 프로필 정보를 등록 및 수정합니다")
+	public ResponseEntity<ResultDto<HelperInfoResponseDto>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
+	                                                                         @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		System.out.println("UserController.modifyHelperInfo");
+		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto);
+		HelperInfoResponseDto helperInfoResponse = HelperInfoResponseDto.fromEntity(helperInfo);
 
-	@PutMapping("/mypage/{userSeq}/helper")
-	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
-	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-	                                                        @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
-		Long updatedHelperInfoSeq = helperInfoService.modifyHelperInfo(userSeq,
-			helperInfoRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedHelperInfoSeq));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponse));
 	}
 
 
@@ -453,5 +468,17 @@ public class UserController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(seq));
 	}
+
+	/**
+	 * 헬퍼의 자격증 리스트를 조회합니다.
+	 */
+
+	/**
+	 * 헬퍼의 사용 언어 리스트를 조회합니다.
+	 */
+
+	/**
+	 * 헬퍼의 이미지 리스트를 조회합니다.
+	 */
 
 }

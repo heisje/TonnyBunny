@@ -4,7 +4,7 @@
             <h1>홈 - 마이 페이지</h1>
 
             <div class="profileWrap">
-                <div>
+                <div width="">
                     <title-text title="내 프로필" type="h2" />
                     <ClientCard />
                 </div>
@@ -17,15 +17,58 @@
             <div v-if="isHelper === true" class="profileWrap">
                 <div>
                     <title-text title="헬퍼 프로필" type="h2" />
-                    <helper-card
-                        nickName="아스파라거스"
-                        oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
-                        fareText="2000"
-                        starText="4.0"
-                        countText="100"
-                        likeText="10"
-                        isLikeEmpty
-                        rightBtnText="상담하기"></helper-card>
+                    <div>
+                        <helper-card
+                            :userInfo="{
+                                seq: 1,
+                                userCode: '1',
+                                email: 'test251@gmail.com',
+                                nickName: 'nickck111',
+                                phoneNumber: null,
+                                point: 0,
+                                profileImagePath: '/img/default.jpg',
+                                helperInfo: {
+                                    seq: 1,
+                                    avgScore: 3.5,
+                                    reviewCount: 213,
+                                    unitPrice: 123,
+                                    oneLineIntroduction: 'ㄻㄴㄴㄻㅁㄹㄴ',
+                                    introduction: 'ㄹㄴㅁㅁㄻㄴㄹ',
+                                    possibleLanguageList: [
+                                        {
+                                            name: 'Korean',
+                                            value: '0000111',
+                                        },
+                                        {
+                                            name: 'English',
+                                            value: '0010101',
+                                        },
+                                    ],
+                                    certificateList: [
+                                        {
+                                            seq: null,
+                                            langCode: null,
+                                            certName: 'Korean',
+                                            content: 'Korean',
+                                        },
+                                        {
+                                            seq: null,
+                                            langCode: null,
+                                            certName: 'Canana',
+                                            content: 'Canana',
+                                        },
+                                    ],
+                                },
+                            }"
+                            nickName="아스파라거스"
+                            oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
+                            fareText="2000"
+                            starText="4.0"
+                            countText="100"
+                            likeText="10"
+                            isLikeEmpty
+                            rightBtnText="상담하기"></helper-card>
+                    </div>
                 </div>
                 <!-- 
 				자세히보기 XSmallBtn
@@ -154,9 +197,7 @@ export default {
     .myPageWrap {
         width: 100%;
         .profileWrap {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
+            width: 100%;
         }
     }
 }
