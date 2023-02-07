@@ -512,9 +512,9 @@ CREATE TABLE `chat_room_table`
     `created_at`        TIMESTAMP    NOT NULL DEFAULT now(),
     `updated_at`        TIMESTAMP    NOT NULL DEFAULT now(),
     PRIMARY KEY (`chat_room_seq`),
-    FOREIGN KEY (`client_seq`)
+    FOREIGN KEY (`user_less_seq`)
         REFERENCES `user_table` (`user_seq`),
-    FOREIGN KEY (`helper_seq`)
+    FOREIGN KEY (`user_larger_seq`)
         REFERENCES `user_table` (`user_seq`)
 ) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
