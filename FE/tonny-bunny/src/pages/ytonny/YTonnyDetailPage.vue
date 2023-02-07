@@ -3,7 +3,13 @@
         <!-- <title-banner title="예약통역 공고" text=""></title-banner> -->
         <div class="yTonnyDetailWrap col-lg-6 col-12" ref="yTonnyDetail">
             <!-- yTonny Detail View -->
-            <div class="yTonnyDetail">
+            <v-lazy
+                class="yTonnyDetail"
+                v-model="isActive"
+                :options="{
+                    threshold: 0.5,
+                }"
+                transition="fade-transition">
                 <!-- yTonny 공고 정보 라인 -->
                 <div class="infos">
                     <div class="tag">
@@ -125,74 +131,45 @@
 
                                 <tr>
                                     <td>상황 설명</td>
-                                    <td class="pt-4">{{ yTonnyDetail.content }}</td>
+                                    <td class="pt-3">{{ yTonnyDetail.content }}</td>
                                 </tr>
                             </tbody>
                         </v-table>
-                        <!-- </div> -->
-                        <!-- <div class="langs mb-5">
-					<h3 class="mb-2">통역 언어</h3>
-					<div class="d-flex flex-row align-items-center">
-						<square-tag
-							:text="yTonnyDetail.startLangCode"
-							sub
-							class="me-2"></square-tag>
-						<div class="me-2">
-							<span class="material-symbols-outlined"> compare_arrows </span>
-						</div>
-						<square-tag :text="yTonnyDetail.endLangCode" sub></square-tag>
-					</div>
-					</div>
-
-					<div class="dates mb-5">
-						<h3 class="mb-2">통역 예약 시간</h3>
-						<div>{{ yTonnyDetail.startDateTime }}</div>
-						<div>{{ yTonnyDetail.estimateTime }}</div>
-					</div>
-
-					<div class="prices mb-5">
-						<h3 class="mb-2">지불 금액</h3>
-						<div>{{ yTonnyDetail.estimatePrice }}</div>
-					</div>
-
-					<div class="categorys mb-5 d-flex flex-column">
-						<h3 class="mb-2">상황 카테고리</h3>
-						<div>
-							<square-tag :text="yTonnyDetail.tonnySituCode" sub></square-tag>
-						</div>
-					</div>
-
-					<div class="contents mb-5">
-						<h3 class="mb-2">상황 설명</h3>
-						<div>{{ yTonnyDetail.content }}</div>
-					</div> -->
                     </div>
                 </div>
-            </div>
+            </v-lazy>
         </div>
 
         <div class="col-lg-6 col-12">
             <!-- yTonny 공고 신청 버튼 라인 -->
-            <div class="applys" v-show="isHelper">
-                <h1 class="mb-4">가격 제안하기</h1>
-                <div v-if="isApply">
-                    <div class="d-flex align-items-center mb-3">
-                        <input
-                            class="me-2"
-                            type="text"
-                            placeholder="제안할 가격을 입력해주세요. ex) 1000"
-                            v-model="totalPrice" />
-                        <h2>CRT</h2>
+            <div class="applys">
+                <h1 class="mb-4">
+                    <i class="fa-solid fa-carrot fs-4 ms-1 me-1"></i>
+                    가격 제안하기
+                </h1>
+                <v-lazy
+                    v-model="isActive"
+                    :options="{ threshold: 0.5 }"
+                    transition="fade-transition">
+                    <div v-if="isApply">
+                        <div class="d-flex align-items-center mb-3">
+                            <input
+                                type="text"
+                                placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
+                                v-model="totalPrice" />
+                        </div>
+                        <medium-btn
+                            class="w-100"
+                            color="primary"
+                            font="white"
+                            text="헬퍼 신청하기"
+                            @click.prevent="insertYTonnyApply"></medium-btn>
+                        <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
                     </div>
-                    <medium-btn
-                        class="w-100"
-                        text="통역 헬퍼 신청하기"
-                        @click.prevent="insertYTonnyApply"></medium-btn>
-                    <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
-                </div>
-                <div v-else>
-                    <medium-btn text="헬퍼 신청 취소하기"></medium-btn>
-                </div>
+                    <div v-else>
+                        <medium-btn text="헬퍼 신청 취소하기"></medium-btn>
+                    </div>
+                </v-lazy>
             </div>
 
             <!-- yTonny Applu List View -->
@@ -202,11 +179,20 @@
                     <div class="label">더보기</div>
                 </div>
 
-                <div v-if="!yTonnyApplyList.length > 0" class="lists">
-                    <div v-for="(apply, index) in yTonnyApplyList" :key="index">
-                        <!-- {{ apply }} -->
+                <hr />
+
+                <v-lazy
+                    v-if="yTonnyApplyList.length > 0"
+                    class="lists"
+                    v-model="isActive"
+                    :options="{ threshold: 0.5 }"
+                    transition="fade-transition">
+                    <!-- <div
+                        v-for="(apply, index) in yTonnyApplyList"
+                        :key="index"
+                        ref="yTonnyApplyList">
                         <helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card>
-                    </div>
+                    </div> -->
                     <div ref="yTonnyApplyList">
                         <helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
                         ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
@@ -219,7 +205,7 @@
                         ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
                         ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card>
                     </div>
-                </div>
+                </v-lazy>
                 <div v-else>가격을 제안한 헬퍼가 없습니다.</div>
             </div>
         </div>
@@ -258,6 +244,7 @@ export default {
             isHelper: true,
             isApply: true,
             isEditOpen: false,
+            isActive: true,
 
             totalPrice: "",
         };
@@ -372,6 +359,30 @@ export default {
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
+
+    .applys {
+        // margin-top: 40px;
+        // margin-bottom: 80px;
+
+        // padding: 100px;
+        padding: 32px 24px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+        background-color: var(--thin-color);
+        border-radius: 6px;
+    }
+
+    .yTonnyApplyList {
+        margin-top: 40px;
+        margin-bottom: 80px;
+
+        .lists {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }
 
 .yTonnyDetailWrap {
@@ -379,7 +390,7 @@ export default {
 .yTonnyDetail {
     cursor: default;
     padding: 32px 24px;
-    margin-right: 24px;
+
     // box-shadow: 1px 1px 1px black;
     border: 1px solid rgba(0, 0, 0, 0.13);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
@@ -466,27 +477,6 @@ export default {
             }
         }
     }
-
-    .applys {
-        margin-top: 40px;
-        margin-bottom: 80px;
-
-        padding: 100px;
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-    }
-
-    .yTonnyApplyList {
-        margin-top: 40px;
-        margin-bottom: 80px;
-
-        .lists {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    }
 }
 
 hr {
@@ -522,25 +512,11 @@ hr {
 
 @media (min-width: 1264px) {
     .yTonnyDetailWrap {
-        // position: relative;
-        // position: fixed;
-        //     position: absolute;
-        //     // display: flex;
-        //     // flex-direction: column;
-        //     // align-items: center;
-        //     // justify-content: center;
         transition: all 0.13s;
     }
 
     .yTonnyDetail {
-        // background-color: red;
-        // position: sticky;
-        // margin-top: 100px;
-        // top: 100px;
-        // margin-bottom: 100px;
-        // width: 50%;
-        // left: 0;
-        // width: calc(100% - 400px);
+        margin-right: 24px;
     }
 }
 </style>
