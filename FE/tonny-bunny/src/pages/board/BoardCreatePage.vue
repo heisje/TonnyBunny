@@ -76,10 +76,9 @@ export default {
 
         insertBoard() {
             const payload = {
-                user: this.$store.state.account.userInfo.seq,
+                userSeq: this.$store.state.account.userInfo.seq,
                 title: this.title.value,
                 content: this.content.value,
-                boardImageList: this.boardImageList,
             };
             this.$store.dispatch("insertBoard", payload);
             // this.submitFiles();
