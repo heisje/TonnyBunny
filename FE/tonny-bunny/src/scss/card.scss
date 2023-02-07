@@ -1,9 +1,10 @@
 .cardContainer {
     // position: relative;
-    display: inline-block;
+    display: block;
     background-color: var(--thin-color);
 
-    width: #{"min(100%,400px)"};
+    width: 100%;
+    min-width: 300px;
     max-width: 400px;
     border-radius: 8px;
     padding: 16px;
@@ -12,10 +13,6 @@
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.cardWrap {
-    width: 100%;
-    // display: grid;
-}
 .clientCard {
     display: flex;
     .info {
@@ -27,6 +24,32 @@
             display: flex;
         }
     }
+}
+.clientPoint {
+    display: flex;
+    // justify-content: space-between;
+    justify-content: center;
+    width: 94%;
+    margin-top: 4px;
+    margin-bottom: 16px;
+
+    background-color: var(--light-color);
+    border-radius: 6px;
+    padding: 8px 0px;
+
+    .carrot {
+        padding: 0px 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    .carrotSetting {
+        text-decoration: underline;
+    }
+}
+
+.edit {
+    padding-left: 0.3rem;
+    text-decoration: underline;
 }
 
 .helperCard {
@@ -199,7 +222,7 @@
     flex-direction: column;
     position: relative;
     cursor: default;
-    padding: 10px 0;
+    padding: 0 0;
 
     .questTag {
         display: flex;
@@ -216,33 +239,48 @@
 
     .questProfile {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
+
         align-items: center;
+        width: 100%;
 
         background-color: var(--light-color);
         border-radius: 8px;
-        padding: 8px 0px;
+        padding: 8px 8px;
         margin: 8px 0;
 
         .profile {
             display: flex;
             align-items: center;
+            max-width: 140px;
 
             img {
+                width: 32px;
+                height: 32px;
                 border-radius: 100%;
                 box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+            }
+        }
+
+        .arrow {
+            color: var(--sub-color);
+        }
+
+        .userType {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            .overflow {
+                width: 80px;
+                overflow: hidden; // 을 사용해 영역을 감출 것
+                text-overflow: ellipsis; // 로 ... 을 만들기
+                white-space: nowrap;
             }
         }
 
         div:nth-child(1) {
             img {
                 margin-right: 8px;
-            }
-        }
-        div:nth-child(2) {
-            span {
-                font-size: 1.3rem;
-                color: var(--sub-color);
             }
         }
         div:nth-child(3) {
@@ -267,22 +305,22 @@
             }
         }
 
-        .infoDate {
-            .jtonnyDate,
-            .ytonnyDate {
+        .infoDateWrap {
+            .infoDate {
                 display: flex;
                 margin-bottom: 8px;
 
-                div {
+                .date {
                     width: 50%;
                     display: flex;
                     flex-direction: column;
                     font-size: 1rem;
                 }
-
-                .date {
-                }
                 .time {
+                    width: 50%;
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 1rem;
                 }
             }
         }

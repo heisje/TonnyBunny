@@ -32,8 +32,13 @@
                             src="@/assets/noProfile_white.png"
                             width="50"
                             height="50" />
-                        <span>고객</span>
-                        <h4>{{ questDetail?.clientSeq }}</h4>
+                        <div class="userType">
+                            <span class="label">고객</span>
+                            <h4 class="overflow" v-if="questDetail?.client?.nickName">
+                                {{ questDetail?.client?.nickName }}
+                            </h4>
+                            <h4 class="overflow" v-else>미지정</h4>
+                        </div>
                     </div>
 
                     <div>
@@ -41,8 +46,13 @@
                     </div>
 
                     <div class="profile">
-                        <span>헬퍼</span>
-                        <h4>{{ questDetail?.helperSeq }}</h4>
+                        <div class="userType">
+                            <span class="label">헬퍼</span>
+                            <h4 class="overflow" v-if="questDetail?.helper?.nickName">
+                                {{ questDetail?.helper?.nickName }}
+                            </h4>
+                            <h4 class="overflow" v-else>미지정</h4>
+                        </div>
                         <img
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
@@ -58,8 +68,8 @@
                         <div class="sub">{{ questDetail?.content }}</div>
                     </div>
 
-                    <div class="infoDate">
-                        <div v-if="allCode[questDetail?.taskCode] == '즉시통역'" class="jtonnyDate">
+                    <div class="infoDateWrap">
+                        <div v-if="allCode[questDetail?.taskCode] == '즉시통역'" class="infoDate">
                             <div class="date">
                                 <h4>날짜</h4>
                                 <div>{{ questDetail?.startDate }}</div>
@@ -71,7 +81,7 @@
                         </div>
                         <div
                             v-else-if="allCode[questDetail?.taskCode] == '예약통역'"
-                            class="ytonnyDate">
+                            class="infoDate">
                             <div class="date">
                                 <h4>날짜</h4>
                                 <div>{{ questDetail?.estimateDate.substr(0, 10) }}</div>
@@ -84,9 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div
-                            v-else-if="allCode[questDetail?.taskCode] == '번역'"
-                            class="ytonnyDate">
+                        <div v-else-if="allCode[questDetail?.taskCode] == '번역'" class="infoDate">
                             <div class="date">
                                 <h4>마감기한</h4>
                                 <div>{{ questDetail?.startDate.substr(0, 10) }}</div>
