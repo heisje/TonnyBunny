@@ -12,9 +12,8 @@ export default {
         console.log("게시글 리스트를 조회합니다.");
 
         this.dispatch("setIsLoading", true);
-        let params = {};
         try {
-            let { data } = await http.get("/board", { params });
+            let { data } = await http.get("/board");
             console.log("async function : ", data);
 
             data.data.forEach((d) => {
