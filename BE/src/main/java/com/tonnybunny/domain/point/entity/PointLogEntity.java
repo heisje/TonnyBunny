@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor // @Builder와 같이 씀
 @Builder
+@Table(name = "point_log_table")
 public class PointLogEntity extends CommonEntity {
 
 	@Id

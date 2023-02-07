@@ -14,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @ToString
+@Table(name = "ytonny_apply_table")
 public class YTonnyApplyEntity extends CommonEntity {
 
 	@Id

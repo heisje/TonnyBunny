@@ -2,29 +2,34 @@ package com.tonnybunny.domain.chat.entity;
 
 
 import com.tonnybunny.common.entity.CommonEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+@Table(name = "chat_room_table")
 public class ChatRoomEntity extends CommonEntity {
 
 	@Id
 	@Column(name = "chat_room_seq")
 	private String seq;    // FIXME : String으로 변경함
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "helper_seq")
-	private UserEntity helper;
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	//	@JoinColumn(name = "user_less_seq")
+	//	private UserEntity userLess;
+	private Long userLessSeq;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "client_seq")
-	private UserEntity client;
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	//	@JoinColumn(name = "user_larger_seq")
+	//	private UserEntity userLarger;
+	private Long userLargerSeq;
 
 }

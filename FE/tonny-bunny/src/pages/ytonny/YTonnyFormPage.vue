@@ -39,6 +39,7 @@ export default {
 	methods: {
 		successYtonnyCreate() {
 			this.$router.push({ name: "YTonnyDetailPage", params: { id: this.yTonnySeq } });
+			this.$store.commit("TOGGLE_ALARM_MODAL");
 		}
 	}
 };

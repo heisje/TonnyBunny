@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @RequiredArgsConstructor
+@Table(name = "auth_table")
 public class AuthEntity extends CommonEntity {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

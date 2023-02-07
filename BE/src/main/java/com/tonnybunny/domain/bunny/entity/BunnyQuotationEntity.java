@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "bunny_quotation_table")
 public class BunnyQuotationEntity extends CommonEntity {
 
 	@Id

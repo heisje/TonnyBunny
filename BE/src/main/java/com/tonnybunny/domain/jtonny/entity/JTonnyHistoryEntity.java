@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalTime;
 
 
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 @DiscriminatorValue("j_tonny")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "jtonny_history_table")
 public class JTonnyHistoryEntity extends HistoryEntity {
 
 	private LocalTime totalTime;

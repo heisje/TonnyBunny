@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "helper_info_image_table")
 public class HelperInfoImageEntity extends CommonEntity {
 
 	@Id

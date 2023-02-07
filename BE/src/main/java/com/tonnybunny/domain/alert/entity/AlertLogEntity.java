@@ -14,6 +14,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @ToString
 @Builder
+@Table(name = "alert_log_table")
 public class AlertLogEntity extends CommonEntity {
 
 	@Id

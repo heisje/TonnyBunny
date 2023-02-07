@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Table(name = "bunny_apply_table")
 public class BunnyApplyEntity extends CommonEntity {
 
 	@Id

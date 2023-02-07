@@ -26,21 +26,22 @@ import java.util.List;
 public class HelperInfoRequestDto {
 
 	/* 헬퍼 유저 회원가입 */
-	private List<String> possibleLanguageList = new ArrayList<>();
+	private List<PossibleLanguageDto> possibleLanguageList = new ArrayList<>();
 
 	private List<CertificateRequestDto> certificateList = new ArrayList<>();
 
 	/* 헬퍼 유저 회원정보 수정 */
-	private String oneLineIntroduction = "";
-	private String introduction = "";
-	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
+	private String oneLineIntroduction;
+	private String introduction;
+	//	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
 
 
 	/**
 	 * 1. 빌더패턴으로 작성
 	 * 2. HelperInfoEntity 내부의 비즈니스 로직(팩토리 메소드)으로 인스턴스 생성 후 반환
 	 */
-	public HelperInfoEntity toEntity() {
+	public HelperInfoEntity toEntity(HelperInfoRequestDto helperInfoRequestDto) {
+
 		return (HelperInfoEntity) new Object();
 	}
 

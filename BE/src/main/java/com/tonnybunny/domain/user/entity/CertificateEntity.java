@@ -2,16 +2,17 @@ package com.tonnybunny.domain.user.entity;
 
 
 import com.tonnybunny.common.entity.CommonEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "certificate_table")
 public class CertificateEntity extends CommonEntity {
 
 	@Id
@@ -29,13 +30,6 @@ public class CertificateEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "helper_info_seq")
 	private HelperInfoEntity helperInfo;
-
-
-	public CertificateEntity(String certName, String content, HelperInfoEntity helperInfo) {
-		this.certName = certName;
-		this.content = content;
-		this.helperInfo = helperInfo;
-	}
 
 
 	public void deleteCertificate() {

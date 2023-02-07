@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "common_code_table")
 public class CommonCodeEntity {
 
 	@Id
