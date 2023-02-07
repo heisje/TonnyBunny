@@ -57,6 +57,21 @@ public class UserResponseDto {
 		                                                 .phoneNumber(user.getPhoneNumber())
 		                                                 .point(user.getPoint())
 		                                                 .userCode(user.getUserCode())
+		                                                 //		                                                 .helperInfo(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
+		                                                 .build();
+		return userResponseDto;
+	}
+
+
+	public static UserResponseDto createUserWithHelper(UserEntity user) {
+		UserResponseDto userResponseDto = UserResponseDto.builder()
+		                                                 .seq(user.getSeq())
+		                                                 .email(user.getEmail())
+		                                                 .nickName(user.getNickName())
+		                                                 .profileImagePath(user.getProfileImagePath())
+		                                                 .phoneNumber(user.getPhoneNumber())
+		                                                 .point(user.getPoint())
+		                                                 .userCode(user.getUserCode())
 		                                                 .helperInfo(HelperInfoResponseDto.fromEntity(user.getHelperInfo()))
 		                                                 .build();
 		return userResponseDto;
