@@ -6,24 +6,13 @@
             <!-- 언어 선택 -->
             <TitleText title="언어 선택" type="h2" text="하실 수 있는 언어를 선택해주세요" />
 
-            <!-- <select v-model="selected" :onchange="selectLang">
-                <option
-                    v-for="(item, index) in langCode"
-                    :key="index"
-                    :value="JSON.stringify(item)">
-                    {{ item.name }}
-                </option></select
-            ><br /> -->
-
-            {{ possibleLanguageCodeList }}
-
-            <dropdown-input-code :dropdownArray="langCode" @toggle="selectLang2" />
+            <dropdown-input-code :dropdownArray="langCode" @toggleItem="toggleLangItem" />
 
             <br />
 
-            <span v-for="(lang, index) in possibleLanguageList" :key="index">
+            <span v-for="(lang, index) in possibleLanguageCodeList" :key="index">
                 <div class="selected">
-                    {{ lang }}
+                    {{ lang.name }}
                     <span @click="cancleSelect(index)">❌</span>
                 </div>
             </span>
@@ -32,24 +21,24 @@
             <TitleText title="자격증 추가" type="h2" text="어학 관련 자격증을 추가해주세요" />
             <!-- 등록한 자격증 목록 -->
             <div v-for="(certificate, index) in certificateList" :key="index">
-                [{{ certificate.languageName }}] {{ certificate.title }} : {{ certificate.content }}
+                [{{ allCode[certificate.langCode] }}] {{ certificate.certName }} :
+                {{ certificate.content }}
                 <SmallBtn text="삭제" @click="deleteCertificate(index)"></SmallBtn>
             </div>
             <!-- 자격증 폼 -->
             <div>
-                <select v-model="selected2">
-                    <option
-                        v-for="(item, index) in langCode"
-                        :key="index"
-                        :value="JSON.stringify(item)">
-                        {{ item.name }}
-                    </option>
-                </select>
+                <dropdown-input-code
+                    :dropdownArray="langCode"
+                    @toggleItem="
+                        (e) => {
+                            certificateLang = e;
+                        }
+                    " />
+                <input type="text" placeholder="자격증 이름" v-model="certName" />
+                <input type="text" placeholder="내용" v-model="contentInput" />
+                <SmallBtn text="등록" @click="addCertificate"></SmallBtn>
             </div>
 
-            <input type="text" placeholder="자격증 이름" v-model="titleInput" />
-            <input type="text" placeholder="내용" v-model="contentInput" />
-            <SmallBtn text="등록" @click="addCertificate"></SmallBtn>
             <br /><br />
 
             <smallBtn style="width: 100%" text="확인" @click="submitForm"></smallBtn><br /><br />
@@ -88,33 +77,25 @@ export default {
             possibleLanguageCodeList: [],
 
             // certificate
-            selected2: "",
+            certificateLang: "",
             certificateList: [],
-            titleInput: "",
+            certName: "",
             contentInput: "",
         };
     },
 
     methods: {
-        //
-        selectLang2(e) {
-            this.possibleLanguageCodeList.push(e);
-        },
-
         // 언어 선택
-        selectLang(event) {
-            let { name, value } = { ...JSON.parse(event.target.value) };
-
-            if (value == "") {
+        toggleLangItem(e) {
+            if (e.value == "") {
                 return;
             }
             const isExist = this.possibleLanguageCodeList.some((lang) => {
-                return lang == value;
+                return lang == e;
             });
 
             if (!isExist) {
-                this.possibleLanguageList.push(name);
-                this.possibleLanguageCodeList.push(value);
+                this.possibleLanguageCodeList.push(e);
             }
         },
 
@@ -126,21 +107,19 @@ export default {
 
         // 자격증 추가
         addCertificate() {
-            if (this.selected2 == "" || this.titleInput == "" || this.contentInput == "") {
+            if (this.certificateLang == "" || this.certName == "" || this.contentInput == "") {
                 return;
             }
 
             const data = {
-                certName: this.titleInput,
+                certName: this.certName,
                 content: this.contentInput,
-                langCode: JSON.parse(this.selected2).value,
-                languageName: JSON.parse(this.selected2).name,
+                langCode: this.certificateLang.value,
             };
 
             this.certificateList.push(data);
-            this.titleInput = "";
+            this.certName = "";
             this.contentInput = "";
-            this.selected2 = "";
         },
 
         // 자격증 등록 취소
@@ -151,29 +130,16 @@ export default {
         // 폼 제출
         async submitForm(event) {
             event.preventDefault();
+
             let userSeq2 = this.userSeq * 1;
 
-            // const possibleLanguageCodeList = this.possibleLanguageCodeList;
+            const possibleLanguageList = this.possibleLanguageCodeList;
             const jsonData = {
-                certificateList: [
-                    {
-                        certName: "Korean",
-                        content: "HiHi",
-                        langCode: "0010000",
-                    },
-                    {
-                        certName: "Korean2",
-                        content: "HiHi2",
-                        langCode: "0010002",
-                    },
-                ],
+                certificateList: this.certificateList,
                 helperInfoImageReqeustDtoList: [],
                 introduction: "new introduction",
                 oneLineIntroduction: "new oneLineIntroduction",
-                possibleLanguageList: [
-                    { value: "0020001", name: "한국어" },
-                    { value: "0020002", name: "영어" },
-                ],
+                possibleLanguageList: possibleLanguageList,
             };
             // 일단 잠시 주석
             try {
@@ -200,6 +166,7 @@ export default {
     computed: {
         ...mapGetters({
             langCode: "getLangCode",
+            allCode: "getAllCode",
         }),
     },
 };
