@@ -3,6 +3,8 @@ package com.tonnybunny.common.dto;
 
 import lombok.ToString;
 
+import java.util.Arrays;
+
 
 @ToString
 public enum TonnySituCodeEnum {
@@ -15,6 +17,14 @@ public enum TonnySituCodeEnum {
 
 	TonnySituCodeEnum(String tonnySituCode) {
 		this.tonnySituCode = tonnySituCode;
+	}
+
+
+	public static TonnySituCodeEnum valueOfCode(String tonnySituCode) {
+		return Arrays.stream(values())
+		             .filter(value -> value.getTonnySituCode().equals(tonnySituCode))
+		             .findAny()
+		             .orElse(null);
 	}
 
 
