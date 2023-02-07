@@ -31,17 +31,22 @@ import java.util.List;
 public class HelperInfoResponseDto {
 
 	private Long seq;
-
-	private Float avgScore;
-	private Integer reviewCount;
-	private Integer unitPrice;
+	@Builder.Default
+	private Float avgScore = 0f;
+	@Builder.Default
+	private Integer reviewCount = 0;
+	@Builder.Default
+	private Integer unitPrice = 0;
 	@Builder.Default
 	private String oneLineIntroduction = "안녕하세요, 언제나 성심성의껏 도와드리겠습니다.";
 	@Builder.Default
 	private String introduction = "안녕하세요, 당신을 도와드릴 토니버니의 헬퍼입니다. 언제나 성심성의껏 도와드리겠습니다.";
-	private List<PossibleLanguageDto> possibleLanguageList;
-	private List<CertificateResponseDto> certificateList;
-	//	private List<HelperInfoImageResponseDto> helperInfoImageList;
+	@Builder.Default
+	private List<PossibleLanguageDto> possibleLanguageList = new ArrayList<>();
+	@Builder.Default
+	private List<CertificateResponseDto> certificateList = new ArrayList<>();
+	@Builder.Default
+	private List<HelperInfoImageResponseDto> helperInfoImageList = new ArrayList<>();
 
 
 	public static HelperInfoResponseDto fromEntity(HelperInfoEntity helperInfo) {
@@ -54,7 +59,7 @@ public class HelperInfoResponseDto {
 		                            .introduction(helperInfo.getIntroduction())
 		                            .possibleLanguageList(PossibleLanguageDto.fromEntityList(helperInfo.getPossibleLanguageList()))
 		                            .certificateList(CertificateResponseDto.fromEntityList(helperInfo.getCertificateList()))
-		                            //		                            .helperInfoImageList(HelperInfoImageResponseDto.fromEntityList(helperInfo.getHelperInfoImageList()))
+		                            .helperInfoImageList(HelperInfoImageResponseDto.fromEntityList(helperInfo.getHelperInfoImageList()))
 		                            .build();
 	}
 
