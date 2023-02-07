@@ -181,32 +181,50 @@
 
                 <hr />
 
+                <!-- <v-list lines="two">
+                    <v-list-item
+                        v-for="item in items"
+                        :key="item.title"
+                        :title="item.title"
+                        subtitle="..."
+                        :prepend-avatar="item.avatar"></v-list-item>
+                </v-list> -->
+
                 <v-lazy
-                    v-if="yTonnyApplyList.length > 0"
-                    class="lists"
                     v-model="isActive"
                     :options="{ threshold: 0.5 }"
-                    transition="fade-transition">
-                    <!-- <div
-                        v-for="(apply, index) in yTonnyApplyList"
-                        :key="index"
-                        ref="yTonnyApplyList">
-                        <helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card>
-                    </div> -->
-                    <div ref="yTonnyApplyList">
-                        <helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card>
+                    transition="fade-transition"
+                    ref="yTonnyApplyListRef">
+                    <div v-if="yTonnyApplyList.length > 0">
+                        <div v-for="(apply, index) in yTonnyApplyList" :key="index">
+                            {{ apply }}
+
+                            <div class="d-flex flex-row">
+                                <div>
+                                    <img src="@/assets/noProfile.png" />
+                                    <div>닉네임</div>
+                                    <div>하트</div>
+                                    <!-- <img :src="apply.helper.profileImagePath" /> -->
+                                    <!-- <div>{{ apply.helper.nickName }}</div> -->
+                                    <!-- <div>{{ apply.helper.helperInfo.oneLineIntroduction }}</div> -->
+                                </div>
+                                <div>
+                                    <div>한 줄 소개</div>
+                                    <div>
+                                        <div>평점</div>
+                                        <div>리뷰 카운터</div>
+                                        <div>토탈 프라이스</div>
+                                    </div>
+
+                                    <!-- <div>{{ apply.helper.helperInfo.avgScore }}</div> -->
+                                    <!-- <div>{{ apply.helper.helperInfo.reviewCount }}</div> -->
+                                    <!-- <div>{{ apply.totalPrice }}</div> -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div v-else>가격을 제안한 헬퍼가 없습니다.</div>
                 </v-lazy>
-                <div v-else>가격을 제안한 헬퍼가 없습니다.</div>
             </div>
         </div>
     </v-container>
@@ -217,22 +235,18 @@ import { mapGetters } from "vuex";
 
 import utils from "@/common/utils";
 import TitleText from "@/components/common/TitleText.vue";
-import HelperCard from "@/components/common/card/HelperCard.vue";
+// import HelperCard from "@/components/common/card/HelperCard.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
-// import TitleBanner from "@/components/common/TitleBanner.vue";
-// import LargeBtn from "@/components/common/button/LargeBtn.vue";
 
 export default {
     name: "YTonnyDetailPage",
 
     components: {
         TitleText,
-        HelperCard,
+        // HelperCard,
         SquareTag,
         MediumBtn,
-        // TitleBanner,
-        // LargeBtn
     },
 
     data() {
@@ -284,7 +298,8 @@ export default {
                 if (yTonnyMarginTop == "") yTonnyMarginTop = 0;
                 else yTonnyMarginTop = parseInt(yTonnyMarginTop);
 
-                if (500 <= window.scrollY && window.scrollY < this.windowHeight)
+                // if (500 <= window.scrollY && window.scrollY < this.windowHeight)
+                if (500 <= window.scrollY && window.scrollY < 1000)
                     this.yTonnyDetailElement.style.marginTop = window.scrollY + "px";
                 else if (500 > window.scrollY) this.yTonnyDetailElement.style.marginTop = 0;
             }
@@ -339,11 +354,12 @@ export default {
 
     mounted() {
         this.yTonnyDetailElement = this.$refs.yTonnyDetail;
-        this.yTonnyApplyListElement = this.$refs.yTonnyApplyList;
-        this.windowHeight =
-            parseInt(
-                window.getComputedStyle(this.yTonnyApplyListElement).height.replace("px", "")
-            ) - 450;
+        // this.yTonnyApplyListElement = this.$refs.yTonnyApplyListRef;
+        // console.log(this.yTonnyApplyListElement);
+        // this.windowHeight =
+        //     parseInt(
+        //         window.getComputedStyle(this.yTonnyApplyListElement).height.replace("px", "")
+        //     ) - 450;
     },
 };
 </script>
