@@ -16,6 +16,7 @@ import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ import java.util.List;
 import static com.tonnybunny.domain.user.dto.UserCodeEnum.클라이언트;
 
 
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "사용자 정보 관련 API")
