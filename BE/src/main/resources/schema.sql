@@ -90,6 +90,7 @@ CREATE TABLE `helper_info_table`
     `introduction`          VARCHAR(255),
     `unit_price`            INTEGER,
     `avg_score`             FLOAT,
+    `like_count`            INTEGER,
     `review_count`          INTEGER,
     `is_active`             BOOLEAN,
     `created_at`            TIMESTAMP NOT NULL DEFAULT now(),
@@ -119,6 +120,7 @@ CREATE TABLE `possible_language_table`
     `possible_language_seq` BIGINT    NOT NULL auto_increment,
     `helper_info_seq`       BIGINT,
     `lang_code`             CHAR(7),
+    `lang_name`             VARCHAR(10),
     `created_at`            TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`            TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`possible_language_seq`),
@@ -504,11 +506,11 @@ CREATE TABLE `bunny_history_table`
 -- CHAT ROOM
 CREATE TABLE `chat_room_table`
 (
-    `chat_room_seq` VARCHAR(255) NOT NULL,
-    `client_seq`    BIGINT,
-    `helper_seq`    BIGINT,
-    `created_at`    TIMESTAMP    NOT NULL DEFAULT now(),
-    `updated_at`    TIMESTAMP    NOT NULL DEFAULT now(),
+    `chat_room_seq`     VARCHAR(255) NOT NULL,
+    `user_less_seq`     BIGINT,
+    `user_larger_seq`   BIGINT,
+    `created_at`        TIMESTAMP    NOT NULL DEFAULT now(),
+    `updated_at`        TIMESTAMP    NOT NULL DEFAULT now(),
     PRIMARY KEY (`chat_room_seq`),
     FOREIGN KEY (`client_seq`)
         REFERENCES `user_table` (`user_seq`),
