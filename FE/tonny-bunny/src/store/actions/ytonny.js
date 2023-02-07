@@ -193,20 +193,20 @@ export default {
 	},
 
 	// DELETE /api/ytonny/{yTonnyNotiSeq} 고객의 예약 통역 공고 취소
-	async removeYtonny(context, yTonnyNotiSeq) {
-		console.log("게시글을 삭제합니다.");
+	async removeYTonny(context, yTonnySeq) {
+		console.log("에약통역 삭제");
 
-		let { data } = await http.delete(`/ytonny/${yTonnyNotiSeq}`);
+		let { data } = await http.delete(`/ytonny/${yTonnySeq}`);
 
 		try {
-			console.log("async function : ", data);
+			console.log("async removeYtonny : ", data);
 
 			// service logic
 			switch (data.resultCode) {
 				case SUCCESS:
-					break;
+					return data.data;
 				case FAIL:
-					break;
+					return -1;
 			}
 			return data.resultCode;
 		} catch (err) {

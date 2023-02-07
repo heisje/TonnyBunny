@@ -64,8 +64,9 @@
 							</Transition> -->
 								<div class="editPopOver" v-show="isEditOpen">
 									<div @click="updateFormOpen">예약 수정</div>
-									<div @click="removeYTonny">예약 삭제</div>
-									<div @click="applyListOpen">가격 제안 헬퍼 보기</div>
+									<div @click="this.$store.commit('TOGGLE_ALARM_MODAL')">
+										예약 삭제
+									</div>
 								</div>
 							</div>
 						</div>
@@ -183,15 +184,6 @@
 
 				<hr />
 
-				<!-- <v-list lines="two">
-                    <v-list-item
-                        v-for="item in items"
-                        :key="item.title"
-                        :title="item.title"
-                        subtitle="..."
-                        :prepend-avatar="item.avatar"></v-list-item>
-                </v-list> -->
-
 				<v-lazy
 					v-model="isActive"
 					:options="{ threshold: 0.5 }"
@@ -255,6 +247,22 @@
 				</v-lazy>
 			</div>
 		</div>
+
+		<alarm-modal
+			type="danger"
+			btnText1="확인"
+			btnText2="취소"
+			@clickBtn1="removeYTonny(yTonnyDetail.seq)"
+			@clickBtn2="this.$store.commit('CLOSE_ALARM_MODAL')"
+			btnColor1="outline"
+			btnFontColor1="main"
+			btnColor2="primary"
+			btnFontColor2="white">
+			<template #content>
+				통역 예약을 삭제하시겠습니까? <br />
+				삭제한 후에는 다시 되돌릴 수가 없습니다.
+			</template>
+		</alarm-modal>
 	</v-container>
 </template>
 
@@ -262,9 +270,11 @@
 import { mapGetters } from "vuex";
 
 import utils from "@/common/utils";
+
 import TitleText from "@/components/common/TitleText.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
 	name: "YTonnyDetailPage",
@@ -272,7 +282,8 @@ export default {
 	components: {
 		TitleText,
 		SquareTag,
-		MediumBtn
+		MediumBtn,
+		AlarmModal
 	},
 
 	data() {
@@ -365,11 +376,11 @@ export default {
 			this.$router.push({ name: "YTonnyUpdatePage", params: { id: this.yTonnySeq } });
 		},
 
-		removeYTonny() {
-			console.log("remove ytonny");
+		async removeYTonny(yTonnySeq) {
+			await this.$store.dispatch("removeYTonny", yTonnySeq);
+			this.$store.commit("CLOSE_ALARM_MODAL");
+			this.$router.replace({ name: "HomePage" });
 		},
-
-		applyListOpen() {},
 
 		async removeYTonnyApply(yTonnySeq, yTonnyApplySeq) {
 			let payload = { yTonnySeq, yTonnyApplySeq };

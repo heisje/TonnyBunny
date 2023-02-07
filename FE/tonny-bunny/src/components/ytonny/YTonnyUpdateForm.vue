@@ -146,6 +146,15 @@
 				font="active"
 				@click.prevent="updateYTonny" />
 		</form>
+
+		<alarm-modal
+			type="success"
+			btnText1="확인"
+			@clickBtn1="this.$store.commit('CLOSE_ALARM_MODAL')"
+			btnColor1="primary"
+			btnFontColor1="white">
+			<template #content>통역 예약이 수정되었습니다.</template>
+		</alarm-modal>
 	</div>
 </template>
 
@@ -183,7 +192,7 @@ export default {
 
 			// ytonny Form
 			title: "",
-			tonnySituCode: "",
+			tonnySituCode: "0040000",
 			content: "",
 			startLangCode: "",
 			endLangCode: "",
@@ -262,7 +271,10 @@ export default {
 			} else {
 				this.$store.dispatch("updateYTonny", payload).then((id) => {
 					if (id != -1) {
-						this.$store.commit("TOGGLE_ALARM_MODAL");
+						this.$router.replace({
+							name: "YTonnyDetailPage",
+							params: { id: this.yTonnySeq, userSeq: this.userInfo.seq }
+						});
 					}
 				});
 			}
@@ -275,6 +287,8 @@ export default {
 		this.startDate = this.yTonnyDetail.startDateTime.split("T")[0];
 		this.startTime = this.yTonnyDetail.startDateTime.split("T")[1];
 		this.estimatePrice = this.yTonnyDetail.estimatePrice;
+
+		window.scrollTo(0, 0);
 	}
 };
 </script>
