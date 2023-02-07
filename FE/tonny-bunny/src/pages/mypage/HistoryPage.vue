@@ -4,6 +4,11 @@
         <SwitchTaps />
     </div>
 
+    <div>
+        <div>
+            <div></div>
+        </div>
+    </div>
     <button>필터버튼</button>
     필터선택
     <select name="" id="">
@@ -26,6 +31,27 @@ export default {
     components: {
         SwitchTaps,
         HistoryList,
+    },
+
+    methods: {
+        getHistoryList() {
+            const clientSeq = this.$store.state.account.userInfo.seq;
+            const payload = {
+                clientSeq: clientSeq,
+                // endDateTime: "2023-02-07T07:02:06.723Z",
+                // helperSeq: 0,
+                // langCode: "string",
+                // notiSeq: 0,
+                orderByCreatedAtAsc: true,
+                // startDateTime: "2023-02-07T07:02:06.723Z",
+                taskCode: "string",
+            };
+            this.$store.dispatch("getHistoryList", payload);
+        },
+    },
+
+    mounted() {
+        this.getHistoryList();
     },
 };
 </script>

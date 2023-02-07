@@ -12,6 +12,7 @@ import ytonny from "./state/ytonny";
 import bunny from "./state/bunny";
 import common from "./state/common";
 import alert from "./state/alert";
+import mypage from "./state/mypage";
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
@@ -28,6 +29,7 @@ export default createStore({
         ytonny,
         bunny,
         alert,
+        mypage,
     },
 
     getters,

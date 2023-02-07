@@ -6,6 +6,7 @@ import ytonny from "./mutations/ytonny";
 import bunny from "./mutations/bunny";
 import common from "./mutations/common";
 import alert from "./mutations/alert";
+import mypage from "./mutations/mypage";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -17,4 +18,5 @@ export default {
     ...bunny,
     ...common,
     ...alert,
+    ...mypage,
 };
