@@ -6,6 +6,7 @@ import ytonny from "./getters/ytonny";
 import bunny from "./getters/bunny";
 import common from "./getters/common";
 import alert from "./getters/alert";
+import mypage from "./getters/mypage";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -17,4 +18,5 @@ export default {
     ...bunny,
     ...common,
     ...alert,
+    ...mypage,
 };
