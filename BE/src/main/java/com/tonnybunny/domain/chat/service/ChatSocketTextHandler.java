@@ -36,19 +36,28 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * userSeq:roomId:anotherUserSeq 정보 저장 -> 같은 방 다른 유저를 쉽게 찾기 위함
 	 * 데이터 추가 시점 : 한 명이라도 방을 만들면 -> 양쪽다 만듦
 	 */
-	private HashOperations<String, String, Map<String, Long>> userMapInfo; // "USER_MAP", userSeq : {roomSeq : anotherUserSeq}
+	/**
+	 * "USER_MAP", userSeq : {roomSeq : anotherUserSeq}
+	 */
+	private HashOperations<String, String, Map<String, Long>> userMapInfo;
 
 	/**
 	 * 방에 포함된 사람의 세션 정보 저장
 	 * 데이터 추가 시점 : 한 명이라도 방을 만들면 -> 양쪽 다 만듦 (port는 비워둠)
 	 */
-	private HashOperations<String, String, Map<String, ParticipantDto>> roomInfo; // "CHAT_ROOM", roomSeq, {userSeq1: {...}, userSeq2: {...}}
+	/**
+	 * "CHAT_ROOM", roomSeq, {userSeq1: {...}, userSeq2: {...}}
+	 */
+	private HashOperations<String, String, Map<String, ParticipantDto>> roomInfo;
 
 	/**
 	 * 각 방에 오고간 채팅 로그 저장
 	 * 데이터 추가 시점 : 메세지 보냈을 때
 	 */
-	private HashOperations<String, String, List<ChatLogDto>> chatLogInfo; // "CHAT_LOG", roomSeq, [{userSeq, msg, ...}, ...]
+	/**
+	 * "CHAT_LOG", roomSeq, [{userSeq, msg, ...}, ...]
+	 */
+	private HashOperations<String, String, List<ChatLogDto>> chatLogInfo;
 
 	/**
 	 * 유저가 각 방 마다 안 읽은 채팅 메세지 카운트 저장
@@ -61,6 +70,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * => status를 boolean으로 하지 말고, Integer 카운트로 셈하자!
 	 *
 	 * 데이터 추가 시점 : 방이 만들어 졌을 때 -> 양쪽 다 만듦 (count는 0)
+	 */
+	/**
+	 * "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
 	 */
 	private HashOperations<String, String, Map<String, Integer>> notReadInfo; // "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
 
@@ -224,13 +236,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		Integer notReadCount = notRead.get(roomId) + 1;
 		notRead.put(roomId, notReadCount);
 		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
-		System.out.println("\t\t *** Increase Not Read Count : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
-	}
-
-
-	public String getRecentMessage(String roomId, Long userSeq) {
-		// TODO : 최근 메세지 반환 -> ChatRoomService에서 쓸 예정
-		return "";
+		//		System.out.println("\t\t *** Increase Not Read Count : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 	}
 
 
@@ -296,8 +302,6 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 			List<ChatLogDto> chatLogList = objectMapper.convertValue(chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId), new TypeReference<List<ChatLogDto>>() {});
 			for (ChatLogDto chatLog : chatLogList) {
-				// TODO : JSON Object 같은 객체로 전달하기
-				//				session.sendMessage(new TextMessage(String.format(" [이전 채팅] %s : %s", chatLog.getUserSeq(), chatLog.getMessage())));
 				session.sendMessage(new TextMessage(chatLog.toString()));
 			}
 		}
@@ -389,6 +393,45 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		 * */
 		sessions.remove(session);
 		//		sendMessageByRoomId(roomId, "[알림] " + session.getId() + "님이 퇴장하셨습니다.");
+	}
+
+
+	/**
+	 * 채팅방의 최근 메세지를 반환. ChatRoomService에서 사용.
+	 *
+	 * @param roomId
+	 * @return
+	 */
+	public String getRecentMessage(String roomId) {
+		if (chatLogInfo.hasKey(ChatTypeEnum.CHAT_LOG.toString(), roomId)) {
+			List<ChatLogDto> chatLogDtoList = chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId);
+			return chatLogDtoList.isEmpty() ? "" : chatLogDtoList.get(chatLogDtoList.size() - 1).getMessage();
+		}
+		return "";
+	}
+
+
+	/**
+	 * 채팅방에서 안 읽은 메세지 카운트를 반환. ChatRoomService에서 사용
+	 *
+	 * @param roomId
+	 * @param userSeq
+	 * @return
+	 */
+	public Integer getNotReadCount(String roomId, Long userSeq) {
+		if (notReadInfo.hasKey(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq)) {
+			Map<String, Integer> notRead = notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq);
+			if (notRead.containsKey(roomId))
+				return notRead.get(roomId);
+		}
+		return 0;
+	}
+
+
+	public List<ChatLogDto> getPreviousChatLog(String roomId) {
+		if (chatLogInfo.hasKey(ChatTypeEnum.CHAT_LOG.toString(), roomId))
+			return chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId);
+		return new ArrayList<>();
 	}
 
 }

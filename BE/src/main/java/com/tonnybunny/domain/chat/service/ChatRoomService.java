@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.chat.service;
 
 
+import com.tonnybunny.domain.chat.dto.ChatLogDto;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ import java.util.UUID;
 public class ChatRoomService {
 
 	private final ChatRoomRepository chatRoomRepository;
+
+	private final ChatSocketTextHandler chatSocketTextHandler;
 
 
 	/**
@@ -42,6 +45,11 @@ public class ChatRoomService {
 	}
 
 
+	public Long getAnotherUserSeq(ChatRoomEntity chatRoom, Long userSeq) {
+		return chatRoom.getUserLessSeq() == userSeq ? chatRoom.getUserLargerSeq() : chatRoom.getUserLessSeq();
+	}
+
+
 	/**
 	 * userSeq가 참여한 채팅방의 Seq 목록을 반환합니다.
 	 *
@@ -61,8 +69,7 @@ public class ChatRoomService {
 	 * @return
 	 */
 	public Integer getNotReadCount(String roomSeq, Long userSeq) {
-		// TODO
-		return 0;
+		return chatSocketTextHandler.getNotReadCount(roomSeq, userSeq);
 	}
 
 
@@ -73,8 +80,12 @@ public class ChatRoomService {
 	 * @return
 	 */
 	public String getRecentMessage(String roomSeq) {
-		// TODO
-		return "";
+		return chatSocketTextHandler.getRecentMessage(roomSeq);
+	}
+
+
+	public List<ChatLogDto> getPreviousChatLog(String roomSeq) {
+		return chatSocketTextHandler.getPreviousChatLog(roomSeq);
 	}
 
 }

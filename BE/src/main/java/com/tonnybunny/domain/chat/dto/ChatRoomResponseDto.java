@@ -5,6 +5,9 @@ import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * roomSeq          : 채팅방 seq
@@ -19,6 +22,8 @@ public class ChatRoomResponseDto {
 
 	private Integer notReadCount;
 	private String recentMessage;
+
+	private Map<String, String> anotherUserInfo = new HashMap<>();
 
 
 	public static ChatRoomResponseDto fromEntity(ChatRoomEntity chatRoom, Integer notReadCount, String recentMessage) {

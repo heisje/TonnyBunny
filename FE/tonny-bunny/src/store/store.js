@@ -13,6 +13,7 @@ import bunny from "./state/bunny";
 import common from "./state/common";
 import alert from "./state/alert";
 import mypage from "./state/mypage";
+import chat from "./state/chat";
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
@@ -30,6 +31,7 @@ export default createStore({
         bunny,
         alert,
         mypage,
+        chat,
     },
 
     getters,

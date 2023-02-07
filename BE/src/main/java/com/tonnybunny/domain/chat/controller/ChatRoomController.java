@@ -2,18 +2,20 @@ package com.tonnybunny.domain.chat.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
+import com.tonnybunny.domain.chat.dto.ChatLogDto;
 import com.tonnybunny.domain.chat.dto.ChatRoomResponseDto;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.chat.service.ChatRoomService;
+import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -22,6 +24,7 @@ import java.util.List;
 public class ChatRoomController {
 
 	private final ChatRoomService chatRoomService;
+	private final UserService userService;
 
 
 	/**
@@ -44,16 +47,41 @@ public class ChatRoomController {
 				.notReadCount(notReadCount)
 				.recentMessage(recentMesasge)
 				.build();
+			// 다른 참가자의 정보
+			Long anotherUserSeq = chatRoomService.getAnotherUserSeq(chatRoom, userSeq);
+			UserEntity anotherUser = userService.getUserInfo(anotherUserSeq);
+			Map<String, String> anotherUserInfo = new HashMap<>();
+			anotherUserInfo.put("userSeq", anotherUserSeq.toString());
+			anotherUserInfo.put("imagePath", anotherUser.getProfileImagePath());
+			anotherUserInfo.put("nickName", anotherUser.getNickName());
+			chatRoomResponseDto.setAnotherUserInfo(anotherUserInfo);
+
 			chatRoomResponseDtoList.add(chatRoomResponseDto);
 		}
 		return ResponseEntity.ok(ResultDto.of(chatRoomResponseDtoList));
 	}
 
 
+	/**
+	 * 임시 API : userSeq1, userSeq2가 참여한 방을 생성, 이미 있는 방이면 방의 Seq를 반환
+	 * => API가 아니라 다른 API 내부에서 service 로직으로 쓰일 예정
+	 *
+	 * @param userSeq1
+	 * @param userSeq2
+	 * @return
+	 */
 	@PostMapping("/chat/room/{userSeq1}/{userSeq2}")
 	public ResponseEntity<ResultDto<String>> createRoom(@PathVariable("userSeq1") Long userSeq1, @PathVariable("userSeq2") Long userSeq2) {
 		String chatRoomSeq = chatRoomService.createChatRoomSeq(userSeq1, userSeq2);
 		return ResponseEntity.ok(ResultDto.of(chatRoomSeq));
+	}
+
+
+	@GetMapping("/chat/log/{roomSeq}")
+	public ResponseEntity<ResultDto<List<ChatLogDto>>> getPreviousChatLog(@PathVariable("roomSeq") String roomSeq) {
+		List<ChatLogDto> chatLogDtoList = chatRoomService.getPreviousChatLog(roomSeq);
+		System.out.println("Chat Log Dto: " + chatLogDtoList);
+		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
 	}
 
 }
