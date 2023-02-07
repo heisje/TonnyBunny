@@ -2,15 +2,17 @@ package com.tonnybunny.domain.ytonny.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
+import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 
 /**
@@ -64,9 +66,19 @@ public class YTonnyResponseDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	//	private Boolean isApplyHelper;
+	@Builder.Default
+	private Boolean isCreator = false;
 
-	private List<YTonnyApplyResponseDto> yTonnyApplyList;
-	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
+	// FIXME : 따로 어차피 목록 조회할 건데 필요한가?
+	//	private List<YTonnyApplyResponseDto> yTonnyApplyList;
+	//	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
+
+
+	public static YTonnyResponseDto fromEntity(YTonnyEntity yTonnyEntity) {
+
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+		return modelMapper.map(yTonnyEntity, YTonnyResponseDto.class);
+
+	}
 
 }

@@ -19,51 +19,76 @@ import java.util.List;
 @RestController
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
-@Api(tags = "일정 관리 API")
+@Api(tags = "일정 관리 관련 API")
 public class ScheduleController {
 
 	private final ScheduleService scheduleService;
 
 
+	@PostMapping
+	@ApiOperation(value = "특정 날짜 일정 생성 API", notes = "")
+	public ResponseEntity<ResultDto<Long>> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
+
+		// service
+		Long createdScheduleSeq = scheduleService.createSchedule(scheduleRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdScheduleSeq));
+
+	}
+
+
+	@PutMapping("/{scheduleSeq}")
+	@ApiOperation(value = "특정 날짜 일정 수정 API", notes = "")
+	public ResponseEntity<ResultDto<Long>> modifySchedule(@PathVariable("scheduleSeq") Long scheduleSeq,
+	                                                      @RequestBody ScheduleRequestDto scheduleRequestDto
+	) {
+
+		// service
+		Long updatedScheduleSeq = scheduleService.modifySchedule(scheduleSeq, scheduleRequestDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedScheduleSeq));
+
+	}
+
+
 	@GetMapping
-	@ApiOperation(value = "특정 날짜의 일정 목록을 조회합니다.", notes = "조회하고 싶은 날짜의 연, 월, 일 정보를 보냅니다.")
+	@ApiOperation(value = "특정 날짜 일정 목록 조회 API", notes = "조회하고 싶은 날짜의 연, 월, 일 정보를 보냅니다.")
 	public ResponseEntity<ResultDto<List<ScheduleResponseDto>>> getScheduleList(@RequestBody ScheduleRequestDto scheduleRequestDto) {
+
+		// service
 		List<ScheduleEntity> scheduleList = scheduleService.getScheduleList(scheduleRequestDto);
+
+		// entity -> dto
 		List<ScheduleResponseDto> scheduleResponseDtoList = ScheduleResponseDto.fromEntityList(scheduleList);
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(scheduleResponseDtoList));
 	}
 
 
 	@GetMapping("/{scheduleSeq}")
-	@ApiOperation(value = "특정 일정을 상세 조회합니다.", notes = "")
+	@ApiOperation(value = "특정 날짜 일정 상세 조회 API", notes = "")
 	public ResponseEntity<ResultDto<ScheduleResponseDto>> getSchedule(@PathVariable("scheduleSeq") Long scheduleSeq) {
+
+		// service
 		ScheduleEntity schedule = scheduleService.getSchedule(scheduleSeq);
+
+		// entity -> dto
 		ScheduleResponseDto scheduleResponseDto = ScheduleResponseDto.fromEntity(schedule);
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(scheduleResponseDto));
-	}
 
-
-	@PostMapping
-	@ApiOperation(value = "일정을 생성합니다.", notes = "")
-	public ResponseEntity<ResultDto<Long>> createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
-		Long createdScheduleSeq = scheduleService.createSchedule(scheduleRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(createdScheduleSeq));
-	}
-
-
-	@PutMapping("/{scheduleSeq}")
-	@ApiOperation(value = "일정을 수정합니다.", notes = "")
-	public ResponseEntity<ResultDto<Long>> modifySchedule(@PathVariable("scheduleSeq") Long scheduleSeq, @RequestBody ScheduleRequestDto scheduleRequestDto) {
-		Long updatedScheduleSeq = scheduleService.modifySchedule(scheduleSeq, scheduleRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedScheduleSeq));
 	}
 
 
 	@DeleteMapping("/{scheduleSeq}")
-	@ApiOperation(value = "일정을 삭제합니다.", notes = "")
+	@ApiOperation(value = "특정 날짜 일정 삭제 API", notes = "")
 	public ResponseEntity<ResultDto<Boolean>> deleteSchedule(@PathVariable("scheduleSeq") Long scheduleSeq) {
+
+		// service
 		Boolean result = scheduleService.deleteSchedule(scheduleSeq);
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(result));
+
 	}
 
 }
