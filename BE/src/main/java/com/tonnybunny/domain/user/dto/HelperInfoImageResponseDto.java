@@ -12,9 +12,7 @@ import java.util.List;
 public class HelperInfoImageResponseDto {
 
 	private Long seq;
-	private Long helperInfoSeq;
 	private String imagePath;
-	private Boolean isDeleted;
 
 
 	public static HelperInfoImageResponseDto fromEntity(HelperInfoImageEntity helperInfoImage) {

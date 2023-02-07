@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PossibleLanguageDto {
 
+	private Long seq;       // 시퀀스
 	private String name;    // 언어명
 	private String value;   // 언어코드
 
