@@ -9,10 +9,7 @@ import com.tonnybunny.domain.user.dto.AccountRequestDto;
 import com.tonnybunny.domain.user.dto.AuthCodeRequestDto;
 import com.tonnybunny.domain.user.dto.HistoryRequestDto;
 import com.tonnybunny.domain.user.dto.UserRequestDto;
-import com.tonnybunny.domain.user.entity.BlockEntity;
-import com.tonnybunny.domain.user.entity.FollowEntity;
-import com.tonnybunny.domain.user.entity.HistoryEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.repository.*;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
@@ -83,6 +80,22 @@ public class UserService {
 		// 토큰 정보 저장
 		authRepository.save(
 			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
+
+		// 헬퍼일 경우, 헬퍼 정보 생성
+		if (user.getUserCode().equals("0010002")) {
+			HelperInfoEntity helperInfo = HelperInfoEntity.builder()
+			                                              .oneLineIntroduction("안녕하세요 토니버니 헬퍼입니다.")
+			                                              .introduction("안녕하세요 토니버니 헬퍼입니다.")
+			                                              .reviewCount(0)
+			                                              .unitPrice(0)
+			                                              .user(user)
+			                                              .avgScore(0f)
+			                                              .HelperInfoImageList(new ArrayList<>())
+			                                              .certificateList(new ArrayList<>())
+			                                              .possibleLanguageList(new ArrayList<>())
+			                                              .build();
+			helperInfoRepository.save(helperInfo);
+		}
 
 		// 반환값 생성 및 리턴
 		return user.getSeq();
@@ -194,6 +207,7 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean checkAuthCode(AuthCodeRequestDto authCodeRequestDto) {
+		System.out.println("authCodeRequestDto.toString() = " + authCodeRequestDto.toString());
 		String authCode = authCodeRequestDto.getAuthCode();
 		System.out.println("authCode = " + authCode);
 		String phoneNumber = authCodeRequestDto.getPhoneNumber();
