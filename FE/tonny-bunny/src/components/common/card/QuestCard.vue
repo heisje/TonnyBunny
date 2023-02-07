@@ -70,10 +70,10 @@
 
                     <div class="infoDateWrap">
                         <div v-if="allCode[questDetail?.taskCode] == '즉시통역'" class="infoDate">
-                            <div class="date">
+                            <!-- <div class="date">
                                 <h4>날짜</h4>
                                 <div>{{ questDetail?.startDate }}</div>
-                            </div>
+                            </div> -->
                             <div class="time">
                                 <h4>시간</h4>
                                 <div>{{ questDetail?.estimateTime }}</div>
@@ -117,6 +117,7 @@
                             </div>
                         </div>
                         <div class="infoCategory">
+                            <!-- tonnySituCode 를 위한 자리도 달라!! -->
                             <h4>상황 카테고리</h4>
                             <div style="width: 100%">
                                 <square-tag

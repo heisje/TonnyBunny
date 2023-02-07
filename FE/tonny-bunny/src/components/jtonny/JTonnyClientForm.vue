@@ -93,12 +93,22 @@ export default {
             },
             agreeValue: false,
             jtonnyRequest: {
-                clientSeq: 0,
+                client: {
+                    seq: 0,
+                    nickName: "",
+                },
+                helper: {
+                    seq: 0,
+                    nickName: "",
+                },
+                taskCode: "0030001",
+                taskStateCode: "0090001",
                 startLangCode: "",
                 endLangCode: "",
                 tonnySituCode: "",
                 content: "",
                 estimateTime: 0,
+                unitPrice: 0,
             },
         };
     },
@@ -115,7 +125,8 @@ export default {
             }
         },
         test() {
-            this.jtonnyRequest.clientSeq = this.userInfo.seq;
+            this.jtonnyRequest.client.seq = this.userInfo.seq;
+            this.jtonnyRequest.client.nickName = this.userInfo.nickName;
             console.log("jtonnyRequest", this.jtonnyRequest);
             this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
 
