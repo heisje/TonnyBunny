@@ -110,7 +110,7 @@ export default {
 			// service logic
 			switch (data.resultCode) {
 				case SUCCESS:
-					context.commit("SET_YTONNY_LIST", data.data);
+					context.commit("SET_Y_TONNY_LIST", data.data);
 					break;
 				case FAIL:
 					break;
