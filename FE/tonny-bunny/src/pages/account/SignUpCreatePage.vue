@@ -380,9 +380,9 @@ export default {
             // 모두 참일 때 폼 제출 가능
 
             let userCode;
-            if (this.$route.params.select == "helper") {
+            if (this.$route.params.select == "client") {
                 userCode = "0010001";
-            } else if (this.$route.params.select == "client") {
+            } else if (this.$route.params.select == "helper") {
                 userCode = "0010002";
             }
             try {
