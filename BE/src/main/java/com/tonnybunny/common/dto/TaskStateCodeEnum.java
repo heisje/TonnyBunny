@@ -3,6 +3,8 @@ package com.tonnybunny.common.dto;
 
 import lombok.ToString;
 
+import java.util.Arrays;
+
 
 @ToString
 public enum TaskStateCodeEnum {
@@ -15,6 +17,14 @@ public enum TaskStateCodeEnum {
 
 	TaskStateCodeEnum(String taskStateCode) {
 		this.taskStateCode = taskStateCode;
+	}
+
+
+	public static TaskStateCodeEnum valueOfCode(String taskStateCode) {
+		return Arrays.stream(values())
+		             .filter(value -> value.getTaskStateCode().equals(taskStateCode))
+		             .findAny()
+		             .orElse(null);
 	}
 
 
