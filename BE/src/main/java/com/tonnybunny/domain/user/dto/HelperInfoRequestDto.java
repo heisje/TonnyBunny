@@ -33,7 +33,7 @@ public class HelperInfoRequestDto {
 	/* 헬퍼 유저 회원정보 수정 */
 	private String oneLineIntroduction;
 	private String introduction;
-	//	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
+	private List<HelperInfoImageRequestDto> HelperInfoImageReqeustDtoList = new ArrayList<>();
 
 
 	/**

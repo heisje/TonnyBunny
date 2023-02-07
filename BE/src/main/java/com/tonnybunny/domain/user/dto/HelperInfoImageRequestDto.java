@@ -7,8 +7,7 @@ import lombok.Data;
 
 @Data
 public class HelperInfoImageRequestDto {
-
-	private Long helperInfoSeq;
+	
 	private String imagePath;
 
 
