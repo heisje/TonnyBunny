@@ -1,106 +1,248 @@
 <template>
-	<h1>홈 - 마이 페이지</h1>
+    <div class="myPageContainer">
+        <div class="myPageWrap">
+            <h1>홈 - 마이 페이지</h1>
 
-	<div>
-		유저카드
-		<ClientCard />
-		<!-- 유저카드 구성요소
-		프로필이미지아이템
-		정보수정버튼
-		포인트아이템 -->
-	</div>
+            <div class="profileWrap">
+                <div>
+                    <title-text title="내 프로필" type="h2" />
+                    <ClientCard />
+                </div>
+                <!-- 유저카드 구성요소
+			프로필이미지아이템
+			정보수정버튼
+			포인트아이템 -->
+            </div>
 
-	<div v-if="isHelper === true">
-		<title-text title="헬퍼프로필" type="h2" />
-		<helper-card
-			nickName="아스파라거스"
-			oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
-			fareText="2000"
-			starText="4.0"
-			countText="100"
-			likeText="10"
-			isLikeEmpty
-			rightBtnText="상담하기"></helper-card>
-		<!-- 
-			자세히보기 XSmallBtn
-			수정하기 XSmallBtn 
-		-->
-	</div>
+            <div v-if="isHelper === true" class="profileWrap">
+                <div>
+                    <title-text title="헬퍼 프로필" type="h2" />
+                    <helper-card
+                        nickName="아스파라거스"
+                        oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
+                        fareText="2000"
+                        starText="4.0"
+                        countText="100"
+                        likeText="10"
+                        isLikeEmpty
+                        rightBtnText="상담하기"></helper-card>
+                </div>
+                <!-- 
+				자세히보기 XSmallBtn
+				수정하기 XSmallBtn 
+			-->
+            </div>
 
-	<div>
-		<router-link :to="{ name: 'HistoryPage' }">이용내역<MyPageBtn /></router-link>
-		<router-link :to="{ name: 'FavoriteListPage' }">즐겨찾기<MyPageBtn /></router-link>
-		<router-link :to="{ name: 'SchedulePage' }">일정<MyPageBtn /></router-link>
-	</div>
+            <div class="iconsContainer">
+                <div class="iconsWarp">
+                    <router-link :to="{ name: 'HistoryPage' }">
+                        <div class="iconsContent" @click="toggleTonnyModalOpen">
+                            <div>
+                                <img src="@/assets/homeTonnyIcon.png" alt="" />
+                            </div>
+                            <div>
+                                <h1 class="h3">이용내역</h1>
+                            </div>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="iconsWarp">
+                    <router-link :to="{ name: 'FavoriteListPage' }">
+                        <div class="iconsContent" @click="toggleBunnyModalOpen">
+                            <div>
+                                <img src="@/assets/homeBunnyIcon.png" alt="" />
+                            </div>
+                            <div>
+                                <h1 class="h3">즐겨찾기</h1>
+                            </div>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="iconsWarp" v-if="true">
+                    <router-link :to="{ name: 'SchedulePage' }">
+                        <div class="iconsContent" @click="toggleHelperBtn">
+                            <div>
+                                <img src="@/assets/homeSearchIcon.png" alt="" />
+                            </div>
+                            <div>
+                                <h1 class="h3">일정</h1>
+                            </div>
+                        </div>
+                    </router-link>
+                </div>
+            </div>
 
-	<div>
-		<router-link :to="{ name: 'BlockListPage' }">차단목록<MyPageListItem /></router-link>
-	</div>
-	<div>
-		<router-link :to="{ name: 'PushAlarmPage' }">푸시알림<MyPageListItem /></router-link>
-	</div>
-	<div>
-		<router-link :to="{ name: 'NoticePage' }">고객센터<MyPageListItem /></router-link>
-	</div>
-	<div>
-		<router-link :to="{ name: 'HelperChangePage' }"
-			>헬퍼 인증 및 변경<MyPageListItem
-		/></router-link>
-	</div>
-	<medium-btn text="로그아웃" @click="openModal"></medium-btn>
-	<AlarmModal
-		v-show="isOpen"
-		:isOpen="isOpen"
-		title="완료"
-		type="success"
-		btnText2="예"
-		btnColor1="main"
-		btnColor2="carrot"
-		btnFontColor1="white"
-		btnFontColor2="white"
-		@close-modal="closeModal"
-		:to="{ name: 'HomePage' }">
-		<template #content> 로그아웃이 완료되었습니다 </template>
-	</AlarmModal>
+            <div class="settingWrap">
+                <hr />
+                <div>
+                    <router-link :to="{ name: 'BlockListPage' }">차단목록</router-link>
+                </div>
+                <hr />
+                <div>
+                    <router-link :to="{ name: 'PushAlarmPage' }">푸시알림(미구현)</router-link>
+                </div>
+                <hr />
+                <div>
+                    <router-link :to="{ name: 'NoticePage' }">고객센터</router-link>
+                </div>
+                <hr />
+                <div>
+                    <router-link :to="{ name: 'HelperChangePage' }">헬퍼 인증 및 변경</router-link>
+                </div>
+                <hr />
+                <div>
+                    <router-link :to="{ name: 'HelperChangePage' }"
+                        ><span class="logout">로그아웃</span></router-link
+                    >
+                </div>
+                <hr />
+            </div>
+            <AlarmModal
+                v-show="isOpen"
+                :isOpen="isOpen"
+                title="완료"
+                type="success"
+                btnText2="예"
+                btnColor1="main"
+                btnColor2="carrot"
+                btnFontColor1="white"
+                btnFontColor2="white"
+                @close-modal="closeModal"
+                :to="{ name: 'HomePage' }">
+                <template #content> 로그아웃이 완료되었습니다 </template>
+            </AlarmModal>
+        </div>
+    </div>
 </template>
 
 <script>
 import ClientCard from "@/components/common/card/ClientCard.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
-import MyPageBtn from "@/components/home/MyPageBtn.vue";
-import MyPageListItem from "@/components/home/MyPageListItem.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
-import MediumBtn from "@/components/common/button/MediumBtn.vue";
 
 export default {
-	name: "MyPage",
-	data() {
-		return {
-			isHelper: true,
-			isOpen: false
-		};
-	},
-	components: {
-		ClientCard,
-		HelperCard,
-		MyPageBtn,
-		MyPageListItem,
-		TitleText,
-		AlarmModal,
-		MediumBtn
-	},
-	methods: {
-		openModal(e) {
-			e.preventDefault();
-			this.isOpen = true;
-		},
+    name: "MyPage",
+    data() {
+        return {
+            isHelper: true,
+            isOpen: false,
+        };
+    },
+    components: {
+        ClientCard,
+        HelperCard,
+        TitleText,
+        AlarmModal,
+    },
+    methods: {
+        openModal(e) {
+            e.preventDefault();
+            this.isOpen = true;
+        },
 
-		closeModal() {
-			this.isOpen = false;
-		}
-	}
+        closeModal() {
+            this.isOpen = false;
+        },
+    },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.myPageContainer {
+    width: 100%;
+    .myPageWrap {
+        width: 100%;
+        .profileWrap {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+}
+.iconsContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .iconsWarp {
+        position: relative;
+        width: 30%;
+        max-width: 150px;
+        padding-bottom: 30%;
+        margin: 2%;
+
+        .iconsContent {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+
+            max-height: 150px;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 10%;
+            border: 1px solid var(--light-color);
+            cursor: pointer;
+
+            transition: all 0.13s;
+            &:hover {
+                background-color: var(--primary-color-20);
+                h1 {
+                    margin-top: 10px;
+                    width: 100%;
+                    text-align: center;
+                    color: var(--primary-color);
+                }
+            }
+            div {
+                width: 100%;
+                display: flex;
+            }
+            img {
+                display: inline-block;
+                margin: auto;
+                width: 50%;
+            }
+            h1 {
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+            &.searchIcon {
+                background: var(--carrot-color);
+                color: var(--white-color);
+                h1 {
+                    color: var(--white-color);
+                    font-weight: 400;
+                    letter-spacing: -0.05rem;
+                }
+                &:hover {
+                    background: var(--primary-color-50);
+                    h1 {
+                        color: var(--primary-color);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.settingWrap {
+    margin-top: 1rem;
+    a {
+        display: inline-block;
+        text-decoration: none;
+        color: var(--main-color);
+        padding: 1rem;
+    }
+    hr {
+        border-top: 1px solid var(--sub-color);
+        padding: 0;
+        margin: 0;
+    }
+    .logout {
+        color: var(--danger-color);
+    }
+}
+</style>

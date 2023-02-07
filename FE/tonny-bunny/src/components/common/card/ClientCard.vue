@@ -3,7 +3,7 @@
         <div class="cardWrap">
             <div class="clientCard">
                 <div class="profile">
-                    <img src="@/assets/noProfile_white.png" alt="" width="70" />
+                    <img class="profileImg" src="@/assets/noProfile_white.png" alt="" width="70" />
                 </div>
                 <div class="info">
                     <div class="edit">
@@ -41,16 +41,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/card.scss";
-
-.clientCard {
-    display: flex;
-    .info {
-        .edit {
-            display: flex;
-        }
-        .carrot {
-            display: flex;
-        }
-    }
-}
 </style>

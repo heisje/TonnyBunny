@@ -164,7 +164,7 @@ export default {
             position: relative;
             width: 30%;
             max-width: 150px;
-            padding-bottom: 30%;
+            padding-bottom: #{"min(150px, 30%)"};
             margin: 2%;
 
             .iconsContent {
