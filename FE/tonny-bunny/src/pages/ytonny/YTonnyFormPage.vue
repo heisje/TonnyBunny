@@ -39,8 +39,12 @@ export default {
 	methods: {
 		successYtonnyCreate() {
 			this.$router.push({ name: "YTonnyDetailPage", params: { id: this.yTonnySeq } });
-			this.$store.commit("TOGGLE_ALARM_MODAL");
+			this.$store.commit("CLOSE_ALARM_MODAL");
 		}
+	},
+
+	created() {
+		window.scrollTo(0, 0);
 	}
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
 	<div class="d-flex justify-content-center customFormWrap w-100">
-		<form class="customForm" @submit.prevent="submitForm(event)">
+		<form class="customForm">
 			<div class="situation mt-5">
 				<title-text
 					important
@@ -139,8 +139,22 @@
 			</div>
 
 			<agree-input class="mt-5" @toggle="(e) => (agreeValue = e)" />
-			<medium-btn text="예약하기" class="w-100" color="main" @click.prevent="insertYTonny" />
+			<medium-btn
+				text="수정하기"
+				class="w-100"
+				color="outline"
+				font="active"
+				@click.prevent="updateYTonny" />
 		</form>
+
+		<alarm-modal
+			type="success"
+			btnText1="확인"
+			@clickBtn1="this.$store.commit('CLOSE_ALARM_MODAL')"
+			btnColor1="primary"
+			btnFontColor1="white">
+			<template #content>통역 예약이 수정되었습니다.</template>
+		</alarm-modal>
 	</div>
 </template>
 
@@ -180,8 +194,8 @@ export default {
 			title: "",
 			tonnySituCode: "0040000",
 			content: "",
-			startLangCode: "0020001",
-			endLangCode: "0020002",
+			startLangCode: "",
+			endLangCode: "",
 			startDate: "",
 			startTime: "",
 			estimateHour: "",
@@ -196,8 +210,9 @@ export default {
 			tonnySituCodeList: "getTonnySituCode",
 			hourCodeList: "getHourCodeList",
 			minuteCodeList: "getMinuteCodeList",
-			yTonnyForm: "getYTonnyForm",
-			userInfo: "getUserInfo"
+			userInfo: "getUserInfo",
+			yTonnySeq: "getYTonnySeq",
+			yTonnyDetail: "getYTonnyDetail"
 		})
 	},
 
@@ -215,8 +230,10 @@ export default {
 			}
 		},
 
-		insertYTonny() {
-			console.log("insertYTonny");
+		updateYTonny() {
+			console.log("updateYTonny");
+			console.log(this.yTonnySeq);
+			console.log(this.userInfo.seq);
 			console.log(this.startLangCode);
 			console.log(this.endLangCode);
 			console.log(this.startDate);
@@ -229,6 +246,7 @@ export default {
 			console.log(this.content);
 
 			let payload = {
+				ytonnySeq: this.yTonnySeq,
 				clientSeq: this.userInfo.seq,
 				title: this.title,
 				tonnySituCode: this.tonnySituCode,
@@ -239,8 +257,6 @@ export default {
 				estimateTime: `${this.estimateHour}:${this.estimateMinute}`,
 				estimatePrice: this.estimatePrice
 			};
-
-			console.log(payload);
 
 			if (this.startLangCode == "" || this.endLangCode == "") {
 				alert("언어를 선택해주세요");
@@ -253,16 +269,25 @@ export default {
 			} else if (this.estimatePrice == "") {
 				alert("지불 금액을 설정해주세요");
 			} else {
-				this.$store.dispatch("insertYTonny", payload).then((id) => {
+				this.$store.dispatch("updateYTonny", payload).then((id) => {
 					if (id != -1) {
-						this.$store.commit("TOGGLE_ALARM_MODAL");
+						this.$router.replace({
+							name: "YTonnyDetailPage",
+							params: { id: this.yTonnySeq, userSeq: this.userInfo.seq }
+						});
 					}
 				});
 			}
 		}
-    },
-    
+	},
+
 	created() {
+		this.title = this.yTonnyDetail.title;
+		this.content = this.yTonnyDetail.content;
+		this.startDate = this.yTonnyDetail.startDateTime.split("T")[0];
+		this.startTime = this.yTonnyDetail.startDateTime.split("T")[1];
+		this.estimatePrice = this.yTonnyDetail.estimatePrice;
+
 		window.scrollTo(0, 0);
 	}
 };
@@ -276,7 +301,7 @@ export default {
 }
 
 .situation {
-	background-color: var(--light-color);
+	background-color: var(--thin-color);
 	border-radius: 6px;
 	padding: 5px 30px;
 	padding-bottom: 32px;

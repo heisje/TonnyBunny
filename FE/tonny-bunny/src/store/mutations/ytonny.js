@@ -11,5 +11,8 @@ export default {
 	},
 	SET_Y_TONNY_APPLY_LIST(state, payload) {
 		state.ytonny.yTonnyApplyList = payload;
+	},
+	SET_Y_TONNY_LIST(state, payload) {
+		state.ytonny.yTonnyList = payload;
 	}
 };

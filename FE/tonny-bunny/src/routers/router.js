@@ -75,7 +75,7 @@ import HomePage from "@/pages/home/HomePage";
 import HelperHomePage from "@/pages/home/HelperHomePage.vue";
 import IntroPage from "@/pages/home/IntroPage";
 // import BunnyPage from "@/pages/home/BunnyPage";
-// import TonnyPage from "@/pages/home/TonnyPage";
+import TonnyPage from "@/pages/home/TonnyPage";
 import MyPage from "@/pages/home/MyPage";
 import NoticePage from "@/pages/home/NoticePage";
 import AlertPage from "@/pages/home/AlertPage";
@@ -651,15 +651,15 @@ export default createRouter({
 		//     },
 		// },
 
-		// {
-		//     path: "/tonny",
-		//     name: "TonnyPage",
-		//     components: {
-		//         header: AppHeader,
-		//         default: TonnyPage,
-		//         footer: AppFooter,
-		//     },
-		// },
+		{
+			path: "/tonny",
+			name: "TonnyPage",
+			components: {
+				header: AppHeader,
+				default: TonnyPage,
+				footer: AppFooter
+			}
+		},
 
 		{
 			path: "/mypage",

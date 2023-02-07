@@ -102,6 +102,7 @@ public class YTonnyController {
 		ModelMapper modelMapper = new ModelMapper();
 		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyList.stream()
 		                                                          .map(m -> YTonnyResponseDto.builder()
+		                                                                                     .seq(m.getSeq())
 		                                                                                     .title(m.getTitle())
 		                                                                                     .content(m.getContent())
 		                                                                                     .client(modelMapper.map(m.getClient(), UserResponseDto.class))
