@@ -6,27 +6,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tonnybunny.domain.chat.dto.ChatLogDto;
 import com.tonnybunny.domain.chat.dto.ParticipantDto;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
+@Component
 public class ChatSocketTextHandler extends TextWebSocketHandler {
 
 	//	private final ChatService chatService;
 	private final RedisTemplate<String, Object> redisTemplate;
 	private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
-
+	private final SimpMessagingTemplate template;
 	/**
 	 * userSeq:roomId:anotherUserSeq 정보 저장 -> 같은 방 다른 유저를 쉽게 찾기 위함
 	 * 데이터 추가 시점 : 한 명이라도 방을 만들면 -> 양쪽다 만듦
@@ -60,10 +65,11 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	private HashOperations<String, String, Map<String, Integer>> notReadInfo; // "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
 
 
-	public ChatSocketTextHandler(RedisTemplate<String, Object> redisTemplate) {
-		//		System.out.println(" !!! Constructor !!! ");
-		//		chatService = new ChatService();
-		this.redisTemplate = redisTemplate;
+	@PostConstruct
+	public void init() {
+		//	public ChatSocketTextHandler(RedisTemplate<String, Object> redisTemplate) {
+		System.out.println(" !!! Constructor !!! ");
+		//		this.chatService = new ChatService();
 		this.userMapInfo = redisTemplate.opsForHash();
 		this.roomInfo = redisTemplate.opsForHash();
 		this.chatLogInfo = redisTemplate.opsForHash();
@@ -114,6 +120,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			//				+ " \n\tNotReadInfo : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 			// 안 읽은 메세지 수를 0으로 초기화
 			initNotReadCount(roomId, userSeq);
+			if (notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherSeq.toString()).containsKey(roomId) == false) {
+				initNotReadCount(roomId, anotherSeq);
+			}
 
 			// user:room 을 추가
 			addUserMapInfo(roomId, userSeq, anotherSeq);
@@ -160,6 +169,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			if (anotherUserInfo.getEnterRoomCount() == 0) { // 어느 세션에서도 접속하지 않은 상태
 				increaseNotReadCount(roomId, anotherUserSeq);
 			}
+
+			// 같은 방 다른 유저한테 Subscribe
+			template.convertAndSend("/sub/chat/" + anotherUserSeq, " * Subs : " + chat.toString());
 			break;
 
 		}
