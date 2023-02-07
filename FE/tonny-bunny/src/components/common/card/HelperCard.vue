@@ -11,7 +11,7 @@
                 <div class="helperInfo">
                     <!-- 1.1 프로필 이미지, 닉네임, 한줄 소개 라인 -->
                     <div class="helperProfile">
-                        <img class="profileImg" src="@/assets/noProfile_white.png" width="70" />
+                        <img class="profileImg" src="@/assets/noProfile_white.png" />
                         <div class="likeBtn" @click="toggleLikeBtn">
                             <span
                                 v-if="isLikeEmpty"
@@ -64,7 +64,7 @@
 
                 <!-- 3. 하단 버튼 라인 -->
                 <div class="helperBtns">
-                    <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                    <XSmallBtn text="자세히보기" color="white" font="active" @click="clickBtn1" />
                     <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
