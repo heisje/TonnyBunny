@@ -1,6 +1,5 @@
 <template lang="">
     <div>
-        <h1>gkdl</h1>
         <div v-for="i in [1, 2, 3, 4, 5]" :key="i">
             <QuestCard @clickRightBtn="clickRightBtn" />
         </div>
