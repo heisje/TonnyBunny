@@ -57,6 +57,28 @@ export default {
             isOpen1: false,
             stompClient: null, // 페이지 이탈할 때 끊어주기
             jtonnyList: {},
+            /*
+            jtonnyList: {
+                3: {
+                    client: {
+                        seq: 3,
+                        nickName: "baebug",
+                    },
+                    helper: {
+                        seq: 0,
+                        nickName: "",
+                    },
+                    startLangCode: "0020001",
+                    endLangCode: "0020003"
+                    content: "아파서 병원을 가고싶어요",
+                    taskCode: "0030001",
+                    taskStateCode: "0090001"
+                    tonnySiduCode: "0040002",
+                    estimateTime: 30,
+                    unitPrice: 0,
+                }
+            }
+            */
         };
     },
     components: {

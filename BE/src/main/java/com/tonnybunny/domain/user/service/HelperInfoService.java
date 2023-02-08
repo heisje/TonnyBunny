@@ -73,8 +73,9 @@ public class HelperInfoService {
 		for (CertificateRequestDto certificateRequestDto : certificateList) {
 			CertificateEntity certificate = CertificateEntity.builder()
 			                                                 .helperInfo(helperInfo)
+			                                                 .langCode(certificateRequestDto.getLangCode())
 			                                                 .certName(certificateRequestDto.getCertName())
-			                                                 .content(certificateRequestDto.getCertName())
+			                                                 .content(certificateRequestDto.getContent())
 			                                                 .build();
 			certificateRepository.save(certificate); // Entity 저장
 			newCertificateList.add(certificate); // 결과 리스트에 시퀀스 추가
@@ -336,11 +337,12 @@ public class HelperInfoService {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
+		System.out.println("user = " + user);
 		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow(
 			() -> new CustomException(NOT_FOUND_ENTITY)
 		);
-		// 걍 뭉탱이로 꺼내기
-		// 각자 로직 구현하기
+		System.out.println("helperInfo = " + helperInfo);
+
 		// 삭제하고, create로 다시 생성
 		certificateRepository.deleteAllByHelperInfo(helperInfo);
 		possibleLanguageRepository.deleteAllByHelperInfo(helperInfo);
@@ -499,44 +501,25 @@ public class HelperInfoService {
 		userRepository.save(user);
 
 		HelperInfoEntity helperInfo = HelperInfoEntity.builder()
-		                                              .reviewCount(0)
-		                                              .unitPrice(0)
 		                                              .user(user)
-		                                              .avgScore(0f)
-		                                              .helperInfoImageList(new ArrayList<>())
-		                                              .certificateList(new ArrayList<>())
-		                                              .possibleLanguageList(new ArrayList<>())
 		                                              .build();
 		helperInfoRepository.save(helperInfo);
 
-		return userSeq;
+		return helperInfo.getSeq();
 	}
 
-	//	/**
-	//	 * 헬퍼 정보를 최초로 등록 (자격증 및 언어능력)
-	//	 * Transactional 관계로 빈 헬퍼정보가 생기는 걸 막기 위해서 자격증 및 가능언어 생성도 같은 로직에 둠
-	//	 *
-	//	 * @param userSeq
-	//	 * @param helperInfoRequestDto
-	//	 * @return
-	//	 */
-	//	@Transactional
-	//	public HelperInfoEntity createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
-	//		UserEntity user = userRepository.findById(userSeq).orElseThrow( // 유저 정보 가져오기
-	//			() -> new CustomException(NOT_FOUND_USER)
-	//		);
-	//		/**
-	//		 * HelperInfoRequestDto 에 있는 정보
-	//		 * possibleLanguageList
-	//		 * CertificateList
-	//		 * 나머지 소개글은 Default 값 사용
-	//		 */
-	//
-	//		createCertificateList(helperInfo, helperInfoRequestDto.getCertificateList()); // 자격증 리스트 생성
-	//		createPossibleLangList(helperInfo, helperInfoRequestDto.getPossibleLanguageList()); // 가능언어 리스트 생성
-	//		System.out.println("HelperInfoService.createHelperInfo");
-	//		return helperInfo; // HelperInfo 리턴
-	//
-	//	}
+
+	@Transactional
+	public Boolean modifyUnitPrice(HelperInfoEntity helperInfo, Integer unitPrice) {
+		try {
+			helperInfo.updateUnitPrice(unitPrice);
+			helperInfoRepository.save(helperInfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CustomException(DATA_BAD_REQUEST);
+		}
+
+		return true;
+	}
 
 }

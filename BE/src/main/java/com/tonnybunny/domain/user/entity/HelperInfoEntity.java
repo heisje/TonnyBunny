@@ -87,4 +87,9 @@ public class HelperInfoEntity extends CommonEntity {
 		this.likeCount += like;
 	}
 
+
+	public void updateUnitPrice(Integer unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
 }

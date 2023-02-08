@@ -96,15 +96,7 @@ public class UserService {
 		// 헬퍼일 경우, 헬퍼 정보 생성
 		if (user.getUserCode().equals(헬퍼.getUserCode())) {
 			HelperInfoEntity helperInfo = HelperInfoEntity.builder()
-			                                              .oneLineIntroduction("안녕하세요 토니버니 헬퍼입니다.")
-			                                              .introduction("안녕하세요 토니버니 헬퍼입니다.")
-			                                              .reviewCount(0)
-			                                              .unitPrice(0)
 			                                              .user(user)
-			                                              .avgScore(0f)
-			                                              .helperInfoImageList(new ArrayList<>())
-			                                              .certificateList(new ArrayList<>())
-			                                              .possibleLanguageList(new ArrayList<>())
 			                                              .build();
 			helperInfoRepository.save(helperInfo);
 		}
@@ -362,7 +354,7 @@ public class UserService {
 	 * @return 수정 후 user의 seq
 	 */
 	@Transactional
-	public Long modifyUserInfo(Long userSeq, UserRequestDto userRequestDto) {
+	public Long modifyNickName(Long userSeq, UserRequestDto userRequestDto) {
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
