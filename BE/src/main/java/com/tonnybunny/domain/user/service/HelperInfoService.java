@@ -347,8 +347,6 @@ public class HelperInfoService {
 		certificateRepository.deleteAllByHelperInfo(helperInfo);
 		possibleLanguageRepository.deleteAllByHelperInfo(helperInfo);
 
-		// 삭제 로직
-
 		// 자격증 리스트
 		List<CertificateRequestDto> certificateList = helperInfoRequestDto.getCertificateList();
 		if (certificateList.isEmpty()) { // 만약 빈 리스트를 받았을 경우
@@ -372,7 +370,7 @@ public class HelperInfoService {
 
 		helperInfoRepository.save(helperInfo);
 
-		System.out.println("helperInfo = " + helperInfo.toString());
+		System.out.println("helperInfo = " + helperInfo);
 
 		return helperInfo;
 	}
