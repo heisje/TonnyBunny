@@ -2,9 +2,10 @@ package com.tonnybunny.domain.jtonny.service;
 
 
 import com.tonnybunny.domain.jtonny.dto.JTonnyDto;
+import com.tonnybunny.domain.jtonny.dto.JTonnyUserDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyEntity;
 import com.tonnybunny.domain.jtonny.repository.JTonnyRepository;
-import com.tonnybunny.domain.user.service.UserService;
+import com.tonnybunny.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JTonnyService {
 
-	private final UserService userService;
+	private final UserRepository userRepository;
 	private final JTonnyRepository jTonnyRepository;
 	private final RedisTemplate<String, Object> redisTemplate;
 	// helperInfoRepository
@@ -53,8 +54,8 @@ public class JTonnyService {
 
 		// JTonnyEntity 생성하여 DB 저장
 		JTonnyEntity jTonny = JTonnyEntity.builder()
-		                                  .client(userService.getUserInfo(jTonnyDto.getClient().getSeq()))
-		                                  .helper(userService.getUserInfo(jTonnyDto.getHelper().getSeq()))
+		                                  .client(userRepository.findById(jTonnyDto.getClient().getSeq()).get())
+		                                  .helper(userRepository.findById(jTonnyDto.getHelper().getSeq()).get())
 		                                  .taskCode(jTonnyDto.getTaskCode())
 		                                  .taskStateCode(jTonnyDto.getTaskStateCode())
 		                                  .startLangCode(jTonnyDto.getStartLangCode())
@@ -78,6 +79,8 @@ public class JTonnyService {
 	 * @param jTonnyDto : 즉시 통역 공고 생성 폼
 	 */
 	public void rejectJTonnyApply(JTonnyDto jTonnyDto) {
+		Long helperSeq = jTonnyDto.getHelper().getSeq();
+		jTonnyDto.setHelper(new JTonnyUserDto(userRepository.findById(helperSeq).get()));
 		redisTemplate.convertAndSend("jtonny/reject", jTonnyDto);
 	}
 
