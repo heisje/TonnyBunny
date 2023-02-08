@@ -277,6 +277,7 @@ CREATE TABLE `review_table`
     `history_seq` BIGINT,
     `score`       FLOAT,
     `comment`     VARCHAR(255),
+    `is_deleted`  BOOLEAN,
     `created_at`  TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`  TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`review_seq`),
@@ -289,8 +290,22 @@ CREATE TABLE `review_table`
 -- JTONNY
 CREATE TABLE `jtonny_table`
 (
-    `j_tonny_seq` BIGINT NOT NULL auto_increment,
-    PRIMARY KEY (`j_tonny_seq`)
+    `j_tonny_seq`     BIGINT NOT NULL auto_increment,
+    `client_seq`      BIGINT,
+    `helper_seq`      BIGINT,
+    `task_code`       CHAR(7),
+    `task_state_code` CHAR(7),
+    `start_lang_code` CHAR(7),
+    `end_lang_code`   CHAR(7),
+    `tonny_situC_cde` CHAR(7),
+    `content`         VARCHAR(255),
+    `estimate_time`   TIME,
+    `unit_price`      INTEGER,
+    PRIMARY KEY (`j_tonny_seq`),
+    FOREIGN KEY (`client_seq`)
+        REFERENCES `user_table` (`user_seq`),
+    FOREIGN KEY (`helper_seq`)
+        REFERENCES `user_table` (`user_seq`)
 ) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- JTONNY HISTORY
