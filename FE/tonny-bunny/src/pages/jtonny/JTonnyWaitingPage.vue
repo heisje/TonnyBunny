@@ -113,6 +113,7 @@
                         text="신청 취소하기"
                         color="light"
                         font="active"
+                        @click="cancelRequest"
                         class="w-100 cancleBtn"></medium-btn>
                 </div>
                 <div class="customForm col-md-6 col-12 jTonnyApplyList">
@@ -173,8 +174,8 @@
                                     </div>
 
                                     <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
-                                        <div class="col-6 reject" @click="reject">거절</div>
-                                        <div class="col-6 accept" @click="accept">수락</div>
+                                        <div class="col-6 reject" @click="reject(apply.helper)">거절</div>
+                                        <div class="col-6 accept" @click="accept(apply.helper)">수락</div>
                                     </div>
                                 </div>
                             </transition-group>
@@ -341,17 +342,24 @@ export default {
             this.$router.replace({ name: "LivePage" });
         },
 
-        accept() {
+        accept(helper) {
             console.log("accept");
-            this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
+            // let jtonny = this.jtonnyApplyList[helperSeq];
+            this.jtonnyRequest.helper = helper;
+            this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
-        reject() {
+        reject(helper) {
             console.log("reject");
-            this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
+            this.jtonnyRequest.helper = helper;
+            this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
         },
-    },
+        cancelRequest() {
+            this.stompClient.send(`/pub/jtonny/request/cancel`, JSON.stringify(this.jtonnyRequest), {});
 
+            /* 이동하기! 홈으로? */
+        }
+    },
     mounted() {
         const serverURL = "http://localhost:8080/api/stomp";
 
@@ -383,6 +391,18 @@ export default {
                     let request = JSON.parse(res.body);
                     delete this.jtonnyApplyList[request.helper.seq];
                 });
+
+                this.stompClient.subscribe(`/sub/jtonny/accept/${clientSeq}`, (res) => {
+                    console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
+
+                    /* 
+                        let jtonny = JSON.parse(res.body);
+                        
+                        오픈비두 이동 router.PUSH 
+                        param? query? 는 jtonny
+                    */ 
+                });
+
                 this.stompClient.send(
                     `/pub/jtonny/request`,
                     JSON.stringify(this.jtonnyRequest),
@@ -395,6 +415,9 @@ export default {
                 this.connected = false;
             }
         );
+    },
+    beforeUnmount() {
+        this.stompClient.disconnect();
     },
 };
 </script>
