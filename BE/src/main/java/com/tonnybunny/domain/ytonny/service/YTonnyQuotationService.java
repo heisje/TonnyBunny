@@ -113,7 +113,7 @@ public class YTonnyQuotationService {
 	 * @return 파일로 저장된 예약통역 견적서 이미지 리스트
 	 */
 	@Transactional
-	private List<YTonnyQuotationImageEntity> createYTonnyQuotationImageList(Long yTonnyQuotationSeq, MultipartHttpServletRequest request) {
+	public List<YTonnyQuotationImageEntity> createYTonnyQuotationImageList(Long yTonnyQuotationSeq, MultipartHttpServletRequest request) {
 
 		System.out.println("YTonnyQuotationService.createYTonnyQuotationImageList");
 
