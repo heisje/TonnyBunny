@@ -32,8 +32,8 @@ public class BunnyEntity extends CommonEntity {
 	private String title;
 	private String content;
 
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 
 	private Integer estimatePrice;
 

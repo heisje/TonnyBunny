@@ -30,8 +30,8 @@ public class BunnyRequestDto {
 	private String title;
 	private String content;
 	private Integer estimatePrice;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 	private List<BunnyImageRequestDto> bunnyImageList;
 
 	private String startLangCode;
