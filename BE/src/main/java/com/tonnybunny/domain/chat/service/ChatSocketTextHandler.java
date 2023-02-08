@@ -4,6 +4,7 @@ package com.tonnybunny.domain.chat.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.tonnybunny.domain.chat.dto.ChatAlertDto;
 import com.tonnybunny.domain.chat.dto.ChatLogDto;
 import com.tonnybunny.domain.chat.dto.ParticipantDto;
 import lombok.RequiredArgsConstructor;
@@ -179,8 +180,15 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 				increaseNotReadCount(roomId, anotherUserSeq);
 			}
 
-			// 같은 방 다른 유저한테 Publish
-			template.convertAndSend("/sub/chat/" + anotherUserSeq, " * Subs : " + chat.toString());
+			// 같은 방 다른 유저한테 채팅 알림 Publish
+			Integer notReadCount = this.getNotReadCount(roomId, anotherUserSeq);
+			Map<String, String> senderUserInfo = new HashMap<>();
+			senderUserInfo.put("userSeq", userSeq.toString()); // 닉네임은 나중에..
+			ChatAlertDto chatAlertDto = ChatAlertDto.builder().roomSeq(roomId)
+				.targetUserSeq(anotherUserSeq).message(jsonObject.getString("message"))
+				.notReadCount(notReadCount).build();
+			String alertJsonString = objectMapper.writeValueAsString(chatAlertDto);
+			template.convertAndSend("/sub/chat/" + anotherUserSeq, alertJsonString);
 			break;
 
 		}
