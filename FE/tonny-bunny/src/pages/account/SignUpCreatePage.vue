@@ -258,6 +258,7 @@ export default {
             try {
                 let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
+                    console.log(res.data.data)
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
@@ -269,14 +270,10 @@ export default {
         // 인증코드 확인
         async checkAuthCode(event) {
             event.preventDefault();
-            const payload = {
-                authCode: this.authCode,
-                phoneNumber: this.phoneNum,
-            };
-            console.log(payload);
             try {
                 let res = await http.post("/check/authcode", {
-                    payload,
+                    authCode: this.authCode, 
+                    phoneNumber: this.phoneNum
                 });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
