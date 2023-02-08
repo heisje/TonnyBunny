@@ -2,6 +2,9 @@
     <video
         autoplay
         style="
+            display: inline-block;
+            width: 100%;
+            height: 100%;
             -moz-transform: scale(-1, 1);
             -webkit-transform: scale(-1, 1);
             -o-transform: scale(-1, 1);

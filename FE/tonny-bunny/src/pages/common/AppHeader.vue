@@ -47,10 +47,10 @@
 
                                     <li class="nav-item">
                                         <router-link
-                                            :to="{ name: 'OpenviduTest' }"
+                                            :to="{ name: 'LiveTonnyPage' }"
                                             class="nav-link"
                                         >
-                                            <h2>오픈비두 테스트</h2>
+                                            <h2>라이브 통역</h2>
                                         </router-link>
                                     </li>
                                 </ul>

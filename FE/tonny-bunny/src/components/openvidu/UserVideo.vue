@@ -1,10 +1,10 @@
 <template>
-    <div v-if="streamManager">
+    <span v-if="streamManager" style="display: inline-block" class="w-100">
         <ov-video :stream-manager="streamManager" />
-        <div>
+        <!-- <div>
             <p>{{ clientData }}</p>
-        </div>
-    </div>
+        </div> -->
+    </span>
 </template>
 
 <script>
@@ -21,18 +21,18 @@ export default {
         streamManager: Object,
     },
 
-    computed: {
-        clientData() {
-            const { clientData } = this.getConnectionData();
-            return clientData;
-        },
-    },
+    // computed: {
+    //     clientData() {
+    //         const { clientData } = this.getConnectionData();
+    //         return clientData;
+    //     },
+    // },
 
-    methods: {
-        getConnectionData() {
-            const { connection } = this.streamManager.stream;
-            return JSON.parse(connection.data);
-        },
-    },
+    // methods: {
+    //     getConnectionData() {
+    //         const { connection } = this.streamManager.stream;
+    //         return JSON.parse(connection.data);
+    //     },
+    // },
 };
 </script>

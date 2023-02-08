@@ -51,7 +51,7 @@ import LivePage from "@/pages/live/LivePage";
 import LiveClosePage from "@/pages/live/LiveClosePage";
 
 // openvidu
-import OpenviduTest from "@/pages/openvidu/OpenviduTest";
+import LiveTonnyPage from "@/pages/liveTonny/LiveTonnyPage";
 
 // chat
 import ChatPage from "@/pages/chat/ChatPage";
@@ -350,12 +350,10 @@ export default createRouter({
 
         // 오픈비두 테스트
         {
-            path: "/openvidu/test",
-            name: "OpenviduTest",
+            path: "/LiveTonny",
+            name: "LiveTonnyPage",
             components: {
-                header: AppHeader,
-                default: OpenviduTest,
-                footer: AppFooter,
+                default: LiveTonnyPage,
             },
         },
 
