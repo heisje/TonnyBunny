@@ -25,6 +25,36 @@
 
             <title-text
                 important
+                class="w-100"
+                type="h2"
+                title="예상 소요 시간"
+                text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?"
+                top="70"
+                bottom="20" />
+
+            <div class="d-flex">
+                <div class="col-6 d-flex flex-row me-2">
+                    <div class="w-100">
+                        <DropdownInput
+                            class=""
+                            :dropdownArray="hourCodeList"
+                            placeholder="시간"
+                            @toggle="(e) => (estimateHour = e)" />
+                    </div>
+                </div>
+                <div class="col-6 d-flex flex-row">
+                    <div class="w-100">
+                        <DropdownInput
+                            class="w-100"
+                            :dropdownArray="minuteCodeList"
+                            placeholder="분"
+                            @toggle="(e) => (estimateMinute = e)" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- <title-text
+                important
                 type="h2"
                 title="예상 소요 시간"
                 text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?" />
@@ -32,7 +62,7 @@
             <div class="d-flex">
                 <div class="w120">
                     <input
-                        type="number"
+                        type="text"
                         :name="input1.id"
                         :id="input1.id"
                         :pattern="input1.pattern"
@@ -43,7 +73,7 @@
                 <div class="backlabel">
                     <h3>분</h3>
                 </div>
-            </div>
+            </div> -->
 
             <title-text
                 type="h2"
@@ -72,18 +102,37 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import MediumBtn from "../common/button/MediumBtn.vue";
 import AgreeInput from "../common/input/AgreeInput.vue";
 import DropdownInputCode from "../common/input/DropdownInputCode.vue";
+import DropdownInput from "../common/input/DropdownInput.vue";
 import TitleText from "../common/TitleText.vue";
-import { mapGetters } from "vuex";
 
 export default {
     name: "JTonnyClientForm",
-    components: { TitleText, DropdownInputCode, MediumBtn, AgreeInput },
+
+    components: {
+        TitleText,
+        DropdownInputCode,
+        MediumBtn,
+        AgreeInput,
+        DropdownInput,
+    },
+
+    computed: {
+        ...mapGetters({
+            userInfo: "getUserInfo",
+            langCode: "getLangCode",
+            tonnySituCode: "getTonnySituCode",
+            hourCodeList: "getHourCodeList",
+            minuteCodeList: "getMinuteCodeList",
+        }),
+    },
+
     data() {
         return {
-            dropdownValue: "",
             input1: {
                 id: "input1",
                 value: "",
@@ -91,7 +140,9 @@ export default {
                 validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
                 notice: "", // 유효성검사 결과 텍스트
             },
+
             agreeValue: false,
+
             jtonnyRequest: {
                 client: {
                     seq: 0,
@@ -107,11 +158,13 @@ export default {
                 endLangCode: "",
                 tonnySituCode: "",
                 content: "",
-                estimateTime: 0,
+                estimateHour: "",
+                estimateMinute: "",
                 unitPrice: 0,
             },
         };
     },
+
     methods: {
         changeInput(e) {
             // v-model 대체용
@@ -124,29 +177,20 @@ export default {
                     "최소 8자 이상, 숫자와 문자를 포함한 비밀번호를 입력해주세요.";
             }
         },
+
         test() {
             this.jtonnyRequest.client.seq = this.userInfo.seq;
             this.jtonnyRequest.client.nickName = this.userInfo.nickName;
-            console.log("jtonnyRequest", this.jtonnyRequest);
-            this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
 
+            console.log("jtonnyRequest", this.jtonnyRequest);
+
+            this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
             this.$router.push({ name: "JTonnyWaitingPage" });
         },
-    },
-    computed: {
-        ...mapGetters({
-            langCode: "getLangCode",
-            tonnySituCode: "getTonnySituCode",
-            userInfo: "getUserInfo",
-        }),
     },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/input.scss";
-
-.customFormWrap {
-    // width: 500px;
-}
 </style>

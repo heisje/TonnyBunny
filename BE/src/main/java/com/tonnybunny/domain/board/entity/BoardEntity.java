@@ -34,7 +34,8 @@ public class BoardEntity extends CommonEntity {
 
 	private String title;
 	private String content;
-	private Boolean isDelete;
+	@Builder.Default
+	private Boolean isDelete = false;
 
 	/* 게시글의 댓글 리스트 */
 	@Builder.Default
@@ -50,6 +51,11 @@ public class BoardEntity extends CommonEntity {
 	public void update(String title, String content) {
 		this.title = title;
 		this.content = content;
+	}
+
+
+	public void updateBoardImageList(List<BoardImageEntity> boardImageList) {
+		this.boardImageList = boardImageList;
 	}
 
 

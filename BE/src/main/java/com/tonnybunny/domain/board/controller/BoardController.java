@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -49,9 +50,8 @@ public class BoardController {
 
 	@PostMapping
 	@ApiOperation(value = "게시글을 작성합니다.", notes = "")
-	public ResponseEntity<ResultDto<Long>> createBoard(
-		@RequestBody BoardRequestDto boardRequestDto) {
-		Long boardSeq = boardService.createBoard(boardRequestDto);
+	public ResponseEntity<ResultDto<Long>> createBoard(@RequestBody BoardRequestDto boardRequestDto, MultipartHttpServletRequest request) {
+		Long boardSeq = boardService.createBoard(boardRequestDto, request);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardSeq));
 	}
 
@@ -59,7 +59,7 @@ public class BoardController {
 	@PutMapping("/{boardSeq}")
 	@ApiOperation(value = "게시글을 수정합니다.", notes = "")
 	public ResponseEntity<ResultDto<Long>> modifyBoard(@RequestBody BoardRequestDto boardRequestDto,
-		@PathVariable Long boardSeq) {
+	                                                   @PathVariable Long boardSeq) {
 
 		Long updatedBoardSeq = boardService.modifyBoard(boardSeq, boardRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedBoardSeq));

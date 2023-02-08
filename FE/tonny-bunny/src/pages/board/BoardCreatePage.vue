@@ -75,14 +75,16 @@ export default {
         },
 
         insertBoard() {
-            const payload = {
-                userSeq: this.$store.state.account.userInfo.seq,
-                title: this.title.value,
-                content: this.content.value,
-            };
-            this.$store.dispatch("insertBoard", payload);
-            // this.submitFiles();
-            // this.$store.dispatch("submitFiles", payload);
+            const formData = new FormData();
+
+            formData.append("userSeq", this.$store.state.account.userInfo.seq);
+            formData.append("title", this.title.value);
+            formData.append("content", this.content.value);
+            for (let i = 0; i < this.boardImageList.length; i++) {
+                formData.append("file", this.boardImageList[i]);
+            }
+
+            this.$store.dispatch("insertBoard", formData);
         },
 
         insertBoardImageList(e) {
@@ -91,19 +93,6 @@ export default {
 
         removeBoardImageList(index) {
             this.boardImageList.splice(index, 1);
-        },
-
-        async submitFiles() {
-            // const formData = new FormData();
-            // formData.append("title", this.title);
-            // formData.append("content", this.content);
-            // for (let i = 0; i < this.boardImageList.length; i++) {
-            //     formData.append("files", this.boardImageList[i]);
-            // }
-            // const response = await axios.get("http://localhost:8080/api/board/img", formData, {
-            //     withCredentials: true,
-            // });
-            // console.log(response);
         },
     },
 };

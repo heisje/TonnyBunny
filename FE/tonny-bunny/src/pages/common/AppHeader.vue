@@ -1,7 +1,7 @@
 <template>
     <div class="navBarContainer">
         <div class="navBarWrap">
-            <div class="navBar d-md-block d-none">
+            <div class="navBar d-lg-block d-none">
                 <nav class="navbar navbar-white">
                     <div class="container-fluid container">
                         <div class="d-flex">
@@ -28,9 +28,9 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <div class="nav-link" @click="toggleTonnyModalOpen">
+                                        <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                             <h2>통역하기</h2>
-                                        </div>
+                                        </router-link>
                                     </li>
 
                                     <li class="nav-item">
@@ -129,7 +129,7 @@
                 </nav>
             </div>
 
-            <div class="navBarMobile d-lg-none">
+            <div class="navBarMobile d-lg-none d-block">
                 <nav class="navbar navbar-white">
                     <div class="container-fluid container px-3">
                         <button
@@ -197,9 +197,9 @@
                                     </li>
 
                                     <li class="nav-item" data-bs-dismiss="offcanvas">
-                                        <div class="nav-link" @click="toggleTonnyModalOpen">
+                                        <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                             <h2>통역하기</h2>
-                                        </div>
+                                        </router-link>
                                     </li>
 
                                     <li class="nav-item" data-bs-dismiss="offcanvas">

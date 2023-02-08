@@ -75,7 +75,7 @@ public class BunnyController {
 		UserEntity user = bunnyEntity.getUser();
 		BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunnyEntity);
 		bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
-		bunnyResponseDto.getClient().put("nickname", user.getNickName());
+		bunnyResponseDto.getClient().put("nickName", user.getNickName());
 		bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDto));
@@ -104,7 +104,7 @@ public class BunnyController {
 			UserEntity user = bunny.getUser();
 			BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunny);
 			bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
-			bunnyResponseDto.getClient().put("nickname", user.getNickName());
+			bunnyResponseDto.getClient().put("nickName", user.getNickName());
 			bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
 
 			bunnyResponseDtoList.add(bunnyResponseDto);
