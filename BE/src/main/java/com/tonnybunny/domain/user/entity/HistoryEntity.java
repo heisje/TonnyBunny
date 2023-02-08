@@ -53,7 +53,7 @@ public class HistoryEntity extends CommonEntity {
 	private ReviewEntity review;
 
 
-	public void endLive(LocalTime time, String recordVideoPath) {
+	public void completeLive(LocalTime time, String recordVideoPath) {
 		this.endDateTime = LocalDateTime.now();
 	}
 

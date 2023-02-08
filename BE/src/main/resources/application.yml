@@ -62,5 +62,3 @@ token:
 # charset
 #server.servlet.encoding.charset: UTF-8
 #server.servlet.encoding.force: true
-
-
