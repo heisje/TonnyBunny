@@ -60,6 +60,7 @@ export default {
         QuestCard,
         AlarmModal,
     },
+
     data() {
         return {
             isFind: false,
@@ -71,6 +72,13 @@ export default {
             subs: [], // 페이지 이탈할 때 unsubscribe()
         };
     },
+
+    computed: {
+        ...mapGetters({
+            userInfo: "getUserInfo",
+        }),
+    },
+
     methods: {
         openModal(e) {
             e.preventDefault();
@@ -105,6 +113,7 @@ export default {
             });
         },
     },
+
     mounted() {
         let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
         console.log("userInfo", this.userInfo);
@@ -155,22 +164,15 @@ export default {
             }
         );
     },
-    computed: {
-        ...mapGetters({
-            userInfo: "getUserInfo",
-        }),
-    },
+
     beforeUnmount() {
         this.unsubscribe();
     },
+
     created() {
         console.log("jtonnyList: ", this.jtonnyList);
     },
 };
-
-// import JTonnyLoading from '@/components/jtonny/JTonnyLoading.vue';
-// export default {
-//   components: { JTonnyLoading },};
 </script>
 
 <style></style>
