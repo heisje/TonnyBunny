@@ -46,10 +46,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <router-link
-                                            :to="{ name: 'LiveTonnyPage' }"
-                                            class="nav-link"
-                                        >
+                                        <router-link :to="{ name: 'LivePage' }" class="nav-link">
                                             <h2>라이브 통역</h2>
                                         </router-link>
                                     </li>
