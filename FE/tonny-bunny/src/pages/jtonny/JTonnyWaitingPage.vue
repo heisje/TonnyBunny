@@ -111,9 +111,9 @@
                     </div>
                     <medium-btn
                         text="신청 취소하기"
-                        color="primary"
-                        font="white"
-                        class="w-100"></medium-btn>
+                        color="light"
+                        font="active"
+                        class="w-100 cancleBtn"></medium-btn>
                 </div>
                 <div class="customForm col-md-6 col-12 jTonnyApplyList">
                     <title-text
@@ -121,41 +121,16 @@
                         text="어떤 헬퍼와 함께 즉시통역을 시작해볼까요?"></title-text>
                     <hr />
 
-                    <div
-                        class="d-flex flex-row align-items-center justify-content-center row loadingHelper">
-                        <!-- <Vue3Lottie
-                            :animationLink="`https://lottie.host/b162872c-29b1-4195-a818-a20ea5a46343/AHLhXNb0eX.json`"
-                            background="transparent"
-                            style="display: inline-block"
-                            class="col-2"
-                            width="70px"
-                            loop
-                            autoplay>
-                        </Vue3Lottie> -->
-
-                        <div class="col-10 d-flex align-items-center justify-content-center">
-                            <div class="me-4">헬퍼를 찾는 중</div>
-                            <div class="text-center">
-                                <div
-                                    class="spinner-border"
-                                    role="status"
-                                    style="color: var(--success-color)">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <v-lazy
                         v-model="jtonnyApplyList"
                         :options="{ threshold: 0.5 }"
                         transition="fade-transition">
-                        <div v-if="jtonnyApplyListLength > 0">
+                        <div v-if="jtonnyApplyListLength > 0" class="mb-5">
                             <transition-group name="slide-up">
                                 <div
                                     v-for="(apply, index) in jtonnyApplyList"
                                     :key="index"
-                                    class="row">
+                                    class="row px-3">
                                     <!-- {{ apply }} -->
 
                                     <div class="d-flex flex-row align-items-center apply">
@@ -198,14 +173,41 @@
                                     </div>
 
                                     <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
-                                        <div class="col-6 accept">거절</div>
-                                        <div class="col-6 reject">수락</div>
+                                        <div class="col-6 reject" @click="reject">거절</div>
+                                        <div class="col-6 accept" @click="accept">수락</div>
                                     </div>
                                 </div>
                             </transition-group>
                         </div>
-                        <div v-else class="mt-5 text-center">가격을 제안한 헬퍼가 없습니다.</div>
+                        <!-- <div v-else class="mt-5 mb-5 text-center">
+                            가격을 제안한 헬퍼가 없습니다.
+                        </div> -->
                     </v-lazy>
+
+                    <div
+                        class="d-flex flex-row align-items-center justify-content-center row loadingHelper">
+                        <!-- <Vue3Lottie
+                            :animationLink="`https://lottie.host/b162872c-29b1-4195-a818-a20ea5a46343/AHLhXNb0eX.json`"
+                            background="transparent"
+                            style="display: inline-block"
+                            class="col-2"
+                            width="70px"
+                            loop
+                            autoplay>
+                        </Vue3Lottie> -->
+
+                        <div class="mt-3 col-10 d-flex align-items-center justify-content-center">
+                            <div class="me-3">헬퍼를 찾는 중</div>
+                            <div class="text-center">
+                                <div
+                                    class="spinner-border"
+                                    role="status"
+                                    style="color: var(--success-color)">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- <div v-else>
@@ -220,18 +222,18 @@
             <!-- <small-btn color="light" font="live" text="수락하기누름" @click.prevent="openModal" /> -->
 
             <AlarmModal
-                title="경고"
-                type="danger"
+                title="주의"
+                type="warning"
                 btnText1="취소"
-                btnText2="진행"
-                btnColor1="light"
+                btnText2="확인"
+                btnColor1="outline"
                 btnColor2="carrot"
-                btnFontColor1="sub"
+                btnFontColor1="main"
                 btnFontColor2="white"
-                @close-modal="closeModal"
-                :link="{ name: 'LivePage' }">
+                @clickBtn1="this.$store.commit('CLOSE_ALARM_MODAL')"
+                @clickBtn2="onAir">
                 <template #content>
-                    수락하시면 바로 해당 헬퍼와 동시 통역이 진행됩니다. 진행하시겠습니까?
+                    수락하시면 바로 즉시통역이 진행됩니다.<br />진행하시겠습니까?
                 </template>
             </AlarmModal>
         </div>
@@ -251,9 +253,9 @@ import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import QuestCard from "@/components/common/card/QuestCard.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
+
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
-// import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
     name: "JTonnyWaitingPage",
@@ -296,9 +298,7 @@ export default {
         HelperCard,
         QuestCard,
         LoadingItem,
-        // LargeBtn,
         AlarmModal,
-        // TitleBanner,
         MediumBtn,
         SquareTag,
     },
@@ -336,19 +336,19 @@ export default {
         찾아짐() {
             this.isFind = true;
         },
-        openModal(e) {
-            e.preventDefault();
-            this.isOpen1 = true;
+        onAir() {
+            this.$store.commit("CLOSE_ALARM_MODAL");
+            this.$router.replace({ name: "LivePage" });
         },
 
-        closeModal() {
-            this.isOpen1 = false;
-        },
         accept() {
-            this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
+            console.log("accept");
+            this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
         reject() {
-            this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
+            console.log("reject");
+            this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
         },
     },
 
@@ -373,7 +373,6 @@ export default {
 
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
                     let request = JSON.parse(res.body);
-                    // this.jtonnyApplyList.push(request);
                     this.jtonnyApplyList[request.helper.seq] = request;
                 });
 
@@ -382,7 +381,6 @@ export default {
 
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
                     let request = JSON.parse(res.body);
-                    console.log("이건 뭐고:", request);
                     delete this.jtonnyApplyList[request.helper.seq];
                 });
                 this.stompClient.send(
@@ -402,6 +400,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+hr {
+    // margin-bottom: 0;
+}
+
 .waitingWrap {
     margin-top: 32px;
     margin-bottom: 120px;
@@ -487,14 +489,15 @@ export default {
 
 .jTonnyApplyList {
     cursor: default;
+    margin-bottom: 40px;
 
     .apply {
-        margin-top: 24px;
+        // margin-top: 12px;
         padding: 12px 0;
         // border-bottom: 1px solid var(--thin-color);
         border: 1px solid rgba(0, 0, 0, 0.13);
         box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-        border-radius: 6px;
+        border-radius: 6px 6px 0 0;
     }
 
     .helperInfo {
@@ -506,27 +509,33 @@ export default {
         cursor: pointer;
 
         div {
-            border-radius: 2px;
             border: 1px solid var(--light-color);
-            padding: 2px;
+            padding: 4px;
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
+            transition: all 0.13s;
+            font-size: 0.9rem;
+            color: var(--active-color);
+
+            &:hover {
+                opacity: 0.9;
+            }
         }
 
         div:nth-child(1) {
             background-color: var(--light-color);
-            color: var(--main-color);
+            border-radius: 0 0 0 8px;
         }
 
         div:nth-child(2) {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--success-color);
+            border-radius: 0 0 8px 0;
         }
     }
 }
 
 .loadingHelper {
-    background-color: var(--thin-color);
+    // background-color: var(--thin-color);
     padding: 10px;
     border-radius: 6px;
 }
