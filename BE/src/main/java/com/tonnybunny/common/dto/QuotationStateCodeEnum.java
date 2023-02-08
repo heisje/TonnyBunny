@@ -3,6 +3,8 @@ package com.tonnybunny.common.dto;
 
 import lombok.ToString;
 
+import java.util.Arrays;
+
 
 @ToString
 public enum QuotationStateCodeEnum {
@@ -13,6 +15,14 @@ public enum QuotationStateCodeEnum {
 
 	QuotationStateCodeEnum(String quotationStateCode) {
 		this.quotationStateCode = quotationStateCode;
+	}
+
+
+	public static QuotationStateCodeEnum valueOfCode(String quotationStateCode) {
+		return Arrays.stream(values())
+		             .filter(value -> value.getQuotationStateCode().equals(quotationStateCode))
+		             .findAny()
+		             .orElse(null);
 	}
 
 

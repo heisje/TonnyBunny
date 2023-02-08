@@ -50,8 +50,14 @@ public class PointController {
 	public ResponseEntity<ResultDto<Boolean>> modifyPoint(@RequestBody PointRequestDto pointRequestDto) {
 		switch (pointRequestDto.getPointRequestType()) {
 		case 충전:
+			pointService.buyPoint(pointRequestDto);
+			break;
 		case 출금:
+			pointService.withdrawPoint(pointRequestDto);
+			break;
 		case 거래:
+			pointService.dealPoint(pointRequestDto);
+			break;
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());

@@ -25,7 +25,7 @@ export default {
 						allCommonCode[e.value] = e.name;
 					});
 				}
-				console.log(allCommonCode);
+				// console.log(allCommonCode);
 
 				context.commit("SET_ALL_CODE", allCommonCode);
 
@@ -51,6 +51,7 @@ export default {
 				context.commit("SET_QUOTATION_STATE_CODE", quotationStateCode);
 				context.commit("SET_TASK_STATE_CODE", taskStateCode);
 				context.commit("SET_POINT_LOG_STATE_CODE", pointLogStateCode);
+				console.log(context.state.common.allCode);
 			})
 			.catch((err) => console.log(err));
 	}

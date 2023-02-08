@@ -1,6 +1,6 @@
 export default {
-	getYtonnyList(state) {
-		return state.ytonny.ytonnyList;
+	getYTonnyList(state) {
+		return state.ytonny.yTonnyList;
 	},
 	getYtonnyTotalListCount(state) {
 		return state.ytonny.ytonnyListTotalCount;

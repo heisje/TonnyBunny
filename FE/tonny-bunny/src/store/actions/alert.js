@@ -1,5 +1,5 @@
 import http from "@/common/axios";
-import global from "@/common/global";
+import utils from "@/common/utils";
 
 export default {
     /*
@@ -20,7 +20,7 @@ export default {
             switch (data.resultCode) {
                 case "SUCCESS":
                     data.data.forEach((d) => {
-                        d.createdAt = global.setDate(d.createdAt);
+                        d.createdAt = utils.setDate(d.createdAt);
                     });
                     context.commit("SET_ALERT_LIST", data.data);
                     break;

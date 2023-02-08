@@ -9,13 +9,6 @@
                     text="헬퍼에게 어떤 상황인지 제목으로 알려볼까요?"
                     bottom="20" />
 
-                <!-- <input
-                type="text"
-                :pattern="title.pattern"
-                @input="changeInput"
-                :value="title.value"
-                class="mb-5"
-                placeholder="제목을 입력해주세요" /> -->
                 <input type="text" placeholder="제목을 입력해주세요" v-model="title" />
 
                 <title-text
@@ -116,9 +109,6 @@
                             placeholder="시간"
                             @toggle="(e) => (estimateHour = e)" />
                     </div>
-                    <!-- <div class="backlabel w-50">
-						<h5>시간</h5>
-					</div> -->
                 </div>
                 <div class="col-6 d-flex flex-row">
                     <div class="w-100">
@@ -128,9 +118,6 @@
                             placeholder="분"
                             @toggle="(e) => (estimateMinute = e)" />
                     </div>
-                    <!-- <div class="backlabel w-50">
-						<h5>분</h5>
-					</div> -->
                 </div>
             </div>
 
@@ -143,12 +130,12 @@
                 bottom="20" />
 
             <div class="d-flex mb-5">
-                <div class="col-11">
+                <div class="col-12">
                     <input type="text" placeholder="ex) 1000" v-model="estimatePrice" />
                 </div>
-                <div class="backlabel col-2">
-                    <h5>CRT/5분</h5>
-                </div>
+                <!-- <div class="backlabel col-2">
+					<h5>CRT/5분</h5>
+				</div> -->
             </div>
 
             <agree-input class="mt-5" @toggle="(e) => (agreeValue = e)" />
@@ -191,10 +178,10 @@ export default {
 
             // ytonny Form
             title: "",
-            tonnySituCode: "",
+            tonnySituCode: "0040000",
             content: "",
-            startLangCode: "",
-            endLangCode: "",
+            startLangCode: "0020001",
+            endLangCode: "0020002",
             startDate: "",
             startTime: "",
             estimateHour: "",
@@ -273,6 +260,11 @@ export default {
                 });
             }
         },
+    },
+
+    created() {
+        window.scrollTo(0, 0);
+        console.log("userInfo: ", this.userInfo);
     },
 };
 </script>

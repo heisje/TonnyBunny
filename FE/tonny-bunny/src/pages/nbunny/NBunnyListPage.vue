@@ -1,4 +1,4 @@
-divdiv
+divdivdiv
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
@@ -10,28 +10,24 @@ divdiv
                             class="w-100"
                             :dropdownArray="getLangCode"
                             placeholder="언어"
-                            @toggle="(e) => (lang = e)"
-                        />
+                            @toggle="(e) => (lang = e)" />
                     </div>
                     <div class="col-3">
                         <DropdownInput
                             class="w-100"
                             :dropdownArray="getBunnySituCode"
                             placeholder="카테고리"
-                            @toggle="(e) => (category = e)"
-                        />
+                            @toggle="(e) => (category = e)" />
                     </div>
                 </div>
                 <medium-btn text="검색" color="carrot" @click.prevent="search" />
             </div>
-            <div>상단정보</div>
-            <div>필터</div>
-            <div>퀘스트카드리스트</div>
 
             <div v-for="(bunny, index) in getBunnyList" :key="index">
-                {{ bunny }}
-
-                <br />
+                <quest-card
+                    :questDetail="bunny"
+                    rightBtnText="신청하기"
+                    @clickBtn2="clickHelperBtn" />
                 <br />
             </div>
         </div>
@@ -43,6 +39,7 @@ import TitleBanner from "@/components/common/TitleBanner.vue";
 import DropdownInput from "@/components/common/input/DropdownInputCode.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import { mapGetters } from "vuex";
+import QuestCard from "@/components/common/card/QuestCard.vue";
 
 export default {
     data() {
@@ -56,6 +53,7 @@ export default {
         TitleBanner,
         DropdownInput,
         MediumBtn,
+        QuestCard,
     },
 
     computed: {
@@ -87,6 +85,10 @@ export default {
             console.log(payload);
 
             this.$store.dispatch("getBunnyList", payload);
+        },
+
+        clickHelperBtn() {
+            this.$router.push({ name: "NBunnyMatchingPage" });
         },
     },
 };

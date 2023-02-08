@@ -1,148 +1,173 @@
 @import "variable.scss";
 
 .btnWrap {
-    display: inline-block;
+	display: inline-block;
 }
 
 .btn {
-    // 버튼 기본 설정
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.15s;
-    cursor: pointer;
-    // height: 42px;
+	// 버튼 기본 설정
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	transition: all 0.13s;
+	cursor: pointer;
+	// height: 42px;
 
-    //아래로 버튼 종류
-    &.large {
-        position: fixed;
-        width: 100vw !important;
-        bottom: 60px;
-        left: 0;
-        padding: 14px 0;
-        // margin: auto 0;
-        z-index: 98;
-        border-radius: 0;
-    }
-    &.medium {
-        padding: 10px 14px;
-        // max-width: 320px;
-        // width: 320px;
-        border-radius: 4px;
-    }
-    &.small {
-        padding: 10px 14px;
-        min-width: 83px;
-        border-radius: 4px;
-    }
-    &.xsmall {
-        padding: 3px 3px;
-        min-width: 88px;
-        border-radius: 6px;
+	//아래로 버튼 종류
+	&.large {
+		position: fixed;
+		width: 100vw !important;
+		bottom: 60px;
+		left: 0;
+		padding: 14px 0;
+		// margin: auto 0;
+		z-index: 98;
+		border-radius: 0;
+	}
+	&.medium {
+		padding: 10px 14px;
+		// max-width: 320px;
+		// width: 320px;
+		border-radius: 4px;
+	}
+	&.small {
+		padding: 10px 14px;
+		min-width: 83px;
+		border-radius: 4px;
+	}
+	&.xsmall {
+		padding: 3px 3px;
+		min-width: 88px;
+		border-radius: 6px;
 
-        span {
-            font-weight: 400;
-        }
-    }
+		span {
+			font-weight: 400;
+		}
+	}
 
-    //아래로 버튼 색
-    &.carrot {
-        background: var(--carrot-color);
-    }
-    &.primary {
-        background-color: var(--primary-color);
-    }
-    &.primary-20 {
-        background-color: var(--primary-color-20);
-    }
-    &.info {
-        background-color: var(--info-color);
-    }
-    &.success {
-        background-color: var(--success-color);
-    }
-    &.danger {
-        background-color: var(--danger-color);
-    }
-    &.warning {
-        background-color: var(--warning-color);
-    }
-    &.active {
-        background-color: var(--active-color);
-    }
-    &.main {
-        background-color: var(--main-color);
-    }
-    &.sub {
-        background-color: var(--sub-color);
-    }
-    &.disable {
-        background-color: var(--disable-color);
-    }
-    &.light {
-        background-color: var(--light-color);
-    }
-    &.thin {
-        background-color: var(--thin-color);
-    }
-    &.white {
-        background-color: var(--white-color);
-    }
-    &.background {
-        background-color: var(--background-color);
-    }
-    &.outline {
-        border: 1px solid var(--light-color);
-        background-color: var(--background-color);
+	//아래로 버튼 색
+	&.carrot {
+		background: var(--carrot-color);
 
-        &:hover {
-            background-color: var(--light-color);
-            // span {
-            // color: var(--primary-color);
-            // }
-        }
-    }
+		// &:hover {
+		//     background: var(--banner-color);
+		// }
+	}
+	&.primary {
+		background-color: var(--primary-color);
 
-    //아래로 폰트 색
-    span {
-        // cursor: pointer;
+		&:hover {
+			background-color: var(--danger-color);
+			// background-color: var(--success-color);
 
-        @extend .h4;
-        &.carrot {
-            color: var(--carrot-color);
-        }
-        &.active {
-            color: var(--active-color);
-            // font-weight: 800;
-        }
-        &.main {
-            color: var(--main-color);
-            // font-weight: 800;
-        }
-        &.sub {
-            color: var(--sub-color);
-        }
-        &.disable {
-            color: var(--disable-color);
-        }
-        &.light {
-            color: var(--light-color);
-        }
-        &.thin {
-            color: var(--thin-color);
-        }
-        &.white {
-            color: var(--white-color);
-        }
-        &.background {
-            color: var(--background-color);
-        }
-    }
+			// span {
+			// color: var(--active-color);
+			// }
+		}
+	}
+	&.primary-20 {
+		background-color: var(--primary-color-20);
+	}
+	&.info {
+		background-color: var(--info-color);
+	}
+	&.success {
+		background-color: var(--success-color);
+	}
+	&.danger {
+		background-color: var(--danger-color);
+	}
+	&.warning {
+		background-color: var(--warning-color);
+	}
+	&.active {
+		background-color: var(--active-color);
+	}
+	&.main {
+		background-color: var(--main-color);
+		// &:hover {
+		//     background-color: var(--primary-color);
+		// }
 
-    &:hover {
-        opacity: 0.9;
-    }
+		// &:hover {
+		//     // background-color: #ff8a65;
+		//     background-color: var(--success-color);
+
+		//     // span {
+		//     // color: var(--active-color);
+		//     // }
+		// }
+	}
+	&.sub {
+		background-color: var(--sub-color);
+	}
+	&.disable {
+		background-color: var(--disable-color);
+	}
+	&.light {
+		background-color: var(--light-color);
+	}
+	&.thin {
+		background-color: var(--thin-color);
+	}
+	&.white {
+		background-color: var(--white-color);
+	}
+	&.background {
+		background-color: var(--background-color);
+	}
+	&.outline {
+		border: 1px solid var(--light-color);
+		background-color: var(--background-color);
+
+		&:hover {
+			background-color: var(--light-color);
+			// span {
+			// color: var(--primary-color);
+			// }
+		}
+	}
+
+	//아래로 폰트 색
+	span {
+		// cursor: pointer;
+
+		@extend .h2;
+		&.carrot {
+			color: var(--carrot-color);
+		}
+		&.active {
+			color: var(--active-color);
+			// font-weight: 800;
+		}
+		&.main {
+			color: var(--main-color);
+			// font-weight: 800;
+		}
+		&.sub {
+			color: var(--sub-color);
+		}
+		&.disable {
+			color: var(--disable-color);
+		}
+		&.light {
+			color: var(--light-color);
+		}
+		&.thin {
+			color: var(--thin-color);
+		}
+		&.white {
+			color: var(--white-color);
+		}
+		&.background {
+			color: var(--background-color);
+		}
+	}
+
+	// &:hover {
+	//     opacity: 0.9;
+	// }
 }
 
 // @media only screen and (min-device-width: 100px) and (max-device-width: 768px) {
@@ -156,9 +181,9 @@
 // }
 
 @media (min-width: 1200px) {
-    .btn {
-        &.large {
-            bottom: 0;
-        }
-    }
+	.btn {
+		&.large {
+			bottom: 0;
+		}
+	}
 }

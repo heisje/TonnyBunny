@@ -5,23 +5,14 @@
 
             <!-- 언어 선택 -->
             <TitleText title="언어 선택" type="h2" text="하실 수 있는 언어를 선택해주세요" />
-            <select v-model="selected" :onchange="selectLang">
-                <option
-                    v-for="(item, index) in langCode"
-                    :key="index"
-                    :value="JSON.stringify(item)">
-                    {{ item.name }}
-                </option></select
-            ><br />
-            <span v-for="(lang, index) in possibleLanguageList" :key="index">
-                <div
-                    style="
-                        padding: 10px 20px;
-                        background-color: pink;
-                        display: inline-block;
-                        border-radius: 20px;
-                    ">
-                    {{ lang }}
+
+            <dropdown-input-code :dropdownArray="langCode" @toggleItem="toggleLangItem" />
+
+            <br />
+
+            <span v-for="(lang, index) in possibleLanguageCodeList" :key="index">
+                <div class="selected">
+                    {{ lang.name }}
                     <span @click="cancleSelect(index)">❌</span>
                 </div>
             </span>
@@ -30,24 +21,24 @@
             <TitleText title="자격증 추가" type="h2" text="어학 관련 자격증을 추가해주세요" />
             <!-- 등록한 자격증 목록 -->
             <div v-for="(certificate, index) in certificateList" :key="index">
-                [{{ certificate.languageName }}] {{ certificate.title }} : {{ certificate.content }}
+                [{{ allCode[certificate.langCode] }}] {{ certificate.certName }} :
+                {{ certificate.content }}
                 <SmallBtn text="삭제" @click="deleteCertificate(index)"></SmallBtn>
             </div>
             <!-- 자격증 폼 -->
             <div>
-                <select v-model="selected2">
-                    <option
-                        v-for="(item, index) in langCode"
-                        :key="index"
-                        :value="JSON.stringify(item)">
-                        {{ item.name }}
-                    </option>
-                </select>
+                <dropdown-input-code
+                    :dropdownArray="langCode"
+                    @toggleItem="
+                        (e) => {
+                            certificateLang = e;
+                        }
+                    " />
+                <input type="text" placeholder="자격증 이름" v-model="certName" />
+                <input type="text" placeholder="내용" v-model="contentInput" />
+                <SmallBtn text="등록" @click="addCertificate"></SmallBtn>
             </div>
 
-            <input type="text" placeholder="자격증 이름" v-model="titleInput" />
-            <input type="text" placeholder="내용" v-model="contentInput" />
-            <SmallBtn text="등록" @click="addCertificate"></SmallBtn>
             <br /><br />
 
             <smallBtn style="width: 100%" text="확인" @click="submitForm"></smallBtn><br /><br />
@@ -58,10 +49,10 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
-import smallBtn from "@/components/common/button/SmallBtn.vue";
-import SmallBtn from "@/components/common/button/XSmallBtn.vue";
 import http from "@/common/axios.js";
 import { mapGetters } from "vuex";
+import DropdownInputCode from "@/components/common/input/DropdownInputCode.vue";
+import SmallBtn from "@/components/common/button/SmallBtn.vue";
 // import http from "@/common/axios";
 
 export default {
@@ -74,7 +65,7 @@ export default {
     },
     components: {
         TitleText,
-        smallBtn,
+        DropdownInputCode,
         SmallBtn,
     },
 
@@ -86,28 +77,25 @@ export default {
             possibleLanguageCodeList: [],
 
             // certificate
-            selected2: "",
+            certificateLang: "",
             certificateList: [],
-            titleInput: "",
+            certName: "",
             contentInput: "",
         };
     },
 
     methods: {
         // 언어 선택
-        selectLang(event) {
-            let { name, value } = { ...JSON.parse(event.target.value) };
-
-            if (value == "") {
+        toggleLangItem(e) {
+            if (e.value == "") {
                 return;
             }
             const isExist = this.possibleLanguageCodeList.some((lang) => {
-                return lang == value;
+                return lang == e;
             });
 
             if (!isExist) {
-                this.possibleLanguageList.push(name);
-                this.possibleLanguageCodeList.push(value);
+                this.possibleLanguageCodeList.push(e);
             }
         },
 
@@ -119,21 +107,19 @@ export default {
 
         // 자격증 추가
         addCertificate() {
-            if (this.selected2 == "" || this.titleInput == "" || this.contentInput == "") {
+            if (this.certificateLang == "" || this.certName == "" || this.contentInput == "") {
                 return;
             }
 
             const data = {
-                certName: this.titleInput,
+                certName: this.certName,
                 content: this.contentInput,
-                langCode: JSON.parse(this.selected2).value,
-                languageName: JSON.parse(this.selected2).name,
+                langCode: this.certificateLang.value,
             };
 
             this.certificateList.push(data);
-            this.titleInput = "";
+            this.certName = "";
             this.contentInput = "";
-            this.selected2 = "";
         },
 
         // 자격증 등록 취소
@@ -144,16 +130,23 @@ export default {
         // 폼 제출
         async submitForm(event) {
             event.preventDefault();
+
             let userSeq2 = this.userSeq * 1;
 
+            const possibleLanguageList = this.possibleLanguageCodeList;
+            const jsonData = {
+                certificateList: this.certificateList,
+                helperInfoImageReqeustDtoList: [],
+                introduction: "new introduction",
+                oneLineIntroduction: "new oneLineIntroduction",
+                possibleLanguageList: possibleLanguageList,
+            };
             // 일단 잠시 주석
             try {
-                let res = await http.post(`/mypage/${userSeq2}/helper`, {
-                    possibleLanguageList: this.possibleLanguageCodeList,
-                    certificateList: this.certificateList,
-                });
+                let res = await http.post(`/mypage/${userSeq2}/helper`, jsonData);
 
                 if (res.data.resultCode == "SUCCESS") {
+                    console.log(res);
                     // 헬퍼정보 등록 성공 후 완료 페이지로
                     this.$router.push({ name: "SignUpCompletePage" });
                 } else {
@@ -163,7 +156,6 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-            this.$router.push({ name: "SignUpCompletePage" });
         },
 
         goSignUpCompletePage(event) {
@@ -174,9 +166,17 @@ export default {
     computed: {
         ...mapGetters({
             langCode: "getLangCode",
+            allCode: "getAllCode",
         }),
     },
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.selected {
+    padding: 10px 20px;
+    background-color: pink;
+    display: inline-block;
+    border-radius: 20px;
+}
+</style>

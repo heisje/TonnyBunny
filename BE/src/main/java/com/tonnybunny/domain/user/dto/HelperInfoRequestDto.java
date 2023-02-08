@@ -3,7 +3,6 @@ package com.tonnybunny.domain.user.dto;
 
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -20,12 +19,12 @@ import java.util.List;
  * HelperInfoImageList      : 헬퍼 정보 이미지 경로가 담긴 리스트
  */
 @Data
-@Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class HelperInfoRequestDto {
 
 	/* 헬퍼 유저 회원가입 */
+
 	private List<PossibleLanguageDto> possibleLanguageList = new ArrayList<>();
 
 	private List<CertificateRequestDto> certificateList = new ArrayList<>();
@@ -33,7 +32,8 @@ public class HelperInfoRequestDto {
 	/* 헬퍼 유저 회원정보 수정 */
 	private String oneLineIntroduction;
 	private String introduction;
-	//	private List<String> HelperInfoImageReqeustDtoList = new ArrayList<>();
+	private List<HelperInfoImageRequestDto> helperInfoImageReqeustDtoList = new ArrayList<>(); // 그럼 이거 쓸 일 없을듯
+	private List<Long> deleteHelperInfoImageList = new ArrayList<>(); // 삭제될 이미지 리스트 시퀀스만 넘기기
 
 
 	/**

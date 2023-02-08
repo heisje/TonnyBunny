@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.ytonny.controller;
 
 
-import com.tonnybunny.common.dto.ResultDto;
+import com.tonnybunny.common.dto.*;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.UserService;
@@ -102,6 +102,7 @@ public class YTonnyController {
 		ModelMapper modelMapper = new ModelMapper();
 		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyList.stream()
 		                                                          .map(m -> YTonnyResponseDto.builder()
+		                                                                                     .seq(m.getSeq())
 		                                                                                     .title(m.getTitle())
 		                                                                                     .content(m.getContent())
 		                                                                                     .client(modelMapper.map(m.getClient(), UserResponseDto.class))
@@ -147,7 +148,13 @@ public class YTonnyController {
 
 		// entity -> dto
 		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
-		yTonnyResponseDto.setEndLangCode(yTonnyResponseDto.getEndLangCode());
+
+		// code name 값으로 변경해서 넘겨주기
+		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());
+		yTonnyResponseDto.setEndLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getEndLangCode()).name());
+		yTonnyResponseDto.setTonnySituCode(TonnySituCodeEnum.valueOfCode(yTonnyResponseDto.getTonnySituCode()).name());
+		yTonnyResponseDto.setTaskCode(TaskCodeEnum.valueOfCode(yTonnyResponseDto.getTaskCode()).name());
+		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
 
 		// 해당 공고의 creator 와 조회하려는 user 가 같은 사람인가?
 		if (userSeq == yTonnyEntity.getClient().getSeq()) yTonnyResponseDto.setIsCreator(true);

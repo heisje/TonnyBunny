@@ -7,6 +7,8 @@ import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HelperInfoRepository;
+import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.EmailService;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.SmsService;
@@ -14,14 +16,19 @@ import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.tonnybunny.domain.user.dto.UserCodeEnum.클라이언트;
 
+
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "사용자 정보 관련 API")
@@ -32,6 +39,8 @@ public class UserController {
 
 	private final SmsService smsService;
 	private final EmailService emailService;
+	private final HelperInfoRepository helperInfoRepository;
+	private final UserRepository userRepository;
 
 
 	@PostMapping("/signup")
@@ -248,17 +257,45 @@ public class UserController {
 	public ResponseEntity<ResultDto<UserResponseDto>> getUserInfo(@PathVariable("userSeq") Long userSeq) {
 		System.out.println("userSeq = " + userSeq);
 		UserEntity searchedUser = userService.getUserInfo(userSeq);
-		UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
+		if (searchedUser.getUserCode().equals(클라이언트.getUserCode())) {
+			UserResponseDto userResponseDto = UserResponseDto.fromEntity(searchedUser);
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
+		} else {
+			UserResponseDto userResponseDto = UserResponseDto.createUserWithHelper(searchedUser);
+			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(userResponseDto));
+		}
+
 	}
 
 
+	/**
+	 * 유저 닉네임만 수정
+	 *
+	 * @param userSeq
+	 * @param userRequestDto
+	 * @return
+	 */
 	@PutMapping("/mypage/{userSeq}")
 	@ApiOperation(value = "회원정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq,
 		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
+	}
+
+
+	/**
+	 * 생성과 동일한 로직
+	 *
+	 * @param userSeq
+	 * @param request
+	 * @return
+	 */
+	@PutMapping("/mypage/{userSeq}/profileImage")
+	@ApiOperation(value = "프로필사진을 수정합니다")
+	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, @RequestBody MultipartHttpServletRequest request) {
+		String profileFilePath = userService.modifyProfileImage(userSeq, request);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(profileFilePath));
 	}
 
 
@@ -407,20 +444,25 @@ public class UserController {
 
 	@PostMapping("/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
-	public ResponseEntity<ResultDto<HelperInfoResponseDto>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
-		HelperInfoEntity helperInfo = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto); // 기본 헬퍼정보 생성
-		HelperInfoResponseDto helperInfoResponseDto = HelperInfoResponseDto.fromEntity(helperInfo);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoResponseDto));
+	public ResponseEntity<ResultDto<Long>> createHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		System.out.println("UserController.createHelperInfo");
+		HelperInfoEntity helperInfo = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto);
+
+		Long helperInfoSeq = helperInfo.getSeq();
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
 	}
 
 
 	@PutMapping("/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-		@RequestBody HelperInfoRequestDto helperInfoRequestDto) {
-		Long updatedHelperInfoSeq = helperInfoService.modifyHelperInfo(userSeq,
-			helperInfoRequestDto);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedHelperInfoSeq));
+		@RequestBody HelperInfoRequestDto helperInfoRequestDto,
+		@RequestBody MultipartHttpServletRequest request) {
+		System.out.println("UserController.modifyHelperInfo");
+		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto, request);
+
+		Long helperInfoSeq = helperInfo.getSeq();
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
 	}
 
 
@@ -447,5 +489,17 @@ public class UserController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(seq));
 	}
+
+	/**
+	 * 헬퍼의 자격증 리스트를 조회합니다.
+	 */
+
+	/**
+	 * 헬퍼의 사용 언어 리스트를 조회합니다.
+	 */
+
+	/**
+	 * 헬퍼의 이미지 리스트를 조회합니다.
+	 */
 
 }

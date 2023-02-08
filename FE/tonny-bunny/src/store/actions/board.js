@@ -1,6 +1,6 @@
 import http from "@/common/axios";
 import axios from "axios";
-import global from "@/common/global";
+import utils from "@/common/utils";
 
 export default {
     /*
@@ -12,14 +12,13 @@ export default {
         console.log("게시글 리스트를 조회합니다.");
 
         this.dispatch("setIsLoading", true);
-        let params = {};
         try {
-            let { data } = await http.get("/board", { params });
+            let { data } = await http.get("/board");
             console.log("async function : ", data);
 
             data.data.forEach((d) => {
                 d.count = d.boardCommentList.length;
-                d.createdAt = global.setDate(d.createdAt);
+                d.createdAt = utils.setDate(d.createdAt);
             });
 
             context;
