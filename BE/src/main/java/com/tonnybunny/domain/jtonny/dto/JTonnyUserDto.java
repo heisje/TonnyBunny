@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.jtonny.dto;
 
 
-import com.tonnybunny.domain.user.dto.HelperInfoResponseDto;
+import com.tonnybunny.domain.user.dto.UserCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,20 +12,20 @@ import lombok.NoArgsConstructor;
 public class JTonnyUserDto {
 
 	private Long seq;
-	//	private String userCode;
+	private String userCode;
 	private String nickName;
-	private HelperInfoResponseDto helperInfo;
+	private JTonnyHelperInfoDto helperInfo;
 
 
 	public JTonnyUserDto(UserEntity user) {
 		this.seq = user.getSeq();
-		//		this.userCode = user.getUserCode();
+		this.userCode = user.getUserCode();
 		this.nickName = user.getNickName();
-		//		if (this.userCode == UserCodeEnum.클라이언트.getUserCode()) {
-		//			this.helperInfo = new HelperInfoResponseDto();
-		//		} else {
-		this.helperInfo = HelperInfoResponseDto.fromEntity(user.getHelperInfo());
-		//		}
+		if (this.userCode.equals(UserCodeEnum.클라이언트.getUserCode())) {
+			this.helperInfo = new JTonnyHelperInfoDto();
+		} else {
+			this.helperInfo = JTonnyHelperInfoDto.fromEntity(user.getHelperInfo());
+		}
 
 	}
 
