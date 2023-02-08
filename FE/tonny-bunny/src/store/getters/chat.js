@@ -3,7 +3,7 @@ export default {
         chat
     */
     getIsEnterRoom(state) {
-        return state.chat.isEnterRoom;
+        return state.chat.chatRoomConntected;
     },
     getChatRoomInfo(state) {
         return state.chat.chatRoomInfo;
@@ -13,5 +13,8 @@ export default {
     },
     getChatRoomList(state) {
         return state.chat.chatRoomList;
+    },
+    getChatStompSocket(state) {
+        return state.chat.chatStompSocket;
     },
 };

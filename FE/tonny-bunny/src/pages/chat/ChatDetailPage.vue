@@ -71,7 +71,7 @@ export default {
         getChatTime(chatData) {
             let chatDate = chatData.date;
             let [year, month, day, hour, minute] = chatDate;
-            console.log([year, month, day].join("/") + [hour, minute].join(":"));
+            // console.log([year, month, day].join("/") + [hour, minute].join(":"));
             let ampm;
             if (hour > 12) {
                 ampm = "오후";
@@ -95,7 +95,7 @@ export default {
         async getPreviousChatLog() {
             try {
                 const { data } = await http.get("/chat/log/" + this.chatRoomSeq);
-                console.log(data);
+                // console.log(data);
                 if (data.resultCode == "SUCCESS") {
                     this.chatDatas = [];
                     data.data.forEach((chat) => {
@@ -167,6 +167,9 @@ export default {
     },
     mounted() {
         this.enterChatRoom();
+    },
+    beforeUnmount() {
+        this.closeChatRoom();
     },
 };
 </script>

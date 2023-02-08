@@ -1,6 +1,10 @@
 export default {
-    isEnterRoom: false,
+    chatRoomConntected: false,
     chatRoomInfo: {},
     chatUserSeq: "",
-    chatRoomList: [],
+    chatRoomList: new Map(),
+
+    // STOMP socket
+    chatStompSocketConnected: false,
+    chatStompSocket: "",
 };

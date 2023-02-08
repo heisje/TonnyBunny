@@ -1,9 +1,13 @@
+import Stomp from "webstomp-client";
+import SockJS from "sockjs-client";
+import http from "@/common/axios";
+
 export default {
     SET_ENTER_CHAT_ROOM(state) {
-        state.chat.isEnterRoom = true;
+        state.chat.chatRoomConntected = true;
     },
     SET_EXIT_CHAT_ROOM(state) {
-        state.chat.isEnterRoom = false;
+        state.chat.chatRoomConntected = false;
     },
     SET_CHAT_ROOM_INFO(state, data) {
         state.chat.chatRoomInfo = data;
@@ -13,5 +17,52 @@ export default {
     },
     SET_CHAT_ROOM_LIST(state, data) {
         state.chat.chatRoomList = data;
+    },
+    SET_CHAT_STOMP_SOCKET(state, data) {
+        state.chat.chatStompSocket = data;
+    },
+    // SET_CHAT_STOMP_SOCKET_CONNECTED(state) {
+    //     state.chat.chatStompSocketConnected = true;
+    // },
+    // SET_CHAT_STOMP_SOCKET_DISCONNECTED(state) {
+    //     state.chat.chatStompSocketConnected = false;
+    // },
+    CONNECT_CHAT_STOMP_SOCKET(state, userSeq) {
+        const serverURL = http.getUri() + "/stomp";
+        let socket = new SockJS(serverURL);
+        let stompClient = Stomp.over(socket);
+        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+
+        stompClient.connect(
+            { user: userSeq },
+            () => {
+                // 소켓 연결 성공
+                // context.commit("SET_CHAT_STOMP_SOCKET", stompClient);
+                // context.commit("SET_CHAT_STOMP_SOCKET_CONNECTED");
+                state.chat.chatStompSocket = stompClient;
+                state.chat.chatStompSocketConnected = true;
+                console.log("소켓 연결 성공");
+                // 본인 id 를 구독합니다.
+                stompClient.subscribe(`/sub/chat/${userSeq}`, (res) => {
+                    console.log("구독으로 받은 메시지 입니다.", res.body);
+
+                    // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+                    // this.chat_messages.push(res.body);
+                });
+            },
+            (error) => {
+                // 소켓 연결 실패
+                console.log("소켓 연결 실패", error);
+                state.chat.chatStompSocketConnected = false;
+                // context.commit("SET_CHAT_STOMP_SOCKET_DISCONNECTED");
+            }
+        );
+    },
+    DISCONNECT_CHAT_STOMP_SOCKET(state) {
+        let stompSocket = state.chat.chatStompSocket;
+        stompSocket.disconnect(() => {
+            console.log("소켓 연결을 종료하였습니다.");
+            state.chat.chatStompSocketConnected = false;
+        });
     },
 };

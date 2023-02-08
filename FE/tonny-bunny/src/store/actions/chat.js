@@ -6,7 +6,13 @@ export default {
         try {
             const { data } = await http.post("/chat/room/" + userInfo.seq);
             if (data.resultCode == "SUCCESS") {
-                context.commit("SET_CHAT_ROOM_LIST", data.data);
+                // console.log("Data: ", data.data);
+                let roomMap = data.data.reduce((map, obj) => {
+                    map.set(obj.roomSeq, obj);
+                    return map;
+                }, new Map());
+                // console.log("Map : ", roomMap);
+                context.commit("SET_CHAT_ROOM_LIST", roomMap);
             } else {
                 console.log("[error] fail to get data in getChatRoom()");
             }

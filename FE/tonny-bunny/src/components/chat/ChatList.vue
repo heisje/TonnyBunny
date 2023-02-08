@@ -1,12 +1,16 @@
 <template lang="">
     <div>
-        <div v-for="(chatRoom, index) in chatRoomList" :key="index">
-            <div @click="setEnterRoomInfo($event, chatRoom)" class="nav-link" aria-current="page">
+        <div v-for="chatRoom in chatRoomList" :key="chatRoom">
+            <div
+                @click="setEnterRoomInfo($event, chatRoom[1])"
+                class="nav-link"
+                aria-current="page">
+                {{ chatRoom }}
                 <chat-item
-                    v-bind:imagePath="chatRoom.anotherUserInfo?.imagePath"
-                    v-bind:nickName="chatRoom.anotherUserInfo?.nickName"
-                    v-bind:recentMessage="chatRoom.recentMessage"
-                    v-bind:notReadCount="chatRoom.notReadCount" />
+                    v-bind:imagePath="chatRoom[1].anotherUserInfo?.imagePath"
+                    v-bind:nickName="chatRoom[1].anotherUserInfo?.nickName"
+                    v-bind:recentMessage="chatRoom[1].recentMessage"
+                    v-bind:notReadCount="chatRoom[1].notReadCount" />
             </div>
         </div>
     </div>
@@ -33,6 +37,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch("getChatRoomList", this.userInfo);
+        console.log("GET: ", this.$store.getters.getChatRoomList);
     },
     computed: {
         ...mapGetters({

@@ -54,6 +54,10 @@ export default {
                         break;
                 }
 
+                // 채팅 알림용 STOMP 연결
+                const userSeq = userInfo.seq;
+                context.commit("CONNECT_CHAT_STOMP_SOCKET", userSeq);
+
                 // http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
             } else if (data.resultCode == "FAIL") {
                 console.log("err.response2");
@@ -74,6 +78,7 @@ export default {
     },
     logout(context) {
         context.commit("SET_LOG_OUT");
+        context.commit("DISCONNECT_CHAT_STOMP_SOCKET");
     },
     /*
 		Auth Login
