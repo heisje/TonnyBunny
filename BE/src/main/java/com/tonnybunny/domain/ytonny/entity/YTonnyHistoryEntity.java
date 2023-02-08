@@ -31,4 +31,11 @@ public class YTonnyHistoryEntity extends HistoryEntity {
 
 	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
 
+
+	@Override
+	public void completeLive(LocalTime time, String recordVideoPath) {
+		this.totalTime = time;
+		this.recordVideoPath = recordVideoPath;
+	}
+
 }

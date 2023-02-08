@@ -117,14 +117,10 @@ public class BunnyQuotationController {
 	 */
 	@PutMapping("/{bunnySeq}/quotation/{bunnyQuotationSeq}/complete")
 	@ApiOperation(value = "번역 공고 완료하기")
-	public ResponseEntity<ResultDto<Boolean>> completeBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+	public ResponseEntity<ResultDto<Long>> completeBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
 
-		Boolean isSuccess = bunnyQuotationService.completeBunnyQuotation(bunnyQuotationRequestDto);
-		if (isSuccess) {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-		} else {
-			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
-		}
+		Long historySeq = bunnyQuotationService.completeBunnyQuotation(bunnyQuotationRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historySeq));
 	}
 
 }

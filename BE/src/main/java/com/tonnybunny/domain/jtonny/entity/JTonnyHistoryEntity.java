@@ -28,7 +28,7 @@ public class JTonnyHistoryEntity extends HistoryEntity {
 
 
 	@Override
-	public void endLive(LocalTime time, String recordVideoPath) {
+	public void completeLive(LocalTime time, String recordVideoPath) {
 		this.totalTime = time;
 		this.recordVideoPath = recordVideoPath;
 	}
