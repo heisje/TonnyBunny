@@ -2,7 +2,6 @@ package com.tonnybunny.domain.chat.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.chat.dto.ChatLogDto;
 import com.tonnybunny.domain.chat.dto.ChatRoomResponseDto;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.chat.service.ChatRoomService;
@@ -78,8 +77,8 @@ public class ChatRoomController {
 
 
 	@GetMapping("/chat/log/{roomSeq}")
-	public ResponseEntity<ResultDto<List<ChatLogDto>>> getPreviousChatLog(@PathVariable("roomSeq") String roomSeq) {
-		List<ChatLogDto> chatLogDtoList = chatRoomService.getPreviousChatLog(roomSeq);
+	public ResponseEntity<ResultDto<List<String>>> getPreviousChatLog(@PathVariable("roomSeq") String roomSeq) {
+		List<String> chatLogDtoList = chatRoomService.getPreviousChatLog(roomSeq);
 		System.out.println("Chat Log Dto: " + chatLogDtoList);
 		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
 	}

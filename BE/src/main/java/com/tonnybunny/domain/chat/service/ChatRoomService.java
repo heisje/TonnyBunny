@@ -1,7 +1,9 @@
 package com.tonnybunny.domain.chat.service;
 
 
-import com.tonnybunny.domain.chat.dto.ChatLogDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -84,8 +87,15 @@ public class ChatRoomService {
 	}
 
 
-	public List<ChatLogDto> getPreviousChatLog(String roomSeq) {
-		return chatSocketTextHandler.getPreviousChatLog(roomSeq);
+	public List<String> getPreviousChatLog(String roomSeq) {
+		ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+		return chatSocketTextHandler.getPreviousChatLog(roomSeq).stream().map(chat -> {
+			try {
+				return objectMapper.writeValueAsString(chat);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+		}).collect(Collectors.toList());
 	}
 
 }

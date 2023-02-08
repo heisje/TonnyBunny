@@ -131,10 +131,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			//			System.out.println(" enter Setting " + roomId + " \n\tRoomStatus : " + roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId)
 			//				+ " \n\tNotReadInfo : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 			// 안 읽은 메세지 수를 0으로 초기화
-			initNotReadCount(roomId, userSeq);
-			if (notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherSeq.toString()).containsKey(roomId) == false) {
-				initNotReadCount(roomId, anotherSeq);
-			}
+			initNotReadCount(roomId, userSeq, anotherSeq);
 
 			// user:room 을 추가
 			addUserMapInfo(roomId, userSeq, anotherSeq);
@@ -145,9 +142,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			// 방에 재접속시 정보 갱신
 			updateParticipantInfoInChatRoom(roomId, userSeq, session);
 
-			// 이전에 남아있던 메세지 로그를 전달
+			// 이전에 남아있던 메세지 로그를 전달 => http로 전달
 			//			ChatLogDto chat = ChatLogDto.builder().roomSeq(roomId).userSeq(userSeq).message(jsonObject.getString("message")).date(LocalDateTime.now()).build();
-			sendChatInChatRoom(roomId, session);
+			//			sendChatInChatRoom(roomId, session);
 
 			break;
 		}
@@ -218,10 +215,19 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @param roomId
 	 * @param userSeq
 	 */
-	private void initNotReadCount(String roomId, Long userSeq) {
+	private void initNotReadCount(String roomId, Long userSeq, Long anotherUserSeq) {
+		// 나 추가
 		Map<String, Integer> notRead = new HashMap<>();
 		notRead.put(roomId, 0);
 		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
+
+		// 상대방이 아직 한번도 채팅 기능을 사용하지 않았거나 현재 채팅 방에 접속을 하지 않았다면, 정보를 입력해줌
+		if (notReadInfo.hasKey(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString()) == false
+			|| notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString()).containsKey(roomId)) {
+			Map<String, Integer> notReadAnother = new HashMap<>();
+			notReadAnother.put(roomId, 0);
+			notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString(), notReadAnother);
+		}
 	}
 
 
@@ -248,7 +254,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @throws Exception
 	 */
 	private void sendMessageByRoomId(String roomId, ChatLogDto chatLogDto) throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 		Map<String, ParticipantDto> userInfos = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
 		// 포트 번호 모음
 		List<Integer> ports = new ArrayList<>();
@@ -259,7 +265,8 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		for (WebSocketSession s : sessions) {
 			// 채팅방에 속한 유저들에게만 채팅을 전달함.
 			if (ports.contains(s.getRemoteAddress().getPort())) {
-				s.sendMessage(new TextMessage(chatLogDto.toString()));
+				String jsonString = objectMapper.writeValueAsString(chatLogDto);
+				s.sendMessage(new TextMessage(jsonString));
 			}
 		}
 	}
@@ -286,26 +293,26 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		chatLogInfo.put(ChatTypeEnum.CHAT_LOG.toString(), roomId, chatLogList);
 	}
 
-
 	/**
-	 * 해당 채팅 방에서 오고간 채팅 로그를 특정 session에 전달
+	 * 해당 채팅 방에서 오고간 채팅 로그를 특정 session에 전달 => 방 입장할 때 http로 전달함
 	 * (채팅방 입장했을 때 이전 채팅 로그를 띄우기 위함)
 	 *
 	 * @param roomId
 	 * @param session
 	 * @throws IOException
 	 */
-	private void sendChatInChatRoom(String roomId, WebSocketSession session) throws IOException {
-		if (chatLogInfo.hasKey(ChatTypeEnum.CHAT_LOG.toString(), roomId)) {
-			//			System.out.println(" IN sendLogInChatRoom : " + chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId).toString()
-			//				+ "type : " + chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId).getClass());
-			ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-			List<ChatLogDto> chatLogList = objectMapper.convertValue(chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId), new TypeReference<List<ChatLogDto>>() {});
-			for (ChatLogDto chatLog : chatLogList) {
-				session.sendMessage(new TextMessage(chatLog.toString()));
-			}
-		}
-	}
+	//	private void sendChatInChatRoom(String roomId, WebSocketSession session) throws IOException {
+	//		if (chatLogInfo.hasKey(ChatTypeEnum.CHAT_LOG.toString(), roomId)) {
+	//			//			System.out.println(" IN sendLogInChatRoom : " + chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId).toString()
+	//			//				+ "type : " + chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId).getClass());
+	//			ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+	//			List<ChatLogDto> chatLogList = objectMapper.convertValue(chatLogInfo.get(ChatTypeEnum.CHAT_LOG.toString(), roomId), new TypeReference<List<ChatLogDto>>() {});
+	//			for (ChatLogDto chatLog : chatLogList) {
+	//				String jsonString = objectMapper.writeValueAsString(chatLog.toString());
+	//				session.sendMessage(new TextMessage(jsonString));
+	//			}
+	//		}
+	//	}
 
 
 	/**
@@ -360,7 +367,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, userMapper);
 
 		// 로그 찍는 용도
-		session.sendMessage(new TextMessage("Enter " + roomId + "'s Room."));
+		//		session.sendMessage(new TextMessage("Enter " + roomId + "'s Room."));
 	}
 
 
