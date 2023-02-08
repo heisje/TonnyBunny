@@ -40,8 +40,8 @@ public class BunnyResponseDto {
 	private Long helperSeq;
 	private String title;
 	private String content;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 	private Integer estimatePrice;
 
 	private String startLangCode;
@@ -58,7 +58,7 @@ public class BunnyResponseDto {
 	public static BunnyResponseDto fromEntity(BunnyEntity bunnyNoti) {
 
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
-		
+
 		BunnyResponseDto bunnyNotiResponseDto = modelMapper.map(bunnyNoti, BunnyResponseDto.class);
 
 		return bunnyNotiResponseDto;
