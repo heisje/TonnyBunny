@@ -44,6 +44,15 @@
                                             <h2>커뮤니티</h2>
                                         </router-link>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <router-link
+                                            :to="{ name: 'LiveTonnyPage' }"
+                                            class="nav-link"
+                                        >
+                                            <h2>라이브 통역</h2>
+                                        </router-link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
