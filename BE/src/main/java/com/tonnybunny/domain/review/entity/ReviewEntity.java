@@ -4,15 +4,15 @@ package com.tonnybunny.domain.review.entity;
 import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "review_table")
 public class ReviewEntity extends CommonEntity {
@@ -30,8 +30,16 @@ public class ReviewEntity extends CommonEntity {
 
 	private String comment;
 
+	@Builder.Default
+	private Boolean isDeleted = false;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "history_seq")
 	private HistoryEntity history;
+
+
+	public void deleteReview() {
+		this.isDeleted = true;
+	}
 
 }
