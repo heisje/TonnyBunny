@@ -25,11 +25,11 @@ public class ReviewController {
 	private final ReviewService reviewService;
 
 
-	@GetMapping
-	@ApiOperation(value = "리뷰 리스트를 조회합니다.", notes = "")
-	public ResponseEntity<?> getReviewList() {
+	@GetMapping("/user/{userSeq}")
+	@ApiOperation(value = "개별 유저의 리뷰 리스트를 조회합니다.")
+	public ResponseEntity<ResultDto<List<ReviewResponseDto>>> getReviewList(@PathVariable("userSeq") Long userSeq) {
 
-		List<ReviewEntity> reviewList = reviewService.getReviewList();
+		List<ReviewEntity> reviewList = reviewService.getReviewList(userSeq);
 		List<ReviewResponseDto> reviewResponseDtoList = ReviewResponseDto.fromEntityList(reviewList);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(reviewResponseDtoList));
@@ -37,8 +37,8 @@ public class ReviewController {
 
 
 	@GetMapping("/{reviewSeq}")
-	@ApiOperation(value = "리뷰를 조회합니다.", notes = "")
-	public ResponseEntity<?> getReview(@PathVariable Long reviewSeq) {
+	@ApiOperation(value = "리뷰를 조회합니다.")
+	public ResponseEntity<ResultDto<?>> getReview(@PathVariable("reviewSeq") Long reviewSeq) {
 
 		ReviewEntity review = reviewService.getReview(reviewSeq);
 		ReviewResponseDto reviewResponseDto = ReviewResponseDto.fromEntity(review);
@@ -48,8 +48,8 @@ public class ReviewController {
 
 
 	@PostMapping
-	@ApiOperation(value = "리뷰를 작성합니다.", notes = "")
-	public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
+	@ApiOperation(value = "리뷰를 작성합니다.")
+	public ResponseEntity<ResultDto<?>> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
 
 		Long reviewSeq = reviewService.createReview(reviewRequestDto);
 
@@ -57,9 +57,15 @@ public class ReviewController {
 	}
 
 
+	/**
+	 * isDeleted True로 변경
+	 *
+	 * @param reviewSeq
+	 * @return
+	 */
 	@DeleteMapping("/{reviewSeq}")
-	@ApiOperation(value = "리뷰를 삭제합니다.", notes = "")
-	public ResponseEntity<?> deleteReview(@PathVariable Long reviewSeq) {
+	@ApiOperation(value = "리뷰를 삭제합니다.")
+	public ResponseEntity<ResultDto<Boolean>> deleteReview(@PathVariable("reviewSeq") Long reviewSeq) {
 
 		reviewService.deleteReview(reviewSeq);
 
