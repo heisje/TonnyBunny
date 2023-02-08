@@ -50,9 +50,6 @@ import BoardUpdatePage from "@/pages/board/BoardUpdatePage";
 import LivePage from "@/pages/live/LivePage";
 import LiveClosePage from "@/pages/live/LiveClosePage";
 
-// openvidu
-import LiveTonnyPage from "@/pages/liveTonny/LiveTonnyPage";
-
 // chat
 import ChatPage from "@/pages/chat/ChatPage";
 import ChatDetailPage from "@/pages/chat/ChatDetailPage";
@@ -378,14 +375,6 @@ export default createRouter({
                 footer: AppFooter,
             },
         },
-        //LiveTonnyPage
-        {
-            path: "/livetonny",
-            name: "LiveTonnyPage",
-            components: {
-                default: LiveTonnyPage,
-            },
-        },
 
         //board
         {
@@ -435,7 +424,6 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: LivePage,
-                footer: AppFooter,
             },
         },
 
