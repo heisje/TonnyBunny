@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalTime;
 
 
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @ToString
+@Table(name = "ytonny_history_table")
 public class YTonnyHistoryEntity extends HistoryEntity {
 
 	private String title;
