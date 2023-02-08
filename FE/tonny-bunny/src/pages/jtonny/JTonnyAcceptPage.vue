@@ -13,7 +13,7 @@
         <router-link :to="{ name: 'JTonnyMatchingPage' }"><button>다음페이지</button></router-link>
 
         <div v-for="jtonny in Object.values(jtonnyList)" :key="jtonny.client.seq">
-            <!-- 누르면 취소하기로 바뀌고 cancel -->
+            <!-- 누르면 취소하기로 바뀌고 cancel? -->
             <quest-card
                 :questDetail="jtonny"
                 rightBtnText="신청하기"
@@ -89,7 +89,7 @@ export default {
             this.isOpen = false;
         },
         apply(seq) {
-            // this.jtonnyRequest 에 단가, this.userInfo.seq 넣기
+            // this.jtonnyRequest 에 단가 받아넣기
             let jtonnyApply = this.jtonnyList[seq];
             console.log("jta", jtonnyApply);
             jtonnyApply.helper = {
@@ -100,7 +100,7 @@ export default {
 
             this.stompClient.send("/pub/jtonny/apply", JSON.stringify(jtonnyApply), {});
         },
-        cancel() {
+        cancelApply() {
             this.stompClient.send(
                 "/pub/jtonny/apply/cancel",
                 JSON.stringify(this.jtonnyRequst),
@@ -116,10 +116,6 @@ export default {
 
     mounted() {
         let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
-        console.log("userInfo", this.userInfo);
-        console.log("helperInfo", this.userInfo.helperInfo);
-        console.log("가능언어", possibleLanguageList);
-        console.log("타입", typeof possibleLanguageList);
 
         const serverURL = "http://localhost:8080/api/stomp";
         let socket = new SockJS(serverURL);
@@ -156,6 +152,22 @@ export default {
                     );
                     this.subs.push(sub);
                 });
+
+                this.stompClient.subscribe(`/sub/jtonny/accept/${this.userInfo.seq}`, (res) => {
+                    console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
+
+                    /* 
+                        let jtonny = JSON.parse(res.body);
+                        
+                        오픈비두 이동 router.PUSH 
+                        param? query? 는 jtonny
+                    */ 
+                });
+
+                this.stompClient.subscribe(`/sub/jtonny/reject/${this.userInfo.seq}`, (res) => {
+                    let jtonny = JSON.parse(res.body);
+                    delete this.jtonnyList[jtonny.client.seq];
+                });
             },
             (error) => {
                 // 소켓 연결 실패
@@ -167,6 +179,7 @@ export default {
 
     beforeUnmount() {
         this.unsubscribe();
+        this.stompClient.disconnect();
     },
 
     created() {

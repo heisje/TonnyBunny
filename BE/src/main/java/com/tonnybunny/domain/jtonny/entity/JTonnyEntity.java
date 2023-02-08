@@ -5,7 +5,6 @@ import com.tonnybunny.domain.user.entity.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 
 
 @Entity
@@ -36,7 +35,8 @@ public class JTonnyEntity {
 	private String endLangCode;
 	private String tonnySituCode;
 	private String content;
-	private LocalTime estimateTime;
+
+	private String estimateTime;
 	private Integer unitPrice;
 
 }
