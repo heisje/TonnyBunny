@@ -5,14 +5,21 @@ import com.tonnybunny.domain.review.entity.ReviewEntity;
 import lombok.Data;
 
 
+/**
+ * userSeq             : 작성자 Seq
+ * score               : 별점
+ * comment             : 내용
+ */
 @Data
 public class ReviewRequestDto {
 
-    Long seq;
-    
+	private Long userSeq;
+	private Float score;
+	private String comment;
 
-    public ReviewEntity toEntity() {
-        return (ReviewEntity) new Object();
-    }
+
+	public ReviewEntity toEntity() {
+		return (ReviewEntity) new Object();
+	}
 
 }

@@ -4,9 +4,7 @@ package com.tonnybunny.domain.user.controller;
 import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.dto.*;
-import com.tonnybunny.domain.user.entity.HelperInfoEntity;
-import com.tonnybunny.domain.user.entity.HistoryEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.repository.HelperInfoRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.EmailService;
@@ -16,7 +14,6 @@ import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +25,6 @@ import java.util.List;
 import static com.tonnybunny.domain.user.dto.UserCodeEnum.클라이언트;
 
 
-@Log4j2
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "사용자 정보 관련 API")
@@ -99,12 +95,12 @@ public class UserController {
 
 	@PostMapping("/signup/nickname")
 	@ApiOperation(value = "닉네임 중복여부를 확인합니다")
-	public ResponseEntity<ResultDto<Boolean>> checkNicknameDuplication(@RequestBody UserRequestDto userRequestDto) {
+	public ResponseEntity<ResultDto<Boolean>> checkNickNameDuplication(@RequestBody UserRequestDto userRequestDto) {
 		/**
 		 * service에서 반환받은 isDuplicate가 true 이면 중복된 닉네임이라고 알려주기, false 면 통과
 		 *
 		 */
-		Boolean isDuplicate = userService.checkNicknameDuplication(userRequestDto);
+		Boolean isDuplicate = userService.checkNickNameDuplication(userRequestDto);
 		if (isDuplicate) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofFail());
 		} else {
@@ -275,11 +271,11 @@ public class UserController {
 	 * @param userRequestDto
 	 * @return
 	 */
-	@PutMapping("/mypage/{userSeq}")
-	@ApiOperation(value = "회원정보를 수정합니다")
-	public ResponseEntity<ResultDto<Long>> modifyUserInfo(@PathVariable("userSeq") Long userSeq,
+	@PutMapping("/mypage/{userSeq}/nickname")
+	@ApiOperation(value = "닉네임을 수정합니다")
+	public ResponseEntity<ResultDto<Long>> modifyNickName(@PathVariable("userSeq") Long userSeq,
 		@RequestBody UserRequestDto userRequestDto) {
-		Long updatedUserSeq = userService.modifyUserInfo(userSeq, userRequestDto);
+		Long updatedUserSeq = userService.modifyNickName(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
 	}
 
@@ -293,7 +289,7 @@ public class UserController {
 	 */
 	@PutMapping("/mypage/{userSeq}/profileImage")
 	@ApiOperation(value = "프로필사진을 수정합니다")
-	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, @RequestBody MultipartHttpServletRequest request) {
+	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, MultipartHttpServletRequest request) {
 		String profileFilePath = userService.modifyProfileImage(userSeq, request);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(profileFilePath));
 	}
@@ -455,9 +451,8 @@ public class UserController {
 
 	@PutMapping("/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
-	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-		@RequestBody HelperInfoRequestDto helperInfoRequestDto,
-		@RequestBody MultipartHttpServletRequest request) {
+	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq, @RequestBody HelperInfoRequestDto helperInfoRequestDto,
+		MultipartHttpServletRequest request) {
 		System.out.println("UserController.modifyHelperInfo");
 		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto, request);
 
@@ -485,21 +480,49 @@ public class UserController {
 	@PutMapping("/mypage/{userSeq}/userCode")
 	@ApiOperation(value = "일반 고객의 유저코드를 헬퍼로 변경합니다.")
 	public ResponseEntity<ResultDto<Long>> modifyUserCode(@PathVariable("userSeq") Long userSeq) {
-		Long seq = helperInfoService.modifyUserCode(userSeq);
+		Long helperInfoSeq = helperInfoService.modifyUserCode(userSeq);
 
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(seq));
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoSeq));
 	}
+
 
 	/**
 	 * 헬퍼의 자격증 리스트를 조회합니다.
 	 */
+	@GetMapping("/mypage/{userSeq}/helper/certificate")
+	@ApiOperation(value = "헬퍼의 자격증 정보를 조회합니다")
+	public ResponseEntity<ResultDto<List<CertificateResponseDto>>> getHelperInfoCertificate(@PathVariable("userSeq") Long userSeq) {
+		List<CertificateEntity> certificateList = helperInfoService.getCertificateList(userSeq);
+		List<CertificateResponseDto> certificateResponseList = CertificateResponseDto.fromEntityList(certificateList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(certificateResponseList));
+
+	}
+
 
 	/**
 	 * 헬퍼의 사용 언어 리스트를 조회합니다.
 	 */
+	@GetMapping("/mypage/{userSeq}/helper/possibleLang")
+	@ApiOperation(value = "헬퍼의 사용 언어 정보를 조회합니다")
+	public ResponseEntity<ResultDto<List<PossibleLanguageDto>>> getHelperInfoPossibleLang(@PathVariable("userSeq") Long userSeq) {
+		List<PossibleLanguageEntity> possibleLangList = helperInfoService.getPossibleLangList(userSeq);
+		List<PossibleLanguageDto> possibleLanguageList = PossibleLanguageDto.fromEntityList(possibleLangList);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(possibleLanguageList));
+
+	}
+
 
 	/**
 	 * 헬퍼의 이미지 리스트를 조회합니다.
 	 */
+	@GetMapping("/mypage/{userSeq}/helper/image")
+	@ApiOperation(value = "헬퍼의 정보 이미지를 조회합니다")
+	public ResponseEntity<ResultDto<List<HelperInfoImageResponseDto>>> getHelperInfoImage(@PathVariable("userSeq") Long userSeq) {
+		List<HelperInfoImageEntity> helperInfoImageList = helperInfoService.getHelperInfoImageList(userSeq);
+		List<HelperInfoImageResponseDto> helperInfoImageResponseList = HelperInfoImageResponseDto.fromEntityList(helperInfoImageList);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(helperInfoImageResponseList));
+
+	}
 
 }

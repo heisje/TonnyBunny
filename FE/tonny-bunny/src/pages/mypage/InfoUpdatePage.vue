@@ -72,8 +72,8 @@ export default {
 
         insertImage(e) {
             this.profileImg = e.target.files[0];
-            const payload = this.profileImg;
-            this.$store.dispatch("putProfileImage", payload);
+            console.log(this.profileImg);
+            this.$store.dispatch("putProfileImage", this.profileImg);
         },
 
         clickInputProfile() {
