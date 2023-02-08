@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ChatLogDto implements Serializable {
 
+	private static final long serialVersionUID = 2983478989237498L;
 	private String roomSeq;
 	private Long userSeq;
 	private String message;
