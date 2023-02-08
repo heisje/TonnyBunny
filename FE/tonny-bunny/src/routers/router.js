@@ -50,6 +50,9 @@ import BoardUpdatePage from "@/pages/board/BoardUpdatePage";
 import LivePage from "@/pages/live/LivePage";
 import LiveClosePage from "@/pages/live/LiveClosePage";
 
+// openvidu
+import LiveTonnyPage from "@/pages/liveTonny/LiveTonnyPage";
+
 // chat
 import ChatPage from "@/pages/chat/ChatPage";
 import ChatDetailPage from "@/pages/chat/ChatDetailPage";
@@ -92,6 +95,7 @@ import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
 import InputTest from "@/components/common/input/InputTest";
 
 export default createRouter({
+
 	history: createWebHistory(),
 	linkActiveClass: "route-active",
 	linkExactActiveClass: "route-active",
@@ -762,4 +766,5 @@ export default createRouter({
 			}
 		}
 	]
+>>>>>>> develop
 });
