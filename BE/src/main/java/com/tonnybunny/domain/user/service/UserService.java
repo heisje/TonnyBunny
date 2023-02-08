@@ -679,16 +679,19 @@ public class UserService {
 
 		// 목록 조회
 		if (historyRequestDto.getClientSeq() != null) { // 고객 기준 조회
-			historyList = historyRepository.findByClient(historyRequestDto.getClientSeq(), sort);
+			UserEntity client = userRepository.findById(historyRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+			historyList = historyRepository.findByClient(client, sort);
 		} else if (historyRequestDto.getHelperSeq() != null) { // 헬퍼 기준 조회
-			historyList = historyRepository.findByHelper(historyRequestDto.getHelperSeq(), sort);
+			UserEntity helper = userRepository.findById(historyRequestDto.getHelperSeq()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+			historyList = historyRepository.findByHelper(helper, sort);
 		} else if (historyRequestDto.getLangCode() != null) { // 업무에 사용된 언어 기준 조회
 			String langCode = historyRequestDto.getLangCode();
 			historyList = historyRepository.findByStartLangCodeOrEndLangCode(langCode, langCode, sort);
 		} else if (historyRequestDto.getTaskCode() != null) { // 업무 기준 조회 (통역, 번역)
 			historyList = historyRepository.findByTaskCode(historyRequestDto.getTaskCode(), sort);
 		} else { // 사용자 기준 전체 조회 (고객 또는 헬퍼로 참여한 업무 전체 조회)
-			historyList = historyRepository.findByClientOrHelper(userSeq, userSeq, sort);
+			UserEntity user = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+			historyList = historyRepository.findByClientOrHelper(user, user, sort);
 		}
 		return historyList;
 	}

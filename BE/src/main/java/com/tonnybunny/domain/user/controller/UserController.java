@@ -293,7 +293,7 @@ public class UserController {
 	 */
 	@PutMapping("/mypage/{userSeq}/profileImage")
 	@ApiOperation(value = "프로필사진을 수정합니다")
-	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, @RequestBody MultipartHttpServletRequest request) {
+	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq, MultipartHttpServletRequest request) {
 		String profileFilePath = userService.modifyProfileImage(userSeq, request);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(profileFilePath));
 	}
