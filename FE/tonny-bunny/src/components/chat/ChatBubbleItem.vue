@@ -1,13 +1,15 @@
 <template lang="">
-    <div>
+    <div class="m-3 p-3 border">
         <div v-if="other === true">
-            <div><img src="@/assets/noProfile.png" /></div>
-            <div>{{ name }}</div>
-            <div>{{ text }}</div>
+            <div>
+                <div><img class="img-thumbnail" src="@/assets/noProfile.png" /></div>
+                <div>{{ name }}</div>
+            </div>
+            <h2>{{ text }}</h2>
             <div>{{ time }}</div>
         </div>
-        <div v-else>
-            <div>{{ text }}</div>
+        <div v-else class="text-end">
+            <h2>{{ text }}</h2>
             <div>{{ time }}</div>
         </div>
     </div>

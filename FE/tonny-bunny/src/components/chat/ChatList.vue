@@ -1,16 +1,13 @@
 <template lang="">
     <div>
         <div v-for="(chatRoom, index) in chatRoomList" :key="index">
-            <router-link
-                @click="setEnterRoomInfo(chatRoom)"
-                :to="{ name: 'ChatDetailPage' }"
-                class="nav-link"
-                aria-current="page">
+            <div @click="setEnterRoomInfo($event, chatRoom)" class="nav-link" aria-current="page">
                 <chat-item
                     v-bind:imagePath="chatRoom.anotherUserInfo?.imagePath"
                     v-bind:nickName="chatRoom.anotherUserInfo?.nickName"
-                    v-bind:recentMessage="chatRoom.recentMessage" />
-            </router-link>
+                    v-bind:recentMessage="chatRoom.recentMessage"
+                    v-bind:notReadCount="chatRoom.notReadCount" />
+            </div>
         </div>
     </div>
 </template>
@@ -27,8 +24,11 @@ export default {
         return {};
     },
     methods: {
-        setEnterRoomInfo(chatRoom) {
+        setEnterRoomInfo(event, chatRoom) {
+            event.preventDefault();
+
             this.$store.dispatch("setChatRoomInfo", chatRoom);
+            this.$router.push({ name: "ChatDetailPage" });
         },
     },
     mounted() {

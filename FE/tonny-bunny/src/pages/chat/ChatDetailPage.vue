@@ -1,18 +1,24 @@
 <template>
     <div>
         <h1>채팅 - 채팅 내역 조회 페이지</h1>
-        <h2>roomseq : {{ chatRoomInfo.roomSeq }}</h2>
-        <div v-for="chatData in chatDatas" :key="chatData">
-            <chat-bubble-item other />
+        <h2>roomseq : {{ chatRoomSeq }}</h2>
+        <div class="chat-detail-view viewport-height-80 overflow-auto">
+            <div v-for="chatData in chatDatas" :key="chatData">
+                <chat-bubble-item
+                    :other="chatData.userSeq == chatAnotherUserSeq"
+                    :name="getUserName(chatData)"
+                    :text="chatData.message"
+                    :time="getChatTime(chatData)" />
+            </div>
         </div>
 
         <div>
-            <form action="">
-                <!-- <button>파일 업로드 버튼</button> -->
-                <input v-model="insertMessageValue" type="text" />
-                {{ insertMessageValue }}
-                <button>메시지 날리기 버튼</button>
-            </form>
+            <!-- <form action=""> -->
+            <!-- <button>파일 업로드 버튼</button> -->
+            <input v-model="insertMessageValue" type="text" />
+            {{ insertMessageValue }}
+            <medium-btn @click="sendMessage" text=">"></medium-btn>
+            <!-- </form> -->
         </div>
     </div>
 </template>
@@ -20,40 +26,89 @@
 <script>
 import SockJS from "sockjs-client";
 import ChatBubbleItem from "@/components/chat/ChatBubbleItem.vue";
+import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import http from "@/common/axios";
 import { mapGetters } from "vuex";
+
 export default {
-    components: { ChatBubbleItem },
+    components: { ChatBubbleItem, MediumBtn },
     data() {
         return {
-            otherInfo: {
-                name: "상대방이름",
-                img: "",
-            },
             insertMessageValue: "",
-            chatDatas: [
-                {
-                    name: "",
-                },
-            ],
+            chatDatas: [],
             // socket 연결
             socket: "",
-            chatRoomSeq: this.chatRoomInfo.roomSeq,
-            chatUserSeq: this.userInfo.seq,
-            chatAnotherSeq: this.chatRoomInfo.anotherUserInfo.userSeq,
         };
     },
+    // 스크롤 하단 고정 설정
+    // watch: {
+    //     chatDatas: {
+    //         deep: true,
+    //         handler() {
+    //             this.setScrollBottom();
+    //         },
+    //     },
+    // },
     computed: {
         ...mapGetters({
             userInfo: "getUserInfo",
             chatRoomInfo: "getChatRoomInfo",
         }),
+        chatRoomSeq() {
+            return this.$store.getters.getChatRoomInfo.roomSeq;
+        },
+        chatUserSeq() {
+            return this.$store.getters.getUserInfo.seq;
+        },
+        chatAnotherUserSeq() {
+            return this.$store.getters.getChatRoomInfo.anotherUserInfo.userSeq;
+        },
+        chatAnotherUserInfo() {
+            return this.$store.getters.getChatRoomInfo.anotherUserInfo;
+        },
     },
     methods: {
+        getChatTime(chatData) {
+            let chatDate = chatData.date;
+            let [year, month, day, hour, minute] = chatDate;
+            console.log([year, month, day].join("/") + [hour, minute].join(":"));
+            let ampm;
+            if (hour > 12) {
+                ampm = "오후";
+                hour = hour - 12;
+            } else {
+                ampm = "오전";
+            }
+            return String(
+                [year, month, day].join(".") + " " + ampm + " " + [hour, minute].join(":")
+            );
+        },
+        getUserName(chatData) {
+            if (chatData.userSeq == this.chatAnotherUserSeq)
+                return this.chatAnotherUserInfo.nickName;
+            return "";
+        },
+        setScrollBottom() {
+            var scrollView = document.querySelector(".chat-detail-view");
+            scrollView.scrollTop = scrollView.scrollHeight;
+        },
         async getPreviousChatLog() {
-            const { data } = await http.get("/chat/log/" + this.roomSeq);
-            // console.log(data);
-            this.chatDatas = data.data;
+            try {
+                const { data } = await http.get("/chat/log/" + this.chatRoomSeq);
+                console.log(data);
+                if (data.resultCode == "SUCCESS") {
+                    this.chatDatas = [];
+                    data.data.forEach((chat) => {
+                        // console.log("no parse : ", chat);
+                        // console.log("parse : ", JSON.parse(chat));
+                        this.chatDatas.push(JSON.parse(chat));
+                    });
+                } else {
+                    console.log("[error] in ChatDetailPage-getPreviousChatLog()");
+                }
+            } catch (err) {
+                console.error(err);
+            }
         },
         // async insertMessage() {},
         enterChatRoom() {
@@ -67,32 +122,38 @@ export default {
                 console.log("연결되었습니다.");
                 const chatchat = {
                     type: "enter",
-                    roomId: this.chatRoomSeq,
-                    userSeq: this.chatUserSeq,
-                    anotherSeq: this.chatAnotherSeq,
+                    roomId: String(this.chatRoomSeq),
+                    userSeq: String(this.chatUserSeq),
+                    anotherSeq: String(this.chatAnotherUserSeq),
                 };
                 this.socket.send(JSON.stringify(chatchat));
             };
             // 소켓으로 받은 메세지를 출력
             this.socket.onmessage = (e) => {
                 console.log(e.data);
+                const message = JSON.parse(e.data);
+                this.chatDatas.push(message);
+                // this.setScrollBottom();
             };
         },
-        sendMessage() {
+        sendMessage(event) {
+            event.preventDefault();
+
             // [3] 메세지 전달
             const chatchat = {
                 type: "message",
-                roomId: this.chatRoomSeq,
+                roomId: String(this.chatRoomSeq),
                 message: this.insertMessageValue,
-                userSeq: this.chatUserSeq,
+                userSeq: String(this.chatUserSeq),
             };
             this.socket.send(JSON.stringify(chatchat));
+            this.insertMessageValue = "";
         },
         closeChatRoom() {
             const chat = {
                 type: "exit",
-                roomId: this.chatRoomSeq,
-                userSeq: this.chatUserSeq,
+                roomId: String(this.chatRoomSeq),
+                userSeq: String(this.chatUserSeq),
             };
             this.socket.send(JSON.stringify(chat));
             this.socket.close();
@@ -101,11 +162,17 @@ export default {
             };
         },
     },
-    mounted() {
+    beforeMount() {
         this.getPreviousChatLog();
+    },
+    mounted() {
         this.enterChatRoom();
     },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.viewport-height-80 {
+    height: 80vh;
+}
+</style>
