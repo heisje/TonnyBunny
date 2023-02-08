@@ -3,6 +3,8 @@ package com.tonnybunny.domain.jtonny.service;
 
 import com.tonnybunny.domain.jtonny.dto.JTonnyDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyEntity;
+import com.tonnybunny.domain.jtonny.repository.JTonnyRepository;
+import com.tonnybunny.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JTonnyService {
 
+	private final UserService userService;
+	private final JTonnyRepository jTonnyRepository;
 	private final RedisTemplate<String, Object> redisTemplate;
 	// helperInfoRepository
 
@@ -48,11 +52,23 @@ public class JTonnyService {
 		redisTemplate.convertAndSend("jtonny/request-cancel", jTonnyDto);
 
 		// JTonnyEntity 생성하여 DB 저장
-		JTonnyEntity jTonny = jTonnyDto.toEntity();
-		// repository.save(jTonny);
+		JTonnyEntity jTonny = JTonnyEntity.builder()
+		                                  .client(userService.getUserInfo(jTonnyDto.getClient().getSeq()))
+		                                  .helper(userService.getUserInfo(jTonnyDto.getHelper().getSeq()))
+		                                  .taskCode(jTonnyDto.getTaskCode())
+		                                  .taskStateCode(jTonnyDto.getTaskStateCode())
+		                                  .startLangCode(jTonnyDto.getStartLangCode())
+		                                  .endLangCode(jTonnyDto.getEndLangCode())
+		                                  .tonnySituCode(jTonnyDto.getTonnySituCode())
+		                                  .content(jTonnyDto.getContent())
+		                                  .estimateTime(jTonnyDto.getEstimateTime())
+		                                  .unitPrice(jTonnyDto.getUnitPrice())
+		                                  .build();
+		jTonnyRepository.save(jTonny);
 
-		// 즉시통역을 위한 화상채팅 방으로 이동 (미정, roomName 전달 필요)
-		// redisTemplate.convertAndSend("jtonny/accept", jTonnyDto);
+		// 즉시통역을 위한 화상채팅 방으로 이동 (양 측에 uuid 전달)
+		JTonnyDto jTonnyResponseDto = JTonnyDto.fromEntity(jTonny);
+		redisTemplate.convertAndSend("jtonny/accept", jTonnyResponseDto);
 	}
 
 
