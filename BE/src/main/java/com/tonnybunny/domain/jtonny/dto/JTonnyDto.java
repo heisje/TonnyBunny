@@ -4,6 +4,9 @@ package com.tonnybunny.domain.jtonny.dto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyEntity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalTime;
 
 
 @Data
@@ -19,7 +22,9 @@ public class JTonnyDto {
 	private String endLangCode;
 	private String tonnySituCode;
 	private String content;
-	private String estimateTime;
+
+	@DateTimeFormat(pattern = "HH:mm")
+	private LocalTime estimateTime; // 소요시간
 
 	/* 즉시 통역 신청 정보 (helper 입력) */
 	private JTonnyUserDto helper;

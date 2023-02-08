@@ -14,9 +14,10 @@
 
         <div v-for="jtonny in Object.values(jtonnyList)" :key="jtonny.client.seq">
             <!-- 누르면 취소하기로 바뀌고 cancel -->
-            <quest-card :questDetail="jtonny"
-                        rightBtnText="신청하기"
-                        @clickBtn2="apply(jtonny.client.seq)"  />
+            <quest-card
+                :questDetail="jtonny"
+                rightBtnText="신청하기"
+                @clickBtn2="apply(jtonny.client.seq)" />
         </div>
 
         <!-- 얘도 click 하면 unsubscribe() -->
@@ -83,9 +84,9 @@ export default {
             // this.jtonnyRequest 에 단가, this.userInfo.seq 넣기
             let jtonnyApply = this.jtonnyList[seq];
             console.log("jta", jtonnyApply);
-            jtonnyApply.helper = { 
+            jtonnyApply.helper = {
                 seq: this.userInfo.seq,
-                nickName: this.userInfo.nickName 
+                nickName: this.userInfo.nickName,
             };
             jtonnyApply.unitPrice = 5000;
 
@@ -101,8 +102,8 @@ export default {
         unsubscribe() {
             this.subs.forEach((sub) => {
                 sub.unsubscribe();
-            })
-        }
+            });
+        },
     },
     mounted() {
         let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
@@ -123,13 +124,16 @@ export default {
                 console.log("소켓 연결 성공");
                 // 본인 seq 를 구독합니다.
                 possibleLanguageList.forEach((lang) => {
-                    let sub = this.stompClient.subscribe(`/sub/jtonny/request/${lang.value}`, (res) => {
-                        console.log(`즉시통역(${lang.name}) 요청이 도착했습니다.`, res.body);
+                    let sub = this.stompClient.subscribe(
+                        `/sub/jtonny/request/${lang.value}`,
+                        (res) => {
+                            console.log(`즉시통역(${lang.name}) 요청이 도착했습니다.`, res.body);
 
-                        // 받은 데이터를 json 으로 파싱하고 dictionary 에 넣어줍니다.
-                        let request = JSON.parse(res.body);
-                        this.jtonnyList[request.client.seq] = request;
-                    });
+                            // 받은 데이터를 json 으로 파싱하고 dictionary 에 넣어줍니다.
+                            let request = JSON.parse(res.body);
+                            this.jtonnyList[request.client.seq] = request;
+                        }
+                    );
                     this.subs.push(sub);
 
                     sub = this.stompClient.subscribe(
@@ -158,7 +162,10 @@ export default {
     },
     beforeUnmount() {
         this.unsubscribe();
-    }
+    },
+    created() {
+        console.log("jtonnyList: ", this.jtonnyList);
+    },
 };
 
 // import JTonnyLoading from '@/components/jtonny/JTonnyLoading.vue';
