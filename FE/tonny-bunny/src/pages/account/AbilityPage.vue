@@ -1,6 +1,9 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
+            <div v-if="mypage">
+                <TitleText title="능력 어필" center text="추후에 변경이 가능합니다" />
+            </div>
             <TitleText title="능력 어필" center text="추후에 변경이 가능합니다" />
 
             <!-- 언어 선택 -->
@@ -61,6 +64,10 @@ export default {
         userSeq: {
             type: String,
             default: "",
+        },
+        mypage: {
+            type: Boolean,
+            default: false,
         },
     },
     components: {

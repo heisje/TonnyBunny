@@ -28,7 +28,10 @@ export default {
     // /api/mypage/{userSeq}/profileImage  프로필사진을 수정합니다
     async putProfileImage(context, payload) {
         const formData = new FormData();
+        console.log(payload);
         formData.append("file", payload);
+        console.log(formData);
+
         try {
             let { data } = await http.put(
                 `/mypage/${context.state.account.userInfo.seq}/profileImage`,
@@ -107,10 +110,11 @@ export default {
     /*
         히스토리 관련
     */
-    async getHistoryList(context, payload) {
+    async postHistoryList(context, payload) {
+        console.log(payload);
         try {
-            let { data } = await http.get(`/mypage/${payload.userSeq}/history`, payload);
-            console.log("async function : ", data);
+            let { data } = await http.post(`/mypage/${payload.clientSeq}/history`, payload);
+            console.log(data);
 
             // service logic
             switch (data.resultCode) {
