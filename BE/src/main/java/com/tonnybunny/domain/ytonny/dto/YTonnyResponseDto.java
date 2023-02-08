@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
 /**
@@ -54,7 +53,7 @@ public class YTonnyResponseDto {
 	private String content;
 
 	private LocalDateTime startDateTime;
-	private LocalTime estimateTime;
+	private String estimateTime;
 	private Integer estimatePrice;
 
 	private String startLangCode;

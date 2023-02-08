@@ -6,9 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalTime;
 import java.util.UUID;
 
 
@@ -31,8 +29,7 @@ public class JTonnyDto {
 	private String tonnySituCode;
 	private String content;
 
-	@DateTimeFormat(pattern = "HH:mm")
-	private LocalTime estimateTime; // 소요시간
+	private String estimateTime; // 소요시간
 
 	/* 즉시 통역 신청 정보 (helper 입력) */
 	private JTonnyUserDto helper;

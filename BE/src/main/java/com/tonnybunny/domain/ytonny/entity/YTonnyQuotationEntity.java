@@ -7,7 +7,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class YTonnyQuotationEntity extends CommonEntity {
 
 	//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private LocalDateTime startDateTime;
-	private LocalTime estimateTime;
+	private String estimateTime;
 
 	@Builder.Default
 	@OneToMany(mappedBy = "yTonnyQuotation")

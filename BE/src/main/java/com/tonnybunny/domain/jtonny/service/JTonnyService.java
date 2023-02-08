@@ -6,11 +6,16 @@ import com.tonnybunny.domain.jtonny.dto.JTonnyUserDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyEntity;
 import com.tonnybunny.domain.jtonny.repository.JTonnyRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import static com.tonnybunny.exception.ErrorCode.NOT_FOUND_USER;
 
+
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class JTonnyService {
@@ -54,8 +59,10 @@ public class JTonnyService {
 
 		// JTonnyEntity 생성하여 DB 저장
 		JTonnyEntity jTonny = JTonnyEntity.builder()
-		                                  .client(userRepository.findById(jTonnyDto.getClient().getSeq()).get())
-		                                  .helper(userRepository.findById(jTonnyDto.getHelper().getSeq()).get())
+		                                  .client(userRepository.findById(jTonnyDto.getClient().getSeq())
+		                                                        .orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
+		                                  .helper(userRepository.findById(jTonnyDto.getHelper().getSeq())
+		                                                        .orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
 		                                  .taskCode(jTonnyDto.getTaskCode())
 		                                  .taskStateCode(jTonnyDto.getTaskStateCode())
 		                                  .startLangCode(jTonnyDto.getStartLangCode())

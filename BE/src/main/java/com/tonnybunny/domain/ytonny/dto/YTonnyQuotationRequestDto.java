@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
 /**
@@ -48,8 +47,7 @@ public class YTonnyQuotationRequestDto {
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime startDateTime;
-	@DateTimeFormat(pattern = "HH:mm")
-	private LocalTime estimateTime;
+	private String estimateTime;
 
 	private String startLangCode;
 	private String endLangCode;

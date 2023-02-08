@@ -39,7 +39,7 @@
                             class=""
                             :dropdownArray="hourCodeList"
                             placeholder="시간"
-                            @toggle="(e) => (estimateHour = e)" />
+                            @toggle="(e) => (jtonnyRequest.estimateHour = e)" />
                     </div>
                 </div>
                 <div class="col-6 d-flex flex-row">
@@ -48,7 +48,7 @@
                             class="w-100"
                             :dropdownArray="minuteCodeList"
                             placeholder="분"
-                            @toggle="(e) => (estimateMinute = e)" />
+                            @toggle="(e) => (jtonnyRequest.estimateMinute = e)" />
                     </div>
                 </div>
             </div>
@@ -158,9 +158,10 @@ export default {
                 endLangCode: "",
                 tonnySituCode: "",
                 content: "",
+                unitPrice: 0,
+                estimateTime: "",
                 estimateHour: "",
                 estimateMinute: "",
-                unitPrice: 0,
             },
         };
     },
@@ -181,8 +182,10 @@ export default {
         test() {
             this.jtonnyRequest.client.seq = this.userInfo.seq;
             this.jtonnyRequest.client.nickName = this.userInfo.nickName;
+            this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`
 
             console.log("jtonnyRequest", this.jtonnyRequest);
+
 
             this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
             this.$router.push({ name: "JTonnyWaitingPage" });
