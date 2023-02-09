@@ -52,20 +52,41 @@ export default {
 
         h1 {
             margin-bottom: 4px;
-            // color: var(--main-color);
-            color: #fff;
+            color: var(--active-color);
+            // color: #fff;
+            // color: var(--primary-color);
+            text-shadow: 1px 1px 1px 3px var(--sub-color);
+            font-weight: 700;
+            // font-size: 1.8rem;
+            // letter-spacing: -2px;
         }
 
         p {
-            // color: var(--main-color);
-            color: #fff;
+            color: var(--main-color);
+            // color: #fff;
             @extend .label;
         }
     }
 }
 
 .bannerWrap {
-    background: var(--banner-color);
+    background: var(--light-color);
+    // background: var(--banner-color3);
+    // background-image: linear-gradient(
+    //     to right top,
+    //     #e8edef,
+    //     #e8edef,
+    //     #e8edef,
+    //     #e8edef,
+    //     #e8edef,
+    //     #d6ecf2,
+    //     #c2ebf3,
+    //     #adebf0,
+    //     #7fe9dd,
+    //     #64e5b8,
+    //     #6add85,
+    //     #87d146
+    // );
     // background: var(--banner-color2);
     // background-color: var(--light-color);
     position: absolute;

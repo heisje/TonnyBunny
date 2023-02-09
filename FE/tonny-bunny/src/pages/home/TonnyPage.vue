@@ -1,5 +1,6 @@
 <template>
-    <v-container class="tonnyContainer">
+    <div class="tonnyContainer container">
+        <title-banner title="통역 서비스"></title-banner>
         <div class="tonnyWrap">
             <div class="tonnyPage row">
                 <div class="tonnyCreate col-md-2 col-12">
@@ -16,7 +17,7 @@
                                 color="outline"
                                 font="active"></medium-btn>
                         </router-link>
-                        <router-link :to="{ name: 'JTonnyApplyPage' }">
+                        <router-link :to="{ name: 'JTonnyApplyPage' }" v-show="isHelper">
                             <medium-btn
                                 text="즉시통역 받기"
                                 class="w-100"
@@ -36,57 +37,64 @@
                 <div class="col-md-4 col-12">
                     <div>
                         <title-text title="오늘 일정" top="0"></title-text>
+                        <hr />
                         <div class="">오늘 일정</div>
+                        <v-lazy></v-lazy>
                     </div>
                     <div>
                         <title-text title="히스토리"></title-text>
+                        <hr />
+
                         <div class="">히스토리</div>
+                        <v-lazy></v-lazy>
                     </div>
                 </div>
 
                 <div class="col-md-6 col-12">
                     <title-text title="모집중인 예약 통역 목록" top="0"></title-text>
-                    <div class="">
-                        예약통역 리스트
-                        <div v-for="(yTonny, index) in yTonnyList" :key="index">
-                            <!-- {{ yTonny }} -->
-                            <router-link
-                                class="d-flex"
-                                :to="{
-                                    name: 'YTonnyDetailPage',
-                                    params: { id: yTonny.seq, userSeq: this.userInfo.seq },
-                                }">
-                                <div>{{ yTonny.title }}</div>
+                    <hr />
+
+                    <div v-for="(yTonny, index) in yTonnyList" :key="index">
+                        <v-lazy
+                            v-model="yTonnyList"
+                            :options="{ threshold: 0.5 }"
+                            transition="fade-transition">
+                            <!-- {{ yTonnyList }} -->
+                            <div class="contentWrap" v-show="!yTonny.isDeleted">
+                                <div class="d-flex">
+                                    <div class="pe-2">{{ yTonny.tonnySituCode }}</div>
+                                    <router-link
+                                        :to="{
+                                            name: 'YTonnyDetailPage',
+                                            params: { id: yTonny.seq },
+                                        }">
+                                        <div>{{ yTonny.title }}</div>
+                                    </router-link>
+                                </div>
                                 <div>{{ yTonny.content }}</div>
                                 <div>{{ yTonny.startDateTime }}</div>
                                 <div>{{ yTonny.estimateTime }}</div>
                                 <div>{{ yTonny.estimatePrice }}</div>
                                 <div>{{ yTonny.createdAt }}</div>
-                            </router-link>
-                        </div>
+                            </div>
+                        </v-lazy>
                     </div>
                 </div>
-
-                <!-- <div>내가 한 예약통역</div>
-				<div>예약통역 리스트</div>
-
-				<div>히스토리</div>
-				<div>찜한 헬퍼 리스트 조회</div>
-				<div>오늘 일정</div> -->
             </div>
         </div>
-    </v-container>
+    </div>
 </template>
 
 <script>
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import { mapGetters } from "vuex";
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
     name: "TonnyPage",
 
-    components: { MediumBtn, TitleText },
+    components: { MediumBtn, TitleText, TitleBanner },
 
     computed: {
         ...mapGetters({
@@ -96,16 +104,17 @@ export default {
         }),
     },
 
-    created() {
+    async created() {
         console.log("userInfo: ", this.userInfo);
         console.log("isHelper: ", this.isHelper);
-        // this.$store.dispatch("getYTonnyList");
+        await this.$store.dispatch("getYTonnyList");
+        console.log("hihi:", this.yTonnyList);
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.tonnyContainer {
+.tonnyWrap {
     margin-top: 24px;
 }
 .tonnyPage {
