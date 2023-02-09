@@ -15,7 +15,7 @@ public interface BunnyRepository extends JpaRepository<BunnyEntity, Long> {
 	List<BunnyEntity> findByStartLangCodeAndIsDeletedOrEndLangCodeAndIsDeletedOrderByCreatedAtDesc(String startLangCode, Boolean bool, String endLangCode, Boolean bool2);
 	List<BunnyEntity> findByBunnySituCodeOrderByCreatedAtDesc(String bunnySituCode);
 
-	List<BunnyEntity> findByUserByCreatedAtDesc(UserEntity user);
+	List<BunnyEntity> findByUserOrderByCreatedAtDesc(UserEntity user);
 
 	List<BunnyEntity> findByStartLangCodeAndBunnySituCodeOrEndLangCodeAndBunnySituCodeOrderByCreatedAtDesc(String startLangCode, String bunnySituCode, String endLangCode, String bunnySituCode2);
 	Optional<BunnyEntity> findBySeqAndIsDeleted(Long bunnySeq, Boolean isDeleted);

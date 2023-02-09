@@ -145,8 +145,11 @@ public class BunnyService {
 		UserEntity user = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		List<BunnyEntity> bunnyList = new ArrayList<>();
 
-		List<BunnyEntity> tempBunnyList = bunnyRepository.findByUserByCreatedAtDesc(user);
+		List<BunnyEntity> tempBunnyList = bunnyRepository.findByUserOrderByCreatedAtDesc(user);
 		for (BunnyEntity bunny : tempBunnyList) {
+			System.out.println(bunny.getIsDeleted());
+			System.out.println(bunny.getTaskStateCode());
+			System.out.println(TaskStateCodeEnum.모집중.getTaskStateCode());
 			if (bunny.getIsDeleted().equals(false) && bunny.getTaskStateCode().equals(TaskStateCodeEnum.모집중.getTaskStateCode())) {
 				bunnyList.add(bunny);
 			}

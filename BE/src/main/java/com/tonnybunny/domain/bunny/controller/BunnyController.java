@@ -121,10 +121,10 @@ public class BunnyController {
 	 * @param clientSeq : 고객 seq
 	 * @return
 	 */
-	@GetMapping
+	@GetMapping("/{clientSeq}/user")
 	@ApiOperation(value = "번역 공고 리스트를 조회합니다 (with clientSeq)")
-	public ResponseEntity<ResultDto<List<BunnyResponseDto>>> getBunnyListByClientSeq(@RequestParam("clientSeq") Long clientSeq) {
-
+	public ResponseEntity<ResultDto<List<BunnyResponseDto>>> getBunnyListByClientSeq(@PathVariable("clientSeq") Long clientSeq) {
+		System.out.println("clientSeq = " + clientSeq);
 		List<BunnyEntity> bunnyList = bunnyService.getBunnyListByClientSeq(clientSeq);
 		List<BunnyResponseDto> bunnyResponseDtoList = new ArrayList<>();
 
