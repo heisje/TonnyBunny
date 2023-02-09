@@ -53,7 +53,8 @@ import LiveClosePage from "@/pages/live/LiveClosePage";
 // chat
 import ChatPage from "@/pages/chat/ChatPage";
 import ChatDetailPage from "@/pages/chat/ChatDetailPage";
-import QuotationCreatePage from "@/pages/chat/QuotationCreatePage";
+import NBunnyQuotationForm from "@/components/chat/NBunnyQuotationForm";
+import YTonnyQuotationForm from "@/components/chat/YTonnyQuotationForm";
 import QuotationDetailPage from "@/pages/chat/QuotationDetailPage";
 
 // mypage
@@ -459,11 +460,21 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quotation/create",
-            name: "QuotationCreatePage",
+            path: "/chat/quotation/ytonny/create",
+            name: "YTonnyQuotationForm",
             components: {
                 header: AppHeader,
-                default: QuotationCreatePage,
+                default: YTonnyQuotationForm,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/chat/quotation/bunny/create",
+            name: "NBunnyQuotationForm",
+            components: {
+                header: AppHeader,
+                default: NBunnyQuotationForm,
                 footer: AppFooter,
             },
         },
