@@ -18,12 +18,15 @@ export default {
     */
     async login(context, loginInfo) {
         console.log("async login !");
-        let errorMessage;
+
+        // eslint-disable-next-line
+        let errorMessage = "";
+
         let { data } = await http.post(`/signin`, loginInfo).catch(() => {
             errorMessage = "이메일 혹은 패스워드가 틀립니다.";
             alert("이메일 혹은 패스워드가 틀립니다.");
         });
-        errorMessage;
+
         try {
             console.log("async login function : ", data);
 
@@ -44,15 +47,10 @@ export default {
                 context.commit("SET_LOG_IN");
 
                 // 공통코드를 저장
-                switch (userInfo.userCode) {
-                    // FIXME : 공통코드 수정
-                    case "0010001":
-                        context.commit("SET_USER_CODE", false);
-                        break;
-                    case "0010002":
-                        context.commit("SET_USER_CODE", true);
-                        break;
-                }
+                let userCode = userInfo.userCode;
+                console.log(userCode);
+                if (userCode == "0010001") context.commit("SET_IS_HELPER", false);
+                else if (userCode == "0010002") context.commit("SET_IS_HELPER", true);
 
                 // http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
             } else if (data.resultCode == "FAIL") {
