@@ -243,15 +243,13 @@
             <!-- <small-btn color="light" font="live" text="수락하기누름" @click.prevent="openModal" /> -->
 
             <AlarmModal
-                title="주의"
-                type="warning"
-                btnText1="취소"
+                title="성공"
+                type="success"
                 btnText2="확인"
                 btnColor1="outline"
                 btnColor2="carrot"
                 btnFontColor1="main"
                 btnFontColor2="white"
-                @clickBtn1="this.$store.commit('CLOSE_ALARM_MODAL')"
                 @clickBtn2="onAir"
             >
                 <template #content>
@@ -283,37 +281,6 @@ import http from "@/common/axios";
 export default {
     name: "JTonnyWaitingPage",
 
-    data() {
-        return {
-            isFind: false,
-            isOpen1: false,
-            stompClient: null, // 페이지 이탈할 때 끊어주기
-            jtonnyList: {},
-            /*
-            jtonnyList: {
-                3: {
-                    client: {
-                        seq: 3,
-                        nickName: "baebug",
-                    },
-                    helper: {
-                        seq: 0,
-                        nickName: "",
-                    },
-                    startLangCode: "0020001",
-                    endLangCode: "0020003"
-                    content: "아파서 병원을 가고싶어요",
-                    taskCode: "0030001",
-                    taskStateCode: "0090001"
-                    tonnySiduCode: "0040002",
-                    estimateTime: 30,
-                    unitPrice: 0,
-                }
-            }
-            */
-        };
-    },
-
     components: {
         JTonnyLoading,
         TitleText,
@@ -332,9 +299,6 @@ export default {
             isOpen1: false,
             stompClient: null, // 페이지 이탈할 때 끊어주기
             jtonnyApplyList: {},
-
-            // 수락할 시
-            sessionName: "",
         };
     },
 
@@ -365,7 +329,9 @@ export default {
         },
         onAir() {
             this.$store.commit("CLOSE_ALARM_MODAL");
-            this.$router.replace({ name: "LivePage", params: { sessionName: this.sessionName } });
+            this.$router.push({
+                name: "LivePage",
+            });
         },
 
         accept(helper) {
@@ -430,7 +396,7 @@ export default {
                     console.log("즉시통역 매칭 완료. 오픈비두 이동(고객)", res.body);
 
                     const data = JSON.parse(res.body);
-                    this.sessionName = data.uuid;
+                    this.$store.commit("SET_START_RES_DATA", data);
 
                     // this.$router.push({ name: "LivePage", params: { sessionName: res.body.uuid } });
 

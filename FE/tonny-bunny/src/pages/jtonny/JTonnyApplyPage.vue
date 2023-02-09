@@ -297,16 +297,32 @@
             </div>
 
             <AlarmModal
-                title="확인"
+                v-show="modalName == `reject`"
+                title="거절"
+                type="danger"
+                btnText2="다음"
+                btnColor2="carrot"
+                btnFontColor1="white"
+                btnFontColor2="white"
+                @clickBtn2="closeModal"
+            >
+                <template #content> 제안이 거절되었습니다<br />다음에 이용해주세요! </template>
+            </AlarmModal>
+
+            <AlarmModal
+                v-show="modalName == `accept`"
+                title="수락"
                 type="success"
                 btnText2="다음"
                 btnColor1="main"
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                :link="{ name: 'HomePage' }"
+                @clickBtn2="onAir"
             >
-                <template #content> 대기가 취소되었습니다<br />또 이용해주세요! </template>
+                <template #content>
+                    제안이 수락되었습니다<br />확인을 누르시면 즉시통역이 시작됩니다!
+                </template>
             </AlarmModal>
         </div>
 
@@ -366,6 +382,8 @@ export default {
             jtonnyApplyQuestList: {}, // 현재 신청한 목록
             jtonnyRequest: {},
             subs: [], // 페이지 이탈할 때 unsubscribe(),
+
+            modalName: "", // 모달 선택
         };
     },
 
@@ -381,6 +399,17 @@ export default {
     },
 
     methods: {
+        closeModal() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+
+        onAir() {
+            this.$store.commit("CLOSE_ALARM_MODAL");
+            this.$router.push({
+                name: "LivePage",
+            });
+        },
+
         toggleMoreOpen() {
             this.isMoreOpen = !this.isMoreOpen;
         },
@@ -471,19 +500,22 @@ export default {
                     console.log("즉시통역 매칭 완료. 오픈비두 이동(헬퍼)", res.body);
 
                     const data = JSON.parse(res.body);
-                    this.$router.push({ name: "LivePage", params: { sessionName: data.uuid } });
+                    this.$store.commit("SET_START_RES_DATA", data);
                     /* 
                         let jtonny = JSON.parse(res.body);
                         
                         오픈비두 이동 router.PUSH 
                         param? query? 는 jtonny
                     */
-
+                    this.modalName = "accept";
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/reject/${this.userInfo.seq}`, (res) => {
                     let jtonny = JSON.parse(res.body);
+                    console.log("여기가 거절인가?");
+                    this.modalName = "reject";
+                    this.$store.commit("TOGGLE_ALARM_MODAL");
 
                     delete this.jtonnyQuestList[jtonny.client.seq];
                     delete this.jtonnyApplyQuestList[jtonny.client.seq];
