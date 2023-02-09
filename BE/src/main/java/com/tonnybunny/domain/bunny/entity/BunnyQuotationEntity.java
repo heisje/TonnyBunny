@@ -44,7 +44,7 @@ public class BunnyQuotationEntity extends CommonEntity {
 	private Integer totalPrice;
 
 	@Builder.Default
-	private String bunnyQuotationStateCode = "0070001";
+	private String quotationStateCode = "0070001";
 	private String startLangCode;
 	private String endLangCode;
 
@@ -55,7 +55,7 @@ public class BunnyQuotationEntity extends CommonEntity {
 
 
 	public void changeStateCode(String code) {
-		this.bunnyQuotationStateCode = code;
+		this.quotationStateCode = code;
 	}
 
 }
