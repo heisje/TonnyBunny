@@ -18,56 +18,7 @@
                 <div>
                     <title-text title="헬퍼 프로필" type="h2" />
                     <div>
-                        <helper-card
-                            :userInfo="{
-                                seq: 1,
-                                userCode: '1',
-                                email: 'test251@gmail.com',
-                                nickName: 'nickck111',
-                                phoneNumber: null,
-                                point: 0,
-                                profileImagePath: '/img/default.jpg',
-                                helperInfo: {
-                                    seq: 1,
-                                    avgScore: 3.5,
-                                    reviewCount: 213,
-                                    unitPrice: 123,
-                                    oneLineIntroduction: 'ㄻㄴㄴㄻㅁㄹㄴ',
-                                    introduction: 'ㄹㄴㅁㅁㄻㄴㄹ',
-                                    possibleLanguageList: [
-                                        {
-                                            name: 'Korean',
-                                            value: '0000111',
-                                        },
-                                        {
-                                            name: 'English',
-                                            value: '0010101',
-                                        },
-                                    ],
-                                    certificateList: [
-                                        {
-                                            seq: null,
-                                            langCode: null,
-                                            certName: 'Korean',
-                                            content: 'Korean',
-                                        },
-                                        {
-                                            seq: null,
-                                            langCode: null,
-                                            certName: 'Canana',
-                                            content: 'Canana',
-                                        },
-                                    ],
-                                },
-                            }"
-                            nickName="아스파라거스"
-                            oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
-                            fareText="2000"
-                            starText="4.0"
-                            countText="100"
-                            likeText="10"
-                            isLikeEmpty
-                            rightBtnText="상담하기"></helper-card>
+                        <helper-card :userInfo="userInfo"></helper-card>
                     </div>
                 </div>
                 <!-- 
@@ -133,7 +84,8 @@
                 <router-link
                     :to="{
                         name: 'AbilityPage',
-                        params: { userSeq: this.$store.state.account.userInfo.seq, mypage: true },
+                        params: { userSeq: this.$store.state.account.userInfo.seq },
+                        query: { mypage: true },
                     }">
                     <div>헬퍼 인증 및 변경</div>
                 </router-link>
@@ -169,6 +121,7 @@ import ClientCard from "@/components/common/card/ClientCard.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import { mapGetters } from "vuex";
 
 export default {
     name: "MyPage",
@@ -197,6 +150,10 @@ export default {
 
     mounted() {
         this.$store.dispatch("getMypage");
+    },
+
+    computed: {
+        ...mapGetters({ userInfo: "getUserInfo" }),
     },
 };
 </script>

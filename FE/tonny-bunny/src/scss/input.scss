@@ -57,7 +57,7 @@
 
         @extend .text;
         background-color: var(--background-color);
-        padding: 10px 14px;
+        padding: 8px 14px;
         border-radius: 4px;
         color: var(--active-color);
         border: 1px solid var(--disable-color);
@@ -261,7 +261,7 @@ input[type="date"] {
 
     @extend .text;
     background-color: var(--background-color);
-    padding: 10px 14px;
+    padding: 8px 14px;
     border-radius: 4px;
     color: var(--active-color);
     border: 1px solid var(--disable-color);

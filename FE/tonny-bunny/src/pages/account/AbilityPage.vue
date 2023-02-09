@@ -1,10 +1,15 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <div v-if="mypage">
-                <TitleText title="능력 어필" center text="추후에 변경이 가능합니다" />
+            <div v-if="$route.query.mypage">
+                <TitleText title="능력 어필" center text="헬퍼 정보를 변경하세요!" />
             </div>
-            <TitleText title="능력 어필" center text="추후에 변경이 가능합니다" />
+            <div v-else>
+                <TitleText
+                    title="능력 어필"
+                    center
+                    text="추후에 마이페이지에서 변경이 가능합니다" />
+            </div>
 
             <!-- 언어 선택 -->
             <TitleText title="언어 선택" type="h2" text="하실 수 있는 언어를 선택해주세요" />
@@ -22,30 +27,54 @@
 
             <!-- 자격증 추가 -->
             <TitleText title="자격증 추가" type="h2" text="어학 관련 자격증을 추가해주세요" />
-            <!-- 등록한 자격증 목록 -->
-            <div v-for="(certificate, index) in certificateList" :key="index">
-                [{{ allCode[certificate.langCode] }}] {{ certificate.certName }} :
-                {{ certificate.content }}
-                <SmallBtn text="삭제" @click="deleteCertificate(index)"></SmallBtn>
-            </div>
+
             <!-- 자격증 폼 -->
             <div>
-                <dropdown-input-code
-                    :dropdownArray="langCode"
-                    @toggleItem="
-                        (e) => {
-                            certificateLang = e;
-                        }
-                    " />
-                <input type="text" placeholder="자격증 이름" v-model="certName" />
-                <input type="text" placeholder="내용" v-model="contentInput" />
-                <SmallBtn text="등록" @click="addCertificate"></SmallBtn>
+                <div class="certificateWrap">
+                    <dropdown-input-code
+                        :dropdownArray="langCode"
+                        @toggleItem="
+                            (e) => {
+                                certificateLang = e;
+                            }
+                        " />
+                    <input
+                        class="certificateItem"
+                        type="text"
+                        placeholder="자격증 이름"
+                        v-model="certName" />
+                </div>
+                <div class="certificateWrap">
+                    <input type="text" placeholder="내용" v-model="contentInput" />
+                    <MediumBtn class="mButton" text="등록" @click="addCertificate"></MediumBtn>
+                </div>
+            </div>
+
+            <!-- 등록한 자격증 목록 -->
+            <div class="selected" v-for="(certificate, index) in certificateList" :key="index">
+                [{{ allCode[certificate.langCode] }}] {{ certificate.certName }} :
+                {{ certificate.content }}
+                <span @click="deleteCertificate(index)">❌</span>
             </div>
 
             <br /><br />
 
-            <smallBtn style="width: 100%" text="확인" @click="submitForm"></smallBtn><br /><br />
-            <smallBtn style="width: 100%" text="건너뛰기" @click="goSignUpCompletePage"></smallBtn>
+            <div>
+                <smallBtn
+                    color="carrot"
+                    style="width: 100%"
+                    text="확인"
+                    @click="submitForm"></smallBtn>
+            </div>
+
+            <div style="margin-top: 8px">
+                <smallBtn
+                    color="outline"
+                    font="main"
+                    style="width: 100%"
+                    text="건너뛰기"
+                    @click="goSignUpCompletePage"></smallBtn>
+            </div>
         </div>
     </div>
 </template>
@@ -56,6 +85,7 @@ import http from "@/common/axios.js";
 import { mapGetters } from "vuex";
 import DropdownInputCode from "@/components/common/input/DropdownInputCode.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import MediumBtn from "@/components/common/button/MediumBtn.vue";
 // import http from "@/common/axios";
 
 export default {
@@ -74,6 +104,7 @@ export default {
         TitleText,
         DropdownInputCode,
         SmallBtn,
+        MediumBtn,
     },
 
     data() {
@@ -179,11 +210,26 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .selected {
-    padding: 10px 20px;
-    background-color: pink;
+    padding: 8px 16px;
+    background-color: var(--white-color);
+    border: 1px solid var(--disable-color);
+    margin-right: 4px;
     display: inline-block;
     border-radius: 20px;
+}
+
+.certificateWrap {
+    display: flex;
+    margin-bottom: 4px;
+    .certificateItem {
+        margin: 0px 4px;
+    }
+    .mButton {
+        width: 100px;
+        margin-left: 4px;
+        align-items: center;
+    }
 }
 </style>

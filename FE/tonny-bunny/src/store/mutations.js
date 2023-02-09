@@ -9,6 +9,7 @@ import common from "./mutations/common";
 import alert from "./mutations/alert";
 import mypage from "./mutations/mypage";
 import schedule from "./mutations/schedule";
+import review from "./mutations/review";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -23,4 +24,5 @@ export default {
     ...alert,
     ...mypage,
     ...schedule,
+    ...review,
 };

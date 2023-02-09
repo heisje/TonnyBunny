@@ -21,7 +21,7 @@
                     <router-link :to="{ name: 'SignUpCreatePage', params: { select: 'helper' } }">
                         <div class="iconsContent" @click="toggleBunnyModalOpen">
                             <div>
-                                <img src="@/assets/homeBunnyIcon.png" alt="" />
+                                <img src="@/assets/bag.png" alt="" />
                             </div>
                             <div>
                                 <h1 class="h3">번역/통역가(헬퍼)<br />회원가입</h1>
