@@ -49,6 +49,8 @@ public class YTonnyResponseDto {
 	private UserResponseDto client;
 	private UserResponseDto helper;
 
+	private String sessionName;
+
 	private String title;
 	private String content;
 

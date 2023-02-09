@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -49,6 +50,7 @@ public class YTonnyService {
 		// dto -> entity
 		YTonnyEntity yTonnyEntity = YTonnyEntity.builder()
 		                                        .client(userEntity)
+		                                        .sessionName(UUID.randomUUID().toString())
 		                                        .title(yTonnyRequestDto.getTitle())
 		                                        .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
 		                                        .content(yTonnyRequestDto.getContent())
