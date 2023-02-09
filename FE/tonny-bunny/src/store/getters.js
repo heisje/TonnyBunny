@@ -3,6 +3,7 @@ import account from "./getters/account";
 import board from "./getters/board";
 import jtonny from "./getters/jtonny";
 import ytonny from "./getters/ytonny";
+import live from "./getters/live";
 import bunny from "./getters/bunny";
 import common from "./getters/common";
 import alert from "./getters/alert";
@@ -15,6 +16,7 @@ export default {
     ...board,
     ...jtonny,
     ...ytonny,
+    ...live,
     ...bunny,
     ...common,
     ...alert,

@@ -3,6 +3,7 @@ import account from "./mutations/account";
 import board from "./mutations/board";
 import jtonny from "./mutations/jtonny";
 import ytonny from "./mutations/ytonny";
+import live from "./mutations/live";
 import bunny from "./mutations/bunny";
 import common from "./mutations/common";
 import alert from "./mutations/alert";
@@ -15,6 +16,7 @@ export default {
     ...board,
     ...jtonny,
     ...ytonny,
+    ...live,
     ...bunny,
     ...common,
     ...alert,
