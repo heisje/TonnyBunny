@@ -52,7 +52,7 @@ export default {
     methods: {
         toggleBtn1(e) {
             e.preventDefault();
-            this.$router.push({ name: "JTonnyAcceptPage" });
+            this.$router.push({ name: "JTonnyApplyPage" });
         },
         toggleBtn2(e) {
             e.preventDefault();
