@@ -2,29 +2,29 @@
     <div class="myPageContainer">
         <div class="myPageWrap">
             <h1>홈 - 마이 페이지</h1>
-
-            <div class="profileWrap">
-                <div width="">
-                    <title-text title="내 프로필" type="h2" />
-                    <ClientCard />
-                </div>
-                <!-- 유저카드 구성요소
-			프로필이미지아이템
-			정보수정버튼
-			포인트아이템 -->
-            </div>
-
-            <div v-if="isHelper === true" class="profileWrap">
-                <div>
-                    <title-text title="헬퍼 프로필" type="h2" />
-                    <div>
-                        <helper-card :userInfo="userInfo"></helper-card>
+            <div class="profileContent">
+                <div class="profileWrap">
+                    <div width="">
+                        <title-text title="내 프로필" type="h2" />
+                        <ClientCard />
                     </div>
+                    <!-- 유저카드 구성요소
+                프로필이미지아이템
+                정보수정버튼
+                포인트아이템 -->
                 </div>
-                <!-- 
-				자세히보기 XSmallBtn
-				수정하기 XSmallBtn 
-			-->
+
+                <div v-if="isHelper === true" class="profileWrap">
+                    <div>
+                        <title-text title="헬퍼 프로필" type="h2" />
+                        <div>
+                            <helper-card :userInfo="userInfo"></helper-card>
+                        </div>
+                    </div>
+                    <!-- 
+                    자세히보기 XSmallBtn
+                    수정하기 XSmallBtn 
+                --></div>
             </div>
 
             <div class="iconsContainer">
@@ -92,24 +92,18 @@
 
                 <hr />
 
-                <router-link :to="{ name: 'HelperChangePage' }"
-                    ><span class="logout">로그아웃</span></router-link
-                >
+                <a @click="openModal"> <span class="logout">로그아웃</span></a>
 
                 <hr />
             </div>
             <AlarmModal
-                v-show="isOpen"
-                :isOpen="isOpen"
                 title="완료"
                 type="success"
                 btnText2="예"
-                btnColor1="main"
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @close-modal="closeModal"
-                :to="{ name: 'HomePage' }">
+                @clickBtn2="clickBtn2">
                 <template #content> 로그아웃이 완료되었습니다 </template>
             </AlarmModal>
         </div>
@@ -140,11 +134,12 @@ export default {
     methods: {
         openModal(e) {
             e.preventDefault();
-            this.isOpen = true;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
-        closeModal() {
-            this.isOpen = false;
+        clickBtn2() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$router.push({ name: "HomePage" });
         },
     },
 
@@ -163,8 +158,15 @@ export default {
     width: 100%;
     .myPageWrap {
         width: 100%;
-        .profileWrap {
-            width: 100%;
+        .profileContent {
+            max-width: 400px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .profileWrap {
+                width: 100%;
+            }
         }
     }
 }
