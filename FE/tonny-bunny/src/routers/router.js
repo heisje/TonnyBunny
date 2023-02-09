@@ -420,7 +420,7 @@ export default createRouter({
 
         //live
         {
-            path: "/live/:sessionName",
+            path: "/live",
             name: "LivePage",
             components: {
                 header: AppHeader,
@@ -429,7 +429,7 @@ export default createRouter({
         },
 
         {
-            path: "/live/close",
+            path: "/live/close/:user",
             name: "LiveClosePage",
             components: {
                 header: AppHeader,

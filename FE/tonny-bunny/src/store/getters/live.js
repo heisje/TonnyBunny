@@ -5,4 +5,7 @@ export default {
     getStartResData(state) {
         return state.live.startResData;
     },
+    getCompleteData(state) {
+        return state.live.completeData;
+    },
 };
