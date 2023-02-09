@@ -24,7 +24,7 @@ public class ReviewResponseDto {
 
 	private UserResponseDto user;
 
-	private Float score;
+	private Integer score;
 
 	private String comment;
 

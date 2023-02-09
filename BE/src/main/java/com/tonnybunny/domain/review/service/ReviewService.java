@@ -61,7 +61,7 @@ public class ReviewService {
 	 */
 	@Transactional
 	public Long createReview(ReviewRequestDto reviewRequestDto) {
-		UserEntity user = userRepository.findById(reviewRequestDto.getUserSeq()).orElseThrow(
+		UserEntity user = userRepository.findById(reviewRequestDto.getHelperSeq()).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
 		ReviewEntity review = ReviewEntity.builder()

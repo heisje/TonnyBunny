@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * langCode     : 언어공통코드
  * certName     : 자격증 이름
- * score        : 자격증 점수
+ * content      : 자격증 내용
  */
 @Data
 @Builder
