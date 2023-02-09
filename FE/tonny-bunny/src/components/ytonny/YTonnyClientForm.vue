@@ -128,7 +128,7 @@
             <title-text
                 important
                 type="h2"
-                title="예약통역 지불 캐럿"
+                title="지불 캐럿"
                 text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
                 top="70"
                 bottom="20" />
@@ -142,8 +142,13 @@
 				</div> -->
             </div>
 
-            <agree-input class="mt-5" @toggle="(e) => (agreeValue = e)" />
-            <medium-btn text="예약하기" class="w-100" color="main" @click.prevent="insertYTonny" />
+            <agree-input class="" @toggle="(e) => (agreeValue = e)" style="margin-top: 120px" />
+            <medium-btn
+                text="예약하기"
+                class="w-100"
+                color="carrot"
+                font="white"
+                @click.prevent="insertYTonny" />
         </form>
     </div>
 </template>
@@ -194,8 +199,8 @@ export default {
             tonnySituCodeList: "getTonnySituCode",
             hourCodeList: "getHourCodeList",
             minuteCodeList: "getMinuteCodeList",
-            yTonnyForm: "getYTonnyForm",
             userInfo: "getUserInfo",
+            yTonnySeq: "getYTonnySeq",
         }),
     },
 
@@ -254,6 +259,10 @@ export default {
                 this.$store.dispatch("insertYTonny", payload).then((id) => {
                     if (id != -1) {
                         this.$store.commit("TOGGLE_ALARM_MODAL");
+                        this.$router.push({
+                            name: "YTonnyDetailPage",
+                            params: { id: this.yTonnySeq },
+                        });
                     }
                 });
             }
