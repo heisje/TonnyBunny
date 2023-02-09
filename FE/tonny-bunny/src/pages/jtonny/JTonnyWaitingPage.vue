@@ -278,6 +278,7 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import http from "@/common/axios";
 
 export default {
     name: "JTonnyWaitingPage",
@@ -394,7 +395,7 @@ export default {
         },
     },
     mounted() {
-        const serverURL = "http://localhost:8080/api/stomp";
+        const serverURL = http.getUri() + "/stomp";
 
         let clientSeq = this.jtonnyRequest.client.seq;
         let socket = new SockJS(serverURL);
