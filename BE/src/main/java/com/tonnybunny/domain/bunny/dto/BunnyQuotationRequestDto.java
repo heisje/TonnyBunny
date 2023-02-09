@@ -16,7 +16,7 @@ import java.util.List;
  * endDate                  : 종료 시간
  * title                    : 제목
  * content                  : 내용
- * totalPrice               : 최종 금액
+ * unitPrice               : 최종 금액
  * bunnyQuotationStateCode  : 번역 견적서 상태 코드
  * startLangCode            : 시작 언어 코드
  * endLangCode              : 종료 언어 코드
