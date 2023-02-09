@@ -65,7 +65,8 @@
                 </div>
 
                 <!-- 3. 하단 버튼 라인 -->
-                <div class="helperBtns">
+
+                <div v-if="!disable" class="helperBtns">
                     <XSmallBtn text="자세히보기" color="white" font="active" @click="clickBtn1" />
                     <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
@@ -98,6 +99,11 @@ export default {
             default: false,
             description: "like(favorite) 하트 아이콘 비었는가 아닌가",
         },
+
+        disable: {
+            type: Boolean,
+            default: false,
+        },
     },
     methods: {
         removeCard(e) {
@@ -112,6 +118,7 @@ export default {
 
         clickBtn1(e) {
             e.preventDefault();
+            this.$router.push({ name: "ProfilePage", params: { id: this.userInfo.seq } });
             this.$emit("clickBtn1");
         },
 
