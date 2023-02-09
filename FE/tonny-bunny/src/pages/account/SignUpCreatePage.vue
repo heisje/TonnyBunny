@@ -2,13 +2,21 @@
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <div v-if="select == `helper`">
-                <TitleText title="헬퍼 회원가입" center text="당신의 귀여운 통역가, TonnyBunny!" />
+                <TitleText
+                    title="헬퍼 회원가입"
+                    center
+                    text="당신의 귀여운 통역가, TonnyBunny!"
+                    :bottom="40" />
             </div>
             <div v-else>
-                <TitleText title="일반 회원가입" center text="당신의 귀여운 통역가, TonnyBunny!" />
+                <TitleText
+                    title="일반 회원가입"
+                    center
+                    text="당신의 귀여운 통역가, TonnyBunny!"
+                    :bottom="40" />
             </div>
-
-            <TitleText title="간편 로그인" type="h2" center text="카카오, 구글, 네이버" />
+            <!-- 
+            <TitleText title="간편 로그인" type="h2" center text="카카오, 구글, 네이버" /> -->
 
             <!-- 이메일 -->
             <label for="email">아이디</label>
@@ -38,36 +46,54 @@
 
             <!-- 닉네임 -->
             <label for="nickname">닉네임</label>
-            <input
-                type="text"
-                id="nickname"
-                v-model="nickname"
-                placeholder="닉네임"
-                @input="changeNickInput" />
-            <smallBtn @click.prevent="checkDuplication" text="중복 확인"></smallBtn><br />
+            <div class="inputWrap">
+                <input
+                    type="text"
+                    id="nickname"
+                    v-model="nickname"
+                    placeholder="닉네임"
+                    @input="changeNickInput" />
+                <smallBtn
+                    class="sideButton"
+                    @click.prevent="checkDuplication"
+                    text="중복 확인"></smallBtn
+                ><br />
+            </div>
             <div v-show="noticeNick" style="color: red">{{ noticeNick }}</div>
             <br />
 
             <!-- 휴대폰 번호 -->
             <label for="phoneNum">휴대폰 번호</label>
-            <input
-                type="text"
-                id="phoneNum"
-                v-model="phoneNum"
-                placeholder="휴대폰 번호"
-                @input="changePhoneInput" />
-            <smallBtn @click.prevent="sendAuthCode" text="인증 요청"></smallBtn><br />
+            <div class="inputWrap">
+                <input
+                    type="text"
+                    id="phoneNum"
+                    v-model="phoneNum"
+                    placeholder="휴대폰 번호"
+                    @input="changePhoneInput" />
+                <smallBtn
+                    class="sideButton"
+                    @click.prevent="sendAuthCode"
+                    text="인증 요청"></smallBtn
+                ><br />
+            </div>
             <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
             <br />
 
             <!-- 인증코드 -->
-            <div v-show="!isCheckAuthCode">
+            <div v-show="!isCheckAuthCode" class="w-100">
                 <div v-show="isSendAuthCode">
-                    <input type="text" id="authCode" v-model="authCode" placeholder="인증 번호" />
-                    <smallBtn text="확인" @click="checkAuthCode"></smallBtn><br />
-                    <div v-show="noticeAuth2" style="color: red">{{ noticeAuth2 }}</div>
-                    <br />
+                    <div class="inputWrap">
+                        <input
+                            type="text"
+                            id="authCode"
+                            v-model="authCode"
+                            placeholder="인증 번호" />
+                        <smallBtn class="sideButton" text="확인" @click="checkAuthCode"></smallBtn>
+                    </div>
                 </div>
+                <div v-show="noticeAuth2" style="color: red">{{ noticeAuth2 }}</div>
+                <br />
             </div>
 
             <TitleText title="약관 동의" text="약관을 모두 읽고 동의해주세요." type="h2" />
@@ -98,7 +124,11 @@
                 @clickBtn2="closeModal">
                 <template #content> {{ exception }} </template>
             </alarm-modal>
-            <smallBtn style="width: 100%" text="회원 가입" @click="submitForm"></smallBtn>
+            <smallBtn
+                color="carrot"
+                style="width: 100%; margin-top: 32px"
+                text="회원 가입"
+                @click="submitForm"></smallBtn>
         </div>
     </div>
 </template>
@@ -258,7 +288,7 @@ export default {
             try {
                 let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
-                    console.log(res.data.data)
+                    console.log(res.data.data);
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
@@ -272,8 +302,8 @@ export default {
             event.preventDefault();
             try {
                 let res = await http.post("/check/authcode", {
-                    authCode: this.authCode, 
-                    phoneNumber: this.phoneNum
+                    authCode: this.authCode,
+                    phoneNumber: this.phoneNum,
                 });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
@@ -420,4 +450,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.inputWrap {
+    display: flex;
+    .sideButton {
+        margin-left: 4px;
+        width: 9rem;
+    }
+}
+</style>
