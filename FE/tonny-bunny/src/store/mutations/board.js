@@ -11,4 +11,10 @@ export default {
     SET_BOARD_DETAIL(state, payload) {
         state.board.boardDetail = payload;
     },
+    SET_BOARD_PAGINATION(state, payload) {
+        state, payload;
+        // const { totalPages, pageNumber } = payload;
+        // state.board.totalPages = totalPages;
+        // state.board.pageNumber = pageNumber;
+    },
 };
