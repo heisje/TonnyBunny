@@ -341,6 +341,7 @@ import { mapGetters } from "vuex";
 
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import http from "@/common/axios";
 
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
@@ -424,7 +425,7 @@ export default {
     },
 
     mounted() {
-        const serverURL = "http://localhost:8080/api/stomp";
+        const serverURL = http.getUri() + "/stomp";
         let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
         let socket = new SockJS(serverURL);
 
