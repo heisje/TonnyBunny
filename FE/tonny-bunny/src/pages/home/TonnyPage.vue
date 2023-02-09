@@ -1,6 +1,8 @@
 <template>
     <div class="tonnyContainer container">
-        <title-banner title="통역 서비스"></title-banner>
+        <title-banner
+            title="Let's Tonny!"
+            text="헬퍼에게 통역 서비스를 신청해볼까요?"></title-banner>
         <div class="tonnyWrap">
             <div class="tonnyPage row">
                 <div class="tonnyCreate col-md-2 col-12">
@@ -9,26 +11,25 @@
                             <span class="material-symbols-outlined fs-5 mb-3"> add </span>
                             <div>신청 하기</div>
                         </div>
-                        <!-- <title-text title="통역 신청" top="0"></title-text> -->
-                        <router-link :to="{ name: 'JTonnyFormPage' }">
-                            <medium-btn
-                                text="즉시통역"
-                                class="w-100"
-                                color="outline"
-                                font="active"></medium-btn>
-                        </router-link>
                         <router-link :to="{ name: 'JTonnyApplyPage' }" v-show="isHelper">
                             <medium-btn
                                 text="즉시통역 받기"
-                                class="w-100"
+                                class="w-100 shadow-sm"
                                 color="outline"
+                                font="active"></medium-btn>
+                        </router-link>
+                        <router-link :to="{ name: 'JTonnyFormPage' }">
+                            <medium-btn
+                                text="즉시통역"
+                                class="w-100 shadow-sm"
+                                color="success"
                                 font="active"></medium-btn>
                         </router-link>
                         <router-link :to="{ name: 'YTonnyFormPage' }">
                             <medium-btn
                                 text="예약통역"
                                 class="w-100"
-                                color="outline"
+                                color="success"
                                 font="active"></medium-btn>
                         </router-link>
                     </div>
@@ -105,10 +106,8 @@ export default {
     },
 
     async created() {
-        console.log("userInfo: ", this.userInfo);
-        console.log("isHelper: ", this.isHelper);
+        window.scrollTo(0, 0);
         await this.$store.dispatch("getYTonnyList");
-        console.log("hihi:", this.yTonnyList);
     },
 };
 </script>

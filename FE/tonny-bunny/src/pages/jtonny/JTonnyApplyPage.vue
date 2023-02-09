@@ -227,7 +227,7 @@
                             </div>
                         </transition-group>
                     </div>
-                    <div>
+                    <!-- <div>
                         <title-text
                             title="통역 예약 목록"
                             text="통역 예약도 받아볼까요?"></title-text>
@@ -243,7 +243,7 @@
                                         v-for="(yTonny, index) in yTonnyList"
                                         :key="index"
                                         class="w-100 row">
-                                        <!-- {{ yTonny }} -->
+                                        {{ yTonny }} 
 
                                         <div class="d-flex flex-row align-items-center yTonny">
                                             <div class="col-12">
@@ -272,7 +272,7 @@
                             </div>
                             <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
                         </v-lazy>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

@@ -1,8 +1,8 @@
 <template>
     <div>
         <title-banner
-            title="실시간 즉시통역 서비스 신청"
-            text="실시간으로 필요한 통역 서비스를 신청합니다" />
+            title="즉시통역 서비스 신청"
+            text="실시간으로 헬퍼에게 통역 서비스를 신청합니다" />
 
         <JTonnyClientForm />
     </div>

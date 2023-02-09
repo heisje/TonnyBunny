@@ -15,8 +15,7 @@
                                         <router-link
                                             :to="{ name: 'HomePage' }"
                                             class="nav-link"
-                                            aria-current="page"
-                                        >
+                                            aria-current="page">
                                             <h2>HOME</h2>
                                         </router-link>
                                     </li>
@@ -56,21 +55,24 @@
 
                         <div class="navBarProfile" v-if="isLogin">
                             <router-link :to="{ name: 'AlertPage' }">
-                                <span class="material-symbols-outlined notification">
+                                <span class="material-symbols-outlined notification mt-1 me-2">
                                     notifications
                                 </span>
                             </router-link>
 
                             <div class="d-flex align-items-center">
-                                <span class="nickName" @click="openPopOver">
-                                    {{ userInfo?.nickName }}
-                                </span>
+                                <router-link :to="{ name: 'MyPage' }" class="text-decoration-none">
+                                    <span class="nickName">
+                                        {{ userInfo?.nickName }}
+                                    </span>
+                                </router-link>
+
                                 <img
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
                                     @click="openPopOver"
-                                />
+                                    v-click-outside="onClickOutside" />
                             </div>
                             <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
                                 <div class="popOverArrow"></div>
@@ -78,16 +80,14 @@
                                     <li>
                                         <router-link
                                             class="dropdown-item"
-                                            :to="{ name: 'ChatPage' }"
-                                        >
+                                            :to="{ name: 'ChatPage' }">
                                             채팅함
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link
                                             class="dropdown-item"
-                                            :to="{ name: 'ChatPage' }"
-                                        >
+                                            :to="{ name: 'ChatPage' }">
                                             즐겨찾기
                                         </router-link>
                                     </li>
@@ -99,13 +99,12 @@
                                     <li>
                                         <router-link
                                             class="dropdown-item"
-                                            :to="{ name: 'NoticePage' }"
-                                        >
+                                            :to="{ name: 'NoticePage' }">
                                             설정
                                         </router-link>
                                     </li>
-                                    <li>
-                                        <div class="dropdown-item" @click="logout">로그아웃</div>
+                                    <li style="border: none">
+                                        <a class="dropdown-item" @click="logout"> 로그아웃 </a>
                                     </li>
                                 </ul>
                             </div>
@@ -116,14 +115,12 @@
                                 text="로그인"
                                 color="outline"
                                 font="main"
-                                @click="toggleLoginModal"
-                            ></medium-btn>
+                                @click="toggleLoginModal"></medium-btn>
                             <medium-btn
                                 text="회원가입"
                                 color="carrot"
                                 font="white"
-                                @click="clickSignUpBtn"
-                            ></medium-btn>
+                                @click="clickSignUpBtn"></medium-btn>
                         </div>
                     </div>
                 </nav>
@@ -137,8 +134,7 @@
                             type="button"
                             data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasDarkNavbar"
-                            aria-controls="offcanvasDarkNavbar"
-                        >
+                            aria-controls="offcanvasDarkNavbar">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <a class="navbar-brand" href="/">
@@ -158,24 +154,21 @@
                                     text="로그인"
                                     color="outline"
                                     font="main"
-                                    @click="toggleLoginModal"
-                                ></medium-btn>
+                                    @click="toggleLoginModal"></medium-btn>
                             </div>
                         </div>
                         <div
                             class="offcanvas offcanvas-start text-bg-light"
                             tabindex="-1"
                             id="offcanvasDarkNavbar"
-                            aria-labelledby="offcanvasDarkNavbarLabel"
-                        >
+                            aria-labelledby="offcanvasDarkNavbarLabel">
                             <div class="offcanvas-header">
                                 <h4 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h4>
                                 <button
                                     type="button"
                                     class="btn-close btn-close-light"
                                     data-bs-dismiss="offcanvas"
-                                    aria-label="Close"
-                                ></button>
+                                    aria-label="Close"></button>
                             </div>
 
                             <div class="offcanvas-body">
@@ -184,8 +177,7 @@
                                         <router-link
                                             :to="{ name: 'HomePage' }"
                                             class="nav-link"
-                                            aria-current="page"
-                                        >
+                                            aria-current="page">
                                             <h2>HOME</h2>
                                         </router-link>
                                     </li>
@@ -220,13 +212,11 @@
                                             href="#"
                                             role="button"
                                             data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
+                                            aria-expanded="false">
                                             <img
                                                 src="@/assets/noProfile.png"
                                                 width="40"
-                                                height="40"
-                                            />
+                                                height="40" />
                                             <h3>닉네임</h3>
                                         </a>
 
@@ -234,32 +224,28 @@
                                             <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
-                                                    :to="{ name: 'ChatPage' }"
-                                                >
+                                                    :to="{ name: 'ChatPage' }">
                                                     채팅함
                                                 </router-link>
                                             </li>
                                             <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
-                                                    :to="{ name: 'ChatPage' }"
-                                                >
+                                                    :to="{ name: 'ChatPage' }">
                                                     즐겨찾기
                                                 </router-link>
                                             </li>
                                             <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
-                                                    :to="{ name: 'MyPage' }"
-                                                >
+                                                    :to="{ name: 'MyPage' }">
                                                     마이페이지
                                                 </router-link>
                                             </li>
                                             <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
-                                                    :to="{ name: 'NoticePage' }"
-                                                >
+                                                    :to="{ name: 'NoticePage' }">
                                                     설정
                                                 </router-link>
                                             </li>
@@ -269,9 +255,9 @@
                                             </li>
 
                                             <li data-bs-dismiss="offcanvas">
-                                                <a class="dropdown-item" @click="logout"
-                                                    >로그아웃</a
-                                                >
+                                                <a class="dropdown-item" @click="logout">
+                                                    로그아웃
+                                                </a>
                                             </li>
                                         </ul>
                                     </li>
@@ -282,15 +268,13 @@
                                             text="로그인"
                                             color="outline"
                                             font="main"
-                                            @click="toggleLoginModal"
-                                        ></medium-btn>
+                                            @click="toggleLoginModal"></medium-btn>
                                         <medium-btn
                                             data-bs-dismiss="offcanvas"
                                             class="mt-2 w-100"
                                             text="회원가입"
                                             color="carrot"
-                                            @click="clickSignUpBtn"
-                                        ></medium-btn>
+                                            @click="clickSignUpBtn"></medium-btn>
                                     </div>
                                 </ul>
                             </div>
@@ -360,6 +344,11 @@ export default {
         // 로그아웃
         logout() {
             this.$store.dispatch("logout");
+        },
+
+        // out side
+        onClickOutside() {
+            this.isPopOverOpen = false;
         },
     },
 };
@@ -441,13 +430,13 @@ export default {
         .profilePopOver {
             position: absolute;
             top: 70px;
-            margin-right: -6px;
-            // right: 10px;
+            // margin-right: -1px;
+            // right: -1px;
             width: 120px;
-            padding: 12px 16px;
+            // padding: 12px 16px;
 
             background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.13);
             box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
             z-index: 99;
 
@@ -457,7 +446,8 @@ export default {
 
                 li {
                     list-style: none;
-                    margin-bottom: 6px;
+                    margin: 6px 0;
+                    // margin-bottom: 6px;
                     // opacity: 0.8;
 
                     border-bottom: 1px solid var(--light-color);
@@ -465,12 +455,16 @@ export default {
 
                     &:hover {
                         // font-weight: 600;
-                        background-color: var(--thin-color);
+                        // background-color: var(--thin-color);
+
+                        a {
+                            text-decoration: underline;
+                        }
                     }
 
                     a {
+                        margin-left: 10px;
                         color: var(--main-color);
-                        font-size: 1rem;
                         padding: 2px 0 0 2px;
                     }
                 }
@@ -484,7 +478,7 @@ export default {
                 height: 7px;
                 padding: 7px;
                 background-color: #fff;
-                border: 1px solid rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(0, 0, 0, 0.13);
                 transform: rotate(45deg);
                 border-bottom: none;
                 border-right: none;

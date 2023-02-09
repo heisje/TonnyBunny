@@ -64,7 +64,7 @@ export default {
         p {
             color: var(--main-color);
             // color: #fff;
-            @extend .label;
+            // @extend .label;
         }
     }
 }
