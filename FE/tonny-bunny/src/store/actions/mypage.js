@@ -127,4 +127,26 @@ export default {
             console.error(err);
         }
     },
+
+    /*
+        헬퍼 프로필 정보 조회
+    */
+    // /api/mypage/{userSeq} 회원정보를 조회합니다
+    async getHelper(context, userSeq) {
+        try {
+            let { data } = await http.get(`/mypage/${userSeq}`);
+            console.log(data);
+
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("SET_HELPER_INFO", data.data);
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
 };
