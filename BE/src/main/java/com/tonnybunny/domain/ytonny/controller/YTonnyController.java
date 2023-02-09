@@ -3,7 +3,6 @@ package com.tonnybunny.domain.ytonny.controller;
 
 import com.tonnybunny.common.dto.*;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
-import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.UserService;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyResponseDto;
@@ -97,8 +96,6 @@ public class YTonnyController {
 		List<YTonnyEntity> yTonnyList = yTonnyService.getYTonnyList(yTonnyRequestDto);
 
 		// entity -> dto
-		// isDelete 가 false 인 값들만 반환해야하나?
-		// FIXME : 들어가는 helper 값이 null 이라면 어떻게 넘겨줘야하나?
 		ModelMapper modelMapper = new ModelMapper();
 		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyList.stream()
 		                                                          .map(m -> YTonnyResponseDto.builder()
@@ -117,8 +114,7 @@ public class YTonnyController {
 		                                                                                     .taskStateCode(m.getTaskStateCode())
 		                                                                                     .createdAt(m.getCreatedAt())
 		                                                                                     .updatedAt(m.getUpdatedAt())
-		                                                                                     //		                                                                                     .yTonnyApplyList(modelMapper.map(m.getYTonnyApplyList(), List.class))
-		                                                                                     //		                                                                                     .yTonnyQuotationList(modelMapper.map(m.getYTonnyQuotationList(), List.class))
+		                                                                                     .isDeleted(m.getIsDeleted())
 		                                                                                     .build())
 		                                                          .collect(Collectors.toList());
 
@@ -133,9 +129,9 @@ public class YTonnyController {
 	 * @param yTonnySeq : 해당 조회 공고 seq
 	 * @return YTonnyResponseDto : 예약통역 상세 정보
 	 */
-	@GetMapping("/{yTonnySeq}/{userSeq}")
+	@GetMapping("/{yTonnySeq}")
 	@ApiOperation(value = "예약통역 공고 목록 상세 조회 API", notes = "사용자가 예약통역 공고를 상세 조회한다.")
-	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq, @PathVariable Long userSeq, @RequestHeader HttpHeaders header) {
+	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq, @RequestHeader HttpHeaders header) {
 
 		System.out.println("YTonnyController.getYTonnyDetail");
 		System.out.println("yTonnySeq = " + yTonnySeq + ", header = " + header);
@@ -144,7 +140,7 @@ public class YTonnyController {
 
 		// service
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
-		UserEntity userEntity = userService.getUserInfo(userSeq); // FIXME: token 으로 변경될 예정
+		//		UserEntity userEntity = userService.getUserInfo(userSeq); // FIXME: token 으로 변경될 예정
 
 		// entity -> dto
 		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
@@ -157,7 +153,7 @@ public class YTonnyController {
 		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
 
 		// 해당 공고의 creator 와 조회하려는 user 가 같은 사람인가?
-		if (userSeq == yTonnyEntity.getClient().getSeq()) yTonnyResponseDto.setIsCreator(true);
+		//		if (userSeq == yTonnyEntity.getClient().getSeq()) yTonnyResponseDto.setIsCreator(true);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
 
@@ -174,8 +170,8 @@ public class YTonnyController {
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
-		YTonnyApplyRequestDto yTonnyApplyRequestDto
-	                                                                                 ) {
+	                                                                                  YTonnyApplyRequestDto yTonnyApplyRequestDto
+	) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");
 

@@ -14,10 +14,12 @@ import live from "./state/live";
 import common from "./state/common";
 import alert from "./state/alert";
 import mypage from "./state/mypage";
+import schedule from "./state/schedule";
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
     plugins: [createPersistedState()],
+
     state: {
         // 공통 state
         common,
@@ -32,6 +34,7 @@ export default createStore({
         bunny,
         alert,
         mypage,
+        schedule,
     },
 
     getters,
