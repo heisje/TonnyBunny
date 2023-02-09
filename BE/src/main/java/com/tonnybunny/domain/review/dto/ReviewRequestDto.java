@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 public class ReviewRequestDto {
 
+	private Long historySeq;
 	private Long helperSeq;
 	private Integer score;
 	private String comment;

@@ -4,7 +4,9 @@ package com.tonnybunny.domain.review.service;
 import com.tonnybunny.domain.review.dto.ReviewRequestDto;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import com.tonnybunny.domain.review.repository.ReviewRepository;
+import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class ReviewService {
 
 	private final UserRepository userRepository;
 	private final ReviewRepository reviewRepository;
+	private final HistoryRepository historyRepository;
 
 
 	/**
@@ -64,7 +67,11 @@ public class ReviewService {
 		UserEntity user = userRepository.findById(reviewRequestDto.getHelperSeq()).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER)
 		);
+		HistoryEntity history = historyRepository.findById(reviewRequestDto.getHistorySeq()).orElseThrow(
+			() -> new CustomException(NOT_FOUND_ENTITY)
+		);
 		ReviewEntity review = ReviewEntity.builder()
+		                                  .history(history)
 		                                  .score(reviewRequestDto.getScore())
 		                                  .comment(reviewRequestDto.getComment())
 		                                  .user(user)
