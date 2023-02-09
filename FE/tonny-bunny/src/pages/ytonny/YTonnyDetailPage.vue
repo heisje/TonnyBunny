@@ -375,6 +375,8 @@ export default {
 			let size = 4;
 			if (!this.isHelper) size = 6;
 
+			this.$store.commit("SET_Y_TONNY_APPLY_SIZE", size);
+
 			await this.$store.dispatch("getYTonnyApplyList", {
 				page: this.currentPage,
 				size: size,

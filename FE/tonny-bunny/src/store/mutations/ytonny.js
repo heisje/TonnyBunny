@@ -28,5 +28,8 @@ export default {
 
 		if (left == 0) state.ytonny.yTonnyApplyListTotalCount = share;
 		else state.ytonny.yTonnyApplyListTotalCount = share + 1;
+	},
+	SET_Y_TONNY_APPLY_SIZE(state, payload) {
+		state.ytonny.yTonnyApplySize = payload;
 	}
 };

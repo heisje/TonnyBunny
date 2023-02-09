@@ -261,6 +261,7 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import http from "@/common/axios";
 
 export default {
 	name: "JTonnyWaitingPage",
