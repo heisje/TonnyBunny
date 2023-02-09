@@ -50,17 +50,21 @@
                 <div class="w-100">
                     <dropdown-input-code
                         class="w-100"
+                        ref="startLangCode"
+                        :disable="changLangCount % 2 ? false : true"
                         :dropdownArray="langCodeList"
-                        placeholder="내 언어"
+                        placeholder="한국어"
                         @toggle="(e) => (startLangCode = e)" />
                 </div>
 
-                <div class="swap">
+                <div class="swap" @click="changLangCode">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
 
                 <div class="w-100">
                     <DropdownInputCode
+                        ref="endLangCode"
+                        :disable="changLangCount % 2 ? true : false"
                         :dropdownArray="langCodeList"
                         placeholder="필요 언어"
                         @toggle="(e) => (endLangCode = e)" />
@@ -166,13 +170,7 @@ export default {
 
     data() {
         return {
-            input1: {
-                id: "input1",
-                value: "",
-                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", // 유효성검사 조건(HTML 용)
-                validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
-                notice: "", // 유효성검사 결과 텍스트
-            },
+            changLangCount: 0,
 
             agreeValue: false,
 
@@ -259,6 +257,15 @@ export default {
                     }
                 });
             }
+        },
+
+        changLangCode() {
+            const temp = this.startLangCode;
+            this.startLangCode = this.endLangCode;
+            this.endLangCode = temp;
+            this.$refs.startLangCode.changeEventParent(this.startLangCode);
+            this.$refs.endLangCode.changeEventParent(this.endLangCode);
+            this.changLangCount += 1;
         },
     },
 
