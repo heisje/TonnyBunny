@@ -5,60 +5,60 @@
 @import "variable.scss";
 
 * {
-    font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    box-sizing: border-box;
-    color: var(--active-color);
-    @extend .text;
+	font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+	box-sizing: border-box;
+	color: var(--active-color);
+	@extend .text;
 }
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--b-back-color);
+	margin: 0;
+	padding: 0;
+	background-color: var(--b-back-color);
 }
 
 p {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 hr {
-    color: var(--sub-color);
-    margin-top: 10px;
-    margin-bottom: 20px;
+	color: var(--sub-color);
+	margin-top: 10px;
+	margin-bottom: 20px;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s ease;
+	transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-    opacity: 0;
+	opacity: 0;
 }
 
 .slide-up {
-    transition: all 0.3s;
+	transition: all 0.3s;
 }
 .slide-up-enter-active {
-    transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 .slide-up-leave-active {
-    transition: all 0.25s cubic-bezier(1, 0.5, 0.8, 1);
+	transition: all 0.25s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .slide-up-enter-from,
 .slide-up-leave-active {
-    opacity: 0;
-    transform: translateY(100%);
+	opacity: 0;
+	transform: translateY(100%);
 }
 
 .list-enter-active,
 .list-leave-active {
-    transition: all 0.4s;
+	transition: all 0.4s;
 }
 .list-enter-from, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-    opacity: 0;
-    transform: translateY(30px);
+	opacity: 0;
+	transform: translateY(30px);
 }

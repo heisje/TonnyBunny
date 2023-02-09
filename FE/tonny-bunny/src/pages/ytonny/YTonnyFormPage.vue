@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<title-banner title="예약통역 서비스 신청" text="헬퍼에게 통역 서비스를 예약합니다." />
+		<title-banner title="통역 예약 서비스 신청" text="헬퍼에게 통역 서비스를 예약합니다" />
 
 		<YTonnyClientForm />
 
@@ -8,11 +8,11 @@
 			title="성공"
 			type="success"
 			btnText2="확인"
-			btnColor2="main"
+			btnColor2="carrot"
 			btnFontColor1="white"
 			btnFontColor2="white"
 			@clickBtn2="successYtonnyCreate">
-			<template #content>통역예약이 게시되었습니다.</template>
+			<template #content>통역이 예약되었습니다.</template>
 		</AlarmModal>
 	</div>
 </template>
@@ -45,6 +45,7 @@ export default {
 
 	created() {
 		window.scrollTo(0, 0);
+		this.$store.commit("CLOSE_ALARM_MODAL");
 	}
 };
 </script>
