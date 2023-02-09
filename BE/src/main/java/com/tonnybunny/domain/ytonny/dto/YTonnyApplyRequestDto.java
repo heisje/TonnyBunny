@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class YTonnyApplyRequestDto {
 
 	@Builder.Default
-	private int size = 10; // limit
+	private int size = 4; // limit
 	@Builder.Default
 	private int page = 0; // offset
 

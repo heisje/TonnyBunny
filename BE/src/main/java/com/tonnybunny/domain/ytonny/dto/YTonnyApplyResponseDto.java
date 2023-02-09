@@ -1,11 +1,17 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
+import com.tonnybunny.domain.ytonny.entity.YTonnyApplyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,5 +32,16 @@ public class YTonnyApplyResponseDto {
 	private UserResponseDto helper; // nick 까지 넘겨야하니까
 
 	private Integer unitPrice;
+
+
+	public static YTonnyApplyResponseDto fromEntity(YTonnyApplyEntity yTonnyApply) {
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+		return modelMapper.map(yTonnyApply, YTonnyApplyResponseDto.class);
+	}
+
+
+	public static List<YTonnyApplyResponseDto> fromEntityList(List<YTonnyApplyEntity> yTonnyApplyList) {
+		return yTonnyApplyList.stream().map(m -> fromEntity(m)).collect(Collectors.toList());
+	}
 
 }
