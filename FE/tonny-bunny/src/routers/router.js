@@ -16,7 +16,7 @@ import SignUpCompletePage from "@/pages/account/SignUpCompletePage";
 // jtonny
 import JTonnyWaitingPage from "@/pages/jtonny/JTonnyWaitingPage";
 import JTonnyFormPage from "@/pages/jtonny/JTonnyFormPage";
-import JTonnyAcceptPage from "@/pages/jtonny/JTonnyAcceptPage";
+import JTonnyApplyPage from "@/pages/jtonny/JTonnyApplyPage";
 import JTonnyMatchingPage from "@/pages/jtonny/JTonnyMatchingPage";
 
 // ytonny
@@ -205,10 +205,10 @@ export default createRouter({
 
         {
             path: "/jtonny/accept",
-            name: "JTonnyAcceptPage",
+            name: "JTonnyApplyPage",
             components: {
                 header: AppHeader,
-                default: JTonnyAcceptPage,
+                default: JTonnyApplyPage,
                 footer: AppFooter,
             },
         },
