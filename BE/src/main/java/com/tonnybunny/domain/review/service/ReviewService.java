@@ -4,8 +4,10 @@ package com.tonnybunny.domain.review.service;
 import com.tonnybunny.domain.review.dto.ReviewRequestDto;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import com.tonnybunny.domain.review.repository.ReviewRepository;
+import com.tonnybunny.domain.user.entity.HelperInfoEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HelperInfoRepository;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
@@ -26,6 +28,7 @@ public class ReviewService {
 	private final UserRepository userRepository;
 	private final ReviewRepository reviewRepository;
 	private final HistoryRepository historyRepository;
+	private final HelperInfoRepository helperInfoRepository;
 
 
 	/**
@@ -77,6 +80,13 @@ public class ReviewService {
 		                                  .user(user)
 		                                  .build();
 		reviewRepository.save(review);
+
+		// 헬퍼 정보에 평점 수정
+		HelperInfoEntity helperInfo = user.getHelperInfo();
+		helperInfo.updateReviewCount(1);
+		helperInfo.updateTotalScore(reviewRequestDto.getScore());
+		helperInfoRepository.save(helperInfo);
+
 		return review.getSeq();
 	}
 
@@ -91,6 +101,14 @@ public class ReviewService {
 		ReviewEntity review = reviewRepository.findById(reviewSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_ENTITY)
 		);
+
+		// 헬퍼 내 정보 수정
+		UserEntity user = review.getUser();
+		HelperInfoEntity helperInfo = user.getHelperInfo();
+		helperInfo.updateReviewCount(-1);
+		helperInfo.updateTotalScore(-(review.getScore()));
+		helperInfoRepository.save(helperInfo);
+
 		review.deleteReview();
 		reviewRepository.save(review);
 
