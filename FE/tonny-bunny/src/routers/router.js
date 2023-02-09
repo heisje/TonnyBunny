@@ -470,7 +470,7 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quotation/bunny/create",
+            path: "/chat/quotation/bunny/:clientSeq/create",
             name: "NBunnyQuotationForm",
             components: {
                 header: AppHeader,

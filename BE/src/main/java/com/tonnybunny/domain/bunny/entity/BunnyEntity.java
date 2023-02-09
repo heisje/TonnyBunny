@@ -43,7 +43,7 @@ public class BunnyEntity extends CommonEntity {
 	@Builder.Default
 	private String taskCode = "0030003";
 	@Builder.Default
-	private String taskStateCode = "0100001";
+	private String taskStateCode = "0090001";
 
 	@Builder.Default
 	private Boolean isDeleted = false;

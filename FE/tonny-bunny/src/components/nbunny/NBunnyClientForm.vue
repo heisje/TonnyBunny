@@ -11,7 +11,8 @@ divdiv
                         class="w-100"
                         :dropdownArray="getLangCode"
                         placeholder="내 언어"
-                        @toggle="(e) => (startLangCode = e)" />
+                        @toggle="(e) => (startLangCode = e)"
+                    />
                 </div>
                 <div class="swap">
                     <span class="material-symbols-outlined"> compare_arrows </span>
@@ -22,7 +23,8 @@ divdiv
                         class="w-100"
                         :dropdownArray="getLangCode"
                         placeholder="필요 언어"
-                        @toggle="(e) => (endLangCode = e)" />
+                        @toggle="(e) => (endLangCode = e)"
+                    />
                 </div>
             </div>
 
@@ -32,13 +34,15 @@ divdiv
                 class="w120"
                 :dropdownArray="getBunnySituCode"
                 placeholder="카테고리 선택"
-                @toggle="(e) => (bunnySituCode = e)" />
+                @toggle="(e) => (bunnySituCode = e)"
+            />
 
             <title-text
                 important
                 type="h2"
                 title="마감 기한을 설정해주세요"
-                text="번역이 마감되어야할 날짜를 선택해주세요" />
+                text="번역이 마감되어야할 날짜를 선택해주세요"
+            />
 
             <div class="d-flex flex-row w-100 mb-5">
                 <div class="w-100">
@@ -56,7 +60,8 @@ divdiv
                 important
                 type="h2"
                 title="예상 금액을 설정해주세요"
-                text="번역의 예상 금액을 입력해주세요" />
+                text="번역의 예상 금액을 입력해주세요"
+            />
 
             <div class="d-flex w-100">
                 <div class="col-11">
@@ -77,7 +82,8 @@ divdiv
                 type="textarea"
                 placeholder="내용을 입력해주세요"
                 value=""
-                @input="changeInput"></textarea>
+                @input="changeInput"
+            ></textarea>
 
             <title-text type="h2" title="[선택] 사진" text="작업물의 예시를 올려주세요" />
 
@@ -86,7 +92,8 @@ divdiv
                 style="width: 100%"
                 text="예약 의뢰 하기"
                 color="carrot"
-                @click.prevent="submitForm" />
+                @click.prevent="submitForm"
+            />
         </form>
     </div>
 </template>
@@ -105,7 +112,7 @@ export default {
             startLangCode: "",
             endLangCode: "",
             bunnySituCode: "",
-            bunnyStateCode: "0100001",
+            bunnyStateCode: "0090001",
 
             startDate: "",
             endDate: "",
