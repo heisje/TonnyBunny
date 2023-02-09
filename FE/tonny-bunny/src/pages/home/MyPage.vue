@@ -117,27 +117,33 @@
 
             <div class="settingWrap">
                 <hr />
-                <div>
-                    <router-link :to="{ name: 'BlockListPage' }">차단목록</router-link>
-                </div>
+                <router-link :to="{ name: 'BlockListPage' }">
+                    <div>차단목록</div>
+                </router-link>
                 <hr />
-                <div>
+                <!-- <div>
                     <router-link :to="{ name: 'PushAlarmPage' }">푸시알림(미구현)</router-link>
                 </div>
+                <hr /> -->
+                <div></div>
+                <router-link :to="{ name: 'NoticePage' }">
+                    <div>고객센터</div>
+                </router-link>
                 <hr />
-                <div>
-                    <router-link :to="{ name: 'NoticePage' }">고객센터</router-link>
-                </div>
+                <router-link
+                    :to="{
+                        name: 'AbilityPage',
+                        params: { userSeq: this.$store.state.account.userInfo.seq, mypage: true },
+                    }">
+                    <div>헬퍼 인증 및 변경</div>
+                </router-link>
+
                 <hr />
-                <div>
-                    <router-link :to="{ name: 'HelperChangePage' }">헬퍼 인증 및 변경</router-link>
-                </div>
-                <hr />
-                <div>
-                    <router-link :to="{ name: 'HelperChangePage' }"
-                        ><span class="logout">로그아웃</span></router-link
-                    >
-                </div>
+
+                <router-link :to="{ name: 'HelperChangePage' }"
+                    ><span class="logout">로그아웃</span></router-link
+                >
+
                 <hr />
             </div>
             <AlarmModal
@@ -187,6 +193,10 @@ export default {
         closeModal() {
             this.isOpen = false;
         },
+    },
+
+    mounted() {
+        this.$store.dispatch("getMypage");
     },
 };
 </script>
@@ -276,6 +286,12 @@ export default {
         text-decoration: none;
         color: var(--main-color);
         padding: 1rem;
+        width: 100%;
+        &:hover {
+            div {
+                color: var(--primary-color);
+            }
+        }
     }
     hr {
         border-top: 1px solid var(--sub-color);

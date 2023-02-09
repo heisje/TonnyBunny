@@ -142,8 +142,12 @@ public class UserEntity extends CommonEntity {
 	}
 
 
-	public void updateUserInfo(String profileImagePath, String nickName) {
+	public void updateProfileImage(String profileImagePath) {
 		this.profileImagePath = profileImagePath;
+	}
+
+
+	public void updateNickName(String nickName) {
 		this.nickName = nickName;
 	}
 

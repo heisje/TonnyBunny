@@ -32,8 +32,8 @@ public class BunnyEntity extends CommonEntity {
 	private String title;
 	private String content;
 
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 
 	private Integer estimatePrice;
 
@@ -43,7 +43,7 @@ public class BunnyEntity extends CommonEntity {
 	@Builder.Default
 	private String taskCode = "0030003";
 	@Builder.Default
-	private String bunnyStateCode = "0100001";
+	private String taskStateCode = "0100001";
 
 	@Builder.Default
 	private Boolean isDeleted = false;
@@ -70,7 +70,7 @@ public class BunnyEntity extends CommonEntity {
 
 
 	public void changeStateCode(String stateCode) {
-		this.bunnyStateCode = stateCode;
+		this.taskStateCode = stateCode;
 	}
 
 }

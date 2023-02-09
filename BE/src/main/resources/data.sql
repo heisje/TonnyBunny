@@ -45,8 +45,9 @@ VALUES (1, '001', "고객", '0001'),
 INSERT INTO user_table(user_seq, created_at, updated_at, email, is_agreement, is_deleted, nick_name, password,
                        phone_number, point,
                        profile_image_path, report_count, user_code)
-VALUES (1, now(), now(), "client@ssafy.com", false, false, "nickname1", "pw1", "010", 0, "image", 0, "0010001"),
-       (2, now(), now(), "helper@ssafy.com", true, false, "nickname2", "pw2", "020", 0, "image2", 0, "0010002");
+VALUES (1, now(), now(), "client@ssafy.com", false, false, "김유저",
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 0, "image", 0, "0010001"),
+       (2, now(), now(), "helper@ssafy.com", true, false, "박헬퍼", "pw2", "020", 0, "image2", 0, "0010002");
 
 
 -- 헬퍼 정보

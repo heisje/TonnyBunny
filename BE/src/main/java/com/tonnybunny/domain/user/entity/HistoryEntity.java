@@ -4,17 +4,22 @@ package com.tonnybunny.domain.user.entity;
 import com.tonnybunny.common.entity.CommonEntity;
 import com.tonnybunny.domain.review.entity.ReviewEntity;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "task_code")
 @Getter
+@SuperBuilder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "history_table")
 public class HistoryEntity extends CommonEntity {
@@ -46,5 +51,10 @@ public class HistoryEntity extends CommonEntity {
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "history")
 	private ReviewEntity review;
+
+
+	public void completeLive(LocalTime time, String recordVideoPath) {
+		this.endDateTime = LocalDateTime.now();
+	}
 
 }

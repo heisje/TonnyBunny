@@ -16,7 +16,7 @@ import SignUpCompletePage from "@/pages/account/SignUpCompletePage";
 // jtonny
 import JTonnyWaitingPage from "@/pages/jtonny/JTonnyWaitingPage";
 import JTonnyFormPage from "@/pages/jtonny/JTonnyFormPage";
-import JTonnyAcceptPage from "@/pages/jtonny/JTonnyAcceptPage";
+import JTonnyApplyPage from "@/pages/jtonny/JTonnyApplyPage";
 import JTonnyMatchingPage from "@/pages/jtonny/JTonnyMatchingPage";
 
 // ytonny
@@ -53,7 +53,8 @@ import LiveClosePage from "@/pages/live/LiveClosePage";
 // chat
 import ChatPage from "@/pages/chat/ChatPage";
 import ChatDetailPage from "@/pages/chat/ChatDetailPage";
-import QuotationCreatePage from "@/pages/chat/QuotationCreatePage";
+import NBunnyQuotationForm from "@/components/chat/NBunnyQuotationForm";
+import YTonnyQuotationForm from "@/components/chat/YTonnyQuotationForm";
 import QuotationDetailPage from "@/pages/chat/QuotationDetailPage";
 
 // mypage
@@ -75,7 +76,7 @@ import HomePage from "@/pages/home/HomePage";
 import HelperHomePage from "@/pages/home/HelperHomePage.vue";
 import IntroPage from "@/pages/home/IntroPage";
 // import BunnyPage from "@/pages/home/BunnyPage";
-// import TonnyPage from "@/pages/home/TonnyPage";
+import TonnyPage from "@/pages/home/TonnyPage";
 import MyPage from "@/pages/home/MyPage";
 import NoticePage from "@/pages/home/NoticePage";
 import AlertPage from "@/pages/home/AlertPage";
@@ -204,11 +205,11 @@ export default createRouter({
         },
 
         {
-            path: "/jtonny/accept",
-            name: "JTonnyAcceptPage",
+            path: "/jtonny/apply",
+            name: "JTonnyApplyPage",
             components: {
                 header: AppHeader,
-                default: JTonnyAcceptPage,
+                default: JTonnyApplyPage,
                 footer: AppFooter,
             },
         },
@@ -225,7 +226,7 @@ export default createRouter({
 
         //ytonny
         {
-            path: "/ytonny/:id/:userSeq",
+            path: "/ytonny/:id",
             name: "YTonnyDetailPage",
             components: {
                 header: AppHeader,
@@ -424,7 +425,6 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: LivePage,
-                footer: AppFooter,
             },
         },
 
@@ -460,11 +460,21 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quotation/create",
-            name: "QuotationCreatePage",
+            path: "/chat/quotation/ytonny/create",
+            name: "YTonnyQuotationForm",
             components: {
                 header: AppHeader,
-                default: QuotationCreatePage,
+                default: YTonnyQuotationForm,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/chat/quotation/bunny/create",
+            name: "NBunnyQuotationForm",
+            components: {
+                header: AppHeader,
+                default: NBunnyQuotationForm,
                 footer: AppFooter,
             },
         },
@@ -651,15 +661,15 @@ export default createRouter({
         //     },
         // },
 
-        // {
-        //     path: "/tonny",
-        //     name: "TonnyPage",
-        //     components: {
-        //         header: AppHeader,
-        //         default: TonnyPage,
-        //         footer: AppFooter,
-        //     },
-        // },
+        {
+            path: "/tonny",
+            name: "TonnyPage",
+            components: {
+                header: AppHeader,
+                default: TonnyPage,
+                footer: AppFooter,
+            },
+        },
 
         {
             path: "/mypage",

@@ -38,7 +38,6 @@ public class JTonnyController {
 	public ResponseEntity<ResultDto<Boolean>> createJTonny(@RequestBody JTonnyDto jTonnyDto) {
 		jTonnyService.createJTonny(jTonnyDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
-
 	}
 
 

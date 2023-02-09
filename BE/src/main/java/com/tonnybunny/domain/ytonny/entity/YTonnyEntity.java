@@ -10,7 +10,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +33,8 @@ public class YTonnyEntity extends CommonEntity {
 	private UserEntity client;
 	private Long helperSeq; // nullable
 
+	private String sessionName;
+
 	private String title;
 	private String tonnySituCode; // 상황 카테고리
 	private String content;
@@ -43,7 +44,7 @@ public class YTonnyEntity extends CommonEntity {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private LocalDateTime startDateTime; // 날짜 + 시간
-	private LocalTime estimateTime; // 소요시간
+	private String estimateTime; // 소요시간
 	private Integer estimatePrice; // 지불금액
 
 	@Builder.Default
@@ -77,6 +78,21 @@ public class YTonnyEntity extends CommonEntity {
 
 	public void updateYTonnyApplyList(List<YTonnyApplyEntity> yTonnyApplyList) {
 		this.yTonnyApplyList = yTonnyApplyList;
+	}
+
+
+	public void update(String title, String tonnySituCode, String content, String startLangCode, String endLangCode, LocalDateTime startDateTime,
+		String estimateTime, Integer estimatePrice) {
+		this.title = title;
+		this.tonnySituCode = tonnySituCode;
+		this.content = content;
+		this.startLangCode = startLangCode;
+		this.endLangCode = endLangCode;
+		this.startDateTime = startDateTime;
+		this.estimateTime = estimateTime;
+		this.estimatePrice = estimatePrice;
+		this.taskCode = taskCode;
+		this.taskStateCode = taskStateCode;
 	}
 
 }

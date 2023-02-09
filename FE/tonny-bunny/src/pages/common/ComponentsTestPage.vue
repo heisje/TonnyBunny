@@ -93,6 +93,52 @@
                 @toggle-like-btn="toggleLike"
                 @click-btn1="check1"
                 @click-btn2="check2"></helper-card>
+
+            <helper-card
+                :userInfo="{
+                    seq: 1,
+                    userCode: '1',
+                    email: 'test251@gmail.com',
+                    nickName: 'nickck111',
+                    phoneNumber: null,
+                    point: 0,
+                    profileImagePath: '/img/default.jpg',
+                    helperInfo: {
+                        seq: 1,
+                        avgScore: 3.5,
+                        reviewCount: 213,
+                        unitPrice: 123,
+                        oneLineIntroduction: 'ㄻㄴㄴㄻㅁㄹㄴ',
+                        introduction: 'ㄹㄴㅁㅁㄻㄴㄹ',
+                        possibleLanguageList: [
+                            {
+                                name: 'Korean',
+                                value: '0000111',
+                            },
+                            {
+                                name: 'English',
+                                value: '0010101',
+                            },
+                        ],
+                        certificateList: [
+                            {
+                                seq: null,
+                                langCode: null,
+                                certName: 'Korean',
+                                content: 'Korean',
+                            },
+                            {
+                                seq: null,
+                                langCode: null,
+                                certName: 'Canana',
+                                content: 'Canana',
+                            },
+                        ],
+                    },
+                }"
+                rightBtnText="상담하기"
+                @click-btn1="check1"
+                @click-btn2="check2"></helper-card>
             <!-- <ClientCard />
             -->
             <quest-card

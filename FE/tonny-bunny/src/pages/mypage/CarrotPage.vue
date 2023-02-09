@@ -64,7 +64,7 @@ export default {
         charge() {
             const payload = {
                 bankAccount: "string",
-                fromUserSeq: 1,
+                fromUserSeq: this.$store.state.account.userInfo.seq,
                 pointAmount: 100,
                 pointRequestType: "충전",
                 toUserSeq: 0,
@@ -112,8 +112,6 @@ export default {
                 margin: 1rem 0rem;
                 padding: 1rem 1.5rem;
                 border-radius: 1rem;
-                .pointItemContent {
-                }
             }
         }
     }

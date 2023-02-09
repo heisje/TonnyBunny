@@ -26,7 +26,7 @@ import java.util.Map;
  * startLangCode        : 시작 언어 코드
  * endLangCode          : 종료 언어 코드
  * bunnySituCode        : 번역상황 카테고리 코드
- * bunnyStateCode       : 번역공고 상태 코드
+ * taskStateCode       : 번역공고 상태 코드
  *
  * bunnyNotiHelperList  : 지원한 헬퍼들의 신청 리스트
  * bunnyNotiImageList   : 번역 공고 이미지 경로 리스트
@@ -40,14 +40,14 @@ public class BunnyResponseDto {
 	private Long helperSeq;
 	private String title;
 	private String content;
-	private LocalDateTime startDate;
-	private LocalDateTime endDate;
+	private LocalDateTime startDateTime;
+	private LocalDateTime endDateTime;
 	private Integer estimatePrice;
 
 	private String startLangCode;
 	private String endLangCode;
 	private String bunnySituCode;
-	private String bunnyStateCode;
+	private String taskStateCode;
 	private String taskCode;
 
 	private List<BunnyApplyResponseDto> bunnyApplyList;
@@ -58,7 +58,7 @@ public class BunnyResponseDto {
 	public static BunnyResponseDto fromEntity(BunnyEntity bunnyNoti) {
 
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
-		
+
 		BunnyResponseDto bunnyNotiResponseDto = modelMapper.map(bunnyNoti, BunnyResponseDto.class);
 
 		return bunnyNotiResponseDto;

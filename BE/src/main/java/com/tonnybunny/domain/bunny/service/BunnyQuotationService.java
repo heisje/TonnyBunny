@@ -1,17 +1,19 @@
 package com.tonnybunny.domain.bunny.service;
 
 
-import com.tonnybunny.common.dto.BunnyStateCodeEnum;
 import com.tonnybunny.common.dto.QuotationStateCodeEnum;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.domain.bunny.dto.BunnyQuotationImageRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyQuotationRequestDto;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
+import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyQuotationImageEntity;
 import com.tonnybunny.domain.bunny.repository.BunnyQuotationImageRepository;
 import com.tonnybunny.domain.bunny.repository.BunnyQuotationRepository;
 import com.tonnybunny.domain.bunny.repository.BunnyRepository;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
@@ -29,6 +31,7 @@ public class BunnyQuotationService {
 	private final BunnyRepository bunnyRepository;
 	private final BunnyQuotationRepository bunnyQuotationRepository;
 	private final BunnyQuotationImageRepository bunnyQuotationImageRepository;
+	private final HistoryRepository historyRepository;
 
 
 	/**
@@ -44,26 +47,26 @@ public class BunnyQuotationService {
 		UserEntity helper = userRepository.findById(bunnyQuotationRequestDto.getHelperSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		BunnyQuotationEntity bunnyQuotation = BunnyQuotationEntity.builder()
-			.bunny(bunny)
-			.client(client)
-			.helper(helper)
-			.startDateTime(bunnyQuotationRequestDto.getStartDateTime())
-			.endDateTime(bunnyQuotationRequestDto.getEndDateTime())
-			.title(bunnyQuotationRequestDto.getTitle())
-			.content(bunnyQuotationRequestDto.getContent())
-			.totalPrice(bunnyQuotationRequestDto.getTotalPrice())
-			.startLangCode(bunnyQuotationRequestDto.getStartLangCode())
-			.endLangCode(bunnyQuotationRequestDto.getEndLangCode())
-			.build();
+		                                                          .bunny(bunny)
+		                                                          .client(client)
+		                                                          .helper(helper)
+		                                                          .startDateTime(bunnyQuotationRequestDto.getStartDateTime())
+		                                                          .endDateTime(bunnyQuotationRequestDto.getEndDateTime())
+		                                                          .title(bunnyQuotationRequestDto.getTitle())
+		                                                          .content(bunnyQuotationRequestDto.getContent())
+		                                                          .totalPrice(bunnyQuotationRequestDto.getTotalPrice())
+		                                                          .startLangCode(bunnyQuotationRequestDto.getStartLangCode())
+		                                                          .endLangCode(bunnyQuotationRequestDto.getEndLangCode())
+		                                                          .build();
 
 		bunnyQuotation = bunnyQuotationRepository.save(bunnyQuotation);
 
 		for (BunnyQuotationImageRequestDto bunnyQuotationImageRequestDto : bunnyQuotationRequestDto.getBunnyQuotationImageRequestDtoList()) {
 
 			BunnyQuotationImageEntity bunnyQuotationImage = BunnyQuotationImageEntity.builder()
-				.bunnyQuotation(bunnyQuotation)
-				.imagePath(bunnyQuotationImageRequestDto.getImagePath())
-				.build();
+			                                                                         .bunnyQuotation(bunnyQuotation)
+			                                                                         .imagePath(bunnyQuotationImageRequestDto.getImagePath())
+			                                                                         .build();
 
 			bunnyQuotationImage = bunnyQuotationImageRepository.save(bunnyQuotationImage);
 
@@ -121,7 +124,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.진행중.getBunnyStateCode());
+		bunny.changeStateCode(TaskStateCodeEnum.진행중.getTaskStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
@@ -144,7 +147,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.모집중.getBunnyStateCode());
+		bunny.changeStateCode(TaskStateCodeEnum.모집중.getTaskStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
@@ -156,7 +159,7 @@ public class BunnyQuotationService {
 	 * @param bunnyQuotationRequestDto
 	 * @return
 	 */
-	public Boolean completeBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+	public Long completeBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
 
 		// 번역 견적서 상태코드 변경
 		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
@@ -167,9 +170,28 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.완료됨.getBunnyStateCode());
+		bunny.changeStateCode(TaskStateCodeEnum.완료됨.getTaskStateCode());
 		bunnyRepository.save(bunny);
-		return true;
+
+		BunnyHistoryEntity bunnyHistory = BunnyHistoryEntity.builder()
+		                                                    .client(bunnyQuotation.getClient())
+		                                                    .helper(bunnyQuotation.getHelper())
+		                                                    .taskCode(bunny.getTaskCode())
+		                                                    .notiSeq(bunny.getSeq())
+		                                                    .startLangCode(bunnyQuotation.getStartLangCode())
+		                                                    .endLangCode(bunnyQuotation.getEndLangCode())
+		                                                    .content(bunny.getContent())
+		                                                    .startDateTime(bunnyQuotation.getStartDateTime())
+		                                                    .endDateTime(bunnyQuotation.getEndDateTime())
+		                                                    .title(bunny.getTitle())
+		                                                    .totalPrice(bunnyQuotation.getTotalPrice())
+		                                                    .build();
+
+		// TODO
+		//  bunnyHistory 에는 bunnyQuotationImage 저장 안하나?
+		historyRepository.save(bunnyHistory);
+
+		return bunnyHistory.getSeq();
 	}
 
 }

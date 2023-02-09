@@ -102,6 +102,7 @@ public class YTonnyController {
 		ModelMapper modelMapper = new ModelMapper();
 		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyList.stream()
 		                                                          .map(m -> YTonnyResponseDto.builder()
+		                                                                                     .seq(m.getSeq())
 		                                                                                     .title(m.getTitle())
 		                                                                                     .content(m.getContent())
 		                                                                                     .client(modelMapper.map(m.getClient(), UserResponseDto.class))
@@ -173,8 +174,8 @@ public class YTonnyController {
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
-	                                                                                  YTonnyApplyRequestDto yTonnyApplyRequestDto
-	) {
+		YTonnyApplyRequestDto yTonnyApplyRequestDto
+	                                                                                 ) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");
 
@@ -190,7 +191,7 @@ public class YTonnyController {
 		                                                                                                         .seq(m.getSeq())
 		                                                                                                         .yTonnySeq(m.getYTonny().getSeq())
 		                                                                                                         .helper(modelMapper.map(m.getHelper(), UserResponseDto.class))
-		                                                                                                         .totalPrice(m.getTotalPrice())
+		                                                                                                         .unitPrice(m.getUnitPrice())
 		                                                                                                         .build())
 		                                                                         .collect(Collectors.toList());
 

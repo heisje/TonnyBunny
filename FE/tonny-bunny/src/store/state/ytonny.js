@@ -29,7 +29,7 @@ export default {
 	// ytonny
 	yTonnySeq: -1,
 	ytonnyListTotalCount: 0,
-	ytonnyList: [],
+	yTonnyList: [],
 
 	yTonnyDetail: {
 		client: {

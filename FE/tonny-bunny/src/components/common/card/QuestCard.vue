@@ -70,10 +70,6 @@
 
                     <div class="infoDateWrap">
                         <div v-if="allCode[questDetail?.taskCode] == '즉시통역'" class="infoDate">
-                            <div class="date">
-                                <h4>날짜</h4>
-                                <div>{{ questDetail?.startDate }}</div>
-                            </div>
                             <div class="time">
                                 <h4>시간</h4>
                                 <div>{{ questDetail?.estimateTime }}</div>
@@ -84,24 +80,23 @@
                             class="infoDate">
                             <div class="date">
                                 <h4>날짜</h4>
-                                <div>{{ questDetail?.estimateDate.substr(0, 10) }}</div>
+                                <div>{{ questDetail?.estimateTime.substr(0, 10) }}</div>
                             </div>
                             <div class="time">
                                 <h4>시간</h4>
                                 <div>
-                                    {{ questDetail?.estimateStartTime
-                                    }}{{ questDetail?.estimateTime }}
+                                    {{ questDetail?.startDateTime }}
                                 </div>
                             </div>
                         </div>
                         <div v-else-if="allCode[questDetail?.taskCode] == '번역'" class="infoDate">
                             <div class="date">
                                 <h4>마감기한</h4>
-                                <div>{{ questDetail?.startDate.substr(0, 10) }}</div>
+                                <div>{{ questDetail?.startDateTime.substr(0, 10) }}</div>
                             </div>
                             <div class="time">
                                 <h4>마감시간</h4>
-                                <div>{{ questDetail?.endDate.substr(0, 10) }}</div>
+                                <div>{{ questDetail?.endDateTime.substr(0, 10) }}</div>
                             </div>
                         </div>
                     </div>
@@ -117,18 +112,33 @@
                             </div>
                         </div>
                         <div class="infoCategory">
+                            <!-- tonnySituCode 를 위한 자리도 달라!! -->
                             <h4>상황 카테고리</h4>
                             <div style="width: 100%">
-                                <square-tag
-                                    sub
-                                    :text="allCode[questDetail?.bunnySituCode]"></square-tag>
+                                <div v-if="allCode[questDetail?.taskCode] == '즉시통역'">
+                                    <square-tag
+                                        sub
+                                        :text="allCode[questDetail?.tonnySituCode]"></square-tag>
+                                </div>
+                                <div v-if="allCode[questDetail?.taskCode] == '예약통역'">
+                                    <square-tag
+                                        sub
+                                        :text="allCode[questDetail?.tonnySituCode]"></square-tag>
+                                </div>
+                                <div v-if="allCode[questDetail?.taskCode] == '번역'">
+                                    <square-tag
+                                        sub
+                                        :text="allCode[questDetail?.bunnySituCode]"></square-tag>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- 5. 하단 버튼 라인 -->
                 <div class="questBtns mt-2">
-                    <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                    <div v-if="!(allCode[questDetail?.taskCode] == '즉시통역')">
+                        <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                    </div>
                     <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
@@ -149,7 +159,17 @@ export default {
         XSmallBtn,
     },
 
-    props: ["questDetail"],
+    props: {
+        questDetail: {
+            typeof: Array,
+        },
+
+        rightBtnText: {
+            type: String,
+            default: "수락하기",
+            description: "오른쪽 버튼 텍스트 [수락하기, 상담하기 etc]",
+        },
+    },
 
     computed: {
         ...mapGetters({ allCode: "getAllCode" }),
@@ -159,6 +179,23 @@ export default {
         clickBtn1(e) {
             e.preventDefault();
             this.$emit("clickBtn1");
+
+            if (this.allCode[this.questDetail?.taskCode] == "즉시통역") {
+                this.$router.push({
+                    name: "NBunnyDetailPage",
+                    params: { id: this.questDetail?.seq },
+                });
+            } else if (this.allCode[this.questDetail?.taskCode] == "예약통역") {
+                this.$router.push({
+                    name: "YTonnyDetailPage",
+                    params: { id: this.questDetail?.seq },
+                });
+            } else if (this.allCode[this.questDetail?.taskCode] == "번역") {
+                this.$router.push({
+                    name: "NBunnyDetailPage",
+                    params: { id: this.questDetail?.seq },
+                });
+            }
         },
 
         clickBtn2(e) {

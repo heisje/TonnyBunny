@@ -1,7 +1,8 @@
 <template>
-    <v-container class="yTonnyDetailContainer row" v-scroll="onScroll">
+    <!-- <v-container class="yTonnyDetailContainer row" v-scroll="onScroll"> -->
+    <v-container class="yTonnyDetailContainer row">
         <!-- <title-banner title="예약통역 공고" text=""></title-banner> -->
-        <div class="yTonnyDetailWrap col-lg-6 col-12" ref="yTonnyDetail">
+        <div class="yTonnyDetailWrap col-md-6 col-12" ref="yTonnyDetail">
             <!-- yTonny Detail View -->
             <v-lazy
                 class="yTonnyDetail"
@@ -63,8 +64,9 @@
 							</Transition> -->
                                 <div class="editPopOver" v-show="isEditOpen">
                                     <div @click="updateFormOpen">예약 수정</div>
-                                    <div @click="removeYTonny">예약 삭제</div>
-                                    <div @click="applyListOpen">가격 제안 헬퍼 보기</div>
+                                    <div @click="this.$store.commit('TOGGLE_ALARM_MODAL')">
+                                        예약 삭제
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +142,7 @@
             </v-lazy>
         </div>
 
-        <div class="col-lg-6 col-12">
+        <div class="col-md-6 col-12">
             <!-- yTonny 공고 신청 버튼 라인 -->
             <div class="applys">
                 <h1 class="mb-4">
@@ -156,7 +158,8 @@
                             <input
                                 type="text"
                                 placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
-                                v-model="totalPrice" />
+                                v-model="totalPrice"
+                                @keydown.enter="insertYTonnyApply" />
                         </div>
                         <medium-btn
                             class="w-100"
@@ -174,7 +177,7 @@
 
             <!-- yTonny Applu List View -->
             <div class="yTonnyApplyList">
-                <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-between">
                     <h1>가격을 제안한 헬퍼들</h1>
                     <div class="label">더보기</div>
                 </div>
@@ -182,33 +185,84 @@
                 <hr />
 
                 <v-lazy
-                    v-if="yTonnyApplyList.length > 0"
-                    class="lists"
                     v-model="isActive"
                     :options="{ threshold: 0.5 }"
-                    transition="fade-transition">
-                    <!-- <div
-                        v-for="(apply, index) in yTonnyApplyList"
-                        :key="index"
-                        ref="yTonnyApplyList">
-                        <helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card>
-                    </div> -->
-                    <div ref="yTonnyApplyList">
-                        <helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card
-                        ><helper-card rightBtnText="상담하기" @clickBtn2="startChat"></helper-card>
+                    transition="fade-transition"
+                    ref="yTonnyApplyListRef">
+                    <div v-if="yTonnyApplyList.length > 0">
+                        <transition-group name="slide-up">
+                            <div
+                                v-for="(apply, index) in yTonnyApplyList"
+                                :key="index"
+                                class="w-100 row">
+                                <!-- {{ apply }} -->
+
+                                <div class="d-flex flex-row align-items-center apply">
+                                    <div
+                                        class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                        <img src="@/assets/noProfile.png" width="50" height="50" />
+
+                                        <!-- <img :src="apply.helper.profileImagePath" /> -->
+                                        <!-- <div>{{ apply.helper.nickName }}</div> -->
+                                        <!-- <div>{{ apply.helper.helperInfo.oneLineIntroduction }}</div> -->
+                                    </div>
+                                    <div class="col-10 helperInfo">
+                                        <div class="d-flex flex-row">
+                                            <div class="likeBtn" @click="toggleLikeBtn">
+                                                <span
+                                                    v-if="isLikeEmpty"
+                                                    class="material-symbols-outlined likeIcon empty">
+                                                    favorite
+                                                </span>
+                                                <span
+                                                    v-else
+                                                    class="material-symbols-outlined likeIcon">
+                                                    favorite
+                                                </span>
+                                            </div>
+                                            <div>{{ apply.helper.nickName }}</div>
+                                        </div>
+                                        <div>한 줄 소개</div>
+                                        <div class="d-flex">
+                                            <div>평점(리뷰카운터)</div>
+                                            <div>{{ apply.totalPrice }}</div>
+                                        </div>
+
+                                        <!-- <div>{{ apply.helper.helperInfo.avgScore }}</div> -->
+                                        <!-- <div>{{ apply.helper.helperInfo.reviewCount }}</div> -->
+                                        <!-- <div>{{ apply.totalPrice }}</div> -->
+                                    </div>
+
+                                    <div
+                                        v-if="yTonnyDetail.isCreator"
+                                        class="closeBtn col-1"
+                                        @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)">
+                                        <span class="material-symbols-outlined"> close </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition-group>
                     </div>
+                    <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
                 </v-lazy>
-                <div v-else>가격을 제안한 헬퍼가 없습니다.</div>
             </div>
         </div>
+
+        <alarm-modal
+            type="danger"
+            btnText1="확인"
+            btnText2="취소"
+            @clickBtn1="removeYTonny(yTonnyDetail.seq)"
+            @clickBtn2="this.$store.commit('CLOSE_ALARM_MODAL')"
+            btnColor1="outline"
+            btnFontColor1="main"
+            btnColor2="primary"
+            btnFontColor2="white">
+            <template #content>
+                통역 예약을 삭제하시겠습니까? <br />
+                삭제한 후에는 다시 되돌릴 수가 없습니다.
+            </template>
+        </alarm-modal>
     </v-container>
 </template>
 
@@ -216,23 +270,20 @@
 import { mapGetters } from "vuex";
 
 import utils from "@/common/utils";
+
 import TitleText from "@/components/common/TitleText.vue";
-import HelperCard from "@/components/common/card/HelperCard.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
-// import TitleBanner from "@/components/common/TitleBanner.vue";
-// import LargeBtn from "@/components/common/button/LargeBtn.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
     name: "YTonnyDetailPage",
 
     components: {
         TitleText,
-        HelperCard,
         SquareTag,
         MediumBtn,
-        // TitleBanner,
-        // LargeBtn
+        AlarmModal,
     },
 
     data() {
@@ -245,6 +296,7 @@ export default {
             isApply: true,
             isEditOpen: false,
             isActive: true,
+            isLikeEmpty: true,
 
             totalPrice: "",
         };
@@ -276,18 +328,23 @@ export default {
     },
 
     methods: {
-        onScroll() {
-            // FIXME: 여기서 500이 아니라 카드의 height 로
-            if (window.innerWidth >= 992) {
-                let yTonnyMarginTop = this.yTonnyDetailElement.style.marginTop.replace("px", "");
+        // onScroll() {
+        //     // FIXME: 여기서 500이 아니라 카드의 height 로
+        //     if (window.innerWidth >= 992) {
+        //         let yTonnyMarginTop = this.yTonnyDetailElement.style.marginTop.replace("px", "");
 
-                if (yTonnyMarginTop == "") yTonnyMarginTop = 0;
-                else yTonnyMarginTop = parseInt(yTonnyMarginTop);
+        //         if (yTonnyMarginTop == "") yTonnyMarginTop = 0;
+        //         else yTonnyMarginTop = parseInt(yTonnyMarginTop);
 
-                if (500 <= window.scrollY && window.scrollY < this.windowHeight)
-                    this.yTonnyDetailElement.style.marginTop = window.scrollY + "px";
-                else if (500 > window.scrollY) this.yTonnyDetailElement.style.marginTop = 0;
-            }
+        //         // if (500 <= window.scrollY && window.scrollY < this.windowHeight)
+        //         if (500 <= window.scrollY && window.scrollY < 1000)
+        //             this.yTonnyDetailElement.style.marginTop = window.scrollY + "px";
+        //         else if (500 > window.scrollY) this.yTonnyDetailElement.style.marginTop = 0;
+        //     }
+        // },
+
+        getYTonnyApplyList() {
+            this.$store.dispatch("getYTonnyApplyList", this.yTonnySeq);
         },
 
         startChat() {
@@ -303,24 +360,33 @@ export default {
             this.isEditOpen = false;
         },
 
-        insertYTonnyApply() {
+        async insertYTonnyApply() {
             let payload = {
                 helperSeq: 1,
                 ytonnySeq: this.yTonnySeq,
                 totalPrice: this.totalPrice,
             };
 
-            this.$store.dispatch("insertYTonnyApply", payload);
+            await this.$store.dispatch("insertYTonnyApply", payload);
+            await this.getYTonnyApplyList();
+            this.totalPrice = "";
         },
 
         updateFormOpen() {
-            this.$router.push({ name: "YTonnyUpdatePage" });
+            this.$router.push({ name: "YTonnyUpdatePage", params: { id: this.yTonnySeq } });
         },
 
-        removeYTonny() {
-            console.log("remove ytonny");
+        async removeYTonny(yTonnySeq) {
+            await this.$store.dispatch("removeYTonny", yTonnySeq);
+            this.$store.commit("CLOSE_ALARM_MODAL");
+            this.$router.replace({ name: "HomePage" });
         },
-        applyListOpen() {},
+
+        async removeYTonnyApply(yTonnySeq, yTonnyApplySeq) {
+            let payload = { yTonnySeq, yTonnyApplySeq };
+            await this.$store.dispatch("removeYTonnyApply", payload);
+            await this.getYTonnyApplyList();
+        },
     },
 
     async created() {
@@ -328,22 +394,29 @@ export default {
 
         // detail 정보 가져오기
         await this.$store.commit("SET_Y_TONNY_SEQ", this.$route.params.id);
-        console.log("안뇽뇽: ", this.userInfo.seq);
 
         let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
         await this.$store.dispatch("getYTonnyDetail", payload);
-        await this.$store.dispatch("getYTonnyApplyList", this.yTonnySeq);
+        await this.getYTonnyApplyList();
 
         window.scrollTo(0, 0);
     },
 
     mounted() {
         this.yTonnyDetailElement = this.$refs.yTonnyDetail;
-        this.yTonnyApplyListElement = this.$refs.yTonnyApplyList;
-        this.windowHeight =
-            parseInt(
-                window.getComputedStyle(this.yTonnyApplyListElement).height.replace("px", "")
-            ) - 450;
+        // this.yTonnyApplyListElement = this.$refs.yTonnyApplyListRef;
+        // console.log(this.yTonnyApplyListElement);
+        // this.windowHeight =
+        //     parseInt(
+        //         window.getComputedStyle(this.yTonnyApplyListElement).height.replace("px", "")
+        //     ) - 450;
+    },
+
+    watch: {
+        // yTonnyApplyList: function () {
+        // this.$store.dispatch("getYTonnyApplyList", this.yTonnySeq);
+        // console.log("hihi");
+        // }
     },
 };
 </script>
@@ -354,6 +427,9 @@ export default {
 }
 
 .yTonnyDetailContainer {
+    // width: calc(100% - 200px);
+    // margin: 0 auto;
+
     padding-top: 54px;
     display: flex;
     flex-direction: row;
@@ -374,15 +450,39 @@ export default {
 
     .yTonnyApplyList {
         margin-top: 40px;
-        margin-bottom: 80px;
+        cursor: default;
+        // margin-bottom: 80px;
 
-        .lists {
+        // .lists {
+        // 	display: flex;
+        // 	flex-direction: column;
+        // 	justify-content: center;
+        // 	align-items: center;
+        // }
+
+        .apply {
+            // background-color: var(--thin-color);
+            // margin: 10px 12px;
+            // padding: 0 6px 0 0;
+            // margin: 10px 0;
+            padding: 12px 0;
+            // padding-bottom: 20px;
+
+            border-bottom: 1px solid var(--thin-color);
+            // width: 100%;
+            // align-items: center;
+        }
+
+        .helperInfo {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
         }
     }
+}
+
+hr {
+    margin-top: 12px;
+    margin-bottom: 0;
 }
 
 .yTonnyDetailWrap {
@@ -485,30 +585,81 @@ hr {
     // padding: 32px 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s ease;
+.likeIcon {
+    color: var(--danger-color);
+    font-size: 1.25rem;
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 10;
+    margin-right: 4px;
+    // cursor: pointer;
+    transition: all 0.13s;
+
+    .likeText {
+        color: var(--sub-color);
+        // cursor: pointer;
+        transition: all 0.13s;
+    }
+
+    &:hover {
+        .likeIcon {
+            color: #fc5148;
+            font-variation-settings: "FILL" 1;
+        }
+
+        .likeText {
+            color: var(--main-color);
+        }
+    }
+}
+.empty {
+    // color: var(--sub-color);
+    font-variation-settings: "FILL" 0;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
+.closeBtn {
+    position: relative;
+    right: 12px;
+    cursor: pointer;
+
+    span {
+        font-variation-settings: "wght" 300;
+        transition: all 0.13s;
+        color: var(--sub-color);
+    }
+
+    &:hover {
+        span {
+            color: var(--danger-color);
+        }
+    }
 }
 
-.slide-up {
-    transition: all 0.25s;
-}
-.slide-up-enter-active {
-    transition: all 0.25s ease;
-}
-.slide-up-leave-active {
-    transition: all 0.25s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-up-enter,
-.slide-up-leave-active {
-    opacity: 0;
-    transform: translateY(100%);
-}
+// .closeBtn {
+// 	position: absolute;
+// 	// top: 0;
+
+// 	left: 10px;
+// 	z-index: 99;
+// 	// float: right;
+// 	// top: -6px;
+// 	// right: -6px;
+
+// 	font-variation-settings: "wght" 300;
+
+// 	cursor: pointer;
+
+// 	span {
+// 		transition: all 0.13s;
+// 		color: var(--sub-color);
+// 	}
+
+// 	&:hover {
+// 		// opacity: 0.8;
+
+// 		span {
+// 			color: var(--main-color);
+// 		}
+// 	}
+// }
 
 @media (min-width: 1264px) {
     .yTonnyDetailWrap {

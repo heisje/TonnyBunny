@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 
@@ -43,7 +42,7 @@ public class YTonnyQuotationResponseDto {
 	private String content;
 
 	private LocalDateTime startDateTime;
-	private LocalTime estimateTime;
+	private String estimateTime;
 	private Integer unitPrice;
 
 	private String startLangCode;

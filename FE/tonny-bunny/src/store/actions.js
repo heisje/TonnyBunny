@@ -3,6 +3,7 @@ import account from "./actions/account";
 import board from "./actions/board";
 import jtonny from "./actions/jtonny";
 import ytonny from "./actions/ytonny";
+import live from "./actions/live";
 import bunny from "./actions/bunny";
 import common from "./actions/common";
 import alert from "./actions/alert";
@@ -17,6 +18,7 @@ export default {
     ...jtonny,
     ...ytonny,
     ...bunny,
+    ...live,
     ...common,
     ...alert,
     ...mypage,

@@ -1,30 +1,29 @@
 <template>
     <title-text title="회원 정보 수정" />
     <img src="@/assets/noProfile.png" alt="" />
+    {{ profileImg }}
+    <medium-btn text="프로필 변경" @click="clickInputProfile" />
+    <input type="file" accept="image/*" ref="click" @change="insertImage" />
 
-    <div>
-        프로필사진선택모달
-
-        <ImageUpdateModal />
-    </div>
     <div>
         <label for="nickname">닉네임</label>
-        <input type="text" id="nickname" />
+        <input type="text" id="nickname" v-modal="nickName" />
     </div>
+    <medium-btn text="닉네임 수정" @click="putNickName"></medium-btn>
     <div>
         <label for="password1">현재 비밀번호</label>
-        <input type="password" id="password1" />
+        <input type="password" id="password1" v-modal="prePassword" />
     </div>
     <div>
         <label for="password2">새 비밀번호</label>
-        <input type="password" id="password2" />
+        <input type="password" id="password2" v-modal="prePassword" />
     </div>
     <div>
         <label for="password3">새 비밀번호 확인</label>
-        <input type="password" id="password3" />
+        <input type="password" id="password3" v-modal="prePassword" />
     </div>
+    <medium-btn text="비밀번호 수정" @click="openModal"></medium-btn>
 
-    <medium-btn text="완료" @click="openModal"></medium-btn>
     <AlarmModal
         v-show="isOpen"
         :isOpen="isOpen"
@@ -42,7 +41,6 @@
 </template>
 
 <script>
-import ImageUpdateModal from "@/components/mypage/ImageUpdateModal.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
@@ -52,10 +50,12 @@ export default {
     data() {
         return {
             isOpen: false,
+            profileImg: null,
+            nickName: "",
+            prePassword: "",
         };
     },
     components: {
-        ImageUpdateModal,
         TitleText,
         AlarmModal,
         MediumBtn,
@@ -69,6 +69,18 @@ export default {
         closeModal() {
             this.isOpen = false;
         },
+
+        insertImage(e) {
+            this.profileImg = e.target.files[0];
+            console.log(this.profileImg);
+            this.$store.dispatch("putProfileImage", this.profileImg);
+        },
+
+        clickInputProfile() {
+            this.$refs.click.click();
+        },
+
+        putNickName() {},
     },
 };
 </script>

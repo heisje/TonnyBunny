@@ -8,7 +8,7 @@ export default {
 
     // jtonny
     jtonnyListTotalCount: 0,
-    jtonnyList: [],
+    jtonnyList: {},
     jtonnyDetail: {},
 
     jtonnyRequest: {},

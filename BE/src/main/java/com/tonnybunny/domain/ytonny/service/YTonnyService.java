@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -49,6 +50,7 @@ public class YTonnyService {
 		// dto -> entity
 		YTonnyEntity yTonnyEntity = YTonnyEntity.builder()
 		                                        .client(userEntity)
+		                                        .sessionName(UUID.randomUUID().toString())
 		                                        .title(yTonnyRequestDto.getTitle())
 		                                        .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
 		                                        .content(yTonnyRequestDto.getContent())
@@ -81,14 +83,14 @@ public class YTonnyService {
 		// param setting
 		Long yTonnySeq = yTonnyApplyRequestDto.getYTonnySeq();
 		Long helperSeq = yTonnyApplyRequestDto.getHelperSeq();
-		Integer totalPrice = yTonnyApplyRequestDto.getTotalPrice();
+		Integer unitPrice = yTonnyApplyRequestDto.getUnitPrice();
 
 		// find
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// dto -> entity
-		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).totalPrice(totalPrice).build();
+		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).unitPrice(unitPrice).build();
 		yTonnyEntity.getYTonnyApplyList().add(yTonnyApplyEntity);
 
 		// save
@@ -158,7 +160,7 @@ public class YTonnyService {
 		Pageable pageable = PageRequest.of(page, size);
 
 		// find
-		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAt(yTonnySeq, pageable).getContent();
+		return yTonnyApplyRepository.findByyTonnySeqOrderByCreatedAtDesc(yTonnySeq, pageable).getContent();
 
 	}
 
@@ -178,34 +180,20 @@ public class YTonnyService {
 		// param setting
 		Long yTonnySeq = yTonnyRequestDto.getYTonnySeq();
 		Long clientSeq = yTonnyRequestDto.getClientSeq();
-		Long helperSeq = yTonnyRequestDto.getHelperSeq();
 
 		// find
 		UserEntity clientEntity = userRepository.findById(clientSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
-		// dto -> entity
-		yTonnyEntity = YTonnyEntity.builder()
-		                           .seq(yTonnySeq)
-		                           .client(clientEntity)
-		                           .helperSeq(helperSeq)
-		                           .title(yTonnyRequestDto.getTitle())
-		                           .content(yTonnyRequestDto.getContent())
-		                           .startDateTime(yTonnyRequestDto.getStartDateTime())
-		                           //		                           .estimateDate(yTonnyRequestDto.getEstimateDate())
-		                           //		                           .estimateStartTime(yTonnyRequestDto.getEstimateStartTime())
-		                           .estimateTime(yTonnyRequestDto.getEstimateTime())
-		                           .estimatePrice(yTonnyRequestDto.getEstimatePrice())
-		                           .startLangCode(yTonnyRequestDto.getStartLangCode())
-		                           .endLangCode(yTonnyRequestDto.getEndLangCode())
-		                           .tonnySituCode(yTonnyRequestDto.getTonnySituCode())
-		                           .taskStateCode(yTonnyRequestDto.getTaskStateCode())
-		                           .taskCode(yTonnyEntity.getTaskCode())
-		                           .isDeleted(yTonnyEntity.getIsDeleted())
-		                           .yTonnyApplyList(yTonnyEntity.getYTonnyApplyList())
-		                           .yTonnyQuotationList(yTonnyEntity.getYTonnyQuotationList())
-		                           .build();
+		yTonnyEntity.update(yTonnyRequestDto.getTitle(),
+			yTonnyRequestDto.getTonnySituCode(),
+			yTonnyRequestDto.getContent(),
+			yTonnyRequestDto.getStartLangCode(),
+			yTonnyRequestDto.getEndLangCode(),
+			yTonnyRequestDto.getStartDateTime(),
+			yTonnyRequestDto.getEstimateTime(),
+			yTonnyRequestDto.getEstimatePrice());
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();

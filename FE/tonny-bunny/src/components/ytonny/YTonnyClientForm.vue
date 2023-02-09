@@ -9,13 +9,6 @@
                     text="헬퍼에게 어떤 상황인지 제목으로 알려볼까요?"
                     bottom="20" />
 
-                <!-- <input
-                type="text"
-                :pattern="title.pattern"
-                @input="changeInput"
-                :value="title.value"
-                class="mb-5"
-                placeholder="제목을 입력해주세요" /> -->
                 <input type="text" placeholder="제목을 입력해주세요" v-model="title" />
 
                 <title-text
@@ -57,17 +50,21 @@
                 <div class="w-100">
                     <dropdown-input-code
                         class="w-100"
+                        ref="startLangCode"
+                        :disable="changLangCount % 2 ? false : true"
                         :dropdownArray="langCodeList"
-                        placeholder="내 언어"
+                        placeholder="한국어"
                         @toggle="(e) => (startLangCode = e)" />
                 </div>
 
-                <div class="swap">
+                <div class="swap" @click="changLangCode">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
 
                 <div class="w-100">
                     <DropdownInputCode
+                        ref="endLangCode"
+                        :disable="changLangCount % 2 ? true : false"
                         :dropdownArray="langCodeList"
                         placeholder="필요 언어"
                         @toggle="(e) => (endLangCode = e)" />
@@ -116,9 +113,6 @@
                             placeholder="시간"
                             @toggle="(e) => (estimateHour = e)" />
                     </div>
-                    <!-- <div class="backlabel w-50">
-						<h5>시간</h5>
-					</div> -->
                 </div>
                 <div class="col-6 d-flex flex-row">
                     <div class="w-100">
@@ -128,9 +122,6 @@
                             placeholder="분"
                             @toggle="(e) => (estimateMinute = e)" />
                     </div>
-                    <!-- <div class="backlabel w-50">
-						<h5>분</h5>
-					</div> -->
                 </div>
             </div>
 
@@ -143,12 +134,12 @@
                 bottom="20" />
 
             <div class="d-flex mb-5">
-                <div class="col-11">
+                <div class="col-12">
                     <input type="text" placeholder="ex) 1000" v-model="estimatePrice" />
                 </div>
-                <div class="backlabel col-2">
-                    <h5>CRT/5분</h5>
-                </div>
+                <!-- <div class="backlabel col-2">
+					<h5>CRT/5분</h5>
+				</div> -->
             </div>
 
             <agree-input class="mt-5" @toggle="(e) => (agreeValue = e)" />
@@ -179,22 +170,16 @@ export default {
 
     data() {
         return {
-            input1: {
-                id: "input1",
-                value: "",
-                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", // 유효성검사 조건(HTML 용)
-                validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
-                notice: "", // 유효성검사 결과 텍스트
-            },
+            changLangCount: 0,
 
             agreeValue: false,
 
             // ytonny Form
             title: "",
-            tonnySituCode: "",
+            tonnySituCode: "0040000",
             content: "",
-            startLangCode: "",
-            endLangCode: "",
+            startLangCode: "0020001",
+            endLangCode: "0020002",
             startDate: "",
             startTime: "",
             estimateHour: "",
@@ -273,6 +258,20 @@ export default {
                 });
             }
         },
+
+        changLangCode() {
+            const temp = this.startLangCode;
+            this.startLangCode = this.endLangCode;
+            this.endLangCode = temp;
+            this.$refs.startLangCode.changeEventParent(this.startLangCode);
+            this.$refs.endLangCode.changeEventParent(this.endLangCode);
+            this.changLangCount += 1;
+        },
+    },
+
+    created() {
+        window.scrollTo(0, 0);
+        console.log("userInfo: ", this.userInfo);
     },
 };
 </script>
