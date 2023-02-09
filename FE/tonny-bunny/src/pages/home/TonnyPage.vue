@@ -11,6 +11,7 @@
                 <div>내가 한 예약통역</div>
                 <div>예약통역 리스트</div>
                 <div v-for="(yTonny, index) in yTonnyList" :key="index">
+                    <quest-card :questDetail="yTonny" @clickBtn2="clickHelperBtn" />
                     <!-- {{ yTonny }} -->
                     <router-link
                         class="d-flex"
@@ -35,9 +36,11 @@
 </template>
 
 <script>
+import QuestCard from "@/components/common/card/QuestCard.vue";
 import { mapGetters } from "vuex";
 
 export default {
+    components: { QuestCard },
     name: "TonnyPage",
 
     compontents: {},
