@@ -284,9 +284,10 @@ export default {
 }
 
 .situation {
-    background-color: var(--light-color);
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+    background-color: var(--thin-color);
     border-radius: 6px;
-    padding: 5px 30px;
     padding-bottom: 32px;
 }
 </style>

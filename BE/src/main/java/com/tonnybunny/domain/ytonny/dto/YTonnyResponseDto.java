@@ -67,12 +67,7 @@ public class YTonnyResponseDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	@Builder.Default
-	private Boolean isCreator = false;
-
-	// FIXME : 따로 어차피 목록 조회할 건데 필요한가?
-	//	private List<YTonnyApplyResponseDto> yTonnyApplyList;
-	//	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
+	private Boolean isDeleted;
 
 
 	public static YTonnyResponseDto fromEntity(YTonnyEntity yTonnyEntity) {
