@@ -327,6 +327,7 @@ CREATE TABLE `ytonny_table`
     `y_tonny_seq`     BIGINT    NOT NULL auto_increment,
     `user_seq`        BIGINT,
     `helper_seq`      BIGINT,
+    `sessionName`     VARCHAR(255),
     `task_code`       CHAR(7),
     `start_lang_code` CHAR(7),
     `end_lang_code`   CHAR(7),

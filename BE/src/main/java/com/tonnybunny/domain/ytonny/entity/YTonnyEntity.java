@@ -33,6 +33,8 @@ public class YTonnyEntity extends CommonEntity {
 	private UserEntity client;
 	private Long helperSeq; // nullable
 
+	private String sessionName;
+
 	private String title;
 	private String tonnySituCode; // 상황 카테고리
 	private String content;
