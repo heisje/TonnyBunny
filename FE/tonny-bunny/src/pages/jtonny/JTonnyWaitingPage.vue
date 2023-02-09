@@ -174,8 +174,12 @@
                                     </div>
 
                                     <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
-                                        <div class="col-6 reject" @click="reject(apply.helper)">거절</div>
-                                        <div class="col-6 accept" @click="accept(apply.helper)">수락</div>
+                                        <div class="col-6 reject" @click="reject(apply.helper)">
+                                            거절
+                                        </div>
+                                        <div class="col-6 accept" @click="accept(apply.helper)">
+                                            수락
+                                        </div>
                                     </div>
                                 </div>
                             </transition-group>
@@ -316,6 +320,7 @@ export default {
     computed: {
         ...mapGetters({
             jtonnyRequest: "getJtonnyRequest",
+            userInfo: "getUserInfo",
         }),
 
         estimateTime() {
@@ -343,8 +348,11 @@ export default {
         },
 
         accept(helper) {
-            console.log("accept");
+            console.log("accept", helper.seq);
+            console.log("client seq:", this.userInfo.seq);
+
             // let jtonny = this.jtonnyApplyList[helperSeq];
+
             this.jtonnyRequest.helper = helper;
             this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
             this.$store.commit("TOGGLE_ALARM_MODAL");
@@ -353,12 +361,17 @@ export default {
             console.log("reject");
             this.jtonnyRequest.helper = helper;
             this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
+            delete this.jtonnyApplyList[this.jtonnyRequest.helper.seq];
         },
         cancelRequest() {
-            this.stompClient.send(`/pub/jtonny/request/cancel`, JSON.stringify(this.jtonnyRequest), {});
+            this.stompClient.send(
+                `/pub/jtonny/request/cancel`,
+                JSON.stringify(this.jtonnyRequest),
+                {}
+            );
 
-            /* 이동하기! 홈으로? */
-        }
+            this.$router.replace({ name: "TonnyPage" });
+        },
     },
     mounted() {
         const serverURL = "http://localhost:8080/api/stomp";
@@ -400,7 +413,7 @@ export default {
                         
                         오픈비두 이동 router.PUSH 
                         param? query? 는 jtonny
-                    */ 
+                    */
                 });
 
                 this.stompClient.send(
@@ -415,6 +428,10 @@ export default {
                 this.connected = false;
             }
         );
+    },
+
+    created() {
+        window.scrollTo(0, 0);
     },
     beforeUnmount() {
         this.stompClient.disconnect();
