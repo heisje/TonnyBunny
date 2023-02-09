@@ -1,88 +1,99 @@
 <template>
-    <div class="tonnyContainer container">
-        <title-banner title="통역 서비스"></title-banner>
-        <div class="tonnyWrap">
-            <div class="tonnyPage row">
-                <div class="tonnyCreate col-md-2 col-12">
-                    <div class="d-flex flex-column w-100 px-2">
-                        <div class="d-flex">
-                            <span class="material-symbols-outlined fs-5 mb-3"> add </span>
-                            <div>신청 하기</div>
-                        </div>
-                        <!-- <title-text title="통역 신청" top="0"></title-text> -->
-                        <router-link :to="{ name: 'JTonnyFormPage' }">
-                            <medium-btn
-                                text="즉시통역"
-                                class="w-100"
-                                color="outline"
-                                font="active"></medium-btn>
-                        </router-link>
-                        <router-link :to="{ name: 'JTonnyApplyPage' }" v-show="isHelper">
-                            <medium-btn
-                                text="즉시통역 받기"
-                                class="w-100"
-                                color="outline"
-                                font="active"></medium-btn>
-                        </router-link>
-                        <router-link :to="{ name: 'YTonnyFormPage' }">
-                            <medium-btn
-                                text="예약통역"
-                                class="w-100"
-                                color="outline"
-                                font="active"></medium-btn>
-                        </router-link>
-                    </div>
-                </div>
+	<div class="tonnyContainer container">
+		<title-banner
+			title="Let's Tonny!"
+			text="헬퍼에게 통역 서비스를 신청해볼까요?"></title-banner>
+		<div class="tonnyWrap">
+			<div class="tonnyPage row">
+				<div class="tonnyCreate col-md-2 col-12">
+					<div class="d-flex flex-column w-100 px-2">
+						<div class="d-flex">
+							<span class="material-symbols-outlined fs-5 mb-3"> add </span>
+							<div>신청하기</div>
+						</div>
+						<router-link :to="{ name: 'JTonnyApplyPage' }" v-show="isHelper">
+							<medium-btn
+								text="즉시통역 받기"
+								class="w-100"
+								color="success"
+								font="active"></medium-btn>
+						</router-link>
+						<router-link :to="{ name: 'JTonnyFormPage' }">
+							<medium-btn
+								text="즉시통역"
+								class="w-100"
+								color="outline"
+								font="active"></medium-btn>
+						</router-link>
+						<router-link :to="{ name: 'YTonnyFormPage' }">
+							<medium-btn
+								text="예약통역"
+								class="w-100"
+								color="outline"
+								font="active"></medium-btn>
+						</router-link>
+					</div>
+				</div>
 
-                <div class="col-md-4 col-12">
-                    <div>
-                        <title-text title="오늘 일정" top="0"></title-text>
-                        <hr />
-                        <div class="">오늘 일정</div>
-                        <v-lazy></v-lazy>
-                    </div>
-                    <div>
-                        <title-text title="히스토리"></title-text>
-                        <hr />
+				<div class="col-md-4 col-12">
+					<div style="min-height: 300px">
+						<title-text title="오늘 일정" top="0"></title-text>
+						<hr />
+						<div class="">오늘 일정</div>
+						<v-lazy></v-lazy>
+					</div>
+					<div>
+						<title-text title="히스토리"></title-text>
+						<hr />
 
-                        <div class="">히스토리</div>
-                        <v-lazy></v-lazy>
-                    </div>
-                </div>
+						<div class="history">히스토리</div>
+						<v-lazy></v-lazy>
+					</div>
+				</div>
 
-                <div class="col-md-6 col-12">
-                    <title-text title="모집중인 예약 통역 목록" top="0"></title-text>
-                    <hr />
+				<div class="col-md-6 col-12">
+					<title-text title="모집중인 예약 통역 목록" top="0"></title-text>
+					<hr />
+					<div>정렬버튼</div>
+					<div v-for="(yTonny, index) in yTonnyList" :key="index">
+						<v-lazy
+							v-model="yTonnyList"
+							:options="{ threshold: 0.5 }"
+							transition="fade-transition">
+							<!-- {{ yTonnyList }} -->
+							<div class="contentWrap" v-show="!yTonny.isDeleted">
+								<div class="d-flex">
+									<div class="pe-2">{{ yTonny.tonnySituCode }}</div>
+									<router-link
+										:to="{
+											name: 'YTonnyDetailPage',
+											params: { id: yTonny.seq }
+										}">
+										<div>{{ yTonny.title }}</div>
+									</router-link>
+								</div>
+								<div>{{ yTonny.content }}</div>
+								<div>{{ yTonny.startDateTime }}</div>
+								<div>{{ yTonny.estimateTime }}</div>
+								<div>{{ yTonny.estimatePrice }}</div>
+								<div>{{ yTonny.createdAt }}</div>
+							</div>
+						</v-lazy>
+					</div>
 
-                    <div v-for="(yTonny, index) in yTonnyList" :key="index">
-                        <v-lazy
-                            v-model="yTonnyList"
-                            :options="{ threshold: 0.5 }"
-                            transition="fade-transition">
-                            <!-- {{ yTonnyList }} -->
-                            <div class="contentWrap" v-show="!yTonny.isDeleted">
-                                <div class="d-flex">
-                                    <div class="pe-2">{{ yTonny.tonnySituCode }}</div>
-                                    <router-link
-                                        :to="{
-                                            name: 'YTonnyDetailPage',
-                                            params: { id: yTonny.seq },
-                                        }">
-                                        <div>{{ yTonny.title }}</div>
-                                    </router-link>
-                                </div>
-                                <div>{{ yTonny.content }}</div>
-                                <div>{{ yTonny.startDateTime }}</div>
-                                <div>{{ yTonny.estimateTime }}</div>
-                                <div>{{ yTonny.estimatePrice }}</div>
-                                <div>{{ yTonny.createdAt }}</div>
-                            </div>
-                        </v-lazy>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					<v-pagination
+						v-model="currentPage"
+						:length="yTonnyListTotalCount"
+						rounded="circle"
+						:total-visible="5"
+						class="mt-5"
+						prev-icon="mdi-menu-left"
+						next-icon="mdi-menu-right"
+						@click="nextPage"></v-pagination>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -92,51 +103,77 @@ import TitleText from "@/components/common/TitleText.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
-    name: "TonnyPage",
+	name: "TonnyPage",
 
-    components: { MediumBtn, TitleText, TitleBanner },
+	components: { MediumBtn, TitleText, TitleBanner },
 
-    computed: {
-        ...mapGetters({
-            yTonnyList: "getYTonnyList",
-            userInfo: "getUserInfo",
-            isHelper: "getIsHelper",
-        }),
-    },
+	data() {
+		return {
+			currentPage: 1
+		};
+	},
 
-    async created() {
-        console.log("userInfo: ", this.userInfo);
-        console.log("isHelper: ", this.isHelper);
-        await this.$store.dispatch("getYTonnyList");
-        console.log("hihi:", this.yTonnyList);
-    },
+	computed: {
+		...mapGetters({
+			yTonnyList: "getYTonnyList",
+			yTonnyListTotalCount: "getYTonnyListTotalCount",
+			userInfo: "getUserInfo",
+			isHelper: "getIsHelper"
+		})
+	},
+
+	methods: {
+		async nextPage() {
+			await this.$store.dispatch("getYTonnyList", this.currentPage);
+			window.scrollTo(0, 0);
+		}
+	},
+
+	async created() {
+		window.scrollTo(0, 0);
+		await this.$store.dispatch("getYTonnyListTotalCount");
+		await this.$store.dispatch("getYTonnyList", this.currentPage);
+		console.log("userInfo:", this.userInfo);
+		console.log(this.yTonnyListTotalCount);
+	}
 };
 </script>
 
 <style lang="scss" scoped>
 .tonnyWrap {
-    margin-top: 24px;
+	margin-top: 24px;
 }
 .tonnyPage {
-    display: flex;
+	display: flex;
+	// max-height: 1000px;
 }
 
 .tonnyCreate {
-    display: flex;
-    height: 220px;
-    // background-color: var(--thin-color);
-    padding: 0 10px 0 0;
+	display: flex;
+	height: 220px;
+	// background-color: var(--thin-color);
+	padding: 0 10px 0 0;
 
-    a {
-        margin: 0 10px 10px 0px;
-    }
+	a {
+		margin: 0 10px 10px 0px;
+	}
+}
+
+.history {
+	// max-height: 400px;
 }
 
 .contentWrap {
-    padding: 24px 24px;
+	padding: 24px 24px;
 
-    border: 1px solid rgba(0, 0, 0, 0.13);
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-    border-radius: 6px;
+	border: 1px solid rgba(0, 0, 0, 0.13);
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+	border-radius: 6px;
+}
+
+nav {
+	:nth-child(1) {
+		padding: 0;
+	}
 }
 </style>
