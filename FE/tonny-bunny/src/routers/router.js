@@ -205,7 +205,7 @@ export default createRouter({
         },
 
         {
-            path: "/jtonny/accept",
+            path: "/jtonny/apply",
             name: "JTonnyApplyPage",
             components: {
                 header: AppHeader,
