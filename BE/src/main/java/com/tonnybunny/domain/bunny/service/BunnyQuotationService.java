@@ -20,7 +20,6 @@ import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -182,10 +181,8 @@ public class BunnyQuotationService {
 		                                                    .startLangCode(bunnyQuotation.getStartLangCode())
 		                                                    .endLangCode(bunnyQuotation.getEndLangCode())
 		                                                    .content(bunny.getContent())
-		                                                    // TODO
-		                                                    //  견적서 수락할 때 now() 찍어둬야 함
-		                                                    //  .startDateTime(bunnyQuotation.get)
-		                                                    .endDateTime(LocalDateTime.now())
+		                                                    .startDateTime(bunnyQuotation.getStartDateTime())
+		                                                    .endDateTime(bunnyQuotation.getEndDateTime())
 		                                                    .title(bunny.getTitle())
 		                                                    .totalPrice(bunnyQuotation.getTotalPrice())
 		                                                    .build();

@@ -81,14 +81,14 @@ public class YTonnyService {
 		// param setting
 		Long yTonnySeq = yTonnyApplyRequestDto.getYTonnySeq();
 		Long helperSeq = yTonnyApplyRequestDto.getHelperSeq();
-		Integer totalPrice = yTonnyApplyRequestDto.getTotalPrice();
+		Integer unitPrice = yTonnyApplyRequestDto.getUnitPrice();
 
 		// find
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// dto -> entity
-		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).totalPrice(totalPrice).build();
+		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).unitPrice(unitPrice).build();
 		yTonnyEntity.getYTonnyApplyList().add(yTonnyApplyEntity);
 
 		// save
@@ -185,14 +185,14 @@ public class YTonnyService {
 
 		// 수정
 		yTonnyEntity.update(yTonnyRequestDto.getTitle(),
-		                    yTonnyRequestDto.getTonnySituCode(),
-		                    yTonnyRequestDto.getContent(),
-		                    yTonnyRequestDto.getStartLangCode(),
-		                    yTonnyRequestDto.getEndLangCode(),
-		                    yTonnyRequestDto.getStartDateTime(),
-		                    yTonnyRequestDto.getEstimateTime(),
-		                    yTonnyRequestDto.getEstimatePrice());
-		
+			yTonnyRequestDto.getTonnySituCode(),
+			yTonnyRequestDto.getContent(),
+			yTonnyRequestDto.getStartLangCode(),
+			yTonnyRequestDto.getEndLangCode(),
+			yTonnyRequestDto.getStartDateTime(),
+			yTonnyRequestDto.getEstimateTime(),
+			yTonnyRequestDto.getEstimatePrice());
+
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
 

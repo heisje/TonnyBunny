@@ -351,7 +351,7 @@ CREATE TABLE `ytonny_apply_table`
     `y_tonny_apply_seq` BIGINT    NOT NULL auto_increment,
     `y_tonny_seq`       BIGINT,
     `helper_seq`        BIGINT,
-    `total_price`       INTEGER,
+    `unit_price`        INTEGER,
     `created_at`        TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`        TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`y_tonny_apply_seq`),
