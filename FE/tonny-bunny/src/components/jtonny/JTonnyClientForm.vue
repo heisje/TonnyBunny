@@ -7,16 +7,22 @@
                 <div class="">
                     <label for="">내 언어</label>
                     <DropdownInputCode
+                        ref="startLangCode"
+                        :disable="changLangCount % 2 ? false : true"
                         :dropdownArray="langCode"
-                        placeholder="내 언어"
+                        placeholder="한국어"
                         @toggle="(e) => (jtonnyRequest.startLangCode = e)" />
                 </div>
-                <div class="swap">
+
+                <div class="swap" @click="changLangCode">
                     <span class="material-symbols-outlined"> compare_arrows </span>
                 </div>
+
                 <div class="">
                     <label for="">필요 언어</label>
                     <DropdownInputCode
+                        ref="endLangCode"
+                        :disable="changLangCount % 2 ? true : false"
                         :dropdownArray="langCode"
                         placeholder="필요 언어"
                         @toggle="(e) => (jtonnyRequest.endLangCode = e)" />
@@ -52,28 +58,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- <title-text
-                important
-                type="h2"
-                title="예상 소요 시간"
-                text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?" />
-
-            <div class="d-flex">
-                <div class="w120">
-                    <input
-                        type="text"
-                        :name="input1.id"
-                        :id="input1.id"
-                        :pattern="input1.pattern"
-                        v-model="jtonnyRequest.estimateTime"
-                        @input="changeInput"
-                        placeholder="ex)30" />
-                </div>
-                <div class="backlabel">
-                    <h3>분</h3>
-                </div>
-            </div> -->
 
             <title-text
                 type="h2"
@@ -123,6 +107,7 @@ export default {
 
     computed: {
         ...mapGetters({
+            allCode: "getAllCode",
             userInfo: "getUserInfo",
             langCode: "getLangCode",
             tonnySituCode: "getTonnySituCode",
@@ -133,13 +118,7 @@ export default {
 
     data() {
         return {
-            input1: {
-                id: "input1",
-                value: "",
-                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", // 유효성검사 조건(HTML 용)
-                validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
-                notice: "", // 유효성검사 결과 텍스트
-            },
+            changLangCount: 0,
 
             agreeValue: false,
 
@@ -154,7 +133,7 @@ export default {
                 },
                 taskCode: "0030001",
                 taskStateCode: "0090001",
-                startLangCode: "",
+                startLangCode: "0020001",
                 endLangCode: "",
                 tonnySituCode: "",
                 content: "",
@@ -182,13 +161,21 @@ export default {
         test() {
             this.jtonnyRequest.client.seq = this.userInfo.seq;
             this.jtonnyRequest.client.nickName = this.userInfo.nickName;
-            this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`
+            this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`;
 
             console.log("jtonnyRequest", this.jtonnyRequest);
 
-
             this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
             this.$router.push({ name: "JTonnyWaitingPage" });
+        },
+
+        changLangCode() {
+            const temp = this.jtonnyRequest.startLangCode;
+            this.jtonnyRequest.startLangCode = this.jtonnyRequest.endLangCode;
+            this.jtonnyRequest.endLangCode = temp;
+            this.$refs.startLangCode.changeEventParent(this.jtonnyRequest.startLangCode);
+            this.$refs.endLangCode.changeEventParent(this.jtonnyRequest.endLangCode);
+            this.changLangCount += 1;
         },
     },
 };
