@@ -470,5 +470,10 @@ export default {
             this.mainStreamManager = stream;
         },
     },
+
+    created() {
+        this.sessionName = this.$route.params.sessionName;
+        this.joinSession();
+    },
 };
 </script>

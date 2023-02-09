@@ -5,7 +5,8 @@
                 <div class="customForm col-md-6 col-12 d-flex flex-column justify-content-center">
                     <title-text
                         title="즉시통역 신청이 들어왔어요!"
-                        text="고객들이 신청한 즉시통역 내역이에요" />
+                        text="고객들이 신청한 즉시통역 내역이에요"
+                    />
                     <hr />
                     <v-alert
                         v-show="isAlertOpen"
@@ -14,11 +15,13 @@
                         text="즉시통역 신청은 3개까지만 가능합니다."
                         type="error"
                         variant="tonal"
-                        class="alert"></v-alert>
+                        class="alert"
+                    ></v-alert>
                     <v-lazy
                         v-model="jtonnyQuestList"
                         :options="{ threshold: 0.5 }"
-                        transition="fade-transition">
+                        transition="fade-transition"
+                    >
                         <div v-if="jtonnyQuestListLength > 0" class="mb-5">
                             <transition-group name="slide-up">
                                 <div v-for="(quest, index) in jtonnyQuestList" :key="index">
@@ -32,7 +35,8 @@
                                                         class="profileImg"
                                                         src="@/assets/noProfile_white.png"
                                                         width="70"
-                                                        height="70" />
+                                                        height="70"
+                                                    />
                                                     <div class="userType ms-2">
                                                         <span class="label">고객</span>
                                                         <h4 class="" v-if="quest?.client?.nickName">
@@ -47,7 +51,8 @@
                                                         <square-tag
                                                             :text="quest.startLangCode"
                                                             sub
-                                                            class="me-2"></square-tag>
+                                                            class="me-2"
+                                                        ></square-tag>
                                                         <div class="me-2">
                                                             <span class="material-symbols-outlined">
                                                                 compare_arrows
@@ -55,7 +60,8 @@
                                                         </div>
                                                         <square-tag
                                                             :text="quest.endLangCode"
-                                                            sub></square-tag>
+                                                            sub
+                                                        ></square-tag>
                                                     </div>
                                                     <div>{{ quest.unitPrice }}</div>
                                                     <div>{{ quest.estimateTime }}</div>
@@ -78,7 +84,8 @@
                                             color="outline"
                                             font="active"
                                             class="w-100"
-                                            @click="toggleMoreOpen"></medium-btn>
+                                            @click="toggleMoreOpen"
+                                        ></medium-btn>
                                         <v-table v-show="isMoreOpen">
                                             <thead>
                                                 <tr class="">
@@ -93,7 +100,8 @@
                                                         <square-tag
                                                             :text="quest.startLangCode"
                                                             sub
-                                                            class="me-2"></square-tag>
+                                                            class="me-2"
+                                                        ></square-tag>
                                                         <div class="me-2">
                                                             <span class="material-symbols-outlined">
                                                                 compare_arrows
@@ -101,7 +109,8 @@
                                                         </div>
                                                         <square-tag
                                                             :text="quest.endLangCode"
-                                                            sub></square-tag>
+                                                            sub
+                                                        ></square-tag>
                                                     </td>
                                                 </tr>
 
@@ -144,7 +153,8 @@
                                     <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
                                         <div
                                             class="col-6 reject"
-                                            @click="cancelApply(quest.client.seq)">
+                                            @click="cancelApply(quest.client.seq)"
+                                        >
                                             거절
                                         </div>
                                         <div class="col-6 accept" @click="apply(quest.client.seq)">
@@ -176,23 +186,27 @@
                     <div>
                         <title-text
                             title="신청한 즉시통역 목록"
-                            text="현재 신청한 즉시통역 내역이에요"></title-text>
+                            text="현재 신청한 즉시통역 내역이에요"
+                        ></title-text>
                         <hr />
 
                         <transition-group name="slide-up">
                             <div
                                 v-for="(apply, index) in Object.values(jtonnyApplyQuestList)"
-                                :key="index">
+                                :key="index"
+                            >
                                 <div v-if="index < 3" class="row px-3">
                                     <!-- {{ apply }} -->
 
                                     <div class="d-flex flex-row align-items-center quest py-3 px-2">
                                         <div
-                                            class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                        >
                                             <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50" />
+                                                height="50"
+                                            />
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -219,7 +233,8 @@
 
                                         <div
                                             class="closeBtn col-1"
-                                            @click="cancelApply(apply.client.seq)">
+                                            @click="cancelApply(apply.client.seq)"
+                                        >
                                             <span class="material-symbols-outlined"> close </span>
                                         </div>
                                     </div>
@@ -230,19 +245,22 @@
                     <div>
                         <title-text
                             title="통역 예약 목록"
-                            text="통역 예약도 받아볼까요?"></title-text>
+                            text="통역 예약도 받아볼까요?"
+                        ></title-text>
                         <hr />
 
                         <v-lazy
                             v-model="yTonnyList"
                             :options="{ threshold: 0.5 }"
-                            transition="fade-transition">
+                            transition="fade-transition"
+                        >
                             <div v-if="yTonnyList.length > 0">
                                 <transition-group name="slide-up">
                                     <div
                                         v-for="(yTonny, index) in yTonnyList"
                                         :key="index"
-                                        class="w-100 row">
+                                        class="w-100 row"
+                                    >
                                         <!-- {{ yTonny }} -->
 
                                         <div class="d-flex flex-row align-items-center yTonny">
@@ -251,12 +269,14 @@
                                                     <square-tag
                                                         :text="yTonny.tonnySituCode"
                                                         sub
-                                                        class="me-1"></square-tag>
+                                                        class="me-1"
+                                                    ></square-tag>
                                                     <router-link
                                                         :to="{
                                                             name: 'YTonnyDetailPage',
                                                             params: { id: yTonny.seq },
-                                                        }">
+                                                        }"
+                                                    >
                                                         <div>{{ yTonny.title }}</div>
                                                     </router-link>
                                                 </div>
@@ -284,7 +304,8 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                :link="{ name: 'HomePage' }">
+                :link="{ name: 'HomePage' }"
+            >
                 <template #content> 대기가 취소되었습니다<br />또 이용해주세요! </template>
             </AlarmModal>
         </div>
@@ -447,8 +468,10 @@ export default {
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/accept/${this.userInfo.seq}`, (res) => {
-                    console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
+                    console.log("즉시통역 매칭 완료. 오픈비두 이동(헬퍼)", res.body);
 
+                    const data = JSON.parse(res.body);
+                    this.$router.push({ name: "LivePage", params: { sessionName: data.uuid } });
                     /* 
                         let jtonny = JSON.parse(res.body);
                         

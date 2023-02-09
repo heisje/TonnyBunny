@@ -242,7 +242,6 @@ export default {
 
         try {
             console.log("async function : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case "success":
