@@ -94,16 +94,15 @@ public class BoardService {
 		                                                    .content(boardRequestDto.getContent())
 		                                                    .build());
 
-		boardRepository.save(board);
-
 		// 이미지리스트를 참조시킬 보드의 시퀀스값
-		Long boardSeq = board.getSeq();
+		Long boardSeq = boardRepository.save(board).getSeq();
 
 		// image save
 		try {
 			// MultipartHttpServletRequest 로 들어온 이미지파일을 이미지리스트로 변환시킨다.
 			List<BoardImageEntity> boardImageList = createBoardImageList(boardSeq, request);
 			// 만들어 온 이미지리스트를 보드와 연동시킨다.
+
 			board.updateBoardImageList(boardImageList);
 			boardRepository.save(board);
 
