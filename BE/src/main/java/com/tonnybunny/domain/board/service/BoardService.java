@@ -15,6 +15,8 @@ import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,12 +48,13 @@ public class BoardService {
 	/**
 	 * repository 에서 findBoardList() 를 수행한다.
 	 *
+	 * @param pageable : page, size
 	 * @return List<BoardEntity>
 	 */
-	public List<BoardEntity> getBoardList() {
+	public Page<BoardEntity> getBoardList(Pageable pageable) {
 
-		List<BoardEntity> boardList = boardRepository.findAllByIsDelete(false);
-		return boardList;
+		Page<BoardEntity> boardPage = boardRepository.findAllByIsDeleteIsFalseOrderByCreatedAtDesc(pageable);
+		return boardPage;
 	}
 
 
