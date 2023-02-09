@@ -15,7 +15,7 @@ import java.util.List;
  * seq                  : 반환하는 헬퍼 정보의 키 값
  *
  * isActive             : 해당 헬퍼의 콜 수신 여부
- * avgScore             : 평점
+ * totalScore           : 평점
  * reviewCount          : 헬퍼가 받은 리뷰 개수
  * unitPrice            : 헬퍼가 희망하는 작업 단가
  * oneLineIntroduction  : 한 줄 소개
@@ -32,7 +32,7 @@ public class HelperInfoResponseDto {
 
 	private Long seq;
 	@Builder.Default
-	private Float avgScore = 0f;
+	private Integer totalScore = 0;
 	@Builder.Default
 	private Integer reviewCount = 0;
 	@Builder.Default
@@ -52,7 +52,7 @@ public class HelperInfoResponseDto {
 	public static HelperInfoResponseDto fromEntity(HelperInfoEntity helperInfo) {
 		return HelperInfoResponseDto.builder()
 		                            .seq(helperInfo.getSeq())
-		                            .avgScore(helperInfo.getAvgScore())
+		                            .totalScore(helperInfo.getTotalScore())
 		                            .reviewCount(helperInfo.getReviewCount())
 		                            .unitPrice(helperInfo.getUnitPrice())
 		                            .oneLineIntroduction(helperInfo.getOneLineIntroduction())

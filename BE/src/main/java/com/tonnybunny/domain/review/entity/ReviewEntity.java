@@ -26,7 +26,7 @@ public class ReviewEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity user; // M:1 매핑
 
-	private Float score;
+	private Integer score;
 
 	private String comment;
 

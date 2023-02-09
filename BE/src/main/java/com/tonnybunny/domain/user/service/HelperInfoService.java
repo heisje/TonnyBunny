@@ -67,7 +67,6 @@ public class HelperInfoService {
 	@Transactional
 	public List<CertificateEntity> createCertificateList(HelperInfoEntity helperInfo, List<CertificateRequestDto> certificateList) {
 		System.out.println("HelperInfoService.createCertificateList");
-		//		List<Long> result = new ArrayList<>(); // 결과 seq 담을 리스트
 		List<CertificateEntity> newCertificateList = new ArrayList<>();
 
 		for (CertificateRequestDto certificateRequestDto : certificateList) {
@@ -82,26 +81,6 @@ public class HelperInfoService {
 		}
 		System.out.println("HelperInfoService.createCertificateList");
 		return newCertificateList;
-	}
-
-
-	/**
-	 * 한번에 여러 자격증 정보를 삭제
-	 *
-	 * @param certificateSeqList : 삭제할 자격증 seq 목록
-	 * @return 삭제 성공 여부
-	 */
-	public Boolean deleteCertificateList(List<Long> certificateSeqList) {
-
-		for (Long seq : certificateSeqList) {
-			CertificateEntity certificate = certificateRepository.findById(seq).orElseThrow(
-				() -> new CustomException(NOT_FOUND_USER)
-			);
-			certificate.deleteCertificate();
-			certificateRepository.save(certificate);
-		}
-
-		return true;
 	}
 
 
