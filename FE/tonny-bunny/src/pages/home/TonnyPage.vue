@@ -22,15 +22,15 @@
 							<medium-btn
 								text="즉시통역"
 								class="w-100"
-								color="outline"
-								font="active"></medium-btn>
+								color="carrot"
+								font="white"></medium-btn>
 						</router-link>
 						<router-link :to="{ name: 'YTonnyFormPage' }">
 							<medium-btn
 								text="예약통역"
 								class="w-100"
-								color="outline"
-								font="active"></medium-btn>
+								color="carrot"
+								font="white"></medium-btn>
 						</router-link>
 					</div>
 				</div>
@@ -141,7 +141,7 @@ export default {
 
 <style lang="scss" scoped>
 .tonnyWrap {
-	margin-top: 24px;
+	margin-top: 88px;
 }
 .tonnyPage {
 	display: flex;
