@@ -162,7 +162,7 @@ import DropdownInputCode from "../common/input/DropdownInputCode.vue";
 import TitleText from "../common/TitleText.vue";
 
 export default {
-    name: "QuotationForm",
+    name: "YTonnyQuotationForm",
 
     components: {
         TitleText,
