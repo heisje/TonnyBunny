@@ -252,7 +252,13 @@
                                                         :text="yTonny.tonnySituCode"
                                                         sub
                                                         class="me-1"></square-tag>
-                                                    <div>{{ yTonny.title }}</div>
+                                                    <router-link
+                                                        :to="{
+                                                            name: 'YTonnyDetailPage',
+                                                            params: { id: yTonny.seq },
+                                                        }">
+                                                        <div>{{ yTonny.title }}</div>
+                                                    </router-link>
                                                 </div>
                                                 <div>{{ yTonny.content }}</div>
                                                 <div class="d-flex justify-space-between">

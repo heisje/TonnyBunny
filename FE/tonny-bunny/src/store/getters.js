@@ -8,6 +8,7 @@ import bunny from "./getters/bunny";
 import common from "./getters/common";
 import alert from "./getters/alert";
 import mypage from "./getters/mypage";
+import schedule from "./getters/schedule";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -21,4 +22,5 @@ export default {
     ...common,
     ...alert,
     ...mypage,
+    ...schedule,
 };

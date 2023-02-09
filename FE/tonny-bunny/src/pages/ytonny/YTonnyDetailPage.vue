@@ -50,7 +50,7 @@
                                 <div>{{ yTonnyDetail.client.nickName }}</div>
                             </a>
                         </div>
-                        <div class="edits" v-if="yTonnyDetail.isCreator">
+                        <div class="edits" v-show="isCreator">
                             <div @click.prevent="toggleEditOpen" v-click-outside="onClickOutside">
                                 <span class="material-symbols-outlined fs-4"> more_vert </span>
                             </div>
@@ -144,7 +144,7 @@
 
         <div class="col-md-6 col-12">
             <!-- yTonny 공고 신청 버튼 라인 -->
-            <div class="applys">
+            <div class="applys mb-5" v-show="isHelper">
                 <h1 class="mb-4">
                     <i class="fa-solid fa-carrot fs-4 ms-1 me-1"></i>
                     가격 제안하기
@@ -153,12 +153,12 @@
                     v-model="isActive"
                     :options="{ threshold: 0.5 }"
                     transition="fade-transition">
-                    <div v-if="isApply">
+                    <div>
                         <div class="d-flex align-items-center mb-3">
                             <input
                                 type="text"
                                 placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
-                                v-model="totalPrice"
+                                v-model="unitPrice"
                                 @keydown.enter="insertYTonnyApply" />
                         </div>
                         <medium-btn
@@ -169,14 +169,11 @@
                             @click.prevent="insertYTonnyApply"></medium-btn>
                         <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
                     </div>
-                    <div v-else>
-                        <medium-btn text="헬퍼 신청 취소하기"></medium-btn>
-                    </div>
                 </v-lazy>
             </div>
 
             <!-- yTonny Applu List View -->
-            <div class="yTonnyApplyList">
+            <div class="yTonnyApplyList mt-0">
                 <div class="d-flex align-items-center justify-content-between">
                     <h1>가격을 제안한 헬퍼들</h1>
                     <div class="label">더보기</div>
@@ -225,16 +222,16 @@
                                         <div>한 줄 소개</div>
                                         <div class="d-flex">
                                             <div>평점(리뷰카운터)</div>
-                                            <div>{{ apply.totalPrice }}</div>
+                                            <div>{{ apply.unitPrice }}</div>
                                         </div>
 
                                         <!-- <div>{{ apply.helper.helperInfo.avgScore }}</div> -->
                                         <!-- <div>{{ apply.helper.helperInfo.reviewCount }}</div> -->
-                                        <!-- <div>{{ apply.totalPrice }}</div> -->
+                                        <!-- <div>{{ apply.unitPrice }}</div> -->
                                     </div>
 
                                     <div
-                                        v-if="yTonnyDetail.isCreator"
+                                        v-if="apply.helper.seq == userInfo.seq"
                                         class="closeBtn col-1"
                                         @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)">
                                         <span class="material-symbols-outlined"> close </span>
@@ -292,13 +289,12 @@ export default {
             yTonnyDetailElement: null,
             yTonnyApplyListElement: null,
 
-            isHelper: true,
-            isApply: true,
+            isCreator: false,
             isEditOpen: false,
             isActive: true,
             isLikeEmpty: true,
 
-            totalPrice: "",
+            unitPrice: "",
         };
     },
 
@@ -308,6 +304,7 @@ export default {
             yTonnyDetail: "getYTonnyDetail",
             yTonnyApplyList: "getYTonnyApplyList",
             userInfo: "getUserInfo",
+            isHelper: "getIsHelper",
         }),
 
         createdAt() {
@@ -343,7 +340,7 @@ export default {
         //     }
         // },
 
-        getYTonnyApplyList() {
+        async getYTonnyApplyList() {
             this.$store.dispatch("getYTonnyApplyList", this.yTonnySeq);
         },
 
@@ -362,14 +359,14 @@ export default {
 
         async insertYTonnyApply() {
             let payload = {
-                helperSeq: 1,
+                helperSeq: this.userInfo.seq,
                 ytonnySeq: this.yTonnySeq,
-                totalPrice: this.totalPrice,
+                unitPrice: this.unitPrice,
             };
 
             await this.$store.dispatch("insertYTonnyApply", payload);
             await this.getYTonnyApplyList();
-            this.totalPrice = "";
+            this.unitPrice = "";
         },
 
         updateFormOpen() {
@@ -387,19 +384,29 @@ export default {
             await this.$store.dispatch("removeYTonnyApply", payload);
             await this.getYTonnyApplyList();
         },
+
+        checkIsCreator() {
+            let yTonnyCreatorSeq = this.yTonnyDetail.client.seq;
+
+            if (yTonnyCreatorSeq == this.userInfo.seq) {
+                this.isCreator = true;
+            }
+        },
     },
 
     async created() {
+        window.scrollTo(0, 0);
+
         console.log("userInfo: ", this.userInfo, "token: ", this.userInfo.seq);
 
         // detail 정보 가져오기
         await this.$store.commit("SET_Y_TONNY_SEQ", this.$route.params.id);
+        console.log("routes params: ", this.$route.params.id);
 
-        let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
-        await this.$store.dispatch("getYTonnyDetail", payload);
+        // let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
+        await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
         await this.getYTonnyApplyList();
-
-        window.scrollTo(0, 0);
+        this.checkIsCreator();
     },
 
     mounted() {
@@ -438,7 +445,7 @@ export default {
 
     .applys {
         // margin-top: 40px;
-        // margin-bottom: 80px;
+        // margin-bottom: 140px;
 
         // padding: 100px;
         padding: 32px 24px;
