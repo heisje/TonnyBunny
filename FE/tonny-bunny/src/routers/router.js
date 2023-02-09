@@ -224,7 +224,7 @@ export default createRouter({
             },
         },
 
-        //ytonny
+        // ytonny
         {
             path: "/ytonny/:id",
             name: "YTonnyDetailPage",
@@ -541,13 +541,14 @@ export default createRouter({
         },
 
         {
-            path: "/mypage/profile",
+            path: "/mypage/profile/:id",
             name: "ProfilePage",
             components: {
                 header: AppHeader,
                 default: ProfilePage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         {

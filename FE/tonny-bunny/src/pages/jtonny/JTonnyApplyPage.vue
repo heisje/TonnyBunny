@@ -242,26 +242,23 @@
                             </div>
                         </transition-group>
                     </div>
-                    <div>
+                    <!-- <div>
                         <title-text
                             title="통역 예약 목록"
-                            text="통역 예약도 받아볼까요?"
-                        ></title-text>
+                            text="통역 예약도 받아볼까요?"></title-text>
                         <hr />
 
                         <v-lazy
                             v-model="yTonnyList"
                             :options="{ threshold: 0.5 }"
-                            transition="fade-transition"
-                        >
+                            transition="fade-transition">
                             <div v-if="yTonnyList.length > 0">
                                 <transition-group name="slide-up">
                                     <div
                                         v-for="(yTonny, index) in yTonnyList"
                                         :key="index"
-                                        class="w-100 row"
-                                    >
-                                        <!-- {{ yTonny }} -->
+                                        class="w-100 row">
+                                        {{ yTonny }} 
 
                                         <div class="d-flex flex-row align-items-center yTonny">
                                             <div class="col-12">
@@ -269,14 +266,12 @@
                                                     <square-tag
                                                         :text="yTonny.tonnySituCode"
                                                         sub
-                                                        class="me-1"
-                                                    ></square-tag>
+                                                        class="me-1"></square-tag>
                                                     <router-link
                                                         :to="{
                                                             name: 'YTonnyDetailPage',
                                                             params: { id: yTonny.seq },
-                                                        }"
-                                                    >
+                                                        }">
                                                         <div>{{ yTonny.title }}</div>
                                                     </router-link>
                                                 </div>
@@ -292,7 +287,7 @@
                             </div>
                             <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
                         </v-lazy>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -316,7 +311,7 @@
                 btnText2="다음"
                 btnColor1="main"
                 btnColor2="carrot"
-                btnFontColor1="white"
+                btnFontColor1="main"
                 btnFontColor2="white"
                 @clickBtn2="onAir"
             >
@@ -357,6 +352,7 @@ import { mapGetters } from "vuex";
 
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import http from "@/common/axios";
 
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
@@ -423,8 +419,7 @@ export default {
                 nickName: this.userInfo.nickName,
             };
 
-            // FIXME: 현재 내 단가를 넣어야함 helperinfo 들어오면
-            jtonnyApply.unitPrice = 5000;
+            jtonnyApply.unitPrice = this.userInfo.helperInfo.unitPrice;
             this.jtonnyApplyQuestList[seq] = jtonnyApply;
             this.applyCount++;
 
@@ -439,7 +434,6 @@ export default {
         cancelApply(seq) {
             let jtonnyApply = this.jtonnyQuestList[seq];
 
-            // 이거 상대편에서 안 없어짐
             this.stompClient.send("/pub/jtonny/apply/cancel", JSON.stringify(jtonnyApply), {});
             delete this.jtonnyQuestList[seq];
             delete this.jtonnyApplyQuestList[seq];
@@ -453,7 +447,7 @@ export default {
     },
 
     mounted() {
-        const serverURL = "http://localhost:8080/api/stomp";
+        const serverURL = http.getUri() + "/stomp";
         let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
         let socket = new SockJS(serverURL);
 
@@ -489,7 +483,6 @@ export default {
 
                             let request = JSON.parse(res.body);
                             delete this.jtonnyQuestList[request.client.seq];
-                            console.log("안뇽:", this.jtonnyApplyQuestList);
                             delete this.jtonnyApplyQuestList[request.client.seq];
                         }
                     );
@@ -497,17 +490,22 @@ export default {
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/accept/${this.userInfo.seq}`, (res) => {
-                    console.log("즉시통역 매칭 완료. 오픈비두 이동(헬퍼)", res.body);
+                    console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
 
                     const data = JSON.parse(res.body);
                     this.$store.commit("SET_START_RES_DATA", data);
+
                     /* 
                         let jtonny = JSON.parse(res.body);
                         
                         오픈비두 이동 router.PUSH 
                         param? query? 는 jtonny
+
+						
                     */
+
                     this.modalName = "accept";
+
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                 });
 

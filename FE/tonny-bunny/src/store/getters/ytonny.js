@@ -18,5 +18,11 @@ export default {
 	},
 	getYTonnyApplyList(state) {
 		return state.ytonny.yTonnyApplyList;
+	},
+	getYTonnyListTotalCount(state) {
+		return state.ytonny.yTonnyListTotalCount;
+	},
+	getYTonnyApplyListTotalCount(state) {
+		return state.ytonny.yTonnyApplyListTotalCount;
 	}
 };

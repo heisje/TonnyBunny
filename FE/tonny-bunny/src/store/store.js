@@ -15,6 +15,7 @@ import common from "./state/common";
 import alert from "./state/alert";
 import mypage from "./state/mypage";
 import schedule from "./state/schedule";
+import review from "./state/review";
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
@@ -35,6 +36,7 @@ export default createStore({
         alert,
         mypage,
         schedule,
+        review,
     },
 
     getters,

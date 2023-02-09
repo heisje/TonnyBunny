@@ -9,6 +9,7 @@ import common from "./getters/common";
 import alert from "./getters/alert";
 import mypage from "./getters/mypage";
 import schedule from "./getters/schedule";
+import review from "./getters/review";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -23,4 +24,5 @@ export default {
     ...alert,
     ...mypage,
     ...schedule,
+    ...review,
 };

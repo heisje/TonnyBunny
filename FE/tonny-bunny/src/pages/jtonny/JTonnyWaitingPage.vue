@@ -281,6 +281,17 @@ import http from "@/common/axios";
 export default {
     name: "JTonnyWaitingPage",
 
+    data() {
+        return {
+            // 수락할 시
+            sessionName: "",
+            isFind: false,
+            isOpen1: false,
+            stompClient: null, // 페이지 이탈할 때 끊어주기
+            jtonnyApplyList: {},
+        };
+    },
+
     components: {
         JTonnyLoading,
         TitleText,
@@ -291,15 +302,6 @@ export default {
         AlarmModal,
         MediumBtn,
         SquareTag,
-    },
-
-    data() {
-        return {
-            isFind: false,
-            isOpen1: false,
-            stompClient: null, // 페이지 이탈할 때 끊어주기
-            jtonnyApplyList: {},
-        };
     },
 
     computed: {
@@ -324,9 +326,6 @@ export default {
     },
 
     methods: {
-        찾아짐() {
-            this.isFind = true;
-        },
         onAir() {
             this.$store.commit("CLOSE_ALARM_MODAL");
             this.$router.push({
