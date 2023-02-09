@@ -298,10 +298,9 @@ export default {
                 });
 
                 this.session.on("sessionDisconnected", (event) => {
-                    if (this.isRecording) {
-                        console.log("나가기전에 여기 실행 됩니까??");
-                        this.stopRecording();
-                    }
+                    // if (this.isRecording) {
+                    //     this.stopRecording();
+                    // }
                     if (event.reason !== "disconnect") {
                         this.removeUser();
                     }
@@ -361,7 +360,7 @@ export default {
                             console.log(
                                 "방생성@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
                             );
-                            this.startRecording();
+                            // this.startRecording();
                         }
                     })
                     .catch((error) => {
