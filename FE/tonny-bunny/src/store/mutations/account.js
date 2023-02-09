@@ -25,9 +25,9 @@ export default {
         console.log(state.account.ACCESS_TOKEN, state.account.REFRESH_TOKEN);
     },
 
-    SET_USER_CODE(state, isHelper) {
+    SET_IS_HELPER(state, isHelper) {
         state.account.isHelper = isHelper;
-        console.log(state.account.isHelper);
+        console.log("isHelper: ", state.account.isHelper);
     },
 
     // logout
