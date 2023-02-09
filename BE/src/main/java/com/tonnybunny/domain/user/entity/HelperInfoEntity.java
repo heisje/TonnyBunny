@@ -26,7 +26,7 @@ public class HelperInfoEntity extends CommonEntity {
 	private Long seq;
 
 	private Boolean isActive = false;
-	private Float avgScore = 0f;
+	private Integer totalScore = 0;
 	private Integer reviewCount = 0;
 
 	@OneToOne(fetch = FetchType.LAZY)
