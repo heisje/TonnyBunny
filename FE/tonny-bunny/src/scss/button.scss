@@ -136,6 +136,7 @@
         // cursor: pointer;
 
         @extend .h2;
+        font-weight: 500;
         &.carrot {
             color: var(--carrot-color);
         }
