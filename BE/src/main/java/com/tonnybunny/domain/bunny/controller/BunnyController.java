@@ -116,6 +116,34 @@ public class BunnyController {
 
 
 	/**
+	 * 고객 seq로 고객이 올린 번역공고 조회하기
+	 *
+	 * @param clientSeq : 고객 seq
+	 * @return
+	 */
+	@GetMapping("/{clientSeq}/user")
+	@ApiOperation(value = "번역 공고 리스트를 조회합니다 (with clientSeq)")
+	public ResponseEntity<ResultDto<List<BunnyResponseDto>>> getBunnyListByClientSeq(@PathVariable("clientSeq") Long clientSeq) {
+		System.out.println("clientSeq = " + clientSeq);
+		List<BunnyEntity> bunnyList = bunnyService.getBunnyListByClientSeq(clientSeq);
+		List<BunnyResponseDto> bunnyResponseDtoList = new ArrayList<>();
+
+		for (BunnyEntity bunny : bunnyList) {
+			UserEntity user = bunny.getUser();
+			BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunny);
+			bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
+			bunnyResponseDto.getClient().put("nickName", user.getNickName());
+			bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
+
+			bunnyResponseDtoList.add(bunnyResponseDto);
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDtoList));
+
+	}
+
+
+	/**
 	 * 번역 공고 신청 생성
 	 *
 	 * @param bunnyApplyRequestDto : 번역 공고 신청 정보

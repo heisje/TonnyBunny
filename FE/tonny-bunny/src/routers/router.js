@@ -420,7 +420,7 @@ export default createRouter({
 
         //live
         {
-            path: "/live",
+            path: "/live/:sessionName",
             name: "LivePage",
             components: {
                 header: AppHeader,
@@ -470,7 +470,7 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quotation/bunny/create",
+            path: "/chat/quotation/bunny/:clientSeq/create",
             name: "NBunnyQuotationForm",
             components: {
                 header: AppHeader,

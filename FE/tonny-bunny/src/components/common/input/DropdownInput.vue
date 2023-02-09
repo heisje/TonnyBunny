@@ -4,16 +4,18 @@
             class="btn dropdown-toggle w-100"
             type="button"
             data-bs-toggle="dropdown"
-            aria-expanded="false">
+            aria-expanded="false"
+        >
             <span>{{ value ? value : placeholder }}</span>
         </button>
         <ul class="dropdown-menu w-100">
-            <li v-for="dropdownItem in dropdownArray" :key="dropdownItem">
+            <li v-for="(dropdownItem, index) in dropdownArray" :key="dropdownItem">
                 <button
                     class="dropdown-item w-100"
                     :class="value === dropdownItem ? 'ariaCurrent' : ''"
-                    @click="changeValue(dropdownItem)"
-                    type="button">
+                    @click="changeValue(dropdownItem, index)"
+                    type="button"
+                >
                     {{ dropdownItem }}
                 </button>
             </li>
@@ -29,9 +31,10 @@ export default {
         };
     },
     methods: {
-        changeValue(item) {
+        changeValue(item, index) {
             this.value = item;
             this.$emit("toggle", this.value);
+            this.$emit("toggleInx", index);
         },
     },
     props: {
