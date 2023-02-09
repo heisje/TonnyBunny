@@ -32,7 +32,7 @@ public class ChatRoomService {
 	 * @param userSeq2 참여자 2 Seq
 	 * @return 채팅방 Seq
 	 */
-	public String createChatRoomSeq(Long userSeq1, Long userSeq2) {
+	public ChatRoomEntity createChatRoomSeq(Long userSeq1, Long userSeq2) {
 		Long userLessSeq = Math.min(userSeq1, userSeq2);
 		Long userLargerSeq = Math.max(userSeq1, userSeq2);
 		Optional<ChatRoomEntity> chatRoomOptional = chatRoomRepository.findByUserLessSeqAndUserLargerSeq(userLessSeq, userLargerSeq);
@@ -44,7 +44,7 @@ public class ChatRoomService {
 		} else { // 이미 있으면 기존의 방 번호 반환
 			chatRoom = chatRoomOptional.get();
 		}
-		return chatRoom.getSeq();
+		return chatRoom;
 	}
 
 

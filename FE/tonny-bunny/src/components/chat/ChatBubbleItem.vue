@@ -2,7 +2,7 @@
     <div class="m-3 p-3 border">
         <div v-if="other === true">
             <div>
-                <div><img class="img-thumbnail" src="@/assets/noProfile.png" /></div>
+                <div><img class="img-thumbnail" :src="imglink" /></div>
                 <div>{{ name }}</div>
             </div>
             <h2>{{ text }}</h2>

@@ -10,16 +10,13 @@
                 <SquareTag text="번역의뢰" sub></SquareTag>
                 <SquareTag
                     v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[0].value"
-                    success
-                ></SquareTag>
+                    success></SquareTag>
                 <SquareTag
                     v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[1].value"
-                    info
-                ></SquareTag>
+                    info></SquareTag>
                 <SquareTag
                     v-if="getBunnyDetail?.bunnyStateCode == getBunnyStateCode[2].value"
-                    white
-                ></SquareTag>
+                    white></SquareTag>
             </div>
             <TitleText type="h2" :title="getBunnyDetail?.title"></TitleText>
 
@@ -33,8 +30,7 @@
                         getLangCode,
                         getBunnyDetail?.startLangCode
                     )} ↔ ${getKeyByValue(getLangCode, getBunnyDetail?.endLangCode)}`"
-                    sub
-                ></SquareTag>
+                    sub></SquareTag>
             </div>
 
             <br /><br />
@@ -59,8 +55,7 @@
                 카테고리<br />
                 <SquareTag
                     :text="`${getKeyByValue(getBunnySituCode, getBunnyDetail?.bunnySituCode)}`"
-                    sub
-                ></SquareTag>
+                    sub></SquareTag>
             </div>
 
             <br /><br />
@@ -89,8 +84,7 @@
                             type="h2"
                             top="0"
                             bottom="0"
-                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"
-                        ></TitleText>
+                            :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"></TitleText>
                     </div>
                     <div>
                         <router-link
@@ -106,8 +100,7 @@
                 <div
                     v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                     :key="index"
-                    class="w-100"
-                >
+                    class="w-100">
                     {{ Apply }}
                     <helper-card
                         class="w-100 m-0 mb-3"
@@ -122,8 +115,7 @@
                         @remove-card="close"
                         @toggle-like-btn="toggleLike"
                         @click-btn1="check1"
-                        @click-btn2="check2"
-                    ></helper-card>
+                        @click-btn2="check2"></helper-card>
                 </div>
             </div>
             <br /><br />
@@ -133,25 +125,22 @@
                     style="width: 100%"
                     text="의뢰 취소 하기"
                     color="active"
-                    @click.prevent="deleteBunny(getBunnyDetail?.seq)"
-                />
+                    @click.prevent="deleteBunny(getBunnyDetail?.seq)" />
             </div>
-            <div v-else-if="$store.state.account.userInfo.userCode === `helper`">
+            <div v-else-if="$store.state.account.userInfo.userCode === `0010002`">
                 <div v-if="isApplyed(getBunnyDetail?.bunnyApplyList)">
                     <medium-btn
                         style="width: 100%"
                         text="신청 취소 하기"
                         color="active"
-                        @click.prevent="deleteApply"
-                    />
+                        @click.prevent="deleteApply" />
                 </div>
                 <div v-else>
                     <medium-btn
                         style="width: 100%"
                         text="의뢰 신청 하기"
                         color="carrot"
-                        @click.prevent="goToBunnyApplyPage"
-                    />
+                        @click.prevent="goToBunnyApplyPage" />
                 </div>
             </div>
         </div>
@@ -163,8 +152,7 @@
             btnColor2="main"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="clickBtn2"
-        >
+            @clickBtn2="clickBtn2">
             <template #content> 의뢰가 취소되었습니다! </template>
         </AlarmModal>
     </div>

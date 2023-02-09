@@ -31,6 +31,8 @@ export default {
         setEnterRoomInfo(event, chatRoom) {
             event.preventDefault();
 
+            // let stompSocket = this.$store.getters.getChatStompSocket;
+            // stompSocket.send("/sub/chat/5", "msg");
             this.$store.dispatch("setChatRoomInfo", chatRoom);
             this.$router.push({ name: "ChatDetailPage" });
         },

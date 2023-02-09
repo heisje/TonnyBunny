@@ -33,6 +33,11 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	private final RedisTemplate<String, Object> redisTemplate;
 	private final Set<WebSocketSession> sessions = ConcurrentHashMap.newKeySet();
 	private final SimpMessagingTemplate template;
+
+	/**
+	 * port : [roomId, userSeq] -> roomInfo(roomId : userSeq : port)
+	 */
+	private final Map<Integer, String[]> connectedPortInfo = new HashMap<>();
 	/**
 	 * userSeq:roomId:anotherUserSeq 정보 저장 -> 같은 방 다른 유저를 쉽게 찾기 위함
 	 * 데이터 추가 시점 : 한 명이라도 방을 만들면 -> 양쪽다 만듦
@@ -129,6 +134,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			Long userSeq = Long.valueOf(jsonObject.getString("userSeq"));
 			Long anotherSeq = Long.valueOf(jsonObject.getString("anotherSeq"));
 
+			// 해당 port 접속
+			connectedPortInfo.put(session.getRemoteAddress().getPort(), new String[] { roomId, userSeq.toString() });
+
 			//			System.out.println(" enter Setting " + roomId + " \n\tRoomStatus : " + roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId)
 			//				+ " \n\tNotReadInfo : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 			// 안 읽은 메세지 수를 0으로 초기화
@@ -176,7 +184,10 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			//			System.out.println("another User: " + anotherUser + " class : " + anotherUser.getClass());
 			//			System.out.println(String.format("Keys : %s, antoherSeq: %s", anotherUser.keySet(), anotherUserSeq));
 			ParticipantDto anotherUserInfo = anotherUser.get(anotherUserSeq.toString());
-			if (anotherUserInfo.getEnterRoomCount() == 0) { // 어느 세션에서도 접속하지 않은 상태
+			//			Integer anotherUserPort = anotherUserInfo.getPort();
+			//			if (connectedPortInfo.containsKey(anotherUserPort) && connectedPortInfo.get(anotherUserPort) == false) { // 어느 세션에서도 접속하지 않은 상태
+			System.out.println("AnotherUserInfo : " + anotherUserInfo.toString());
+			if (anotherUserInfo.getPort() == -1) {
 				increaseNotReadCount(roomId, anotherUserSeq);
 			}
 
@@ -188,11 +199,34 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 				.targetUserSeq(anotherUserSeq).message(jsonObject.getString("message"))
 				.notReadCount(notReadCount).build();
 			String alertJsonString = objectMapper.writeValueAsString(chatAlertDto);
+			System.out.println(String.format("구독자에게 알림을 보냄 - [%s] %s", "/sub/chat/" + anotherUserSeq, alertJsonString));
 			template.convertAndSend("/sub/chat/" + anotherUserSeq, alertJsonString);
 			break;
 
 		}
 		}
+	}
+
+
+	/**
+	 * 클라이언트와 연결이 끊어졌을 때 수행되는 핸들러
+	 *
+	 * @param session
+	 * @param status
+	 * @throws Exception
+	 */
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		/** TODO : status를 out으로 변경
+		 * */
+		System.out.println(" 세션 연결이 끊어졌습니다. ");
+		// 해당 port 연결을 false로.
+
+		String[] info = connectedPortInfo.get(session.getRemoteAddress().getPort());
+		// 방에 있는 유저 정보에서 port번호를 -1로 수정함
+		deleteParticipantInfoInChatRoom(info[0], Long.valueOf(info[1]));
+		sessions.remove(session);
+		//		sendMessageByRoomId(roomId, "[알림] " + session.getId() + "님이 퇴장하셨습니다.");
 	}
 
 
@@ -231,7 +265,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 
 		// 상대방이 아직 한번도 채팅 기능을 사용하지 않았거나 현재 채팅 방에 접속을 하지 않았다면, 정보를 입력해줌
 		if (notReadInfo.hasKey(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString()) == false
-			|| notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString()).containsKey(roomId)) {
+			|| notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString()).containsKey(roomId) == false) {
 			Map<String, Integer> notReadAnother = new HashMap<>();
 			notReadAnother.put(roomId, 0);
 			notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), anotherUserSeq.toString(), notReadAnother);
@@ -250,7 +284,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		Integer notReadCount = notRead.get(roomId) + 1;
 		notRead.put(roomId, notReadCount);
 		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
-		//		System.out.println("\t\t *** Increase Not Read Count : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
+		System.out.println("\t\t *** Increase Not Read Count : " + notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString()));
 	}
 
 
@@ -379,6 +413,26 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	}
 
 
+	private void deleteParticipantInfoInChatRoom(String roomId, Long userSeq) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		// key-vaalue로 유저 seq : port, seq, .. 정보를 묶음
+		Map<String, ParticipantDto> userMapper = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
+		ParticipantDto participantDto = userMapper.get(userSeq.toString());
+
+		// 포트 번호와 방 입장 카운트++ 설정
+		//		System.out.println(" participant Dto : " + participantDto);
+		//		System.out.println(" Port: " + session.getRemoteAddress().getPort());
+		participantDto.setPort(-1);
+		participantDto.decreaseEnterRoomCount();
+		// 설정한 값으로 갱신
+		userMapper.put(userSeq.toString(), participantDto);
+		roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, userMapper);
+
+		// 로그 찍는 용도
+		//		session.sendMessage(new TextMessage("Enter " + roomId + "'s Room."));
+	}
+
+
 	/**
 	 * 세션 종료 했을 때 enter room count 감소
 	 *
@@ -389,25 +443,10 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, ParticipantDto> dtoMap = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomId), new TypeReference<Map<String, ParticipantDto>>() {});
 		ParticipantDto participant = dtoMap.get(userSeq.toString());
+		participant.setPort(-1);
 		participant.decreaseEnterRoomCount();
 		dtoMap.put(userSeq.toString(), participant);
 		roomInfo.put(ChatTypeEnum.CHAT_ROOM.toString(), roomId, dtoMap);
-	}
-
-
-	/**
-	 * 클라이언트와 연결이 끊어졌을 때 수행되는 핸들러
-	 *
-	 * @param session
-	 * @param status
-	 * @throws Exception
-	 */
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		/** TODO : status를 out으로 변경
-		 * */
-		sessions.remove(session);
-		//		sendMessageByRoomId(roomId, "[알림] " + session.getId() + "님이 퇴장하셨습니다.");
 	}
 
 
@@ -434,11 +473,18 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 * @return
 	 */
 	public Integer getNotReadCount(String roomId, Long userSeq) {
-		if (notReadInfo.hasKey(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq)) {
-			Map<String, Integer> notRead = notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq);
+		if (notReadInfo.hasKey(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString())) {
+			Map<String, Integer> notRead = notReadInfo.get(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString());
 			if (notRead.containsKey(roomId))
 				return notRead.get(roomId);
+			else {
+				System.out.println(" [getNotReadCount()] notReadInfo에 roomId가 등록되지 않았었음");
+			}
 		}
+		System.out.println(" [getNotReadCount()] notReadInfo에 정보가 등록되지 않았었음");
+		Map<String, Integer> notRead = new HashMap<>();
+		notRead.put(roomId, 0);
+		notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
 		return 0;
 	}
 

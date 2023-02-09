@@ -70,8 +70,27 @@ public class ChatRoomController {
 	 * @return
 	 */
 	@PostMapping("/chat/room/{userSeq1}/{userSeq2}")
-	public ResponseEntity<ResultDto<String>> createRoom(@PathVariable("userSeq1") Long userSeq1, @PathVariable("userSeq2") Long userSeq2) {
-		String chatRoomSeq = chatRoomService.createChatRoomSeq(userSeq1, userSeq2);
+	public ResponseEntity<ResultDto<ChatRoomResponseDto>> createRoom(@PathVariable("userSeq1") Long userSeq1, @PathVariable("userSeq2") Long userSeq2) {
+		ChatRoomEntity chatRoom = chatRoomService.createChatRoomSeq(userSeq1, userSeq2);
+
+		String roomSeq = chatRoom.getSeq();
+		Integer notReadCount = chatRoomService.getNotReadCount(roomSeq, userSeq);
+		String recentMesasge = chatRoomService.getRecentMessage(roomSeq);
+		ChatRoomResponseDto chatRoomResponseDto = ChatRoomResponseDto.builder()
+			.roomSeq(roomSeq)
+			.notReadCount(notReadCount)
+			.recentMessage(recentMesasge)
+			.build();
+
+		// 다른 참가자의 정보
+		Long anotherUserSeq = chatRoomService.getAnotherUserSeq(chatRoom, userSeq);
+		UserEntity anotherUser = userService.getUserInfo(anotherUserSeq);
+
+		Map<String, String> anotherUserInfo = new HashMap<>();
+		anotherUserInfo.put("userSeq", anotherUserSeq.toString());
+		anotherUserInfo.put("imagePath", anotherUser.getProfileImagePath());
+		anotherUserInfo.put("nickName", anotherUser.getNickName());
+		chatRoomResponseDto.setAnotherUserInfo(anotherUserInfo);
 		return ResponseEntity.ok(ResultDto.of(chatRoomSeq));
 	}
 

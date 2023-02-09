@@ -17,4 +17,7 @@ export default {
     getChatStompSocket(state) {
         return state.chat.chatStompSocket;
     },
+    getChatSocket(state) {
+        return state.chat.chatSocket;
+    },
 };

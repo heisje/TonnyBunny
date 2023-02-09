@@ -7,4 +7,5 @@ export default {
     // STOMP socket
     chatStompSocketConnected: false,
     chatStompSocket: "",
+    chatSocket: "",
 };
