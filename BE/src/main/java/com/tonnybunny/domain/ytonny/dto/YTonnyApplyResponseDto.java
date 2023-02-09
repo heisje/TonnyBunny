@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
  * seq             : 신청 seq
  * yTonnyNoti      : 예약 통역 공고
  * helper          : 헬퍼 유저
- * totalPrice      : 견적 금액
+ * unitPrice      : 견적 금액
  */
 @Data
 @AllArgsConstructor
@@ -25,6 +25,6 @@ public class YTonnyApplyResponseDto {
 	private Long yTonnySeq;
 	private UserResponseDto helper; // nick 까지 넘겨야하니까
 
-	private Integer totalPrice;
+	private Integer unitPrice;
 
 }

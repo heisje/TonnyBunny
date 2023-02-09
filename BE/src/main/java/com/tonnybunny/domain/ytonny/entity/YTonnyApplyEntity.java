@@ -30,6 +30,6 @@ public class YTonnyApplyEntity extends CommonEntity {
 	@JoinColumn(name = "helper_seq")
 	private UserEntity helper;
 
-	private Integer totalPrice; // FIXME : unitPrice 로 변경? front 랑 확인
+	private Integer unitPrice;
 
 }

@@ -10,6 +10,7 @@ import board from "./state/board";
 import jtonny from "./state/jtonny";
 import ytonny from "./state/ytonny";
 import bunny from "./state/bunny";
+import live from "./state/live";
 import common from "./state/common";
 import alert from "./state/alert";
 import mypage from "./state/mypage";
@@ -27,6 +28,7 @@ export default createStore({
         board,
         jtonny,
         ytonny,
+        live,
         bunny,
         alert,
         mypage,

@@ -40,7 +40,9 @@ export default {
     async insertBoard(context, payload) {
         console.log("게시글을 작성합니다.");
 
-        let { data } = await http.post(`/board`, payload);
+        let { data } = await http.post(`/board`, payload, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
 
         try {
             console.log("async function : ", data);

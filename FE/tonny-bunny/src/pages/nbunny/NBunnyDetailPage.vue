@@ -26,10 +26,11 @@
             <div>
                 통역언어<br />
                 <SquareTag
-                    :text="`${getKeyByValue(
-                        getLangCode,
-                        getBunnyDetail?.startLangCode
-                    )} ↔ ${getKeyByValue(getLangCode, getBunnyDetail?.endLangCode)}`"
+                    :text="
+                        allCode[getBunnyDetail?.startLangCode] +
+                        ' ↔ ' +
+                        allCode[getBunnyDetail?.endLangCode]
+                    "
                     sub></SquareTag>
             </div>
 
@@ -37,9 +38,9 @@
 
             <div>
                 마감기한<br />
-                <h3>
-                    {{ getBunnyDetail?.startDate.substr(0, 10) }} ~
-                    {{ getBunnyDetail?.endDate.substr(0, 10) }}
+                <h3 v-if="getBunnyDetail?.startDateTime">
+                    {{ getBunnyDetail?.startDateTime.substr(0, 10) }} ~
+                    {{ getBunnyDetail?.endDateTime.substr(0, 10) }}
                 </h3>
             </div>
 
@@ -53,9 +54,7 @@
             <br /><br />
             <div>
                 카테고리<br />
-                <SquareTag
-                    :text="`${getKeyByValue(getBunnySituCode, getBunnyDetail?.bunnySituCode)}`"
-                    sub></SquareTag>
+                <SquareTag :text="allCode[getBunnyDetail?.bunnySituCode]" sub></SquareTag>
             </div>
 
             <br /><br />
@@ -179,6 +178,7 @@ export default {
     computed: {
         ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
         ...mapGetters({ getLangCode: "getLangCode" }),
+        ...mapGetters({ allCode: "getAllCode" }),
         ...mapGetters({ getBunnySituCode: "getBunnySituCode" }),
         ...mapGetters({ getBunnyStateCode: "getBunnyStateCode" }),
     },
@@ -208,7 +208,8 @@ export default {
         };
     },
 
-    mounted() {
+    created() {
+        console.log("getBunnyDetail", this.$route.params.id);
         this.$store.dispatch("getBunnyDetail", this.$route.params.id);
     },
 
