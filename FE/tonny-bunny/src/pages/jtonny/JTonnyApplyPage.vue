@@ -381,15 +381,12 @@ export default {
         },
 
         cancelApply(seq) {
-            delete this.jtonnyQuestList[seq];
-            delete this.jtonnyApplyQuestList[seq];
+            let jtonnyApply = this.jtonnyQuestList[seq];
 
             // 이거 상대편에서 안 없어짐
-            this.stompClient.send(
-                "/pub/jtonny/apply/cancel",
-                JSON.stringify(this.jtonnyRequest),
-                {}
-            );
+            this.stompClient.send("/pub/jtonny/apply/cancel", JSON.stringify(jtonnyApply), {});
+            delete this.jtonnyQuestList[seq];
+            delete this.jtonnyApplyQuestList[seq];
         },
 
         unsubscribe() {

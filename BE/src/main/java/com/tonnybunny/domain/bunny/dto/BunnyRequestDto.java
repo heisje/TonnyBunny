@@ -20,7 +20,7 @@ import java.util.List;
  * startLangCode        : 시작 언어 코드
  * endLangCode          : 종료 언어 코드
  * bunnySituCode        : 번역상황 카테고리 코드
- * bunnyStateCode       : 번역공고 상태 코드
+ * taskStateCode       : 번역공고 상태 코드
  */
 @Data
 public class BunnyRequestDto {

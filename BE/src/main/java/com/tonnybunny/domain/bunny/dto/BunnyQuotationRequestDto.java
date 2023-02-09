@@ -17,7 +17,7 @@ import java.util.List;
  * title                    : 제목
  * content                  : 내용
  * unitPrice               : 최종 금액
- * bunnyQuotationStateCode  : 번역 견적서 상태 코드
+ * quotationStateCode  : 번역 견적서 상태 코드
  * startLangCode            : 시작 언어 코드
  * endLangCode              : 종료 언어 코드
  * bunnyQuotationImageList  : 번역 견적서 이미지 경로 리스트

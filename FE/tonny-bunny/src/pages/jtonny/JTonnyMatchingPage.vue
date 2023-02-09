@@ -24,7 +24,7 @@
             btnFontColor1="main"
             btnFontColor2="white"
             @close-modal="closeModalCancel"
-            :link="{ name: 'JTonnyAcceptPage' }">
+            :link="{ name: 'JTonnyApplyPage' }">
             <template #content> 저장된 양식이 삭제됩니다. </template>
         </AlarmModal>
 
@@ -39,7 +39,7 @@
             btnFontColor1="main"
             btnFontColor2="white"
             @close-modal="closeModalSuccess"
-            :to="{ name: 'JTonnyAcceptPage' }">
+            :to="{ name: 'JTonnyApplyPage' }">
             <template #content>
                 고객에게 제안을 성공적으로 보냈습니다.<br />
                 고객이 거절할 수도 있어요!
