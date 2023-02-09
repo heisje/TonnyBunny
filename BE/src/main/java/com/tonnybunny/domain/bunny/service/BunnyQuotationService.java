@@ -1,8 +1,8 @@
 package com.tonnybunny.domain.bunny.service;
 
 
-import com.tonnybunny.common.dto.BunnyStateCodeEnum;
 import com.tonnybunny.common.dto.QuotationStateCodeEnum;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.domain.bunny.dto.BunnyQuotationImageRequestDto;
 import com.tonnybunny.domain.bunny.dto.BunnyQuotationRequestDto;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
@@ -124,7 +124,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.진행중.getBunnyStateCode());
+		bunny.changeStateCode(TaskStateCodeEnum.진행중.getTaskStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
@@ -147,7 +147,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.모집중.getBunnyStateCode());
+		bunny.changeStateCode(TaskStateCodeEnum.모집중.getTaskStateCode());
 		bunnyRepository.save(bunny);
 		return true;
 	}
@@ -170,7 +170,7 @@ public class BunnyQuotationService {
 		// 번역 공고 상태코드 변경
 		Long bunnySeq = bunnyQuotationRequestDto.getBunnySeq();
 		BunnyEntity bunny = bunnyRepository.findById(bunnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		bunny.changeStateCode(BunnyStateCodeEnum.완료됨.getBunnyStateCode());
+		bunny.changeStateCode(TaskStateCodeEnum.완료됨.getTaskStateCode());
 		bunnyRepository.save(bunny);
 
 		BunnyHistoryEntity bunnyHistory = BunnyHistoryEntity.builder()
