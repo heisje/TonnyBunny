@@ -1,10 +1,14 @@
 export default {
     // pagination
-    limit: 10,
-    offset: 0,
-    listRowCount: 10,
-    pageLinkCount: 10,
-    currentPageIdx: 1,
+    totalPages: 0, // 모든 페이지 개수
+    pageSize: 5, // 보여주는 개수
+    pageNumber: 0, // 현재페이지
+
+    // limit: 10,
+    // offset: 0,
+    // listRowCount: 10,
+    // pageLinkCount: 10,
+    // currentPageIdx: 1,
 
     // board
     boardListTotalCount: 0,

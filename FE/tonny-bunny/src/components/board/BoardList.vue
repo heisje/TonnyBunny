@@ -6,23 +6,13 @@
                 @toggleDetailPage="toggleDetailPage(boardItem.seq)" />
         </div>
 
-        <!-- <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li v-for="i in 5" :key="i" class="page-item">
-                    <a class="page-link" @click="getBoardList(i)">{{ i }}</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav> -->
+        <div class="text-center">
+            <v-pagination
+                v-model="page"
+                :length="totalPages"
+                circle
+                @click="getBoardList"></v-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -32,13 +22,20 @@ import BoardListItem from "@/components/common/BoardListItem.vue";
 export default {
     components: { BoardListItem },
 
+    data() {
+        return {
+            page: 1,
+        };
+    },
+
     computed: {
         ...mapGetters({ boardList: "getBoardList" }),
+        ...mapGetters({ totalPages: "getBoardTotalPages" }),
     },
 
     methods: {
         getBoardList() {
-            this.$store.dispatch("getBoardList");
+            this.$store.dispatch("getBoardList", this.page);
         },
 
         toggleDetailPage(idx) {
