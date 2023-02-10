@@ -77,10 +77,10 @@ updated_at
 */
 INSERT INTO helper_info_table(helper_info_seq, user_seq, unit_price, one_line_introduction, introduction, review_count,
                               total_score, is_active, created_at, updated_at)
-VALUES (1, 4, 5000, "안녕하세요. 김헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 5, false, now(), now()),
-       (2, 5, 4000, "안녕하세요. 나헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 9, false, now(), now()),
-       (3, 6, 1000, "안녕하세요. 박헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 3, false, now(), now()),
-       (4, 7, 20000, "안녕하세요. 이헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 13, false, now(), now());
+VALUES (1, 4, 5000, "안녕하세요. 김헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 2, 6, false, now(), now()),
+       (2, 5, 4000, "안녕하세요. 나헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 0, false, now(), now()),
+       (3, 6, 1000, "안녕하세요. 박헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 0, false, now(), now()),
+       (4, 7, 20000, "안녕하세요. 이헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 0, false, now(), now());
 
 
 -- 가능 언어 정보
@@ -199,3 +199,21 @@ VALUES (1, 1, 4, 150000, now(), now()),
        (5, 3, 7, 100000, now(), now()),
        (6, 4, 4, 105000, now(), now()),
        (7, 4, 7, 170000, now(), now());
+
+-- 히스토리
+INSERT INTO history_table(history_seq, client_seq, helper_seq, task_code, noti_seq, start_lang_code, end_lang_code,
+                          content, start_date_time, end_date_time, created_at, updated_at)
+VALUES (1, 1, 4, "0030003", 1, "0020001", "0020002", "해리포터 에필로그 번역", "2023-02-07", "2023-03-01", now(), now()),
+       (2, 1, 4, "0030002", 1, "0020001", "0020002", "철강회사 바이어 미팅건", "2023-02-11 09:00:00", "2023-02-11 11:30:00",
+        now(), now());
+
+INSERT INTO ytonny_history_table(history_seq, tonny_situ_code, title, unit_price, total_time, record_video_path)
+VALUES (2, "0040004", "철강회사 바이어 미팅건", 10000, "02:30:00", "iljawefposdnbdsfksldff.jpg");
+
+INSERT INTO bunny_history_table(history_seq, title, total_price)
+VALUES (1, "해리포터 에필로그 번역", 200000);
+
+-- 리뷰
+INSERT INTO review_table(review_seq, user_seq, history_seq, score, comment, is_deleted, created_at, updated_at)
+VALUES (1, 1, 1, 5, "덕분에 잘 읽었습니다!!", false, now(), now()),
+       (2, 1, 2, 1, "이사람때매 사업 망했습니다.", false, now(), now());
