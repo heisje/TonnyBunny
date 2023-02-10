@@ -1,9 +1,16 @@
 <template>
     <div>
         <div>
-            <title-text title="자유게시판" />
-            <router-link :to="{ name: 'BoardCreatePage' }"><small-btn text="글쓰기" /></router-link>
-
+            <div style="mwidth: 100%">
+                <title-text title="자유게시판" />
+                <br />
+                <div style="margin-left: auto">
+                    <router-link :to="{ name: 'BoardCreatePage' }"
+                        ><small-btn text="글쓰기"
+                    /></router-link>
+                </div>
+            </div>
+            <br />
             <!-- <form class="customForm">
                 <input type="text" />
                 <medium-btn text="검색하기" />
@@ -26,7 +33,7 @@ export default {
     methods: {},
 
     mounted() {
-        this.$store.dispatch("getBoardList");
+        this.$store.dispatch("getBoardList", 0);
     },
 };
 </script>

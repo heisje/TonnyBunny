@@ -10,11 +10,14 @@ import com.tonnybunny.domain.board.service.BoardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -32,10 +35,20 @@ public class BoardController {
 
 	@GetMapping
 	@ApiOperation(value = "게시글 리스트를 조회합니다.", notes = "")
-	public ResponseEntity<ResultDto<List<BoardResponseDto>>> getBoardList() {
-		List<BoardEntity> boardList = boardService.getBoardList();
-		List<BoardResponseDto> boardResponseDtoList = BoardResponseDto.fromEntityList(boardList);
-		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardResponseDtoList));
+	public ResponseEntity<ResultDto<HashMap<String, Object>>> getBoardList(Pageable pageable) {
+		Page<BoardEntity> boardList = boardService.getBoardList(pageable);
+		Pageable boardPageable = boardList.getPageable();
+		int totalPages = boardList.getTotalPages();
+		long totalElements = boardList.getTotalElements();
+		List<BoardResponseDto> boardResponseDtoList = BoardResponseDto.fromEntityList(boardList.getContent());
+
+		HashMap<String, Object> boardResponseDtoListWithPagiNation = new HashMap<>();
+		boardResponseDtoListWithPagiNation.put("pageable", boardPageable);
+		boardResponseDtoListWithPagiNation.put("totalPages", totalPages);
+		boardResponseDtoListWithPagiNation.put("totalElements", totalElements);
+		boardResponseDtoListWithPagiNation.put("content", boardResponseDtoList);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(boardResponseDtoListWithPagiNation));
 	}
 
 

@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 public class BoardRequestDto {
-
+	
 	/* 게시글 작성 */
 	private Long userSeq;
 	private String title;
