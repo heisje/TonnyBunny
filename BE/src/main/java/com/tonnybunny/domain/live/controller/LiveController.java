@@ -3,18 +3,14 @@ package com.tonnybunny.domain.live.controller;
 
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.jtonny.dto.JTonnyDto;
+import com.tonnybunny.domain.live.dto.HistoryCompleteDto;
 import com.tonnybunny.domain.live.service.LiveService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalTime;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -43,9 +39,9 @@ public class LiveController {
 	}
 
 
-	@PostMapping("/ytonny/start")
+	@PostMapping("/ytonny/{yTonnySeq}/start")
 	@ApiOperation(value = "예약통역 화상 통화를 시작합니다")
-	public ResponseEntity<ResultDto<Long>> startYTonnyLive(@RequestBody Long yTonnySeq) {
+	public ResponseEntity<ResultDto<Long>> startYTonnyLive(@PathVariable("yTonnySeq") Long yTonnySeq) {
 
 		/**
 		 * 미리 생성된 예약통역 seq 를 service 에 넘겨서
@@ -62,7 +58,7 @@ public class LiveController {
 
 	@PostMapping("/complete")
 	@ApiOperation(value = "화상 통화를 종료합니다")
-	public void completeLive(@RequestBody Long historySeq, @RequestBody LocalTime totalTime, @RequestBody String recordVideoPath) {
+	public ResponseEntity<ResultDto<Boolean>> completeLive(@RequestBody HistoryCompleteDto historyCompleteDto) {
 
 		/**
 		 * 통역과 관련된 히스토리 가져와서 (findById)
@@ -70,7 +66,9 @@ public class LiveController {
 		 * 프론트에서 넘어온 소요시간과, DB에 저장된 소요시간을 비교하고 --> 생략?
 		 * 일정 오차범위 이내면 return true
 		 */
-		liveService.completeLive(historySeq, totalTime, recordVideoPath);
+		liveService.completeLive(historyCompleteDto);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 
 	}
 

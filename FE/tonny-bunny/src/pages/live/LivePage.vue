@@ -193,6 +193,7 @@ export default {
             return hours + ":" + minutes + ":" + seconds;
         },
         ...mapGetters({ getStartResData: "getStartResData" }),
+        ...mapGetters({ getHistorySeq: "getHistorySeq" }),
     },
 
     methods: {
@@ -493,7 +494,7 @@ export default {
 
             // 히스토리 저장 요청
             const payload = {
-                historySeq: this.historySeq,
+                historySeq: this.getHistorySeq,
                 recordVideoPath: this.recordingId,
                 totalTime: this.timeToHHMMSS,
             };

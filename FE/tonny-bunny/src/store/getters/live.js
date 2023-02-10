@@ -8,4 +8,7 @@ export default {
     getCompleteData(state) {
         return state.live.completeData;
     },
+    getHistorySeq(state) {
+        return state.live.historySeq;
+    },
 };
