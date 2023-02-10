@@ -1,5 +1,5 @@
 <template>
-    <div class="boardListItemContainer">
+    <div class="boardListItemContainer" @click="clickBoardListItemContainer">
         <div class="boardListItemWrap">
             <div class="boardListItem">
                 <div class="thumnail">
@@ -53,18 +53,6 @@ export default {
     props: {
         boardItem: {
             type: Object,
-            // default: () => {
-            //     return {
-            //         seq: 1,
-            //         user: null,
-            //         title: "게시글입니다",
-            //         content: "내용입니다.",
-            //         createdAt: "2023-02-01T16:54:19.8261845",
-            //         updatedAt: "2023-02-01T16:54:19.8261845",
-            //         boardImageList: [],
-            //         boardCommentList: [],
-            //     };
-            // },
         },
     },
 
@@ -77,6 +65,10 @@ export default {
     methods: {
         toggleDetailPage() {
             this.$emit("toggleDetailPage");
+        },
+
+        clickBoardListItemContainer() {
+            this.$router.push({ name: "BoardDetailPage", params: { id: this.boardItem.seq } });
         },
     },
 };
