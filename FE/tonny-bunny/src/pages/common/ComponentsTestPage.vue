@@ -211,7 +211,6 @@
             <SmallBtn text="모달버튼" @click="openModal" />
 
             <alarm-modal
-                :isOpen="isOpen"
                 title="경고"
                 type="danger"
                 btnText1="아니오"

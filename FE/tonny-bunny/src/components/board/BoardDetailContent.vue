@@ -1,60 +1,71 @@
 <template lang="">
     <div class="boardTopContainer">
+        <!-- {{ boardDetail }} -->
         <div class="boardTopWrap">
             <square-tag sub text="자유"></square-tag>
-            <h1>{{ boardDetail?.title }}자유게시판글임</h1>
-            <div class="boardDate">
-                작성일 <span>{{ boardDetail?.createdAt }}</span>
-            </div>
+            <h1>{{ boardDetail?.title }}</h1>
+
             <!-- 조회수 -->
-            <h3>{{ boardDetail?.user }}닉네임임</h3>
+            <div class="boardUserWrap">
+                <img
+                    v-if="boardDetail?.user.profileImagePath"
+                    src="@/assets/noProfile.png"
+                    alt=""
+                    width="42" />
+                <img v-else src="@/assets/noProfile.png" alt="" />
+
+                <span
+                    ><h3>{{ boardDetail?.user.nickName }}</h3></span
+                >
+                <span>{{ boardDetail?.createdAt }}</span>
+            </div>
+
             <hr />
-            <div>{{ boardDetail?.content }}내용임</div>
+            <div>{{ boardDetail?.content }}</div>
 
             <div class="boardImageWrap">
-                <!-- <div
-                    class="boardImageItem"
+                <div
+                    class="boardImageContent"
                     v-for="boardImageItem in boardDetail?.boardImageList"
                     :key="boardImageItem">
                     <img v-if="boardItem?.boardImageItem" :src="boardItem?.boardImageItem" alt="" />
                     <img v-else src="@/assets/noBoardImg.png" alt="" />
-                </div> -->
-
-                <div class="boardImageContent" v-for="i in 7" :key="i">
-                    <img
-                        v-if="boardDetail?.boardImageItem"
-                        :src="boardDetail?.boardImageItem"
-                        alt="" />
-                    <img v-else src="@/assets/noBoardImg.png" alt="" />
                 </div>
             </div>
 
-            <form class="customForm">
-                <input type="text" />
-            </form>
-
+            <div class="commentCreateWrap">
+                <input class="input" type="text" :id="content.id" @input="changeInput" />
+                <div class="commentCreateBtn">
+                    <SmallBtn text="댓글 작성" @click="clickCommentCreateBtn" />
+                </div>
+            </div>
+            <br />
             <div class="boardCommentContainer">
+                <TitleText
+                    :title="`댓글(${boardDetail?.boardCommentList?.length})`"
+                    top="24"
+                    type="h2" />
+                <hr />
                 <div class="boardCommentWrap">
-                    <!-- <div
+                    <div
                         class="boardCommentContent"
                         v-for="boardCommentItem in boardDetail?.boardCommentList"
                         :key="boardCommentItem">
-                        <div>{{ boardCommentItem }}내용</div>
-                    </div> -->
+                        <div>
+                            <img
+                                v-if="boardCommentItem?.boardImageItem"
+                                :src="boardCommentItem?.boardImageItem"
+                                alt="" />
+                            <img v-else src="@/assets/noProfile.png" alt="" />
 
-                    <div class="boardCommentContent" v-for="i in 6" :key="i">
-                        <img
-                            v-if="boardDetail?.boardImageItem"
-                            :src="boardDetail?.boardImageItem"
-                            alt="" />
-                        <img v-else src="@/assets/noProfile.png" alt="" />
-                        <h3>닉네임</h3>
+                            <h3>{{ boardCommentItem?.user.nickName }}</h3>
+                            <span>{{ boardCommentItem?.createdAt }}</span>
+                        </div>
+
                         <div class="commentContent">
-                            내용이 짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이
-                            짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이
-                            짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이
-                            짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이 짱길면내용이
-                            짱길면내용이 짱길면내용이 짱길면내용이 짱길면
+                            {{
+                                boardCommentItem?.content
+                            }}dasfasdfasdfasdgasbㅁ뉸ㅇ뮨ㅁ윤ㅇㄹㄼㅈㄷㅈㄴㅁㄴㅇㅂㅈㄷㅁㄴㅇㅁㄴㅇ
                         </div>
 
                         <hr />
@@ -68,14 +79,44 @@
 import { mapGetters } from "vuex";
 
 import SquareTag from "../common/tag/SquareTag.vue";
+import SmallBtn from "../common/button/SmallBtn.vue";
+import TitleText from "../common/TitleText.vue";
 
 export default {
     components: {
         SquareTag,
+        SmallBtn,
+        TitleText,
+    },
+
+    data() {
+        return {
+            content: {
+                id: "content",
+                value: "",
+            },
+        };
     },
 
     computed: {
         ...mapGetters({ boardDetail: "getBoardDetail" }),
+    },
+
+    methods: {
+        clickCommentCreateBtn() {
+            const payload = {
+                boardSeq: this.boardDetail.seq,
+                content: this.content.value,
+                userSeq: this.$store.state.account.userInfo.seq,
+            };
+            this.$store.dispatch("insertBoardComment", payload).then(() => {
+                this.$router.go(0);
+            });
+        },
+
+        changeInput(e) {
+            this[e.target.id].value = e.target.value;
+        },
     },
 };
 </script>
@@ -86,16 +127,22 @@ export default {
         h1 {
             margin-left: 0.5rem;
         }
-        .boardDate {
-            margin-top: 12px;
-        }
         hr {
             border-top: 1px solid var(--disable-color);
+        }
+        .boardUserWrap {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            span {
+                margin-left: 0.5rem;
+            }
         }
     }
 
     .boardImageWrap {
         width: 100vw;
+        margin-top: 48px;
         .boardImageContent {
             display: inline-block;
             padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -108,7 +155,14 @@ export default {
     }
 
     .boardCommentContainer {
+        width: 100%;
+
+        padding: 4px 24px;
+        border-radius: 16px;
+        border: 1px solid var(--thin-color);
+        background-color: var(--thin-color);
         .boardCommentWrap {
+            margin-top: 1rem;
             .boardCommentContent {
                 margin-bottom: 1rem;
                 span {
@@ -122,7 +176,7 @@ export default {
                 }
 
                 .commentContent {
-                    padding: 1rem 0rem;
+                    padding: 0.4rem 0rem 1rem 0rem;
                 }
 
                 hr {
@@ -133,8 +187,12 @@ export default {
         }
     }
 
-    .customForm {
-        margin-bottom: 1rem;
+    .commentCreateWrap {
+        display: flex;
+        .commentCreateBtn {
+            margin-left: 4px;
+            min-width: 6rem;
+        }
     }
 }
 </style>

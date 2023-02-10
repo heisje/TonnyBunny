@@ -101,6 +101,10 @@ export default {
         // QuickBtn,
         // ButtonTest,
     },
+
+    mounted() {
+        this.$store.dispatch("getBoardList", 0);
+    },
 };
 </script>
 
