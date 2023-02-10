@@ -1,22 +1,28 @@
 <template>
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="d-flex justify-content-around align-items-center mb-3">
-            <img src="@/assets/noProfile.png" alt="" class="mr-5" style="width: 4rem" />
-            <h2>헬퍼이름</h2>
+    <transition name="fade">
+        <div v-if="isDeleted == false" class="d-flex align-items-center justify-content-between">
+            <div class="d-flex justify-content-around align-items-center mb-3">
+                <img src="@/assets/noProfile.png" alt="" class="mr-5" style="width: 4rem" />
+                <title-text type="h2" :title="helperInfo.nickName" class="text-center mt-4" />
+            </div>
+            <x-small-btn :text="btnText" color="carrot" font="white" @click="clickBtn" />
         </div>
-        <x-small-btn :text="btnText" color="carrot" font="white" />
-    </div>
+    </transition>
 </template>
 
 <script>
 import XSmallBtn from "../common/button/XSmallBtn.vue";
+import TitleText from "@/components/common/TitleText.vue";
 export default {
     name: "UserProfileItem",
     components: {
         XSmallBtn,
+        TitleText,
     },
     data() {
-        return {};
+        return {
+            isDeleted: false,
+        };
     },
     props: {
         helperInfo: {
@@ -28,9 +34,18 @@ export default {
         },
     },
     methods: {
-        clickBtn() {},
+        clickBtn() {
+            this.isDeleted = true;
+            this.$emit("clickBtn");
+        },
     },
 };
 </script>
-
-<style></style>
+<style>
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+.fade-leave-to {
+    opacity: 0;
+}
+</style>
