@@ -510,9 +510,16 @@ export default {
     },
 
     async created() {
-        this.historySeq = this.getStartResData.seq;
-        this.sessionName = this.getStartResData.uuid;
-        this.unitPrice = this.getStartResData.unitPrice;
+        if (this.getStartResData.taskCode == "예약통역") {
+            this.historySeq = this.getHistorySeq;
+            this.sessionName = this.getStartResData.sessionName;
+        }
+
+        if (this.getStartResData.taskCode == "0030001") {
+            this.historySeq = this.getStartResData.seq;
+            this.sessionName = this.getStartResData.uuid;
+            this.unitPrice = this.getStartResData.unitPrice;
+        }
         this.joinSession();
     },
 };
