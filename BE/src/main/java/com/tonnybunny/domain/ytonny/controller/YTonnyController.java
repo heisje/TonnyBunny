@@ -2,8 +2,6 @@ package com.tonnybunny.domain.ytonny.controller;
 
 
 import com.tonnybunny.common.dto.*;
-import com.tonnybunny.domain.user.dto.UserResponseDto;
-import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.service.UserService;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyResponseDto;
@@ -17,14 +15,11 @@ import com.tonnybunny.exception.ErrorCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -97,30 +92,7 @@ public class YTonnyController {
 		List<YTonnyEntity> yTonnyList = yTonnyService.getYTonnyList(yTonnyRequestDto);
 
 		// entity -> dto
-		// isDelete 가 false 인 값들만 반환해야하나?
-		// FIXME : 들어가는 helper 값이 null 이라면 어떻게 넘겨줘야하나?
-		ModelMapper modelMapper = new ModelMapper();
-		List<YTonnyResponseDto> yTonnyResponseDtoList = yTonnyList.stream()
-		                                                          .map(m -> YTonnyResponseDto.builder()
-		                                                                                     .seq(m.getSeq())
-		                                                                                     .title(m.getTitle())
-		                                                                                     .content(m.getContent())
-		                                                                                     .client(modelMapper.map(m.getClient(), UserResponseDto.class))
-		                                                                                     .startDateTime(m.getStartDateTime())
-		                                                                                     //		                                                                                     .helper()
-		                                                                                     .estimateTime(m.getEstimateTime())
-		                                                                                     .estimatePrice(m.getEstimatePrice())
-		                                                                                     .startLangCode(m.getStartLangCode())
-		                                                                                     .endLangCode(m.getEndLangCode())
-		                                                                                     .tonnySituCode(m.getTonnySituCode())
-		                                                                                     .taskCode(m.getTaskCode())
-		                                                                                     .taskStateCode(m.getTaskStateCode())
-		                                                                                     .createdAt(m.getCreatedAt())
-		                                                                                     .updatedAt(m.getUpdatedAt())
-		                                                                                     //		                                                                                     .yTonnyApplyList(modelMapper.map(m.getYTonnyApplyList(), List.class))
-		                                                                                     //		                                                                                     .yTonnyQuotationList(modelMapper.map(m.getYTonnyQuotationList(), List.class))
-		                                                                                     .build())
-		                                                          .collect(Collectors.toList());
+		List<YTonnyResponseDto> yTonnyResponseDtoList = YTonnyResponseDto.fromEntityList(yTonnyList);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDtoList));
 
@@ -133,18 +105,16 @@ public class YTonnyController {
 	 * @param yTonnySeq : 해당 조회 공고 seq
 	 * @return YTonnyResponseDto : 예약통역 상세 정보
 	 */
-	@GetMapping("/{yTonnySeq}/{userSeq}")
+	@GetMapping("/{yTonnySeq}")
 	@ApiOperation(value = "예약통역 공고 목록 상세 조회 API", notes = "사용자가 예약통역 공고를 상세 조회한다.")
-	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq, @PathVariable Long userSeq, @RequestHeader HttpHeaders header) {
+	public ResponseEntity<ResultDto<YTonnyResponseDto>> getYTonnyDetail(@PathVariable Long yTonnySeq) {
 
 		System.out.println("YTonnyController.getYTonnyDetail");
-		System.out.println("yTonnySeq = " + yTonnySeq + ", header = " + header);
 
 		if (yTonnySeq == null) throw new CustomException(ErrorCode.ID_IS_NULL);
 
 		// service
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
-		UserEntity userEntity = userService.getUserInfo(userSeq); // FIXME: token 으로 변경될 예정
 
 		// entity -> dto
 		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
@@ -156,10 +126,29 @@ public class YTonnyController {
 		yTonnyResponseDto.setTaskCode(TaskCodeEnum.valueOfCode(yTonnyResponseDto.getTaskCode()).name());
 		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
 
-		// 해당 공고의 creator 와 조회하려는 user 가 같은 사람인가?
-		if (userSeq == yTonnyEntity.getClient().getSeq()) yTonnyResponseDto.setIsCreator(true);
-
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
+
+	}
+
+
+	@GetMapping("/count")
+	@ApiOperation(value = "예약통역 공고 목록 총 갯수 조회 API", notes = "공고 목록 총 개수를 조회한다.")
+	public ResponseEntity<ResultDto<Long>> getYTonnyListTotalCount() {
+
+		Long totalCount = yTonnyService.getYTonnyListTotalCount();
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(totalCount));
+
+	}
+
+
+	@GetMapping("/{yTonnySeq}/apply/count")
+	@ApiOperation(value = "예약통역 공고 신청 목록 총 갯수 조회 API", notes = "공고 신청 목록 총 개수를 조회한다.")
+	public ResponseEntity<ResultDto<Long>> getYTonnyApplyListTotalCount(@PathVariable Long yTonnySeq) {
+
+		Long totalCount = yTonnyService.getYTonnyApplyListTotalCount(yTonnySeq);
+
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(totalCount));
 
 	}
 
@@ -174,8 +163,8 @@ public class YTonnyController {
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
-		YTonnyApplyRequestDto yTonnyApplyRequestDto
-	                                                                                 ) {
+	                                                                                  YTonnyApplyRequestDto yTonnyApplyRequestDto
+	) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");
 
@@ -185,15 +174,7 @@ public class YTonnyController {
 		List<YTonnyApplyEntity> yTonnyApplyList = yTonnyService.getYTonnyApplyList(yTonnySeq, yTonnyApplyRequestDto);
 
 		// entity -> dto
-		ModelMapper modelMapper = new ModelMapper();
-		List<YTonnyApplyResponseDto> yTonnyApplyResponseDtoList = yTonnyApplyList.stream()
-		                                                                         .map(m -> YTonnyApplyResponseDto.builder()
-		                                                                                                         .seq(m.getSeq())
-		                                                                                                         .yTonnySeq(m.getYTonny().getSeq())
-		                                                                                                         .helper(modelMapper.map(m.getHelper(), UserResponseDto.class))
-		                                                                                                         .unitPrice(m.getUnitPrice())
-		                                                                                                         .build())
-		                                                                         .collect(Collectors.toList());
+		List<YTonnyApplyResponseDto> yTonnyApplyResponseDtoList = YTonnyApplyResponseDto.fromEntityList(yTonnyApplyList);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyApplyResponseDtoList));
 
@@ -232,7 +213,7 @@ public class YTonnyController {
 	 */
 	@PutMapping("/{yTonnySeq}/apply/{yTonnyApplySeq}/accept")
 	@ApiOperation(value = "예약통역 신청 수락 API", notes = "고객이 헬퍼의 예약통역 신청을 수락한다.")
-	public ResponseEntity<ResultDto<Long>> acceptYTonnyApply(YTonnyApplyRequestDto yTonnyApplyRequestDto) {
+	public ResponseEntity<ResultDto<Long>> acceptYTonnyApply(@RequestBody YTonnyApplyRequestDto yTonnyApplyRequestDto) {
 
 		System.out.println("YTonnyController.acceptYTonnyApply");
 		System.out.println("yTonnyApplyRequestDto = " + yTonnyApplyRequestDto);

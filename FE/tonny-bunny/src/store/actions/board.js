@@ -8,24 +8,31 @@ export default {
     */
 
     // GET /api/board 게시글 리스트를 조회합니다.
-    async getBoardList(context) {
+    async getBoardList(context, page) {
         console.log("게시글 리스트를 조회합니다.");
 
         this.dispatch("setIsLoading", true);
         try {
-            let { data } = await http.get("/board");
+            let { data } = await http.get("/board", {
+                params: { page: page - 1, size: context.state.board.pageSize },
+            });
             console.log("async function : ", data);
 
-            data.data.forEach((d) => {
+            data.data.content.forEach((d) => {
                 d.count = d.boardCommentList.length;
                 d.createdAt = utils.setDate(d.createdAt);
             });
 
-            context;
+            const pagination = {
+                totalPages: Number(data.data.totalPages),
+                pageNumber: Number(data.data.pageable.pageNumber),
+            };
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
-                    context.commit("SET_BOARD_LIST", data.data);
+                    context.commit("SET_BOARD_LIST", data.data.content);
+
+                    context.commit("SET_BOARD_PAGINATION", pagination);
                     break;
                 case "FAIL":
                     break;
@@ -93,6 +100,11 @@ export default {
         try {
             let { data } = await http.get(`/board/${seq}`);
             console.log("async function : ", data);
+
+            data.data.createdAt = utils.setDate(data.data.createdAt);
+            data.data.boardCommentList.reverse().forEach((e) => {
+                e.createdAt = utils.setDate(e.createdAt);
+            });
 
             // service logic
             switch (data.resultCode) {
@@ -195,10 +207,10 @@ export default {
     async getBoardCommentDetail() {},
 
     // POST /api/board/{boardSeq}/comment 게시글의 댓글을 작성합니다.
-    async insertBoardComment(context, boardId, json) {
+    async insertBoardComment(context, payload) {
         console.log("게시글의 댓글을 작성합니다.");
 
-        let { data } = await http.post(`/board/${boardId}/comment`, json);
+        let { data } = await http.post(`/board/${payload.boardSeq}/comment`, payload);
 
         try {
             console.log("async function : ", data);

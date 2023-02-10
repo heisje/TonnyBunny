@@ -35,7 +35,7 @@ public class JTonnyRequestSubscriber implements MessageListener {
 			 * 요청 언어를 구독중인 helper 에게 공고를 보내는 subscriber
 			 * "/sub/jtonny/request/0020002"
 			 */
-			if (jTonnyDto.getStartLangCode() == "0020001") url = "/sub/jtonny/request/" + jTonnyDto.getEndLangCode();
+			if (jTonnyDto.getStartLangCode().equals("0020001")) url = "/sub/jtonny/request/" + jTonnyDto.getEndLangCode();
 			else url = "/sub/jtonny/request/" + jTonnyDto.getStartLangCode();
 
 			template.convertAndSend(url, jTonnyDto);

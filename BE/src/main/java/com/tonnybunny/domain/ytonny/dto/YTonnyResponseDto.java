@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -67,19 +69,17 @@ public class YTonnyResponseDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	@Builder.Default
-	private Boolean isCreator = false;
-
-	// FIXME : 따로 어차피 목록 조회할 건데 필요한가?
-	//	private List<YTonnyApplyResponseDto> yTonnyApplyList;
-	//	private List<YTonnyQuotationResponseDto> yTonnyQuotationList;
+	private Boolean isDeleted;
 
 
 	public static YTonnyResponseDto fromEntity(YTonnyEntity yTonnyEntity) {
-
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 		return modelMapper.map(yTonnyEntity, YTonnyResponseDto.class);
+	}
 
+
+	public static List<YTonnyResponseDto> fromEntityList(List<YTonnyEntity> yTonnyEntityList) {
+		return yTonnyEntityList.stream().map(m -> fromEntity(m)).collect(Collectors.toList());
 	}
 
 }

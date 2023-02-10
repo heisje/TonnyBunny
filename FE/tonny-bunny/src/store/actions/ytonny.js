@@ -100,11 +100,16 @@ export default {
         예약 통역 READ
     */
 	// GET /api/ytonny 예약 통역 공고 목록 조회
-	async getYTonnyList(context) {
+	async getYTonnyList(context, page) {
 		console.log("예약 통역 공고 목록 조회");
 
+		let params = {
+			page: page - 1,
+			size: context.state.ytonny.yTonnySize
+		};
+
 		try {
-			let { data } = await http.get(`/ytonny`);
+			let { data } = await http.get(`/ytonny`, { params });
 			console.log("async getYTonnyList : ", data);
 
 			// service logic
@@ -120,12 +125,29 @@ export default {
 		}
 	},
 
+	async getYTonnyListTotalCount(context) {
+		try {
+			let { data } = await http.get(`/ytonny/count`);
+			context.commit("SET_Y_TONNY_LIST_TOTAL_COUNT", data.data);
+		} catch (err) {
+			console.error(err);
+		}
+	},
+	async getYTonnyApplyListTotalCount(context, yTonnySeq) {
+		try {
+			let { data } = await http.get(`/ytonny/${yTonnySeq}/apply/count`);
+			context.commit("SET_Y_TONNY_APPLY_LIST_TOTAL_COUNT", data.data);
+		} catch (err) {
+			console.error(err);
+		}
+	},
+
 	// GET /api/ytonny/{yTonnySeq} 예약 통역 공고 상세 조회
-	async getYTonnyDetail(context, payload) {
+	async getYTonnyDetail(context, yTonnySeq) {
 		console.log("예약 통역 공고 상세 조회");
 
 		try {
-			let { data } = await http.get(`/ytonny/${payload.yTonnySeq}/${payload.userSeq}`);
+			let { data } = await http.get(`/ytonny/${yTonnySeq}`);
 			console.log("async getYTonnyDetail : ", data);
 
 			// service logic
@@ -142,15 +164,16 @@ export default {
 	},
 
 	// GET /api/ytonny/{yTonnySeq}/apply 예약 통역 공고 목록 조회
-	async getYTonnyApplyList(context, yTonnySeq) {
+	async getYTonnyApplyList(context, payload) {
 		console.log("예약 통역 공고 목록 신청 조회");
+
 		let params = {
-			page: 0,
-			size: 4
+			page: payload.page - 1,
+			size: payload.size
 		};
 
 		try {
-			let { data } = await http.get(`/ytonny/${yTonnySeq}/apply`, { params });
+			let { data } = await http.get(`/ytonny/${payload.yTonnySeq}/apply`, { params });
 			console.log("async getYTonnyApplyList : ", data);
 
 			// service logic
@@ -253,24 +276,31 @@ export default {
 	},
 
 	// POST /api/ytonny/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq} 예약 통역 공고에서 헬퍼의 신청을 수락
-	async insertYtonnyMatch(context, yTonnyNotiSeq, yTonnyNotiHelperSeq) {
+	async acceptYTonnyApply(context, payload) {
 		console.log("예약 통역 공고에서 헬퍼의 신청을 수락");
 
-		let { data } = await http.post(
-			`/ytonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`,
-			yTonnyNotiSeq,
-			yTonnyNotiHelperSeq
-		);
+		console.log("hihi", payload);
+		let params = {
+			ytonnyApplySeq: payload.yTonnyApplySeq,
+			ytonnySeq: payload.yTonnySeq,
+			helperSeq: payload.helperSeq,
+			unitPrice: payload.unitPrice
+		};
 
 		try {
-			console.log("async function : ", data);
+			let { data } = await http.put(
+				`/ytonny/${payload.yTonnySeq}/apply/${payload.yTonnyApplySeq}/accept`,
+				params
+			);
+
+			console.log("async acceptYTonnyApply : ", data);
 
 			// service logic
 			switch (data.resultCode) {
 				case SUCCESS:
-					break;
+					return data.data;
 				case FAIL:
-					break;
+					return -1;
 			}
 
 			return data.resultCode;
@@ -282,7 +312,7 @@ export default {
 				alert("로그인 하세요");
 			}
 
-			return data.resultCode;
+			return -1;
 		}
 	}
 };

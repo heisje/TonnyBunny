@@ -2,8 +2,10 @@ package com.tonnybunny.domain.user.dto;
 
 
 import com.tonnybunny.domain.user.entity.CertificateEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.List;
 /**
  * langCode     : 언어공통코드
  * certName     : 자격증 이름
- * score        : 자격증 점수
+ * content      : 자격증 내용
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CertificateResponseDto {
 
 	private Long seq;

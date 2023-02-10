@@ -224,7 +224,7 @@ export default createRouter({
             },
         },
 
-        //ytonny
+        // ytonny
         {
             path: "/ytonny/:id",
             name: "YTonnyDetailPage",
@@ -429,7 +429,7 @@ export default createRouter({
         },
 
         {
-            path: "/live/close",
+            path: "/live/close/:user",
             name: "LiveClosePage",
             components: {
                 header: AppHeader,
@@ -470,7 +470,7 @@ export default createRouter({
         },
 
         {
-            path: "/chat/quotation/bunny/create",
+            path: "/chat/quotation/bunny/:clientSeq/create",
             name: "NBunnyQuotationForm",
             components: {
                 header: AppHeader,
@@ -541,13 +541,14 @@ export default createRouter({
         },
 
         {
-            path: "/mypage/profile",
+            path: "/mypage/profile/:id",
             name: "ProfilePage",
             components: {
                 header: AppHeader,
                 default: ProfilePage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         {

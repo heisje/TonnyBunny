@@ -9,6 +9,8 @@ import common from "./actions/common";
 import alert from "./actions/alert";
 import mypage from "./actions/mypage";
 import chat from "./actions/chat";
+import schedule from "./actions/schedule";
+import review from "./actions/review";
 
 export default {
     // 각 파일 만들어서 모듈화 사용
@@ -23,4 +25,6 @@ export default {
     ...alert,
     ...mypage,
     ...chat,
+    ...schedule,
+    ...review,
 };

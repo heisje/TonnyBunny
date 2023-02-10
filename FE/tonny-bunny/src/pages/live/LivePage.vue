@@ -26,7 +26,7 @@
                     고객용 디브
                     <p>
                         ON-AIR : {{ timeToHHMMSS }} 미터기 :
-                        {{ (Math.floor(timer / 5) + 1) * temp_price }} 캐럿
+                        {{ (Math.floor(timer / 5) + 1) * unitPrice }} 캐럿
                     </p>
                     <h1 id="session-title"></h1>
                     <medium-btn text="통역 시작하기" color="carrot" @click.prevent="startLive" />
@@ -52,7 +52,7 @@
                     헬퍼용 디브
                     <p>
                         ON-AIR : {{ timeToHHMMSS }} 미터기 :
-                        {{ (Math.floor(timer / 5) + 1) * temp_price }} 캐럿
+                        {{ (Math.floor(timer / 5) + 1) * unitPrice }} 캐럿
                     </p>
                     <medium-btn
                         text="방 나가기(leave)"
@@ -124,6 +124,8 @@
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/openvidu/UserVideo";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import { mapGetters } from "vuex";
+// import http from "@/common/axios";
 
 // axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -164,9 +166,11 @@ export default {
             timer_func: null,
 
             // 공고 정보
+            startData: "",
+            unitPrice: 5, // 단가
 
-            // 단가
-            temp_price: 5,
+            // 완료 정보
+            historySeq: "",
         };
     },
 
@@ -188,13 +192,15 @@ export default {
             }
             return hours + ":" + minutes + ":" + seconds;
         },
+        ...mapGetters({ getStartResData: "getStartResData" }),
+        ...mapGetters({ getHistorySeq: "getHistorySeq" }),
     },
 
     methods: {
         // --------------------------------------- 커스텀 로직 --------------------------------------------
 
         startLive() {
-            // this.startRecording();
+            // this.startRecording(); // 삭제
             console.log("Start");
             this.session
                 .signal({
@@ -209,7 +215,7 @@ export default {
         },
 
         endLive() {
-            // this.stopRecording();
+            // this.stopRecording();    // 삭제
             console.log("End");
             this.session
                 .signal({
@@ -257,8 +263,6 @@ export default {
 
         getToken(callback) {
             console.log("getToken Method");
-            // this.sessionName = $("#sessionName").val(); // Video-call chosen by the user
-            // console.log("몇번 호출?");
             this.httpRequest(
                 "POST",
                 "recording-node/api/get-token",
@@ -299,9 +303,34 @@ export default {
 
                 this.session.on("sessionDisconnected", (event) => {
                     if (this.isRecording) {
-                        console.log("나가기전에 여기 실행 됩니까??");
                         this.stopRecording();
                     }
+
+                    // ------------------------------------------------------------------------------------------
+                    // 내 코드
+
+                    /**
+                     * 로그인한 사용자의 시퀀스가 고객인지 헬퍼인지 비교
+                     * 고객이라면 세션 나갈 시 거래리뷰페이지 + 고객 으로 이동,
+                     * 헬퍼라면 세션 나갈 시 거래완료페이지 + 헬퍼 로 이동
+                     */
+
+                    const data = {
+                        totalTime: this.timer,
+                        totalPrice: (Math.floor(this.timer / 5) + 1) * this.unitPrice,
+                    };
+
+                    this.$store.commit("SET_COMPLETE_DATA", data);
+
+                    if (this.getStartResData.client.seq == this.$store.state.account.userInfo.seq) {
+                        this.$router.push({ name: "LiveClosePage", params: { user: "client" } });
+                    }
+                    if (this.getStartResData.helper.seq == this.$store.state.account.userInfo.seq) {
+                        this.$router.push({ name: "LiveClosePage", params: { user: "helper" } });
+                    }
+
+                    // ----------------------------------------------------------------------------------
+
                     if (event.reason !== "disconnect") {
                         this.removeUser();
                     }
@@ -358,9 +387,7 @@ export default {
                         this.session.publish(this.publisher);
 
                         if (!this.isExisted) {
-                            console.log(
-                                "방생성@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                            );
+                            console.log("방생성, 내가 레코딩 시작");
                             this.startRecording();
                         }
                     })
@@ -392,7 +419,7 @@ export default {
             );
         },
         closeSession() {
-            // this.stopRecording();
+            this.stopRecording();
             this.httpRequest(
                 "DELETE",
                 "recording-node/api/close-session",
@@ -445,12 +472,14 @@ export default {
                 }
             );
         },
-        stopRecording() {
+        async stopRecording() {
+            // 시작 한 사람만 정지할 수 있음
             if (this.recordingId == "") {
-                // 동작 안함 로직
                 return;
             }
-            this.httpRequest(
+
+            // 녹화 중지 요청
+            await this.httpRequest(
                 "POST",
                 "recording-node/api/recording/stop",
                 {
@@ -462,6 +491,14 @@ export default {
                     this.recordingId = "";
                 }
             );
+
+            // 히스토리 저장 요청
+            const payload = {
+                historySeq: this.getHistorySeq,
+                recordVideoPath: this.recordingId,
+                totalTime: this.timeToHHMMSS,
+            };
+            await this.$store.dispatch("completeLive", payload);
         },
 
         updateMainVideoStreamManager(stream) {
@@ -470,6 +507,13 @@ export default {
             // this.mainStreamManager = stream;
             this.mainStreamManager = stream;
         },
+    },
+
+    async created() {
+        this.historySeq = this.getStartResData.seq;
+        this.sessionName = this.getStartResData.uuid;
+        this.unitPrice = this.getStartResData.unitPrice;
+        this.joinSession();
     },
 };
 </script>

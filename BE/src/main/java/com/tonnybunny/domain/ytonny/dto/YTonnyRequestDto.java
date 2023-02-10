@@ -35,7 +35,7 @@ public class YTonnyRequestDto {
 	//  @Builder will ignore the initializing expression entirely.
 	// 빌더는 초기화 표현식을 무시 (그래서 final 을 쓰거나 @Builder.Default 을 쓰기)
 	@Builder.Default
-	private int size = 10; // limit
+	private int size = 5; // limit
 	@Builder.Default
 	private int page = 0; // offset
 

@@ -8,19 +8,28 @@
             </div>
 
             <TitleText
-                title="이제 다양한 토니버니 서비스를 이용하실 수 있습니다"
+                title="이제 다양한 토니버니 서비스를 이용하실 수 있습니다."
                 type="h2"
                 center />
             <br /><br /><br /><br />
 
-            <smallBtn
-                style="width: 100%"
-                text="로그인 하러가기"
-                @click="toggleLoginModal"></smallBtn
-            ><br /><br />
-            <router-link :to="{ name: 'HomePage' }">
-                <smallBtn style="width: 100%" text="홈으로 돌아가기"></smallBtn>
-            </router-link>
+            <div>
+                <smallBtn
+                    color="carrot"
+                    style="width: 100%"
+                    text="로그인 하기"
+                    @click="toggleLoginModal"></smallBtn>
+            </div>
+
+            <div style="margin-top: 8px">
+                <router-link :to="{ name: 'HomePage' }">
+                    <smallBtn
+                        color="outline"
+                        font="main"
+                        style="width: 100%"
+                        text="홈으로 돌아가기"></smallBtn>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -38,6 +47,7 @@ export default {
         toggleLoginModal(e) {
             e.preventDefault();
             this.$store.commit("TOGGLE_LOGIN_MODAL");
+            this.$router.push({ name: "HomePage" });
         },
     },
 };

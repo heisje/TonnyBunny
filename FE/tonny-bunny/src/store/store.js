@@ -15,10 +15,13 @@ import common from "./state/common";
 import alert from "./state/alert";
 import mypage from "./state/mypage";
 import chat from "./state/chat";
+import schedule from "./state/schedule";
+import review from "./state/review";
 import createPersistedState from "vuex-persistedstate";
 
 export default createStore({
     plugins: [createPersistedState()],
+
     state: {
         // 공통 state
         common,
@@ -34,6 +37,8 @@ export default createStore({
         alert,
         mypage,
         chat,
+        schedule,
+        review,
     },
 
     getters,

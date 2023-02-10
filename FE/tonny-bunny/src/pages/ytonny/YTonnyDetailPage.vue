@@ -1,8 +1,9 @@
 <template>
     <!-- <v-container class="yTonnyDetailContainer row" v-scroll="onScroll"> -->
+    {{ yTonnyDetail }}
     <v-container class="yTonnyDetailContainer row">
         <!-- <title-banner title="예약통역 공고" text=""></title-banner> -->
-        <div class="yTonnyDetailWrap col-md-6 col-12" ref="yTonnyDetail">
+        <div class="yTonnyDetailWrap customForm col-md-6 col-12" ref="yTonnyDetail">
             <!-- yTonny Detail View -->
             <v-lazy
                 class="yTonnyDetail"
@@ -10,7 +11,8 @@
                 :options="{
                     threshold: 0.5,
                 }"
-                transition="fade-transition">
+                transition="fade-transition"
+            >
                 <!-- yTonny 공고 정보 라인 -->
                 <div class="infos">
                     <div class="tag">
@@ -26,7 +28,8 @@
                             type="h1"
                             :title="yTonnyDetail.title"
                             top="10"
-                            bottom="10"></title-text>
+                            bottom="10"
+                        ></title-text>
                         <div class="label">{{ createdAt }}</div>
                     </div>
 
@@ -43,14 +46,15 @@
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
-                                    class="me-3" />
+                                    class="me-3"
+                                />
                             </a>
 
                             <a>
                                 <div>{{ yTonnyDetail.client.nickName }}</div>
                             </a>
                         </div>
-                        <div class="edits" v-if="yTonnyDetail.isCreator">
+                        <div class="edits" v-show="isCreator">
                             <div @click.prevent="toggleEditOpen" v-click-outside="onClickOutside">
                                 <span class="material-symbols-outlined fs-4"> more_vert </span>
                             </div>
@@ -64,9 +68,7 @@
 							</Transition> -->
                                 <div class="editPopOver" v-show="isEditOpen">
                                     <div @click="updateFormOpen">예약 수정</div>
-                                    <div @click="this.$store.commit('TOGGLE_ALARM_MODAL')">
-                                        예약 삭제
-                                    </div>
+                                    <div @click="openDeleteModal">예약 삭제</div>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +89,8 @@
                                         <square-tag
                                             :text="yTonnyDetail.startLangCode"
                                             sub
-                                            class="me-2"></square-tag>
+                                            class="me-2"
+                                        ></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -95,7 +98,8 @@
                                         </div>
                                         <square-tag
                                             :text="yTonnyDetail.endLangCode"
-                                            sub></square-tag>
+                                            sub
+                                        ></square-tag>
                                     </td>
                                 </tr>
 
@@ -127,7 +131,8 @@
                                     <td>
                                         <square-tag
                                             :text="yTonnyDetail.tonnySituCode"
-                                            sub></square-tag>
+                                            sub
+                                        ></square-tag>
                                     </td>
                                 </tr>
 
@@ -140,11 +145,35 @@
                     </div>
                 </div>
             </v-lazy>
+            <div v-show="yTonnyDetail.helper">
+                <div v-show="isCreator">
+                    <div class="goLiveBtn">
+                        <medium-btn
+                            class="w-100"
+                            color="carrot"
+                            font="white"
+                            text="라이브로 이동하기"
+                            @click.prevent="openLiveModalByClient"
+                        ></medium-btn>
+                    </div>
+                </div>
+                <div v-show="isManager">
+                    <div class="goLiveBtn">
+                        <medium-btn
+                            class="w-100"
+                            color="carrot"
+                            font="white"
+                            text="라이브로 이동하기"
+                            @click.prevent="openLiveModalByHelper"
+                        ></medium-btn>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-6 col-12">
+        <div class="customForm col-md-6 col-12">
             <!-- yTonny 공고 신청 버튼 라인 -->
-            <div class="applys">
+            <div class="applys" v-show="isHelper">
                 <h1 class="mb-4">
                     <i class="fa-solid fa-carrot fs-4 ms-1 me-1"></i>
                     가격 제안하기
@@ -152,34 +181,34 @@
                 <v-lazy
                     v-model="isActive"
                     :options="{ threshold: 0.5 }"
-                    transition="fade-transition">
-                    <div v-if="isApply">
+                    transition="fade-transition"
+                >
+                    <div>
                         <div class="d-flex align-items-center mb-3">
                             <input
                                 type="text"
                                 placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
-                                v-model="totalPrice"
-                                @keydown.enter="insertYTonnyApply" />
+                                v-model="unitPrice"
+                                @keydown.enter="insertYTonnyApply"
+                            />
                         </div>
                         <medium-btn
                             class="w-100"
-                            color="primary"
-                            font="white"
+                            color="outline"
+                            font="active"
                             text="헬퍼 신청하기"
-                            @click.prevent="insertYTonnyApply"></medium-btn>
+                            @click.prevent="insertYTonnyApply"
+                        ></medium-btn>
                         <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
-                    </div>
-                    <div v-else>
-                        <medium-btn text="헬퍼 신청 취소하기"></medium-btn>
                     </div>
                 </v-lazy>
             </div>
 
             <!-- yTonny Applu List View -->
-            <div class="yTonnyApplyList">
+            <div class="yTonnyApplyList mt-0">
                 <div class="d-flex align-items-center justify-content-between">
                     <h1>가격을 제안한 헬퍼들</h1>
-                    <div class="label">더보기</div>
+                    <!-- <div class="label">더보기</div> -->
                 </div>
 
                 <hr />
@@ -188,18 +217,21 @@
                     v-model="isActive"
                     :options="{ threshold: 0.5 }"
                     transition="fade-transition"
-                    ref="yTonnyApplyListRef">
+                    ref="yTonnyApplyListRef"
+                >
                     <div v-if="yTonnyApplyList.length > 0">
                         <transition-group name="slide-up">
                             <div
                                 v-for="(apply, index) in yTonnyApplyList"
                                 :key="index"
-                                class="w-100 row">
+                                class="w-100 row"
+                            >
                                 <!-- {{ apply }} -->
 
                                 <div class="d-flex flex-row align-items-center apply">
                                     <div
-                                        class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                        class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                    >
                                         <img src="@/assets/noProfile.png" width="50" height="50" />
 
                                         <!-- <img :src="apply.helper.profileImagePath" /> -->
@@ -211,37 +243,66 @@
                                             <div class="likeBtn" @click="toggleLikeBtn">
                                                 <span
                                                     v-if="isLikeEmpty"
-                                                    class="material-symbols-outlined likeIcon empty">
+                                                    class="material-symbols-outlined likeIcon empty"
+                                                >
                                                     favorite
                                                 </span>
                                                 <span
                                                     v-else
-                                                    class="material-symbols-outlined likeIcon">
+                                                    class="material-symbols-outlined likeIcon"
+                                                >
                                                     favorite
                                                 </span>
                                             </div>
                                             <div>{{ apply.helper.nickName }}</div>
                                         </div>
-                                        <div>한 줄 소개</div>
+                                        <div>{{ apply.helper.helperInfo.oneLineIntroduction }}</div>
                                         <div class="d-flex">
-                                            <div>평점(리뷰카운터)</div>
-                                            <div>{{ apply.totalPrice }}</div>
+                                            <div>
+                                                &nbsp;평점 {{ apply.helper.helperInfo.totalScore }}
+                                            </div>
+                                            <div>
+                                                &nbsp;리뷰 {{ apply.helper.helperInfo.reviewCount }}
+                                            </div>
+                                            <div>&nbsp;캐럿 {{ apply.unitPrice }}</div>
                                         </div>
 
-                                        <!-- <div>{{ apply.helper.helperInfo.avgScore }}</div> -->
-                                        <!-- <div>{{ apply.helper.helperInfo.reviewCount }}</div> -->
-                                        <!-- <div>{{ apply.totalPrice }}</div> -->
+                                        <!-- <div>{{ apply.unitPrice }}</div> -->
                                     </div>
 
                                     <div
-                                        v-if="yTonnyDetail.isCreator"
+                                        v-if="apply.helper.seq == userInfo.seq"
                                         class="closeBtn col-1"
-                                        @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)">
+                                        @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)"
+                                    >
                                         <span class="material-symbols-outlined"> close </span>
+                                    </div>
+                                    <div
+                                        v-else-if="isCreator"
+                                        class="checkBtn col-1"
+                                        @click="
+                                            acceptYTonnyApply(
+                                                apply.seq,
+                                                apply.helper.seq,
+                                                apply.unitPrice
+                                            )
+                                        "
+                                    >
+                                        <span class="material-symbols-outlined"> done </span>
                                     </div>
                                 </div>
                             </div>
                         </transition-group>
+                        <v-pagination
+                            v-model="currentPage"
+                            :length="yTonnyListTotalCount"
+                            rounded="circle"
+                            :total-visible="5"
+                            class="mt-5 me-5"
+                            prev-icon="mdi-menu-left"
+                            next-icon="mdi-menu-right"
+                            @click="nextPage"
+                        ></v-pagination>
                     </div>
                     <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
                 </v-lazy>
@@ -249,6 +310,7 @@
         </div>
 
         <alarm-modal
+            v-show="modalName == 'delete'"
             type="danger"
             btnText1="확인"
             btnText2="취소"
@@ -257,10 +319,48 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약을 삭제하시겠습니까? <br />
                 삭제한 후에는 다시 되돌릴 수가 없습니다.
+            </template>
+        </alarm-modal>
+
+        <alarm-modal
+            v-show="modalName == 'goLiveModalByClient'"
+            type="danger"
+            btnText1="확인"
+            btnText2="취소"
+            @clickBtn1="startLiveByClient"
+            @clickBtn2="this.$store.commit('CLOSE_ALARM_MODAL')"
+            btnColor1="outline"
+            btnFontColor1="main"
+            btnColor2="primary"
+            btnFontColor2="white"
+        >
+            <template #content>
+                통역 예약 라이브를 시작하시겠습니까? <br /><br />
+                시작한 후에는 재시작 할 수 없습니다. <br />
+                담당자와 시간 조율을 한 후 시작해주세요!
+            </template>
+        </alarm-modal>
+
+        <alarm-modal
+            v-show="modalName == 'goLiveModalByHelper'"
+            type="danger"
+            btnText1="확인"
+            btnText2="취소"
+            @clickBtn1="goLiveByHelper"
+            @clickBtn2="this.$store.commit('CLOSE_ALARM_MODAL')"
+            btnColor1="outline"
+            btnFontColor1="main"
+            btnColor2="primary"
+            btnFontColor2="white"
+        >
+            <template #content>
+                통역 예약 라이브에 입장하시겠습니까? <br /><br />
+                고객과 시간 조율을 한 후 시작해주세요!
             </template>
         </alarm-modal>
     </v-container>
@@ -291,14 +391,17 @@ export default {
             windowHeight: 0,
             yTonnyDetailElement: null,
             yTonnyApplyListElement: null,
+            currentPage: 1,
 
-            isHelper: true,
-            isApply: true,
+            isCreator: false,
+            isManager: false,
             isEditOpen: false,
             isActive: true,
             isLikeEmpty: true,
 
-            totalPrice: "",
+            unitPrice: "",
+
+            modalName: "",
         };
     },
 
@@ -307,7 +410,9 @@ export default {
             yTonnySeq: "getYTonnySeq",
             yTonnyDetail: "getYTonnyDetail",
             yTonnyApplyList: "getYTonnyApplyList",
+            yTonnyListTotalCount: "getYTonnyApplyListTotalCount",
             userInfo: "getUserInfo",
+            isHelper: "getIsHelper",
         }),
 
         createdAt() {
@@ -342,9 +447,55 @@ export default {
         //         else if (500 > window.scrollY) this.yTonnyDetailElement.style.marginTop = 0;
         //     }
         // },
+        openDeleteModal() {
+            this.modalName = `delete`;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
 
-        getYTonnyApplyList() {
-            this.$store.dispatch("getYTonnyApplyList", this.yTonnySeq);
+        openLiveModalByClient() {
+            this.modalName = `goLiveModalByClient`;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+
+        openLiveModalByHelper() {
+            this.modalName = `goLiveModalByHelper`;
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+
+        async startLiveByClient() {
+            // 히스토리 생성 -----------------------------------------
+            const payload = {
+                yTonnySeq: this.yTonnyDetail.seq,
+            };
+            console.log(payload);
+            await this.$store.dispatch("startYTonnyLive", payload);
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$router.push({ name: "LivePage" });
+
+            // 히스토리 생성 끝 --------------------------------------
+        },
+
+        goLiveByHelper() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$router.push({ name: "LivePage" });
+        },
+
+        async nextPage() {
+            await this.getYTonnyApplyList();
+            // window.scrollTo(0, 0);
+        },
+
+        async getYTonnyApplyList() {
+            let size = 4;
+            if (!this.isHelper) size = 6;
+
+            this.$store.commit("SET_Y_TONNY_APPLY_SIZE", size);
+
+            await this.$store.dispatch("getYTonnyApplyList", {
+                page: this.currentPage,
+                size: size,
+                yTonnySeq: this.yTonnySeq,
+            });
         },
 
         startChat() {
@@ -362,14 +513,14 @@ export default {
 
         async insertYTonnyApply() {
             let payload = {
-                helperSeq: 1,
+                helperSeq: this.userInfo.seq,
                 ytonnySeq: this.yTonnySeq,
-                totalPrice: this.totalPrice,
+                unitPrice: this.unitPrice,
             };
 
             await this.$store.dispatch("insertYTonnyApply", payload);
             await this.getYTonnyApplyList();
-            this.totalPrice = "";
+            this.unitPrice = "";
         },
 
         updateFormOpen() {
@@ -387,19 +538,49 @@ export default {
             await this.$store.dispatch("removeYTonnyApply", payload);
             await this.getYTonnyApplyList();
         },
+
+        checkIsCreator() {
+            let yTonnyCreatorSeq = this.yTonnyDetail.client.seq;
+
+            if (yTonnyCreatorSeq == this.userInfo.seq) {
+                this.isCreator = true;
+            }
+        },
+
+        checkIsManager() {
+            let yTonnyManageSeq = this.yTonnyDetail.helper?.seq;
+
+            if (yTonnyManageSeq == this.userInfo.seq) {
+                this.isManager = true;
+            }
+        },
+
+        async acceptYTonnyApply(yTonnyApplySeq, helperSeq, unitPrice) {
+            let yTonnySeq = this.yTonnySeq;
+            let payload = { yTonnySeq, yTonnyApplySeq, helperSeq, unitPrice };
+            await this.$store.dispatch("acceptYTonnyApply", payload);
+            console.log("accept", this.yTonnySeq, yTonnyApplySeq, helperSeq);
+            // await this.getYTonnyApplyList();
+        },
     },
 
     async created() {
+        window.scrollTo(0, 0);
+
         console.log("userInfo: ", this.userInfo, "token: ", this.userInfo.seq);
 
         // detail 정보 가져오기
         await this.$store.commit("SET_Y_TONNY_SEQ", this.$route.params.id);
+        console.log("routes params: ", this.$route.params.id);
 
-        let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
-        await this.$store.dispatch("getYTonnyDetail", payload);
-        await this.getYTonnyApplyList();
+        // let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
+        await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
+        this.checkIsCreator();
+        this.checkIsManager();
 
         window.scrollTo(0, 0);
+        await this.$store.dispatch("getYTonnyApplyListTotalCount", this.yTonnySeq);
+        await this.getYTonnyApplyList();
     },
 
     mounted() {
@@ -438,7 +619,7 @@ export default {
 
     .applys {
         // margin-top: 40px;
-        // margin-bottom: 80px;
+        margin-bottom: 40px;
 
         // padding: 100px;
         padding: 32px 24px;
@@ -449,7 +630,7 @@ export default {
     }
 
     .yTonnyApplyList {
-        margin-top: 40px;
+        margin-top: 50px;
         cursor: default;
         // margin-bottom: 80px;
 
@@ -486,6 +667,7 @@ hr {
 }
 
 .yTonnyDetailWrap {
+    margin-right: 30px;
 }
 .yTonnyDetail {
     cursor: default;
@@ -633,6 +815,24 @@ hr {
     }
 }
 
+.checkBtn {
+    position: relative;
+    right: 12px;
+    cursor: pointer;
+
+    span {
+        font-variation-settings: "wght" 300;
+        transition: all 0.13s;
+        color: var(--sub-color);
+    }
+
+    &:hover {
+        span {
+            color: var(--success-color);
+        }
+    }
+}
+
 // .closeBtn {
 // 	position: absolute;
 // 	// top: 0;
@@ -661,12 +861,21 @@ hr {
 // 	}
 // }
 
+nav {
+    :nth-child(1) {
+        padding: 0;
+    }
+}
+
 @media (min-width: 1264px) {
     .yTonnyDetailWrap {
         transition: all 0.13s;
     }
 
     .yTonnyDetail {
+        margin-right: 24px;
+    }
+    .goLiveBtn {
         margin-right: 24px;
     }
 }

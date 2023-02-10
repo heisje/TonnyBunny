@@ -152,4 +152,26 @@ export default {
             console.error(err);
         }
     },
+
+    // POST /api/bunny/{bunnySeq}/apply 번역 견적서 생성
+    async insertBunnyQuotation(context, payload) {
+        console.log("번역 견적서 생성");
+        console.log(payload);
+        try {
+            let { data } = await http.post(`/bunny/${payload.bunnySeq}/quotation`, payload);
+            console.log("async function : ", data);
+
+            context;
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    console.log(context);
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
 };

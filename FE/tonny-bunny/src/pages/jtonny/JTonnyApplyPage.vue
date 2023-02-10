@@ -5,7 +5,8 @@
                 <div class="customForm col-md-6 col-12 d-flex flex-column justify-content-center">
                     <title-text
                         title="즉시통역 신청이 들어왔어요!"
-                        text="고객들이 신청한 즉시통역 내역이에요" />
+                        text="고객들이 신청한 즉시통역 내역이에요"
+                    />
                     <hr />
                     <v-alert
                         v-show="isAlertOpen"
@@ -14,11 +15,13 @@
                         text="즉시통역 신청은 3개까지만 가능합니다."
                         type="error"
                         variant="tonal"
-                        class="alert"></v-alert>
+                        class="alert"
+                    ></v-alert>
                     <v-lazy
                         v-model="jtonnyQuestList"
                         :options="{ threshold: 0.5 }"
-                        transition="fade-transition">
+                        transition="fade-transition"
+                    >
                         <div v-if="jtonnyQuestListLength > 0" class="mb-5">
                             <transition-group name="slide-up">
                                 <div v-for="(quest, index) in jtonnyQuestList" :key="index">
@@ -32,7 +35,8 @@
                                                         class="profileImg"
                                                         src="@/assets/noProfile_white.png"
                                                         width="70"
-                                                        height="70" />
+                                                        height="70"
+                                                    />
                                                     <div class="userType ms-2">
                                                         <span class="label">고객</span>
                                                         <h4 class="" v-if="quest?.client?.nickName">
@@ -47,7 +51,8 @@
                                                         <square-tag
                                                             :text="quest.startLangCode"
                                                             sub
-                                                            class="me-2"></square-tag>
+                                                            class="me-2"
+                                                        ></square-tag>
                                                         <div class="me-2">
                                                             <span class="material-symbols-outlined">
                                                                 compare_arrows
@@ -55,7 +60,8 @@
                                                         </div>
                                                         <square-tag
                                                             :text="quest.endLangCode"
-                                                            sub></square-tag>
+                                                            sub
+                                                        ></square-tag>
                                                     </div>
                                                     <div>{{ quest.unitPrice }}</div>
                                                     <div>{{ quest.estimateTime }}</div>
@@ -78,7 +84,8 @@
                                             color="outline"
                                             font="active"
                                             class="w-100"
-                                            @click="toggleMoreOpen"></medium-btn>
+                                            @click="toggleMoreOpen"
+                                        ></medium-btn>
                                         <v-table v-show="isMoreOpen">
                                             <thead>
                                                 <tr class="">
@@ -93,7 +100,8 @@
                                                         <square-tag
                                                             :text="quest.startLangCode"
                                                             sub
-                                                            class="me-2"></square-tag>
+                                                            class="me-2"
+                                                        ></square-tag>
                                                         <div class="me-2">
                                                             <span class="material-symbols-outlined">
                                                                 compare_arrows
@@ -101,7 +109,8 @@
                                                         </div>
                                                         <square-tag
                                                             :text="quest.endLangCode"
-                                                            sub></square-tag>
+                                                            sub
+                                                        ></square-tag>
                                                     </td>
                                                 </tr>
 
@@ -144,7 +153,8 @@
                                     <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
                                         <div
                                             class="col-6 reject"
-                                            @click="cancelApply(quest.client.seq)">
+                                            @click="cancelApply(quest.client.seq)"
+                                        >
                                             거절
                                         </div>
                                         <div class="col-6 accept" @click="apply(quest.client.seq)">
@@ -176,23 +186,27 @@
                     <div>
                         <title-text
                             title="신청한 즉시통역 목록"
-                            text="현재 신청한 즉시통역 내역이에요"></title-text>
+                            text="현재 신청한 즉시통역 내역이에요"
+                        ></title-text>
                         <hr />
 
                         <transition-group name="slide-up">
                             <div
                                 v-for="(apply, index) in Object.values(jtonnyApplyQuestList)"
-                                :key="index">
+                                :key="index"
+                            >
                                 <div v-if="index < 3" class="row px-3">
                                     <!-- {{ apply }} -->
 
                                     <div class="d-flex flex-row align-items-center quest py-3 px-2">
                                         <div
-                                            class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                        >
                                             <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50" />
+                                                height="50"
+                                            />
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -219,7 +233,8 @@
 
                                         <div
                                             class="closeBtn col-1"
-                                            @click="cancelApply(apply.client.seq)">
+                                            @click="cancelApply(apply.client.seq)"
+                                        >
                                             <span class="material-symbols-outlined"> close </span>
                                         </div>
                                     </div>
@@ -227,7 +242,7 @@
                             </div>
                         </transition-group>
                     </div>
-                    <div>
+                    <!-- <div>
                         <title-text
                             title="통역 예약 목록"
                             text="통역 예약도 받아볼까요?"></title-text>
@@ -243,7 +258,7 @@
                                         v-for="(yTonny, index) in yTonnyList"
                                         :key="index"
                                         class="w-100 row">
-                                        <!-- {{ yTonny }} -->
+                                        {{ yTonny }} 
 
                                         <div class="d-flex flex-row align-items-center yTonny">
                                             <div class="col-12">
@@ -252,7 +267,13 @@
                                                         :text="yTonny.tonnySituCode"
                                                         sub
                                                         class="me-1"></square-tag>
-                                                    <div>{{ yTonny.title }}</div>
+                                                    <router-link
+                                                        :to="{
+                                                            name: 'YTonnyDetailPage',
+                                                            params: { id: yTonny.seq },
+                                                        }">
+                                                        <div>{{ yTonny.title }}</div>
+                                                    </router-link>
                                                 </div>
                                                 <div>{{ yTonny.content }}</div>
                                                 <div class="d-flex justify-space-between">
@@ -266,20 +287,37 @@
                             </div>
                             <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
                         </v-lazy>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
             <AlarmModal
-                title="확인"
+                v-show="modalName == `reject`"
+                title="거절"
+                type="danger"
+                btnText2="다음"
+                btnColor2="carrot"
+                btnFontColor1="white"
+                btnFontColor2="white"
+                @clickBtn2="closeModal"
+            >
+                <template #content> 제안이 거절되었습니다<br />다음에 이용해주세요! </template>
+            </AlarmModal>
+
+            <AlarmModal
+                v-show="modalName == `accept`"
+                title="수락"
                 type="success"
                 btnText2="다음"
                 btnColor1="main"
                 btnColor2="carrot"
-                btnFontColor1="white"
+                btnFontColor1="main"
                 btnFontColor2="white"
-                :link="{ name: 'HomePage' }">
-                <template #content> 대기가 취소되었습니다<br />또 이용해주세요! </template>
+                @clickBtn2="onAir"
+            >
+                <template #content>
+                    제안이 수락되었습니다<br />확인을 누르시면 즉시통역이 시작됩니다!
+                </template>
             </AlarmModal>
         </div>
 
@@ -314,6 +352,7 @@ import { mapGetters } from "vuex";
 
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import http from "@/common/axios";
 
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
@@ -339,6 +378,8 @@ export default {
             jtonnyApplyQuestList: {}, // 현재 신청한 목록
             jtonnyRequest: {},
             subs: [], // 페이지 이탈할 때 unsubscribe(),
+
+            modalName: "", // 모달 선택
         };
     },
 
@@ -354,6 +395,17 @@ export default {
     },
 
     methods: {
+        closeModal() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+
+        onAir() {
+            this.$store.commit("CLOSE_ALARM_MODAL");
+            this.$router.push({
+                name: "LivePage",
+            });
+        },
+
         toggleMoreOpen() {
             this.isMoreOpen = !this.isMoreOpen;
         },
@@ -367,8 +419,7 @@ export default {
                 nickName: this.userInfo.nickName,
             };
 
-            // FIXME: 현재 내 단가를 넣어야함 helperinfo 들어오면
-            jtonnyApply.unitPrice = 5000;
+            jtonnyApply.unitPrice = this.userInfo.helperInfo.unitPrice;
             this.jtonnyApplyQuestList[seq] = jtonnyApply;
             this.applyCount++;
 
@@ -383,7 +434,6 @@ export default {
         cancelApply(seq) {
             let jtonnyApply = this.jtonnyQuestList[seq];
 
-            // 이거 상대편에서 안 없어짐
             this.stompClient.send("/pub/jtonny/apply/cancel", JSON.stringify(jtonnyApply), {});
             delete this.jtonnyQuestList[seq];
             delete this.jtonnyApplyQuestList[seq];
@@ -397,7 +447,7 @@ export default {
     },
 
     mounted() {
-        const serverURL = "http://localhost:8080/api/stomp";
+        const serverURL = http.getUri() + "/stomp";
         let possibleLanguageList = this.userInfo.helperInfo.possibleLanguageList;
         let socket = new SockJS(serverURL);
 
@@ -433,7 +483,6 @@ export default {
 
                             let request = JSON.parse(res.body);
                             delete this.jtonnyQuestList[request.client.seq];
-                            console.log("안뇽:", this.jtonnyApplyQuestList);
                             delete this.jtonnyApplyQuestList[request.client.seq];
                         }
                     );
@@ -443,18 +492,28 @@ export default {
                 this.stompClient.subscribe(`/sub/jtonny/accept/${this.userInfo.seq}`, (res) => {
                     console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
 
+                    const data = JSON.parse(res.body);
+                    this.$store.commit("SET_START_RES_DATA", data);
+
                     /* 
                         let jtonny = JSON.parse(res.body);
                         
                         오픈비두 이동 router.PUSH 
                         param? query? 는 jtonny
+
+						
                     */
+
+                    this.modalName = "accept";
 
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/reject/${this.userInfo.seq}`, (res) => {
                     let jtonny = JSON.parse(res.body);
+                    console.log("여기가 거절인가?");
+                    this.modalName = "reject";
+                    this.$store.commit("TOGGLE_ALARM_MODAL");
 
                     delete this.jtonnyQuestList[jtonny.client.seq];
                     delete this.jtonnyApplyQuestList[jtonny.client.seq];

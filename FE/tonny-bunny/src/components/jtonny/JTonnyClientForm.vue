@@ -1,7 +1,97 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <form class="customForm" @submit.prevent="submitForm(event)">
-            <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
+            <div class="situation mt-5">
+                <title-text
+                    important
+                    type="h2"
+                    title="언어 선택"
+                    text="어떤 언어를 통역하실건가요?"
+                    bottom="20" />
+
+                <div class="d-flex flex-row w-100 mb-5">
+                    <div class="w-100">
+                        <dropdown-input-code
+                            class="w-100"
+                            ref="startLangCode"
+                            :disable="changLangCount % 2 ? false : true"
+                            :dropdownArray="langCode"
+                            placeholder="한국어"
+                            @toggle="(e) => (jtonnyRequest.startLangCode = e)" />
+                    </div>
+
+                    <div class="swap" @click="changLangCode">
+                        <span class="material-symbols-outlined"> compare_arrows </span>
+                    </div>
+
+                    <div class="w-100">
+                        <DropdownInputCode
+                            ref="endLangCode"
+                            :disable="changLangCount % 2 ? true : false"
+                            :dropdownArray="langCode"
+                            placeholder="필요 언어"
+                            @toggle="(e) => (jtonnyRequest.endLangCode = e)" />
+                    </div>
+                </div>
+
+                <title-text
+                    important
+                    class="w-100"
+                    type="h2"
+                    title="예상 소요 시간"
+                    text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?"
+                    top="70"
+                    bottom="20" />
+
+                <div class="d-flex">
+                    <div class="col-6 d-flex flex-row me-2">
+                        <div class="w-100">
+                            <DropdownInput
+                                class=""
+                                :dropdownArray="hourCodeList"
+                                placeholder="시간"
+                                @toggle="(e) => (jtonnyRequest.estimateHour = e)" />
+                        </div>
+                    </div>
+                    <div class="col-6 d-flex flex-row">
+                        <div class="w-100">
+                            <DropdownInput
+                                class="w-100"
+                                :dropdownArray="minuteCodeList"
+                                placeholder="분"
+                                @toggle="(e) => (jtonnyRequest.estimateMinute = e)" />
+                        </div>
+                    </div>
+                </div>
+
+                <title-text
+                    type="h2"
+                    title="[선택] 상황 카테고리"
+                    text="어떤 상황의 통역을 원하시나요?"
+                    top="70"
+                    bottom="20" />
+
+                <DropdownInputCode
+                    class="w120"
+                    :dropdownArray="tonnySituCode"
+                    placeholder="상황 선택"
+                    @toggle="(e) => (jtonnyRequest.tonnySituCode = e)" />
+
+                <title-text
+                    type="h2"
+                    title="[선택] 상황 설명"
+                    text="통역이 필요한 상황을 헬퍼에게 설명해볼까요?"
+                    top="70"
+                    bottom="20" />
+
+                <textarea
+                    type="textarea"
+                    placeholder="내용을 입력해주세요"
+                    rows="7"
+                    v-model="jtonnyRequest.content" />
+            </div>
+
+            <!-- <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
 
             <div class="d-flex flex-row">
                 <div class="">
@@ -75,12 +165,10 @@
             <textarea
                 type="textarea"
                 placeholder="내용을 입력해주세요"
-                v-model="jtonnyRequest.content" />
+                v-model="jtonnyRequest.content" /> -->
 
-            <agree-input @toggle="(e) => (agreeValue = e)" />
-            <!-- <router-link :to="{ name: 'JTonnyWaitingPage' }"> -->
-            <medium-btn @click="test" style="width: 100%" text="즉시찾기" color="carrot" />
-            <!-- </router-link> -->
+            <agree-input @toggle="(e) => (agreeValue = e)" style="margin-top: 100px" />
+            <medium-btn @click="test" style="width: 100%" text="통역하기" color="carrot" />
         </form>
     </div>
 </template>
@@ -170,6 +258,7 @@ export default {
         },
 
         changLangCode() {
+            console.log(this.jtonnyRequest);
             const temp = this.jtonnyRequest.startLangCode;
             this.jtonnyRequest.startLangCode = this.jtonnyRequest.endLangCode;
             this.jtonnyRequest.endLangCode = temp;
@@ -178,9 +267,21 @@ export default {
             this.changLangCount += 1;
         },
     },
+
+    created() {
+        window.scrollTo(0, 0);
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/scss/input.scss";
+
+.situation {
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+    background-color: var(--thin-color);
+    border-radius: 6px;
+    padding-bottom: 32px;
+}
 </style>

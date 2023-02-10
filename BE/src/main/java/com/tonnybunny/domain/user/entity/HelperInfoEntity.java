@@ -26,7 +26,10 @@ public class HelperInfoEntity extends CommonEntity {
 	private Long seq;
 
 	private Boolean isActive = false;
-	private Float avgScore = 0f;
+
+	@Builder.Default
+	private Integer totalScore = 0;
+	@Builder.Default
 	private Integer reviewCount = 0;
 
 	@OneToOne(fetch = FetchType.LAZY)
@@ -90,6 +93,16 @@ public class HelperInfoEntity extends CommonEntity {
 
 	public void updateUnitPrice(Integer unitPrice) {
 		this.unitPrice = unitPrice;
+	}
+
+
+	public void updateReviewCount(Integer cnt) {
+		this.reviewCount += cnt;
+	}
+
+
+	public void updateTotalScore(Integer score) {
+		this.totalScore += score;
 	}
 
 }

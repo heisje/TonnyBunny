@@ -18,9 +18,9 @@ export default {
         if (sec >= 86400) {
             temp = oldTime.toLocaleDateString("ko-KR", options);
         } else if (sec >= 3600) {
-            temp = Math.floor(sec / 3600) + "시간 지남";
+            temp = Math.floor(sec / 3600) + "시간 전";
         } else {
-            temp = Math.floor(sec / 60) + "분 지남";
+            temp = Math.floor(sec / 60) + "분 전";
         }
         return temp;
     },

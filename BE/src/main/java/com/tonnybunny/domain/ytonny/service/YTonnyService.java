@@ -90,7 +90,11 @@ public class YTonnyService {
 		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		// dto -> entity
-		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder().yTonny(yTonnyEntity).helper(helperEntity).unitPrice(unitPrice).build();
+		YTonnyApplyEntity yTonnyApplyEntity = YTonnyApplyEntity.builder()
+		                                                       .yTonny(yTonnyEntity)
+		                                                       .helper(helperEntity)
+		                                                       .unitPrice(unitPrice).build();
+
 		yTonnyEntity.getYTonnyApplyList().add(yTonnyApplyEntity);
 
 		// save
@@ -155,6 +159,7 @@ public class YTonnyService {
 		// paream setting
 		int page = yTonnyApplyRequestDto.getPage();
 		int size = yTonnyApplyRequestDto.getSize();
+		System.out.println("size = " + size);
 
 		// pagination
 		Pageable pageable = PageRequest.of(page, size);
@@ -187,13 +192,13 @@ public class YTonnyService {
 
 		// 수정
 		yTonnyEntity.update(yTonnyRequestDto.getTitle(),
-			yTonnyRequestDto.getTonnySituCode(),
-			yTonnyRequestDto.getContent(),
-			yTonnyRequestDto.getStartLangCode(),
-			yTonnyRequestDto.getEndLangCode(),
-			yTonnyRequestDto.getStartDateTime(),
-			yTonnyRequestDto.getEstimateTime(),
-			yTonnyRequestDto.getEstimatePrice());
+		                    yTonnyRequestDto.getTonnySituCode(),
+		                    yTonnyRequestDto.getContent(),
+		                    yTonnyRequestDto.getStartLangCode(),
+		                    yTonnyRequestDto.getEndLangCode(),
+		                    yTonnyRequestDto.getStartDateTime(),
+		                    yTonnyRequestDto.getEstimateTime(),
+		                    yTonnyRequestDto.getEstimatePrice());
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
@@ -213,17 +218,22 @@ public class YTonnyService {
 
 		// param setting
 		Long yTonnySeq = yTonnyApplyRequestDto.getYTonnySeq();
+		System.out.println("yTonnySeq = " + yTonnySeq);
 		Long yTonnyApplySeq = yTonnyApplyRequestDto.getYTonnyApplySeq();
+		System.out.println("yTonnyApplySeq = " + yTonnyApplySeq);
 		Long helperSeq = yTonnyApplyRequestDto.getHelperSeq();
+		System.out.println("helperSeq = " + helperSeq);
+		Integer unitPrice = yTonnyApplyRequestDto.getUnitPrice();
+		System.out.println("unitPrice = " + unitPrice);
 
 		// find
-		//		UserEntity helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq)
 		                                                           .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
 		yTonnyEntity.updateHelperSeq(helperSeq);
+		yTonnyEntity.updateEstimatePrice(unitPrice);
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
@@ -288,6 +298,16 @@ public class YTonnyService {
 		// delete
 		yTonnyApplyRepository.delete(yTonnyApplyEntity);
 
+	}
+
+
+	public Long getYTonnyListTotalCount() {
+		return yTonnyRepository.count();
+	}
+
+
+	public Long getYTonnyApplyListTotalCount(Long yTonnySeq) {
+		return yTonnyApplyRepository.countByyTonnySeq(yTonnySeq);
 	}
 
 }

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JTonnyHelperInfoDto {
 
-	private Float avgScore;
+	private Integer totalScore;
 	private Integer reviewCount;
 	private String oneLineIntroduction;
 	private Integer likeCount;
@@ -22,7 +22,7 @@ public class JTonnyHelperInfoDto {
 
 	public static JTonnyHelperInfoDto fromEntity(HelperInfoEntity helperInfo) {
 		return JTonnyHelperInfoDto.builder()
-		                          .avgScore(helperInfo.getAvgScore())
+		                          .totalScore(helperInfo.getTotalScore())
 		                          .reviewCount(helperInfo.getReviewCount())
 		                          .oneLineIntroduction(helperInfo.getOneLineIntroduction())
 		                          .likeCount(helperInfo.getLikeCount())

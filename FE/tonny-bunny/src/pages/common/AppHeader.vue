@@ -56,20 +56,24 @@
 
                         <div class="navBarProfile" v-if="isLogin">
                             <router-link :to="{ name: 'AlertPage' }">
-                                <span class="material-symbols-outlined notification">
+                                <span class="material-symbols-outlined notification mt-1 me-2">
                                     notifications
                                 </span>
                             </router-link>
 
                             <div class="d-flex align-items-center">
-                                <span class="nickName" @click="openPopOver">
-                                    {{ userInfo?.nickName }}
-                                </span>
+                                <router-link :to="{ name: 'MyPage' }" class="text-decoration-none">
+                                    <span class="nickName">
+                                        {{ userInfo?.nickName }}
+                                    </span>
+                                </router-link>
+
                                 <img
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
                                     @click="openPopOver"
+                                    v-click-outside="onClickOutside"
                                 />
                             </div>
                             <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
@@ -86,7 +90,7 @@
                                     <li>
                                         <router-link
                                             class="dropdown-item"
-                                            :to="{ name: 'ChatPage' }"
+                                            :to="{ name: 'FavoriteListPage' }"
                                         >
                                             즐겨찾기
                                         </router-link>
@@ -101,11 +105,11 @@
                                             class="dropdown-item"
                                             :to="{ name: 'NoticePage' }"
                                         >
-                                            설정
+                                            고객센터
                                         </router-link>
                                     </li>
-                                    <li>
-                                        <div class="dropdown-item" @click="logout">로그아웃</div>
+                                    <li style="border: none">
+                                        <a class="dropdown-item" @click="logout"> 로그아웃 </a>
                                     </li>
                                 </ul>
                             </div>
@@ -146,10 +150,15 @@
                         </a>
                         <div class="d-flex">
                             <div v-if="isLogin">
-                                <router-link :to="{ name: 'AlertPage' }">
-                                    <span class="material-symbols-outlined notification">
-                                        notifications
-                                    </span>
+                                <router-link
+                                    :to="{ name: 'AlertPage' }"
+                                    style="text-decoration: none"
+                                >
+                                    <div class="d-flex">
+                                        <span class="material-symbols-outlined notification">
+                                            notifications
+                                        </span>
+                                    </div>
                                 </router-link>
                             </div>
                             <div v-else>
@@ -227,7 +236,7 @@
                                                 width="40"
                                                 height="40"
                                             />
-                                            <h3>닉네임</h3>
+                                            <h3>{{ userInfo.nickName }}</h3>
                                         </a>
 
                                         <ul class="dropdown-menu">
@@ -242,7 +251,7 @@
                                             <li data-bs-dismiss="offcanvas">
                                                 <router-link
                                                     class="dropdown-item"
-                                                    :to="{ name: 'ChatPage' }"
+                                                    :to="{ name: 'FavoriteListPage' }"
                                                 >
                                                     즐겨찾기
                                                 </router-link>
@@ -260,7 +269,7 @@
                                                     class="dropdown-item"
                                                     :to="{ name: 'NoticePage' }"
                                                 >
-                                                    설정
+                                                    고객센터
                                                 </router-link>
                                             </li>
 
@@ -269,9 +278,9 @@
                                             </li>
 
                                             <li data-bs-dismiss="offcanvas">
-                                                <a class="dropdown-item" @click="logout"
-                                                    >로그아웃</a
-                                                >
+                                                <a class="dropdown-item" @click="logout">
+                                                    로그아웃
+                                                </a>
                                             </li>
                                         </ul>
                                     </li>
@@ -361,6 +370,11 @@ export default {
         logout() {
             this.$store.dispatch("logout");
         },
+
+        // out side
+        onClickOutside() {
+            this.isPopOverOpen = false;
+        },
     },
 };
 </script>
@@ -421,7 +435,7 @@ export default {
         }
 
         .nickName {
-            margin-right: 12px;
+            margin-right: 16px;
 
             a {
                 font-size: 1rem;
@@ -441,13 +455,13 @@ export default {
         .profilePopOver {
             position: absolute;
             top: 70px;
-            margin-right: -6px;
-            // right: 10px;
+            // margin-right: -1px;
+            // right: -1px;
             width: 120px;
-            padding: 12px 16px;
+            // padding: 12px 16px;
 
             background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.13);
             box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
             z-index: 99;
 
@@ -457,7 +471,8 @@ export default {
 
                 li {
                     list-style: none;
-                    margin-bottom: 6px;
+                    margin: 6px 0;
+                    // margin-bottom: 6px;
                     // opacity: 0.8;
 
                     border-bottom: 1px solid var(--light-color);
@@ -465,12 +480,16 @@ export default {
 
                     &:hover {
                         // font-weight: 600;
-                        background-color: var(--thin-color);
+                        // background-color: var(--thin-color);
+
+                        a {
+                            text-decoration: underline;
+                        }
                     }
 
                     a {
+                        margin-left: 10px;
                         color: var(--main-color);
-                        font-size: 1rem;
                         padding: 2px 0 0 2px;
                     }
                 }
@@ -484,7 +503,7 @@ export default {
                 height: 7px;
                 padding: 7px;
                 background-color: #fff;
-                border: 1px solid rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(0, 0, 0, 0.13);
                 transform: rotate(45deg);
                 border-bottom: none;
                 border-right: none;
@@ -548,6 +567,10 @@ export default {
 
         .dropdown-item {
             font-size: 1rem;
+        }
+        li a:hover {
+            background: none;
+            color: var(--primary-color);
         }
     }
 }

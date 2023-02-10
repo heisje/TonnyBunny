@@ -1,40 +1,60 @@
 //컬러전역설정
 :root,
 :root.light {
-    --carrot-color: linear-gradient(126.73deg, #ff8a65 15.12%, #ff7765 86.23%);
-    // --carrot-color: linear-gradient(126.73deg, #8165ff 15.12%, #6eb2ff 86.23%);
-    --banner-color: linear-gradient(
-        90deg,
-        rgba(255, 138, 101, 1) 0%,
-        rgba(255, 119, 101, 1) 35%,
-        rgba(245, 136, 101, 1) 73%,
-        rgba(255, 161, 101, 1) 98%
-    );
-    --banner-color2: linear-gradient(
-        45deg,
-        rgba(232, 237, 239, 1) 0%,
-        rgba(255, 221, 217, 1) 44%,
-        rgba(232, 237, 239, 1) 100%
-    );
-    --active-color: #424b5a;
-    // --main-color: #505d68;
-    --main-color: #505d68;
-    --sub-color: #a1aeb7;
-    --disable-color: #c2d1d9;
-    --light-color: #e8edef;
-    --thin-color: #f2f5f7;
-    --white-color: #ffffff;
-    --background-color: #ffffff;
+	--carrot-color: linear-gradient(126.73deg, #ff8a65 15.12%, #ff7765 86.23%);
+	// --carrot-color: linear-gradient(126.73deg, #8165ff 15.12%, #6eb2ff 86.23%);
+	--banner-color: linear-gradient(
+		90deg,
+		rgba(255, 138, 101, 1) 0%,
+		rgba(255, 119, 101, 1) 35%,
+		rgba(245, 136, 101, 1) 73%,
+		rgba(255, 161, 101, 1) 98%
+	);
+	--banner-color2: linear-gradient(
+		45deg,
+		rgba(232, 237, 239, 1) 0%,
+		rgb(252, 186, 180) 44%,
+		rgba(232, 237, 239, 1) 100%
+	);
+	--banner-color3: radial-gradient(
+		circle,
+		rgba(135, 209, 70, 1) 0%,
+		rgba(156, 211, 115, 1) 8%,
+		rgba(191, 215, 193, 1) 27%,
+		rgba(205, 217, 223, 1) 47%,
+		rgba(212, 222, 227, 1) 68%,
+		rgba(227, 233, 236, 1) 87%,
+		rgba(255, 255, 255, 1) 100%
+	);
+	--banner-color4: radial-gradient(
+		circle,
+		#ff8a65 0%,
+		rgba(224, 173, 159, 1) 25%,
+		rgba(213, 186, 180, 1) 38%,
+		rgba(194, 209, 217, 1) 55%,
+		rgba(205, 217, 223, 1) 67%,
+		rgba(232, 237, 239, 1) 100%
+	);
+	--active-color: #424b5a;
+	// --main-color: #505d68;
+	--main-color: #505d68;
+	--sub-color: #a1aeb7;
+	--disable-color: #c2d1d9;
+	--light-color: #e8edef;
+	--light-color2: #f7f7f7;
+	--thin-color: #f2f5f7;
+	--white-color: #ffffff;
+	--background-color: #ffffff;
 
-    --primary-color: #ff7765;
-    --primary-color-50: #ff77657a;
-    --primary-color-20: #ff776534;
-    --info-color: #58c2ed;
-    --success-color: #87d146;
-    --warning-color: #ffd600;
-    --danger-color: #f96a63;
-    --d-modal-back-color: #d9d9d980;
-    --d-modal-color: #ffffff80;
+	--primary-color: #ff7765;
+	--primary-color-50: #ff77657a;
+	--primary-color-20: #ff776534;
+	--info-color: #58c2ed;
+	--success-color: #87d146;
+	--warning-color: #ffd600;
+	--danger-color: #f96a63;
+	--d-modal-back-color: #d9d9d980;
+	--d-modal-color: #ffffff80;
 }
 
 // 다크모드
@@ -43,77 +63,77 @@
 
 //폰트전역설정
 h1 {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    @extend .h1;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	@extend .h1;
 }
 h2 {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    @extend .h2;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	@extend .h2;
 }
 h3 {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    @extend .h3;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	@extend .h3;
 }
 h4 {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    @extend .h4;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	@extend .h4;
 }
 h5 {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    @extend .h5;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	@extend .h5;
 }
 
 @media (min-width: 100px) {
-    .h1 {
-        font-weight: 700;
-        font-size: 1.5rem;
-        line-height: 1.8rem;
-    }
-    .h1-small {
-        font-weight: 600;
-        font-size: 1.25rem;
-        line-height: 1.5rem;
-    }
-    .h2 {
-        font-weight: 600;
-        font-size: 1rem;
-        line-height: 1.18rem;
-    }
-    .h3 {
-        font-weight: 700;
-        font-size: 0.9rem;
-        line-height: 1.1rem;
-    }
-    .h4 {
-        font-weight: 700;
-        font-size: 0.8rem;
-        line-height: 1rem;
-    }
-    .h5 {
-        font-weight: 700;
-        font-size: 0.75rem;
-        line-height: 0.9rem;
-    }
-    .text {
-        font-weight: 400;
-        font-size: 0.87rem;
-        line-height: 1.31rem;
-    }
-    .label {
-        font-weight: 400;
-        font-size: 0.7rem;
-        line-height: 0.93rem;
-    }
+	.h1 {
+		font-weight: 700;
+		font-size: 1.5rem;
+		line-height: 1.8rem;
+	}
+	.h1-small {
+		font-weight: 600;
+		font-size: 1.25rem;
+		line-height: 1.5rem;
+	}
+	.h2 {
+		font-weight: 600;
+		font-size: 1rem;
+		line-height: 1.18rem;
+	}
+	.h3 {
+		font-weight: 700;
+		font-size: 0.9rem;
+		line-height: 1.1rem;
+	}
+	.h4 {
+		font-weight: 700;
+		font-size: 0.8rem;
+		line-height: 1rem;
+	}
+	.h5 {
+		font-weight: 700;
+		font-size: 0.75rem;
+		line-height: 0.9rem;
+	}
+	.text {
+		font-weight: 400;
+		font-size: 0.87rem;
+		line-height: 1.31rem;
+	}
+	.label {
+		font-weight: 400;
+		font-size: 0.7rem;
+		line-height: 0.93rem;
+	}
 }
 // 큰화면
 // @media (min-width: 768px) {
@@ -182,7 +202,7 @@ h5 {
 // }
 
 @media (min-width: 1200px) {
-    .container {
-        // width: calc(100% - 400px);
-    }
+	.container {
+		// width: calc(100% - 400px);
+	}
 }
