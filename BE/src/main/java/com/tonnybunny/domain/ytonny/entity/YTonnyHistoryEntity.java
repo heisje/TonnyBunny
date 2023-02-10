@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 
 
 @Entity
-@DiscriminatorValue("y_tonny")
+@DiscriminatorValue("0030002")
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,6 +25,7 @@ import java.time.LocalTime;
 public class YTonnyHistoryEntity extends HistoryEntity {
 
 	private String title;
+	@DateTimeFormat(pattern = "HH:mm:ss")
 	private LocalTime totalTime;
 
 	private Integer unitPrice;
