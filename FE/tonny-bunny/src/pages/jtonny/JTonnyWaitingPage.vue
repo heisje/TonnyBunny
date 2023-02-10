@@ -391,11 +391,39 @@ export default {
                     delete this.jtonnyApplyList[request.helper.seq];
                 });
 
-                this.stompClient.subscribe(`/sub/jtonny/accept/${clientSeq}`, (res) => {
+                this.stompClient.subscribe(`/sub/jtonny/accept/${clientSeq}`, async (res) => {
                     console.log("즉시통역 매칭 완료. 오픈비두 이동(고객)", res.body);
 
                     const data = JSON.parse(res.body);
-                    this.$store.commit("SET_START_RES_DATA", data);
+                    await this.$store.commit("SET_START_RES_DATA", data);
+
+                    // 히스토리 생성 -----------------------------------------
+
+                    console.log(data);
+                    let res2 = await http.post(`/live/jtonny/start`, data);
+
+                    try {
+                        console.log("async function : ", res2);
+
+                        // service logic
+                        switch (res2.data.resultCode) {
+                            case "SUCCESS":
+                                console.log(res2.data.data);
+                                this.$store.commit("SET_HISTORY_SEQ", res2.data.data);
+                                break;
+                            case "FAIL":
+                                break;
+                        }
+                    } catch (err) {
+                        console.error(err);
+
+                        // exception
+                        if (err.response.status == 403) {
+                            alert("로그인 하세요");
+                        }
+                    }
+
+                    // 히스토리 생성 끝 --------------------------------------
 
                     // this.$router.push({ name: "LivePage", params: { sessionName: res.body.uuid } });
 
