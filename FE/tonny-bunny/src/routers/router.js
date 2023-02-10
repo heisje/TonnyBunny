@@ -97,6 +97,9 @@ export default createRouter({
     history: createWebHistory(),
     linkActiveClass: "route-active",
     linkExactActiveClass: "route-active",
+    scrollBehavior() {
+        return { top: 0 };
+    },
 
     routes: [
         //account

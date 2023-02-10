@@ -63,9 +63,7 @@
                         </div>
 
                         <div class="commentContent">
-                            {{
-                                boardCommentItem?.content
-                            }}dasfasdfasdfasdgasbㅁ뉸ㅇ뮨ㅁ윤ㅇㄹㄼㅈㄷㅈㄴㅁㄴㅇㅂㅈㄷㅁㄴㅇㅁㄴㅇ
+                            {{ boardCommentItem?.content }}
                         </div>
 
                         <hr />
