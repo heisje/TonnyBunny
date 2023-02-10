@@ -8,13 +8,8 @@
                         <router-link :to="{ name: 'BoardPage' }">더보기</router-link>
                     </div>
                 </div>
-                <div class="item">
-                    <board-list-item></board-list-item>
-                    <board-list-item></board-list-item>
-                    <board-list-item></board-list-item>
-                    <!-- <div v-for="(item, index) in boardList" :key="index">
-                        <board-list-item> </board-list-item>
-                    </div> -->
+                <div class="item" v-for="boardItem in boardList.slice(0, 3)" :key="boardItem">
+                    <board-list-item :boardItem="boardItem"></board-list-item>
                 </div>
             </div>
         </div>
@@ -26,6 +21,7 @@
 import TitleText from "../common/TitleText.vue";
 import BoardListItem from "@/components/common/BoardListItem.vue";
 
+import { mapGetters } from "vuex";
 export default {
     name: "BoardList",
 
@@ -34,10 +30,8 @@ export default {
         TitleText,
     },
 
-    data() {
-        return {
-            boardList: [],
-        };
+    computed: {
+        ...mapGetters({ boardList: "getBoardList" }),
     },
 };
 </script>

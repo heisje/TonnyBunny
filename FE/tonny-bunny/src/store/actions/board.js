@@ -101,6 +101,11 @@ export default {
             let { data } = await http.get(`/board/${seq}`);
             console.log("async function : ", data);
 
+            data.data.createdAt = utils.setDate(data.data.createdAt);
+            data.data.boardCommentList.reverse().forEach((e) => {
+                e.createdAt = utils.setDate(e.createdAt);
+            });
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -202,10 +207,10 @@ export default {
     async getBoardCommentDetail() {},
 
     // POST /api/board/{boardSeq}/comment 게시글의 댓글을 작성합니다.
-    async insertBoardComment(context, boardId, json) {
+    async insertBoardComment(context, payload) {
         console.log("게시글의 댓글을 작성합니다.");
 
-        let { data } = await http.post(`/board/${boardId}/comment`, json);
+        let { data } = await http.post(`/board/${payload.boardSeq}/comment`, payload);
 
         try {
             console.log("async function : ", data);

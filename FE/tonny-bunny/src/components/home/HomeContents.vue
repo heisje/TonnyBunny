@@ -84,7 +84,7 @@
                 <hr />
 
                 <div class="row sub">
-                    <div class="col-12 col-lg-6">
+                    <div class="col-12 col-lg-6 mb-5">
                         <home-schedule-list></home-schedule-list>
                     </div>
                     <div class="col-12 col-lg-6">
