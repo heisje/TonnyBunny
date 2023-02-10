@@ -122,19 +122,14 @@ public class YTonnyController {
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
 		Long yTonnyApplySeq = yTonnyEntity.getYTonnyApplySeq();
 
-		YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		Integer unitPrice = yTonnyApplyEntity.getUnitPrice();
-
-		//		UserEntity helperEntity = UserEntity.builder().build();
-		//		if (helperSeq != null || helperSeq == 0) {
-		//			helperEntity = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-		//		}
-
 		// entity -> dto
-		//		ModelMapper modelMapper = ModelMapperFactory.getMapper();
 		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
-		//		yTonnyResponseDto.setHelper(modelMapper.map(helperEntity, UserResponseDto.class));
-		yTonnyResponseDto.setUnitPrice(unitPrice);
+
+		if (yTonnyApplySeq != 0 && yTonnyApplySeq != null) {
+			YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+			Integer unitPrice = yTonnyApplyEntity.getUnitPrice();
+			yTonnyResponseDto.setUnitPrice(unitPrice);
+		}
 
 		// code name 값으로 변경해서 넘겨주기
 		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());

@@ -140,11 +140,11 @@ public class YTonnyService {
 		System.out.println("YTonnyService.getYTonnyDetail");
 
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
-		//		Long helperSeq = yTonnyEntity.getHelperSeq();
-
-		//		if (helperSeq != 0) {
-		//			UserEntity helper = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-		//			yTonnyEntity.updateHelper(helper);
+		//		Long yTonnyApplySeq = yTonnyEntity.getYTonnyApplySeq();
+		//
+		//		if (yTonnyApplySeq != 0 && yTonnyApplySeq != null) {
+		//			YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		//			Integer unitPrice = yTonnyApplyEntity.getUnitPrice();
 		//		}
 
 		// find

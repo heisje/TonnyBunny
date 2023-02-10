@@ -70,15 +70,7 @@ public class YTonnyEntity extends CommonEntity {
 		this.yTonnyApplySeq = yTonnyApplySeq;
 	}
 
-	//	public void updateHelperSeq(Long helperSeq) {
-	//		this.helperSeq = helperSeq;
-	//	}
-
-	//	public void updateHelper(UserEntity helper) {
-	//		this.helper = helper;
-	//	}
-
-
+	
 	public void updateEstimatePrice(Integer estimatePrice) {
 		this.estimatePrice = estimatePrice;
 	}
