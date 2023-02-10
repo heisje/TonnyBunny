@@ -39,7 +39,7 @@
                             <div class="fare">
                                 <div class="label">기본요금</div>
                                 <div class="fareText">
-                                    {{ fareText }}
+                                    {{ userInfo?.helperInfo?.unitPrice }}
                                     <span class="label" style="display: inline">캐럿</span>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                 <div class="star">
                                     <span class="material-symbols-outlined starIcon"> star </span>
                                     <div class="starText">
-                                        {{ userInfo?.helperInfo?.avgScore }}
+                                        {{ userInfo?.helperInfo?.avg }}
                                         <div class="label" style="display: inline">점</div>
                                     </div>
                                 </div>

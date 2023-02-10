@@ -4,38 +4,74 @@
             <div>
                 <TitleText title="헬퍼프로필" type="h2" />
                 <helper-Card disable :userInfo="userInfo" />
-
                 <TitleText title="어학능력" type="h2" />
-                <div>
+
+                <div v-if="userInfo?.helperInfo?.possibleLanguageList == []">
                     <div
                         v-for="possibleLanguageItem in userInfo?.helperInfo?.possibleLanguageList"
                         :key="possibleLanguageItem">
                         <CircleTag :text="possibleLanguageItem?.name" />
                     </div>
                 </div>
+                <div v-else>없음</div>
 
                 <TitleText title="자격증" type="h2" />
-                <div
-                    v-for="certificateItem in userInfo?.helperInfo?.certificateList"
-                    :key="certificateItem">
-                    <div>
-                        <SquareTag sub :text="allCode[certificateItem?.langCode]" />
-                        {{ certificateItem?.certName }}
-                        {{ certificateItem?.content }}
+                <div v-if="userInfo?.helperInfo?.certificateList == []">
+                    <div
+                        v-for="certificateItem in userInfo?.helperInfo?.certificateList"
+                        :key="certificateItem">
+                        <div>
+                            <SquareTag sub :text="allCode[certificateItem?.langCode]" />
+                            {{ certificateItem?.certName }}
+                            {{ certificateItem?.content }}
+                        </div>
                     </div>
                 </div>
+                <div v-else>없음</div>
 
                 <TitleText title="헬퍼 소개" type="h2" />
                 <div>
+                    <div class="oneLine">
+                        {{ userInfo?.helperInfo?.oneLineIntroduction }}
+                    </div>
                     <div>
                         {{ userInfo?.helperInfo?.introduction }}
                     </div>
                 </div>
 
-                <TitleText title="리뷰" type="h2" />
-                {{ userReview }}
+                <div class="boardCommentContainer">
+                    <TitleText :title="`리뷰(${userReview?.length})`" top="24" type="h2" />
+                    <hr />
+                    <div class="boardCommentWrap">
+                        <div
+                            class="boardCommentContent"
+                            v-for="userReviewItem in userReview"
+                            :key="userReviewItem">
+                            <div>
+                                <img
+                                    v-if="userReviewItem?.user?.profileImagePath"
+                                    :src="userReviewItem?.user?.profileImagePath"
+                                    alt="" />
+                                <img v-else src="@/assets/noProfile.png" alt="" />
 
-                <LargeBtn text="수정하기" />
+                                <h3>{{ userReviewItem?.user?.nickName.slice(0, 1) + "***" }}</h3>
+                                <span>{{ userReviewItem?.createdAt }}</span>
+                            </div>
+
+                            <div class="commentContent">
+                                {{ userReviewItem?.comment }}
+                            </div>
+
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div v-if="userInfo?.seq == myInfo.seq">
+                    <LargeBtn text="수정하기" color="success" />
+                </div>
+                <div v-if="userInfo?.seq != myInfo.seq">
+                    <LargeBtn text="채팅하기" color="carrot" />
+                </div>
             </div>
         </div>
     </div>
@@ -65,6 +101,7 @@ export default {
     computed: {
         ...mapGetters({ allCode: "getAllCode" }),
         ...mapGetters({ userReview: "getUserReview" }),
+        ...mapGetters({ myInfo: "getUserInfo" }),
     },
 
     mounted() {
@@ -75,6 +112,44 @@ export default {
 <style lang="scss" scoped>
 .helperProfileContainer {
     .helperProfileWrap {
+        margin: auto;
+        max-width: 400px;
+        .oneLine {
+            font-weight: 600;
+        }
+    }
+}
+
+.boardCommentContainer {
+    width: 100%;
+    margin-top: 32px;
+    padding: 4px 24px;
+    border-radius: 16px;
+    border: 1px solid var(--thin-color);
+    background-color: var(--thin-color);
+    .boardCommentWrap {
+        margin-top: 1rem;
+        .boardCommentContent {
+            margin-bottom: 1rem;
+            span {
+                margin-left: 1rem;
+            }
+
+            img {
+                width: 2.5rem;
+                height: 2.5rem;
+                margin-right: 1rem;
+            }
+
+            .commentContent {
+                padding: 0.4rem 0rem 1rem 0rem;
+            }
+
+            hr {
+                border-top: 1px solid var(--disable-color);
+                margin: 0;
+            }
+        }
     }
 }
 </style>
