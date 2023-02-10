@@ -259,7 +259,7 @@ CREATE TABLE `history_table`
     `end_lang_code`   CHAR(7),
     `content`         VARCHAR(255),
     `start_date_time` TIMESTAMP NOT NULL DEFAULT now(),
-    `end_date_time`   TIMESTAMP NOT NULL DEFAULT now(),
+    `end_date_time`   TIMESTAMP          DEFAULT now(),
     `created_at`      TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`      TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`history_seq`),

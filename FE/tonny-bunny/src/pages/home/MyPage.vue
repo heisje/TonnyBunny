@@ -1,7 +1,6 @@
 <template>
     <div class="myPageContainer">
         <div class="myPageWrap">
-            <h1>홈 - 마이 페이지</h1>
             <div class="profileContent">
                 <div class="profileWrap">
                     <div width="">
@@ -174,12 +173,13 @@ export default {
     display: flex;
     justify-content: center;
     width: 100%;
-
+    max-width: 420px;
+    margin: auto;
     .iconsWarp {
         position: relative;
         width: 30%;
         max-width: 150px;
-        padding-bottom: 30%;
+        padding-bottom: #{"min(150px, 30%)"};
         margin: 2%;
 
         .iconsContent {
@@ -239,8 +239,13 @@ export default {
 }
 
 .settingWrap {
+    max-width: 400px;
     margin-top: 1rem;
+    margin: auto;
+    border-left: 1px solid var(--light-color);
+    border-right: 1px solid var(--light-color);
     a {
+        cursor: pointer;
         display: inline-block;
         text-decoration: none;
         color: var(--main-color);
