@@ -1,7 +1,7 @@
 <template>
-    <div class="w-100">
+    <div class="w-100 liveContainer">
         <div id="main-container" class="container w-100">
-            <div id="join" v-if="!session">
+            <!-- <div id="join" v-if="!session">
                 <div id="join-dialog">
                     <h1>Join a video session</h1>
                     <p>
@@ -11,44 +11,74 @@
                             type="text"
                             id="sessionName"
                             v-model="sessionName"
-                            required
-                        />
+                            required />
                     </p>
                     <button class="btn btn-lg btn-success" id="join-btn" @click="joinSession()">
                         Join!
                     </button>
                 </div>
-            </div>
+            </div> -->
 
-            <div id="session" v-if="session" class="w-100">
+            <div id="session" v-if="true">
                 <!-- 고객용 디브 -->
-                <div>
-                    고객용 디브
+                <div class="settingBtns w-100">
+                    <!-- <h1>Join a video session</h1>
                     <p>
-                        ON-AIR : {{ timeToHHMMSS }} 미터기 :
-                        {{ (Math.floor(timer / 5) + 1) * unitPrice }} 캐럿
+                        <label>Session</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="sessionName"
+                            v-model="sessionName"
+                            required />
                     </p>
-                    <h1 id="session-title"></h1>
-                    <medium-btn text="통역 시작하기" color="carrot" @click.prevent="startLive" />
-                    <medium-btn text="통역 종료하기" color="carrot" @click.prevent="endLive" />
-                    <medium-btn
-                        text="방 나가기(leave)"
-                        color="carrot"
-                        @click.prevent="leaveSession"
-                    />
-                    <medium-btn
-                        text="음소거 토글 아이콘"
-                        color="carrot"
-                        @click.prevent="muteToggle"
-                    />
-                    <medium-btn
-                        text="카메라 토글 아이콘"
-                        color="carrot"
-                        @click.prevent="cameraToggle"
-                    />
+                    <button class="btn btn-lg btn-success" id="join-btn" @click="joinSession()">
+                        Join!
+                    </button> -->
+                    <div class="px-5 py-5 container" v-show="isSettingOpen">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12 col-lg-4 ps-5">
+                                <div class="py-2">
+                                    <h1 id="session-title">방 이름</h1>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h2>{{ timeToHHMMSS }}</h2>
+                                    </div>
+                                    <div>
+                                        <h2>{{ (Math.floor(timer / 5) + 1) * unitPrice }} CRT</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-8 d-flex Btns">
+                                <div class="startBtn btnProps" @click.prevent="startLive">
+                                    <span class="material-symbols-outlined"> play_arrow </span>
+                                </div>
+                                <div class="stopBtn btnProps" @click.prevent="endLive">
+                                    <span class="material-symbols-outlined"> stop </span>
+                                </div>
+                                <div class="btnProps" id="muteBtn" @click.prevent="muteToggle">
+                                    <span class="material-symbols-outlined"> mic_off </span>
+                                </div>
+                                <div class="btnProps" id="cameraBtn" @click.prevent="cameraToggle">
+                                    <span class="material-symbols-outlined"> videocam_off </span>
+                                </div>
+                                <div class="closeBtn btnProps" @click.prevent="leaveSession">
+                                    <span class="material-symbols-outlined"> close </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="d-flex align-items-center justify-content-center pt-3"
+                        style="cursor: pointer"
+                        @click="toggleIsSettingOpen">
+                        <span class="material-symbols-outlined"> expand_more </span>
+                    </div>
                 </div>
-                <!-- 고객용 디브 -->
-                <div>
+
+                <!-- 헬퍼용 디브 -->
+                <div class="settingBtns w-100" v-show="false">
                     헬퍼용 디브
                     <p>
                         ON-AIR : {{ timeToHHMMSS }} 미터기 :
@@ -57,50 +87,54 @@
                     <medium-btn
                         text="방 나가기(leave)"
                         color="carrot"
-                        @click.prevent="leaveSession"
-                    />
+                        @click.prevent="leaveSession" />
                 </div>
-                <div class="container position-relative">
-                    <div
-                        id="main-video"
-                        class="w-100 position-absolute"
-                        style="display: inline-block"
-                    >
-                        <user-video :stream-manager="mainStreamManager" />
-                    </div>
-                    <div
-                        id="video-container"
-                        class="w-25 position-absolute"
-                        style="display: inline-block"
-                    >
+                <div class="h-100">
+                    <div class="d-flex align-items-center justify-content-center row">
+                        <div id="main-video" class="col-12 col-lg-6">
+                            안뇽
+                            <user-video :stream-manager="mainStreamManager" />
+                        </div>
+                        <div id="video-container" class="col-12 col-lg-6">
+                            <!-- 하이루
                         <div>
                             <user-video
                                 v-if="mainStreamManager != publisher"
                                 :stream-manager="publisher"
-                                style="width: 320px"
-                                @click="updateMainVideoStreamManager(publisher)"
-                            />
-                        </div>
-                        <div v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
-                            <user-video
-                                v-if="mainStreamManager != sub"
-                                :stream-manager="sub"
-                                style="width: 320px"
-                                @click="updateMainVideoStreamManager(sub)"
-                            />
+                                @click="updateMainVideoStreamManager(publisher)" />
+                        </div> -->
+                            <div
+                                v-for="sub in subscribers"
+                                :key="sub.stream.connection.connectionId">
+                                <user-video
+                                    v-if="mainStreamManager != sub"
+                                    :stream-manager="sub"
+                                    @click="updateMainVideoStreamManager(sub)" />
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="chatWrap">
+                    <div
+                        @click="toggleIsChatOpen"
+                        class="pt-3 pb-3 d-flex align-items-center justify-content-center"
+                        style="cursor: pointer">
+                        <span>채팅 열기</span>
+                        <span class="material-symbols-outlined"> expand_less </span>
+                    </div>
+                    <div class="chatContent">
+                        <chat-page v-show="isChatOpen" class="chatList"></chat-page>
+                    </div>
+                </div>
                 <!-- <div id="video-container" class="col-md-12"></div> -->
-                <div id="recording-btns">
+                <!-- <div id="recording-btns">
                     <div class="btns">
                         <input
                             class="btn btn-md"
                             type="button"
                             id="buttonStartRecording"
                             @click="startRecording()"
-                            value="Start recording"
-                        />
+                            value="Start recording" />
                     </div>
                     <div class="btns">
                         <div class="vertical-separator-bottom"></div>
@@ -110,22 +144,22 @@
                             type="button"
                             id="buttonStopRecording"
                             @click="stopRecording()"
-                            value="Stop recording"
-                        />
+                            value="Stop recording" />
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </template>
 
 <script>
-// import axios from "axios";
+/* eslint-disable */
 import { OpenVidu } from "openvidu-browser";
+import { mapGetters } from "vuex";
+
 import UserVideo from "@/components/openvidu/UserVideo";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
-import { mapGetters } from "vuex";
-// import http from "@/common/axios";
+import ChatPage from "../chat/ChatPage.vue";
 
 // axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -138,6 +172,7 @@ export default {
     components: {
         UserVideo,
         MediumBtn,
+        ChatPage,
     },
 
     data() {
@@ -145,12 +180,14 @@ export default {
             // custom
             isMute: false,
             isCamOFF: false,
+            isChatOpen: false,
+            isSettingOpen: true,
 
             // 녹화
             isRecording: false,
             recordingId: "",
 
-            // OV: null,
+            OV: null,
             isExisted: false,
             session: null,
             sessionName: "SessionA",
@@ -175,6 +212,11 @@ export default {
     },
 
     computed: {
+        ...mapGetters({
+            getStartResData: "getStartResData",
+            userInfo: "getUserInfo",
+        }),
+
         timeToHHMMSS() {
             var myNum = this.timer;
             var hours = Math.floor(myNum / 3600);
@@ -192,20 +234,25 @@ export default {
             }
             return hours + ":" + minutes + ":" + seconds;
         },
-        ...mapGetters({ getStartResData: "getStartResData" }),
-        ...mapGetters({ getHistorySeq: "getHistorySeq" }),
+        ...mapGetters({ getStartResData: "getStartResData", getHistorySeq: "getHistorySeq" }),
     },
 
     methods: {
+        toggleIsChatOpen() {
+            this.isChatOpen = !this.isChatOpen;
+        },
+
+        toggleIsSettingOpen() {
+            this.isSettingOpen = !this.isSettingOpen;
+        },
+
         // --------------------------------------- 커스텀 로직 --------------------------------------------
 
         startLive() {
             // this.startRecording(); // 삭제
             console.log("Start");
             this.session
-                .signal({
-                    data: "Start",
-                })
+                .signal({ data: "Start" })
                 .then(() => {
                     console.log("Message successfully sent");
                 })
@@ -218,9 +265,7 @@ export default {
             // this.stopRecording();    // 삭제
             console.log("End");
             this.session
-                .signal({
-                    data: "End",
-                })
+                .signal({ data: "End" })
                 .then(() => {
                     console.log("Message successfully sent");
                 })
@@ -229,33 +274,24 @@ export default {
                 });
         },
 
-        exitLive() {},
-
         muteToggle() {
-            const muteBtn = document.querySelector("#muteBtn");
-            console.log(muteBtn);
             if (!this.isMute) {
                 this.publisher.publishAudio(false);
                 this.isMute = true;
-                muteBtn.innerText = "UnMute";
             } else {
                 this.publisher.publishAudio(true);
                 this.isMute = false;
-                muteBtn.innerText = "Mute";
             }
         },
 
         cameraToggle() {
             console.log(this.OV);
-            const cameraBtn = document.querySelector("#cameraBtn");
             if (!this.isCamOFF) {
                 this.publisher.publishVideo(false);
                 this.isCamOFF = true;
-                cameraBtn.innerText = "camera ON";
             } else {
                 this.publisher.publishVideo(true);
                 this.isCamOFF = false;
-                cameraBtn.innerText = "camera OFF";
             }
         },
 
@@ -274,7 +310,7 @@ export default {
                     this.token = res[0]; // Get token from response
                     this.isExisted = res["isExisted"];
                     console.warn("Request of TOKEN gone WELL (TOKEN:" + this.token + ")");
-                    callback(this.isExisted); // Continue the join operation
+                    callback(this.isExisted);
                 }
             );
         },
@@ -290,7 +326,7 @@ export default {
                 this.session = this.OV.initSession();
 
                 this.session.on("streamCreated", (event) => {
-                    const subscriber = this.session.subscribe(event.stream, undefined);
+                    const subscriber = this.session.subscribe(event.stream, this.token);
                     this.subscribers.push(subscriber);
                 });
 
@@ -367,7 +403,7 @@ export default {
                             resolution: "640x480", // The resolution of your video
                             frameRate: 30, // The frame rate of your video
                             insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-                            mirror: false, // Whether to mirror your local video or not
+                            mirror: true, // Whether to mirror your local video or not
                         });
                         // publisher.properties.resolution = "320x240";
                         this.publisher = publisher;
@@ -404,6 +440,7 @@ export default {
             });
         },
         leaveSession() {
+            console.log("disconnect: ", this.session);
             this.session.disconnect();
         },
 
@@ -419,6 +456,9 @@ export default {
             );
         },
         closeSession() {
+            let userSeq = localStorage.getItem("userSeq");
+            if (userSeq == this.userInfo.seq) localStorage.removeItem("userSeq");
+
             this.stopRecording();
             this.httpRequest(
                 "DELETE",
@@ -510,10 +550,122 @@ export default {
     },
 
     async created() {
+        let localStorage = window.localStorage;
+
         this.historySeq = this.getStartResData.seq;
         this.sessionName = this.getStartResData.uuid;
         this.unitPrice = this.getStartResData.unitPrice;
+
         this.joinSession();
+
+        // let userSeq = localStorage.getItem("userSeq");
+        // if (userSeq == this.userInfo.seq) {
+        //     this.leaveSession();
+        // } else {
+        //     localStorage.setItem("userSeq", this.userInfo.seq);
+        //     this.joinSession();
+        // }
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.liveContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    // max-height: 1000px;
+    background-color: var(--main-color);
+    // padding: 20px;
+}
+#main-container {
+    // width: 100vw;
+    // padding: 20px;
+    // background-color: blue;
+}
+
+#recording-btns {
+    // background-color: green;
+}
+// .position-relative {
+//     :nth-child(1) {
+//         :nth-child(1) {
+//             width: 100px;
+//         }
+//     }
+// }
+
+#local-video-undefined {
+    // width: 100%;
+    // background-color: red;
+    //     video {
+    // width: 100px !important;
+    //     }
+}
+.chatWrap {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    border-radius: 8px;
+    left: 0;
+    bottom: 0;
+    background-color: var(--thin-color);
+    transition: all 0.13s;
+    // padding: 20px 30px;
+}
+.chatContent {
+    background-color: var(--background-color);
+}
+.chatList {
+    padding: 20px;
+}
+.Btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.settingBtns {
+    // width: 88%;
+    // height: 180px;
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    top: 80px;
+    background-color: #f2f5f7d0;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.182);
+
+    .btnProps {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        background-color: #fff;
+        border-radius: 100%;
+        text-align: center;
+        box-shadow: 1px 1px 3px 2px rgba(0, 0, 0, 0.13);
+        transition: all 0.13s;
+
+        &:hover {
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        span {
+            font-size: 2.4rem;
+            line-height: 80px;
+        }
+    }
+    .startBtn {
+        background-color: var(--success-color);
+    }
+    .stopBtn {
+        background-color: var(--warning-color);
+    }
+    .closeBtn {
+        background-color: var(--danger-color);
+    }
+}
+</style>

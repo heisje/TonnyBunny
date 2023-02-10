@@ -159,8 +159,8 @@ VALUES (1, 3, 1, "흠.. 이건 저도 잘 모르겠네요.", now(), now()),
        (7, 1, 6, "앞으로도 자주 올려주세요!", now(), now());
 
 
--- 예약통역 공고
-INSERT INTO ytonny_table(y_tonny_seq, user_seq, helper_seq, session_name, task_code, start_lang_code, end_lang_code,
+-- 예약통역
+INSERT INTO ytonny_table(y_tonny_seq, user_seq, y_tonny_apply_seq, session_name, task_code, start_lang_code, end_lang_code,
                          tonny_situ_code, title, content, estimate_price, estimate_time, task_state_code,
                          start_date_time, is_deleted, created_at, updated_at)
 VALUES (1, 1, 0, "sdoiefsigxdsgssdfjq", "0030002", "0020001", "0020002", "0040004", "철강회사 바이어 미팅건",
