@@ -6,10 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 
 public interface YTonnyApplyRepository extends JpaRepository<YTonnyApplyEntity, Long> {
 
 	Page<YTonnyApplyEntity> findByyTonnySeqOrderByCreatedAtDesc(Long yTonnySeq, Pageable pageable);
 	Long countByyTonnySeq(Long yTonnySeq);
+	Optional<YTonnyApplyEntity> findByHelperSeq(Long helperSeq);
 
 }

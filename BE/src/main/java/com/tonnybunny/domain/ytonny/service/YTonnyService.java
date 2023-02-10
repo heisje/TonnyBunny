@@ -139,8 +139,16 @@ public class YTonnyService {
 
 		System.out.println("YTonnyService.getYTonnyDetail");
 
+		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		//		Long helperSeq = yTonnyEntity.getHelperSeq();
+
+		//		if (helperSeq != 0) {
+		//			UserEntity helper = userRepository.findById(helperSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+		//			yTonnyEntity.updateHelper(helper);
+		//		}
+
 		// find
-		return yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+		return yTonnyEntity;
 
 	}
 
@@ -159,7 +167,6 @@ public class YTonnyService {
 		// paream setting
 		int page = yTonnyApplyRequestDto.getPage();
 		int size = yTonnyApplyRequestDto.getSize();
-		System.out.println("size = " + size);
 
 		// pagination
 		Pageable pageable = PageRequest.of(page, size);
@@ -192,13 +199,13 @@ public class YTonnyService {
 
 		// 수정
 		yTonnyEntity.update(yTonnyRequestDto.getTitle(),
-		                    yTonnyRequestDto.getTonnySituCode(),
-		                    yTonnyRequestDto.getContent(),
-		                    yTonnyRequestDto.getStartLangCode(),
-		                    yTonnyRequestDto.getEndLangCode(),
-		                    yTonnyRequestDto.getStartDateTime(),
-		                    yTonnyRequestDto.getEstimateTime(),
-		                    yTonnyRequestDto.getEstimatePrice());
+			yTonnyRequestDto.getTonnySituCode(),
+			yTonnyRequestDto.getContent(),
+			yTonnyRequestDto.getStartLangCode(),
+			yTonnyRequestDto.getEndLangCode(),
+			yTonnyRequestDto.getStartDateTime(),
+			yTonnyRequestDto.getEstimateTime(),
+			yTonnyRequestDto.getEstimatePrice());
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();
@@ -218,13 +225,8 @@ public class YTonnyService {
 
 		// param setting
 		Long yTonnySeq = yTonnyApplyRequestDto.getYTonnySeq();
-		System.out.println("yTonnySeq = " + yTonnySeq);
 		Long yTonnyApplySeq = yTonnyApplyRequestDto.getYTonnyApplySeq();
-		System.out.println("yTonnyApplySeq = " + yTonnyApplySeq);
-		Long helperSeq = yTonnyApplyRequestDto.getHelperSeq();
-		System.out.println("helperSeq = " + helperSeq);
 		Integer unitPrice = yTonnyApplyRequestDto.getUnitPrice();
-		System.out.println("unitPrice = " + unitPrice);
 
 		// find
 		YTonnyEntity yTonnyEntity = yTonnyRepository.findById(yTonnySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
@@ -232,8 +234,8 @@ public class YTonnyService {
 		                                                           .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
-		yTonnyEntity.updateHelperSeq(helperSeq);
-		yTonnyEntity.updateEstimatePrice(unitPrice);
+		yTonnyEntity.updateYTonnyApplySeq(yTonnyApplySeq);
+		//		yTonnyEntity.updateEstimatePrice(unitPrice);
 
 		// save
 		return yTonnyRepository.save(yTonnyEntity).getSeq();

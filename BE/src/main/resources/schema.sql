@@ -324,9 +324,9 @@ CREATE TABLE `jtonny_history_table`
 -- YTONNY
 CREATE TABLE `ytonny_table`
 (
-    `y_tonny_seq`     BIGINT    NOT NULL auto_increment,
-    `user_seq`        BIGINT,
-    `helper_seq`      BIGINT             DEFAULT 0,
+    `y_tonny_seq`            BIGINT    NOT NULL auto_increment,
+    `user_seq`               BIGINT,
+    `y_tonny_apply_seq`      BIGINT             DEFAULT 0,
     `session_name`    VARCHAR(255),
     `task_code`       CHAR(7),
     `start_lang_code` CHAR(7),
