@@ -65,19 +65,19 @@ CREATE TABLE `common_code_table`
 -- USER
 CREATE TABLE `user_table`
 (
-    `user_seq`           BIGINT    NOT NULL auto_increment,
-    `user_code`          CHAR(7),
-    `email`              VARCHAR(255),
-    `nick_name`          VARCHAR(255),
-    `password`           VARCHAR(255),
-    `phone_number`       VARCHAR(255),
-    `point`              BIGINT,
+    `user_seq`           BIGINT       NOT NULL auto_increment,
+    `user_code`          CHAR(7)      NOT NULL,
+    `email`              VARCHAR(255) NOT NULL,
+    `nick_name`          VARCHAR(255) NOT NULL,
+    `password`           VARCHAR(255) NOT NULL,
+    `phone_number`       VARCHAR(255) NOT NULL,
+    `point`              BIGINT                DEFAULT 0,
     `profile_image_path` VARCHAR(255),
-    `report_count`       INTEGER,
+    `report_count`       INTEGER               DEFAULT 0,
     `is_agreement`       BOOLEAN,
-    `is_deleted`         BOOLEAN,
-    `created_at`         TIMESTAMP NOT NULL DEFAULT now(),
-    `updated_at`         TIMESTAMP NOT NULL DEFAULT now(),
+    `is_deleted`         BOOLEAN               DEFAULT false,
+    `created_at`         TIMESTAMP    NOT NULL DEFAULT now(),
+    `updated_at`         TIMESTAMP    NOT NULL DEFAULT now(),
     PRIMARY KEY (`user_seq`)
 ) engine=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -85,13 +85,13 @@ CREATE TABLE `user_table`
 CREATE TABLE `helper_info_table`
 (
     `helper_info_seq`       BIGINT    NOT NULL auto_increment,
-    `user_seq`              BIGINT,
+    `user_seq`              BIGINT    NOT NULL,
     `one_line_introduction` VARCHAR(255),
     `introduction`          VARCHAR(255),
-    `unit_price`            INTEGER,
-    `total_score`           INTEGER,
-    `like_count`            INTEGER,
-    `review_count`          INTEGER,
+    `unit_price`            INTEGER            DEFAULT 0,
+    `total_score`           INTEGER            DEFAULT 0,
+    `like_count`            INTEGER            DEFAULT 0,
+    `review_count`          INTEGER            DEFAULT 0,
     `is_active`             BOOLEAN,
     `created_at`            TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`            TIMESTAMP NOT NULL DEFAULT now(),
@@ -104,7 +104,7 @@ CREATE TABLE `helper_info_table`
 CREATE TABLE `helper_info_image_table`
 (
     `helper_info_image_seq` BIGINT    NOT NULL auto_increment,
-    `helper_info_seq`       BIGINT,
+    `helper_info_seq`       BIGINT    NOT NULL,
     `image_path`            VARCHAR(255),
     `is_deleted`            BOOLEAN,
     `created_at`            TIMESTAMP NOT NULL DEFAULT now(),
@@ -118,8 +118,8 @@ CREATE TABLE `helper_info_image_table`
 CREATE TABLE `possible_language_table`
 (
     `possible_language_seq` BIGINT    NOT NULL auto_increment,
-    `helper_info_seq`       BIGINT,
-    `lang_code`             CHAR(7),
+    `helper_info_seq`       BIGINT    NOT NULL,
+    `lang_code`             CHAR(7)   NOT NULL,
     `lang_name`             VARCHAR(10),
     `created_at`            TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`            TIMESTAMP NOT NULL DEFAULT now(),
@@ -132,8 +132,8 @@ CREATE TABLE `possible_language_table`
 CREATE TABLE `certificate_table`
 (
     `certificate_seq` BIGINT    NOT NULL auto_increment,
-    `helper_info_seq` BIGINT,
-    `lang_code`       CHAR(7),
+    `helper_info_seq` BIGINT    NOT NULL,
+    `lang_code`       CHAR(7)   NOT NULL,
     `cert_name`       VARCHAR(255),
     `content`         VARCHAR(255),
     `is_deleted`      BOOLEAN,
@@ -148,8 +148,8 @@ CREATE TABLE `certificate_table`
 CREATE TABLE `follow_table`
 (
     `follow_seq`        BIGINT    NOT NULL auto_increment,
-    `user_seq`          BIGINT,
-    `followed_user_seq` BIGINT,
+    `user_seq`          BIGINT    NOT NULL,
+    `followed_user_seq` BIGINT    NOT NULL,
     `created_at`        TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`        TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`follow_seq`),
@@ -161,8 +161,8 @@ CREATE TABLE `follow_table`
 CREATE TABLE `block_table`
 (
     `block_seq`        BIGINT    NOT NULL auto_increment,
-    `user_seq`         BIGINT,
-    `blocked_user_seq` BIGINT,
+    `user_seq`         BIGINT    NOT NULL,
+    `blocked_user_seq` BIGINT    NOT NULL,
     `created_at`       TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`       TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`block_seq`),
@@ -173,16 +173,16 @@ CREATE TABLE `block_table`
 -- SCHEDULE
 CREATE TABLE `schedule_table`
 (
-    `schedule_seq`    BIGINT    NOT NULL auto_increment,
-    `user_seq`        BIGINT,
-    `task_code`       CHAR(7),
-    `title`           VARCHAR(255),
-    `content`         VARCHAR(255),
-    `start_date_time` TIMESTAMP NOT NULL DEFAULT now(),
-    `end_date_time`   TIMESTAMP NOT NULL DEFAULT now(),
-    `is_complete`     BOOLEAN,
-    `created_at`      TIMESTAMP NOT NULL DEFAULT now(),
-    `updated_at`      TIMESTAMP NOT NULL DEFAULT now(),
+    `schedule_seq`    BIGINT       NOT NULL auto_increment,
+    `user_seq`        BIGINT       NOT NULL,
+    `task_code`       CHAR(7)      NOT NULL,
+    `title`           VARCHAR(255) NOT NULL,
+    `content`         VARCHAR(255) NOT NULL,
+    `start_date_time` TIMESTAMP    NOT NULL DEFAULT now(),
+    `end_date_time`   TIMESTAMP    NOT NULL DEFAULT now(),
+    `is_complete`     BOOLEAN               DEFAULT false,
+    `created_at`      TIMESTAMP    NOT NULL DEFAULT now(),
+    `updated_at`      TIMESTAMP    NOT NULL DEFAULT now(),
     PRIMARY KEY (`schedule_seq`),
     FOREIGN KEY (`user_seq`)
         REFERENCES `user_table` (`user_seq`)
@@ -192,8 +192,8 @@ CREATE TABLE `schedule_table`
 CREATE TABLE `point_log_table`
 (
     `point_log_seq` BIGINT    NOT NULL auto_increment,
-    `user_seq`      BIGINT,
-    `type_code`     CHAR(7),
+    `user_seq`      BIGINT    NOT NULL,
+    `type_code`     CHAR(7)   NOT NULL,
     `amount`        INTEGER   NOT NULL,
     `created_at`    TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`    TIMESTAMP NOT NULL DEFAULT now(),
@@ -206,7 +206,7 @@ CREATE TABLE `point_log_table`
 CREATE TABLE `alert_settings_table`
 (
     `alert_settings_seq` BIGINT    NOT NULL auto_increment,
-    `user_seq`           BIGINT,
+    `user_seq`           BIGINT    NOT NULL,
     `is_all`             BOOLEAN,
     `is_chat`            BOOLEAN,
     `is_community`       BOOLEAN,
@@ -222,8 +222,8 @@ CREATE TABLE `alert_settings_table`
 CREATE TABLE `alert_log_table`
 (
     `alert_log_seq` BIGINT    NOT NULL auto_increment,
-    `user_seq`      BIGINT,
-    `task_code`     CHAR(7),
+    `user_seq`      BIGINT    NOT NULL,
+    `task_code`     CHAR(7)   NOT NULL,
     `content`       VARCHAR(255),
     `is_end`        BIGINT,
     `is_read`       BOOLEAN,
@@ -237,11 +237,11 @@ CREATE TABLE `alert_log_table`
 -- AUTH
 CREATE TABLE `auth_table`
 (
-    `id`            BIGINT    NOT NULL auto_increment,
-    `user_seq`      BIGINT,
-    `refresh_token` VARCHAR(255),
-    `created_at`    TIMESTAMP NOT NULL DEFAULT now(),
-    `updated_at`    TIMESTAMP NOT NULL DEFAULT now(),
+    `id`            BIGINT       NOT NULL auto_increment,
+    `user_seq`      BIGINT       NOT NULL,
+    `refresh_token` VARCHAR(255) NOT NULL,
+    `created_at`    TIMESTAMP    NOT NULL DEFAULT now(),
+    `updated_at`    TIMESTAMP    NOT NULL DEFAULT now(),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`user_seq`)
         REFERENCES `user_table` (`user_seq`)
@@ -251,10 +251,10 @@ CREATE TABLE `auth_table`
 CREATE TABLE `history_table`
 (
     `history_seq`     BIGINT    NOT NULL auto_increment,
-    `client_seq`      BIGINT,
-    `helper_seq`      BIGINT,
+    `client_seq`      BIGINT    NOT NULL,
+    `helper_seq`      BIGINT    NOT NULL,
     `task_code`       CHAR(7)   NOT NULL,
-    `noti_seq`        BIGINT,
+    `noti_seq`        BIGINT    NOT NULL,
     `start_lang_code` CHAR(7),
     `end_lang_code`   CHAR(7),
     `content`         VARCHAR(255),
@@ -273,9 +273,9 @@ CREATE TABLE `history_table`
 CREATE TABLE `review_table`
 (
     `review_seq`  BIGINT    NOT NULL auto_increment,
-    `user_seq`    BIGINT,
-    `history_seq` BIGINT,
-    `score`       INTEGER,
+    `user_seq`    BIGINT    NOT NULL,
+    `history_seq` BIGINT    NOT NULL,
+    `score`       INTEGER            DEFAULT 10,
     `comment`     VARCHAR(255),
     `is_deleted`  BOOLEAN,
     `created_at`  TIMESTAMP NOT NULL DEFAULT now(),
@@ -290,17 +290,17 @@ CREATE TABLE `review_table`
 -- JTONNY
 CREATE TABLE `jtonny_table`
 (
-    `j_tonny_seq`     BIGINT NOT NULL auto_increment,
-    `client_seq`      BIGINT,
-    `helper_seq`      BIGINT,
-    `task_code`       CHAR(7),
-    `task_state_code` CHAR(7),
-    `start_lang_code` CHAR(7),
-    `end_lang_code`   CHAR(7),
-    `tonny_situ_code` CHAR(7),
+    `j_tonny_seq`     BIGINT  NOT NULL auto_increment,
+    `client_seq`      BIGINT  NOT NULL,
+    `helper_seq`      BIGINT  NOT NULL,
+    `task_code`       CHAR(7) NOT NULL,
+    `task_state_code` CHAR(7) NOT NULL,
+    `start_lang_code` CHAR(7) NOT NULL,
+    `end_lang_code`   CHAR(7) NOT NULL,
+    `tonny_situ_code` CHAR(7) NOT NULL,
     `content`         VARCHAR(255),
     `estimate_time`   CHAR(10),
-    `unit_price`      INTEGER,
+    `unit_price`      INTEGER NOT NULL,
     PRIMARY KEY (`j_tonny_seq`),
     FOREIGN KEY (`client_seq`)
         REFERENCES `user_table` (`user_seq`),
@@ -311,10 +311,10 @@ CREATE TABLE `jtonny_table`
 -- JTONNY HISTORY
 CREATE TABLE `jtonny_history_table`
 (
-    `history_seq`       BIGINT NOT NULL,
-    `tonny_situ_code`   CHAR(7),
-    `total_time`        TIME,
-    `unit_price`        INTEGER,
+    `history_seq`       BIGINT  NOT NULL,
+    `tonny_situ_code`   CHAR(7) NOT NULL,
+    `total_time`        TIME    NOT NULL,
+    `unit_price`        INTEGER NOT NULL,
     `record_video_path` VARCHAR(255),
     PRIMARY KEY (`history_seq`),
     FOREIGN KEY (`history_seq`)
@@ -325,7 +325,7 @@ CREATE TABLE `jtonny_history_table`
 CREATE TABLE `ytonny_table`
 (
     `y_tonny_seq`     BIGINT    NOT NULL auto_increment,
-    `user_seq`        BIGINT,
+    `user_seq`        BIGINT    NOT NULL,
     `helper_seq`      BIGINT             DEFAULT 0,
     `session_name`    VARCHAR(255),
     `task_code`       CHAR(7),
@@ -350,9 +350,9 @@ CREATE TABLE `ytonny_table`
 CREATE TABLE `ytonny_apply_table`
 (
     `y_tonny_apply_seq` BIGINT    NOT NULL auto_increment,
-    `y_tonny_seq`       BIGINT,
-    `helper_seq`        BIGINT,
-    `unit_price`        INTEGER,
+    `y_tonny_seq`       BIGINT    NOT NULL,
+    `helper_seq`        BIGINT    NOT NULL,
+    `unit_price`        INTEGER   NOT NULL,
     `created_at`        TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`        TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`y_tonny_apply_seq`),
@@ -366,14 +366,14 @@ CREATE TABLE `ytonny_apply_table`
 CREATE TABLE `ytonny_quotation_table`
 (
     `y_tonny_quotation_seq` BIGINT    NOT NULL auto_increment,
-    `y_tonny_seq`           BIGINT,
-    `client_seq`            BIGINT,
-    `helper_seq`            BIGINT,
+    `y_tonny_seq`           BIGINT    NOT NULL,
+    `client_seq`            BIGINT    NOT NULL,
+    `helper_seq`            BIGINT    NOT NULL,
     `start_lang_code`       CHAR(7),
     `end_lang_code`         CHAR(7),
     `title`                 VARCHAR(255),
     `content`               VARCHAR(255),
-    `unit_price`            INTEGER,
+    `unit_price`            INTEGER   NOT NULL,
     `estimate_time`         CHAR(10),
     `quotation_state_code`  CHAR(7),
     `start_date_time`       DATETIME,
@@ -392,7 +392,7 @@ CREATE TABLE `ytonny_quotation_table`
 CREATE TABLE `ytonny_quotation_image_table`
 (
     `y_tonny_quotation_image_seq` BIGINT NOT NULL auto_increment,
-    `y_tonny_quotation_seq`       BIGINT,
+    `y_tonny_quotation_seq`       BIGINT NOT NULL,
     `image_content_type`          VARCHAR(255),
     `image_name`                  VARCHAR(255),
     `image_path`                  VARCHAR(255),
@@ -405,10 +405,10 @@ CREATE TABLE `ytonny_quotation_image_table`
 -- YTONNY HISTORY
 CREATE TABLE `ytonny_history_table`
 (
-    `history_seq`       BIGINT NOT NULL,
-    `tonny_situ_code`   CHAR(7),
+    `history_seq`       BIGINT  NOT NULL,
+    `tonny_situ_code`   CHAR(7) NOT NULL,
     `title`             VARCHAR(255),
-    `unit_price`        INTEGER,
+    `unit_price`        INTEGER NOT NULL,
     `total_time`        TIME,
     `record_video_path` VARCHAR(255),
     PRIMARY KEY (`history_seq`),
@@ -420,8 +420,8 @@ CREATE TABLE `ytonny_history_table`
 CREATE TABLE `bunny_table`
 (
     `bunny_seq`       BIGINT    NOT NULL auto_increment,
-    `user_seq`        BIGINT,
-    `helper_seq`      BIGINT,
+    `user_seq`        BIGINT    NOT NULL,
+    `helper_seq`      BIGINT    NOT NULL,
     `task_code`       CHAR(7),
     `start_lang_code` CHAR(7),
     `end_lang_code`   CHAR(7),
@@ -444,7 +444,7 @@ CREATE TABLE `bunny_table`
 CREATE TABLE `bunny_image_table`
 (
     `bunny_image_seq` BIGINT    NOT NULL auto_increment,
-    `bunny_seq`       BIGINT,
+    `bunny_seq`       BIGINT    NOT NULL,
     `image_path`      VARCHAR(255),
     `created_at`      TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`      TIMESTAMP NOT NULL DEFAULT now(),
@@ -457,7 +457,7 @@ CREATE TABLE `bunny_image_table`
 CREATE TABLE `bunny_apply_table`
 (
     `bunny_apply_seq` BIGINT    NOT NULL auto_increment,
-    `user_seq`        BIGINT,
+    `user_seq`        BIGINT    NOT NULL,
     `bunny_seq`       BIGINT,
     `estimate_price`  INTEGER,
     `updated_at`      TIMESTAMP NOT NULL DEFAULT now(),
@@ -473,9 +473,9 @@ CREATE TABLE `bunny_apply_table`
 CREATE TABLE `bunny_quotation_table`
 (
     `bunny_quotation_seq`  BIGINT    NOT NULL auto_increment,
-    `bunny_seq`            BIGINT,
-    `client_seq`           BIGINT,
-    `helper_seq`           BIGINT,
+    `bunny_seq`            BIGINT    NOT NULL,
+    `client_seq`           BIGINT    NOT NULL,
+    `helper_seq`           BIGINT    NOT NULL,
     `start_lang_code`      CHAR(7),
     `end_lang_code`        CHAR(7),
     `title`                VARCHAR(255),
@@ -483,7 +483,7 @@ CREATE TABLE `bunny_quotation_table`
     `start_date_time`      TIMESTAMP NOT NULL DEFAULT now(),
     `end_date_time`        TIMESTAMP NOT NULL DEFAULT now(),
     `quotation_state_code` CHAR(7),
-    `total_price`          INTEGER,
+    `total_price`          INTEGER   NOT NULL,
     `created_at`           TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`           TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`bunny_quotation_seq`),
@@ -499,7 +499,7 @@ CREATE TABLE `bunny_quotation_table`
 CREATE TABLE `bunny_quotation_image_table`
 (
     `bunny_quotation_image_seq` BIGINT    NOT NULL auto_increment,
-    `bunny_quotation_seq`       BIGINT,
+    `bunny_quotation_seq`       BIGINT    NOT NULL,
     `image_path`                VARCHAR(255),
     `updated_at`                TIMESTAMP NOT NULL DEFAULT now(),
     `created_at`                TIMESTAMP NOT NULL DEFAULT now(),
@@ -511,9 +511,9 @@ CREATE TABLE `bunny_quotation_image_table`
 -- BUNNY HISTORY
 CREATE TABLE `bunny_history_table`
 (
-    `history_seq` BIGINT NOT NULL,
+    `history_seq` BIGINT  NOT NULL,
     `title`       VARCHAR(255),
-    `total_price` INTEGER,
+    `total_price` INTEGER NOT NULL,
     PRIMARY KEY (`history_seq`),
     FOREIGN KEY (`history_seq`)
         REFERENCES `history_table` (`history_seq`)
@@ -522,11 +522,11 @@ CREATE TABLE `bunny_history_table`
 -- CHAT ROOM
 CREATE TABLE `chat_room_table`
 (
-    `chat_room_seq`     VARCHAR(255) NOT NULL,
-    `user_less_seq`     BIGINT,
-    `user_larger_seq`   BIGINT,
-    `created_at`        TIMESTAMP    NOT NULL DEFAULT now(),
-    `updated_at`        TIMESTAMP    NOT NULL DEFAULT now(),
+    `chat_room_seq`   VARCHAR(255) NOT NULL,
+    `user_less_seq`   BIGINT       NOT NULL,
+    `user_larger_seq` BIGINT       NOT NULL,
+    `created_at`      TIMESTAMP    NOT NULL DEFAULT now(),
+    `updated_at`      TIMESTAMP    NOT NULL DEFAULT now(),
     PRIMARY KEY (`chat_room_seq`),
     FOREIGN KEY (`user_less_seq`)
         REFERENCES `user_table` (`user_seq`),
@@ -538,7 +538,7 @@ CREATE TABLE `chat_room_table`
 CREATE TABLE `chat_log_table`
 (
     `chat_log_seq`   BIGINT    NOT NULL auto_increment,
-    `user_seq`       BIGINT,
+    `user_seq`       BIGINT    NOT NULL,
     `room_seq`       VARCHAR(255),
     `data_type_code` CHAR(7),
     `message`        VARCHAR(255),
@@ -552,7 +552,7 @@ CREATE TABLE `chat_log_table`
 CREATE TABLE `board_table`
 (
     `board_seq`  BIGINT    NOT NULL auto_increment,
-    `user_seq`   BIGINT,
+    `user_seq`   BIGINT    NOT NULL,
     `title`      VARCHAR(255),
     `content`    VARCHAR(255),
     `is_delete`  BOOLEAN,
@@ -567,7 +567,7 @@ CREATE TABLE `board_table`
 CREATE TABLE `board_image_table`
 (
     `board_image_seq` BIGINT    NOT NULL auto_increment,
-    `board_seq`       BIGINT,
+    `board_seq`       BIGINT    NOT NULL,
     `image_path`      VARCHAR(255),
     `created_at`      TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`      TIMESTAMP NOT NULL DEFAULT now(),
@@ -580,8 +580,8 @@ CREATE TABLE `board_image_table`
 CREATE TABLE `board_comment_table`
 (
     `board_comment_seq` BIGINT    NOT NULL auto_increment,
-    `user_seq`          BIGINT,
-    `board_seq`         BIGINT,
+    `user_seq`          BIGINT    NOT NULL,
+    `board_seq`         BIGINT    NOT NULL,
     `content`           VARCHAR(255),
     `created_at`        TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`        TIMESTAMP NOT NULL DEFAULT now(),
