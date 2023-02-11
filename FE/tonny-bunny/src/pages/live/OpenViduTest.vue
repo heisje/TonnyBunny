@@ -2,12 +2,25 @@
     <div class="openviduContainer">
         <div class="openviduWrap">
             <div class="openvidu">안뇽</div>
+            <div id="video-container" class="col-md-6" style="background-color: gray">
+                하이루
+                <user-video
+                    :stream-manager="publisher"
+                    @click="updateMainVideoStreamManager(publisher)" />
+                <user-video
+                    v-for="sub in subscribers"
+                    :key="sub.stream.connection.connectionId"
+                    :stream-manager="sub"
+                    @click="updateMainVideoStreamManager(sub)" />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
+import { mapGetters } from "vuex";
 
 export default {
     name: "OpenViduTest",
@@ -22,9 +35,29 @@ export default {
             publisher: undefined, // my stream
             subscribers: [], // other stream
 
-            mySessionId: "SessionA", // nickname
             myUserName: "Participant" + Math.floor(Math.random() * 100), // nickname
         };
+    },
+
+    computed: {
+        ...mapGetters({
+            startResData: "getStartResData",
+        }),
+
+        mySessionName() {
+            return this.startResData.uuid;
+        },
+    },
+
+    methods: {
+        async getToken(sessionName) {
+            const res = await axios.post(
+                process.env.VUE_APP_OPENVIDU_URL + "recording-node/api/get-token",
+                { sessionName: sessionName },
+                { headers: { "Content-Type": "application/json" } }
+            );
+            return res;
+        },
     },
 
     mounted() {
@@ -45,17 +78,22 @@ export default {
                 this.subscribers.splice(index, 1);
             }
         });
+
+        console.log("publisher: ", this.publisher);
+        console.log("sub:", this.subscribers);
     },
 
-    created() {
+    async created() {
         // OV 객체 받기
         this.OV = new OpenVidu();
+        // console.log("resdata", this.startResData);
 
         // session 세팅
         this.session = this.OV.initSession();
-
-        // console.log(this.OV);
         // console.log("session: ", this.session);
+
+        let token = await this.getToken(this.mySessionName);
+        console.log("token:", token);
     },
 };
 </script>

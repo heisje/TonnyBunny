@@ -435,7 +435,6 @@ export default {
         let socket = new SockJS(serverURL);
 
         this.stompClient = Stomp.over(socket);
-        let VueThis = this;
 
         console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
@@ -488,15 +487,14 @@ export default {
 						
                     */
 
-                    console.log(this, VueThis);
-                    VueThis.modalName = "accept";
+                    this.modalName = "accept";
 
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/reject/${this.userInfo.seq}`, (res) => {
                     let jtonny = JSON.parse(res.body);
-                    console.log("여기가 거절인가?");
+
                     this.modalName = "reject";
                     this.$store.commit("TOGGLE_ALARM_MODAL");
 
@@ -520,7 +518,7 @@ export default {
     created() {
         window.scrollTo(0, 0);
 
-        this.$store.dispatch("getYTonnyList");
+        // this.$store.dispatch("getYTonnyList");
     },
 };
 </script>

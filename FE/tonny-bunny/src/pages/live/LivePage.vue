@@ -22,7 +22,7 @@
             <div id="session" v-if="true">
                 <!-- 고객용 디브 -->
                 <div class="settingBtns w-100">
-                    <!-- <h1>Join a video session</h1>
+                    <h1>Join a video session</h1>
                     <p>
                         <label>Session</label>
                         <input
@@ -34,7 +34,7 @@
                     </p>
                     <button class="btn btn-lg btn-success" id="join-btn" @click="joinSession()">
                         Join!
-                    </button> -->
+                    </button>
                     <div class="px-5 py-5 container" v-show="isSettingOpen">
                         <div class="row d-flex justify-content-center">
                             <div class="col-12 col-lg-4 ps-5">
@@ -96,13 +96,13 @@
                             <user-video :stream-manager="mainStreamManager" />
                         </div>
                         <div id="video-container" class="col-12 col-lg-6">
-                            <!-- 하이루
-                        <div>
-                            <user-video
-                                v-if="mainStreamManager != publisher"
-                                :stream-manager="publisher"
-                                @click="updateMainVideoStreamManager(publisher)" />
-                        </div> -->
+                            하이루
+                            <div>
+                                <user-video
+                                    v-if="mainStreamManager != publisher"
+                                    :stream-manager="publisher"
+                                    @click="updateMainVideoStreamManager(publisher)" />
+                            </div>
                             <div
                                 v-for="sub in subscribers"
                                 :key="sub.stream.connection.connectionId">
@@ -215,6 +215,7 @@ export default {
         ...mapGetters({
             getStartResData: "getStartResData",
             userInfo: "getUserInfo",
+            getHistorySeq: "getHistorySeq",
         }),
 
         timeToHHMMSS() {
@@ -234,7 +235,6 @@ export default {
             }
             return hours + ":" + minutes + ":" + seconds;
         },
-        ...mapGetters({ getStartResData: "getStartResData", getHistorySeq: "getHistorySeq" }),
     },
 
     methods: {
@@ -307,6 +307,7 @@ export default {
                 },
                 "Request of TOKEN gone WRONG:",
                 (res) => {
+                    console.log("res!!!!!!!", res);
                     this.token = res[0]; // Get token from response
                     this.isExisted = res["isExisted"];
                     console.warn("Request of TOKEN gone WELL (TOKEN:" + this.token + ")");
