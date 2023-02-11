@@ -1,5 +1,5 @@
 import http from "@/common/axios";
-import axios from "axios";
+// import axios from "axios";
 import utils from "@/common/utils";
 
 export default {
@@ -87,7 +87,7 @@ export default {
             formData.append("files", boardImageList[i]);
         }
 
-        const response = await axios.get("http://localhost:8080/api/board/img", formData, {
+        const response = await http.get("/api/board/img", formData, {
             withCredentials: true,
         });
         console.log(response);

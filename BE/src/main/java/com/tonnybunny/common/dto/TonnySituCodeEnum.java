@@ -11,7 +11,8 @@ public enum TonnySituCodeEnum {
 	기타("0040000"),
 	일상("0040001"),
 	경찰("0040002"),
-	법("0040003");
+	법("0040003"),
+	의료("0040004");
 
 	private final String tonnySituCode;
 
