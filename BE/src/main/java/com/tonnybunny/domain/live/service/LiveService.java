@@ -6,10 +6,13 @@ import com.tonnybunny.domain.jtonny.dto.JTonnyDto;
 import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
 import com.tonnybunny.domain.live.dto.HistoryCompleteDto;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.HistoryRepository;
 import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.domain.ytonny.entity.YTonnyApplyEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
+import com.tonnybunny.domain.ytonny.repository.YTonnyApplyRepository;
 import com.tonnybunny.domain.ytonny.repository.YTonnyRepository;
 import com.tonnybunny.exception.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,7 @@ public class LiveService {
 
 	private final UserRepository userRepository;
 	private final YTonnyRepository yTonnyRepository;
+	private final YTonnyApplyRepository yTonnyApplyRepository;
 	private final HistoryRepository historyRepository;
 
 
@@ -40,17 +44,17 @@ public class LiveService {
 		 * repository 저장
 		 */
 		JTonnyHistoryEntity jTonnyHistory = JTonnyHistoryEntity.builder()
-			.client(userRepository.findById(jTonnyDto.getClient().getSeq()).get())
-			.helper(userRepository.findById(jTonnyDto.getHelper().getSeq()).get())
-			.taskCode(jTonnyDto.getTaskCode())
-			.notiSeq(jTonnyDto.getSeq())
-			.startLangCode(jTonnyDto.getStartLangCode())
-			.endLangCode(jTonnyDto.getEndLangCode())
-			.content(jTonnyDto.getContent())
-			.startDateTime(LocalDateTime.now())
-			.tonnySituCode(jTonnyDto.getTonnySituCode())
-			.unitPrice(jTonnyDto.getUnitPrice())
-			.build();
+		                                                       .client(userRepository.findById(jTonnyDto.getClient().getSeq()).get())
+		                                                       .helper(userRepository.findById(jTonnyDto.getHelper().getSeq()).get())
+		                                                       .taskCode(jTonnyDto.getTaskCode())
+		                                                       .notiSeq(jTonnyDto.getSeq())
+		                                                       .startLangCode(jTonnyDto.getStartLangCode())
+		                                                       .endLangCode(jTonnyDto.getEndLangCode())
+		                                                       .content(jTonnyDto.getContent())
+		                                                       .startDateTime(LocalDateTime.now())
+		                                                       .tonnySituCode(jTonnyDto.getTonnySituCode())
+		                                                       .unitPrice(jTonnyDto.getUnitPrice())
+		                                                       .build();
 
 		historyRepository.save(jTonnyHistory);
 
@@ -71,25 +75,27 @@ public class LiveService {
 		 *  Entity 가 sessionId 로 사용할 uuid 를 가지고 있어야 하는가
 		 */
 		YTonnyEntity yTonny = yTonnyRepository.findById(yTonnySeq)
-			.orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+		                                      .orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+
+		YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonny.getYTonnyApplySeq()).orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+		UserEntity helper = yTonnyApplyEntity.getHelper();
 
 		YTonnyHistoryEntity yTonnyHistory = YTonnyHistoryEntity.builder()
-			.client(userRepository.findById(yTonny.getClient().getSeq())
-				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
-			.helper(userRepository.findById(yTonny.getHelperSeq())
-				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
-			.taskCode(yTonny.getTaskCode())
-			.notiSeq(yTonny.getSeq())
-			.startLangCode(yTonny.getStartLangCode())
-			.endLangCode(yTonny.getEndLangCode())
-			.content(yTonny.getContent())
-			.startDateTime(LocalDateTime.now())
-			.title(yTonny.getTitle())
-			//			.totalTime(yt) <-- 끝날때
-			// TODO
-			//  .unitPrice(yTonny.getUnitPrice()) <-- 총 금액 계산하려면 단가가 있어야 하지 않나?
-			.tonnySituCode(yTonny.getTonnySituCode())
-			.build();
+		                                                       .client(userRepository.findById(yTonny.getClient().getSeq())
+		                                                                             .orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
+		                                                       .helper(helper)
+		                                                       .taskCode(yTonny.getTaskCode())
+		                                                       .notiSeq(yTonny.getSeq())
+		                                                       .startLangCode(yTonny.getStartLangCode())
+		                                                       .endLangCode(yTonny.getEndLangCode())
+		                                                       .content(yTonny.getContent())
+		                                                       .startDateTime(LocalDateTime.now())
+		                                                       .title(yTonny.getTitle())
+		                                                       //			.totalTime(yt) <-- 끝날때
+		                                                       // TODO
+		                                                       //  .unitPrice(yTonny.getUnitPrice()) <-- 총 금액 계산하려면 단가가 있어야 하지 않나?
+		                                                       .tonnySituCode(yTonny.getTonnySituCode())
+		                                                       .build();
 
 		historyRepository.save(yTonnyHistory);
 
@@ -108,7 +114,7 @@ public class LiveService {
 		 *  캐스팅 했을 때 필드 다 있는지 확인해야 함, 없으면 방식 변경
 		 */
 		HistoryEntity history = historyRepository.findById(historyCompleteDto.getHistorySeq())
-			.orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+		                                         .orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
 		log.info("history = {}", history);
 
 		System.out.println("historySeq = " + historyCompleteDto.getHistorySeq());

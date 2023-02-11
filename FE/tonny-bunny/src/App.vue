@@ -1,14 +1,14 @@
 <template>
-	<router-view name="header"></router-view>
-	<main class="container">
-		<router-view></router-view>
-		<bottom-navbar />
-		<login-modal></login-modal>
-		<tonny-modal></tonny-modal>
-		<bunny-modal></bunny-modal>
-		<AppLoading />
-	</main>
-	<router-view name="footer"></router-view>
+    <router-view name="header"></router-view>
+    <main class="container">
+        <router-view></router-view>
+        <bottom-navbar />
+        <login-modal></login-modal>
+        <tonny-modal></tonny-modal>
+        <bunny-modal></bunny-modal>
+        <AppLoading />
+    </main>
+    <router-view name="footer"></router-view>
 </template>
 
 <script>
@@ -19,19 +19,19 @@ import BunnyModal from "@/components/common/modal/BunnyModal.vue";
 import AppLoading from "./pages/common/AppLoading.vue";
 
 export default {
-	name: "App",
+    name: "App",
 
-	components: {
-		BottomNavbar,
-		LoginModal,
-		TonnyModal,
-		BunnyModal,
-		AppLoading
+    components: {
+        BottomNavbar,
+        LoginModal,
+        TonnyModal,
+        BunnyModal,
+        AppLoading,
     },
-    
-	mounted() {
-		this.$store.dispatch("setCommonCode");
-	}
+
+    mounted() {
+        this.$store.dispatch("setCommonCode");
+    },
 };
 </script>
 

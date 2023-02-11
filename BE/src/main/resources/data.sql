@@ -147,6 +147,8 @@ VALUES (1, 1, "영어숙제 좀 도와주세요!", "영어 어렵다 내용내�
        (6, 5, "생생한 미국 현지인 일상 공개", "영어 어렵다 내용내용내용내용", false, now(), now()),
        (7, 3, "유학을 준비중입니다. 도와주세요", "영어 어렵다 내용내용내용내용", false, now(), now());
 
+
+-- 댓글
 INSERT INTO board_comment_table(board_comment_seq, user_seq, board_seq, content, created_at, updated_at)
 VALUES (1, 3, 1, "흠.. 이건 저도 잘 모르겠네요.", now(), now()),
        (2, 1, 1, "헉! 도움이 전혀 안되었지만 감사합니다!!", now(), now()),
@@ -158,7 +160,7 @@ VALUES (1, 3, 1, "흠.. 이건 저도 잘 모르겠네요.", now(), now()),
 
 
 -- 예약통역
-INSERT INTO ytonny_table(y_tonny_seq, user_seq, helper_seq, session_name, task_code, start_lang_code, end_lang_code,
+INSERT INTO ytonny_table(y_tonny_seq, user_seq, y_tonny_apply_seq, session_name, task_code, start_lang_code, end_lang_code,
                          tonny_situ_code, title, content, estimate_price, estimate_time, task_state_code,
                          start_date_time, is_deleted, created_at, updated_at)
 VALUES (1, 1, 0, "sdoiefsigxdsgssdfjq", "0030002", "0020001", "0020002", "0040004", "철강회사 바이어 미팅건",
@@ -168,6 +170,8 @@ VALUES (1, 1, 0, "sdoiefsigxdsgssdfjq", "0030002", "0020001", "0020002", "004000
        (3, 3, 0, "sdoiefsigxdgdfgljaesgs", "0030002", "0020001", "0020000", "0040001", "관공서 서류 작업 예정",
         "어쩌고 저쩌고 작업 가능하신 분을 찾습니다.", 300000, "01:00", "0090001", "2023-02-14 00:00:00", false, now(), now());
 
+
+-- 예약통역 신청
 INSERT INTO ytonny_apply_table(y_tonny_apply_seq, y_tonny_seq, helper_seq, unit_price, created_at, updated_at)
 VALUES (1, 1, 4, 5000, now(), now()),
        (2, 1, 5, 4000, now(), now()),
@@ -178,7 +182,7 @@ VALUES (1, 1, 4, 5000, now(), now()),
        (7, 3, 7, 7000, now(), now());
 
 
--- 번역
+-- 번역 공고
 INSERT INTO bunny_table(bunny_seq, user_seq, helper_seq, task_code, start_lang_code, end_lang_code, title, content,
                         bunny_situ_code, task_state_code, start_date_time, end_date_time, estimate_price, is_deleted,
                         created_at, updated_at)
@@ -191,6 +195,8 @@ VALUES (1, 1, 0, "0030003", "0020001", "0020002", "해리포터 에필로그 번
        (4, 3, 0, "0030003", "0020001", "0020000", "반지의제왕 프롤로그 번역", "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용", "0050001",
         "0090001", "2023-02-07", "2023-03-10", 70000, false, now(), now());
 
+
+-- 번역 신청
 INSERT INTO bunny_apply_table(bunny_apply_seq, bunny_seq, user_seq, estimate_price, created_at, updated_at)
 VALUES (1, 1, 4, 150000, now(), now()),
        (2, 1, 5, 80000, now(), now()),
@@ -199,6 +205,7 @@ VALUES (1, 1, 4, 150000, now(), now()),
        (5, 3, 7, 100000, now(), now()),
        (6, 4, 4, 105000, now(), now()),
        (7, 4, 7, 170000, now(), now());
+
 
 -- 히스토리
 INSERT INTO history_table(history_seq, client_seq, helper_seq, task_code, noti_seq, start_lang_code, end_lang_code,
@@ -212,6 +219,7 @@ VALUES (2, "0040004", "철강회사 바이어 미팅건", 10000, "02:30:00", "il
 
 INSERT INTO bunny_history_table(history_seq, title, total_price)
 VALUES (1, "해리포터 에필로그 번역", 200000);
+
 
 -- 리뷰
 INSERT INTO review_table(review_seq, user_seq, history_seq, score, comment, is_deleted, created_at, updated_at)

@@ -57,6 +57,8 @@ public class JTonnyService {
 		// 공고 제거
 		redisTemplate.convertAndSend("jtonny/request-cancel", jTonnyDto);
 
+		log.info("ftofto", jTonnyDto);
+
 		// JTonnyEntity 생성하여 DB 저장
 		JTonnyEntity jTonny = JTonnyEntity.builder()
 		                                  .client(userRepository.findById(jTonnyDto.getClient().getSeq())

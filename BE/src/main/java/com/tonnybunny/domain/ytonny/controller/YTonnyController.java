@@ -2,6 +2,7 @@ package com.tonnybunny.domain.ytonny.controller;
 
 
 import com.tonnybunny.common.dto.*;
+import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.UserService;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyResponseDto;
@@ -9,6 +10,7 @@ import com.tonnybunny.domain.ytonny.dto.YTonnyRequestDto;
 import com.tonnybunny.domain.ytonny.dto.YTonnyResponseDto;
 import com.tonnybunny.domain.ytonny.entity.YTonnyApplyEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
+import com.tonnybunny.domain.ytonny.repository.YTonnyApplyRepository;
 import com.tonnybunny.domain.ytonny.service.YTonnyService;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
@@ -30,6 +32,9 @@ public class YTonnyController {
 
 	private final UserService userService;
 	private final YTonnyService yTonnyService;
+
+	private final UserRepository userRepository;
+	private final YTonnyApplyRepository yTonnyApplyRepository;
 
 
 	/**
@@ -115,9 +120,16 @@ public class YTonnyController {
 
 		// service
 		YTonnyEntity yTonnyEntity = yTonnyService.getYTonnyDetail(yTonnySeq);
+		Long yTonnyApplySeq = yTonnyEntity.getYTonnyApplySeq();
 
 		// entity -> dto
 		YTonnyResponseDto yTonnyResponseDto = YTonnyResponseDto.fromEntity(yTonnyEntity);
+
+		if (yTonnyApplySeq != 0 && yTonnyApplySeq != null) {
+			YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
+			Integer unitPrice = yTonnyApplyEntity.getUnitPrice();
+			yTonnyResponseDto.setUnitPrice(unitPrice);
+		}
 
 		// code name 값으로 변경해서 넘겨주기
 		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());

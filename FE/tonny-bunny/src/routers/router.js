@@ -91,11 +91,15 @@ import NotFoundPage from "@/pages/common/NotFoundPage";
 // 컴포넌트 페이지 테스트
 import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
 import InputTest from "@/components/common/input/InputTest";
+import OpenViduTest from "@/pages/live/OpenViduTest";
 
 export default createRouter({
     history: createWebHistory(),
     linkActiveClass: "route-active",
     linkExactActiveClass: "route-active",
+    scrollBehavior() {
+        return { top: 0 };
+    },
 
     routes: [
         //account
@@ -759,6 +763,16 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: InputTest,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/openvidu",
+            name: "OpenViduTest",
+            components: {
+                header: AppHeader,
+                default: OpenViduTest,
                 footer: AppFooter,
             },
         },
