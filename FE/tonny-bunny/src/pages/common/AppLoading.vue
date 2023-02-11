@@ -1,27 +1,22 @@
 <template lang="">
-    <div class="loadingContainer" v-show="isLoading">
+    <div></div>
+    <!-- <div class="loadingContainer" v-show="isLoading">
         <div class="loadingWarp">
             <div class="loadingContent">
                 <LoadingItem />
-                <!-- <Vue3Lottie
-                    :animationLink="`https://lottie.host/b162872c-29b1-4195-a818-a20ea5a46343/AHLhXNb0eX.json`"
-                    background="transparent"
-                    style="width: 300px; height: 300px"
-                    loop
-                    autoplay>
-                </Vue3Lottie> -->
+
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 <script>
 import { mapGetters } from "vuex";
-import LoadingItem from "@/components/common/LoadingItem.vue";
+// import LoadingItem from "@/components/common/LoadingItem.vue";
 
 export default {
     name: "AppLoading",
 
-    components: { LoadingItem },
+    // components: { LoadingItem },
 
     data() {
         return {};
