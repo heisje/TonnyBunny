@@ -27,6 +27,15 @@ export default {
     // SET_CHAT_STOMP_SOCKET_DISCONNECTED(state) {
     //     state.chat.chatStompSocketConnected = false;
     // },
+    SET_TRUE_SEND_URL_MESSAGE(state) {
+        state.chat.sendUrlMessage = true;
+    },
+    SET_FALSE_SEND_URL_MESSAGE(state) {
+        state.chat.sendUrlMessage = false;
+    },
+    SET_URL_MESSAGE(state, data) {
+        state.chat.urlMessage = data;
+    },
     CONNECT_CHAT_STOMP_SOCKET(state, userSeq) {
         const serverURL = http.getUri() + "/stomp";
         let socket = new SockJS(serverURL);

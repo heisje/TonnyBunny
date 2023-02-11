@@ -20,4 +20,10 @@ export default {
     getChatSocket(state) {
         return state.chat.chatSocket;
     },
+    getSendUrlMessage(state) {
+        return state.chat.sendUrlMessage;
+    },
+    getUrlMessage(state) {
+        return state.chat.urlMessage;
+    },
 };

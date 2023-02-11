@@ -4,11 +4,27 @@
         <h2>roomseq : {{ chatRoomSeq }}</h2>
         <div class="chat-detail-view viewport-height-80 overflow-auto">
             <div v-for="chatData in chatDatas" :key="chatData">
+                <router-link
+                    v-if="chatData.messageType == 'url'"
+                    :to="{
+                        name: chatData.urlPage,
+                        params: { id: chatData.urlPageSeq },
+                    }">
+                    <chat-bubble-item
+                        :other="chatData.userSeq == chatAnotherUserSeq"
+                        :name="getUserName(chatData)"
+                        :text="chatData.message"
+                        :time="getChatTime(chatData)"
+                        :messageType="chatData.messageType" />
+                </router-link>
+
                 <chat-bubble-item
+                    v-else
                     :other="chatData.userSeq == chatAnotherUserSeq"
                     :name="getUserName(chatData)"
                     :text="chatData.message"
-                    :time="getChatTime(chatData)" />
+                    :time="getChatTime(chatData)"
+                    :messageType="chatData.messageType" />
             </div>
         </div>
 
@@ -100,7 +116,7 @@ export default {
                     this.chatDatas = [];
                     data.data.forEach((chat) => {
                         // console.log("no parse : ", chat);
-                        // console.log("parse : ", JSON.parse(chat));
+                        console.log("Chat Log : ", JSON.parse(chat));
                         this.chatDatas.push(JSON.parse(chat));
                     });
                 } else {
@@ -122,17 +138,33 @@ export default {
                 console.log("연결되었습니다.");
                 const chatchat = {
                     type: "enter",
-                    roomId: String(this.chatRoomSeq),
-                    userSeq: String(this.chatUserSeq),
-                    anotherSeq: String(this.chatAnotherUserSeq),
+                    roomSeq: this.chatRoomSeq,
+                    userSeq: this.chatUserSeq,
+                    anotherSeq: this.chatAnotherUserSeq,
                 };
                 this.socket.send(JSON.stringify(chatchat));
+
+                // "상담하기" 버튼을 누르고 들어온 경우
+                const sendUrlMessage = this.$store.getters.getSendUrlMessage;
+                if (sendUrlMessage == true) {
+                    this.$store.commit("SET_FALSE_SEND_URL_MESSAGE");
+                    const urlChat = {
+                        type: "message",
+                        messageType: "url",
+                        roomSeq: this.chatRoomSeq,
+                        userSeq: this.chatUserSeq,
+                        ...this.$store.getters.getUrlMessage, // {message, urlPage, urlPageSeq}
+                    };
+                    console.log("urlChat: ", urlChat);
+                    this.socket.send(JSON.stringify(urlChat));
+                }
             };
             // 소켓으로 받은 메세지를 출력
             this.socket.onmessage = (e) => {
                 console.log(e.data);
                 const message = JSON.parse(e.data);
-                this.chatDatas.push(message);
+                console.log("Receive Message: ", message);
+                this.chatDatas.push(message); // {roomSeq, userSeq, type, messageType, message, urlPage, urlPageSeq}
                 // this.setScrollBottom();
             };
         },
@@ -142,9 +174,10 @@ export default {
             // [3] 메세지 전달
             const chatchat = {
                 type: "message",
-                roomId: String(this.chatRoomSeq),
+                messageType: "text",
+                roomSeq: this.chatRoomSeq,
+                userSeq: this.chatUserSeq,
                 message: this.insertMessageValue,
-                userSeq: String(this.chatUserSeq),
             };
             this.socket.send(JSON.stringify(chatchat));
             this.insertMessageValue = "";
@@ -152,8 +185,8 @@ export default {
         closeChatRoom() {
             const chat = {
                 type: "exit",
-                roomId: String(this.chatRoomSeq),
-                userSeq: String(this.chatUserSeq),
+                roomSeq: this.chatRoomSeq,
+                userSeq: this.chatUserSeq,
             };
             this.socket.send(JSON.stringify(chat));
             this.socket.close();
