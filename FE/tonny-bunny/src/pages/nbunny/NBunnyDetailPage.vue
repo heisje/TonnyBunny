@@ -257,8 +257,8 @@ export default {
                 userSeq: userSeq,
                 anotherUserSeq: anotherUserSeq,
             });
-            this.$store.commit("SET_TRUE_SEND_URL_MESSAGE");
             if (userSeq == clientSeq) {
+                this.$store.commit("SET_TRUE_SEND_URL_MESSAGE");
                 this.$store.commit("SET_URL_MESSAGE", {
                     // 어쩔 수 없다. "상담하기" 버튼을 누르면 무조건 메세지가 간다!
                     // 공고가 아니라 유저 단위로 채팅방이 만들어지고 유지되기 때문에, 해당 공고에서 처음 접속한 시점을 잡기가 어렵..다?

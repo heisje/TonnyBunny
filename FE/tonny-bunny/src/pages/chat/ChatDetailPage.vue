@@ -14,7 +14,7 @@
                         :other="chatData.userSeq == chatAnotherUserSeq"
                         :name="getUserName(chatData)"
                         :text="chatData.message"
-                        :time="getChatTime(chatData)"
+                        :time="getTime(chatData.date)"
                         :messageType="chatData.messageType" />
                 </router-link>
 
@@ -23,16 +23,19 @@
                     :other="chatData.userSeq == chatAnotherUserSeq"
                     :name="getUserName(chatData)"
                     :text="chatData.message"
-                    :time="getChatTime(chatData)"
+                    :time="getTime(chatData.date)"
                     :messageType="chatData.messageType" />
             </div>
         </div>
 
+        <div v-show="userInfo.userCode == '0010002'">
+            <medium-btn @click="moveToQuotationCreatePage" text="견적서 작성"></medium-btn>
+        </div>
         <div>
             <!-- <form action=""> -->
             <!-- <button>파일 업로드 버튼</button> -->
-            <input v-model="insertMessageValue" type="text" />
-            {{ insertMessageValue }}
+            <input v-model="insertMessageValue" @keyup.enter="sendMessage" type="text" />
+            <!-- {{ insertMessageValue }} -->
             <medium-btn @click="sendMessage" text=">"></medium-btn>
             <!-- </form> -->
         </div>
@@ -84,25 +87,19 @@ export default {
         },
     },
     methods: {
-        getChatTime(chatData) {
-            let chatDate = chatData.date;
-            let [year, month, day, hour, minute] = chatDate;
-            // console.log([year, month, day].join("/") + [hour, minute].join(":"));
-            let ampm;
-            if (hour > 12) {
-                ampm = "오후";
-                hour = hour - 12;
-            } else {
-                ampm = "오전";
-            }
-            return String(
-                [year, month, day].join(".") + " " + ampm + " " + [hour, minute].join(":")
-            );
-        },
         getUserName(chatData) {
             if (chatData.userSeq == this.chatAnotherUserSeq)
                 return this.chatAnotherUserInfo.nickName;
             return "";
+        },
+        moveToQuotationCreatePage() {
+            // console.log("userInfo: ", this.userInfo);
+            // console.log("commonUserCode: ", this.$store.getters.getUserCode);
+            // 헬퍼만 보이는 버튼 -> 상대방이 client
+            this.$router.push({
+                name: "NBunnyQuotationForm",
+                params: { clientSeq: this.chatAnotherUserSeq },
+            });
         },
         setScrollBottom() {
             var scrollView = document.querySelector(".chat-detail-view");
@@ -193,6 +190,20 @@ export default {
             this.socket.onclose = () => {
                 console.log("퇴장했습니다.");
             };
+        },
+        getTime(chatDate) {
+            let [year, month, day, hour, minute] = chatDate;
+            // console.log([year, month, day].join("/") + [hour, minute].join(":"));
+            let ampm;
+            if (hour > 12) {
+                ampm = "오후";
+                hour = hour - 12;
+            } else {
+                ampm = "오전";
+            }
+            return String(
+                [year, month, day].join(".") + " " + ampm + " " + [hour, minute].join(":")
+            );
         },
     },
     beforeMount() {
