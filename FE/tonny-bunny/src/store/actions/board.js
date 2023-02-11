@@ -1,5 +1,5 @@
 import http from "@/common/axios";
-import axios from "axios";
+// import axios from "axios";
 import utils from "@/common/utils";
 
 export default {
