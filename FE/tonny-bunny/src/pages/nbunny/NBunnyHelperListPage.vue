@@ -25,7 +25,7 @@
                     @remove-card="close"
                     @toggle-like-btn="toggleLike"
                     @click-btn1="check1"
-                    @click-btn2="check2"></helper-card>
+                    @click-btn2="enterChatRoom"></helper-card>
             </div>
         </div>
     </div>
@@ -46,6 +46,16 @@ export default {
 
     computed: {
         ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
+    },
+    method: {
+        enterChatRoom(helperSeq) {
+            const userSeq = this.getBunnyDetail.client.seq;
+            this.$store.dispatch("getChatRoomInfo", {
+                userSeq: userSeq,
+                anotherUserSeq: helperSeq,
+            });
+            this.$router.push({ name: "ChatDetailPage" });
+        },
     },
 };
 </script>

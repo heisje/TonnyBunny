@@ -1,14 +1,10 @@
 <template lang="">
-    <div class="m-3 p-3 border">
-        <div v-if="other === true">
-            <div>
-                <div><img class="img-thumbnail" :src="imglink" /></div>
+    <div class="chat">
+        <div :class="other ? 'other-chat' : 'self-chat'">
+            <div v-if="other === true">
+                <div><img class="img-thumbnail" :src="profileImageLink" /></div>
                 <div>{{ name }}</div>
             </div>
-            <h2>{{ text }}</h2>
-            <div>{{ time }}</div>
-        </div>
-        <div v-else class="text-end">
             <h2>{{ text }}</h2>
             <div>{{ time }}</div>
         </div>
@@ -18,21 +14,12 @@
 export default {
     name: "ChatBubbleItem",
     props: {
-        chatData: {
-            type: Object,
-            defaultObject: {
-                name: "a",
-                text: "a",
-                time: "10:00",
-            },
-            description: "상대방",
-        },
         other: {
             type: Boolean,
             default: false,
-            description: "상대방",
+            description: "true: 상대방, false: 나",
         },
-        imglink: {
+        profileImageLink: {
             type: String,
             default: "@/assets/noProfile.png",
             description: "이미지",
@@ -52,7 +39,31 @@ export default {
             default: "00:00",
             description: "시간",
         },
+        messageType: {
+            type: String,
+            default: "text",
+            description: "'text': 일반 텍스트 메세지, 'route': 다른 페이지로 이동하는 메세지",
+        },
+        routeInfo: {
+            type: Object,
+            defalult: {
+                pageName: "",
+                pageSeq: 0,
+            },
+            description:
+                "이동할 페이지 이름. messageType='url'이어야 한다.\
+                (예시) 번역 공고 페이지로 이동하고 싶다면 {pageName: 'NBunnyDetailPage', pageSeq: (조회 API 요청할 번역 공고 Seq)}",
+        },
     },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.chat {
+    border: 0px solid gray;
+}
+.other-chat {
+}
+.self-chat {
+    text-align: end;
+}
+</style>

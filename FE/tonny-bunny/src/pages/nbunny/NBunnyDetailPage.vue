@@ -109,7 +109,7 @@
                         @remove-card="close"
                         @toggle-like-btn="toggleLike"
                         @click-btn1="check1"
-                        @click-btn2="check2"></helper-card>
+                        @click-btn2="enterChatRoom"></helper-card>
                 </div>
             </div>
             <br /><br />
@@ -248,6 +248,14 @@ export default {
         clickBtn2() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$router.push({ name: "HomePage" });
+        },
+        enterChatRoom(helperSeq) {
+            const userSeq = this.getBunnyDetail.client.seq;
+            this.$store.dispatch("getChatRoomInfo", {
+                userSeq: userSeq,
+                anotherUserSeq: helperSeq,
+            });
+            this.$router.push({ name: "ChatDetailPage" });
         },
     },
 };

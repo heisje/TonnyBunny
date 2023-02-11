@@ -11,7 +11,7 @@
 // const fs = require("fs");
 export default {
     props: {
-        imagePath: {
+        profileImagePath: {
             type: String,
             default: "@/assets/noProfile.png",
         },
