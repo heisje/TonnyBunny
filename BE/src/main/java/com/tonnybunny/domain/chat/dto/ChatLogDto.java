@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 
 /**
  * roomSeq      : 채팅 방 Seq
- * userSeq      : 채팅 친 사람 Seq
- * message      : 채팅 메세지
+ * userSeq      : 채팅 친 사람 seq
  * date         : 채팅 친 날짜
- * dataTypeCode : 메세지/파일 공통코드
+ * message      : 채팅 메세지
+ * messageType  : "text" or "url" 메세지 타입
  */
 @Data
 @AllArgsConstructor
@@ -27,9 +27,9 @@ public class ChatLogDto implements Serializable {
 	private static final long serialVersionUID = 2983478989237498L;
 	private String roomSeq;
 	private Long userSeq;
-	private String message;
 	private LocalDateTime date;
-	private String dataTypeCode;
+	private String message;
+	private String messageType;
 
 
 	public ChatLogEntity toEntity() {
@@ -38,7 +38,7 @@ public class ChatLogDto implements Serializable {
 			.userSeq(this.userSeq)
 			.message(this.message)
 			.date(this.date)
-			.dataTypeCode(this.dataTypeCode)
+			.dataTypeCode(this.messageType)
 			.build();
 	}
 

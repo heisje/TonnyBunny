@@ -28,13 +28,13 @@ public class ChatRoomService {
 	 * userSeq1과 userSeq2가 참여한 채팅방 Seq를 생성합니다.
 	 * 이미 존재하는 채팅방이면 기존의 채팅방 Seq를 반환합니다.
 	 *
-	 * @param userSeq1 참여자 1 Seq
-	 * @param userSeq2 참여자 2 Seq
+	 * @param userSeq        참여자 1 Seq
+	 * @param anotherUserSeq 참여자 2 Seq
 	 * @return 채팅방 Seq
 	 */
-	public ChatRoomEntity createChatRoomSeq(Long userSeq1, Long userSeq2) {
-		Long userLessSeq = Math.min(userSeq1, userSeq2);
-		Long userLargerSeq = Math.max(userSeq1, userSeq2);
+	public ChatRoomEntity getChatRoomSeq(Long userSeq, Long anotherUserSeq) {
+		Long userLessSeq = Math.min(userSeq, anotherUserSeq);
+		Long userLargerSeq = Math.max(userSeq, anotherUserSeq);
 		Optional<ChatRoomEntity> chatRoomOptional = chatRoomRepository.findByUserLessSeqAndUserLargerSeq(userLessSeq, userLargerSeq);
 		ChatRoomEntity chatRoom;
 		if (chatRoomOptional.isEmpty()) { // 만들어진 방이 없으면 방 번호 새로 생성

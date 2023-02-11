@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tonnybunny.domain.chat.dto.ChatAlertDto;
 import com.tonnybunny.domain.chat.dto.ChatLogDto;
+import com.tonnybunny.domain.chat.dto.ChatUserInfo;
 import com.tonnybunny.domain.chat.dto.ParticipantDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -192,12 +193,13 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			}
 
 			// 같은 방 다른 유저한테 채팅 알림 Publish
-			Integer notReadCount = this.getNotReadCount(roomId, anotherUserSeq);
-			Map<String, String> senderUserInfo = new HashMap<>();
-			senderUserInfo.put("userSeq", userSeq.toString()); // 닉네임은 나중에..
-			ChatAlertDto chatAlertDto = ChatAlertDto.builder().roomSeq(roomId)
-				.targetUserSeq(anotherUserSeq).message(jsonObject.getString("message"))
-				.notReadCount(notReadCount).build();
+			// FIXME : userInfo를 기본적으로 redis에 갖고 있어야 함. => socket 통신할 때마다 DB에서 user정보를 조회한는 건 말도 안됨.
+
+			//			Integer notReadCount = this.getNotReadCount(roomId, anotherUserSeq);
+			//			Map<String, String> senderUserInfo = new HashMap<>();
+			//			senderUserInfo.put("userSeq", userSeq.toString()); // 닉네임은 나중에..
+			ChatUserInfo senderUserInfo = ChatUserInfo.builder().userSeq(userSeq).nickName("TestNicknameMustBeFilled").profileImagePath("TestPathMustBeFilled").build();
+			ChatAlertDto chatAlertDto = ChatAlertDto.builder().roomSeq(roomId).senderUserInfo(senderUserInfo).message(jsonObject.getString("message")).build();
 			String alertJsonString = objectMapper.writeValueAsString(chatAlertDto);
 			System.out.println(String.format("구독자에게 알림을 보냄 - [%s] %s", "/sub/chat/" + anotherUserSeq, alertJsonString));
 			template.convertAndSend("/sub/chat/" + anotherUserSeq, alertJsonString);
