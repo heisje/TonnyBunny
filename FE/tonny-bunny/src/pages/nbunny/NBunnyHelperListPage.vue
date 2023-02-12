@@ -25,7 +25,7 @@
                     @remove-card="close"
                     @toggle-like-btn="toggleLike"
                     @click-btn1="check1"
-                    @click-btn2="check2"></helper-card>
+                    @click-btn2="enterChatRoom"></helper-card>
             </div>
         </div>
     </div>
@@ -46,6 +46,30 @@ export default {
 
     computed: {
         ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
+    },
+    method: {
+        enterChatRoom(helperSeq) {
+            const clientSeq = this.getBunnyDetail.client.seq;
+            const userSeq = this.$store.getters.getUserInfo.seq;
+            const anotherUserSeq = userSeq == clientSeq ? helperSeq : clientSeq;
+            this.$store.dispatch("getChatRoomInfo", {
+                userSeq: userSeq,
+                anotherUserSeq: anotherUserSeq,
+            });
+            this.$store.commit("SET_TRUE_SEND_URL_MESSAGE");
+            if (userSeq == clientSeq) {
+                this.$store.commit("SET_URL_MESSAGE", {
+                    // 어쩔 수 없다. "상담하기" 버튼을 누르면 무조건 메세지가 간다!
+                    urlPage: "NBunnyDetailPage",
+                    urlPageSeq: this.getBunnyDetail.seq,
+                    message:
+                        "'" +
+                        this.getBunnyDetail.title +
+                        "' 을/를 통해서 온 고객입니다. 상담을 요청합니다!",
+                });
+            }
+            this.$router.push({ name: "ChatDetailPage" });
+        },
     },
 };
 </script>

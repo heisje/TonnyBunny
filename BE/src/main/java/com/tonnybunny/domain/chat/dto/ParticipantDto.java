@@ -19,6 +19,7 @@ import java.io.Serializable;
 @Builder
 public class ParticipantDto implements Serializable {
 
+	private static final long serialVersionUID = 98373297498279L;
 	private Integer port; // TODO : Set으로 저장 -> 한 유저가 여러 브라우저 창에서 같은 채팅방에 접속할 수 있음
 	private Integer enterRoomCount = 0;
 

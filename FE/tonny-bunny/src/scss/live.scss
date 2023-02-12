@@ -1,0 +1,248 @@
+.liveContainer {
+    margin-top: 54px;
+    // margin-bottom: 150px;
+}
+
+.liveWrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.liveNoSession {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: default;
+
+    .jTonnyInfo {
+        margin-top: 54px;
+        padding: 32px 24px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+        background-color: var(--thin-color);
+        border-radius: 6px 6px 0 0;
+        padding-bottom: 42px;
+
+        .questProfile {
+            display: flex;
+            justify-content: space-between;
+
+            align-items: center;
+            width: 100%;
+            height: 80px;
+
+            background-color: var(--thin-color);
+            border-radius: 8px;
+            padding: 4px 4px;
+            // margin: 8px 0;
+
+            .profile {
+                display: flex;
+                align-items: center;
+                max-width: 140px;
+
+                img {
+                    // width: 32px;
+                    // height: 32px;
+                    border-radius: 100%;
+                    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+                }
+            }
+
+            .arrow {
+                color: var(--sub-color);
+            }
+
+            .userType {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                .overflow {
+                    width: 80px;
+                    overflow: hidden; // 을 사용해 영역을 감출 것
+                    text-overflow: ellipsis; // 로 ... 을 만들기
+                    white-space: nowrap;
+                }
+            }
+
+            div:nth-child(1) {
+                img {
+                    margin-right: 8px;
+                }
+            }
+            div:nth-child(3) {
+                img {
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+}
+.liveYesSession {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 54px;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--main-color);
+}
+
+.settings {
+    width: 100vw;
+    position: fixed;
+    z-index: 99;
+    left: 0;
+    top: 80px;
+    // background-color: #424b5ab4;
+    // background-color: var(--light-color);
+    background-color: #e8edefd3;
+    padding-top: 8px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.182);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .settingContent {
+        // width: 70%;
+        display: flex;
+        flex-direction: row;
+        margin: 24px 0;
+        // justify-content: center;
+        // align-items: center;
+
+        .metas {
+            display: flex;
+            flex-direction: column;
+        }
+        .btns {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 70px;
+                height: 70px;
+                background-color: #fff;
+                border-radius: 100%;
+                text-align: center;
+                box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.13);
+                // box-shadow: 1px 1px 3px 2px rgba(0, 0, 0, 0.13);
+                transition: all 0.13s;
+                margin-bottom: 8px;
+
+                &:hover {
+                    // opacity: 0.9;
+                    cursor: pointer;
+                }
+            }
+
+            span {
+                font-size: 2.4rem;
+            }
+
+            .startBtn {
+                background-color: var(--success-color);
+            }
+            .stopBtn {
+                background-color: var(--warning-color);
+            }
+            .closeBtn {
+                background-color: var(--danger-color);
+            }
+        }
+    }
+    .settingBtn {
+        margin-top: 8px;
+        cursor: pointer;
+    }
+}
+
+.displays {
+    // margin-top: 150px;
+    // margin-bottom: 100px;
+    // padding: 20px;
+    // margin: 20px;
+}
+
+.chats {
+    position: fixed;
+    z-index: 99;
+    bottom: 24px;
+    left: 32px;
+    transition: all 0.13s;
+
+    // width: 100%;
+    // height: 100px;
+    // background-color: var(--main-color);
+
+    .chatContent {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+        background-color: var(--thin-color);
+        border-radius: 8px;
+
+        width: 400px;
+        height: 400px;
+        padding: 24px;
+        position: fixed;
+        z-index: 99;
+        left: 32px;
+        bottom: 110px;
+
+        .content {
+            height: 300px;
+            // background-color: var(--background-color);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .sendBtns {
+            display: flex;
+
+            input {
+                max-width: 300px;
+            }
+            .sendBtn {
+                width: 100px;
+            }
+        }
+    }
+
+    .chatBtn {
+        width: 70px;
+        height: 70px;
+        background: var(--carrot-color);
+        border-radius: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.13);
+        transition: all 0.13s;
+
+        &:hover {
+            background-color: var(--success-color);
+        }
+
+        span {
+            padding-top: 5px;
+            font-size: 2rem;
+            color: #fff;
+        }
+    }
+}

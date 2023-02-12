@@ -10,8 +10,7 @@
             -o-transform: scale(-1, 1);
             transform: scale(-1, 1);
             filter: FlipH;
-        "
-    />
+        " />
 </template>
 
 <script>
@@ -27,3 +26,9 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+video {
+    border-radius: 6px;
+}
+</style>
