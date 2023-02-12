@@ -17,7 +17,8 @@
                                 allCode[questDetail?.startLangCode] +
                                 ' - ' +
                                 allCode[questDetail?.endLangCode]
-                            "></square-tag>
+                            "
+                        ></square-tag>
                     </div>
                     <div class="process">
                         <square-tag :text="allCode[questDetail?.taskStateCode]" sub></square-tag>
@@ -31,7 +32,8 @@
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
                             width="50"
-                            height="50" />
+                            height="50"
+                        />
                         <div class="userType">
                             <span class="label">고객</span>
                             <h4 class="overflow" v-if="questDetail?.client?.nickName">
@@ -57,7 +59,8 @@
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
                             width="50"
-                            height="50" />
+                            height="50"
+                        />
                     </div>
                 </div>
 
@@ -77,7 +80,8 @@
                         </div>
                         <div
                             v-else-if="allCode[questDetail?.taskCode] == '예약통역'"
-                            class="infoDate">
+                            class="infoDate"
+                        >
                             <div class="date">
                                 <h4>날짜</h4>
                                 <div>{{ questDetail?.estimateTime.substr(0, 10) }}</div>
@@ -118,17 +122,20 @@
                                 <div v-if="allCode[questDetail?.taskCode] == '즉시통역'">
                                     <square-tag
                                         sub
-                                        :text="allCode[questDetail?.tonnySituCode]"></square-tag>
+                                        :text="allCode[questDetail?.tonnySituCode]"
+                                    ></square-tag>
                                 </div>
                                 <div v-if="allCode[questDetail?.taskCode] == '예약통역'">
                                     <square-tag
                                         sub
-                                        :text="allCode[questDetail?.tonnySituCode]"></square-tag>
+                                        :text="allCode[questDetail?.tonnySituCode]"
+                                    ></square-tag>
                                 </div>
                                 <div v-if="allCode[questDetail?.taskCode] == '번역'">
                                     <square-tag
                                         sub
-                                        :text="allCode[questDetail?.bunnySituCode]"></square-tag>
+                                        :text="allCode[questDetail?.bunnySituCode]"
+                                    ></square-tag>
                                 </div>
                             </div>
                         </div>

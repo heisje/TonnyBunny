@@ -28,6 +28,7 @@ export default {
             const { data } = await http.post("/chat/room/" + userSeq + "/" + anotherUserSeq);
             if (data.resultCode == "SUCCESS") {
                 let chatRoomInfo = data.data;
+
                 return context.commit("SET_CHAT_ROOM_INFO", chatRoomInfo);
             } else {
                 console.log("[error] fail to get data in getChatRoomInfo()");
