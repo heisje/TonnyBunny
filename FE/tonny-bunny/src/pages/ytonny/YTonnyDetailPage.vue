@@ -584,15 +584,19 @@ export default {
             };
             console.log(payload);
             await this.$store.dispatch("startYTonnyLive", payload);
+
+            let data = { ...this.yTonnyDetail, helper: {} };
+            this.$store.commit("SET_START_RES_DATA", data);
             this.$store.commit("TOGGLE_ALARM_MODAL");
-            this.$router.push({ name: "LivePage" });
+            this.$router.push({ name: "OnAirPage" });
 
             // 히스토리 생성 끝 --------------------------------------
         },
 
         goLiveByHelper() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
-            this.$router.push({ name: "LivePage" });
+            this.$store.commit("SET_START_RES_DATA", this.yTonnyDetail);
+            this.$router.push({ name: "OnAirPage" });
         },
 
         async nextPage() {
@@ -611,11 +615,6 @@ export default {
                 size: size,
                 yTonnySeq: this.yTonnySeq,
             });
-        },
-
-        startChat() {
-            console.log("start chat");
-            this.$router.push({ name: "ChatDetailPage" });
         },
 
         toggleEditOpen() {
@@ -645,7 +644,7 @@ export default {
         async removeYTonny(yTonnySeq) {
             await this.$store.dispatch("removeYTonny", yTonnySeq);
             this.$store.commit("CLOSE_ALARM_MODAL");
-            this.$router.replace({ name: "HomePage" });
+            this.$router.replace({ name: "TonnyPage" });
         },
 
         async removeYTonnyApply(yTonnySeq, yTonnyApplySeq) {
@@ -680,6 +679,7 @@ export default {
             let yTonnySeq = this.yTonnySeq;
             let payload = { yTonnySeq, yTonnyApplySeq, helperSeq, unitPrice };
             await this.$store.dispatch("acceptYTonnyApply", payload);
+            await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
             console.log("accept", this.yTonnySeq, yTonnyApplySeq, helperSeq);
             // await this.getYTonnyApplyList();
         },
@@ -706,7 +706,7 @@ export default {
 
     mounted() {
         this.yTonnyDetailElement = this.$refs.yTonnyDetail;
-        console.log(this.taskCode);
+        // console.log(this.taskCode);
         // this.yTonnyApplyListElement = this.$refs.yTonnyApplyListRef;
         // console.log(this.yTonnyApplyListElement);
         // this.windowHeight =
