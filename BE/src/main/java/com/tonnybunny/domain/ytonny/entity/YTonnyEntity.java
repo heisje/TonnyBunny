@@ -31,7 +31,8 @@ public class YTonnyEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity client;
-	private Long yTonnyApplySeq; // nullable
+	@Builder.Default
+	private Long yTonnyApplySeq = 0L; // nullable
 
 	private String sessionName;
 
@@ -70,7 +71,7 @@ public class YTonnyEntity extends CommonEntity {
 		this.yTonnyApplySeq = yTonnyApplySeq;
 	}
 
-	
+
 	public void updateEstimatePrice(Integer estimatePrice) {
 		this.estimatePrice = estimatePrice;
 	}
@@ -87,7 +88,7 @@ public class YTonnyEntity extends CommonEntity {
 
 
 	public void update(String title, String tonnySituCode, String content, String startLangCode, String endLangCode, LocalDateTime startDateTime,
-	                   String estimateTime, Integer estimatePrice) {
+		String estimateTime, Integer estimatePrice) {
 		this.title = title;
 		this.tonnySituCode = tonnySituCode;
 		this.content = content;

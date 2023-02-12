@@ -129,6 +129,8 @@ public class YTonnyController {
 			YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 			Integer unitPrice = yTonnyApplyEntity.getUnitPrice();
 			yTonnyResponseDto.setUnitPrice(unitPrice);
+			yTonnyResponseDto.setYTonnyApplySeq(yTonnyApplySeq);
+
 		}
 
 		// code name 값으로 변경해서 넘겨주기
@@ -175,7 +177,7 @@ public class YTonnyController {
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
-	                                                                                  YTonnyApplyRequestDto yTonnyApplyRequestDto
+		YTonnyApplyRequestDto yTonnyApplyRequestDto
 	) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");

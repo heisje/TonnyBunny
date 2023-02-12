@@ -60,7 +60,7 @@ public class YTonnyResponseDto {
 	private String estimateTime;
 	private Integer estimatePrice;
 	private Integer unitPrice;
-
+	private Long yTonnyApplySeq;
 	private String startLangCode;
 	private String endLangCode;
 	private String tonnySituCode;
@@ -71,7 +71,7 @@ public class YTonnyResponseDto {
 	private LocalDateTime updatedAt;
 
 	private Boolean isDeleted;
-	
+
 
 	public static YTonnyResponseDto fromEntity(YTonnyEntity yTonnyEntity) {
 		ModelMapper modelMapper = ModelMapperFactory.getMapper();
