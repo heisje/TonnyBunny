@@ -72,7 +72,8 @@
                     <div
                         class="d-flex align-items-center justify-content-center pt-3"
                         style="cursor: pointer"
-                        @click="toggleIsSettingOpen">
+                        @click="toggleIsSettingOpen"
+                    >
                         <span class="material-symbols-outlined"> expand_more </span>
                     </div>
                 </div>
@@ -87,7 +88,8 @@
                     <medium-btn
                         text="방 나가기(leave)"
                         color="carrot"
-                        @click.prevent="leaveSession" />
+                        @click.prevent="leaveSession"
+                    />
                 </div>
                 <div class="h-100">
                     <div class="d-flex align-items-center justify-content-center row">
@@ -105,11 +107,13 @@
                             </div>
                             <div
                                 v-for="sub in subscribers"
-                                :key="sub.stream.connection.connectionId">
+                                :key="sub.stream.connection.connectionId"
+                            >
                                 <user-video
                                     v-if="mainStreamManager != sub"
                                     :stream-manager="sub"
-                                    @click="updateMainVideoStreamManager(sub)" />
+                                    @click="updateMainVideoStreamManager(sub)"
+                                />
                             </div>
                         </div>
                     </div>
@@ -118,7 +122,8 @@
                     <div
                         @click="toggleIsChatOpen"
                         class="pt-3 pb-3 d-flex align-items-center justify-content-center"
-                        style="cursor: pointer">
+                        style="cursor: pointer"
+                    >
                         <span>채팅 열기</span>
                         <span class="material-symbols-outlined"> expand_less </span>
                     </div>
@@ -551,12 +556,17 @@ export default {
     },
 
     async created() {
-        let localStorage = window.localStorage;
+        if (this.getStartResData.taskCode == "예약통역") {
+            this.historySeq = this.getHistorySeq;
+            this.sessionName = this.getStartResData.sessionName;
+            this.unitPrice = this.getStartResData.unitPrice;
+        }
 
-        this.historySeq = this.getStartResData.seq;
-        this.sessionName = this.getStartResData.uuid;
-        this.unitPrice = this.getStartResData.unitPrice;
-
+        if (this.getStartResData.taskCode == "0030001") {
+            this.historySeq = this.getStartResData.seq;
+            this.sessionName = this.getStartResData.uuid;
+            this.unitPrice = this.getStartResData.unitPrice;
+        }
         this.joinSession();
 
         // let userSeq = localStorage.getItem("userSeq");

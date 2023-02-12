@@ -124,7 +124,7 @@ export default {
 
         clickBtn2(e) {
             e.preventDefault();
-            this.$emit("clickBtn2");
+            this.$emit("clickBtn2", this.userInfo.userSeq);
         },
     },
 };

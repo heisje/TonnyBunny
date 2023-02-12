@@ -8,6 +8,7 @@ import bunny from "./actions/bunny";
 import common from "./actions/common";
 import alert from "./actions/alert";
 import mypage from "./actions/mypage";
+import chat from "./actions/chat";
 import schedule from "./actions/schedule";
 import review from "./actions/review";
 
@@ -23,6 +24,7 @@ export default {
     ...common,
     ...alert,
     ...mypage,
+    ...chat,
     ...schedule,
     ...review,
 };

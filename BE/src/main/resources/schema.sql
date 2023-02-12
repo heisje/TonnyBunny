@@ -313,7 +313,7 @@ CREATE TABLE `jtonny_history_table`
 (
     `history_seq`       BIGINT  NOT NULL,
     `tonny_situ_code`   CHAR(7) NOT NULL,
-    `total_time`        TIME    NOT NULL,
+    `total_time`        TIME,
     `unit_price`        INTEGER NOT NULL,
     `record_video_path` VARCHAR(255),
     PRIMARY KEY (`history_seq`),

@@ -1,6 +1,7 @@
 <template>
     <!-- <v-container class="yTonnyDetailContainer row" v-scroll="onScroll"> -->
     {{ yTonnyDetail }}
+    {{ yTonnyApplyList }}
     <v-container class="yTonnyDetailContainer row">
         <!-- <title-banner title="예약통역 공고" text=""></title-banner> -->
         <div class="yTonnyDetailWrap customForm col-md-6 col-12" ref="yTonnyDetail">
@@ -11,7 +12,8 @@
                 :options="{
                     threshold: 0.5,
                 }"
-                transition="fade-transition">
+                transition="fade-transition"
+            >
                 <!-- yTonny 공고 정보 라인 -->
                 <div class="infos">
                     <div class="tag">
@@ -27,7 +29,8 @@
                             type="h1"
                             :title="yTonnyDetail.title"
                             top="10"
-                            bottom="10"></title-text>
+                            bottom="10"
+                        ></title-text>
                         <div class="label">{{ createdAt }}</div>
                     </div>
 
@@ -44,7 +47,8 @@
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
-                                    class="me-3" />
+                                    class="me-3"
+                                />
                             </a>
 
                             <a>
@@ -86,7 +90,8 @@
                                         <square-tag
                                             :text="yTonnyDetail.startLangCode"
                                             sub
-                                            class="me-2"></square-tag>
+                                            class="me-2"
+                                        ></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -94,7 +99,8 @@
                                         </div>
                                         <square-tag
                                             :text="yTonnyDetail.endLangCode"
-                                            sub></square-tag>
+                                            sub
+                                        ></square-tag>
                                     </td>
                                 </tr>
 
@@ -126,7 +132,8 @@
                                     <td>
                                         <square-tag
                                             :text="yTonnyDetail.tonnySituCode"
-                                            sub></square-tag>
+                                            sub
+                                        ></square-tag>
                                     </td>
                                 </tr>
 
@@ -139,7 +146,7 @@
                     </div>
                 </div>
             </v-lazy>
-            <div v-show="yTonnyDetail.helper">
+            <div v-show="yTonnyDetail.unitPrice">
                 <div v-show="isCreator">
                     <div class="goLiveBtn">
                         <medium-btn
@@ -147,7 +154,8 @@
                             color="carrot"
                             font="white"
                             text="라이브로 이동하기"
-                            @click.prevent="openLiveModalByClient"></medium-btn>
+                            @click.prevent="openLiveModalByClient"
+                        ></medium-btn>
                     </div>
                 </div>
                 <div v-show="isManager">
@@ -157,7 +165,8 @@
                             color="carrot"
                             font="white"
                             text="라이브로 이동하기"
-                            @click.prevent="openLiveModalByHelper"></medium-btn>
+                            @click.prevent="openLiveModalByHelper"
+                        ></medium-btn>
                     </div>
                 </div>
             </div>
@@ -165,59 +174,54 @@
 
         <div class="customForm col-md-6 col-12">
             <!-- yTonny 공고 신청 버튼 라인 -->
-            <div class="applys" v-show="isHelper">
-                <h1 class="mb-4">
-                    <i class="fa-solid fa-carrot fs-4 ms-1 me-1"></i>
-                    가격 제안하기
-                </h1>
-                <v-lazy
-                    v-model="isActive"
-                    :options="{ threshold: 0.5 }"
-                    transition="fade-transition">
-                    <div>
-                        <div class="d-flex align-items-center mb-3">
-                            <input
-                                type="text"
-                                placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
-                                v-model="unitPrice"
-                                @keydown.enter="insertYTonnyApply" />
+            <div v-show="!yTonnyDetail.unitPrice">
+                <div class="applys" v-show="isHelper">
+                    <h1 class="mb-4">
+                        <i class="fa-solid fa-carrot fs-4 ms-1 me-1"></i>
+                        가격 제안하기
+                    </h1>
+                    <v-lazy
+                        v-model="isActive"
+                        :options="{ threshold: 0.5 }"
+                        transition="fade-transition"
+                    >
+                        <div>
+                            <div class="d-flex align-items-center mb-3">
+                                <input
+                                    type="text"
+                                    placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
+                                    v-model="unitPrice"
+                                    @keydown.enter="insertYTonnyApply"
+                                />
+                            </div>
+                            <medium-btn
+                                class="w-100"
+                                color="outline"
+                                font="active"
+                                text="헬퍼 신청하기"
+                                @click.prevent="insertYTonnyApply"
+                            ></medium-btn>
+                            <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
                         </div>
-                        <medium-btn
-                            class="w-100"
-                            color="outline"
-                            font="active"
-                            text="헬퍼 신청하기"
-                            @click.prevent="insertYTonnyApply"></medium-btn>
-                        <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
-                    </div>
-                </v-lazy>
+                    </v-lazy>
+                </div>
             </div>
 
             <!-- yTonny Applu List View -->
-            <div class="yTonnyApplyList mt-0">
-                <div class="d-flex align-items-center justify-content-between">
-                    <h1>가격을 제안한 헬퍼들</h1>
-                    <!-- <div class="label">더보기</div> -->
-                </div>
-
-                <hr />
-
-                <v-lazy
-                    v-model="isActive"
-                    :options="{ threshold: 0.5 }"
-                    transition="fade-transition"
-                    ref="yTonnyApplyListRef">
-                    <div v-if="yTonnyApplyList.length > 0">
-                        <transition-group name="slide-up">
-                            <div
-                                v-for="(apply, index) in yTonnyApplyList"
-                                :key="index"
-                                class="w-100 row">
-                                <!-- {{ apply }} -->
-
+            <div v-if="yTonnyDetail.unitPrice">
+                <div v-if="yTonnyApplyList.length > 0">
+                    <transition-group name="slide-up">
+                        <div
+                            v-for="(apply, index) in yTonnyApplyList"
+                            :key="index"
+                            class="w-100 row"
+                        >
+                            <!-- {{ apply }} -->
+                            <div v-show="apply.seq == yTonnyDetail.ytonnyApplySeq">
                                 <div class="d-flex flex-row align-items-center apply">
                                     <div
-                                        class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                        class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                    >
                                         <img src="@/assets/noProfile.png" width="50" height="50" />
 
                                         <!-- <img :src="apply.helper.profileImagePath" /> -->
@@ -229,24 +233,30 @@
                                             <div class="likeBtn" @click="toggleLikeBtn">
                                                 <span
                                                     v-if="isLikeEmpty"
-                                                    class="material-symbols-outlined likeIcon empty">
+                                                    class="material-symbols-outlined likeIcon empty"
+                                                >
                                                     favorite
                                                 </span>
                                                 <span
                                                     v-else
-                                                    class="material-symbols-outlined likeIcon">
+                                                    class="material-symbols-outlined likeIcon"
+                                                >
                                                     favorite
                                                 </span>
                                             </div>
                                             <div>{{ apply.helper.nickName }}</div>
                                         </div>
-                                        <div>{{ apply.helper.helperInfo.oneLineIntroduction }}</div>
+                                        <div>
+                                            {{ apply.helper.helperInfo.oneLineIntroduction }}
+                                        </div>
                                         <div class="d-flex">
                                             <div>
-                                                &nbsp;평점 {{ apply.helper.helperInfo.totalScore }}
+                                                &nbsp;평점
+                                                {{ apply.helper.helperInfo.totalScore }}
                                             </div>
                                             <div>
-                                                &nbsp;리뷰 {{ apply.helper.helperInfo.reviewCount }}
+                                                &nbsp;리뷰
+                                                {{ apply.helper.helperInfo.reviewCount }}
                                             </div>
                                             <div>&nbsp;캐럿 {{ apply.unitPrice }}</div>
                                         </div>
@@ -257,7 +267,8 @@
                                     <div
                                         v-if="apply.helper.seq == userInfo.seq"
                                         class="closeBtn col-1"
-                                        @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)">
+                                        @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)"
+                                    >
                                         <span class="material-symbols-outlined"> close </span>
                                     </div>
                                     <div
@@ -269,24 +280,137 @@
                                                 apply.helper.seq,
                                                 apply.unitPrice
                                             )
-                                        ">
+                                        "
+                                    >
                                         <span class="material-symbols-outlined"> done </span>
                                     </div>
                                 </div>
                             </div>
-                        </transition-group>
-                        <v-pagination
-                            v-model="currentPage"
-                            :length="yTonnyListTotalCount"
-                            rounded="circle"
-                            :total-visible="5"
-                            class="mt-5 me-5"
-                            prev-icon="mdi-menu-left"
-                            next-icon="mdi-menu-right"
-                            @click="nextPage"></v-pagination>
+                        </div>
+                    </transition-group>
+                    <v-pagination
+                        v-model="currentPage"
+                        :length="yTonnyListTotalCount"
+                        rounded="circle"
+                        :total-visible="5"
+                        class="mt-5 me-5"
+                        prev-icon="mdi-menu-left"
+                        next-icon="mdi-menu-right"
+                        @click="nextPage"
+                    ></v-pagination>
+                </div>
+            </div>
+            <div v-else>
+                <div class="yTonnyApplyList mt-0">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h1>가격을 제안한 헬퍼들</h1>
+                        <!-- <div class="label">더보기</div> -->
                     </div>
-                    <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
-                </v-lazy>
+
+                    <hr />
+
+                    <v-lazy
+                        v-model="isActive"
+                        :options="{ threshold: 0.5 }"
+                        transition="fade-transition"
+                        ref="yTonnyApplyListRef"
+                    >
+                        <div v-if="yTonnyApplyList.length > 0">
+                            <transition-group name="slide-up">
+                                <div
+                                    v-for="(apply, index) in yTonnyApplyList"
+                                    :key="index"
+                                    class="w-100 row"
+                                >
+                                    <!-- {{ apply }} -->
+
+                                    <div class="d-flex flex-row align-items-center apply">
+                                        <div
+                                            class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                        >
+                                            <img
+                                                src="@/assets/noProfile.png"
+                                                width="50"
+                                                height="50"
+                                            />
+
+                                            <!-- <img :src="apply.helper.profileImagePath" /> -->
+                                            <!-- <div>{{ apply.helper.nickName }}</div> -->
+                                            <!-- <div>{{ apply.helper.helperInfo.oneLineIntroduction }}</div> -->
+                                        </div>
+                                        <div class="col-10 helperInfo">
+                                            <div class="d-flex flex-row">
+                                                <div class="likeBtn" @click="toggleLikeBtn">
+                                                    <span
+                                                        v-if="isLikeEmpty"
+                                                        class="material-symbols-outlined likeIcon empty"
+                                                    >
+                                                        favorite
+                                                    </span>
+                                                    <span
+                                                        v-else
+                                                        class="material-symbols-outlined likeIcon"
+                                                    >
+                                                        favorite
+                                                    </span>
+                                                </div>
+                                                <div>{{ apply.helper.nickName }}</div>
+                                            </div>
+                                            <div>
+                                                {{ apply.helper.helperInfo.oneLineIntroduction }}
+                                            </div>
+                                            <div class="d-flex">
+                                                <div>
+                                                    &nbsp;평점
+                                                    {{ apply.helper.helperInfo.totalScore }}
+                                                </div>
+                                                <div>
+                                                    &nbsp;리뷰
+                                                    {{ apply.helper.helperInfo.reviewCount }}
+                                                </div>
+                                                <div>&nbsp;캐럿 {{ apply.unitPrice }}</div>
+                                            </div>
+
+                                            <!-- <div>{{ apply.unitPrice }}</div> -->
+                                        </div>
+
+                                        <div
+                                            v-if="apply.helper.seq == userInfo.seq"
+                                            class="closeBtn col-1"
+                                            @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)"
+                                        >
+                                            <span class="material-symbols-outlined"> close </span>
+                                        </div>
+                                        <div
+                                            v-else-if="isCreator"
+                                            class="checkBtn col-1"
+                                            @click="
+                                                acceptYTonnyApply(
+                                                    apply.seq,
+                                                    apply.helper.seq,
+                                                    apply.unitPrice
+                                                )
+                                            "
+                                        >
+                                            <span class="material-symbols-outlined"> done </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </transition-group>
+                            <v-pagination
+                                v-model="currentPage"
+                                :length="yTonnyListTotalCount"
+                                rounded="circle"
+                                :total-visible="5"
+                                class="mt-5 me-5"
+                                prev-icon="mdi-menu-left"
+                                next-icon="mdi-menu-right"
+                                @click="nextPage"
+                            ></v-pagination>
+                        </div>
+                        <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
+                    </v-lazy>
+                </div>
             </div>
         </div>
 
@@ -300,7 +424,8 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약을 삭제하시겠습니까? <br />
                 삭제한 후에는 다시 되돌릴 수가 없습니다.
@@ -317,7 +442,8 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약 라이브를 시작하시겠습니까? <br /><br />
                 시작한 후에는 재시작 할 수 없습니다. <br />
@@ -335,7 +461,8 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약 라이브에 입장하시겠습니까? <br /><br />
                 고객과 시간 조율을 한 후 시작해주세요!
@@ -443,7 +570,8 @@ export default {
         async startLiveByClient() {
             // 히스토리 생성 -----------------------------------------
             const payload = {
-                yTonnySeq: this.yTonnyDetail.seq,
+                ytonnySeq: this.yTonnyDetail.seq,
+                unitPrice: this.yTonnyDetail.unitPrice,
             };
             console.log(payload);
             await this.$store.dispatch("startYTonnyLive", payload);
@@ -526,7 +654,13 @@ export default {
         },
 
         checkIsManager() {
-            let yTonnyManageSeq = this.yTonnyDetail.helper?.seq;
+            let yTonnyManageSeq;
+
+            this.yTonnyApplyList.forEach((apply) => {
+                if (this.yTonnyDetail.ytonnyApplySeq == apply.seq) {
+                    yTonnyManageSeq = apply.helper.seq;
+                }
+            });
 
             if (yTonnyManageSeq == this.userInfo.seq) {
                 this.isManager = true;
@@ -553,11 +687,12 @@ export default {
 
         // let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
         await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
-        this.checkIsCreator();
-        this.checkIsManager();
 
+        window.scrollTo(0, 0);
         await this.$store.dispatch("getYTonnyApplyListTotalCount", this.yTonnySeq);
         await this.getYTonnyApplyList();
+        this.checkIsCreator();
+        this.checkIsManager();
     },
 
     mounted() {

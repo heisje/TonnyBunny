@@ -4,13 +4,17 @@ package com.tonnybunny.domain.live.controller;
 import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.jtonny.dto.JTonnyDto;
 import com.tonnybunny.domain.live.dto.HistoryCompleteDto;
+import com.tonnybunny.domain.live.dto.YTonnyStartRequestDto;
 import com.tonnybunny.domain.live.service.LiveService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -39,9 +43,9 @@ public class LiveController {
 	}
 
 
-	@PostMapping("/ytonny/{yTonnySeq}/start")
+	@PostMapping("/ytonny/start")
 	@ApiOperation(value = "예약통역 화상 통화를 시작합니다")
-	public ResponseEntity<ResultDto<Long>> startYTonnyLive(@PathVariable("yTonnySeq") Long yTonnySeq) {
+	public ResponseEntity<ResultDto<Long>> startYTonnyLive(@RequestBody YTonnyStartRequestDto yTonnyStartRequestDto) {
 
 		/**
 		 * 미리 생성된 예약통역 seq 를 service 에 넘겨서
@@ -50,7 +54,7 @@ public class LiveController {
 		 * history 의 seq 반환
 		 * 근데 이전에 uuid 를 생성해주어야 한다? 방에 입장 후 해당 메서드를 호출함
 		 */
-		Long historySeq = liveService.startYTonnyLive(yTonnySeq);
+		Long historySeq = liveService.startYTonnyLive(yTonnyStartRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historySeq));
 	}

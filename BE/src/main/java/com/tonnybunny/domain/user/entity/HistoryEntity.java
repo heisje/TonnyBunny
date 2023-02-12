@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
 @Entity
@@ -53,7 +52,7 @@ public class HistoryEntity extends CommonEntity {
 	private ReviewEntity review;
 
 
-	public void completeLive(LocalTime time, String recordVideoPath) {
+	public void completeLive() {
 		this.endDateTime = LocalDateTime.now();
 	}
 

@@ -65,7 +65,7 @@ export default {
     async startYTonnyLive(context, payload) {
         console.log("예약통역 라이브 시작");
 
-        let { data } = await http.post(`/live/ytonny/${payload.yTonnySeq}/start`);
+        let { data } = await http.post(`/live/ytonny/start`, payload);
 
         try {
             console.log("async liveComplete : ", data);
