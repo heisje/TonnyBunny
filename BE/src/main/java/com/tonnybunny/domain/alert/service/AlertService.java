@@ -47,6 +47,7 @@ public class AlertService {
 		Long userSeq = alertLogRequestDto.getUserSeq();
 		String taskCode = alertLogRequestDto.getTaskCode();
 		String content = alertLogRequestDto.getContent();
+		//		String sessionName = alertLogRequestDto.getSessionName();
 
 		// find
 		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -55,6 +56,7 @@ public class AlertService {
 		                                              .user(userEntity)
 		                                              .taskCode(taskCode)
 		                                              .content(content)
+		                                              //		                                              .sessionName(sessionName)
 		                                              .isRead(false)
 		                                              .isEnd(false)
 		                                              .build();
