@@ -568,6 +568,7 @@ export default {
 
         openLiveModalByClient() {
             this.modalName = `goLiveModalByClient`;
+
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
@@ -585,8 +586,7 @@ export default {
             console.log(payload);
             await this.$store.dispatch("startYTonnyLive", payload);
 
-            let data = { ...this.yTonnyDetail, helper: {} };
-            this.$store.commit("SET_START_RES_DATA", data);
+            this.$store.commit("SET_START_RES_DATA", this.yTonnyDetail);
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$router.push({ name: "OnAirPage" });
 
@@ -680,6 +680,25 @@ export default {
             let payload = { yTonnySeq, yTonnyApplySeq, helperSeq, unitPrice };
             await this.$store.dispatch("acceptYTonnyApply", payload);
             await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
+
+            // client alert
+            let clientAlert = {
+                userSeq: this.yTonnyDetail.client.seq,
+                taskCode: this.yTonnyDetail.taskCode,
+                content: this.yTonnyDetail.content,
+                sessionName: this.yTonnyDetail.sessionName,
+            };
+            await this.$store.dispatch("insertAlert", clientAlert);
+
+            // helper alert (클라가 누르면 바로 알람이 들어감)
+            let helperAlert = {
+                userSeq: this.yTonnyDetail.helper.seq,
+                taskCode: this.yTonnyDetail.taskCode,
+                content: this.yTonnyDetail.content,
+                sessionName: this.yTonnyDetail.sessionName,
+            };
+            await this.$store.dispatch("insertAlert", helperAlert);
+
             console.log("accept", this.yTonnySeq, yTonnyApplySeq, helperSeq);
             // await this.getYTonnyApplyList();
         },

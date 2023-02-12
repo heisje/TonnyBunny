@@ -5,7 +5,7 @@
                 <circle cx="8" cy="8" r="8" />
             </svg>
 
-            <span class="taskCode">"{{ alertItem?.taskCode }}"</span>
+            <span class="taskCode">"{{ getTaskCode }}"</span>
             <span class="content">{{ alertItem?.content }}</span>
             <div class="date">
                 <span>{{ alertItem?.createdAt }}</span>
@@ -15,6 +15,8 @@
     </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: "AlertItem",
 
@@ -25,6 +27,7 @@ export default {
                 return {
                     slertLogSeq: 1,
                     content: "하이루",
+                    tonnySityCode: "",
                     createdAt: "2023-02-01T13:12:03",
                     isRead: false,
                     taskCode: "1234",
@@ -32,6 +35,20 @@ export default {
                 };
             },
             description: "alert item",
+        },
+    },
+
+    computed: {
+        ...mapGetters({
+            taskCode: "getTaskCode",
+        }),
+
+        getTaskCode() {
+            let code;
+            this.taskCode.forEach((e) => {
+                if (e.value == this.alertItem.taskCode) code = e.name;
+            });
+            return code;
         },
     },
 
@@ -43,6 +60,10 @@ export default {
             e.stopPropagation();
             this.$emit("putAlert");
         },
+    },
+
+    created() {
+        // console.log(this.alertItem);
     },
 };
 </script>

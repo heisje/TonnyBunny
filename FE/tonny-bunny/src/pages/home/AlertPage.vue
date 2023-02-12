@@ -33,8 +33,10 @@ export default {
     },
 
     computed: {
-        ...mapGetters({ alertList: "getAlertList" }),
-        ...mapGetters({ userInfo: "getUserInfo" }),
+        ...mapGetters({
+            alertList: "getAlertList",
+            userInfo: "getUserInfo",
+        }),
     },
 
     methods: {

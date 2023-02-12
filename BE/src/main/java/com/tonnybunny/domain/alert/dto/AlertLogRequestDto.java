@@ -13,6 +13,7 @@ public class AlertLogRequestDto {
 	private Long alertLogSeq;
 	private Long userSeq;
 
+	private String sessionName;
 	private String taskCode;
 	private String content;
 	private Boolean isRead;
