@@ -72,6 +72,11 @@ public class YTonnyEntity extends CommonEntity {
 	}
 
 
+	public void updateTaskStateCode(String taskStateCode) {
+		this.taskStateCode = taskStateCode;
+	}
+
+
 	public void updateEstimatePrice(Integer estimatePrice) {
 		this.estimatePrice = estimatePrice;
 	}
@@ -88,7 +93,7 @@ public class YTonnyEntity extends CommonEntity {
 
 
 	public void update(String title, String tonnySituCode, String content, String startLangCode, String endLangCode, LocalDateTime startDateTime,
-		String estimateTime, Integer estimatePrice) {
+	                   String estimateTime, Integer estimatePrice) {
 		this.title = title;
 		this.tonnySituCode = tonnySituCode;
 		this.content = content;

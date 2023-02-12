@@ -47,7 +47,7 @@
                                     <td>언어</td>
                                     <td class="d-flex flex-row align-items-center">
                                         <square-tag
-                                            :text="startResData.startLangCode"
+                                            :text="getStartLangCode"
                                             sub
                                             class="me-2"></square-tag>
                                         <div class="me-2">
@@ -55,9 +55,7 @@
                                                 compare_arrows
                                             </span>
                                         </div>
-                                        <square-tag
-                                            :text="startResData.endLangCode"
-                                            sub></square-tag>
+                                        <square-tag :text="getEndLangCode" sub></square-tag>
                                     </td>
                                 </tr>
 
@@ -72,9 +70,7 @@
                                 <tr>
                                     <td>상황 카테고리</td>
                                     <td>
-                                        <square-tag
-                                            :text="startResData.tonnySituCode"
-                                            sub></square-tag>
+                                        <square-tag :text="getTonnySituCode" sub></square-tag>
                                     </td>
                                 </tr>
 
@@ -250,10 +246,12 @@ export default {
             startResData: "getStartResData",
             userInfo: "getUserInfo",
             getHistorySeq: "getHistorySeq",
+            langCode: "getLangCode",
+            tonnySituCode: "getTonnySituCode",
         }),
 
         mySessionName() {
-            return this.startResData.uuid;
+            return this.startResData.sessionName;
         },
 
         myUserName() {
@@ -276,6 +274,28 @@ export default {
                 seconds = "0" + seconds;
             }
             return hours + ":" + minutes + ":" + seconds;
+        },
+
+        getStartLangCode() {
+            let code;
+            this.langCode.forEach((e) => {
+                if (e.value == this.startResData.startLangCode) code = e.name;
+            });
+            return code;
+        },
+        getEndLangCode() {
+            let code;
+            this.langCode.forEach((e) => {
+                if (e.value == this.startResData.endLangCode) code = e.name;
+            });
+            return code;
+        },
+        getTonnySituCode() {
+            let code;
+            this.tonnySituCode.forEach((e) => {
+                if (e.value == this.startResData.tonnySituCode) code = e.name;
+            });
+            return code;
         },
     },
 

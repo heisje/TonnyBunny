@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.service;
 
 
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
@@ -235,6 +236,7 @@ public class YTonnyService {
 
 		// 수정
 		yTonnyEntity.updateYTonnyApplySeq(yTonnyApplySeq);
+		yTonnyEntity.updateTaskStateCode(TaskStateCodeEnum.진행중.getTaskStateCode());
 		//		yTonnyEntity.updateEstimatePrice(unitPrice);
 
 		// save
