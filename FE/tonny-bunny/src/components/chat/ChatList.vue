@@ -28,13 +28,16 @@ export default {
         enterChatRoom(event, chatRoomInfo) {
             event.preventDefault();
 
-            // let stompSocket = this.$store.getters.getChatStompSocket;
             // stompSocket.send("/sub/chat/5", "msg");
             this.$store.commit("SET_CHAT_ROOM_INFO", chatRoomInfo);
             this.$router.push({ name: "ChatDetailPage" });
         },
     },
     mounted() {
+        let stompSocket = this.$store.getters.getChatStompSocket;
+        console.log("stompSocket: ", stompSocket);
+        console.log("UserInfo: ", this.userInfo);
+
         this.$store.dispatch("getChatRoomList", this.userInfo);
         console.log("GET: ", this.$store.getters.getChatRoomList);
     },

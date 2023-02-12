@@ -31,6 +31,33 @@ export default {
 
     mounted() {
         this.$store.dispatch("setCommonCode");
+        // window.addEventListener("beforeunload", (event) => {
+        //     // 명세에 따라 preventDefault는 호출해야하며, 기본 동작을 방지합니다.
+        //     // event.preventDefault();
+
+        //     console.log("reload!!!");
+        //     console.log("reload Object: ", this.$store.getters.getUserInfo);
+        //     console.log("reload Socket: ", this.$store.getters.getChatSocket);
+        //     console.log("reload Stomp Socket: ", this.$store.getters.getChatStompSocket);
+        //     // 대표적으로 Chrome에서는 returnValue 설정이 필요합니다.
+        //     event.returnValue = "aa";
+        // });
+        window.addEventListener("load", () => {
+            // window.onload = function () {
+            console.log("after reload!!!");
+            if (this.$store.getters.getIsLogin == true) {
+                // let socket = this.$store.getters.getChatSocket;
+                this.$store.commit(
+                    "RECONNECT_CHAT_STOMP_SOCKET",
+                    this.$store.getters.getUserInfo.seq
+                );
+                // let stompSocket = this.$store.getters.getChatStompSocket;
+                // stompSocket.connect({}, );
+            }
+            console.log("load Object: ", this.$store.getters.getUserInfo);
+            console.log("load Socket: ", this.$store.getters.getChatSocket);
+            console.log("load Stomp Socket: ", this.$store.getters.getChatStompSocket);
+        });
     },
 };
 </script>
