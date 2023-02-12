@@ -1,7 +1,7 @@
 package com.tonnybunny.domain.ytonny.controller;
 
 
-import com.tonnybunny.common.dto.*;
+import com.tonnybunny.common.dto.ResultDto;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.UserService;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
@@ -134,11 +134,11 @@ public class YTonnyController {
 		}
 
 		// code name 값으로 변경해서 넘겨주기
-		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());
-		yTonnyResponseDto.setEndLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getEndLangCode()).name());
-		yTonnyResponseDto.setTonnySituCode(TonnySituCodeEnum.valueOfCode(yTonnyResponseDto.getTonnySituCode()).name());
-		yTonnyResponseDto.setTaskCode(TaskCodeEnum.valueOfCode(yTonnyResponseDto.getTaskCode()).name());
-		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
+		//		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());
+		//		yTonnyResponseDto.setEndLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getEndLangCode()).name());
+		//		yTonnyResponseDto.setTonnySituCode(TonnySituCodeEnum.valueOfCode(yTonnyResponseDto.getTonnySituCode()).name());
+		//		yTonnyResponseDto.setTaskCode(TaskCodeEnum.valueOfCode(yTonnyResponseDto.getTaskCode()).name());
+		//		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
 
@@ -177,7 +177,7 @@ public class YTonnyController {
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
-		YTonnyApplyRequestDto yTonnyApplyRequestDto
+	                                                                                  YTonnyApplyRequestDto yTonnyApplyRequestDto
 	) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");

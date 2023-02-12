@@ -2,10 +2,7 @@ package com.tonnybunny.domain.ytonny.entity;
 
 
 import com.tonnybunny.domain.user.entity.HistoryEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,6 +28,7 @@ public class YTonnyHistoryEntity extends HistoryEntity {
 	private Integer unitPrice;
 	private String recordVideoPath;
 
+	@Builder.Default
 	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
 
 
