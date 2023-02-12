@@ -312,6 +312,7 @@ export default {
 .bunnyDetail {
     cursor: default;
     padding: 32px 24px;
+    margin-right: 24px;
 
     // box-shadow: 1px 1px 1px black;
     border: 1px solid rgba(0, 0, 0, 0.13);
