@@ -6,8 +6,7 @@
                 <div class="helperInfo">
                     <!-- 1.1 프로필 이미지, 닉네임, 한 줄 소개 라인 -->
                     <div class="helperProfile">
-                        <img class="profileImg" :src="userInfo?.profileImagePath" />
-                        <img class="profileImg" src="@/assets/noProfile_white.png" />
+                        <UserProfileImg class="profileImg" :profileImagePath="profileImagePath" />
                     </div>
 
                     <!-- 1.2 헬퍼 요금 소개 라인 -->
@@ -41,26 +40,25 @@
 </template>
 
 <script>
+import UserProfileImg from "../UserProfileImg.vue";
 import { mapGetters } from "vuex";
 
 export default {
     name: "ClientCard",
-
     computed: {
         ...mapGetters({
             userInfo: "getUserInfo",
         }),
     },
-
     methods: {
         togglePoint() {
             this.$router.push({ name: "CarrotPage" });
         },
-
         toggleEdit() {
             this.$router.push({ name: "InfoUpdatePage" });
         },
     },
+    components: { UserProfileImg },
 };
 </script>
 
