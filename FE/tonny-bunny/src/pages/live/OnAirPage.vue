@@ -156,8 +156,7 @@
                         <user-video
                             v-for="sub in subscribers"
                             :key="sub.stream.connection.connectionId"
-                            :stream-manager="sub"
-                            @click="updateMainVideoStreamManager(sub)" />
+                            :stream-manager="sub" />
                     </div>
                 </div>
 

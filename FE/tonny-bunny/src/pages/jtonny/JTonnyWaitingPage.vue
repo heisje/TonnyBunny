@@ -310,9 +310,7 @@ export default {
     methods: {
         onAir() {
             this.$store.commit("CLOSE_ALARM_MODAL");
-            this.$router.push({
-                name: "LivePage",
-            });
+            this.$router.push({ name: "OnAirPage" });
         },
 
         accept(helper) {

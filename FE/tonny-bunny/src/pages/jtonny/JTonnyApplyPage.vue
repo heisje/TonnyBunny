@@ -383,9 +383,7 @@ export default {
         },
 
         onAir() {
-            this.$router.push({
-                name: "LivePage",
-            });
+            this.$router.push({ name: "OnAirPage" });
             this.$store.commit("CLOSE_ALARM_MODAL");
         },
 
