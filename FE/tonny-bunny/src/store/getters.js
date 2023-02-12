@@ -8,6 +8,7 @@ import bunny from "./getters/bunny";
 import common from "./getters/common";
 import alert from "./getters/alert";
 import mypage from "./getters/mypage";
+import chat from "./getters/chat";
 import schedule from "./getters/schedule";
 import review from "./getters/review";
 
@@ -23,6 +24,7 @@ export default {
     ...common,
     ...alert,
     ...mypage,
+    ...chat,
     ...schedule,
     ...review,
 };

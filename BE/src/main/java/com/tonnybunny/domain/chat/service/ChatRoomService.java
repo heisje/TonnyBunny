@@ -1,6 +1,9 @@
 package com.tonnybunny.domain.chat.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tonnybunny.domain.chat.entity.ChatRoomEntity;
 import com.tonnybunny.domain.chat.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -17,18 +21,20 @@ public class ChatRoomService {
 
 	private final ChatRoomRepository chatRoomRepository;
 
+	private final ChatSocketTextHandler chatSocketTextHandler;
+
 
 	/**
 	 * userSeq1과 userSeq2가 참여한 채팅방 Seq를 생성합니다.
 	 * 이미 존재하는 채팅방이면 기존의 채팅방 Seq를 반환합니다.
 	 *
-	 * @param userSeq1 참여자 1 Seq
-	 * @param userSeq2 참여자 2 Seq
+	 * @param userSeq        참여자 1 Seq
+	 * @param anotherUserSeq 참여자 2 Seq
 	 * @return 채팅방 Seq
 	 */
-	public String createChatRoomSeq(Long userSeq1, Long userSeq2) {
-		Long userLessSeq = Math.min(userSeq1, userSeq2);
-		Long userLargerSeq = Math.max(userSeq1, userSeq2);
+	public ChatRoomEntity getChatRoomSeq(Long userSeq, Long anotherUserSeq) {
+		Long userLessSeq = Math.min(userSeq, anotherUserSeq);
+		Long userLargerSeq = Math.max(userSeq, anotherUserSeq);
 		Optional<ChatRoomEntity> chatRoomOptional = chatRoomRepository.findByUserLessSeqAndUserLargerSeq(userLessSeq, userLargerSeq);
 		ChatRoomEntity chatRoom;
 		if (chatRoomOptional.isEmpty()) { // 만들어진 방이 없으면 방 번호 새로 생성
@@ -38,7 +44,12 @@ public class ChatRoomService {
 		} else { // 이미 있으면 기존의 방 번호 반환
 			chatRoom = chatRoomOptional.get();
 		}
-		return chatRoom.getSeq();
+		return chatRoom;
+	}
+
+
+	public Long getAnotherUserSeq(ChatRoomEntity chatRoom, Long userSeq) {
+		return chatRoom.getUserLessSeq() == userSeq ? chatRoom.getUserLargerSeq() : chatRoom.getUserLessSeq();
 	}
 
 
@@ -61,8 +72,7 @@ public class ChatRoomService {
 	 * @return
 	 */
 	public Integer getNotReadCount(String roomSeq, Long userSeq) {
-		// TODO
-		return 0;
+		return chatSocketTextHandler.getNotReadCount(roomSeq, userSeq);
 	}
 
 
@@ -73,8 +83,19 @@ public class ChatRoomService {
 	 * @return
 	 */
 	public String getRecentMessage(String roomSeq) {
-		// TODO
-		return "";
+		return chatSocketTextHandler.getRecentMessage(roomSeq);
+	}
+
+
+	public List<String> getPreviousChatLog(String roomSeq) {
+		ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+		return chatSocketTextHandler.getPreviousChatLog(roomSeq).stream().map(chat -> {
+			try {
+				return objectMapper.writeValueAsString(chat);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+		}).collect(Collectors.toList());
 	}
 
 }
