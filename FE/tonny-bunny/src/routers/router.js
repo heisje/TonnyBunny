@@ -92,6 +92,8 @@ import NotFoundPage from "@/pages/common/NotFoundPage";
 import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
 import InputTest from "@/components/common/input/InputTest";
 import OpenViduTest from "@/pages/live/OpenViduTest";
+import OpenViduTestS from "@/pages/live/OpenViduTestS";
+import OpenViduTest2 from "@/pages/live/OpenViduTest2";
 
 export default createRouter({
     history: createWebHistory(),
@@ -773,6 +775,26 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: OpenViduTest,
+                // footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/openvidu/s",
+            name: "OpenViduTestS",
+            components: {
+                header: AppHeader,
+                default: OpenViduTestS,
+                footer: AppFooter,
+            },
+        },
+
+        {
+            path: "/test/openvidu2",
+            name: "OpenViduTest2",
+            components: {
+                header: AppHeader,
+                default: OpenViduTest2,
                 footer: AppFooter,
             },
         },
