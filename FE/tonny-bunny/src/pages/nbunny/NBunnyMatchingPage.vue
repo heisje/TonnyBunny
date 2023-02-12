@@ -3,7 +3,8 @@
         <div class="customForm">
             <title-banner
                 title="🐰 그 번역 제가 맡을게요!"
-                text="번역 의뢰에 견적서를 작성하고 요청합니다" />
+                text="번역 의뢰에 견적서를 작성하고 요청합니다"
+            />
             <TitleText title="고객에게 제안하기" text="금액을 정해서 제안해보세요!"></TitleText>
             <!-- <quest-card
                 :questDetail="questDetail"
@@ -11,20 +12,6 @@
                 @click-btn2="check2"></quest-card> -->
 
             <NBunnyHelperForm></NBunnyHelperForm>
-
-            <!-- <AlarmModal
-                :title="title"
-                :type="type"
-                :btnText1="btnText1"
-                :btnText2="btnText2"
-                :btnColor1="btnColor1"
-                :btnColor2="btnColor2"
-                :btnFontColor1="btnFontColor1"
-                :btnFontColor2="btnFontColor2"
-                @clickBtn1="clickBtn1"
-                @clickBtn2="clickBtn2">
-                <template #content> 고객에게 제안을 성공적으로 보냈습니다. </template>
-            </AlarmModal> -->
 
             <AlarmModal
                 title="제안 보냄"
@@ -34,7 +21,8 @@
                 btnColor2="main"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @click-btn2="clickBtn2">
+                @click-btn2="clickBtn2"
+            >
                 <template #content> 고객에게 제안을 성공적으로 보냈습니다. </template>
             </AlarmModal>
         </div>
