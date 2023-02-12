@@ -17,7 +17,7 @@ import java.util.UUID;
 public class JTonnyDto {
 
 	private Long seq;
-	private String uuid;
+	private String sessionName;
 
 	/* 즉시 통역 공고 정보 (client 입력) */
 	private JTonnyUserDto client;
@@ -42,7 +42,7 @@ public class JTonnyDto {
 	public static JTonnyDto fromEntity(JTonnyEntity jTonny) {
 		return JTonnyDto.builder()
 		                .seq(jTonny.getSeq())
-		                .uuid(UUID.randomUUID().toString())
+		                .sessionName(UUID.randomUUID().toString())
 		                .client(new JTonnyUserDto(jTonny.getClient()))
 		                .helper(new JTonnyUserDto(jTonny.getHelper()))
 		                .taskCode(jTonny.getTaskCode())
