@@ -17,7 +17,7 @@ public class AlertLogResponseDto {
 
 	private Long alertLogSeq;
 
-	//	private String sessionName;
+	private String sessionName;
 	private String taskCode;
 	private String content;
 	private Boolean isRead;
