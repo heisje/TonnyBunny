@@ -558,6 +558,7 @@ export default {
         if (this.getStartResData.taskCode == "예약통역") {
             this.historySeq = this.getHistorySeq;
             this.sessionName = this.getStartResData.sessionName;
+            this.unitPrice = this.getStartResData.unitPrice;
         }
 
         if (this.getStartResData.taskCode == "0030001") {
