@@ -5,17 +5,34 @@
 
             <div class="noticeWrap" @click="loading">
                 <hr />
-                <div>공지사항</div>
+                <span class="d-flex justify-content-between">
+                    <div>공지사항</div>
+                    <div class="grey">자세히 보기</div>
+                </span>
                 <hr />
-                <div>자주 묻는 질문</div>
+                <span class="d-flex justify-content-between">
+                    <div>자주 묻는 질문</div>
+                    <div class="grey">자세히 보기</div>
+                </span>
                 <hr />
-                <div>이메일 문의</div>
+                <span class="d-flex justify-content-between">
+                    <div>이메일 문의</div>
+                    <div class="grey">복사하기</div>
+                </span>
                 <hr />
-                <div>고객센터 전화</div>
+                <span class="d-flex justify-content-between">
+                    <div>고객센터 전화</div>
+                    <div class="grey">복사하기</div>
+                </span>
                 <hr />
-                <div>이용약관</div>
+                <span class="d-flex justify-content-between">
+                    <div>이용약관</div>
+                    <div class="grey">자세히 보기</div>
+                </span>
                 <hr />
-                <div><span class="red">회원탈퇴</span></div>
+                <span>
+                    <div><span class="red">회원탈퇴</span></div>
+                </span>
                 <hr />
             </div>
         </div>
@@ -50,7 +67,10 @@ export default {
         margin: 0;
     }
     .red {
-        color: var(--danger-color);
+        color: #f96a63;
+    }
+    .grey {
+        color: #a1aeb7;
     }
 }
 </style>

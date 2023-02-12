@@ -131,16 +131,18 @@ export default createRouter({
                 default: FindPwPage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         {
-            path: "/account/resetpw",
+            path: "/account/resetpw/:userSeq",
             name: "ResetPwPage",
             components: {
                 header: AppHeader,
                 default: ResetPwPage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         {
@@ -708,23 +710,25 @@ export default createRouter({
 
         //common
         {
-            path: "/report",
+            path: "/report/:helperSeq",
             name: "ReportPage",
             components: {
                 header: AppHeader,
                 default: ReportPage,
                 footer: AppFooter,
             },
+            props:true,
         },
 
         {
-            path: "/review",
+            path: "/review/:helperSeq/:historySeq",
             name: "ReviewPage",
             components: {
                 header: AppHeader,
                 default: ReviewPage,
                 footer: AppFooter,
             },
+            props:true,
         },
 
         {

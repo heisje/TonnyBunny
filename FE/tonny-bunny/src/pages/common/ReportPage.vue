@@ -59,10 +59,6 @@ export default {
         };
     },
     props: {
-        userSeq: {
-            type: Number,
-            default: 1,
-        },
 
         helperSeq: {
             type: Number,
