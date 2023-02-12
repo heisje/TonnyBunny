@@ -44,7 +44,7 @@ public class UserEntity extends CommonEntity {
 	private Long point = 0L;
 	private Integer reportCount = 0;
 
-	private String profileImagePath = "/img/default.jpg";
+	private String profileImagePath = "/images/noProfile.png";
 
 	private String userCode;
 
