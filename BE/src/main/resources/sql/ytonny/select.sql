@@ -12,3 +12,5 @@ select * from ytonny_quotation_image_table;
 select * from common_code_table;
 select * from common_group_code_table;
 
+select * from alert_log_table;
+
