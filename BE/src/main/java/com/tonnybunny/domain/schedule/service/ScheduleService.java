@@ -11,6 +11,7 @@ import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -39,11 +40,11 @@ public class ScheduleService {
 		// dto -> entity
 		ScheduleEntity scheduleEntity = ScheduleEntity.builder()
 		                                              .user(userEntity)
-		                                              .title(scheduleRequestDto.getTitle())
-		                                              .content(scheduleRequestDto.getContent())
 		                                              .startDateTime(scheduleRequestDto.getStartDateTime())
 		                                              .endDateTime(scheduleRequestDto.getEndDateTime())
+		                                              .title(scheduleRequestDto.getTitle())
 		                                              .taskCode(scheduleRequestDto.getTaskCode())
+		                                              .content(scheduleRequestDto.getContent())
 		                                              .isComplete(false)
 		                                              .build();
 
@@ -61,7 +62,18 @@ public class ScheduleService {
 	 */
 	public List<ScheduleEntity> getScheduleList(ScheduleRequestDto scheduleRequestDto) {
 
-		List<ScheduleEntity> scheduleEntityList = scheduleRepository.findAll();
+		Integer startYear = Integer.parseInt(scheduleRequestDto.getStartYear());
+		Integer startMonth = Integer.parseInt(scheduleRequestDto.getStartMonth());
+		Integer startDay = Integer.parseInt(scheduleRequestDto.getStartDay());
+
+		Integer endYear = Integer.parseInt(scheduleRequestDto.getEndYear());
+		Integer endMonth = Integer.parseInt(scheduleRequestDto.getEndMonth());
+		Integer endDay = Integer.parseInt(scheduleRequestDto.getEndDay());
+
+		LocalDateTime startDateTime = LocalDateTime.of(startYear, startMonth, startDay, 0, 0, 0);
+		LocalDateTime endDateTime = LocalDateTime.of(endYear, endMonth, endDay, 0, 0, 0);
+
+		List<ScheduleEntity> scheduleEntityList = scheduleRepository.findAllByStartDateTimeBetween(startDateTime, endDateTime);
 
 		return scheduleEntityList;
 
@@ -74,7 +86,7 @@ public class ScheduleService {
 	 * @param scheduleSeq : 조회할 일정의 PK
 	 * @return 조회한 일정 Entity
 	 */
-	public ScheduleEntity getSchedule(Long scheduleSeq) {
+	public ScheduleEntity getScheduleDetail(Long scheduleSeq) {
 
 		// find
 		return scheduleRepository.findById(scheduleSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));

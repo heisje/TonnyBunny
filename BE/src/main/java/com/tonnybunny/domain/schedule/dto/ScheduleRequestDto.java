@@ -2,6 +2,7 @@ package com.tonnybunny.domain.schedule.dto;
 
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -9,17 +10,22 @@ import java.time.LocalDateTime;
 @Data
 public class ScheduleRequestDto {
 
-	// FIXME: 현재 날짜 기준 으로 디폴트값 변경
-	private String year;
-	private String month;
-	private String day;
-
 	private Long userSeq;
+
+	private String startYear;
+	private String startMonth;
+	private String startDay;
+
+	private String endYear;
+	private String endMonth;
+	private String endDay;
 
 	private String title;
 	private String content;
 
+	@DateTimeFormat(pattern = "'yyyy-MM-dd'T'HH:mm'")
 	private LocalDateTime startDateTime;
+	@DateTimeFormat(pattern = "'yyyy-MM-dd'T'HH:mm'")
 	private LocalDateTime endDateTime;
 
 	private String taskCode;
