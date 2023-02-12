@@ -164,7 +164,12 @@
                 <div class="chats">
                     <transition name="bounce" v-show="isChatOpen">
                         <div class="chatContent">
-                            <div class="content"></div>
+                            <div class="content">
+                                <div v-for="(msg, index) in chatList" class="mb-1" :key="index">
+                                    <h2 class="me-2">{{ msg.from }}:</h2>
+                                    <span>{{ msg.data }}</span>
+                                </div>
+                            </div>
 
                             <div class="sendBtns">
                                 <input type="text" v-model="message" @keydown.enter="sendMessage" />
@@ -200,7 +205,7 @@ const APPLICATION_SERVER_URL =
     process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
 
 export default {
-    name: "App",
+    name: "OnAirPage",
 
     components: {
         UserVideo,
@@ -221,13 +226,23 @@ export default {
             isSpeakOn: false,
             isCamOn: false,
             isSettingOpen: true,
-            isChatOpen: true,
+            isChatOpen: false,
+
+            // chat
             message: "",
+            chatList: [],
+
+            // record
+            isRecordOn: false,
+            recordId: "",
 
             // 타이머
             time: "00:00:00.000",
             timer: 0,
             timer_func: null,
+
+            // history
+            historySeq: "",
         };
     },
 
@@ -235,6 +250,7 @@ export default {
         ...mapGetters({
             startResData: "getStartResData",
             userInfo: "getUserInfo",
+            getHistorySeq: "getHistorySeq",
         }),
 
         mySessionName() {
@@ -273,28 +289,34 @@ export default {
             this.session.on("streamCreated", ({ stream }) => {
                 const subscriber = this.session.subscribe(stream);
                 this.subscribers.push(subscriber);
-                console.log("누군데??", this.subscribers);
             });
 
             this.session.on("streamDestroyed", ({ stream }) => {
                 const index = this.subscribers.indexOf(stream.streamManager, 0);
-                if (index >= 0) {
-                    this.subscribers.splice(index, 1);
+                if (index >= 0) this.subscribers.splice(index, 1);
+            });
+
+            this.session.on("signal:live", (event) => {
+                if (event.data == "Start") {
+                    this.timer_func = setInterval(() => {
+                        this.timer = this.timer + 1;
+                    }, 1000);
+                }
+
+                if (event.data == "End") {
+                    clearInterval(this.timer_func);
                 }
             });
 
-            this.session.on(`signal:${this.myUserName}`, (event) => {
-                console.log("이건 나의 채팅 !!");
-                console.log(event.data); // Message
-                console.log(event.from); // Connection object of the sender
-                console.log(event.type); // The type of message ("my-chat")
-            });
+            this.session.on("signal:chat", (event) => {
+                let data = JSON.parse(event.data);
 
-            this.session.on("signal", (event) => {
-                console.log("이건 다른 사람의 채팅 !!");
-                console.log(event.data); // Message
-                console.log(event.from); // Connection object of the sender
-                console.log(event.type); // The type of message
+                let chat = {
+                    data: data.msg,
+                    from: data.from,
+                };
+
+                this.chatList.push(chat);
             });
 
             this.session.on("exception", ({ exception }) => {
@@ -333,6 +355,68 @@ export default {
             window.addEventListener("beforeunload", this.leaveSession);
         },
 
+        startLive() {
+            console.log("Start");
+
+            this.session
+                .signal({ data: "Start", type: "live" })
+                .then(() => {
+                    console.log("Message successfully sent");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
+        endLive() {
+            console.log("End");
+            this.session
+                .signal({ data: "End", type: "live" })
+                .then(() => {
+                    console.log("Message successfully sent");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
+        async startRecording() {
+            this.isRecordOn = true;
+
+            let res = await axios.post(
+                APPLICATION_SERVER_URL + "recording-node/api/recording/start",
+                {
+                    session: this.session.sessionId,
+                    outputMode: "COMPOSED",
+                    hasAudio: true,
+                    hasVideo: true,
+                }
+            );
+
+            console.log(res);
+        },
+
+        async stopRecording() {
+            if (this.recordId == "") return;
+
+            let res = await axios.post(
+                APPLICATION_SERVER_URL + "recording-node/api/recording/stop",
+                { recording: this.recordingId }
+            );
+
+            console.log(res);
+            this.recordId = "";
+
+            // 히스토리 저장 요청
+            const payload = {
+                historySeq: this.getHistorySeq,
+                recordVideoPath: this.recordId,
+                totalTime: this.timeToHHMMSS,
+            };
+
+            await this.$store.dispatch("completeLive", payload);
+        },
+
         toggleSpeaker() {
             if (!this.isSpeakOn) {
                 this.publisher.publishAudio(false);
@@ -365,12 +449,12 @@ export default {
         sendMessage() {
             this.session
                 .signal({
-                    data: this.message, // Any string (optional)
+                    data: JSON.stringify({ msg: this.message, from: this.myUserName }), // Any string (optional)
                     to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-                    type: this.myUserName, // The type of message (optional)
+                    type: "chat", // The type of message (optional)
                 })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    this.message = "";
                 })
                 .catch((error) => {
                     console.error(error);

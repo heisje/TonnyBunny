@@ -47,6 +47,7 @@ import BoardCreatePage from "@/pages/board/BoardCreatePage";
 import BoardUpdatePage from "@/pages/board/BoardUpdatePage";
 
 // live
+import OnAirPage from "@/pages/live/OnAirPage";
 import LivePage from "@/pages/live/LivePage";
 import LiveClosePage from "@/pages/live/LiveClosePage";
 
@@ -91,9 +92,6 @@ import NotFoundPage from "@/pages/common/NotFoundPage";
 // 컴포넌트 페이지 테스트
 import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
 import InputTest from "@/components/common/input/InputTest";
-import OpenViduTest from "@/pages/live/OpenViduTest";
-import OpenViduTestS from "@/pages/live/OpenViduTestS";
-import OpenViduTest2 from "@/pages/live/OpenViduTest2";
 
 export default createRouter({
     history: createWebHistory(),
@@ -427,10 +425,10 @@ export default createRouter({
         //live
         {
             path: "/live",
-            name: "LivePage",
+            name: "OnAirPage",
             components: {
                 header: AppHeader,
-                default: LivePage,
+                default: OnAirPage,
             },
         },
 
@@ -771,30 +769,10 @@ export default createRouter({
 
         {
             path: "/test/openvidu",
-            name: "OpenViduTest",
+            name: "LivePage",
             components: {
                 header: AppHeader,
-                default: OpenViduTest,
-                // footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/test/openvidu/s",
-            name: "OpenViduTestS",
-            components: {
-                header: AppHeader,
-                default: OpenViduTestS,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/test/openvidu2",
-            name: "OpenViduTest2",
-            components: {
-                header: AppHeader,
-                default: OpenViduTest2,
+                default: LivePage,
                 footer: AppFooter,
             },
         },
