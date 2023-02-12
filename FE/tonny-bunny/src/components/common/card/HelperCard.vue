@@ -11,7 +11,9 @@
                 <div class="helperInfo">
                     <!-- 1.1 프로필 이미지, 닉네임, 한줄 소개 라인 -->
                     <div class="helperProfile">
-                        <img class="profileImg" src="@/assets/noProfile_white.png" />
+                        <UserProfileImg
+                            class="profileImg"
+                            :profileImagePath="userInfo?.profileImagePath" />
                         <div class="likeBtn" @click="toggleLikeBtn">
                             <span
                                 v-if="isLikeEmpty"
