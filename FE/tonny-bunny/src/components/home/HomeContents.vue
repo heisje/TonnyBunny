@@ -27,10 +27,10 @@
                             <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                 <div class="iconsContent">
                                     <div>
-                                        <img src="@/assets/roket.png" alt="" />
+                                        <img src="@/assets/homeTonnyIcon.png" alt="" />
                                     </div>
                                     <div>
-                                        <h1 class="h3">#통역</h1>
+                                        <h1 class="h3">통역</h1>
                                     </div>
                                 </div>
                             </router-link>
@@ -41,7 +41,7 @@
                                     <img src="@/assets/book.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h3">#번역</h1>
+                                    <h1 class="h3">번역</h1>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                     <img src="@/assets/bag.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h3">#헬퍼 페이지</h1>
+                                    <h1 class="h3">헬퍼 페이지</h1>
                                 </div>
                             </div>
                         </div>
