@@ -197,7 +197,7 @@ import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 
 const APPLICATION_SERVER_URL =
-    process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/";
+    process.env.NODE_ENV === "production" ?  process.env.VUE_APP_SERVER_URL : "http://localhost:5000/";
 
 export default {
     name: "OnAirPage",

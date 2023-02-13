@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.alert.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,9 @@ public class AlertLogResponseDto {
 	private Boolean isRead;
 	private Boolean isEnd;
 
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime updatedAt;
 
 	//	private final ModelMapper modelMapper;

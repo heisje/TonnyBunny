@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.schedule.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.schedule.entity.ScheduleEntity;
 import lombok.Data;
@@ -17,7 +18,9 @@ public class ScheduleResponseDto {
 	private String title;
 	private String content;
 
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime startDateTime;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime endDateTime;
 
 	private String taskCode;
