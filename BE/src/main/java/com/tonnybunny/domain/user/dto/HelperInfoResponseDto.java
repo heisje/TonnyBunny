@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * seq                  : 반환하는 헬퍼 정보의 키 값
  *
- * isActive             : 해당 헬퍼의 콜 수신 여부
  * totalScore           : 평점
  * reviewCount          : 헬퍼가 받은 리뷰 개수
  * unitPrice            : 헬퍼가 희망하는 작업 단가
