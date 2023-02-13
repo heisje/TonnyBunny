@@ -351,12 +351,12 @@ export default {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$router.push({ name: "HomePage" });
         },
-        enterChatRoom(helperSeq) {
+        async enterChatRoom(helperSeq) {
             const clientSeq = this.getBunnyDetail.client.seq;
             const userSeq = this.$store.getters.getUserInfo.seq;
             const anotherUserSeq = userSeq == clientSeq ? helperSeq : clientSeq;
 
-            this.$store.dispatch("getChatRoomInfo", {
+            await this.$store.dispatch("getChatRoomInfo", {
                 userSeq: userSeq,
                 anotherUserSeq: anotherUserSeq,
             });
