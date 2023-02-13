@@ -291,4 +291,31 @@ export default {
 .self-user-chat {
     text-align: right;
 }
+
+.chat ul {
+    width: 100%;
+    padding: 0px;
+    list-style: none;
+}
+.chat ul li {
+    width: 100%;
+}
+.chat ul li .another-user-chat {
+    text-align: left;
+}
+.chat ul li .chat-bubble-item {
+    display: inline-block;
+    word-break: break-all;
+    // margin: 5px 20px;
+    max-width: 75%;
+    // border: 1px solid #888;
+    // padding: 10px;
+    // border-radius: 5px;
+    // background-color: #fcfcfc;
+    // color: #555;
+    text-align: left;
+}
+.self-user-chat {
+    text-align: right;
+}
 </style>

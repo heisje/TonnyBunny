@@ -1,11 +1,12 @@
 <template lang="">
-    <div class="userProfileImgContainer">
+    <div class="userProfileImgContainer" :style="`width:${width}px`">
         <!-- <img class="userProfileImg" :src="require('@/assets/mint.png')" alt="" /> -->
 
         <img
             class="userProfileImg"
             :src="`/images/${profileImagePath}`"
             onerror="this.onerror=null; this.src='/images/noProfile.png';" />
+        <!-- <img class="userProfileImg" src="@/assets/noProfile.png" /> -->
     </div>
 </template>
 <script>
@@ -13,6 +14,10 @@ export default {
     props: {
         profileImagePath: {
             type: String,
+        },
+
+        width: {
+            type: Number,
         },
     },
 
@@ -25,7 +30,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .userProfileImgContainer {
-    width: 100%;
     aspect-ratio: 1/1;
     cursor: pointer;
 
