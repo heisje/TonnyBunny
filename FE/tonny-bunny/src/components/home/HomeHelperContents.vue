@@ -2,7 +2,6 @@
     <div class="homeContentsContainer">
         <div class="homeContentsWrap">
             <div class="homeContents">
-                <title-text title="🐰도움이 필요한 고객을 찾아보세요!"></title-text>
                 <main-btn text="즉시통역찾기" @click="toggleBtn1">
                     <template #icon>
                         <span class="material-symbols-outlined"> interpreter_mode </span>

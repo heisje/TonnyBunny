@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="iconsWarp" v-if="true">
+                        <div class="iconsWarp" v-if="userInfo?.userCode != '0010001'">
                             <div class="iconsContent searchIcon" @click="toggleHelperBtn">
                                 <div>
                                     <img src="@/assets/bag.png" alt="" />
@@ -56,29 +56,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <title-text
-                        title="헬퍼전용 페이지"
-                        type="h1"
-                        top="60"
-                        bottom="20"
-                        center></title-text> -->
-                    <!-- <div class="mainBtns">
-                        <main-btn text="통역" @click="toggleTonnyModalOpen">
-                            <template #icon>
-                                <span class="material-symbols-outlined"> interpreter_mode </span>
-                            </template>
-                        </main-btn>
-                        <main-btn text="번역" @click="toggleBunnyModalOpen">
-                            <template #icon>
-                                <span class="material-symbols-outlined"> g_translate </span>
-                            </template>
-                        </main-btn>
-                        <main-btn text="헬퍼페이지" @click="toggleHelperBtn">
-                            <template #icon>
-                                <span class="material-symbols-outlined"> g_translate </span>
-                            </template>
-                        </main-btn>
-                    </div> -->
                 </div>
 
                 <hr />
@@ -100,7 +77,6 @@
 import { mapGetters } from "vuex";
 
 import TitleText from "@/components/common/TitleText.vue";
-// import MainBtn from "./MainBtn.vue";
 import HomeScheduleList from "./HomeScheduleList.vue";
 import HomeBoardList from "./HomeBoardList.vue";
 
@@ -215,7 +191,8 @@ export default {
                     text-align: center;
                 }
                 &.searchIcon {
-                    background: var(--carrot-color);
+                    transition: 0.4s;
+                    background: var(--success-color);
                     color: var(--white-color);
                     h1 {
                         color: var(--white-color);
@@ -224,9 +201,6 @@ export default {
                     }
                     &:hover {
                         background: var(--primary-color-50);
-                        h1 {
-                            color: var(--primary-color);
-                        }
                     }
                 }
             }
