@@ -27,5 +27,6 @@ public class ChatAlertDto implements Serializable {
 	private String message;
 
 	private ChatUserInfo senderUserInfo;
+	private Integer notReadCount;
 
 }
