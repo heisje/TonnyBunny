@@ -9,7 +9,8 @@
                 <div v-if="userInfo?.helperInfo?.possibleLanguageList">
                     <span
                         v-for="possibleLanguageItem in userInfo?.helperInfo?.possibleLanguageList"
-                        :key="possibleLanguageItem">
+                        :key="possibleLanguageItem"
+                    >
                         <CircleTag :text="possibleLanguageItem?.name" />
                     </span>
                 </div>
@@ -19,7 +20,8 @@
                 <div v-if="userInfo?.helperInfo?.certificateList">
                     <div
                         v-for="certificateItem in userInfo?.helperInfo?.certificateList"
-                        :key="certificateItem">
+                        :key="certificateItem"
+                    >
                         <div class="mb-2">
                             <SquareTag sub :text="allCode[certificateItem?.langCode]" />
                             {{ certificateItem?.certName }}
@@ -46,13 +48,13 @@
                         <div
                             class="boardCommentContent"
                             v-for="userReviewItem in userReview"
-                            :key="userReviewItem">
+                            :key="userReviewItem"
+                        >
                             <div>
-                                <img
-                                    v-if="userReviewItem?.profileImagePath"
-                                    :src="userReviewItem?.profileImagePath"
-                                    alt="" />
-                                <img v-else src="@/assets/noProfile.png" alt="" />
+                                <user-profile-img
+                                    :profileImagePath="userReviewItem?.user?.profileImagePath"
+                                    width="40"
+                                />
 
                                 <h3>{{ userReviewItem?.nickName }}</h3>
                                 <span>{{ userReviewItem?.createdAt }}</span>
@@ -99,11 +101,14 @@ export default {
             type: Object,
         },
     },
-    methods:{
-        goProfileUpdate(event){
+    methods: {
+        goProfileUpdate(event) {
             event.preventDefault();
-            this.$router.push({ name: "ProfileUpdatePage", params:{ userSeq:this.userInfo.seq} });
-        }
+            this.$router.push({
+                name: "ProfileUpdatePage",
+                params: { userSeq: this.userInfo.seq },
+            });
+        },
     },
 
     computed: {
