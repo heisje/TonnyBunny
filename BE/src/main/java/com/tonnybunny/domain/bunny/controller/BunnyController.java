@@ -10,6 +10,7 @@ import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.service.BunnyService;
 import com.tonnybunny.domain.user.entity.UserEntity;
+import com.tonnybunny.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -28,6 +31,7 @@ import java.util.List;
 public class BunnyController {
 
 	private final BunnyService bunnyService;
+	private final UserService userService;
 
 
 	/**
@@ -71,12 +75,47 @@ public class BunnyController {
 	public ResponseEntity<ResultDto<BunnyResponseDto>> getBunny(@PathVariable("bunnySeq") Long bunnySeq) {
 
 		BunnyEntity bunnyEntity = bunnyService.getBunny(bunnySeq);
+		System.out.println("bunnyEntity = " + bunnyEntity);
 
 		UserEntity user = bunnyEntity.getUser();
+		System.out.println("user = " + user);
+
 		BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunnyEntity);
 		bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
 		bunnyResponseDto.getClient().put("nickName", user.getNickName());
 		bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
+
+		Long helperSeq = bunnyEntity.getHelperSeq();
+
+		if (helperSeq != 0) {
+			UserEntity helper = userService.getUserInfo(helperSeq);
+			bunnyResponseDto.getHelper().put("imagePath", helper.getProfileImagePath());
+			bunnyResponseDto.getHelper().put("nickName", helper.getNickName());
+			bunnyResponseDto.getHelper().put("seq", helper.getSeq().toString());
+
+		}
+
+		for (BunnyApplyResponseDto bunnyApplyResponseDto : bunnyResponseDto.getBunnyApplyList()) {
+			Long userSeq = bunnyApplyResponseDto.getUserSeq();
+
+			UserEntity tempUser = userService.getUserInfo(userSeq);
+			Map<String, Object> helperInfo = new HashMap<>();
+
+			bunnyApplyResponseDto.setNickName(tempUser.getNickName());
+			bunnyApplyResponseDto.setProfileImagePath(tempUser.getProfileImagePath());
+			
+			helperInfo.put("likeCount", tempUser.getHelperInfo().getLikeCount());
+			helperInfo.put("reviewCount", tempUser.getHelperInfo().getReviewCount());
+			helperInfo.put("unitPrice", bunnyApplyResponseDto.getEstimatePrice());
+
+			if (tempUser.getHelperInfo().getReviewCount() == 0) {
+				helperInfo.put("avg", 0F);
+			} else {
+				helperInfo.put("avg", Float.valueOf(tempUser.getHelperInfo().getTotalScore()) / Float.valueOf(tempUser.getHelperInfo().getReviewCount()));
+			}
+
+			bunnyApplyResponseDto.setHelperInfo(helperInfo);
+		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDto));
 	}

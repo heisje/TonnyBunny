@@ -37,7 +37,7 @@ public class BunnyResponseDto {
 
 	private Long seq;
 	private Map<String, String> client = new HashMap<>();
-	private Long helperSeq;
+	private Map<String, String> helper = new HashMap<>();
 	private String title;
 	private String content;
 	private LocalDateTime startDateTime;
@@ -53,6 +53,8 @@ public class BunnyResponseDto {
 	private List<BunnyApplyResponseDto> bunnyApplyList;
 	private List<BunnyImageResponseDto> bunnyImageList;
 	private List<BunnyQuotationResponseDto> bunnyQuotationList;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 
 
 	public static BunnyResponseDto fromEntity(BunnyEntity bunnyNoti) {
