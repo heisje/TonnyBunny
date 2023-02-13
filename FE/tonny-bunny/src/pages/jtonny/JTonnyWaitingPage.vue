@@ -16,11 +16,15 @@
 
                         <div class="questProfile mt-3">
                             <div class="profile ms-3">
-                                <img
+                                <user-profile-img
+                                    class="profileImg"
+                                    :profileImagePath="jtonnyRequest?.client?.profileImagePath"
+                                    width="70" />
+                                <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
                                     width="70"
-                                    height="70" />
+                                    height="70" /> -->
                                 <div class="userType ms-2">
                                     <span class="label">고객</span>
                                     <h4 class="" v-if="jtonnyRequest?.client?.nickName">
@@ -42,11 +46,15 @@
                                     </h4>
                                     <h4 class="" v-else>미지정</h4>
                                 </div>
-                                <img
+                                <user-profile-img
+                                    class="profileImg"
+                                    :profileImagePath="jtonnyRequest?.helper?.profileImagePath"
+                                    width="70" />
+                                <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
                                     width="70"
-                                    height="70" />
+                                    height="70" /> -->
                             </div>
                         </div>
 
@@ -137,10 +145,13 @@
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                            <img
+                                            <user-profile-img
+                                                :profileImagePath="apply.helper.profileImagePath"
+                                                width="50" />
+                                            <!-- <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50" />
+                                                height="50" /> -->
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -260,6 +271,7 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import http from "@/common/axios";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     name: "JTonnyWaitingPage",
@@ -284,6 +296,7 @@ export default {
         AlarmModal,
         MediumBtn,
         SquareTag,
+        UserProfileImg,
     },
 
     computed: {

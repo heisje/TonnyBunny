@@ -48,11 +48,9 @@
                             v-for="userReviewItem in userReview"
                             :key="userReviewItem">
                             <div>
-                                <img
-                                    v-if="userReviewItem?.user?.profileImagePath"
-                                    :src="userReviewItem?.user?.profileImagePath"
-                                    alt="" />
-                                <img v-else src="@/assets/noProfile.png" alt="" />
+                                <user-profile-img
+                                    :profileImagePath="userReviewItem?.user?.profileImagePath"
+                                    width="40" />
 
                                 <h3>{{ "***" }}</h3>
                                 <span>{{ userReviewItem?.createdAt }}</span>
@@ -83,6 +81,7 @@ import LargeBtn from "@/components/common/button/LargeBtn.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import CircleTag from "@/components/common/tag/CircleTag.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
+import UserProfileImg from "./UserProfileImg.vue";
 
 export default {
     components: {
@@ -91,6 +90,7 @@ export default {
         CircleTag,
         LargeBtn,
         SquareTag,
+        UserProfileImg,
     },
     props: {
         userInfo: {

@@ -230,9 +230,15 @@
             <!-- <LoginModalVue /> -->
         </div>
         <hr />
+
+        <user-profile-img :profileImagePath="'/images/noProfile'" width="40" />
+        <img-item width="100" :imagePath="'/images/noBoardImg'" />
     </div>
 </template>
 <script>
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
+import ImgItem from "@/components/common/ImgItem.vue";
+
 import TitleBanner from "@/components/common/TitleBanner.vue";
 import TitleText from "@/components/common/TitleText.vue";
 
@@ -255,6 +261,9 @@ import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 export default {
     name: "ComponentsTestPage",
     components: {
+        UserProfileImg,
+        ImgItem,
+
         TitleBanner,
         TitleText,
 
