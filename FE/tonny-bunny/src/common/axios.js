@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const serverUrl =
-    process.env.NODE_ENV == "production"
+    process.env.VUE_APP_NODE_ENV == "production"
         ? process.env.VUE_APP_SERVER_URL
         : "http://localhost:8080/";
 
