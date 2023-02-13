@@ -1,7 +1,10 @@
 package com.tonnybunny.domain.ytonny.controller;
 
 
-import com.tonnybunny.common.dto.*;
+import com.tonnybunny.common.dto.ResultDto;
+import com.tonnybunny.config.ModelMapperFactory;
+import com.tonnybunny.domain.user.dto.UserResponseDto;
+import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.domain.user.service.UserService;
 import com.tonnybunny.domain.ytonny.dto.YTonnyApplyRequestDto;
@@ -17,6 +20,7 @@ import com.tonnybunny.exception.ErrorCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -128,17 +132,22 @@ public class YTonnyController {
 		if (yTonnyApplySeq != 0 && yTonnyApplySeq != null) {
 			YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonnyApplySeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 			Integer unitPrice = yTonnyApplyEntity.getUnitPrice();
+
+			UserEntity helper = userRepository.findById(yTonnyApplyEntity.getHelper().getSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+			//			UserResponseDto helper = yTonnyApplyEntity.getHelper();
+
+			ModelMapper modelMapper = ModelMapperFactory.getMapper();
 			yTonnyResponseDto.setUnitPrice(unitPrice);
 			yTonnyResponseDto.setYTonnyApplySeq(yTonnyApplySeq);
-
+			yTonnyResponseDto.setHelper(modelMapper.map(helper, UserResponseDto.class));
 		}
 
 		// code name 값으로 변경해서 넘겨주기
-		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());
-		yTonnyResponseDto.setEndLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getEndLangCode()).name());
-		yTonnyResponseDto.setTonnySituCode(TonnySituCodeEnum.valueOfCode(yTonnyResponseDto.getTonnySituCode()).name());
-		yTonnyResponseDto.setTaskCode(TaskCodeEnum.valueOfCode(yTonnyResponseDto.getTaskCode()).name());
-		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
+		//		yTonnyResponseDto.setStartLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getStartLangCode()).name());
+		//		yTonnyResponseDto.setEndLangCode(LangCodeEnum.valueOfCode(yTonnyResponseDto.getEndLangCode()).name());
+		//		yTonnyResponseDto.setTonnySituCode(TonnySituCodeEnum.valueOfCode(yTonnyResponseDto.getTonnySituCode()).name());
+		//		yTonnyResponseDto.setTaskCode(TaskCodeEnum.valueOfCode(yTonnyResponseDto.getTaskCode()).name());
+		//		yTonnyResponseDto.setTaskStateCode(TaskStateCodeEnum.valueOfCode(yTonnyResponseDto.getTaskStateCode()).name());
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(yTonnyResponseDto));
 
@@ -177,7 +186,7 @@ public class YTonnyController {
 	@GetMapping("/{yTonnySeq}/apply")
 	@ApiOperation(value = "예약통역 신청 목록 조회 API", notes = "고객이 해당 공고의 신청 목록을 조회한다.")
 	public ResponseEntity<ResultDto<List<YTonnyApplyResponseDto>>> getYTonnyApplyList(@PathVariable Long yTonnySeq,
-		YTonnyApplyRequestDto yTonnyApplyRequestDto
+	                                                                                  YTonnyApplyRequestDto yTonnyApplyRequestDto
 	) {
 
 		System.out.println("YTonnyController.getYTonnyApplyList");

@@ -39,9 +39,7 @@ public class ScheduleController {
 
 	@PutMapping("/{scheduleSeq}")
 	@ApiOperation(value = "특정 날짜 일정 수정 API", notes = "")
-	public ResponseEntity<ResultDto<Long>> modifySchedule(@PathVariable("scheduleSeq") Long scheduleSeq,
-	                                                      @RequestBody ScheduleRequestDto scheduleRequestDto
-	) {
+	public ResponseEntity<ResultDto<Long>> modifySchedule(@PathVariable("scheduleSeq") Long scheduleSeq, @RequestBody ScheduleRequestDto scheduleRequestDto) {
 
 		// service
 		Long updatedScheduleSeq = scheduleService.modifySchedule(scheduleSeq, scheduleRequestDto);
@@ -53,7 +51,9 @@ public class ScheduleController {
 
 	@GetMapping
 	@ApiOperation(value = "특정 날짜 일정 목록 조회 API", notes = "조회하고 싶은 날짜의 연, 월, 일 정보를 보냅니다.")
-	public ResponseEntity<ResultDto<List<ScheduleResponseDto>>> getScheduleList(@RequestBody ScheduleRequestDto scheduleRequestDto) {
+	public ResponseEntity<ResultDto<List<ScheduleResponseDto>>> getScheduleList(ScheduleRequestDto scheduleRequestDto) {
+
+		System.out.println("scheduleRequestDto = " + scheduleRequestDto);
 
 		// service
 		List<ScheduleEntity> scheduleList = scheduleService.getScheduleList(scheduleRequestDto);
@@ -62,15 +62,16 @@ public class ScheduleController {
 		List<ScheduleResponseDto> scheduleResponseDtoList = ScheduleResponseDto.fromEntityList(scheduleList);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(scheduleResponseDtoList));
+
 	}
 
 
 	@GetMapping("/{scheduleSeq}")
 	@ApiOperation(value = "특정 날짜 일정 상세 조회 API", notes = "")
-	public ResponseEntity<ResultDto<ScheduleResponseDto>> getSchedule(@PathVariable("scheduleSeq") Long scheduleSeq) {
+	public ResponseEntity<ResultDto<ScheduleResponseDto>> getScheduleDetail(@PathVariable("scheduleSeq") Long scheduleSeq) {
 
 		// service
-		ScheduleEntity schedule = scheduleService.getSchedule(scheduleSeq);
+		ScheduleEntity schedule = scheduleService.getScheduleDetail(scheduleSeq);
 
 		// entity -> dto
 		ScheduleResponseDto scheduleResponseDto = ScheduleResponseDto.fromEntity(schedule);

@@ -27,16 +27,15 @@ public class ScheduleEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity user; // M:1 매핑
 
-	private String title;
-
 	private LocalDateTime startDateTime;
 	private LocalDateTime endDateTime;
 
+	private String title;
 	private String taskCode;
-
 	private String content;
 
-	private Boolean isComplete;
+	@Builder.Default
+	private Boolean isComplete = false;
 
 
 	public void updateIsComplete(Boolean isComplete) {

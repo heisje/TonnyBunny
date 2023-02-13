@@ -33,13 +33,13 @@ export default {
     },
 
     // /api/alerts/log 알림 생성 API
-    async postAlert(context, json) {
+    async insertAlert(context, json) {
         console.log("알림 생성 API");
 
-        let { data } = await http.post(`/api/alerts/log`, json);
+        let { data } = await http.post(`/alerts/log`, json);
 
         try {
-            console.log("async function : ", data);
+            console.log("async insertAlert : ", data);
 
             // service logic
             switch (data.resultCode) {

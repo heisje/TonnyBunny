@@ -31,7 +31,9 @@ import java.time.LocalDateTime;
 @Builder
 public class YTonnyQuotationRequestDto {
 
+	@Builder.Default
 	private int page = 0; // offset
+	@Builder.Default
 	private int size = 10; // limit
 
 	private Long yTonnyQuotationSeq;

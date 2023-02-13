@@ -10,24 +10,28 @@ divdivdiv
                             class="w-100"
                             :dropdownArray="getLangCode"
                             placeholder="언어"
-                            @toggle="(e) => (lang = e)" />
+                            @toggle="(e) => (lang = e)"
+                        />
                     </div>
                     <div class="col-3">
                         <DropdownInput
                             class="w-100"
                             :dropdownArray="getBunnySituCode"
                             placeholder="카테고리"
-                            @toggle="(e) => (category = e)" />
+                            @toggle="(e) => (category = e)"
+                        />
                     </div>
                 </div>
                 <medium-btn text="검색" color="carrot" @click.prevent="search" />
             </div>
 
-            <div v-for="(bunny, index) in getBunnyList" :key="index">
+            <div v-for="(bunny, index) in getBunnyList" :key="index" class="w-100">
                 <quest-card
+                    class="w-100"
                     :questDetail="bunny"
                     rightBtnText="신청하기"
-                    @clickBtn2="clickHelperBtn" />
+                    @clickBtn2="clickHelperBtn"
+                />
                 <br />
             </div>
         </div>

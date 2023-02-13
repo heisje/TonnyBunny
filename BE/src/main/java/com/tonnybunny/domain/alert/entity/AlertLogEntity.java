@@ -26,6 +26,7 @@ public class AlertLogEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity user; // M:1 매핑
 
+	private String sessionName;
 	private String taskCode;
 	private String content;
 	private Boolean isRead;

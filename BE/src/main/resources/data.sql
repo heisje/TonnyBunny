@@ -123,11 +123,12 @@ VALUES (1, 1, "0020002", "토익", "무려 535점", false, now(), now()),
 
 
 -- 알림 로그
-INSERT INTO alert_log_table(alert_log_seq, created_at, updated_at, content, is_end, is_read, task_code, user_seq)
-VALUES (1, now(), now(), 'content1', false, false, "0030001", 1),
-       (2, now(), now(), 'content2', true, false, "0030002", 2),
-       (3, now(), now(), 'content3', false, true, "0030003", 1),
-       (4, now(), now(), 'content4', true, true, "0030003", 2);
+INSERT INTO alert_log_table(alert_log_seq, user_seq, session_name, task_code, content, is_end, is_read, created_at,
+                            updated_at)
+VALUES (1, 1, "sadfjsadklfjs", "0030001", 'content1', false, false, now(), now()),
+       (2, 2, "sadlxlvkasdfasdf", "0030002", 'content2', true, false, now(), now()),
+       (3, 1, "akjfqweoifsdsc", "0030003", 'content3', false, true, now(), now()),
+       (4, 2, "dlflwkfhweflkjsdf", "0030003", 'content4', true, true, now(), now());
 
 
 -- 알림 설정
@@ -160,7 +161,8 @@ VALUES (1, 3, 1, "흠.. 이건 저도 잘 모르겠네요.", now(), now()),
 
 
 -- 예약통역
-INSERT INTO ytonny_table(y_tonny_seq, user_seq, y_tonny_apply_seq, session_name, task_code, start_lang_code, end_lang_code,
+INSERT INTO ytonny_table(y_tonny_seq, user_seq, y_tonny_apply_seq, session_name, task_code, start_lang_code,
+                         end_lang_code,
                          tonny_situ_code, title, content, estimate_price, estimate_time, task_state_code,
                          start_date_time, is_deleted, created_at, updated_at)
 VALUES (1, 1, 0, "sdoiefsigxdsgssdfjq", "0030002", "0020001", "0020002", "0040004", "철강회사 바이어 미팅건",

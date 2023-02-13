@@ -9,13 +9,15 @@
                     :to="{
                         name: chatData.urlPage,
                         params: { id: chatData.urlPageSeq },
-                    }">
+                    }"
+                >
                     <chat-bubble-item
                         :other="chatData.userSeq == chatAnotherUserSeq"
                         :name="getUserName(chatData)"
                         :text="chatData.message"
                         :time="getTime(chatData.date)"
-                        :messageType="chatData.messageType" />
+                        :messageType="chatData.messageType"
+                    />
                 </router-link>
 
                 <chat-bubble-item
@@ -24,7 +26,8 @@
                     :name="getUserName(chatData)"
                     :text="chatData.message"
                     :time="getTime(chatData.date)"
-                    :messageType="chatData.messageType" />
+                    :messageType="chatData.messageType"
+                />
             </div>
         </div>
 

@@ -13,17 +13,19 @@
                     <div class="helperProfile">
                         <UserProfileImg
                             class="profileImg"
-                            :profileImagePath="userInfo?.profileImagePath" />
+                            :profileImagePath="userInfo?.profileImagePath"
+                        />
                         <div class="likeBtn" @click="toggleLikeBtn">
                             <span
                                 v-if="isLikeEmpty"
-                                class="material-symbols-outlined likeIcon empty">
+                                class="material-symbols-outlined likeIcon empty"
+                            >
                                 favorite
                             </span>
                             <span v-else class="material-symbols-outlined likeIcon">
                                 favorite
                             </span>
-                            <span class="likeText">100</span>
+                            <span class="likeText">{{ userInfo.helperInfo.likeCount }}</span>
                         </div>
                     </div>
 
