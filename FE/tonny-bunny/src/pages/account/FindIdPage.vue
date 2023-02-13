@@ -61,8 +61,16 @@
 
                 <br /><br /><br /><br />
 
-                <smallBtn style="width: 100%" text="로그인 하러가기"></smallBtn><br /><br />
-                <smallBtn style="width: 100%" text="홈으로 돌아가기"></smallBtn>
+                
+                <div style="margin-top: 8px">
+                <router-link :to="{ name: 'HomePage' }">
+                    <smallBtn
+                        font="main"
+                        color="outline"
+                        style="width: 100%"
+                        text="홈으로 돌아가기"></smallBtn>
+                </router-link>
+            </div>
             </div>
         </div>
     </div>
@@ -110,11 +118,12 @@ export default {
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
-                let res = await http.post("/send/authcode", { phoneNumber: this.phoneNum });
+                let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
+                console.log(res.data.data);
             } catch (error) {
                 console.log(error);
             }
@@ -130,11 +139,31 @@ export default {
             }
 
             try {
-                let res = await http.post("/check/authcode", { authCode: this.authCode });
+                let res = await http.post("/check/authcode", {                     
+                    authCode: this.authCode,
+                    phoneNumber: this.phoneNum, });
                 if (res.data.data) {
-                    this.isCheckAuthCode = true;
-                    this.noticeAuth = "인증이 완료되었습니다";
-                    this.findedId = "ssafy@ssafy.com";
+                    try{
+                        let res = await http.post("/login/find/email", {
+                        phoneNumber: this.phoneNum,
+                        isAuthed: true,
+                        
+                    });
+                    if (res.data.data){
+                        this.isCheckAuthCode = true;
+                        this.noticeAuth = "인증이 완료되었습니다";
+                        this.findedId = res.data.data;
+                    }
+
+                    }catch(error){
+                        console.log(error)
+                        this.isCheckAuthCode = true;
+                        this.noticeAuth = "회원정보가 없습니다.";
+                        this.findedId = "등록된 계정이 존재하지 않습니다.";
+                    }
+
+                
+
                 } else {
                     this.noticeAuth2 = "인증번호가 일치하지 않습니다";
                 }

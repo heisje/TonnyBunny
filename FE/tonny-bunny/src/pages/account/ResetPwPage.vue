@@ -44,8 +44,15 @@
 
                 <br /><br /><br /><br />
 
-                <smallBtn style="width: 100%" text="로그인 하러가기"></smallBtn><br /><br />
-                <smallBtn style="width: 100%" text="홈으로 돌아가기"></smallBtn>
+                <div style="margin-top: 8px">
+                <router-link :to="{ name: 'HomePage' }">
+                    <smallBtn
+                        font="main"
+                        color="outline"
+                        style="width: 100%"
+                        text="홈으로 돌아가기"></smallBtn>
+                </router-link>
+            </div>
             </div>
         </div>
     </div>
@@ -54,12 +61,19 @@
 <script>
 import TitleText from "@/components/common/TitleText.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
-// import http from "@/common/axios";
+import http from "@/common/axios";
 
 export default {
     components: {
         TitleText,
         smallBtn,
+    },
+
+    props:{
+        userSeq:{
+            type: String,
+            default: "0",
+        }
     },
 
     data() {
@@ -102,9 +116,9 @@ export default {
         },
 
         // 비밀번호 변경 완료
-        updatePw(event) {
+        async updatePw(event) {
             event.preventDefault();
-
+            let userSeq = this.userSeq * 1;
             if (this.password == "") {
                 this.noticePw = "비밀번호를 입력해 주세요";
                 return;
@@ -119,11 +133,26 @@ export default {
             if (!this.isValidPw2) {
                 return;
             }
+            console.log(userSeq);
+            try{
+                let res = await http.post(`login/find/password/${this.userSeq}`,{
+                    password: this.password,
+                    checkPassword: this.password2,
+                })
+                if(res.data.data){
+                    this.isComplete = true;
+                }
 
-            // 비밀번호 변경 axios 요청
-            this.isComplete = true;
+            }catch(error){
+                console.log(error)
+            }
+
         },
     },
+    created(){
+        console.log(this.userSeq);
+    }
+
 };
 </script>
 

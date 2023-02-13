@@ -80,15 +80,26 @@
                     <div>고객센터</div>
                 </router-link>
                 <hr />
-                <router-link
-                    :to="{
-                        name: 'AbilityPage',
-                        params: { userSeq: this.$store.state.account.userInfo.seq },
-                        query: { mypage: true },
-                    }">
-                    <div>헬퍼 인증 및 변경</div>
-                </router-link>
-
+                <span v-if="isHelper == true">
+                    <router-link
+                        :to="{
+                            name: 'AbilityPage',
+                            params: { userSeq: this.$store.state.account.userInfo.seq },
+                            query: { mypage: true },
+                        }">
+                        <div>헬퍼 인증 및 변경</div>
+                    </router-link>
+                </span>
+                <span v-else>
+                    <router-link
+                        :to="{
+                            name: 'HelperChangePage',
+                            params: { userSeq: this.$store.state.account.userInfo.seq },
+                            query: { mypage: true },
+                        }">
+                        <div>헬퍼 인증 및 변경</div>
+                    </router-link>
+                </span>
                 <hr />
 
                 <a @click="openModal"> <span class="logout">로그아웃</span></a>
