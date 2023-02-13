@@ -76,12 +76,12 @@
                             class="infoDate">
                             <div class="date">
                                 <h4>날짜</h4>
-                                <div>{{ questDetail?.estimateTime }}</div>
+                                <div>{{ questDetail?.startDateTime }}</div>
                             </div>
                             <div class="time">
-                                <h4>시간</h4>
+                                <h4>예약시간</h4>
                                 <div>
-                                    {{ questDetail?.startDateTime }}
+                                    {{ questDetail?.estimateTime }}
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,6 @@
                             </div>
                         </div>
                         <div class="infoCategory">
-                            <!-- tonnySituCode 를 위한 자리도 달라!! -->
                             <h4>상황 카테고리</h4>
                             <div style="width: 100%">
                                 <div v-if="allCode[questDetail?.taskCode] == '즉시통역'">
@@ -146,6 +145,7 @@
 import SquareTag from "../tag/SquareTag.vue";
 import XSmallBtn from "../button/XSmallBtn.vue";
 import { mapGetters } from "vuex";
+import UserProfileImg from "../UserProfileImg.vue";
 // import { getKeyByValue } from "@/common/utils";
 export default {
     name: "QuestCard",
@@ -153,6 +153,7 @@ export default {
     components: {
         SquareTag,
         XSmallBtn,
+        UserProfileImg,
     },
 
     props: {

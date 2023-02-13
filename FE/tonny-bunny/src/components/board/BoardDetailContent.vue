@@ -7,12 +7,10 @@
 
             <!-- 조회수 -->
             <div class="boardUserWrap">
-                <img
-                    v-if="boardDetail?.user.profileImagePath"
-                    src="@/assets/noProfile.png"
-                    alt=""
+                <UserProfileImg
+                    class="profileImg"
+                    :profileImagePath="boardDetail?.user?.profileImagePath"
                     width="42" />
-                <img v-else src="@/assets/noProfile.png" alt="" />
 
                 <span
                     ><h3>{{ boardDetail?.user.nickName }}</h3></span
@@ -79,12 +77,14 @@ import { mapGetters } from "vuex";
 import SquareTag from "../common/tag/SquareTag.vue";
 import SmallBtn from "../common/button/SmallBtn.vue";
 import TitleText from "../common/TitleText.vue";
+import UserProfileImg from "../common/UserProfileImg.vue";
 
 export default {
     components: {
         SquareTag,
         SmallBtn,
         TitleText,
+        UserProfileImg,
     },
 
     data() {

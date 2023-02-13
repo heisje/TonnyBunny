@@ -1,7 +1,7 @@
 .cardContainer {
     // position: relative;
     display: block;
-    background-color: var(--white-color);
+    background-color: var(--thin-thin-color);
     border: 1px solid var(--light-color);
 
     width: 100%;
@@ -330,6 +330,13 @@
 
             div {
                 font-size: 1rem;
+            }
+
+            .infoFare {
+                width: 50%;
+            }
+            .infoCategory {
+                width: 50%;
             }
         }
     }

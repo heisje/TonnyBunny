@@ -1,10 +1,21 @@
 <template>
     <div class="container w-75">
         <title-text title="회원 정보 수정" />
-        <img src="@/assets/noProfile.png" alt="" />
+        <div class="d-flex align-center">
+            <user-profile-img
+                style="display: inline-block"
+                :profileImagePath="userInfo?.profileImagePath"
+                width="80" />
+            <medium-btn class="ml-3" text="프로필 변경" @click="clickInputProfile" />
+        </div>
+
         <!-- {{ profileImg }} -->
-        <medium-btn class="ml-3" text="프로필 변경" @click="clickInputProfile" />
-        <input style="visibility: hidden;" type="file" accept="image/*" ref="click" @change="insertImage" />
+        <input
+            style="visibility: hidden"
+            type="file"
+            accept="image/*"
+            ref="click"
+            @change="insertImage" />
 
         <div>
             <label for="nickName">닉네임</label>
@@ -13,7 +24,7 @@
         <div v-show="noticeNickName" style="color: red">{{ noticeNickName }}</div>
         <div v-show="successNickName" style="color: green">{{ successNickName }}</div>
         <small-btn class="my-3" text="닉네임 수정" @click="changeNickName"></small-btn>
-        <hr>
+        <hr />
 
         <div>
             <label for="password1">현재 비밀번호</label>
@@ -21,7 +32,7 @@
             <div v-show="noticePassword1" style="color: red">{{ noticePassword1 }}</div>
             <div v-show="successPassword" style="color: green">{{ successPassword }}</div>
         </div>
-        
+
         <div>
             <label for="password2">새 비밀번호</label>
             <input type="password" id="password2" v-model="password2" />
@@ -33,7 +44,6 @@
             <div v-show="noticePassword3" style="color: red">{{ noticePassword3 }}</div>
         </div>
         <medium-btn class="my-3" text="비밀번호 수정" @click="changePassword"></medium-btn>
-
     </div>
 </template>
 
@@ -43,6 +53,7 @@ import { mapGetters } from "vuex";
 import TitleText from "@/components/common/TitleText.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 // import http from "@/common/axios";
 
 export default {
@@ -68,6 +79,7 @@ export default {
         TitleText,
         MediumBtn,
         SmallBtn,
+        UserProfileImg,
     },
     computed: {
         ...mapGetters({
@@ -76,12 +88,12 @@ export default {
     },
 
     methods: {
-
         insertImage(e) {
             this.profileImg = e.target.files[0];
             console.log(this.profileImg);
-            this.$store.dispatch("putProfileImage", this.profileImg);
-
+            this.$store
+                .dispatch("putProfileImage", this.profileImg)
+                .then(this.$store.dispatch("getMypage"));
         },
 
         clickInputProfile() {
@@ -89,9 +101,9 @@ export default {
         },
 
         changeNickName() {
-            if(this.nickName == ""){
-                this.noticeNickName = "닉네임을 입력해주세요."
-                return
+            if (this.nickName == "") {
+                this.noticeNickName = "닉네임을 입력해주세요.";
+                return;
             }
             console.log("nickName : " + this.nickName);
             this.$store.dispatch("putUserNickName", this.nickName);
@@ -102,33 +114,27 @@ export default {
 
         changePassword() {
             // Validation 요소 추가하기
-            if(this.password1 == this.password2){
+            if (this.password1 == this.password2) {
                 this.noticePassword1 = "현재 비밀번호와 다른 비밀번호를 입력해주세요.";
                 this.noticePassword2 = "";
-                return
+                return;
             }
-            if(this.password2 != this.password3){
-                this.noticePassword2 = "비밀번호가 일치하지 않습니다."
+            if (this.password2 != this.password3) {
+                this.noticePassword2 = "비밀번호가 일치하지 않습니다.";
                 this.noticePassword1 = "";
-                return
+                return;
             }
 
             let payload = {
-                password:this.password1,
-                newPassword:this.password2,
-                checkPassword:this.password3
+                password: this.password1,
+                newPassword: this.password2,
+                checkPassword: this.password3,
             };
             this.$store.dispatch("putPassword", payload);
-            this.successPassword = "패스워드가 변경되었습니다."
+            this.successPassword = "패스워드가 변경되었습니다.";
             this.noticePassword1 = "";
             this.noticePassword2 = "";
-
-
-
-
-
-        }
-
+        },
     },
 };
 </script>

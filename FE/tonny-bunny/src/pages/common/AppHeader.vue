@@ -66,13 +66,17 @@
                                         {{ userInfo?.nickName }}
                                     </span>
                                 </router-link>
-
-                                <img
+                                <user-profile-img
+                                    :profileImagePath="userInfo?.profileImagePath"
+                                    width="40"
+                                    @click="openPopOver"
+                                    v-click-outside="onClickOutside" />
+                                <!-- <img
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
                                     @click="openPopOver"
-                                    v-click-outside="onClickOutside" />
+                                    v-click-outside="onClickOutside" /> -->
                             </div>
                             <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
                                 <div class="popOverArrow"></div>
@@ -217,10 +221,13 @@
                                             role="button"
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false">
-                                            <img
+                                            <user-profile-img
+                                                :profileImagePath="userInfo?.profileImagePath"
+                                                width="40" />
+                                            <!-- <img
                                                 src="@/assets/noProfile.png"
                                                 width="40"
-                                                height="40" />
+                                                height="40" /> -->
                                             <h3>{{ userInfo.nickName }}</h3>
                                         </a>
 
@@ -294,12 +301,14 @@
 import { mapGetters } from "vuex";
 
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     name: "AppHeader",
 
     components: {
         MediumBtn,
+        UserProfileImg,
     },
 
     data() {
