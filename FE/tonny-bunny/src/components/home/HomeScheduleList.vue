@@ -9,13 +9,13 @@
                     </div>
                 </div>
                 <div class="item">
-                    <div v-for="(item, index) in scheduleList" :key="index">
+                    <!-- <div v-for="(item, index) in scheduleList" :key="index">
                         <schedule-list-item
                             :color="item.color"
                             :dates="item.dates"
                             :text="item.text">
                         </schedule-list-item>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
