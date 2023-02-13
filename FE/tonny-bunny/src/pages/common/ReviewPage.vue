@@ -90,10 +90,11 @@ export default {
     methods: {
         async submitForm() {
             try {
+                console.log(this.rating)
                 let res = await http.post("/review", {
                     historySeq: this.historySeq,
                     helperSeq: this.helperSeq,
-                    score: this.score,
+                    score: this.rating,
                     comment: this.comment,
                 });
                 console.log(res);
