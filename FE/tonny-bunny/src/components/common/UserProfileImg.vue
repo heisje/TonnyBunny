@@ -3,7 +3,7 @@
         <!-- <img class="userProfileImg" :src="require('@/assets/mint.png')" alt="" /> -->
         <img
             class="userProfileImg"
-            :src="`${profileImagePath}`"
+            :src="`/images/${profileImagePath}`"
             onerror="this.onerror=null; this.src='/images/noProfile.png';" />
     </div>
 </template>
