@@ -71,7 +71,16 @@
                 ></smallBtn>
             </div>
 
-            <div style="margin-top: 8px">
+            <div v-if="$route.query.mypage" style="margin-top: 8px">
+                <smallBtn
+                    color="outline"
+                    font="main"
+                    style="width: 100%"
+                    text="취소"
+                    @click="goMyPage"></smallBtn>
+            </div>
+
+            <div v-else style="margin-top: 8px">
                 <smallBtn
                     color="outline"
                     font="main"
@@ -201,6 +210,11 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        goMyPage(event) {
+            event.preventDefault();
+            this.$router.push({ name: "MyPage" });
         },
 
         goMyPage(event) {

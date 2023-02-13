@@ -3,11 +3,7 @@
         <div class="boardListItemWrap">
             <div class="boardListItem">
                 <div class="thumnail">
-                    <img
-                        v-if="boardItem?.boardImageList[0]"
-                        :src="boardItem?.boardImageList[0]"
-                        alt="" />
-                    <img v-else src="@/assets/noBoardImg.png" alt="" />
+                    <img-item width="100" :imagePath="boardItem?.boardImageList[0]" />
                 </div>
 
                 <div class="info mt-1 w-100">
@@ -41,6 +37,7 @@
 </template>
 
 <script>
+import ImgItem from "./ImgItem.vue";
 import SquareTag from "./tag/SquareTag.vue";
 
 export default {
@@ -48,6 +45,7 @@ export default {
 
     components: {
         SquareTag,
+        ImgItem,
     },
 
     props: {

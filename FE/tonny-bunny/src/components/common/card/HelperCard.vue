@@ -3,7 +3,7 @@
         <div class="cardWrap">
             <div class="helperCard pt-2">
                 <!-- 1. x 버튼 라인 -->
-                <div class="closeBtn" @click="removeCard">
+                <div v-show="!removeClose" class="closeBtn" @click="removeCard">
                     <span class="material-symbols-outlined"> close </span>
                 </div>
 
@@ -69,7 +69,7 @@
                 <!-- 3. 하단 버튼 라인 -->
 
                 <div v-if="!disable" class="helperBtns">
-                    <XSmallBtn text="자세히보기" color="white" font="active" @click="clickBtn1" />
+                    <XSmallBtn text="자세히보기" color="main" font="white" @click="clickBtn1" />
                     <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
                 </div>
             </div>
@@ -79,14 +79,19 @@
 
 <script>
 import XSmallBtn from "@/components/common/button/XSmallBtn.vue";
-
+import UserProfileImg from "../UserProfileImg.vue";
 export default {
     name: "HelperCard",
 
     components: {
+        UserProfileImg,
         XSmallBtn,
     },
     props: {
+        removeClose: {
+            type: Boolean,
+            default: false,
+        },
         userInfo: {
             type: Object,
         },

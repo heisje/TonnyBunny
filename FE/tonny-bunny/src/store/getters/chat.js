@@ -2,9 +2,6 @@ export default {
     /*
         chat
     */
-    getIsEnterRoom(state) {
-        return state.chat.chatRoomConntected;
-    },
     getChatRoomInfo(state) {
         return state.chat.chatRoomInfo;
     },

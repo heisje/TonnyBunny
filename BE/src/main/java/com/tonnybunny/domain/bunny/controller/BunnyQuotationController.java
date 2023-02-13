@@ -58,13 +58,13 @@ public class BunnyQuotationController {
 	/**
 	 * 번역 공고에 포함되는 번역 견적서 상세 조회
 	 *
-	 * @param bunnyQuotationRequestDto
+	 * @param bunnyQuotationSeq
 	 * @return
 	 */
-	@GetMapping("/{bunnySeq}/quotation/{bunnyQuotationSeq}")
+	@GetMapping("/quotation/{bunnyQuotationSeq}")
 	@ApiOperation(value = "번역 견적서 상세 조회")
-	public ResponseEntity<ResultDto<BunnyQuotationResponseDto>> getBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
-		BunnyQuotationEntity bunnyQuotation = bunnyQuotationService.getBunnyQuotation(bunnyQuotationRequestDto);
+	public ResponseEntity<ResultDto<BunnyQuotationResponseDto>> getBunnyQuotation(@PathVariable("bunnyQuotationSeq") Long bunnyQuotationSeq) {
+		BunnyQuotationEntity bunnyQuotation = bunnyQuotationService.getBunnyQuotation(bunnyQuotationSeq);
 		BunnyQuotationResponseDto bunnyQuotationResponseDto = BunnyQuotationResponseDto.fromEntity(bunnyQuotation);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyQuotationResponseDto));
 	}
@@ -76,11 +76,10 @@ public class BunnyQuotationController {
 	 * @param bunnyQuotationRequestDto : 수락할 견적서 seq
 	 * @return : 로직 성공 여부
 	 */
-	@PutMapping("/{bunnySeq}/quotation/{bunnyQuotationSeq}/accept")
+	@PutMapping("/{bunnySeq}/quotation/{seq}/accept")
 	@ApiOperation(value = "번역 공고 신청에 수락하기")
-
 	public ResponseEntity<ResultDto<Boolean>> acceptBunnyQuotation(@RequestBody BunnyQuotationRequestDto bunnyQuotationRequestDto) {
-
+		
 		Boolean isSuccess = bunnyQuotationService.acceptBunnyQuotation(bunnyQuotationRequestDto);
 		if (isSuccess) {
 			return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());

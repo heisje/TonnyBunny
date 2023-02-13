@@ -83,6 +83,7 @@ import LargeBtn from "@/components/common/button/LargeBtn.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import CircleTag from "@/components/common/tag/CircleTag.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
+import UserProfileImg from "./UserProfileImg.vue";
 
 export default {
     components: {
@@ -91,6 +92,7 @@ export default {
         CircleTag,
         LargeBtn,
         SquareTag,
+        UserProfileImg,
     },
     props: {
         userInfo: {

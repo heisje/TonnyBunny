@@ -2,10 +2,7 @@ package com.tonnybunny.domain.bunny.controller;
 
 
 import com.tonnybunny.common.dto.ResultDto;
-import com.tonnybunny.domain.bunny.dto.BunnyApplyRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyApplyResponseDto;
-import com.tonnybunny.domain.bunny.dto.BunnyRequestDto;
-import com.tonnybunny.domain.bunny.dto.BunnyResponseDto;
+import com.tonnybunny.domain.bunny.dto.*;
 import com.tonnybunny.domain.bunny.entity.BunnyApplyEntity;
 import com.tonnybunny.domain.bunny.entity.BunnyEntity;
 import com.tonnybunny.domain.bunny.service.BunnyService;
@@ -95,6 +92,7 @@ public class BunnyController {
 
 		}
 
+		//  apply 커스텀
 		for (BunnyApplyResponseDto bunnyApplyResponseDto : bunnyResponseDto.getBunnyApplyList()) {
 			Long userSeq = bunnyApplyResponseDto.getUserSeq();
 
@@ -103,9 +101,10 @@ public class BunnyController {
 
 			bunnyApplyResponseDto.setNickName(tempUser.getNickName());
 			bunnyApplyResponseDto.setProfileImagePath(tempUser.getProfileImagePath());
-			
+
 			helperInfo.put("likeCount", tempUser.getHelperInfo().getLikeCount());
 			helperInfo.put("reviewCount", tempUser.getHelperInfo().getReviewCount());
+			helperInfo.put("oneLineIntroduction", tempUser.getHelperInfo().getOneLineIntroduction());
 			helperInfo.put("unitPrice", bunnyApplyResponseDto.getEstimatePrice());
 
 			if (tempUser.getHelperInfo().getReviewCount() == 0) {
@@ -115,6 +114,30 @@ public class BunnyController {
 			}
 
 			bunnyApplyResponseDto.setHelperInfo(helperInfo);
+		}
+
+		// quotation 커스텀
+		for (BunnyQuotationResponseDto bunnyQuotationResponseDto : bunnyResponseDto.getBunnyQuotationList()) {
+			Long userSeq = bunnyQuotationResponseDto.getHelperSeq();
+
+			UserEntity tempUser = userService.getUserInfo(userSeq);
+			Map<String, Object> helperInfo = new HashMap<>();
+
+			bunnyQuotationResponseDto.setNickName(tempUser.getNickName());
+			bunnyQuotationResponseDto.setProfileImagePath(tempUser.getProfileImagePath());
+
+			helperInfo.put("likeCount", tempUser.getHelperInfo().getLikeCount());
+			helperInfo.put("reviewCount", tempUser.getHelperInfo().getReviewCount());
+			helperInfo.put("oneLineIntroduction", tempUser.getHelperInfo().getOneLineIntroduction());
+			helperInfo.put("unitPrice", bunnyQuotationResponseDto.getTotalPrice());
+
+			if (tempUser.getHelperInfo().getReviewCount() == 0) {
+				helperInfo.put("avg", 0F);
+			} else {
+				helperInfo.put("avg", Float.valueOf(tempUser.getHelperInfo().getTotalScore()) / Float.valueOf(tempUser.getHelperInfo().getReviewCount()));
+			}
+
+			bunnyQuotationResponseDto.setHelperInfo(helperInfo);
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDto));

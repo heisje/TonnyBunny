@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -41,6 +42,11 @@ public class BunnyQuotationResponseDto {
 	private Integer totalPrice;
 	private String startLangCode;
 	private String endLangCode;
+	private String quotationStateCode;
+	//	헬퍼카드용
+	private Map<String, Object> helperInfo;
+	private String profileImagePath;
+	private String nickName;
 	private List<BunnyQuotationImageResponseDto> bunnyQuotationImageList;
 
 

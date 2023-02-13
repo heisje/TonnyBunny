@@ -403,7 +403,7 @@ public class UserService {
 				user.updateProfileImage(filePath);
 
 			} else {
-				user.updateProfileImage("/img/default.jpg"); // 디폴트로 변경
+				user.updateProfileImage("noProfile.png"); // 디폴트로 변경
 			}
 			userRepository.save(user);
 

@@ -92,7 +92,6 @@ CREATE TABLE `helper_info_table`
     `total_score`           INTEGER            DEFAULT 0,
     `like_count`            INTEGER            DEFAULT 0,
     `review_count`          INTEGER            DEFAULT 0,
-    `is_active`             BOOLEAN,
     `created_at`            TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`            TIMESTAMP NOT NULL DEFAULT now(),
     PRIMARY KEY (`helper_info_seq`),

@@ -7,12 +7,10 @@
 
             <!-- 조회수 -->
             <div class="boardUserWrap">
-                <img
-                    v-if="boardDetail?.user.profileImagePath"
-                    src="@/assets/noProfile.png"
-                    alt=""
+                <UserProfileImg
+                    class="profileImg"
+                    :profileImagePath="boardDetail?.user?.profileImagePath"
                     width="42" />
-                <img v-else src="@/assets/noProfile.png" alt="" />
 
                 <span
                     ><h3>{{ boardDetail?.user.nickName }}</h3></span
@@ -28,8 +26,7 @@
                     class="boardImageContent"
                     v-for="boardImageItem in boardDetail?.boardImageList"
                     :key="boardImageItem">
-                    <img v-if="boardItem?.boardImageItem" :src="boardItem?.boardImageItem" alt="" />
-                    <img v-else src="@/assets/noBoardImg.png" alt="" />
+                    <img-item width="100" :imagePath="boardItem?.boardImageItem" />
                 </div>
             </div>
 
@@ -52,13 +49,11 @@
                         v-for="boardCommentItem in boardDetail?.boardCommentList"
                         :key="boardCommentItem">
                         <div>
-                            <img
-                                v-if="boardCommentItem?.boardImageItem"
-                                :src="boardCommentItem?.boardImageItem"
-                                alt="" />
-                            <img v-else src="@/assets/noProfile.png" alt="" />
+                            <user-profile-img
+                                :profileImagePath="boardCommentItem?.user?.profileImagePath"
+                                width="40" />
 
-                            <h3>{{ boardCommentItem?.user.nickName }}</h3>
+                            <h3>{{ boardCommentItem?.user?.nickName }}</h3>
                             <span>{{ boardCommentItem?.createdAt }}</span>
                         </div>
 
@@ -79,12 +74,15 @@ import { mapGetters } from "vuex";
 import SquareTag from "../common/tag/SquareTag.vue";
 import SmallBtn from "../common/button/SmallBtn.vue";
 import TitleText from "../common/TitleText.vue";
-
+import UserProfileImg from "../common/UserProfileImg.vue";
+import ImgItem from "../common/ImgItem.vue";
 export default {
     components: {
         SquareTag,
         SmallBtn,
         TitleText,
+        UserProfileImg,
+        ImgItem,
     },
 
     data() {
@@ -108,7 +106,7 @@ export default {
                 userSeq: this.$store.state.account.userInfo.seq,
             };
             this.$store.dispatch("insertBoardComment", payload).then(() => {
-                this.$router.go(0);
+                this.$store.dispatch("getBoardDetail", this.$route.params.id);
             });
         },
 

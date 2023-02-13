@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> {
 
-	List<ScheduleEntity> findAllByStartDateTimeBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
+	List<ScheduleEntity> findByUserSeqAndStartDateTimeBetween(Long userSeq, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
 }

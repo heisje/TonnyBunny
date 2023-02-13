@@ -37,7 +37,4 @@ export default {
             console.error(err);
         }
     },
-    setChatRoomInfo(context, chatRoomInfo) {
-        context.commit("SET_CHAT_ROOM_INFO", chatRoomInfo);
-    },
 };

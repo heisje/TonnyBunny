@@ -1,5 +1,7 @@
 <template>
     <div>
+        <title-banner title="자유게시판" text="자유롭게 이야기를 나누어보아요 ^.^" />
+
         <board-detail-content />
 
         <CommentListItem />
@@ -30,19 +32,21 @@ import { mapGetters } from "vuex";
 import CommentListItem from "@/components/board/CommentListItem.vue";
 import BoardDetailContent from "@/components/board/BoardDetailContent.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
     components: {
         CommentListItem,
         BoardDetailContent,
         AlarmModal,
+        TitleBanner,
     },
 
     computed: {
         ...mapGetters({ boardDetail: "getBoardDetail" }),
     },
 
-    created() {
+    mounted() {
         this.$store.dispatch("getBoardDetail", this.$route.params.id);
     },
 };

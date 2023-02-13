@@ -46,6 +46,7 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
+                    context.commit("SET_PROFILE_IMAGE_PATH", data.data);
                     break;
                 case "FAIL":
                     break;

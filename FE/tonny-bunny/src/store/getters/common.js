@@ -14,6 +14,9 @@ export default {
     getIsBunnyModalOpen(state) {
         return state.common.isBunnyModalOpen;
     },
+    getIsScheduleModalOpen(state) {
+        return state.common.isScheduleModalOpen;
+    },
 
     /* Code */
     getAllCode(state) {

@@ -44,11 +44,16 @@
                                     height="40"
                                     class="me-3" /> -->
 
-                                <img
+                                <user-profile-img
+                                    :profileImagePath="yTonnyDetail?.client?.profileImagePath"
+                                    width="40"
+                                    class="me-3" />
+
+                                <!-- <img
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
-                                    class="me-3" />
+                                    class="me-3" /> -->
                             </a>
 
                             <a>
@@ -208,7 +213,11 @@
                                 <div class="d-flex flex-row align-items-center apply">
                                     <div
                                         class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                        <img src="@/assets/noProfile.png" width="50" height="50" />
+                                        <user-profile-img
+                                            :profileImagePath="apply?.helper?.nickName"
+                                            width="50" />
+
+                                        <!-- <img src="@/assets/noProfile.png" width="50" height="50" /> -->
 
                                         <!-- <img :src="apply.helper.profileImagePath" /> -->
                                         <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -306,10 +315,13 @@
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                            <img
+                                            <user-profile-img
+                                                :profileImagePath="apply?.helper?.nickName"
+                                                width="50" />
+                                            <!-- <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50" />
+                                                height="50" /> -->
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -449,6 +461,7 @@ import TitleText from "@/components/common/TitleText.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     name: "YTonnyDetailPage",
@@ -458,6 +471,7 @@ export default {
         SquareTag,
         MediumBtn,
         AlarmModal,
+        UserProfileImg,
     },
 
     data() {
@@ -681,21 +695,48 @@ export default {
             await this.$store.dispatch("acceptYTonnyApply", payload);
             await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
 
+            // schedules
+            let startDateTime = new Date(this.yTonnyDetail.startDateTime);
+            let endDateTime = new Date(this.yTonnyDetail.startDateTime);
+            let splitTime = this.yTonnyDetail.estimateTime.split(":");
+
+            let hours = splitTime[0] * 60 * 60 * 1000;
+            let mins = splitTime[1] * 60 * 1000;
+
+            endDateTime.setTime(endDateTime.getTime() + hours + mins);
+
+            // console.log(this.yTonnyDetail.estimateTime);
+            // console.log(startDateTime.toISOString(), endDateTime.toISOString());
+
+            let schedule = {
+                userSeq: this.yTonnyDetail.client.seq,
+                startDateTime: startDateTime.toISOString(),
+                endDateTime: endDateTime.toISOString(),
+                title: this.yTonnyDetail.title,
+                content: this.yTonnyDetail.content,
+                taskCode: this.yTonnyDetail.taskCode,
+            };
+            let helperSchedule = {
+                ...schedule,
+                userSeq: this.yTonnyDetail.helper.seq,
+            };
+            await this.$store.dispatch("insertSchedule", schedule);
+            await this.$store.dispatch("insertSchedule", helperSchedule);
+
             // client alert
             let clientAlert = {
                 userSeq: this.yTonnyDetail.client.seq,
                 taskCode: this.yTonnyDetail.taskCode,
-                content: this.yTonnyDetail.content,
+                content: '"' + this.yTonnyDetail.title + '" 일정이 잡혔습니다.',
                 sessionName: this.yTonnyDetail.sessionName,
             };
             await this.$store.dispatch("insertAlert", clientAlert);
 
             // helper alert (클라가 누르면 바로 알람이 들어감)
             let helperAlert = {
+                ...clientAlert,
                 userSeq: this.yTonnyDetail.helper.seq,
-                taskCode: this.yTonnyDetail.taskCode,
-                content: this.yTonnyDetail.content,
-                sessionName: this.yTonnyDetail.sessionName,
+                // content: this.yTonnyDetail.task + " 일정이 잡혔습니다."
             };
             await this.$store.dispatch("insertAlert", helperAlert);
 
@@ -721,6 +762,18 @@ export default {
         await this.getYTonnyApplyList();
         this.checkIsCreator();
         this.checkIsManager();
+
+        let startDateTime = new Date(this.yTonnyDetail.startDateTime);
+        let endDateTime = new Date(this.yTonnyDetail.startDateTime);
+        let splitTime = this.yTonnyDetail.estimateTime.split(":");
+
+        let hours = splitTime[0] * 60 * 60 * 1000;
+        let mins = splitTime[1] * 60 * 1000;
+
+        endDateTime.setTime(endDateTime.getTime() + hours + mins);
+
+        console.log(this.yTonnyDetail.estimateTime);
+        console.log(startDateTime.toISOString(), endDateTime.toISOString());
     },
 
     mounted() {

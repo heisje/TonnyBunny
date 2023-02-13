@@ -3,31 +3,39 @@
         <h1>채팅 - 채팅 내역 조회 페이지</h1>
         <h2>roomseq : {{ chatRoomSeq }}</h2>
         <div class="chat-detail-view viewport-height-80 overflow-auto">
-            <div v-for="chatData in chatDatas" :key="chatData">
-                <router-link
-                    v-if="chatData.messageType == 'url'"
-                    :to="{
-                        name: chatData.urlPage,
-                        params: { id: chatData.urlPageSeq },
-                    }"
-                >
-                    <chat-bubble-item
-                        :other="chatData.userSeq == chatAnotherUserSeq"
-                        :name="getUserName(chatData)"
-                        :text="chatData.message"
-                        :time="getTime(chatData.date)"
-                        :messageType="chatData.messageType"
-                    />
-                </router-link>
+            <div v-for="chatData in chatDatas" :key="chatData" class="chat">
+                <ul>
+                    <li
+                        :class="
+                            chatData.userSeq == chatAnotherUserSeq
+                                ? 'another-user-chat'
+                                : 'self-user-chat'
+                        ">
+                        <router-link
+                            v-if="chatData.messageType == 'url'"
+                            :to="{
+                                name: chatData.urlPage,
+                                params: { id: chatData.urlPageSeq },
+                            }">
+                            <chat-bubble-item
+                                class="chat-bubble-item"
+                                :other="chatData.userSeq == chatAnotherUserSeq"
+                                :name="getUserName(chatData)"
+                                :text="chatData.message"
+                                :time="getTime(chatData.date)"
+                                :messageType="chatData.messageType" />
+                        </router-link>
 
-                <chat-bubble-item
-                    v-else
-                    :other="chatData.userSeq == chatAnotherUserSeq"
-                    :name="getUserName(chatData)"
-                    :text="chatData.message"
-                    :time="getTime(chatData.date)"
-                    :messageType="chatData.messageType"
-                />
+                        <chat-bubble-item
+                            v-else
+                            class="chat-bubble-item"
+                            :other="chatData.userSeq == chatAnotherUserSeq"
+                            :name="getUserName(chatData)"
+                            :text="chatData.message"
+                            :time="getTime(chatData.date)"
+                            :messageType="chatData.messageType" />
+                    </li>
+                </ul>
             </div>
         </div>
 
@@ -197,6 +205,9 @@ export default {
         getTime(chatDate) {
             let [year, month, day, hour, minute] = chatDate;
             // console.log([year, month, day].join("/") + [hour, minute].join(":"));
+            year;
+            month;
+            day;
             let ampm;
             if (hour > 12) {
                 ampm = "오후";
@@ -204,15 +215,21 @@ export default {
             } else {
                 ampm = "오전";
             }
-            return String(
-                [year, month, day].join(".") + " " + ampm + " " + [hour, minute].join(":")
-            );
+            if (hour < 10) hour = "0" + hour;
+            if (minute < 10) minute = "0" + minute;
+
+            return String(ampm + " " + hour + ":" + minute);
+            // return String(
+            //     [year, month, day].join(".") + " " + ampm + " " + [hour, minute].join(":")
+            // );
         },
     },
-    beforeMount() {
-        this.getPreviousChatLog();
+    updated() {
+        let chat_detail_view = document.querySelector(".chat-detail-view");
+        chat_detail_view.scrollTop = chat_detail_view.scrollHeight;
     },
     mounted() {
+        this.getPreviousChatLog();
         this.enterChatRoom();
     },
     beforeUnmount() {
@@ -224,5 +241,32 @@ export default {
 <style lang="scss" scoped>
 .viewport-height-80 {
     height: 80vh;
+}
+
+.chat ul {
+    width: 100%;
+    padding: 0px;
+    list-style: none;
+}
+.chat ul li {
+    width: 100%;
+}
+.chat ul li .another-user-chat {
+    text-align: left;
+}
+.chat ul li .chat-bubble-item {
+    display: inline-block;
+    word-break: break-all;
+    // margin: 5px 20px;
+    max-width: 75%;
+    // border: 1px solid #888;
+    // padding: 10px;
+    // border-radius: 5px;
+    // background-color: #fcfcfc;
+    // color: #555;
+    text-align: left;
+}
+.self-user-chat {
+    text-align: right;
 }
 </style>

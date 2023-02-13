@@ -1,4 +1,5 @@
 <template>
+    <title-banner title="자유게시판" text="자유롭게 이야기를 나누어보아요 ^.^" />
     <div class="BoardCreateConatiner">
         <div class="BoardCreateWrap">
             <title-text title="게시글 작성" />
@@ -25,7 +26,6 @@
                     text="게시글 작성"
                     color="carrot"
                     @click="insertBoard" />
-                <router-link :to="{ name: 'BoardDetailPage', params: { id: 1 } }"> </router-link>
             </form>
 
             <input type="file" accept="image/*" @change="insertBoardImageList" />
@@ -48,8 +48,9 @@
 // import axios from "axios";
 import TitleText from "@/components/common/TitleText.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 export default {
-    components: { TitleText, MediumBtn },
+    components: { TitleText, MediumBtn, TitleBanner },
     data() {
         return {
             title: {
@@ -84,7 +85,11 @@ export default {
                 formData.append("file", this.boardImageList[i]);
             }
 
-            this.$store.dispatch("insertBoard", formData);
+            this.$store.dispatch("insertBoard", formData).then((res) => {
+                if (res.resultCode == "SUCCESS") {
+                    this.$router.push({ name: "BoardDetailPage", params: { id: res.data } });
+                }
+            });
         },
 
         insertBoardImageList(e) {
