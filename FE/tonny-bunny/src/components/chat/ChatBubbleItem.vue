@@ -1,18 +1,21 @@
 <template lang="">
-    <div class="chat">
-        <div
-            :class="{
-                'other-chat': other,
-                'self-chat': !other,
-                'message-type-url': messageType == 'url',
-                'message-type-text': messageType == 'text',
-            }">
-            <div v-if="other === true">
-                <div><img class="img-thumbnail" :src="profileImageLink" /></div>
-                <div>{{ name }}</div>
+    <div class="chat-box">
+        <div v-if="other == true" class="chat-user-profile">
+            <img src="@/assets/noProfile.png" />
+        </div>
+        <div class="chat-message-wrap">
+            <div v-show="other == true">{{ name }}</div>
+            <div
+                class="chat-message"
+                :class="{
+                    'message-type-url': messageType == 'url',
+                    'message-type-text': messageType == 'text',
+                }">
+                <div>
+                    <div class="text">{{ text }}</div>
+                    <div class="time" :class="other ? 'time-other' : 'time-self'">{{ time }}</div>
+                </div>
             </div>
-            <h2>{{ text }}</h2>
-            <div>{{ time }}</div>
         </div>
     </div>
 </template>
@@ -54,15 +57,38 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.chat {
+.chat-box {
+    max-width: 75%;
+}
+.chat-message-wrap {
+    padding-left: 60px;
+}
+.chat-user-profile img {
+    width: 50px;
+    float: left;
+}
+.chat-message {
     border: 1px solid lightgray;
-    margin: 10px;
-    // padding: 10px;
+    // margin: 10px;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+
+    border-radius: 15px;
+    // width: 40%;
+    // max-width: 75%;
 }
-.other-chat {
+.text {
 }
-.self-chat {
-    text-align: end;
+.time {
+    position: absolute;
+    bottom: 0px;
+}
+.time-other {
+    right: -72px;
+}
+.time-self {
+    left: -72px;
 }
 .message-type-text {
 }
