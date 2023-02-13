@@ -1,6 +1,7 @@
 <template lang="">
     <div class="userProfileImgContainer">
         <!-- <img class="userProfileImg" :src="require('@/assets/mint.png')" alt="" /> -->
+
         <img
             class="userProfileImg"
             :src="`/images/${profileImagePath}`"
@@ -13,6 +14,12 @@ export default {
         profileImagePath: {
             type: String,
         },
+    },
+
+    computed: {
+        // originUrl() {
+        //     return window.location.protocol + window.location.hostname;
+        // },
     },
 };
 </script>
