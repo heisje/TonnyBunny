@@ -9,4 +9,8 @@ export default {
     SET_HELPER_INFO(state, payload) {
         state.mypage.helperInfo = payload;
     },
+
+    SET_PROFILE_IMAGE_PATH(state, payload) {
+        state.account.userInfo.profileImagePath = payload;
+    },
 };
