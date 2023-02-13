@@ -71,7 +71,8 @@
                             :options="{ threshold: 0.5 }"
                             transition="fade-transition">
                             <!-- {{ yTonnyList }} -->
-                            <div class="contentWrap" v-show="!yTonny.isDeleted">
+                            <quest-card :questDetail="yTonny" class="mb-3" />
+                            <!-- <div class="contentWrap" v-show="!yTonny.isDeleted">
                                 <div class="d-flex">
                                     <div class="pe-2">{{ yTonny.tonnySituCode }}</div>
                                     <router-link
@@ -87,7 +88,7 @@
                                 <div>{{ yTonny.estimateTime }}</div>
                                 <div>{{ yTonny.estimatePrice }}</div>
                                 <div>{{ yTonny.createdAt }}</div>
-                            </div>
+                            </div> -->
                         </v-lazy>
                     </div>
 
@@ -115,11 +116,12 @@ import TitleText from "@/components/common/TitleText.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
 import ScheduleListItem from "@/components/common/ScheduleListItem.vue";
 import ScheduleModal from "@/components/common/modal/ScheduleModal.vue";
+import QuestCard from "@/components/common/card/QuestCard.vue";
 
 export default {
     name: "TonnyPage",
 
-    components: { MediumBtn, TitleText, TitleBanner, ScheduleListItem, ScheduleModal },
+    components: { MediumBtn, TitleText, TitleBanner, ScheduleListItem, ScheduleModal, QuestCard },
 
     data() {
         return {
