@@ -2,25 +2,25 @@
     <div class="helperProfileContainer">
         <div class="helperProfileWrap">
             <div>
-                <TitleText title="헬퍼프로필" type="h2" />
+                <!-- <TitleText title="헬퍼프로필" type="h2" /> -->
                 <helper-Card disable :userInfo="userInfo" />
                 <TitleText title="어학능력" type="h2" />
 
-                <div v-if="userInfo?.helperInfo?.possibleLanguageList == []">
-                    <div
+                <div v-if="userInfo?.helperInfo?.possibleLanguageList">
+                    <span
                         v-for="possibleLanguageItem in userInfo?.helperInfo?.possibleLanguageList"
                         :key="possibleLanguageItem">
                         <CircleTag :text="possibleLanguageItem?.name" />
-                    </div>
+                    </span>
                 </div>
                 <div v-else>없음</div>
 
                 <TitleText title="자격증" type="h2" />
-                <div v-if="userInfo?.helperInfo?.certificateList == []">
+                <div v-if="userInfo?.helperInfo?.certificateList">
                     <div
                         v-for="certificateItem in userInfo?.helperInfo?.certificateList"
                         :key="certificateItem">
-                        <div>
+                        <div class="mb-2">
                             <SquareTag sub :text="allCode[certificateItem?.langCode]" />
                             {{ certificateItem?.certName }}
                             {{ certificateItem?.content }}
@@ -48,11 +48,13 @@
                             v-for="userReviewItem in userReview"
                             :key="userReviewItem">
                             <div>
-                                <user-profile-img
-                                    :profileImagePath="userReviewItem?.user?.profileImagePath"
-                                    width="40" />
+                                <img
+                                    v-if="userReviewItem?.profileImagePath"
+                                    :src="userReviewItem?.profileImagePath"
+                                    alt="" />
+                                <img v-else src="@/assets/noProfile.png" alt="" />
 
-                                <h3>{{ "***" }}</h3>
+                                <h3>{{ userReviewItem?.nickName }}</h3>
                                 <span>{{ userReviewItem?.createdAt }}</span>
                             </div>
 
@@ -65,7 +67,7 @@
                     </div>
                 </div>
                 <div v-if="userInfo?.seq == myInfo.seq">
-                    <LargeBtn text="수정하기" color="success" />
+                    <LargeBtn text="수정하기" color="success" @click="goProfileUpdate" />
                 </div>
                 <div v-if="userInfo?.seq != myInfo.seq">
                     <LargeBtn text="채팅하기" color="carrot" />
@@ -96,6 +98,12 @@ export default {
         userInfo: {
             type: Object,
         },
+    },
+    methods:{
+        goProfileUpdate(event){
+            event.preventDefault();
+            this.$router.push({ name: "ProfileUpdatePage", params:{ userSeq:this.userInfo.seq} });
+        }
     },
 
     computed: {

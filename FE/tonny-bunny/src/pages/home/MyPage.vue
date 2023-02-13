@@ -17,7 +17,10 @@
                     <div>
                         <title-text title="헬퍼 프로필" type="h2" />
                         <div>
-                            <helper-card :userInfo="userInfo" removeClose></helper-card>
+                            <helper-card
+                                :userInfo="userInfo"
+                                rightBtnText="수정하기"
+                                @clickBtn2="goProfileUpdate"></helper-card>
                         </div>
                     </div>
                     <!-- 
@@ -99,7 +102,7 @@
                         }">
                         <div>헬퍼 프로필 변경</div>
                     </router-link>
-                </span>
+                </span> -->
                 <hr />
 
                 <a @click="openModal"> <span class="logout">로그아웃</span></a>
@@ -113,7 +116,7 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @clickBtn2="clickBtn2">
+                @clickBtn2="clickBtn3">
                 <template #content> 로그아웃이 완료되었습니다 </template>
             </AlarmModal>
         </div>
@@ -147,9 +150,17 @@ export default {
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
-        clickBtn2() {
+        clickBtn3() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$router.push({ name: "HomePage" });
+        },
+        goProfileUpdate() {
+            this.$router.push({
+                name: "ProfileUpdatePage",
+                params: {
+                    userSeq: this.userInfo.seq,
+                },
+            });
         },
     },
 

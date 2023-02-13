@@ -8,7 +8,8 @@
                 <TitleText
                     title="능력 어필"
                     center
-                    text="추후에 마이페이지에서 변경이 가능합니다" />
+                    text="추후에 마이페이지에서 변경이 가능합니다"
+                />
             </div>
 
             <!-- 언어 선택 -->
@@ -37,12 +38,14 @@
                             (e) => {
                                 certificateLang = e;
                             }
-                        " />
+                        "
+                    />
                     <input
                         class="certificateItem"
                         type="text"
                         placeholder="자격증 이름"
-                        v-model="certName" />
+                        v-model="certName"
+                    />
                 </div>
                 <div class="certificateWrap">
                     <input type="text" placeholder="내용" v-model="contentInput" />
@@ -64,7 +67,8 @@
                     color="carrot"
                     style="width: 100%"
                     text="확인"
-                    @click="submitForm"></smallBtn>
+                    @click="submitForm"
+                ></smallBtn>
             </div>
 
             <div v-if="$route.query.mypage" style="margin-top: 8px">
@@ -81,8 +85,9 @@
                     color="outline"
                     font="main"
                     style="width: 100%"
-                    text="건너뛰기"
-                    @click="goSignUpCompletePage"></smallBtn>
+                    text="다음에 하기"
+                    @click="goMyPage"
+                ></smallBtn>
             </div>
         </div>
     </div>
@@ -128,6 +133,8 @@ export default {
             certificateList: [],
             certName: "",
             contentInput: "",
+
+
         };
     },
 
@@ -195,11 +202,7 @@ export default {
                 if (res.data.resultCode == "SUCCESS") {
                     console.log(res);
                     // 헬퍼정보 등록 성공 후 완료 페이지로
-                    if (this.$route.query.mypage) {
-                        this.$router.push({ name: "MyPage" });
-                    } else {
-                        this.$router.push({ name: "SignUpCompletePage" });
-                    }
+                    this.$router.push({ name: "AbilityCompletePage" });
                 } else {
                     // 헬퍼정보 등록 실패
                     console.log("실패");
@@ -209,9 +212,9 @@ export default {
             }
         },
 
-        goSignUpCompletePage(event) {
+        goMyPage(event) {
             event.preventDefault();
-            this.$router.push({ name: "SignUpCompletePage" });
+            this.$router.push({ name: "MyPage" });
         },
 
         goMyPage(event) {
@@ -225,6 +228,7 @@ export default {
             allCode: "getAllCode",
         }),
     },
+
 };
 </script>
 
