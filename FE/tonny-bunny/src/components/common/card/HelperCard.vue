@@ -3,7 +3,7 @@
         <div class="cardWrap">
             <div class="helperCard pt-2">
                 <!-- 1. x 버튼 라인 -->
-                <div class="closeBtn" @click="removeCard">
+                <div v-show="!removeClose" class="closeBtn" @click="removeCard">
                     <span class="material-symbols-outlined"> close </span>
                 </div>
 
@@ -88,6 +88,10 @@ export default {
         XSmallBtn,
     },
     props: {
+        removeClose: {
+            type: Boolean,
+            default: false,
+        },
         userInfo: {
             type: Object,
         },
