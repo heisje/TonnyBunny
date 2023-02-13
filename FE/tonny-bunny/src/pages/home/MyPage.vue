@@ -83,7 +83,7 @@
                 <span v-if="userInfo?.userCode == '0010001'">
                     <router-link
                         :to="{
-                            name: 'AbilityPage',
+                            name: 'HelperChangePage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
                         }">
@@ -93,7 +93,7 @@
                 <span v-else>
                     <router-link
                         :to="{
-                            name: 'HelperChangePage',
+                            name: 'AbilityPage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
                         }">

@@ -67,7 +67,16 @@
                     @click="submitForm"></smallBtn>
             </div>
 
-            <div style="margin-top: 8px">
+            <div v-if="$route.query.mypage" style="margin-top: 8px">
+                <smallBtn
+                    color="outline"
+                    font="main"
+                    style="width: 100%"
+                    text="취소"
+                    @click="goMyPage"></smallBtn>
+            </div>
+
+            <div v-else style="margin-top: 8px">
                 <smallBtn
                     color="outline"
                     font="main"
@@ -186,7 +195,11 @@ export default {
                 if (res.data.resultCode == "SUCCESS") {
                     console.log(res);
                     // 헬퍼정보 등록 성공 후 완료 페이지로
-                    this.$router.push({ name: "SignUpCompletePage" });
+                    if (this.$route.query.mypage) {
+                        this.$router.push({ name: "MyPage" });
+                    } else {
+                        this.$router.push({ name: "SignUpCompletePage" });
+                    }
                 } else {
                     // 헬퍼정보 등록 실패
                     console.log("실패");
@@ -199,6 +212,11 @@ export default {
         goSignUpCompletePage(event) {
             event.preventDefault();
             this.$router.push({ name: "SignUpCompletePage" });
+        },
+
+        goMyPage(event) {
+            event.preventDefault();
+            this.$router.push({ name: "MyPage" });
         },
     },
     computed: {
