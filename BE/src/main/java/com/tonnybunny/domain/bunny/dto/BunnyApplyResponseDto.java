@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,6 +24,11 @@ public class BunnyApplyResponseDto {
 	private Long userSeq;
 	private Long bunnySeq;
 	private Integer estimatePrice;
+
+	//	헬퍼카드용
+	private Map<String, Object> helperInfo;
+	private String profileImagePath;
+	private String nickName;
 
 
 	public static BunnyApplyResponseDto fromEntity(BunnyApplyEntity bunnyApply) {

@@ -27,7 +27,8 @@ public class BunnyEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_seq")
 	private UserEntity user;
-	private Long helperSeq;
+	@Builder.Default
+	private Long helperSeq = 0L;
 
 	private String title;
 	private String content;
