@@ -1,9 +1,10 @@
 <template lang="">
     <div class="userProfileImgContainer">
-        <!-- <img class="userProfileImg" :src="require('@/assets/newLogo3.png')" alt="" /> -->
+        <!-- <img class="userProfileImg" :src="require('@/assets/mint.png')" alt="" /> -->
         <img
+            class="userProfileImg"
             :src="`${profileImagePath}`"
-            onerror="this.onerror=null; this.src='/images/noProfile_white.png';" />
+            onerror="this.onerror=null; this.src='/images/noProfile.png';" />
     </div>
 </template>
 <script>
@@ -15,7 +16,7 @@ export default {
     },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .userProfileImgContainer {
     width: 100%;
     aspect-ratio: 1/1;
@@ -25,6 +26,7 @@ export default {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: 50%;
     }
 }
 </style>

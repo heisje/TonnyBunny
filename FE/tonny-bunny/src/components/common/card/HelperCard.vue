@@ -13,19 +13,17 @@
                     <div class="helperProfile">
                         <UserProfileImg
                             class="profileImg"
-                            :profileImagePath="userInfo?.profileImagePath"
-                        />
+                            :profileImagePath="userInfo?.profileImagePath" />
                         <div class="likeBtn" @click="toggleLikeBtn">
                             <span
                                 v-if="isLikeEmpty"
-                                class="material-symbols-outlined likeIcon empty"
-                            >
+                                class="material-symbols-outlined likeIcon empty">
                                 favorite
                             </span>
                             <span v-else class="material-symbols-outlined likeIcon">
                                 favorite
                             </span>
-                            <span class="likeText">{{ userInfo.helperInfo.likeCount }}</span>
+                            <span class="likeText">{{ userInfo?.helperInfo?.likeCount }}</span>
                         </div>
                     </div>
 
@@ -137,13 +135,4 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/card.scss";
-
-.profileImg {
-    width: 100%;
-    max-width: 70px;
-    margin: 0 0 8px 0;
-    cursor: pointer;
-    border-radius: 100%;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
-}
 </style>
