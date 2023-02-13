@@ -1,6 +1,7 @@
 <template>
     <div>
         <div>
+            <title-banner title="자유게시판" text="자유롭게 이야기를 나누어보아요 ^.^" />
             <div style="mwidth: 100%">
                 <title-text title="자유게시판" />
                 <br />
@@ -26,8 +27,9 @@
 import TitleText from "@/components/common/TitleText.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import BoardList from "@/components/board/BoardList.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 export default {
-    components: { TitleText, SmallBtn, BoardList },
+    components: { TitleText, SmallBtn, BoardList, TitleBanner },
     name: "BoardPage",
 
     methods: {},

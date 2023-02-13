@@ -27,6 +27,7 @@ export default {
 .userProfileImgContainer {
     width: 100%;
     aspect-ratio: 1/1;
+    cursor: pointer;
 
     .userProfileImg {
         display: block; /*img default display - inline-block*/

@@ -13,11 +13,11 @@
                 포인트아이템 -->
                 </div>
 
-                <div v-if="isHelper === true" class="profileWrap">
+                <div v-if="userInfo?.userCode == '0010002'" class="profileWrap">
                     <div>
                         <title-text title="헬퍼 프로필" type="h2" />
                         <div>
-                            <helper-card :userInfo="userInfo"></helper-card>
+                            <helper-card :userInfo="userInfo" removeClose></helper-card>
                         </div>
                     </div>
                     <!-- 
@@ -80,14 +80,14 @@
                     <div>고객센터</div>
                 </router-link>
                 <hr />
-                <span v-if="isHelper == true">
+                <span v-if="userInfo?.userCode == '0010001'">
                     <router-link
                         :to="{
                             name: 'AbilityPage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
                         }">
-                        <div>헬퍼 인증 및 변경</div>
+                        <div>헬퍼 정보 등록</div>
                     </router-link>
                 </span>
                 <span v-else>
@@ -97,7 +97,7 @@
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
                         }">
-                        <div>헬퍼 인증 및 변경</div>
+                        <div>헬퍼 프로필 변경</div>
                     </router-link>
                 </span>
                 <hr />
