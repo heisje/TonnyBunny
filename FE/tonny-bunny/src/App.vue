@@ -1,12 +1,13 @@
 <template>
     <router-view name="header"></router-view>
-    <main class="container">
+    <main class="container" v-on:mousemove="test">
         <router-view></router-view>
         <bottom-navbar />
         <login-modal></login-modal>
         <tonny-modal></tonny-modal>
         <bunny-modal></bunny-modal>
         <AppLoading />
+        <!-- <div class="circle"></div> -->
     </main>
     <router-view name="footer"></router-view>
 </template>
@@ -27,6 +28,16 @@ export default {
         TonnyModal,
         BunnyModal,
         AppLoading,
+    },
+
+    methods: {
+        // test(e) {
+        //     const circle = document.querySelector(".circle");
+        //     const mouseX = e.clientX;
+        //     const mouseY = e.clientY;
+        //     circle.style.left = mouseX + "px";
+        //     circle.style.top = mouseY + "px";
+        // },
     },
 
     mounted() {

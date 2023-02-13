@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class ScheduleRequestDto {
 
 	private Long userSeq;
+	private Long scheduleSeq;
 
 	private String startYear;
 	private String startMonth;

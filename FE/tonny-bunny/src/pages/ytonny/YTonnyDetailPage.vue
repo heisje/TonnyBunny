@@ -380,7 +380,9 @@
                                 next-icon="mdi-menu-right"
                                 @click="nextPage"></v-pagination>
                         </div>
-                        <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
+                        <div v-else class="mt-5" style="color: var(--sub-color)">
+                            가격을 제안한 헬퍼가 없습니다.
+                        </div>
                     </v-lazy>
                 </div>
             </div>

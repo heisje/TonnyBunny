@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Data
 public class ScheduleResponseDto {
 
+	private Long scheduleSeq;
+
 	private String title;
 	private String content;
 
