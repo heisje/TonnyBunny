@@ -5,6 +5,7 @@ export default {
     isAlarmModalOpen: false,
     isTonnyModalOpen: false,
     isBunnyModalOpen: false,
+    isScheduleModalOpen: false,
 
     /* Code */
     bunnyStateCode: [

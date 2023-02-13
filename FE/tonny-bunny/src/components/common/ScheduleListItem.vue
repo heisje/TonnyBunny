@@ -5,8 +5,9 @@
                 <span class="material-symbols-outlined icon"> done </span>
                 <div class="info">
                     <span class="itemDate">
-                        <span class="date">{{ dates.date }}</span>
-                        <span class="time">{{ dates.time.start }} ~ {{ dates.time.end }}</span>
+                        <span v-if="today" class="date">오늘</span>
+                        <span v-else class="date">{{ date }}</span>
+                        <span class="time">{{ startTime }} ~ {{ endTime }}</span>
                     </span>
                     <span class="itemText text-truncate col">{{ text }}</span>
                 </div>
@@ -32,11 +33,28 @@ export default {
             default: "일정내용일정내용일정내용일정내용일정내용일정내용일정내용",
         },
 
-        dates: {
-            type: Object,
-            default: () => {
-                return { date: "오늘", time: "13:00 ~ 14:00" };
-            },
+        today: {
+            type: Boolean,
+        },
+
+        startDateTime: {
+            type: String,
+        },
+
+        endDateTime: {
+            type: String,
+        },
+    },
+
+    computed: {
+        date() {
+            return this.startDateTime.split("T")[0];
+        },
+        startTime() {
+            return this.startDateTime.split("T")[1];
+        },
+        endTime() {
+            return this.endDateTime.split("T")[1];
         },
     },
 };
