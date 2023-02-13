@@ -2,7 +2,7 @@
     <div class="userProfileImgContainer">
         <!-- <img class="userProfileImg" :src="require('@/assets/newLogo3.png')" alt="" /> -->
         <img
-            :src="`/images/${profileImagePath}`"
+            :src="`${profileImagePath}`"
             onerror="this.onerror=null; this.src='/images/noProfile_white.png';" />
     </div>
 </template>

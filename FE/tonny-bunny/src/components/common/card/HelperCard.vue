@@ -79,11 +79,12 @@
 
 <script>
 import XSmallBtn from "@/components/common/button/XSmallBtn.vue";
-
+import UserProfileImg from "../UserProfileImg.vue";
 export default {
     name: "HelperCard",
 
     components: {
+        UserProfileImg,
         XSmallBtn,
     },
     props: {
@@ -134,4 +135,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/scss/card.scss";
+
+.profileImg {
+    width: 100%;
+    max-width: 70px;
+    margin: 0 0 8px 0;
+    cursor: pointer;
+    border-radius: 100%;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+}
 </style>
