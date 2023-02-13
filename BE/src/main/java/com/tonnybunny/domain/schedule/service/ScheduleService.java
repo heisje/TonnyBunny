@@ -62,6 +62,8 @@ public class ScheduleService {
 	 */
 	public List<ScheduleEntity> getScheduleList(ScheduleRequestDto scheduleRequestDto) {
 
+		Long userSeq = scheduleRequestDto.getUserSeq();
+
 		Integer startYear = Integer.parseInt(scheduleRequestDto.getStartYear());
 		Integer startMonth = Integer.parseInt(scheduleRequestDto.getStartMonth());
 		Integer startDay = Integer.parseInt(scheduleRequestDto.getStartDay());
@@ -71,9 +73,9 @@ public class ScheduleService {
 		Integer endDay = Integer.parseInt(scheduleRequestDto.getEndDay());
 
 		LocalDateTime startDateTime = LocalDateTime.of(startYear, startMonth, startDay, 0, 0, 0);
-		LocalDateTime endDateTime = LocalDateTime.of(endYear, endMonth, endDay, 0, 0, 0);
+		LocalDateTime endDateTime = LocalDateTime.of(endYear, endMonth, endDay, 23, 59, 59);
 
-		List<ScheduleEntity> scheduleEntityList = scheduleRepository.findAllByStartDateTimeBetween(startDateTime, endDateTime);
+		List<ScheduleEntity> scheduleEntityList = scheduleRepository.findByUserSeqAndStartDateTimeBetween(userSeq, startDateTime, endDateTime);
 
 		return scheduleEntityList;
 
