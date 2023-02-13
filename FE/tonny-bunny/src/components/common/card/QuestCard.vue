@@ -29,7 +29,7 @@
                     <div class="profile">
                         <UserProfileImg
                             class="profileImg"
-                            :profileImagePath="userInfo?.profileImagePath" />
+                            :profileImagePath="questDetail?.client?.profileImagePath" />
                         <div class="userType">
                             <span class="label">고객</span>
                             <h4 class="overflow" v-if="questDetail?.client?.nickName">
@@ -53,7 +53,7 @@
                         </div>
                         <UserProfileImg
                             class="profileImg"
-                            :profileImagePath="userInfo?.profileImagePath" />
+                            :profileImagePath="questDetail?.helper?.profileImagePath" />
                     </div>
                 </div>
 
