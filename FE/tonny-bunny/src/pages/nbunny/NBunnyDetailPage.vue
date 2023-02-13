@@ -188,7 +188,7 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"
+                                @click-btn2="enterChatRoom(apply.userSeq)"
                             ></helper-card>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"
+                                @click-btn2="enterChatRoom(apply.userSeq)"
                             ></helper-card>
                         </div>
                     </div>
@@ -263,7 +263,7 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"
+                                @click-btn2="enterChatRoom(apply.userSeq)"
                             ></helper-card>
                         </div>
                     </div>
@@ -450,20 +450,18 @@ export default {
         closeModal() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
-        enterChatRoom(helperSeq) {
+        async enterChatRoom(helperSeq) {
             const clientSeq = this.getBunnyDetail.client.seq;
             const userSeq = this.$store.getters.getUserInfo.seq;
             const anotherUserSeq = userSeq == clientSeq ? helperSeq : clientSeq;
 
-            this.$store.dispatch("getChatRoomInfo", {
+            await this.$store.dispatch("getChatRoomInfo", {
                 userSeq: userSeq,
                 anotherUserSeq: anotherUserSeq,
             });
             if (userSeq == clientSeq) {
                 this.$store.commit("SET_TRUE_SEND_URL_MESSAGE");
                 this.$store.commit("SET_URL_MESSAGE", {
-                    // 어쩔 수 없다. "상담하기" 버튼을 누르면 무조건 메세지가 간다!
-                    // 공고가 아니라 유저 단위로 채팅방이 만들어지고 유지되기 때문에, 해당 공고에서 처음 접속한 시점을 잡기가 어렵..다?
                     urlPage: "NBunnyDetailPage",
                     urlPageSeq: this.getBunnyDetail.seq,
                     message:
