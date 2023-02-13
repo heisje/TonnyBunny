@@ -103,8 +103,10 @@ export default {
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
-                let res = await http.post("/send/authcode", { phoneNumber: this.phoneNum });
+                let res = await http.post("/send/authcode", { to: this.phoneNum });
+
                 if (res.data.data) {
+                    console.log(res.data.data)
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
@@ -118,7 +120,9 @@ export default {
             event.preventDefault();
 
             try {
-                let res = await http.post("/check/authcode", { authCode: this.authCode });
+                let res = await http.post("/check/authcode", {                     
+                    authCode: this.authCode,
+                    phoneNumber: this.phoneNum, });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
                     this.noticeAuth = "인증이 완료되었습니다";
@@ -127,6 +131,7 @@ export default {
                     this.noticeAuth2 = "인증번호가 일치하지 않습니다";
                 }
             } catch (error) {
+                alert("인증번호가 일치하지 않습니다.")
                 console.log(error);
             }
         },
@@ -144,20 +149,30 @@ export default {
                 this.noticeAuth2 = "인증이 완료되지 않았습니다";
                 return;
             }
-
-            // 휴대폰 인증완료와 가입된 명의의 이메일이 일치할 경우
-            try {
-                let res = await http.post("/check/authcode", { authCode: this.authCode });
-                if (res.data.data) {
-                    this.isCheckAuthCode = true;
-                    this.noticeAuth = "인증이 완료되었습니다";
-                    this.$router.push({ name: "ResetPwPage" });
-                } else {
-                    this.isOpen = false;
+            console.log("phoneNum:" + this.phoneNum);
+            console.log("email : " + this.email);
+            try{
+                let res = await http.post("/login/find/password", 
+                {
+                    phoneNumber:this.phoneNum,
+                    email: this.email,
+                    isAuthed: true,
+                })
+                if(res.data.data){
+                    this.$router.push({
+                    name: "ResetPwPage",
+                    params: { userSeq : res.data.data},
+                });
                 }
-            } catch (error) {
+
+
+            }catch(error){
                 console.log(error);
             }
+
+
+
+
         },
 
         closeModal() {

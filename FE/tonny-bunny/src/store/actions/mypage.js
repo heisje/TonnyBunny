@@ -56,6 +56,58 @@ export default {
     },
 
     /*
+        닉네임
+    */
+    // /api/mypage/{userSeq}/nickName  유저 닉네임을 수정합니다
+    async putUserNickName(context, nickname) {
+
+        try {
+            let { data } = await http.put(
+                `/mypage/${context.state.account.userInfo.seq}/nickname`,
+                {nickName:nickname},
+            );
+            console.log("async function : ", data);
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    /*
+        패스워드 수정
+    */
+    // /api/mypage/{userSeq}/password  유저 패스워드를 수정합니다
+    async putPassword(context, payload) {
+
+        try {
+            let { data } = await http.put(
+                `/mypage/${context.state.account.userInfo.seq}/password`,
+                payload,
+            );
+            console.log("async function : ", data);
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    return "SUCCESS";
+                    
+                case "FAIL":
+                    return "FAIL";
+                    
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+
+
+    /*
         포인트 관련
     */
     // /api/point-log 대상 유저의 포인트 로그 목록 조회
@@ -88,6 +140,7 @@ export default {
             console.error(err);
         }
     },
+    
 
     // /api/points 포인트 변동(충전, 출금, 거래)
     async putPoints(context, payload) {

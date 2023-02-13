@@ -1,6 +1,5 @@
 package com.tonnybunny.domain.user.service;
 
-
 import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.auth.entity.AuthEntity;
 import com.tonnybunny.common.auth.repository.AuthRepository;
@@ -32,7 +31,6 @@ import java.util.UUID;
 import static com.tonnybunny.domain.user.dto.UserCodeEnum.헬퍼;
 import static com.tonnybunny.exception.ErrorCode.*;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -53,11 +51,9 @@ public class UserService {
 	@Value("${app.file.path}")
 	private String uploadPath;
 
-
 	public Optional<UserEntity> findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-
 
 	@Transactional
 	public Long signup(UserRequestDto userRequestDto) {
@@ -77,27 +73,26 @@ public class UserService {
 		}
 
 		// 유저 정보 저장
-		UserEntity user =
-			userRepository.save(
+		UserEntity user = userRepository.save(
 				UserEntity.builder()
-				          .password(passwordEncoder.encode(userRequestDto.getPassword()))
-				          .email(userRequestDto.getEmail())
-				          .phoneNumber(userRequestDto.getPhoneNumber())
-				          .nickName(userRequestDto.getNickName())
-				          .userCode(userRequestDto.getUserCode())
-				          .build());
+						.password(passwordEncoder.encode(userRequestDto.getPassword()))
+						.email(userRequestDto.getEmail())
+						.phoneNumber(userRequestDto.getPhoneNumber())
+						.nickName(userRequestDto.getNickName())
+						.userCode(userRequestDto.getUserCode())
+						.build());
 
 		String refreshToken = authService.saveRefreshToken(user);
 
 		// 토큰 정보 저장
 		authRepository.save(
-			AuthEntity.builder().user(user).refreshToken(refreshToken).build());
+				AuthEntity.builder().user(user).refreshToken(refreshToken).build());
 
 		// 헬퍼일 경우, 헬퍼 정보 생성
 		if (user.getUserCode().equals(헬퍼.getUserCode())) {
 			HelperInfoEntity helperInfo = HelperInfoEntity.builder()
-			                                              .user(user)
-			                                              .build();
+					.user(user)
+					.build();
 			helperInfoRepository.save(helperInfo);
 		}
 
@@ -105,36 +100,38 @@ public class UserService {
 		return user.getSeq();
 	}
 
-	//	/**
-	//	 * @param userRequestDto
-	//	 * @return
-	//	 */
-	//	@Transactional
-	//	public AuthResponseDto signin(UserRequestDto userRequestDto) {
-	//		UserEntity user =
-	//			userRepository
-	//				.findByEmail(userRequestDto.getEmail())
-	//				.orElseThrow(() -> new CustomException(LOGIN_BAD_REQUEST)
-	//				            );
-	//		AuthEntity auth =
-	//			authRepository
-	//				.findByUserSeq(user.getSeq())
-	//				.orElseThrow(() -> new CustomException(REFRESH_TOKEN_NOT_FOUND));
-	//		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
-	//			throw new CustomException(LOGIN_BAD_REQUEST);
-	//		}
-	//		String accessToken = "";
-	//		String refreshToken = auth.getRefreshToken();
+	// /**
+	// * @param userRequestDto
+	// * @return
+	// */
+	// @Transactional
+	// public AuthResponseDto signin(UserRequestDto userRequestDto) {
+	// UserEntity user =
+	// userRepository
+	// .findByEmail(userRequestDto.getEmail())
+	// .orElseThrow(() -> new CustomException(LOGIN_BAD_REQUEST)
+	// );
+	// AuthEntity auth =
+	// authRepository
+	// .findByUserSeq(user.getSeq())
+	// .orElseThrow(() -> new CustomException(REFRESH_TOKEN_NOT_FOUND));
+	// if (!passwordEncoder.matches(userRequestDto.getPassword(),
+	// user.getPassword())) {
+	// throw new CustomException(LOGIN_BAD_REQUEST);
+	// }
+	// String accessToken = "";
+	// String refreshToken = auth.getRefreshToken();
 	//
-	//		accessToken = authService.generateJwtToken(auth.getUser());
-	//		refreshToken = authService.saveRefreshToken(user);
-	//		System.out.println("new refreshToken :" + refreshToken);
-	//		auth.refreshUpdate(refreshToken);
-	//		authRepository.save(auth);
+	// accessToken = authService.generateJwtToken(auth.getUser());
+	// refreshToken = authService.saveRefreshToken(user);
+	// System.out.println("new refreshToken :" + refreshToken);
+	// auth.refreshUpdate(refreshToken);
+	// authRepository.save(auth);
 	//
-	//		return new AuthResponseDto(accessToken, refreshToken, user.getSeq(), user.getEmail(), user.getNickName(), user.getProfileImagePath(), user.getPoint(), user.getUserCode());
-	//	}
-
+	// return new AuthResponseDto(accessToken, refreshToken, user.getSeq(),
+	// user.getEmail(), user.getNickName(), user.getProfileImagePath(),
+	// user.getPoint(), user.getUserCode());
+	// }
 
 	/**
 	 * 토큰 확인 안하는 로그인 로직
@@ -144,11 +141,9 @@ public class UserService {
 	 */
 	@Transactional
 	public UserEntity signin(UserRequestDto userRequestDto) {
-		UserEntity user =
-			userRepository
+		UserEntity user = userRepository
 				.findByEmail(userRequestDto.getEmail())
-				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)
-				);
+				.orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 
 		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
 			throw new CustomException(LOGIN_BAD_REQUEST);
@@ -156,7 +151,6 @@ public class UserService {
 
 		return user;
 	}
-
 
 	/**
 	 * 리프레시 토큰의 유효기간과 시퀀스 일치 여부 확인
@@ -172,8 +166,7 @@ public class UserService {
 		}
 		// 위에서 유효성 검사 및 보낸 사용자를 확인했으므로 새로운 Access Token 과 Refresh Token을 발급한다.
 		AuthEntity auth = authRepository.findByUserSeq(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_TOKEN)
-		);
+				() -> new CustomException(NOT_FOUND_TOKEN));
 		if (!auth.getRefreshToken().equals(refreshToken)) { // DB에 있는 정보와 한번 더 비교하여 오류처리
 			System.out.println("refreshToken = " + refreshToken + ", DBToken = " + auth.getRefreshToken());
 			throw new CustomException(REFRESH_TOKEN_ERROR);
@@ -186,7 +179,6 @@ public class UserService {
 
 		return new AuthResponseDto(accessToken, newRefreshToken);
 	}
-
 
 	public Boolean checkNickNameDuplication(UserRequestDto userRequestDto) {
 
@@ -203,7 +195,6 @@ public class UserService {
 		 */
 	}
 
-
 	/**
 	 * 작성한 코드와 핸드폰번호를 입력받아서 동일한 값인지 확인한다.
 	 *
@@ -211,9 +202,7 @@ public class UserService {
 	 * @return
 	 */
 	public Boolean checkAuthCode(AuthCodeRequestDto authCodeRequestDto) {
-		System.out.println("authCodeRequestDto.toString() = " + authCodeRequestDto.toString());
 		String authCode = authCodeRequestDto.getAuthCode();
-		System.out.println("authCode = " + authCode);
 		String phoneNumber = authCodeRequestDto.getPhoneNumber();
 
 		String value = redisUtil.getData(authCode);
@@ -228,7 +217,6 @@ public class UserService {
 
 		return true;
 	}
-
 
 	/**
 	 * Email 과 Password 에 대한 유효성 검사는
@@ -247,7 +235,6 @@ public class UserService {
 		}
 	}
 
-
 	/**
 	 * 유저 정보 찾기 관련
 	 * 인증은 다른 서비스에서 진행된다.
@@ -260,30 +247,30 @@ public class UserService {
 		if ((accountRequestDto.getIsAuthed()).isBlank()) {
 			throw new CustomException(DATA_BAD_REQUEST);
 		}
-		UserEntity user = userRepository.findByEmail(accountRequestDto.getEmail()).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+		UserEntity user = userRepository.findByPhoneNumber(accountRequestDto.getPhoneNumber()).orElseThrow(
+				() -> new CustomException(NOT_FOUND_USER));
 
 		return user.getEmail();
 	}
 
-
 	public Long findPasswordByPhoneNumber(AccountRequestDto accountRequestDto) {
 		if ((accountRequestDto.getIsAuthed()).isBlank()) {
+			System.out.println("인증정보없음");
 			throw new CustomException(DATA_BAD_REQUEST);
 		}
 		String email = accountRequestDto.getEmail();
 		String phoneNumber = accountRequestDto.getPhoneNumber();
+		System.out.println("phoneNumber = " + phoneNumber);
 		UserEntity user = userRepository.findByEmail(email).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
-		if (!user.equals(userRepository.findByPhoneNumber(phoneNumber))) {
-			throw new CustomException(DATA_BAD_REQUEST);
-		}
+				() -> new CustomException(NOT_FOUND_USER));
+		System.out.println("user.getPhoneNumber() = " + user.getPhoneNumber());
+		// if (user.getPhoneNumber().equals(String.valueOf(phoneNumber))) {
+		// System.out.println("핸드폰 번호 불일치");
+		// throw new CustomException(DATA_BAD_REQUEST);
+		// }
 
 		return user.getSeq();
 	}
-
 
 	/**
 	 * seq
@@ -295,19 +282,18 @@ public class UserService {
 	 */
 	@Transactional
 	public Long resetPassword(Long userSeq, AccountRequestDto accountRequestDto) {
+
 		if (!accountRequestDto.getPassword().equals(accountRequestDto.getCheckPassword())) {
 			throw new CustomException(PASSWORD_NOT_MATCH);
 		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		user.updatePassword(passwordEncoder.encode(accountRequestDto.getPassword()));
 		userRepository.save(user);
 
 		return user.getSeq();
 
 	}
-
 
 	/**
 	 * 회원 정보 조회
@@ -319,11 +305,10 @@ public class UserService {
 	public UserEntity getUserInfo(Long userSeq) {
 		// TODO : 로직
 		UserEntity user = userRepository.findById(userSeq)
-		                                .orElseThrow(
-			                                () -> new CustomException(NOT_FOUND_USER));
+				.orElseThrow(
+						() -> new CustomException(NOT_FOUND_USER));
 		return user;
 	}
-
 
 	/**
 	 * 유저 Seq 리스트로 받으면
@@ -337,14 +322,12 @@ public class UserService {
 
 		for (Long seq : userSeqList) {
 			UserEntity user = userRepository.findById(seq).orElseThrow(
-				() -> new CustomException(NOT_FOUND_USER)
-			);
+					() -> new CustomException(NOT_FOUND_USER));
 			result.add(user);
 		}
 
 		return result;
 	}
-
 
 	/**
 	 * 회원 정보 수정
@@ -355,17 +338,15 @@ public class UserService {
 	 */
 	@Transactional
 	public Long modifyNickName(Long userSeq, UserRequestDto userRequestDto) {
-
+		System.out.println("userRequestDto.getNickName() = " + userRequestDto.getNickName());
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 
 		user.updateNickName(userRequestDto.getNickName());
 		userRepository.save(user);
 
 		return user.getSeq();
 	}
-
 
 	/**
 	 * 프로필 사진 수정
@@ -377,12 +358,12 @@ public class UserService {
 	public String modifyProfileImage(Long userSeq, MultipartHttpServletRequest request) {
 		System.out.println("UserService.modifyProfileImage");
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 
 		try {
 			File uploadDir = new File(uploadPath + File.separator + uploadFolder); // 폴더가 없을 경우 생성하는 로직
-			if (!uploadDir.exists()) uploadDir.mkdirs();
+			if (!uploadDir.exists())
+				uploadDir.mkdirs();
 			System.out.println("uploadDir = " + uploadDir);
 
 			MultipartFile file = request.getFile("file"); // 하나만 전송되기 때문에 file
@@ -415,7 +396,6 @@ public class UserService {
 		return user.getProfileImagePath();
 	}
 
-
 	/**
 	 * 회원 비밀번호 수정
 	 *
@@ -425,15 +405,17 @@ public class UserService {
 	 */
 	@Transactional
 	public Long modifyUserPassword(Long userSeq, UserRequestDto userRequestDto) {
+		System.out.println("passwordEncoder.encode(userRequestDto.getPassword() : "
+				+ passwordEncoder.encode(userRequestDto.getPassword()));
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
+		System.out.println("now Password : " + user.getPassword());
 		if (!userRequestDto.getNewPassword().equals(userRequestDto.getCheckPassword())) {
 			System.out.println("확인용 비밀번호가 일치하지 않습니다.");
 			throw new CustomException(DATA_BAD_REQUEST);
 		}
-		if (!passwordEncoder.encode(userRequestDto.getPassword()).equals(user.getPassword())) {
+		if (!passwordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
 			System.out.println("현재 비밀번호와 일치하지 않는 비밀번호입니다.");
 			throw new CustomException(PASSWORD_NOT_MATCH);
 		}
@@ -448,7 +430,6 @@ public class UserService {
 		return user.getSeq();
 	}
 
-
 	/**
 	 * 회원 정보 삭제
 	 *
@@ -457,8 +438,7 @@ public class UserService {
 	 */
 	public Boolean deleteUserInfo(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		user.deleteUserInfo();
 		userRepository.save(user);
 
@@ -480,7 +460,7 @@ public class UserService {
 	@Transactional
 	public List<Long> getFollowList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq)
-		                                .orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+				.orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 		List<Long> followedUserList = new ArrayList<>();
 		List<FollowEntity> followList = user.getFollowUserList();
 		for (FollowEntity followEntity : followList) {
@@ -489,7 +469,6 @@ public class UserService {
 
 		return followedUserList;
 	}
-
 
 	/**
 	 * 즐겨찾기 추가
@@ -504,11 +483,9 @@ public class UserService {
 			throw new CustomException(SAME_USER_REQUEST);
 		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		UserEntity followedUser = userRepository.findById(followedUserSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 
 		// 새로운 즐겨찾기 생성
 		// 현재 즐겨찾기에 없을 경우만 추가
@@ -526,7 +503,6 @@ public class UserService {
 		return follow.getFollowedUserSeq();
 	}
 
-
 	/**
 	 * 즐겨찾기 삭제
 	 *
@@ -541,19 +517,16 @@ public class UserService {
 		}
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		followRepository.deleteFollowBySeq(user, followedUserSeq);
 
 		UserEntity followedUser = userRepository.findById(followedUserSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		HelperInfoEntity helperInfo = followedUser.getHelperInfo();
 		helperInfo.updateLikedCount(-1);
 
 		return true;
 	}
-
 
 	/**
 	 * 차단목록 조회
@@ -566,8 +539,7 @@ public class UserService {
 	@Transactional
 	public List<Long> getBlockList(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 
 		List<Long> blockedUserList = new ArrayList<>();
 		List<BlockEntity> blockList = user.getBlockUserList();
@@ -577,7 +549,6 @@ public class UserService {
 
 		return blockedUserList;
 	}
-
 
 	/**
 	 * 차단 유저 추가
@@ -592,11 +563,9 @@ public class UserService {
 			throw new CustomException(SAME_USER_REQUEST);
 		}
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		UserEntity blockUser = userRepository.findById(blockSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		if (user.getBlockUserList().contains(blockUser)) {
 			throw new CustomException(DUPLICATE_RESOURCE);
 		}
@@ -606,7 +575,6 @@ public class UserService {
 
 		return block.getBlockedUserSeq();
 	}
-
 
 	/**
 	 * 차단 유저 삭제
@@ -622,14 +590,12 @@ public class UserService {
 		}
 
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 		blockRepository.deleteBlockBySeq(user, blockSeq);
 
 		return true;
 
 	}
-
 
 	/**
 	 * 유저 신고하기
@@ -645,8 +611,7 @@ public class UserService {
 		}
 
 		UserEntity reportedUser = userRepository.findById(reportSeq).orElseThrow(
-			() -> new CustomException(NOT_FOUND_USER)
-		);
+				() -> new CustomException(NOT_FOUND_USER));
 
 		reportedUser.setReportCount(reportedUser.getReportCount() + 1);
 		userRepository.save(reportedUser);
@@ -655,7 +620,6 @@ public class UserService {
 	}
 
 	// --------------------------------- 히스토리 ------------------------------------
-
 
 	/**
 	 * @param userSeq           : 로그인 유저 seq
@@ -677,15 +641,19 @@ public class UserService {
 		// 정렬 기준 동적 생성
 		Sort.TypedSort<HistoryEntity> typedSort = Sort.sort(HistoryEntity.class);
 		Sort sort;
-		if (historyRequestDto.getOrderByCreatedAtAsc()) sort = typedSort.by(HistoryEntity::getCreatedAt).ascending();
-		else sort = typedSort.by(HistoryEntity::getCreatedAt).descending();
+		if (historyRequestDto.getOrderByCreatedAtAsc())
+			sort = typedSort.by(HistoryEntity::getCreatedAt).ascending();
+		else
+			sort = typedSort.by(HistoryEntity::getCreatedAt).descending();
 
 		// 목록 조회
 		if (historyRequestDto.getClientSeq() != null) { // 고객 기준 조회
-			UserEntity client = userRepository.findById(historyRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+			UserEntity client = userRepository.findById(historyRequestDto.getClientSeq())
+					.orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 			historyList = historyRepository.findByClient(client, sort);
 		} else if (historyRequestDto.getHelperSeq() != null) { // 헬퍼 기준 조회
-			UserEntity helper = userRepository.findById(historyRequestDto.getHelperSeq()).orElseThrow(() -> new CustomException(NOT_FOUND_USER));
+			UserEntity helper = userRepository.findById(historyRequestDto.getHelperSeq())
+					.orElseThrow(() -> new CustomException(NOT_FOUND_USER));
 			historyList = historyRepository.findByHelper(helper, sort);
 		} else if (historyRequestDto.getLangCode() != null) { // 업무에 사용된 언어 기준 조회
 			String langCode = historyRequestDto.getLangCode();
@@ -698,7 +666,6 @@ public class UserService {
 		}
 		return historyList;
 	}
-
 
 	/**
 	 * @param userSeq    : 로그인 사용자 seq
