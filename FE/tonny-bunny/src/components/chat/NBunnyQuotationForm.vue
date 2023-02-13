@@ -6,7 +6,8 @@
                 type="h2"
                 title="고객의 어떤 공고를 해결하시겠어요?"
                 text="해결하고 싶은 공고를 선택해주세요"
-                class="mb-3" />
+                class="mb-3"
+            />
 
             <div class="">
                 <label for=""></label>
@@ -14,7 +15,8 @@
                     :dropdownArray="bunntTitleList"
                     placeholder="공고를 선택하세요"
                     @toggle="selectBunny"
-                    @toggleInx="findIdx" />
+                    @toggleInx="findIdx"
+                />
             </div>
 
             <title-text type="h2" title="제목" />
@@ -56,7 +58,8 @@
                 type="h2"
                 title="번역의 금액을 설정해주세요"
                 text="번역 시 받으실 금액을 설정해주세요"
-                class="mb-3" />
+                class="mb-3"
+            />
 
             <div class="d-flex">
                 <div class="col-11">
@@ -65,7 +68,8 @@
                         @input="changeInput"
                         class="w-100"
                         placeholder="ex)1000"
-                        v-model="totalPrice" />
+                        v-model="totalPrice"
+                    />
                 </div>
                 <div class="backlabel col-2">
                     <h3>캐럿</h3>
@@ -78,14 +82,16 @@
                 multiple
                 accept="image/*"
                 @change="insertImageList"
-                class="quotationFileList" />
+                class="quotationFileList"
+            />
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
             <medium-btn
                 style="width: 100%"
                 text="작성하기"
                 color="main"
-                @click.prevent="submitForm(event)" />
+                @click.prevent="submitForm(event)"
+            />
         </form>
     </div>
 </template>
@@ -151,7 +157,7 @@ export default {
             console.log(this.bunnyList[index].endDateTime.slice(0, 4));
         },
 
-        submitForm() {
+        async submitForm() {
             // "bunnySeq": 6,
             // "clientSeq": 1,
             // "helperSeq": 2,
@@ -197,8 +203,8 @@ export default {
                 bunnyQuotationImageRequestDtoList: this.fileList,
             };
 
-            this.$store.dispatch("insertBunnyQuotation", payload);
-            const bunnyQuotationSeq = 0; // TODO : insert 하고나서 quotation seq 받기!
+            await this.$store.dispatch("insertBunnyQuotation", payload);
+            const bunnyQuotationSeq = this.$store.state.bunny.createdQuotationSeq; // TODO : insert 하고나서 quotation seq 받기!
             this.enterChatRoom(bunnyQuotationSeq);
             // // file upload
             // let formData = new FormData();

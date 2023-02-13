@@ -30,7 +30,7 @@ divdivdiv
                     class="w-100"
                     :questDetail="bunny"
                     rightBtnText="신청하기"
-                    @clickBtn2="clickHelperBtn"
+                    @clickBtn2="clickHelperBtn(bunny)"
                 />
                 <br />
             </div>
@@ -91,7 +91,9 @@ export default {
             this.$store.dispatch("getBunnyList", payload);
         },
 
-        clickHelperBtn() {
+        clickHelperBtn(bunny) {
+            console.log(bunny);
+            this.$store.state.bunny.bunnyDetail = bunny;
             this.$router.push({ name: "NBunnyMatchingPage" });
         },
     },

@@ -47,26 +47,26 @@ public class BunnyQuotationService {
 		UserEntity helper = userRepository.findById(bunnyQuotationRequestDto.getHelperSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		BunnyQuotationEntity bunnyQuotation = BunnyQuotationEntity.builder()
-		                                                          .bunny(bunny)
-		                                                          .client(client)
-		                                                          .helper(helper)
-		                                                          .startDateTime(bunnyQuotationRequestDto.getStartDateTime())
-		                                                          .endDateTime(bunnyQuotationRequestDto.getEndDateTime())
-		                                                          .title(bunnyQuotationRequestDto.getTitle())
-		                                                          .content(bunnyQuotationRequestDto.getContent())
-		                                                          .totalPrice(bunnyQuotationRequestDto.getTotalPrice())
-		                                                          .startLangCode(bunnyQuotationRequestDto.getStartLangCode())
-		                                                          .endLangCode(bunnyQuotationRequestDto.getEndLangCode())
-		                                                          .build();
+			.bunny(bunny)
+			.client(client)
+			.helper(helper)
+			.startDateTime(bunnyQuotationRequestDto.getStartDateTime())
+			.endDateTime(bunnyQuotationRequestDto.getEndDateTime())
+			.title(bunnyQuotationRequestDto.getTitle())
+			.content(bunnyQuotationRequestDto.getContent())
+			.totalPrice(bunnyQuotationRequestDto.getTotalPrice())
+			.startLangCode(bunnyQuotationRequestDto.getStartLangCode())
+			.endLangCode(bunnyQuotationRequestDto.getEndLangCode())
+			.build();
 
 		bunnyQuotation = bunnyQuotationRepository.save(bunnyQuotation);
 
 		for (BunnyQuotationImageRequestDto bunnyQuotationImageRequestDto : bunnyQuotationRequestDto.getBunnyQuotationImageRequestDtoList()) {
 
 			BunnyQuotationImageEntity bunnyQuotationImage = BunnyQuotationImageEntity.builder()
-			                                                                         .bunnyQuotation(bunnyQuotation)
-			                                                                         .imagePath(bunnyQuotationImageRequestDto.getImagePath())
-			                                                                         .build();
+				.bunnyQuotation(bunnyQuotation)
+				.imagePath(bunnyQuotationImageRequestDto.getImagePath())
+				.build();
 
 			bunnyQuotationImage = bunnyQuotationImageRepository.save(bunnyQuotationImage);
 
@@ -96,12 +96,11 @@ public class BunnyQuotationService {
 	/**
 	 * 번역 견적서 상세 조회
 	 *
-	 * @param bunnyQuotationRequestDto
+	 * @param bunnyQuotationSeq
 	 * @return 조회한 견적서
 	 */
-	public BunnyQuotationEntity getBunnyQuotation(BunnyQuotationRequestDto bunnyQuotationRequestDto) {
+	public BunnyQuotationEntity getBunnyQuotation(Long bunnyQuotationSeq) {
 
-		Long bunnyQuotationSeq = bunnyQuotationRequestDto.getSeq();
 		BunnyQuotationEntity bunnyQuotation = bunnyQuotationRepository.findById(bunnyQuotationSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 		return bunnyQuotation;
 	}
@@ -174,18 +173,18 @@ public class BunnyQuotationService {
 		bunnyRepository.save(bunny);
 
 		BunnyHistoryEntity bunnyHistory = BunnyHistoryEntity.builder()
-		                                                    .client(bunnyQuotation.getClient())
-		                                                    .helper(bunnyQuotation.getHelper())
-		                                                    .taskCode(bunny.getTaskCode())
-		                                                    .notiSeq(bunny.getSeq())
-		                                                    .startLangCode(bunnyQuotation.getStartLangCode())
-		                                                    .endLangCode(bunnyQuotation.getEndLangCode())
-		                                                    .content(bunny.getContent())
-		                                                    .startDateTime(bunnyQuotation.getStartDateTime())
-		                                                    .endDateTime(bunnyQuotation.getEndDateTime())
-		                                                    .title(bunny.getTitle())
-		                                                    .totalPrice(bunnyQuotation.getTotalPrice())
-		                                                    .build();
+			.client(bunnyQuotation.getClient())
+			.helper(bunnyQuotation.getHelper())
+			.taskCode(bunny.getTaskCode())
+			.notiSeq(bunny.getSeq())
+			.startLangCode(bunnyQuotation.getStartLangCode())
+			.endLangCode(bunnyQuotation.getEndLangCode())
+			.content(bunny.getContent())
+			.startDateTime(bunnyQuotation.getStartDateTime())
+			.endDateTime(bunnyQuotation.getEndDateTime())
+			.title(bunny.getTitle())
+			.totalPrice(bunnyQuotation.getTotalPrice())
+			.build();
 
 		// TODO
 		//  bunnyHistory 에는 bunnyQuotationImage 저장 안하나?

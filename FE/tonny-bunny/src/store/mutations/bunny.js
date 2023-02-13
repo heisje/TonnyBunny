@@ -17,4 +17,8 @@ export default {
     SET_BUNNY_LIST(state, data) {
         state.bunny.bunnyList = data;
     },
+
+    SET_CREATED_QUOTATION_SEQ(state, data) {
+        state.bunny.createdQuotationSeq = data;
+    },
 };
