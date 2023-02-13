@@ -77,7 +77,8 @@
                     font="main"
                     style="width: 100%"
                     text="취소"
-                    @click="goMyPage"></smallBtn>
+                    @click="goMyPage"
+                ></smallBtn>
             </div>
 
             <div v-else style="margin-top: 8px">
@@ -133,8 +134,6 @@ export default {
             certificateList: [],
             certName: "",
             contentInput: "",
-
-
         };
     },
 
@@ -216,11 +215,6 @@ export default {
             event.preventDefault();
             this.$router.push({ name: "MyPage" });
         },
-
-        goMyPage(event) {
-            event.preventDefault();
-            this.$router.push({ name: "MyPage" });
-        },
     },
     computed: {
         ...mapGetters({
@@ -228,7 +222,6 @@ export default {
             allCode: "getAllCode",
         }),
     },
-
 };
 </script>
 
