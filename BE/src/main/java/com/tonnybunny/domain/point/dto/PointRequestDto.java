@@ -1,7 +1,10 @@
 package com.tonnybunny.domain.point.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -19,6 +22,9 @@ import lombok.Data;
  * pointRequestType     : 포인트 거래 유형
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PointRequestDto {
 
 	private Long fromUserSeq;
