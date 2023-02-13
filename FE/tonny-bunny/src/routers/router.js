@@ -568,13 +568,14 @@ export default createRouter({
         },
 
         {
-            path: "/mypage/profile/update",
+            path: "/mypage/profile/update/:userSeq",
             name: "ProfileUpdatePage",
             components: {
                 header: AppHeader,
                 default: ProfileUpdatePage,
                 footer: AppFooter,
             },
+            props: true,
         },
 
         {

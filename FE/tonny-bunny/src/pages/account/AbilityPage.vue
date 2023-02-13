@@ -77,7 +77,7 @@
                     font="main"
                     style="width: 100%"
                     text="다음에 하기"
-                    @click="goSignUpCompletePage"
+                    @click="goMyPage"
                 ></smallBtn>
             </div>
         </div>
@@ -124,6 +124,8 @@ export default {
             certificateList: [],
             certName: "",
             contentInput: "",
+
+
         };
     },
 
@@ -201,9 +203,9 @@ export default {
             }
         },
 
-        goSignUpCompletePage(event) {
+        goMyPage(event) {
             event.preventDefault();
-            this.$router.push({ name: "AbilityCompletePage" });
+            this.$router.push({ name: "MyPage" });
         },
     },
     computed: {
@@ -212,6 +214,7 @@ export default {
             allCode: "getAllCode",
         }),
     },
+
 };
 </script>
 
