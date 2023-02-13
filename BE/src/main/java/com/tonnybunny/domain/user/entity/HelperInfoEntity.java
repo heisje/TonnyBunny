@@ -25,8 +25,6 @@ public class HelperInfoEntity extends CommonEntity {
 	@Column(name = "helper_info_seq")
 	private Long seq;
 
-	private Boolean isActive = false;
-
 	@Builder.Default
 	private Integer totalScore = 0;
 	@Builder.Default
