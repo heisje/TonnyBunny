@@ -10,12 +10,16 @@
         <div>
             <div>
                 <TitleText title="번역서비스 요청자" type="h2" />
-                <img src="" alt="" />
+                <!-- <user-profile-img
+                    :profileImagePath="userReviewItem?.user?.profileImagePath"
+                    width="40" /> -->
                 <span>{{ questDetail?.clientSeq }}</span>
             </div>
             <div>
                 <TitleText title="번역서비스 제공자" type="h2" />
-                <img src="" alt="" />
+                <!-- <user-profile-img
+                    :profileImagePath="userReviewItem?.user?.profileImagePath"
+                    width="40" /> -->
                 <span>{{ questDetail?.helperSeq }}</span>
             </div>
         </div>

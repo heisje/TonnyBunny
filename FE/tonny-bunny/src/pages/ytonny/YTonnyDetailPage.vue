@@ -44,11 +44,16 @@
                                     height="40"
                                     class="me-3" /> -->
 
-                                <img
+                                <user-profile-img
+                                    :profileImagePath="yTonnyDetail?.client?.profileImagePath"
+                                    width="40"
+                                    class="me-3" />
+
+                                <!-- <img
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
-                                    class="me-3" />
+                                    class="me-3" /> -->
                             </a>
 
                             <a>
@@ -208,7 +213,11 @@
                                 <div class="d-flex flex-row align-items-center apply">
                                     <div
                                         class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                        <img src="@/assets/noProfile.png" width="50" height="50" />
+                                        <user-profile-img
+                                            :profileImagePath="apply?.helper?.nickName"
+                                            width="50" />
+
+                                        <!-- <img src="@/assets/noProfile.png" width="50" height="50" /> -->
 
                                         <!-- <img :src="apply.helper.profileImagePath" /> -->
                                         <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -306,10 +315,13 @@
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                            <img
+                                            <user-profile-img
+                                                :profileImagePath="apply?.helper?.nickName"
+                                                width="50" />
+                                            <!-- <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50" />
+                                                height="50" /> -->
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -449,6 +461,7 @@ import TitleText from "@/components/common/TitleText.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     name: "YTonnyDetailPage",
@@ -458,6 +471,7 @@ export default {
         SquareTag,
         MediumBtn,
         AlarmModal,
+        UserProfileImg,
     },
 
     data() {

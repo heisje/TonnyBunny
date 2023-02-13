@@ -91,9 +91,7 @@ export default {
         insertImage(e) {
             this.profileImg = e.target.files[0];
             console.log(this.profileImg);
-            this.$store
-                .dispatch("putProfileImage", this.profileImg)
-                .then(this.$store.dispatch("getMypage"));
+            this.$store.dispatch("putProfileImage", this.profileImg);
         },
 
         clickInputProfile() {
