@@ -681,21 +681,48 @@ export default {
             await this.$store.dispatch("acceptYTonnyApply", payload);
             await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
 
+            // schedules
+            let startDateTime = new Date(this.yTonnyDetail.startDateTime);
+            let endDateTime = new Date(this.yTonnyDetail.startDateTime);
+            let splitTime = this.yTonnyDetail.estimateTime.split(":");
+
+            let hours = splitTime[0] * 60 * 60 * 1000;
+            let mins = splitTime[1] * 60 * 1000;
+
+            endDateTime.setTime(endDateTime.getTime() + hours + mins);
+
+            // console.log(this.yTonnyDetail.estimateTime);
+            // console.log(startDateTime.toISOString(), endDateTime.toISOString());
+
+            let schedule = {
+                userSeq: this.yTonnyDetail.client.seq,
+                startDateTime: startDateTime.toISOString(),
+                endDateTime: endDateTime.toISOString(),
+                title: this.yTonnyDetail.title,
+                content: this.yTonnyDetail.content,
+                taskCode: this.yTonnyDetail.taskCode,
+            };
+            let helperSchedule = {
+                ...schedule,
+                userSeq: this.yTonnyDetail.helper.seq,
+            };
+            await this.$store.dispatch("insertSchedule", schedule);
+            await this.$store.dispatch("insertSchedule", helperSchedule);
+
             // client alert
             let clientAlert = {
                 userSeq: this.yTonnyDetail.client.seq,
                 taskCode: this.yTonnyDetail.taskCode,
-                content: this.yTonnyDetail.content,
+                content: '"' + this.yTonnyDetail.title + '" 일정이 잡혔습니다.',
                 sessionName: this.yTonnyDetail.sessionName,
             };
             await this.$store.dispatch("insertAlert", clientAlert);
 
             // helper alert (클라가 누르면 바로 알람이 들어감)
             let helperAlert = {
+                ...clientAlert,
                 userSeq: this.yTonnyDetail.helper.seq,
-                taskCode: this.yTonnyDetail.taskCode,
-                content: this.yTonnyDetail.content,
-                sessionName: this.yTonnyDetail.sessionName,
+                // content: this.yTonnyDetail.task + " 일정이 잡혔습니다."
             };
             await this.$store.dispatch("insertAlert", helperAlert);
 
@@ -721,6 +748,18 @@ export default {
         await this.getYTonnyApplyList();
         this.checkIsCreator();
         this.checkIsManager();
+
+        let startDateTime = new Date(this.yTonnyDetail.startDateTime);
+        let endDateTime = new Date(this.yTonnyDetail.startDateTime);
+        let splitTime = this.yTonnyDetail.estimateTime.split(":");
+
+        let hours = splitTime[0] * 60 * 60 * 1000;
+        let mins = splitTime[1] * 60 * 1000;
+
+        endDateTime.setTime(endDateTime.getTime() + hours + mins);
+
+        console.log(this.yTonnyDetail.estimateTime);
+        console.log(startDateTime.toISOString(), endDateTime.toISOString());
     },
 
     mounted() {

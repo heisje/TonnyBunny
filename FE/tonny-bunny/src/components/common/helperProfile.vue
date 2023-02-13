@@ -54,7 +54,7 @@
                                     alt="" />
                                 <img v-else src="@/assets/noProfile.png" alt="" />
 
-                                <h3>{{ userReviewItem?.user?.nickName.slice(0, 1) + "***" }}</h3>
+                                <h3>{{ "***" }}</h3>
                                 <span>{{ userReviewItem?.createdAt }}</span>
                             </div>
 

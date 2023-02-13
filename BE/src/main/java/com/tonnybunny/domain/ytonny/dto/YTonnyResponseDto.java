@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
@@ -56,7 +57,9 @@ public class YTonnyResponseDto {
 	private String title;
 	private String content;
 
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime startDateTime;
+
 	private String estimateTime;
 	private Integer estimatePrice;
 	private Integer unitPrice;
@@ -67,7 +70,9 @@ public class YTonnyResponseDto {
 	private String taskCode;
 	private String taskStateCode;
 
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime updatedAt;
 
 	private Boolean isDeleted;

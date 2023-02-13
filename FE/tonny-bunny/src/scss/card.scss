@@ -1,7 +1,8 @@
 .cardContainer {
     // position: relative;
     display: block;
-    background-color: var(--thin-color);
+    background-color: var(--white-color);
+    border: 1px solid var(--light-color);
 
     width: 100%;
     min-width: 300px;
@@ -9,8 +10,8 @@
     border-radius: 8px;
     padding: 16px;
 
-    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    // box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.08);
+    // border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .clientCard {
@@ -76,7 +77,6 @@
                 margin: 0 0 8px 0;
                 cursor: pointer;
                 border-radius: 100%;
-                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
                 // border: 2px solid var(--main-color);
             }
 
@@ -258,7 +258,6 @@
                 width: 32px;
                 height: 32px;
                 border-radius: 100%;
-                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
             }
         }
 

@@ -1,6 +1,7 @@
 package com.tonnybunny.domain.ytonny.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +42,7 @@ public class YTonnyQuotationResponseDto {
 	private String title;
 	private String content;
 
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime startDateTime;
 	private String estimateTime;
 	private Integer unitPrice;

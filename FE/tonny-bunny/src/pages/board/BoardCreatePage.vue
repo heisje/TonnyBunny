@@ -1,4 +1,5 @@
 <template>
+    <title-banner title="자유게시판" text="자유롭게 이야기를 나누어보아요 ^.^" />
     <div class="BoardCreateConatiner">
         <div class="BoardCreateWrap">
             <title-text title="게시글 작성" />
@@ -48,8 +49,9 @@
 // import axios from "axios";
 import TitleText from "@/components/common/TitleText.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 export default {
-    components: { TitleText, MediumBtn },
+    components: { TitleText, MediumBtn, TitleBanner },
     data() {
         return {
             title: {
