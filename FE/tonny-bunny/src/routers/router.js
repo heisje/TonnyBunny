@@ -12,6 +12,7 @@ import AbilityPage from "@/pages/account/AbilityPage";
 import AgreePage from "@/pages/account/AgreePage";
 import SignUpCreatePage from "@/pages/account/SignUpCreatePage";
 import SignUpCompletePage from "@/pages/account/SignUpCompletePage";
+import AbilityCompletePage from "@/pages/account/AbilityCompletePage";
 
 // jtonny
 import JTonnyWaitingPage from "@/pages/jtonny/JTonnyWaitingPage";
@@ -187,6 +188,15 @@ export default createRouter({
                 footer: AppFooter,
             },
             props: true,
+        },
+        {
+            path: "/account/ability/complete",
+            name: "AbilityCompletePage",
+            components: {
+                header: AppHeader,
+                default: AbilityCompletePage,
+                footer: AppFooter,
+            },
         },
 
         //jtonny
@@ -717,7 +727,7 @@ export default createRouter({
                 default: ReportPage,
                 footer: AppFooter,
             },
-            props:true,
+            props: true,
         },
 
         {
@@ -728,7 +738,7 @@ export default createRouter({
                 default: ReviewPage,
                 footer: AppFooter,
             },
-            props:true,
+            props: true,
         },
 
         {

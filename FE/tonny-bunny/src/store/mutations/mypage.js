@@ -9,4 +9,8 @@ export default {
     SET_HELPER_INFO(state, payload) {
         state.mypage.helperInfo = payload;
     },
+
+    SET_OTHER_HELPER_INFO(state, payload) {
+        state.mypage.otherHelperInfo = payload;
+    },
 };

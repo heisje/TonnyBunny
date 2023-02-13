@@ -8,4 +8,7 @@ export default {
     getHelperInfo(state) {
         return state.mypage.helperInfo;
     },
+    getOtherHelperInfo(state) {
+        return state.mypage.getOtherHelperInfo;
+    },
 };

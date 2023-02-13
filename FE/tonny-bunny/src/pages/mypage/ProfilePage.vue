@@ -1,4 +1,5 @@
 <template>
+    <h1>헬퍼 프로필</h1>
     <helper-profile :userInfo="userInfo" />
 </template>
 
