@@ -38,7 +38,7 @@ public class ReviewController {
 
 	@GetMapping("/{reviewSeq}")
 	@ApiOperation(value = "리뷰를 조회합니다.")
-	public ResponseEntity<ResultDto<?>> getReview(@PathVariable("reviewSeq") Long reviewSeq) {
+	public ResponseEntity<ResultDto<ReviewResponseDto>> getReview(@PathVariable("reviewSeq") Long reviewSeq) {
 
 		ReviewEntity review = reviewService.getReview(reviewSeq);
 		ReviewResponseDto reviewResponseDto = ReviewResponseDto.fromEntity(review);
@@ -49,7 +49,7 @@ public class ReviewController {
 
 	@PostMapping
 	@ApiOperation(value = "리뷰를 작성합니다.")
-	public ResponseEntity<ResultDto<?>> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
+	public ResponseEntity<ResultDto<Long>> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
 
 		Long reviewSeq = reviewService.createReview(reviewRequestDto);
 
