@@ -10,6 +10,7 @@
                 :class="{
                     'message-type-url': messageType == 'url',
                     'message-type-text': messageType == 'text',
+                    'text-decoration-underline': messageType == 'url', // bootstrap
                 }">
                 <div>
                     <div class="text">{{ text }}</div>

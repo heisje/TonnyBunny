@@ -1,8 +1,8 @@
 <template lang="">
-    <div>
+    <div class="chat-list-view">
         <div v-for="chatRoom in chatRoomList" :key="chatRoom">
-            <div @click="enterChatRoom($event, chatRoom[1])" class="nav-link" aria-current="page">
-                {{ chatRoom }}
+            <div @click="enterChatRoom($event, chatRoom[1])" class="" aria-current="page">
+                <!-- {{ chatRoom }} -->
                 <chat-item
                     v-bind:nickName="chatRoom[1].anotherUserInfo?.nickName"
                     v-bind:profileImagePath="chatRoom[1].anotherUserInfo?.profileImagePath"
