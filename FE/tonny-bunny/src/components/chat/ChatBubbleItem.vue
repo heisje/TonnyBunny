@@ -1,18 +1,21 @@
 <template lang="">
-    <div class="chat">
-        <div
-            :class="{
-                'other-chat': other,
-                'self-chat': !other,
-                'message-type-url': messageType == 'url',
-                'message-type-text': messageType == 'text',
-            }">
-            <div v-if="other === true">
-                <div><img class="img-thumbnail" :src="profileImageLink" /></div>
-                <div>{{ name }}</div>
+    <div class="chat-box">
+        <div v-if="other == true" class="chat-user-profile">
+            <img src="@/assets/noProfile.png" />
+        </div>
+        <div class="chat-message-wrap">
+            <div v-show="other == true">{{ name }}</div>
+            <div
+                class="chat-message"
+                :class="{
+                    'message-type-url': messageType == 'url',
+                    'message-type-text': messageType == 'text',
+                }">
+                <div>
+                    <div class="text">{{ text }}</div>
+                    <div class="time" :class="other ? 'time-other' : 'time-self'">{{ time }}</div>
+                </div>
             </div>
-            <h2>{{ text }}</h2>
-            <div>{{ time }}</div>
         </div>
     </div>
 </template>
@@ -54,15 +57,45 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.chat {
+.chat-box {
+    max-width: 75%;
+    position: relative;
+}
+.chat-message-wrap {
+    padding-left: 60px;
+}
+.chat-user-profile {
+    position: absolute; // chat-box 기준 세로 가운데 정렬
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+.chat-user-profile img {
+    width: 50px;
+}
+.chat-message {
     border: 1px solid lightgray;
-    margin: 10px;
-    // padding: 10px;
+    // margin: 10px;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+
+    border-radius: 10px;
+    // width: 40%;
+    // max-width: 75%;
 }
-.other-chat {
+.text {
 }
-.self-chat {
-    text-align: end;
+.time {
+    position: absolute;
+    bottom: 0px;
+    font-size: 12px;
+    color: rgb(182, 182, 182);
+}
+.time-other {
+    right: -60px;
+}
+.time-self {
+    left: -60px;
 }
 .message-type-text {
 }
