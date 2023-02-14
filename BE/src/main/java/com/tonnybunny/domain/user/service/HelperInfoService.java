@@ -287,6 +287,7 @@ public class HelperInfoService {
 	 * @param possibleLangSeqList : 삭제할 가능 언어 Entity의 seq 목록
 	 * @return 삭제 성공 여부
 	 */
+	@Transactional
 	public Boolean deletePossibleLangList(Long userSeq, List<Long> possibleLangSeqList) {
 		// TODO : 로직 구현
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
@@ -310,6 +311,7 @@ public class HelperInfoService {
 	 * @param helperInfoRequestDto
 	 * @return
 	 */
+	@Transactional
 	public HelperInfoEntity createHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
 
 		System.out.println("HelperInfoService.createHelperInfo");
@@ -366,6 +368,7 @@ public class HelperInfoService {
 	 * @param helperInfoRequestDto : 수정할 헬퍼 정보
 	 * @return 수정한 HelperInfoEntity의 seq
 	 */
+	@Transactional
 	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto, MultipartHttpServletRequest request) {
 		/** TODO : 로직 구현
 		 1. 가능 언어 목록 수정

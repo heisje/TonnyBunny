@@ -19,14 +19,16 @@
                             style="width: 100%"
                             text="취소"
                             color="main"
-                            @click.prevent="clickCancle" />
+                            @click.prevent="clickCancle"
+                        />
                     </div>
                     <div class="backlabel col-10">
                         <medium-btn
                             style="width: 100%"
                             text="고객에게 제안하기"
                             color="carrot"
-                            @click.prevent="submitForm" />
+                            @click.prevent="submitForm"
+                        />
                     </div>
                 </div>
             </div>
@@ -61,6 +63,7 @@ export default {
 
         submitForm() {
             if (this.estimatePrice === "") {
+                alert("금액을 입력해주세요!");
                 return;
             }
 

@@ -102,6 +102,7 @@ export default {
     // GET /api/ytonny 예약 통역 공고 목록 조회
     async getYTonnyList(context, page) {
         console.log("예약 통역 공고 목록 조회");
+        console.log(context.state.ytonny.yTonnySize);
 
         let params = {
             page: page - 1,
@@ -166,6 +167,7 @@ export default {
 
     // GET /api/ytonny/{yTonnySeq}/apply 예약 통역 공고 목록 조회
     async getYTonnyApplyList(context, payload) {
+        // context.commit("SET_Y_TONNY_APPLY_LIST", {});
         console.log("예약 통역 공고 목록 신청 조회");
 
         let params = {

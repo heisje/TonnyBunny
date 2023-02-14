@@ -39,103 +39,9 @@
         <button>cards</button>
         <div style="display: flex; flex-direction: column">
             <client-card />
-            <helper-card
-                nickName="아스파라거스"
-                oneLine="안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요"
-                fareText="2000"
-                starText="4.0"
-                countText="100"
-                likeText="10"
-                isLikeEmpty
-                :userInfo="{
-                    seq: 1,
-                    userCode: '1',
-                    email: 'test251@gmail.com',
-                    nickName: 'nickck111',
-                    phoneNumber: null,
-                    point: 0,
-                    profileImagePath: '/img/default.jpg',
-                    helperInfo: {
-                        seq: 1,
-                        avgScore: 3.5,
-                        reviewCount: 213,
-                        unitPrice: 123,
-                        oneLineIntroduction: 'ㄻㄴㄴㄻㅁㄹㄴ',
-                        introduction: 'ㄹㄴㅁㅁㄻㄴㄹ',
-                        possibleLanguageList: [
-                            {
-                                name: 'Korean',
-                                value: '0000111',
-                            },
-                            {
-                                name: 'English',
-                                value: '0010101',
-                            },
-                        ],
-                        certificateList: [
-                            {
-                                seq: null,
-                                langCode: null,
-                                certName: 'Korean',
-                                content: 'Korean',
-                            },
-                            {
-                                seq: null,
-                                langCode: null,
-                                certName: 'Canana',
-                                content: 'Canana',
-                            },
-                        ],
-                    },
-                }"
-                rightBtnText="상담하기"
-                @remove-card="close"
-                @toggle-like-btn="toggleLike"
-                @click-btn1="check1"
-                @click-btn2="check2"></helper-card>
 
             <helper-card
-                :userInfo="{
-                    seq: 1,
-                    userCode: '1',
-                    email: 'test251@gmail.com',
-                    nickName: 'nickck111',
-                    phoneNumber: null,
-                    point: 0,
-                    profileImagePath: '/img/default.jpg',
-                    helperInfo: {
-                        seq: 1,
-                        avgScore: 3.5,
-                        reviewCount: 213,
-                        unitPrice: 123,
-                        oneLineIntroduction: 'ㄻㄴㄴㄻㅁㄹㄴ',
-                        introduction: 'ㄹㄴㅁㅁㄻㄴㄹ',
-                        possibleLanguageList: [
-                            {
-                                name: 'Korean',
-                                value: '0000111',
-                            },
-                            {
-                                name: 'English',
-                                value: '0010101',
-                            },
-                        ],
-                        certificateList: [
-                            {
-                                seq: null,
-                                langCode: null,
-                                certName: 'Korean',
-                                content: 'Korean',
-                            },
-                            {
-                                seq: null,
-                                langCode: null,
-                                certName: 'Canana',
-                                content: 'Canana',
-                            },
-                        ],
-                    },
-                }"
+                :userInfo="userInfo"
                 rightBtnText="상담하기"
                 @click-btn1="check1"
                 @click-btn2="check2"></helper-card>
@@ -230,9 +136,15 @@
             <!-- <LoginModalVue /> -->
         </div>
         <hr />
+
+        <user-profile-img :profileImagePath="'/images/noProfile'" width="40" />
+        <img-item width="100" :imagePath="'/images/noBoardImg'" />
     </div>
 </template>
 <script>
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
+import ImgItem from "@/components/common/ImgItem.vue";
+
 import TitleBanner from "@/components/common/TitleBanner.vue";
 import TitleText from "@/components/common/TitleText.vue";
 
@@ -251,10 +163,14 @@ import HelperCard from "@/components/common/card/HelperCard.vue";
 import QuestCard from "@/components/common/card/QuestCard.vue";
 
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
-// import LoginModalVue from "@/components/common/modal/LoginModal.vue";
+
+import { mapGetters } from "vuex";
 export default {
     name: "ComponentsTestPage",
     components: {
+        UserProfileImg,
+        ImgItem,
+
         TitleBanner,
         TitleText,
 
@@ -294,6 +210,10 @@ export default {
         clickBtn2() {
             this.$router.push({ name: "HomePage" });
         },
+    },
+
+    computed: {
+        ...mapGetters({ userInfo: "getUserInfo" }),
     },
 };
 </script>

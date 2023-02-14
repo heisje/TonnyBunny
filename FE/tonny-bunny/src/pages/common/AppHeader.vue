@@ -71,12 +71,6 @@
                                     width="40"
                                     @click="openPopOver"
                                     v-click-outside="onClickOutside" />
-                                <!-- <img
-                                    src="@/assets/noProfile.png"
-                                    width="40"
-                                    height="40"
-                                    @click="openPopOver"
-                                    v-click-outside="onClickOutside" /> -->
                             </div>
                             <div :class="[isPopOverOpen ? 'd-block' : 'd-none', 'profilePopOver']">
                                 <div class="popOverArrow"></div>
@@ -224,10 +218,6 @@
                                             <user-profile-img
                                                 :profileImagePath="userInfo?.profileImagePath"
                                                 width="40" />
-                                            <!-- <img
-                                                src="@/assets/noProfile.png"
-                                                width="40"
-                                                height="40" /> -->
                                             <h3>{{ userInfo.nickName }}</h3>
                                         </a>
 

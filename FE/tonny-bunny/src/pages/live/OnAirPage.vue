@@ -8,11 +8,15 @@
                     <div class="jTonnyInfo">
                         <div class="questProfile">
                             <div class="profile ms-3">
-                                <img
+                                <user-profile-img
+                                    class="profileImg"
+                                    :profileImagePath="startResData?.client?.profileImagePath"
+                                    width="70" />
+                                <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
                                     width="70"
-                                    height="70" />
+                                    height="70" /> -->
                                 <div class="userType ms-2">
                                     <span class="label">고객</span>
                                     <h4>{{ startResData.client.nickName }}</h4>
@@ -28,11 +32,15 @@
                                     <span class="label text-end">헬퍼</span>
                                     <h4>{{ startResData.helper.nickName }}</h4>
                                 </div>
-                                <img
+                                <user-profile-img
+                                    class="profileImg"
+                                    :profileImagePath="startResData?.helper?.profileImagePath"
+                                    width="70" />
+                                <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
                                     width="70"
-                                    height="70" />
+                                    height="70" /> -->
                             </div>
                         </div>
 
@@ -76,7 +84,7 @@
 
                                 <tr>
                                     <td>상황 설명</td>
-                                    <td class="pt-3">{{ startResData.content }}</td>
+                                    <td class="">{{ startResData.content }}</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -195,11 +203,12 @@ import UserVideo from "@/components/openvidu/UserVideo";
 import { mapGetters } from "vuex";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 const APPLICATION_SERVER_URL =
-    process.env.VUE_APP_NODE_ENV === "production"
+    process.env.NODE_ENV === "production"
         ? process.env.VUE_APP_SERVER_URL
-        : "http://localhost:5000/";
+        : process.env.VUE_APP_OPENVIDU_URL;
 
 export default {
     name: "OnAirPage",
@@ -208,6 +217,7 @@ export default {
         UserVideo,
         MediumBtn,
         SquareTag,
+        UserProfileImg,
     },
 
     data() {
@@ -344,7 +354,7 @@ export default {
                 console.warn(exception);
             });
 
-            this.getToken(this.mySessionId).then((token) => {
+            this.getToken(this.mySessionName).then((token) => {
                 this.session
                     .connect(token, { clientData: this.myUserName })
                     .then(() => {

@@ -77,11 +77,13 @@ public class BunnyController {
 		UserEntity user = bunnyEntity.getUser();
 		System.out.println("user = " + user);
 
+		// 작성자 정보
 		BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunnyEntity);
 		bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
 		bunnyResponseDto.getClient().put("nickName", user.getNickName());
 		bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
 
+		// 헬퍼 정보
 		Long helperSeq = bunnyEntity.getHelperSeq();
 
 		if (helperSeq != 0) {
@@ -163,11 +165,22 @@ public class BunnyController {
 		List<BunnyResponseDto> bunnyResponseDtoList = new ArrayList<>();
 
 		for (BunnyEntity bunny : bunnyList) {
+			// 고객 정보 넣기
 			UserEntity user = bunny.getUser();
 			BunnyResponseDto bunnyResponseDto = BunnyResponseDto.fromEntity(bunny);
 			bunnyResponseDto.getClient().put("imagePath", user.getProfileImagePath());
 			bunnyResponseDto.getClient().put("nickName", user.getNickName());
 			bunnyResponseDto.getClient().put("seq", user.getSeq().toString());
+
+			// 헬퍼 정보 넣기
+			Long helperSeq = bunny.getHelperSeq();
+			if (helperSeq != 0) {
+				UserEntity helper = userService.getUserInfo(helperSeq);
+				bunnyResponseDto.getHelper().put("imagePath", helper.getProfileImagePath());
+				bunnyResponseDto.getHelper().put("nickName", helper.getNickName());
+				bunnyResponseDto.getHelper().put("seq", helper.getSeq().toString());
+
+			}
 
 			bunnyResponseDtoList.add(bunnyResponseDto);
 		}

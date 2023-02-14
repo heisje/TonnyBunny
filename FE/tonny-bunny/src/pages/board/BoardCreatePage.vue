@@ -26,7 +26,6 @@
                     text="게시글 작성"
                     color="carrot"
                     @click="insertBoard" />
-                <router-link :to="{ name: 'BoardDetailPage', params: { id: 1 } }"> </router-link>
             </form>
 
             <input type="file" accept="image/*" @change="insertBoardImageList" />
@@ -86,7 +85,11 @@ export default {
                 formData.append("file", this.boardImageList[i]);
             }
 
-            this.$store.dispatch("insertBoard", formData);
+            this.$store.dispatch("insertBoard", formData).then((res) => {
+                if (res.resultCode == "SUCCESS") {
+                    this.$router.push({ name: "BoardDetailPage", params: { id: res.data } });
+                }
+            });
         },
 
         insertBoardImageList(e) {

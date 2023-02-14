@@ -76,14 +76,14 @@
                 </div>
             </div>
 
-            <title-text type="h2" title="[선택] 사진" text="추가 사진을 올려주세요" />
+            <!-- <title-text type="h2" title="[선택] 사진" text="추가 사진을 올려주세요" />
             <input
                 type="file"
                 multiple
                 accept="image/*"
                 @change="insertImageList"
                 class="quotationFileList"
-            />
+            /> -->
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
             <medium-btn
@@ -158,23 +158,20 @@ export default {
         },
 
         async submitForm() {
-            // "bunnySeq": 6,
-            // "clientSeq": 1,
-            // "helperSeq": 2,
-            // "startDateTime": "2012-04-23T18:25:43.511Z",
-            // "endDateTime": "2012-04-23T18:25:43.511Z",
-            // "title": "testTitle",
-            // "content": "testContent",
-            // "totalPrice": 1000,
-            // "startLangCode": "0020001",
-            // "endLangCode": "0020002",
-            // "bunnyQuotationImageRequestDtoList": [{
-            //     "imagePath": "/image100"
-            // },
-            // {
-            //     "imagePath": "/image200"
-            // }
-            // ]
+            if (!this.dropdownValue) {
+                alert("공고를 선택하지 않으셨습니다!");
+                return;
+            }
+
+            if (!this.totalPrice) {
+                alert("금액을 입력하지 않으셨습니다!");
+                return;
+            }
+
+            if (!this.agreeValue) {
+                alert("약관에 동의하지 않으셨습니다!");
+                return;
+            }
 
             const s_bunny = this.bunnyList[this.s_index];
             console.log("bunnySeq : ", s_bunny.seq);

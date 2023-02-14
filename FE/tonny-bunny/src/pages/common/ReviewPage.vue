@@ -3,10 +3,15 @@
         <TitleText title="리뷰하기" text="매칭된 번역가는 어떠셨나요?" center />
 
         <div class="d-flex justify-content-center">
-            <img src="@/assets/noProfile.png" alt="" />
+            <!-- <span v-if="this.$store.state.mypage.otherHelperInfo.profileImagePath">
+                <img :src="this.$store.state.mypage.otherHelperInfo.profileImagePath" alt="" />
+            </span> -->
+            <span>
+                <img src="@/assets/noProfile.png" alt="이미지입니다." />
+            </span>
         </div>
         <div class="d-flex justify-content-center">
-            <div>닉네임</div>
+            <h2>{{ this.$store.state.mypage.otherHelperInfo.nickName }}</h2>
         </div>
         <TitleText title="헬퍼님은 어떠셨나요?" type="h2" center />
 
@@ -17,7 +22,9 @@
                 hover
                 length="5"
                 size="64"
-                :value="rating"></v-rating>
+                v-model="rating"
+                @change="checkValue"
+            ></v-rating>
         </div>
         <br />
         <form class="customForm d-flex justify-content-center">
@@ -43,7 +50,8 @@
             btnColor2="carrot"
             btnFontColor2="white"
             @clickBtn1="closeModal"
-            @clickBtn2="clickBtn2">
+            @clickBtn2="clickBtn2"
+        >
             <template #content>
                 리뷰 작성
                 <br />
@@ -90,7 +98,7 @@ export default {
     methods: {
         async submitForm() {
             try {
-                console.log(this.rating)
+                console.log(this.rating);
                 let res = await http.post("/review", {
                     historySeq: this.historySeq,
                     helperSeq: this.helperSeq,
@@ -128,6 +136,9 @@ export default {
         clickBtn2() {
             this.submitForm();
         },
+    },
+    mounted() {
+        this.$store.dispatch("getOtherHelper", this.helperSeq).then(() => {});
     },
 };
 </script>

@@ -68,16 +68,21 @@ export default {
 
 .scheduleListItemWrap {
     padding: 8px 12px;
-    border-radius: 8px;
-    box-shadow: 1px 1px 1.5px 1px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
 
     transition: all 0.13s;
 
     &.light {
-        background-color: var(--light-color);
+        background-color: var(--white-color);
+        border: 1px solid rgba(0, 0, 0, 0.13);
+        font-size: 0.2rem;
 
         .icon {
             color: var(--main-color);
+        }
+        .itemText {
+            font-size: 1rem;
         }
     }
     &.carrot {
@@ -96,6 +101,7 @@ export default {
         }
 
         .itemText {
+            // font-weight: 0.5rem;
             color: #fff;
         }
     }
@@ -131,7 +137,7 @@ export default {
 
     .icon {
         margin-right: 8px;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .info {
@@ -142,7 +148,7 @@ export default {
         // justify-content: space-between;
 
         span {
-            font-size: 1.1rem;
+            font-size: 1rem;
             // font-weight: 500;
         }
 
@@ -157,9 +163,9 @@ export default {
         }
 
         .itemText {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-right: 4px;
-            margin-top: 2px;
+            // margin-top: 2px;
         }
     }
 }
