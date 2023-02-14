@@ -70,8 +70,13 @@
                 type="h2"
                 text="본인을 어필할 수 있는 사진을 첨부해주세요."
             />
-            <div v-for="(helperImage, index) in helperInforImageList" :key="index">
-                <img-item width="100" :imagePath="helperImage?.imagePath" />
+            <div v-if="helperInfoImageList.length != 0">
+                <div v-for="(helperImage, index) in helperInforImageList" :key="index">
+                    <img-item width="100" :imagePath="helperImage?.imagePath" />
+                </div>
+            </div>
+            <div v-else>
+                <TitleText title="등록된 사진이 없습니다.🐾" center type="h2" />
             </div>
 
             <TitleText title="본인 소개" type="h2" text="자유롭게 본인을 소개해주세요." />
@@ -213,7 +218,7 @@ export default {
                 possibleLanguageList: possibleLanguageList,
                 unitPrice: this.unitPrice,
             };
-            // 일단 잠시 주석
+
             try {
                 let res = await http.put(`/mypage/${userSeq2}/helper`, jsonData);
 
