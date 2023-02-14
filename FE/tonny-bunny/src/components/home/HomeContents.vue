@@ -3,7 +3,7 @@
         <div class="homeContentsWrap">
             <div class="homeContents">
                 <div class="main d-flex flex-column justify-content-center align-items-center">
-                    <div class="mainDesc d-flex flex-column">
+                    <div class="mainDesc d-flex flex-column animate__animated animate__fadeInDown">
                         <title-text
                             title="토니버니의 서비스를 이용해보세요"
                             type="h1"
@@ -14,7 +14,8 @@
                             <img src="@/assets/emoji/sparkles.png" alt="bunny" width="20" />
                         </span>
                     </div>
-                    <div class="iconsContainer">
+
+                    <div class="iconsContainer animate__animated animate__fadeInDown">
                         <div class="iconsWarp">
                             <!-- <div class="iconsContent" @click="toggleTonnyModalOpen">
 								<div>
@@ -27,10 +28,10 @@
                             <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                 <div class="iconsContent">
                                     <div>
-                                        <img src="@/assets/homeTonnyIcon.png" alt="" />
+                                        <img src="@/assets/roket.png" alt="" />
                                     </div>
                                     <div>
-                                        <h1 class="h3">통역</h1>
+                                        <h1 class="h3">#통역</h1>
                                     </div>
                                 </div>
                             </router-link>
@@ -41,17 +42,17 @@
                                     <img src="@/assets/book.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h3">번역</h1>
+                                    <h1 class="h3">#번역</h1>
                                 </div>
                             </div>
                         </div>
-                        <div class="iconsWarp" v-if="userInfo?.userCode != '0010001'">
+                        <div class="iconsWarp" v-if="true">
                             <div class="iconsContent searchIcon" @click="toggleHelperBtn">
                                 <div>
                                     <img src="@/assets/bag.png" alt="" />
                                 </div>
                                 <div>
-                                    <h1 class="h3">헬퍼 페이지</h1>
+                                    <h1 class="h3">#헬퍼 페이지</h1>
                                 </div>
                             </div>
                         </div>
@@ -61,12 +62,14 @@
                 <hr />
 
                 <div class="row sub">
-                    <div class="col-12 col-lg-6 mb-5">
-                        <home-schedule-list></home-schedule-list>
+                    <h1 class="animate__animated animate__bounce">An animated element</h1>
+                    <div class="brief">
+                        토니버니 서비스 간단 설명
+                        <img src="@/assets/emoji/speak.png" alt="" />
                     </div>
-                    <div class="col-12 col-lg-6">
-                        <home-board-list></home-board-list>
-                    </div>
+                    <div>통역 서비스 설명</div>
+                    <div>번역 서비스 설명</div>
+                    <div>마무리</div>
                 </div>
             </div>
         </div>
@@ -77,22 +80,16 @@
 import { mapGetters } from "vuex";
 
 import TitleText from "@/components/common/TitleText.vue";
-import HomeScheduleList from "./HomeScheduleList.vue";
-import HomeBoardList from "./HomeBoardList.vue";
 
 export default {
     name: "HomeContents",
 
     components: {
         TitleText,
-        // MainBtn,
-        HomeScheduleList,
-        HomeBoardList,
     },
 
     computed: {
-        ...mapGetters({ isLogin: "getIsLogin" }),
-        ...mapGetters({ userInfo: "getUserInfo" }),
+        ...mapGetters({ isLogin: "getIsLogin", userInfo: "getUserInfo" }),
     },
 
     methods: {
@@ -191,8 +188,7 @@ export default {
                     text-align: center;
                 }
                 &.searchIcon {
-                    transition: 0.4s;
-                    background: var(--success-color);
+                    background: var(--carrot-color);
                     color: var(--white-color);
                     h1 {
                         color: var(--white-color);
@@ -201,6 +197,9 @@ export default {
                     }
                     &:hover {
                         background: var(--primary-color-50);
+                        h1 {
+                            color: var(--primary-color);
+                        }
                     }
                 }
             }
@@ -220,5 +219,14 @@ export default {
 
 .sub {
     margin-top: 100px;
+}
+
+.brief {
+    img {
+        position: relative;
+        top: 0;
+        left: -100px;
+        background-color: red;
+    }
 }
 </style>

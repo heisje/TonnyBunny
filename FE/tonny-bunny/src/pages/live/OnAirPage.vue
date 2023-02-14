@@ -84,7 +84,7 @@
 
                                 <tr>
                                     <td>상황 설명</td>
-                                    <td class="pt-3">{{ startResData.content }}</td>
+                                    <td class="">{{ startResData.content }}</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -206,9 +206,9 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 const APPLICATION_SERVER_URL =
-    process.env.VUE_APP_NODE_ENV === "production"
+    process.env.NODE_ENV === "production"
         ? process.env.VUE_APP_SERVER_URL
-        : "http://localhost:5000/";
+        : process.env.VUE_APP_OPENVIDU_URL;
 
 export default {
     name: "OnAirPage",
@@ -354,7 +354,7 @@ export default {
                 console.warn(exception);
             });
 
-            this.getToken(this.mySessionId).then((token) => {
+            this.getToken(this.mySessionName).then((token) => {
                 this.session
                     .connect(token, { clientData: this.myUserName })
                     .then(() => {

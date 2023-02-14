@@ -75,6 +75,10 @@
     }
     &.success {
         background-color: var(--success-color);
+
+        span {
+            font-weight: 600;
+        }
     }
     &.danger {
         background-color: var(--danger-color);
@@ -165,6 +169,8 @@
         }
         &.background {
             color: var(--background-color);
+        }
+        &.success {
         }
     }
 
