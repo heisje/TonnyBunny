@@ -203,4 +203,28 @@ export default {
             console.error(err);
         }
     },
+
+    async getOtherHelper(context, userSeq) {
+        try {
+            let { data } = await http.get(`/mypage/${userSeq}`);
+            console.log(data);
+            if (data.data.helperInfo.reviewCount != 0) {
+                data.data.helperInfo["avg"] =
+                    data.data.helperInfo.totalScore / data.data.helperInfo.reviewCount;
+            } else {
+                data.data.helperInfo["avg"] = 0;
+            }
+
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("SET_OTHER_HELPER_INFO", data.data);
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
 };

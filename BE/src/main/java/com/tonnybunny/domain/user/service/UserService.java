@@ -331,6 +331,7 @@ public class UserService {
 	 * @param userSeqList
 	 * @return
 	 */
+	@Transactional
 	public List<UserEntity> getUserInfoList(List<Long> userSeqList) {
 		List<UserEntity> result = new ArrayList<>();
 
@@ -371,6 +372,7 @@ public class UserService {
 	 * @param request
 	 * @return
 	 */
+	@Transactional
 	public String modifyProfileImage(Long userSeq, MultipartHttpServletRequest request) {
 		System.out.println("UserService.modifyProfileImage");
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
@@ -398,10 +400,10 @@ public class UserService {
 
 				file.transferTo(saveFile);
 
-				user.updateProfileImage(filePath);
+				user.updateProfileImage(File.separator + filePath);
 
 			} else {
-				user.updateProfileImage("noProfile.png"); // 디폴트로 변경
+				user.updateProfileImage(File.separator + "noProfile.png"); // 디폴트로 변경
 			}
 			userRepository.save(user);
 
@@ -454,6 +456,7 @@ public class UserService {
 	 * @param userSeq : 삭제할 user의 seq
 	 * @return 유저 삭제 로직 성공 여부
 	 */
+	@Transactional
 	public Boolean deleteUserInfo(Long userSeq) {
 		UserEntity user = userRepository.findById(userSeq).orElseThrow(
 			() -> new CustomException(NOT_FOUND_USER));
