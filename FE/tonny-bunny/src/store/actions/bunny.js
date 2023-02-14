@@ -165,7 +165,58 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
-                    console.log(context);
+                    context.commit("SET_CREATED_QUOTATION_SEQ", data.data);
+
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async updateQuotation(context, payload) {
+        console.log("번역 견적서 진행");
+        console.log(payload);
+        try {
+            let { data } = await http.put(
+                `/bunny/${payload.bunnySeq}/quotation/${payload.bunnyQuotationSeq}/accept`,
+                payload
+            );
+            console.log("async function : ", data);
+
+            context;
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("SET_CREATED_QUOTATION_SEQ", data.data);
+
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+    async completeBunny(context, payload) {
+        console.log("번역 견적서 완료");
+        console.log(payload);
+        try {
+            let { data } = await http.put(
+                `/bunny/${payload.bunnySeq}/quotation/${payload.bunnyQuotationSeq}/complete`,
+                payload
+            );
+            console.log("async function : ", data);
+
+            context;
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("SET_CREATED_QUOTATION_SEQ", data.data);
+
                     break;
                 case "FAIL":
                     break;

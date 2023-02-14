@@ -28,6 +28,12 @@ public class ReviewResponseDto {
 
 	private String comment;
 
+	/**
+	 * 작성자 정보
+	 */
+	private String nickName;
+	private String profileImagePath;
+
 
 	public static ReviewResponseDto fromEntity(ReviewEntity review) {
 
@@ -36,6 +42,8 @@ public class ReviewResponseDto {
 		                        .user(UserResponseDto.fromEntity(review.getUser()))
 		                        .comment(review.getComment())
 		                        .score(review.getScore())
+		                        .nickName(review.getHistory().getClient().getNickName())
+		                        .profileImagePath(review.getHistory().getClient().getProfileImagePath())
 		                        .build();
 	}
 

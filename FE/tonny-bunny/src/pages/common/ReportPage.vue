@@ -5,7 +5,7 @@
             <img src="@/assets/noProfile.png" alt="" />
         </div>
         <div class="d-flex justify-content-center">
-            <div>닉네임</div>
+            <div>{{ this.$store.state.mypage.otherHelperInfo.nickName }}</div>
         </div>
         <TitleText title="신고하시는 사유를 골라주세요" type="h2" center />
 
@@ -108,6 +108,9 @@ export default {
                 this.$router.push({ name: "HomePage" });
             }
         },
+    },
+    mounted() {
+        this.$store.dispatch("getOtherHelper", this.helperSeq).then(() => {});
     },
 };
 </script>

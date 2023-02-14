@@ -42,6 +42,20 @@ export default {
 
     mounted() {
         this.$store.dispatch("setCommonCode");
+        window.addEventListener("beforeunload", () => {
+            this.$store.commit("DISCONNECT_CHAT_STOMP_SOCKET");
+        });
+        window.addEventListener("load", () => {
+            // window.onload = function () {
+            console.log("after reload!!!");
+            if (this.$store.getters.getIsLogin == true) {
+                console.log("login is true");
+                this.$store.commit(
+                    "CONNECT_CHAT_STOMP_SOCKET",
+                    this.$store.getters.getUserInfo.seq
+                );
+            }
+        });
     },
 };
 </script>

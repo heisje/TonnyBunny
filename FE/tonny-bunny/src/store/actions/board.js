@@ -57,12 +57,12 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
-                    break;
+                    return data;
                 case "FAIL":
                     break;
             }
 
-            return data.resultCode;
+            return data;
         } catch (err) {
             console.error(err);
 

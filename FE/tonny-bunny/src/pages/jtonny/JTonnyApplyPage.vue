@@ -28,11 +28,18 @@
                                         <div class="questProfileWrap">
                                             <div class="questProfile mt-3">
                                                 <div class="profile ms-3 me-4">
-                                                    <img
+                                                    <user-profile-img
+                                                        class="profileImg"
+                                                        :profileImagePath="
+                                                            quest?.client?.profileImagePath
+                                                        "
+                                                        width="70" />
+
+                                                    <!-- <img
                                                         class="profileImg"
                                                         src="@/assets/noProfile_white.png"
                                                         width="70"
-                                                        height="70" />
+                                                        height="70" /> -->
                                                     <div class="userType ms-2">
                                                         <span class="label">고객</span>
                                                         <h4 class="" v-if="quest?.client?.nickName">
@@ -165,10 +172,9 @@
                                     <div class="d-flex flex-row align-items-center quest py-3 px-2">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                            <img
-                                                src="@/assets/noProfile.png"
-                                                width="50"
-                                                height="50" />
+                                            <user-profile-img
+                                                :profileImagePath="apply?.client?.profileImagePath"
+                                                width="50" />
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -247,6 +253,7 @@ import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     components: {
@@ -254,6 +261,7 @@ export default {
         AlarmModal,
         SquareTag,
         MediumBtn,
+        UserProfileImg,
     },
 
     data() {
