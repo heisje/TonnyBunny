@@ -102,12 +102,12 @@
                         }">
                         <div>헬퍼 프로필 변경</div>
                     </router-link>
-                </span> -->
+                </span>
                 <hr />
 
-                <a @click="openModal"> <span class="logout">로그아웃</span></a>
+                <!-- <a @click="openModal"> <span class="logout">로그아웃</span></a>
 
-                <hr />
+                <hr /> -->
             </div>
             <AlarmModal
                 title="완료"
@@ -147,10 +147,13 @@ export default {
     methods: {
         openModal(e) {
             e.preventDefault();
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.dispatch("logout");
+            this.$router.push({ name: "HomePage" });
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         clickBtn3() {
+            this.$store.dispatch("logout");
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$router.push({ name: "HomePage" });
         },
