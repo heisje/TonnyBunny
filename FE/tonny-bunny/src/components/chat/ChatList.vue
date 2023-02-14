@@ -1,7 +1,7 @@
 <template lang="">
     <div class="chat-list-view">
         <div v-for="chatRoom in chatRoomList" :key="chatRoom">
-            <div @click="enterChatRoom($event, chatRoom[1])" class="" aria-current="page">
+            <div @click="enterChatRoom($event, chatRoom[1])" class="chat-item" aria-current="page">
                 <!-- {{ chatRoom }} -->
                 <chat-item
                     v-bind:nickName="chatRoom[1].anotherUserInfo?.nickName"
@@ -33,12 +33,12 @@ export default {
             this.$router.push({ name: "ChatDetailPage" });
         },
     },
-    mounted() {
+    async mounted() {
         let stompSocket = this.$store.getters.getChatStompSocket;
         console.log("stompSocket: ", stompSocket);
         console.log("UserInfo: ", this.userInfo);
 
-        this.$store.dispatch("getChatRoomList", this.userInfo);
+        await this.$store.dispatch("getChatRoomList", this.userInfo);
         console.log("GET: ", this.$store.getters.getChatRoomList);
     },
     computed: {
@@ -49,4 +49,9 @@ export default {
     },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoed>
+.chat-item:hover {
+    border-radius: 10px;
+    background: var(--light-color);
+}
+</style>

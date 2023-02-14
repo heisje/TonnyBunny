@@ -67,8 +67,8 @@ export default {
 }
 .chat-user-profile {
     position: absolute; // chat-box 기준 세로 가운데 정렬
-    top: 50%;
-    transform: translate(0%, -50%);
+    top: 5px;
+    // transform: translate(0%, -50%);
 }
 .chat-user-profile img {
     width: 50px;

@@ -461,7 +461,7 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: ChatDetailPage,
-                footer: AppFooter,
+                // footer: AppFooter,
             },
         },
 
@@ -717,7 +717,7 @@ export default createRouter({
                 default: ReportPage,
                 footer: AppFooter,
             },
-            props:true,
+            props: true,
         },
 
         {
@@ -728,7 +728,7 @@ export default createRouter({
                 default: ReviewPage,
                 footer: AppFooter,
             },
-            props:true,
+            props: true,
         },
 
         {
