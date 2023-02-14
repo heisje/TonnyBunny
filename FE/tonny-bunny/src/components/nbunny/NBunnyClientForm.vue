@@ -85,7 +85,7 @@ divdiv
                 @input="changeInput"
             ></textarea>
 
-            <title-text type="h2" title="[선택] 사진" text="작업물의 예시를 올려주세요" />
+            <!-- <title-text type="h2" title="[선택] 사진" text="작업물의 예시를 올려주세요" /> -->
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
             <medium-btn
@@ -121,13 +121,6 @@ export default {
             title: "",
             content: "",
 
-            input1: {
-                id: "input1",
-                value: "",
-                pattern: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", // 유효성검사 조건(HTML 용)
-                validate: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, // 유효성검사 조건(JS 용)
-                notice: "", // 유효성검사 결과 텍스트
-            },
             agreeValue: false,
         };
     },
@@ -141,6 +134,12 @@ export default {
         changeInput(e) {
             this.content = e.target.value;
         },
+        closeModal() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
+        openModal() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+        },
         submitForm(e) {
             e.preventDefault();
             console.log(this.startLangCode, this.getLangCode[this.startLangCode]);
@@ -153,7 +152,59 @@ export default {
             console.log(this.content);
             console.log(this.agreeValue);
 
+            // startLangCode: "",
+            // endLangCode: "",
+            // bunnySituCode: "",
+            // bunnyStateCode: "0090001",
+            // startDate: "",
+            // endDate: "",
+            // estimatePrice: "",
+            // title: "",
+            // content: "",
+            // agreeValue: false,
+
+            if (!this.startLangCode) {
+                alert("시작 언어가 입력되지 않았어요!");
+                return;
+            }
+
+            if (!this.endLangCode) {
+                alert("종료 언어가 입력되지 않았어요!");
+                return;
+            }
+
+            if (!this.bunnySituCode) {
+                alert("카테고리가 입력되지 않았어요!");
+                return;
+            }
+
+            if (!this.startDate) {
+                alert("시작 날짜가 입력되지 않았어요!");
+                return;
+            }
+
+            if (!this.endDate) {
+                alert("종료 날짜가 입력되지 않았어요!");
+                return;
+            }
+
+            if (!this.estimatePrice) {
+                alert("예상 금액 입력되지 않았어요!");
+                return;
+            }
+
+            if (this.estimatePrice > this.$store.state.account.userInfo.point) {
+                alert("보유 포인트가 부족해요!");
+                return;
+            }
+
+            if (!this.title) {
+                alert("제목이 입력되지 않았어요!");
+                return;
+            }
+
             if (!this.agreeValue) {
+                alert("약관에 동의하지 않으셨습니다.");
                 return;
             }
 
