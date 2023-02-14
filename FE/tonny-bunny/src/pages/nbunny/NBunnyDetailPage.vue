@@ -3,25 +3,30 @@
         <div>
             <title-banner title="🐰 번역 의뢰 요청" text="의뢰의 상세내용을 확인할 수 있습니다" />
         </div>
+        {{ getBunnyDetail }}
         <div class="d-flex justify-content-center row">
             <div class="customForm bunnyDetail col-md-6 col-12">
                 <div class="d-flex justify-content-between">
                     <SquareTag text="번역의뢰" sub></SquareTag>
                     <SquareTag
                         v-if="allCode[getBunnyDetail?.taskStateCode] == `모집중`"
-                        success></SquareTag>
+                        success
+                    ></SquareTag>
                     <SquareTag
                         v-if="allCode[getBunnyDetail?.taskStateCode] == `진행중`"
-                        info></SquareTag>
+                        info
+                    ></SquareTag>
                     <SquareTag
                         v-if="allCode[getBunnyDetail?.taskStateCode] == `완료됨`"
-                        white></SquareTag>
+                        white
+                    ></SquareTag>
                 </div>
                 <title-text
                     type="h1"
                     :title="getBunnyDetail?.title"
                     top="10"
-                    bottom="10"></title-text>
+                    bottom="10"
+                ></title-text>
                 <div class="label">
                     {{
                         getBunnyDetail?.createdAt.substr(0, 10) +
@@ -35,7 +40,8 @@
                         <user-profile-img
                             class="profileImg"
                             :profileImagePath="getBunnyDetail?.client?.profileImagePath"
-                            width="70" />
+                            width="70"
+                        />
                         <!-- <img
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
@@ -60,7 +66,8 @@
                                 ' ↔ ' +
                                 allCode[getBunnyDetail?.endLangCode]
                             "
-                            sub></SquareTag>
+                            sub
+                        ></SquareTag>
                     </div>
                 </div>
 
@@ -101,13 +108,7 @@
                     </div>
                 </div>
 
-                <!-- <div class="w-100">
-                    사진<br />
-                    <h3>{{ getBunnyDetail?.bunnyImageList }}</h3>
-                    <div v-for="(image, index) in getBunnyDetail?.bunnyImageList" :key="index">
-                        image{{ index }}
-                    </div>
-                </div> -->
+                <!-- 신청자면서 의뢰가 완료되지 않으면 삭제하기 버튼 보임 -->
                 <div v-if="isCreator && allCode[getBunnyDetail.taskStateCode] != `완료됨`">
                     <br /><br />
                     <medium-btn
@@ -115,13 +116,17 @@
                         color="main"
                         font="white"
                         text="의뢰 삭제하기"
-                        @click.prevent="openRemoveBunnyModal"></medium-btn>
+                        @click.prevent="openRemoveBunnyModal"
+                    ></medium-btn>
                 </div>
+
+                <!-- 헬퍼면서 아직 모집중이면 신청하기 or 신청 삭제하기 -->
                 <div
                     v-else-if="
                         $store.state.account.userInfo.userCode === `0010002` &&
-                        allCode[getBunnyDetail.taskStateCode] != `완료됨`
-                    ">
+                        allCode[getBunnyDetail.taskStateCode] == `모집중`
+                    "
+                >
                     <div v-if="isApplyed(getBunnyDetail?.bunnyApplyList)">
                         <br /><br />
                         <medium-btn
@@ -129,7 +134,8 @@
                             color="main"
                             font="white"
                             text="신청 삭제하기"
-                            @click.prevent="openRemoveApplyModal"></medium-btn>
+                            @click.prevent="openRemoveApplyModal"
+                        ></medium-btn>
                     </div>
                     <div v-else>
                         <br /><br />
@@ -138,14 +144,17 @@
                             color="carrot"
                             font="white"
                             text="신청 제안하기"
-                            @click.prevent="goToBunnyApplyPage"></medium-btn>
+                            @click.prevent="goToBunnyApplyPage"
+                        ></medium-btn>
                     </div>
                 </div>
             </div>
+            <!-- 모집중일때 -->
             <div
                 class="col-md-6 col-12 apply"
-                v-show="allCode[getBunnyDetail.taskStateCode] == `모집중`">
-                <!-- 헬퍼 신청 목록은 작성자만 보기 -->
+                v-show="allCode[getBunnyDetail.taskStateCode] == `모집중`"
+            >
+                <!-- 작성자는 헬퍼 신청 목록 열람가능 -->
                 <div v-show="isCreator">
                     <div class="w-100">
                         <div class="d-flex justify-content-between">
@@ -154,7 +163,8 @@
                                     type="h2"
                                     top="0"
                                     bottom="0"
-                                    :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"></TitleText>
+                                    :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"
+                                ></TitleText>
                             </div>
                             <div>
                                 <router-link
@@ -170,7 +180,8 @@
                         <div
                             v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
                                 class="w-100 mb-3"
                                 :userInfo="apply"
@@ -179,19 +190,22 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
                 </div>
-                <!-- 헬퍼가 신청했을 경우 본인의 신청글 보기 -->
+                <!-- 헬퍼는 본인의 신청글만 보임 -->
                 <div
                     class="col-md-6 col-12 apply"
-                    v-show="isApplyed(getBunnyDetail?.bunnyApplyList)">
+                    v-show="isApplyed(getBunnyDetail?.bunnyApplyList)"
+                >
                     <div class="w-100">
                         <div
                             v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
                                 v-show="apply.userSeq == $store.state.account.userInfo.seq"
                                 class="w-100 mb-3"
@@ -201,58 +215,73 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- 진행중일때 -->
             <div
                 class="col-md-6 col-12 apply"
-                v-show="allCode[getBunnyDetail.taskStateCode] == `진행중`">
+                v-show="allCode[getBunnyDetail.taskStateCode] == `진행중`"
+            >
+                <!-- 작성자는 수락한 견적서 내용 보임 -->
                 <div v-show="isCreator">
                     <div class="w-100">
                         <div
                             v-for="(quotation, index) in getBunnyDetail?.bunnyQuotationList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
                                 v-show="allCode[quotation?.quotationStateCode] == `선택`"
                                 class="w-100 mb-3"
                                 :userInfo="quotation"
                                 :fareText="quotation.totalPrice"
-                                rightBtnText="완료하기"
+                                rightBtnText="상담하기"
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="openCompleteModal(index)"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
+                    <medium-btn
+                        class="w-100"
+                        color="carrot"
+                        font="white"
+                        text="의뢰 완료하기"
+                        @click.prevent="openCompleteModal(index)"
+                    ></medium-btn>
                 </div>
-                <div
-                    class="col-md-6 col-12 apply"
-                    v-show="isApplyed(getBunnyDetail?.bunnyApplyList)">
+                <!-- 담당자는 본인의 견적서가 보임  -->
+                <div class="col-md-6 col-12 apply" v-show="isManager">
                     <div class="w-100">
                         <div
-                            v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
+                            v-for="(quotation, index) in getBunnyDetail?.bunnyQuotationList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
-                                v-show="apply.userSeq == $store.state.account.userInfo.seq"
+                                v-show="allCode[quotation?.quotationStateCode] == `선택`"
                                 class="w-100 mb-3"
-                                :userInfo="apply"
-                                :fareText="apply.estimatePrice"
-                                rightBtnText=" 고객과 상담하기 "
+                                :userInfo="quotation"
+                                :fareText="quotation.totalPrice"
+                                rightBtnText="고객과 상담하기"
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
                 </div>
             </div>
             <div
                 class="col-md-6 col-12 apply"
-                v-show="allCode[getBunnyDetail.taskStateCode] == `완료됨`"></div>
+                v-show="allCode[getBunnyDetail.taskStateCode] == `완료됨`"
+            ></div>
             <AlarmModal
                 v-show="modalName == `removeBunnyModal`"
                 title="주의"
@@ -264,7 +293,8 @@
                 btnFontColor1="white"
                 btnFontColor2="white"
                 @clickBtn1="deleteBunny(getBunnyDetail?.seq)"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> 의뢰를 삭제하시겠습니까? </template>
             </AlarmModal>
             <AlarmModal
@@ -278,7 +308,8 @@
                 btnFontColor1="white"
                 btnFontColor2="white"
                 @clickBtn1="deleteApply"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> 제안을 취소하시겠습니까? </template>
             </AlarmModal>
             <AlarmModal
@@ -292,7 +323,8 @@
                 btnFontColor1="white"
                 btnFontColor2="white"
                 @clickBtn1="completeBunny"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content>
                     의뢰는 해결되셨나요? <br /><br />
                     의뢰를 완료하시겠습니까?
@@ -348,6 +380,7 @@ export default {
 
             agreeValue: false,
             isCreator: false,
+            isManager: false,
             modalName: "",
             selectedQuotationIndex: 0,
         };
@@ -357,6 +390,7 @@ export default {
         console.log("getBunnyDetail", this.$route.params.id);
         await this.$store.dispatch("getBunnyDetail", this.$route.params.id);
         this.checkIsCreator();
+        this.checkIsManager();
     },
 
     methods: {
@@ -382,6 +416,13 @@ export default {
 
             if (bunnyCreatorSeq == this.$store.state.account.userInfo.seq) {
                 this.isCreator = true;
+            }
+        },
+        checkIsManager() {
+            let bunnyManagerSeq = this.getBunnyDetail.helper.seq;
+
+            if (bunnyManagerSeq == this.$store.state.account.userInfo.seq) {
+                this.isManager = true;
             }
         },
 

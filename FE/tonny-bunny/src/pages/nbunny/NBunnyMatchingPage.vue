@@ -6,10 +6,6 @@
                 text="번역 의뢰에 견적서를 작성하고 요청합니다"
             />
             <TitleText title="고객에게 제안하기" text="금액을 정해서 제안해보세요!"></TitleText>
-            <!-- <quest-card
-                :questDetail="questDetail"
-                @click-btn1="check1"
-                @click-btn2="check2"></quest-card> -->
 
             <NBunnyHelperForm></NBunnyHelperForm>
 
@@ -34,7 +30,6 @@ import NBunnyHelperForm from "@/components/nbunny/NBunnyHelperForm.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
-// import QuestCard from "@/components/common/card/QuestCard.vue";
 import { mapGetters } from "vuex";
 
 export default {
