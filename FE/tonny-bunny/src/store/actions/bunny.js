@@ -76,6 +76,7 @@ export default {
                 case "FAIL":
                     break;
             }
+            return data;
         } catch (err) {
             console.error(err);
         }
