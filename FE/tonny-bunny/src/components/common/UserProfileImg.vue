@@ -4,7 +4,7 @@
 
         <img
             class="userProfileImg"
-            :src="`/images/${profileImagePath}`"
+            :src="`/images${profileImagePath}`"
             onerror="this.onerror=null; this.src='/images/noProfile.png';" />
         <!-- <img class="userProfileImg" src="@/assets/noProfile.png" /> -->
     </div>

@@ -20,7 +20,18 @@
                             "></square-tag>
                     </div>
                     <div class="process">
-                        <square-tag :text="allCode[questDetail?.taskStateCode]" sub></square-tag>
+                        <square-tag
+                            v-if="allCode[questDetail?.taskStateCode] == '모집중'"
+                            :text="allCode[questDetail?.taskStateCode]"
+                            success></square-tag>
+                        <square-tag
+                            v-if="allCode[questDetail?.taskStateCode] == '진행중'"
+                            :text="allCode[questDetail?.taskStateCode]"
+                            info></square-tag>
+                        <square-tag
+                            v-if="allCode[questDetail?.taskStateCode] == '완료됨'"
+                            :text="allCode[questDetail?.taskStateCode]"
+                            white></square-tag>
                     </div>
                 </div>
 
@@ -134,7 +145,9 @@
                     <div v-if="!(allCode[questDetail?.taskCode] == '즉시통역')">
                         <XSmallBtn text="자세히보기" @click="clickBtn1" />
                     </div>
-                    <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
+                    <div v-if="allCode[questDetail?.taskStateCode] == '모집중'">
+                        <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
+                    </div>
                 </div>
             </div>
         </div>
