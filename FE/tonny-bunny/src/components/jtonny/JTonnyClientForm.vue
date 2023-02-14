@@ -91,84 +91,12 @@
                     v-model="jtonnyRequest.content" />
             </div>
 
-            <!-- <title-text important type="h2" title="어떤 언어통역이 필요하신가요?" />
-
-            <div class="d-flex flex-row">
-                <div class="">
-                    <label for="">내 언어</label>
-                    <DropdownInputCode
-                        ref="startLangCode"
-                        :disable="changLangCount % 2 ? false : true"
-                        :dropdownArray="langCode"
-                        placeholder="한국어"
-                        @toggle="(e) => (jtonnyRequest.startLangCode = e)" />
-                </div>
-
-                <div class="swap" @click="changLangCode">
-                    <span class="material-symbols-outlined"> compare_arrows </span>
-                </div>
-
-                <div class="">
-                    <label for="">필요 언어</label>
-                    <DropdownInputCode
-                        ref="endLangCode"
-                        :disable="changLangCount % 2 ? true : false"
-                        :dropdownArray="langCode"
-                        placeholder="필요 언어"
-                        @toggle="(e) => (jtonnyRequest.endLangCode = e)" />
-                </div>
-            </div>
-
-            <title-text
-                important
-                class="w-100"
-                type="h2"
-                title="예상 소요 시간"
-                text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?"
-                top="70"
-                bottom="20" />
-
-            <div class="d-flex">
-                <div class="col-6 d-flex flex-row me-2">
-                    <div class="w-100">
-                        <DropdownInput
-                            class=""
-                            :dropdownArray="hourCodeList"
-                            placeholder="시간"
-                            @toggle="(e) => (jtonnyRequest.estimateHour = e)" />
-                    </div>
-                </div>
-                <div class="col-6 d-flex flex-row">
-                    <div class="w-100">
-                        <DropdownInput
-                            class="w-100"
-                            :dropdownArray="minuteCodeList"
-                            placeholder="분"
-                            @toggle="(e) => (jtonnyRequest.estimateMinute = e)" />
-                    </div>
-                </div>
-            </div>
-
-            <title-text
-                type="h2"
-                title="[선택] 상황 카테고리"
-                text="해당 상황을 한 단어로 요약하자면?" />
-
-            <DropdownInputCode
-                class="w120"
-                :dropdownArray="tonnySituCode"
-                placeholder="상황 선택"
-                @toggle="(e) => (jtonnyRequest.tonnySituCode = e)" />
-
-            <title-text type="h2" title="[선택] 상황 설명" text="어떤 상황인가요?" />
-
-            <textarea
-                type="textarea"
-                placeholder="내용을 입력해주세요"
-                v-model="jtonnyRequest.content" /> -->
-
             <agree-input @toggle="(e) => (agreeValue = e)" style="margin-top: 100px" />
-            <medium-btn @click="test" style="width: 100%" text="통역하기" color="carrot" />
+            <medium-btn
+                @click="insertJTonnyRequest"
+                style="width: 100%"
+                text="통역하기"
+                color="carrot" />
         </form>
     </div>
 </template>
@@ -246,15 +174,29 @@ export default {
             }
         },
 
-        test() {
-            this.jtonnyRequest.client.seq = this.userInfo.seq;
-            this.jtonnyRequest.client.nickName = this.userInfo.nickName;
-            this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`;
+        insertJTonnyRequest() {
+            if (this.jtonnyRequest.endLangCode == "") {
+                alert("언어를 선택해주세요");
+            } else if (
+                this.jtonnyRequest.estimateHour == "" ||
+                this.jtonnyRequest.estimateMinute == ""
+            ) {
+                alert("시간을 선택해주세요");
+            } else if (
+                this.jtonnyRequest.estimateHour == "00" &&
+                this.jtonnyRequest.estimateMinute == "00"
+            ) {
+                alert("예상 소요 시간을 제대로 선택해주세요");
+            } else {
+                this.jtonnyRequest.client.seq = this.userInfo.seq;
+                this.jtonnyRequest.client.nickName = this.userInfo.nickName;
+                this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`;
 
-            console.log("jtonnyRequest", this.jtonnyRequest);
+                console.log("jtonnyRequest", this.jtonnyRequest);
 
-            this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
-            this.$router.push({ name: "JTonnyWaitingPage" });
+                this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
+                this.$router.push({ name: "JTonnyWaitingPage" });
+            }
         },
 
         changLangCode() {

@@ -85,4 +85,28 @@ export default {
             }
         }
     },
+
+    async getScheduleDetail(context, scheduleSeq) {
+        let { data } = await http.get(`/schedules/${scheduleSeq}`);
+
+        try {
+            console.log("async getScheduleDetail : ", data);
+
+            // service logic
+            switch (data.resultCode) {
+                case SUCCESS:
+                    context.commit("SET_SCHEDULE_DETAIL", data.data);
+                    return data.data;
+                case FAIL:
+                    return -1;
+            }
+        } catch (err) {
+            console.error(err);
+
+            // exception
+            if (err.response.status == 403) {
+                alert("로그인 하세요");
+            }
+        }
+    },
 };

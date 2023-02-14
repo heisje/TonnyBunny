@@ -67,15 +67,6 @@
                                                     <div>{{ quest.unitPrice }}</div>
                                                     <div>{{ quest.estimateTime }}</div>
                                                     <div>{{ quest.tonnySituCode }}</div>
-                                                    <!-- <div class="userType me-2">
-														<span class="label text-end">헬퍼</span>
-														<h4
-															class="text-end"
-															v-if="quest?.helper?.nickName">
-															{{ quest?.helper?.nickName }}
-														</h4>
-														<h4 class="" v-else>미지정</h4>
-													</div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -159,25 +150,10 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <div
-                                    v-for="jtonny in Object.values(jtonnyQuestList)"
-                                    :key="jtonny.client.seq">
-                                    <quest-card
-                                        :questDetail="jtonny"
-                                        rightBtnText="신청하기"
-                                        @clickBtn2="apply(jtonny.client.seq)" />
-                                </div> -->
                             </transition-group>
                         </div>
                         <div v-else>들어온 즉시통역 신청 카드가 없습니다.</div>
                     </v-lazy>
-
-                    <!-- <JTonnyLoading /> -->
-
-                    <!-- <router-link :to="{ name: 'JTonnyMatchingPage' }">
-						<button>다음페이지</button>
-					</router-link> -->
                 </div>
                 <div class="customForm col-md-6 col-12">
                     <div>
@@ -233,52 +209,6 @@
                             </div>
                         </transition-group>
                     </div>
-                    <!-- <div>
-                        <title-text
-                            title="통역 예약 목록"
-                            text="통역 예약도 받아볼까요?"></title-text>
-                        <hr />
-
-                        <v-lazy
-                            v-model="yTonnyList"
-                            :options="{ threshold: 0.5 }"
-                            transition="fade-transition">
-                            <div v-if="yTonnyList.length > 0">
-                                <transition-group name="slide-up">
-                                    <div
-                                        v-for="(yTonny, index) in yTonnyList"
-                                        :key="index"
-                                        class="w-100 row">
-                                        {{ yTonny }} 
-
-                                        <div class="d-flex flex-row align-items-center yTonny">
-                                            <div class="col-12">
-                                                <div class="fs-6 d-flex">
-                                                    <square-tag
-                                                        :text="yTonny.tonnySituCode"
-                                                        sub
-                                                        class="me-1"></square-tag>
-                                                    <router-link
-                                                        :to="{
-                                                            name: 'YTonnyDetailPage',
-                                                            params: { id: yTonny.seq },
-                                                        }">
-                                                        <div>{{ yTonny.title }}</div>
-                                                    </router-link>
-                                                </div>
-                                                <div>{{ yTonny.content }}</div>
-                                                <div class="d-flex justify-space-between">
-                                                    <div>{{ yTonny.estimatePrice }} CRT</div>
-                                                    <div class="">{{ yTonny.createdAt }}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </transition-group>
-                            </div>
-                            <div v-else class="mt-5">가격을 제안한 헬퍼가 없습니다.</div>
-                        </v-lazy>
-                    </div> -->
                 </div>
             </div>
 
@@ -309,30 +239,6 @@
                 </template>
             </AlarmModal>
         </div>
-
-        <!-- <div v-if="isFind">
-            <title-text title="즉시 통역 찾기" text="지금 당장 번역이 필요한 고객을 찾습니다" />
-            <JTonnyLoading />
-        </div>
-        <div v-else>
-            <title-text
-                title="즉시 통역 요청이 왔어요!"
-                text="통역 요청글을 자세히 보고 가능한 통역을 신청하세요!" />
-            <JTonnyLoading />
-        </div> -->
-        <!-- </div> -->
-        <!-- <router-link :to="{ name: 'JTonnyMatchingPage' }"><button>다음페이지</button></router-link> -->
-
-        <!-- <div v-for="jtonny in Object.values(jtonnyList)" :key="jtonny.client.seq"> -->
-        <!-- 누르면 취소하기로 바뀌고 cancel? -->
-        <!-- <quest-card -->
-        <!-- :questDetail="jtonny" -->
-        <!-- rightBtnText="신청하기" -->
-        <!-- @clickBtn2="apply(jtonny.client.seq)" /> -->
-        <!-- </div> -->
-
-        <!-- 얘도 click 하면 unsubscribe() -->
-        <!-- <large-btn text="대기 취소" color="carrot" font="white" @click.prevent="openModal" /> -->
     </div>
 </template>
 
@@ -406,6 +312,8 @@ export default {
             jtonnyApply.helper = {
                 seq: this.userInfo.seq,
                 nickName: this.userInfo.nickName,
+                userCode: this.userInfo.userCode,
+                helperInfo: this.userInfo.helperInfo,
             };
 
             jtonnyApply.unitPrice = this.userInfo.helperInfo.unitPrice;

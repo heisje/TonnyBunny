@@ -118,11 +118,10 @@ public class YTonnyService {
 		// param setting
 		int page = yTonnyRequestDto.getPage();
 		int size = yTonnyRequestDto.getSize();
+		System.out.println("size = " + size);
 
 		// pagination
 		Pageable pageable = PageRequest.of(page, size);
-
-		// FIXME : 필터링도 필요하지 않나?
 
 		// find
 		return yTonnyRepository.findAllByOrderByCreatedAtDesc(pageable).getContent();
