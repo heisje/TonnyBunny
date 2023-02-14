@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="commentCreateWrap">
+            <div v-show="isLogin == true" class="commentCreateWrap">
                 <input class="input" type="text" :id="content.id" @input="changeInput" />
                 <div class="commentCreateBtn">
                     <SmallBtn text="댓글 작성" @click="clickCommentCreateBtn" />
@@ -96,6 +96,8 @@ export default {
 
     computed: {
         ...mapGetters({ boardDetail: "getBoardDetail" }),
+        ...mapGetters({ userInfo: "getUserInfo" }),
+        ...mapGetters({ isLogin: "getIsLogin" }),
     },
 
     methods: {
