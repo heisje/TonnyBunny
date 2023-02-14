@@ -3,7 +3,7 @@
         <div class="homeContentsWrap">
             <div class="homeContents">
                 <div class="main d-flex flex-column justify-content-center align-items-center">
-                    <div class="mainDesc d-flex flex-column">
+                    <div class="mainDesc d-flex flex-column animate__animated animate__fadeInDown">
                         <title-text
                             title="토니버니의 서비스를 이용해보세요"
                             type="h1"
@@ -14,7 +14,8 @@
                             <img src="@/assets/emoji/sparkles.png" alt="bunny" width="20" />
                         </span>
                     </div>
-                    <div class="iconsContainer">
+
+                    <div class="iconsContainer animate__animated animate__fadeInDown">
                         <div class="iconsWarp">
                             <!-- <div class="iconsContent" @click="toggleTonnyModalOpen">
 								<div>
@@ -61,16 +62,14 @@
                 <hr />
 
                 <div class="row sub">
-                    <div>토니버니 서비스 간단 설명</div>
+                    <h1 class="animate__animated animate__bounce">An animated element</h1>
+                    <div class="brief">
+                        토니버니 서비스 간단 설명
+                        <img src="@/assets/emoji/speak.png" alt="" />
+                    </div>
                     <div>통역 서비스 설명</div>
                     <div>번역 서비스 설명</div>
                     <div>마무리</div>
-                    <!-- <div class="col-12 col-lg-6 mb-5">
-                        <home-schedule-list></home-schedule-list>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <home-board-list></home-board-list>
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -81,18 +80,12 @@
 import { mapGetters } from "vuex";
 
 import TitleText from "@/components/common/TitleText.vue";
-// import MainBtn from "./MainBtn.vue";
-// import HomeScheduleList from "./HomeScheduleList.vue";
-// import HomeBoardList from "./HomeBoardList.vue";
 
 export default {
     name: "HomeContents",
 
     components: {
         TitleText,
-        // MainBtn,
-        // HomeScheduleList,
-        // HomeBoardList,
     },
 
     computed: {
@@ -226,5 +219,14 @@ export default {
 
 .sub {
     margin-top: 100px;
+}
+
+.brief {
+    img {
+        position: relative;
+        top: 0;
+        left: -100px;
+        background-color: red;
+    }
 }
 </style>
