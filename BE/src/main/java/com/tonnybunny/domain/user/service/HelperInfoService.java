@@ -358,6 +358,7 @@ public class HelperInfoService {
 
 
 	/**
+	 * 이미지 저장안하는 임시버전
 	 * 헬퍼 정보를 수정.
 	 * 인자로 받은 userSeq를 통해 helperInfoSeq를 얻어서 Entity를 수정
 	 * seq, 가능언어, 자격증(언어, 자격증 명, 내용)
@@ -369,7 +370,7 @@ public class HelperInfoService {
 	 * @return 수정한 HelperInfoEntity의 seq
 	 */
 	@Transactional
-	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto, MultipartHttpServletRequest request) {
+	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto) {
 		/** TODO : 로직 구현
 		 1. 가능 언어 목록 수정
 		 createPossibleLangList(), deletePossibleLangList();
@@ -415,27 +416,99 @@ public class HelperInfoService {
 			helperInfo.updatePossibleLanguageList(newPossibleLangList);
 		}
 
-		/**
-		 * 이미지 저장
-		 */
-		List<Long> deleteHelperInfoImageList = helperInfoRequestDto.getDeleteHelperInfoImageList(); // 삭제할 이미지 시퀀스 리스트 가져오기
-		if (!deleteHelperInfoImageList.isEmpty()) {                                                 // 삭제할 사진이 있을 경우
-			deleteHelperInfoImageList(deleteHelperInfoImageList);                                   // 삭제 진행하기
-
-		}
-		List<HelperInfoImageEntity> helperInfoImageList = createHelperInfoImageList(helperInfo, request);// 새로 들어온 파일을 토대로 헬퍼 이미지 리스트 생성
-
 		String oneLineIntroduction = helperInfoRequestDto.getOneLineIntroduction();
 		String introduction = helperInfoRequestDto.getIntroduction();
+		Integer unitPrice = helperInfoRequestDto.getUnitPrice();
 
 		helperInfo.updateOneLineIntroduction(oneLineIntroduction);
 		helperInfo.updateIntroduction(introduction);
+		helperInfo.updateUnitPrice(unitPrice);
 		helperInfoRepository.save(helperInfo);
 
-		System.out.println("helperInfo = " + helperInfo.toString());
+		System.out.println("helperInfo = " + helperInfo);
 
 		return helperInfo;
 	}
+
+	//	/**
+	//	 * 헬퍼 정보를 수정.
+	//	 * 인자로 받은 userSeq를 통해 helperInfoSeq를 얻어서 Entity를 수정
+	//	 * seq, 가능언어, 자격증(언어, 자격증 명, 내용)
+	//	 * 기존에 있던 정보를 삭제하고, 새로운 정보를 입력
+	//	 * 이미지 리스트는 유무가 불분명하므로 분기처리
+	//	 *
+	//	 * @param userSeq              : 대상 유저 seq
+	//	 * @param helperInfoRequestDto : 수정할 헬퍼 정보
+	//	 * @return 수정한 HelperInfoEntity의 seq
+	//	 */
+	//	@Transactional
+	//	public HelperInfoEntity modifyHelperInfo(Long userSeq, HelperInfoRequestDto helperInfoRequestDto, MultipartHttpServletRequest request) {
+	//		/** TODO : 로직 구현
+	//		 1. 가능 언어 목록 수정
+	//		 createPossibleLangList(), deletePossibleLangList();
+	//		 2. 자격증 목록 수정
+	//		 createCertificateList(), deleteCertificateList(); 내부 변수 어떻게 줄지. 여기서 가공 일단 해보자
+	//		 3. 헬퍼 소개서 사진 목록 수정
+	//		 createHelperInfoImageList(), deleteHelperInfoImageList();
+	//		 4. 한 줄 소개, 본인 소개 수정
+	//		 */
+	//		System.out.println("HelperInfoService.modifyHelperInfo");
+	//		UserEntity user = userRepository.findById(userSeq).orElseThrow(
+	//			() -> new CustomException(NOT_FOUND_USER)
+	//		);
+	//		HelperInfoEntity helperInfo = helperInfoRepository.findByUser(user).orElseThrow(
+	//			() -> new CustomException(NOT_FOUND_ENTITY)
+	//		);
+	//		// 걍 뭉탱이로 꺼내기
+	//		// 각자 로직 구현하기
+	//		// 삭제하고, create로 다시 생성
+	//		certificateRepository.deleteAllByHelperInfo(helperInfo);
+	//		possibleLanguageRepository.deleteAllByHelperInfo(helperInfo);
+	//
+	//		// 삭제 로직
+	//
+	//		// 자격증 리스트
+	//		List<CertificateRequestDto> certificateList = helperInfoRequestDto.getCertificateList();
+	//		if (certificateList.isEmpty()) { // 만약 빈 리스트를 받았을 경우
+	//			System.out.println("empty certificate");
+	//			List<CertificateEntity> newCertificateList = new ArrayList<>();
+	//			helperInfo.updateCertificateList(newCertificateList); // 빈 리스트로 업데이트
+	//		} else {
+	//			List<CertificateEntity> newCertificateList = createCertificateList(helperInfo, certificateList);
+	//			helperInfo.updateCertificateList(newCertificateList);
+	//		}
+	//
+	//		List<PossibleLanguageDto> possibleLanguageList = helperInfoRequestDto.getPossibleLanguageList();
+	//		if (possibleLanguageList.isEmpty()) { // 만약 빈 리스트를 받았을 경우
+	//			System.out.println("empty language");
+	//			List<PossibleLanguageEntity> newPossibleLangList = new ArrayList<>();
+	//			helperInfo.updatePossibleLanguageList(newPossibleLangList); // 빈 리스트로 업데이트
+	//		} else {
+	//			List<PossibleLanguageEntity> newPossibleLangList = createPossibleLangList(helperInfo, possibleLanguageList);
+	//			helperInfo.updatePossibleLanguageList(newPossibleLangList);
+	//		}
+	//
+	//		/**
+	//		 * 이미지 저장
+	//		 */
+	//		List<Long> deleteHelperInfoImageList = helperInfoRequestDto.getDeleteHelperInfoImageList(); // 삭제할 이미지 시퀀스 리스트 가져오기
+	//		if (!deleteHelperInfoImageList.isEmpty()) {                                                 // 삭제할 사진이 있을 경우
+	//			deleteHelperInfoImageList(deleteHelperInfoImageList);                                   // 삭제 진행하기
+	//
+	//		}
+	//		List<HelperInfoImageEntity> helperInfoImageList = createHelperInfoImageList(helperInfo, request);// 새로 들어온 파일을 토대로 헬퍼 이미지 리스트 생성
+	//
+	//		String oneLineIntroduction = helperInfoRequestDto.getOneLineIntroduction();
+	//		String introduction = helperInfoRequestDto.getIntroduction();
+	//
+	//		helperInfo.updateOneLineIntroduction(oneLineIntroduction);
+	//		helperInfo.updateIntroduction(introduction);
+	//		helperInfoRepository.save(helperInfo);
+	//
+	//		System.out.println("helperInfo = " + helperInfo.toString());
+	//
+	//		return helperInfo;
+	//	}
 
 
 	/**
