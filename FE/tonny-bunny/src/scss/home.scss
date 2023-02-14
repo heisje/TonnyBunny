@@ -1,148 +1,182 @@
 .contentAni {
-    // position: relative;
-    margin-top: 500px;
-    margin-bottom: 300px;
-    cursor: default;
+	position: relative;
+	// margin-top: 200px;
+	// margin-bottom: 300px;
 }
 
 .brief1 {
-    background: var(--carrot-color);
-    height: 400px;
-    width: 100%;
+	background: var(--carrot-color);
+	// background-color: black;
+	height: 400px;
+	// width: 100%;
+	// border-bottom: 1px solid var(--light-color);
 
-    img {
-        position: absolute;
-        top: -120px;
-        left: -150px;
-        // background-color: red;
-    }
+	cursor: default;
 
-    .briefText1 {
-        // margin-top: 500px;
-        display: flex;
-    }
+	// background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+	// 	url("@/assets/images/banner2.gif") no-repeat center;
+	// background-size: cover;
 
-    // .briefText1 {
-    //     // position: absolute;
-    //     text-align: center;
-    //     // top: 50px;
-    //     margin-top: 100px;
-    //     // left: 100px;
-    //     // right: 9px;
-    //     font-size: 2rem;
-    //     // letter-spacing: -3px;
-    //     font-weight: 700;
-    //     // color: var(--primary-color);
-    //     color: #fff;
-    // }
+	> img {
+		position: absolute;
+		top: -50px;
+		left: 10px;
+		// background-color: red;
+	}
 
-    // .briefText2 {
-    //     // position: absolute;
-    //     // top: 100px;
-    //     // left: 100px;
-    //     margin-top: 200px;
-    //     text-align: center;
-    //     font-size: 2rem;
-    //     color: #fff;
-    // }
+	.briefText1 {
+		// position: absolute;
+		// left: 200px;
 
-    // .briefText3 {
-    //     position: absolute;
-    //     // text-align: center;
-    //     top: 100px;
-    //     left: 45%;
-    //     // bottom: 0;
-    //     // color: #fff;
-    //     // left: 300px;
-    // }
+		margin-top: 50px;
+		// display: flex;
+		// background-clip: text;
+
+		// color: transparent;
+		background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+			url("@/assets/images/banner4.jpg") no-repeat center;
+		// background-size: 1000px 700px;
+		background-size: cover;
+		background-clip: text;
+		-webkit-background-clip: text;
+
+		.text1 {
+			margin-top: 130px;
+			font-size: 5rem;
+			font-weight: 900;
+			letter-spacing: -3px;
+			// color: var(--primary-color);
+			// color: #fff;
+			color: var(--main-color);
+			height: 400px;
+
+			// background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+			// 	url("@/assets/images/banner2.gif") no-repeat center;
+			// background-size: 1000px 500px;
+			// background-color: var(--primary-color);
+
+			color: transparent;
+			// height: 300px;
+		}
+
+		.text2 {
+			position: absolute;
+			top: 70px;
+			font-size: 1.3rem;
+			font-weight: 600;
+			// margin-top: 20px;
+			// color: var(--main-color);
+			color: #fff;
+		}
+
+		.text3 {
+			position: absolute;
+			top: 220px;
+			font-size: 1rem;
+		}
+	}
 }
 
 .brief2 {
-    height: 500px;
-    // background-color: green;
-    border-bottom: 1px solid var(--light-color);
+	height: 500px;
+	// background-color: green;
+	border-bottom: 1px solid var(--light-color);
 
-    > img {
-        position: absolute;
-        top: -150px;
-        right: -70px;
-        // background-color: red;
-    }
+	> img {
+		position: absolute;
+		top: -200px;
+		right: -50px;
+		transform: rotate(45deg);
+		// background-color: red;
+	}
 
-    h1 {
-        color: var(--primary-color);
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 12px;
-        letter-spacing: -1px;
-    }
+	h1 {
+		color: var(--primary-color);
+		font-size: 1.8rem;
+		font-weight: 700;
+		margin-bottom: 12px;
+		letter-spacing: -1px;
+	}
 
-    .briefText1 {
-        // padding-top: 150px;
-        // padding-left: 100px;
-        // position: relative;
+	.briefText1 {
+		// padding-top: 150px;
+		// padding-left: 100px;
+		// position: relative;
 
-        .text1 {
-            div {
-                font-size: 1.2rem;
-                line-height: 30px;
-                color: var(--main-color);
-                // letter-spacing: -1px;
-            }
-        }
+		.text1 {
+			div {
+				font-size: 1.2rem;
+				line-height: 30px;
+				color: var(--main-color);
+				// letter-spacing: -1px;
+			}
+		}
 
-        .briefImg1 {
-            // position: absolute;
-            // top: 100px;
-            // left: 500px;
-            // border-radius: 20px;
-        }
-    }
+		.briefImg1 {
+			// position: absolute;
+			// top: 100px;
+			// left: 500px;
+			// border-radius: 20px;
+		}
+	}
 }
 
 .brief3 {
-    height: 500px;
-    border-bottom: 1px solid var(--light-color);
+	height: 500px;
+	// border-bottom: 1px solid var(--light-color);
 
-    > img {
-        position: absolute;
-        top: -150px;
-        left: -125px;
-    }
+	> img {
+		position: absolute;
+		top: -300px;
+		left: -70px;
+	}
 
-    h1 {
-        color: var(--primary-color);
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 12px;
-        letter-spacing: -1px;
-        right: 0;
-    }
+	h1 {
+		color: var(--primary-color);
+		font-size: 1.8rem;
+		font-weight: 700;
+		margin-bottom: 12px;
+		letter-spacing: -1px;
+		right: 0;
+	}
 
-    .briefText2 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+	.briefText2 {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
-        .text1 {
-            div {
-                text-align: right;
-                font-size: 1.2rem;
-                line-height: 30px;
-                color: var(--main-color);
-                // letter-spacing: -1px;
-            }
-        }
-    }
+		.text1 {
+			div {
+				text-align: right;
+				font-size: 1.2rem;
+				line-height: 30px;
+				color: var(--main-color);
+				// letter-spacing: -1px;
+			}
+		}
+	}
 }
 
 .brief4 {
-    height: 500px;
+	height: 400px;
+	background-color: var(--thin-color);
 
-    > img {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        // background-color: red;
-    }
+	> img {
+		position: absolute;
+		top: -100px;
+		left: -70px;
+	}
+
+	div {
+		font-size: 1.8rem;
+		font-weight: 700;
+		letter-spacing: -1px;
+		line-height: 40px;
+
+		span {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: var(--primary-color);
+		}
+	}
 }
