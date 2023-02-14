@@ -80,13 +80,13 @@
                                         <td>{{ estimateTime }}</td>
                                     </tr>
 
-                                    <tr>
-                                        <td>지불 캐럿</td>
-                                        <td>
-                                            {{ jtonnyRequest.unitPrice }}
-                                            <span class="label">CRT</span>
-                                        </td>
-                                    </tr>
+                                    <!-- <tr> -->
+                                        <!-- <td>지불 캐럿</td> -->
+                                        <!-- <td> -->
+                                            <!-- {{ jtonnyRequest.unitPrice }} -->
+                                            <!-- <span class="label">CRT</span> -->
+                                        <!-- </td> -->
+                                    <!-- </tr> -->
 
                                     <tr>
                                         <td>상황 카테고리</td>
@@ -181,7 +181,7 @@
                                                 </div>
                                                 <div>
                                                     <h3>헬퍼단가</h3>
-                                                    {{ apply.unitPrice }}
+                                                    {{ apply.helper.helperInfo.unitPrice }}
                                                     <span class="label">CRT</span>
                                                 </div>
                                             </div>

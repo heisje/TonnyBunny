@@ -89,7 +89,8 @@ public class JTonnyService {
 	 */
 	public void rejectJTonnyApply(JTonnyDto jTonnyDto) {
 		Long helperSeq = jTonnyDto.getHelper().getSeq();
-		jTonnyDto.setHelper(new JTonnyUserDto(userRepository.findById(helperSeq).get()));
+		jTonnyDto.setHelper(new JTonnyUserDto(userRepository.findById(helperSeq)
+		                                                    .orElseThrow(() -> new CustomException(NOT_FOUND_USER))));
 		redisTemplate.convertAndSend("jtonny/reject", jTonnyDto);
 	}
 

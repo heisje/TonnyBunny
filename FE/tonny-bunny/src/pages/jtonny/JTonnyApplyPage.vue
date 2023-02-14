@@ -64,9 +64,16 @@
                                                             :text="allCode[quest?.endLangCode]"
                                                             sub></square-tag>
                                                     </div>
-                                                    <div>{{ quest.unitPrice }}</div>
-                                                    <div>{{ quest.estimateTime }}</div>
-                                                    <div>{{ allCode[quest?.tonnySituCode] }}</div>
+                                                    <div>
+                                                        <h3>소요시간</h3>
+                                                        {{ quest.estimateTime }}
+                                                        <!-- <span class="">건</span> -->
+                                                    </div>
+                                                    <div>
+                                                        <h3>카테고리</h3>
+                                                        {{ allCode[quest?.tonnySituCode] }}
+                                                        <!-- <span class="label"></span> -->
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,8 +83,8 @@
                                             color="outline"
                                             font="active"
                                             class="w-100"
-                                            @click="toggleMoreOpen"></medium-btn>
-                                        <v-table v-show="isMoreOpen">
+                                            @click="toggleMoreOpen(quest)"></medium-btn>
+                                        <v-table v-show="quest.isMoreOpen">
                                             <thead>
                                                 <tr class="">
                                                     <th class="col-4 fw-bold">제목</th>
@@ -116,21 +123,27 @@
                                                     </td>
                                                 </tr>
 
-                                                <tr>
-                                                    <td>지불 캐럿</td>
-                                                    <td>
-                                                        {{ quest.unitPrice }}
-                                                        <span class="label">CRT</span>
-                                                    </td>
-                                                </tr>
+                                                <!-- <tr> -->
+                                                    <!-- <td>지불 캐럿</td> -->
+                                                    <!-- <td> -->
+                                                        <!-- {{ quest.unitPrice }} -->
+                                                        <!-- <span class="label">CRT</span> -->
+                                                    <!-- </td> -->
+                                                <!-- </tr> -->
 
                                                 <tr>
                                                     <td>상황 카테고리</td>
                                                     <td>
+                                                        <div
+                                                            v-if="quest.tonnySituCode == ''"
+                                                            class="fst-italic"
+                                                            style="color: var(--sub-color)">
+                                                            상황 카테고리가 없습니다.
+                                                        </div>
                                                         <square-tag
+                                                            v-else
                                                             :text="allCode[quest?.tonnySituCode]"
-                                                            sub>
-                                                        </square-tag>
+                                                            sub></square-tag>
                                                     </td>
                                                 </tr>
 
@@ -186,7 +199,31 @@
                                             <div class="d-flex flex-row">
                                                 <div>{{ apply.client.nickName }}</div>
                                             </div>
-                                            <div class="d-flex">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <square-tag
+                                                    :text="allCode[apply?.startLangCode]"
+                                                    sub
+                                                    class="me-2"></square-tag>
+                                                <div class="me-2">
+                                                    <span class="material-symbols-outlined">
+                                                        compare_arrows
+                                                    </span>
+                                                </div>
+                                                <square-tag
+                                                    :text="allCode[apply?.endLangCode]"
+                                                    sub></square-tag>
+                                            </div>
+                                            <div>
+                                                <h3>소요시간</h3>
+                                                {{ apply.estimateTime }}
+                                                <!-- <span class="">건</span> -->
+                                            </div>
+                                            <div>
+                                                <h3>카테고리</h3>
+                                                {{ allCode[apply?.tonnySituCode] }}
+                                                <!-- <span class="label"></span> -->
+                                            </div>
+                                            <!-- <div class="d-flex">
                                                 <div>{{ apply.startLangCode }}</div>
                                                 <div>{{ apply.endLangCode }}</div>
                                             </div>
@@ -194,7 +231,7 @@
                                                 <div>{{ apply.estimateTime }}</div>
                                                 <div>{{ apply.tonnySituCode }}</div>
                                                 <div>{{ apply.unitPrice }}</div>
-                                            </div>
+                                            </div> -->
 
                                             <!-- <div>{{ apply.helper.helperInfo.avgScore }}</div> -->
                                             <!-- <div>{{ apply.helper.helperInfo.reviewCount }}</div> -->
@@ -304,8 +341,8 @@ export default {
             this.$store.commit("CLOSE_ALARM_MODAL");
         },
 
-        toggleMoreOpen() {
-            this.isMoreOpen = !this.isMoreOpen;
+        toggleMoreOpen(quest) {
+            quest.isMoreOpen = !quest.isMoreOpen;
         },
 
         apply(seq) {
@@ -319,7 +356,7 @@ export default {
                 helperInfo: this.userInfo.helperInfo,
             };
 
-            jtonnyApply.unitPrice = this.userInfo.helperInfo.unitPrice;
+            // jtonnyApply.unitPrice = this.userInfo.helperInf.unitPrice;
             this.jtonnyApplyQuestList[seq] = jtonnyApply;
             this.applyCount++;
 

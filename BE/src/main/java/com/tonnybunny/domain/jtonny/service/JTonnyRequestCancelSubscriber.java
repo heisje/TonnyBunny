@@ -35,7 +35,7 @@ public class JTonnyRequestCancelSubscriber implements MessageListener {
 			 * 요청 언어를 구독중인 helper 에게 뜬 공고를 지우는 subscriber
 			 * "/sub/jtonny/request/0020002/cancel"
 			 */
-			if (jTonnyDto.getStartLangCode() == "0020001") url = "/sub/jtonny/request/" + jTonnyDto.getEndLangCode() + "/cancel";
+			if (jTonnyDto.getStartLangCode().equals("0020001")) url = "/sub/jtonny/request/" + jTonnyDto.getEndLangCode() + "/cancel";
 			else url = "/sub/jtonny/request/" + jTonnyDto.getStartLangCode() + "/cancel";
 
 			template.convertAndSend(url, jTonnyDto);
