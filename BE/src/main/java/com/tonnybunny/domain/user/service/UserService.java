@@ -400,10 +400,10 @@ public class UserService {
 
 				file.transferTo(saveFile);
 
-				user.updateProfileImage(filePath);
+				user.updateProfileImage(File.separator + filePath);
 
 			} else {
-				user.updateProfileImage("noProfile.png"); // 디폴트로 변경
+				user.updateProfileImage(File.separator + "noProfile.png"); // 디폴트로 변경
 			}
 			userRepository.save(user);
 

@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <div>
-                <TitleText title="헬퍼프로필 변경" center text="헬퍼 정보를 변경하세요!" />
+                <title-banner title="🐰 헬퍼 정보 수정" text="헬퍼 정보를 수정하실 수 있습니다" />
             </div>
 
             <!-- 언어 선택 -->
@@ -54,13 +54,24 @@
             </div>
 
             <br /><br />
-			<TitleText title="한 줄 자기소개" type="h2" text="자신을 표현할 간단한 자기소개를 입력해주세요." />
-			<input type="text" :value="oneLineIntroduction">
+            <TitleText
+                title="한 줄 자기소개"
+                type="h2"
+                text="자신을 표현할 간단한 자기소개를 입력해주세요."
+            />
+            <input type="text" :value="oneLineIntroduction" />
 
-			<TitleText title="사진 첨부" type="h2" text="본인을 어필할 수 있는 사진을 첨부해주세요." />
+            <TitleText
+                title="사진 첨부"
+                type="h2"
+                text="본인을 어필할 수 있는 사진을 첨부해주세요."
+            />
+            <div v-for="(helperImage, index) in helperInforImageList" :key="index">
+                <img-item width="100" :imagePath="helperImage?.imagePath" />
+            </div>
 
-			<TitleText title="본인 소개" type="h2" text="자유롭게 본인을 소개해주세요." />
-			<textarea cols="10" rows="5" v-model="introduction"></textarea>
+            <TitleText title="본인 소개" type="h2" text="자유롭게 본인을 소개해주세요." />
+            <textarea cols="10" rows="5" v-model="introduction"></textarea>
 
             <div>
                 <smallBtn
@@ -85,12 +96,15 @@
 </template>
 
 <script>
-import TitleText from "@/components/common/TitleText.vue";
-import http from "@/common/axios.js";
 import { mapGetters } from "vuex";
+
+import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
+import http from "@/common/axios.js";
 import DropdownInputCode from "@/components/common/input/DropdownInputCode.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
+import ImgItem from "@/components/common/ImgItem.vue";
 // import http from "@/common/axios";
 
 export default {
@@ -106,6 +120,8 @@ export default {
         DropdownInputCode,
         SmallBtn,
         MediumBtn,
+        TitleBanner,
+        ImgItem,
     },
 
     data() {
@@ -121,8 +137,8 @@ export default {
             certName: "",
             contentInput: "",
 
-			// others
-			helperInfoImageList: [],
+            // others
+            helperInfoImageList: [],
             oneLineIntroduction: "",
             introduction: "",
         };
@@ -171,8 +187,6 @@ export default {
             this.certificateList.splice(index, 1);
         },
 
-
-
         // 폼 제출
         async submitForm(event) {
             event.preventDefault();
@@ -215,19 +229,20 @@ export default {
             allCode: "getAllCode",
         }),
     },
-	created(){
-		this.$store.dispatch("getHelper", this.userSeq).then(() => {});
-	},
-
-	mounted(){
-		this.oneLineIntroduction = this.$store.state.account.userInfo.helperInfo.oneLineIntroduction;
-		this.introduction = this.$store.state.account.userInfo.helperInfo.introduction;
-		this.certificateList = this.$store.state.account.userInfo.helperInfo.certificateList;
-		this.possibleLanguageCodeList = this.$store.state.account.userInfo.helperInfo.possibleLanguageList;
-		this.helperInfoImageList = this.$store.state.account.userInfo.helperInfo.helperInfoImageList;
-
+    created() {
+        this.$store.dispatch("getHelper", this.userSeq).then(() => {});
     },
 
+    mounted() {
+        this.oneLineIntroduction =
+            this.$store.state.account.userInfo.helperInfo.oneLineIntroduction;
+        this.introduction = this.$store.state.account.userInfo.helperInfo.introduction;
+        this.certificateList = this.$store.state.account.userInfo.helperInfo.certificateList;
+        this.possibleLanguageCodeList =
+            this.$store.state.account.userInfo.helperInfo.possibleLanguageList;
+        this.helperInfoImageList =
+            this.$store.state.account.userInfo.helperInfo.helperInfoImageList;
+    },
 };
 </script>
 
@@ -254,4 +269,3 @@ export default {
     }
 }
 </style>
-
