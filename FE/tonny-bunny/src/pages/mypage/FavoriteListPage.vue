@@ -7,7 +7,8 @@
                 <UserProfileItem
                     btnText="언팔로우"
                     :helperInfo="follow"
-                    @clickBtn="deleteFollow(follow.seq)" />
+                    @clickBtn="deleteFollow(follow.seq)"
+                />
             </div>
         </div>
         <div v-else>
@@ -15,12 +16,19 @@
             <br />
             <title-text type="h2" title="즐겨찾기 한 유저가 없습니다🐾" class="text-center" />
         </div>
+        <br />
+        <div class="w-50 mx-auto">
+            <router-link :to="{ name: 'MyPage' }">
+                <smallBtn color="carrot" class="w-100" text="확인"></smallBtn>
+            </router-link>
+        </div>
     </div>
 </template>
 
 <script>
 import UserProfileItem from "@/components/mypage/UserProfileItem.vue";
 import TitleText from "@/components/common/TitleText.vue";
+import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import { mapGetters } from "vuex";
 import http from "@/common/axios";
 export default {
@@ -35,6 +43,7 @@ export default {
     components: {
         UserProfileItem,
         TitleText,
+        SmallBtn,
     },
     methods: {
         async getFollowList(seq) {

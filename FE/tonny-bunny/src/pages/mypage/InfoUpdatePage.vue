@@ -5,7 +5,8 @@
             <user-profile-img
                 style="display: inline-block"
                 :profileImagePath="userInfo?.profileImagePath"
-                width="80" />
+                width="80"
+            />
             <medium-btn class="ml-3" text="프로필 변경" @click="clickInputProfile" />
         </div>
 
@@ -15,7 +16,8 @@
             type="file"
             accept="image/*"
             ref="click"
-            @change="insertImage" />
+            @change="insertImage"
+        />
 
         <div>
             <label for="nickName">닉네임</label>
@@ -44,6 +46,12 @@
             <div v-show="noticePassword3" style="color: red">{{ noticePassword3 }}</div>
         </div>
         <medium-btn class="my-3" text="비밀번호 수정" @click="changePassword"></medium-btn>
+
+        <div class="w-25 mx-auto">
+            <router-link :to="{ name: 'MyPage' }">
+                <smallBtn color="carrot" class="w-100" text="확인"></smallBtn>
+            </router-link>
+        </div>
     </div>
 </template>
 
