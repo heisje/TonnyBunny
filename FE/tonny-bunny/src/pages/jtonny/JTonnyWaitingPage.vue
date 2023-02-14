@@ -327,7 +327,7 @@ export default {
         getTonnySituCode() {
             let code;
             this.tonnySituCode.forEach((e) => {
-                if (e.value == this.yTonnyDetail.tonnySituCode) code = e.name;
+                if (e.value == this.jtonnyRequest.tonnySituCode) code = e.name;
             });
             return code;
         },

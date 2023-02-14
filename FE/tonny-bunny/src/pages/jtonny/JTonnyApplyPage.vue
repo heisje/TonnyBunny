@@ -52,7 +52,7 @@
                                                 <div class="d-flex flex-column">
                                                     <div class="d-flex flex-row align-items-center">
                                                         <square-tag
-                                                            :text="quest.startLangCode"
+                                                            :text="allCode[quest?.startLangCode]"
                                                             sub
                                                             class="me-2"></square-tag>
                                                         <div class="me-2">
@@ -61,12 +61,12 @@
                                                             </span>
                                                         </div>
                                                         <square-tag
-                                                            :text="quest.endLangCode"
+                                                            :text="allCode[quest?.endLangCode]"
                                                             sub></square-tag>
                                                     </div>
                                                     <div>{{ quest.unitPrice }}</div>
                                                     <div>{{ quest.estimateTime }}</div>
-                                                    <div>{{ quest.tonnySituCode }}</div>
+                                                    <div>{{ allCode[quest?.tonnySituCode] }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,7 +89,7 @@
                                                     <td>언어</td>
                                                     <td class="d-flex flex-row align-items-center">
                                                         <square-tag
-                                                            :text="quest.startLangCode"
+                                                            :text="allCode[quest?.startLangCode]"
                                                             sub
                                                             class="me-2"></square-tag>
                                                         <div class="me-2">
@@ -98,7 +98,7 @@
                                                             </span>
                                                         </div>
                                                         <square-tag
-                                                            :text="quest.endLangCode"
+                                                            :text="allCode[quest?.endLangCode]"
                                                             sub></square-tag>
                                                     </td>
                                                 </tr>
@@ -127,7 +127,9 @@
                                                 <tr>
                                                     <td>상황 카테고리</td>
                                                     <td>
-                                                        <square-tag :text="quest.tonnySituCode" sub>
+                                                        <square-tag
+                                                            :text="allCode[quest?.tonnySituCode]"
+                                                            sub>
                                                         </square-tag>
                                                     </td>
                                                 </tr>
@@ -284,6 +286,7 @@ export default {
         ...mapGetters({
             userInfo: "getUserInfo",
             yTonnyList: "getYTonnyList",
+            allCode: "getAllCode",
         }),
 
         jtonnyQuestListLength() {
