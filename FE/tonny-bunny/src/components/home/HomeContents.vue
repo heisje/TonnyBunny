@@ -59,17 +59,94 @@
                     </div>
                 </div>
 
-                <hr />
+                <!-- <hr /> -->
+                <div style="margin-top: 200px"></div>
 
-                <div class="row sub">
-                    <h1 class="animate__animated animate__bounce">An animated element</h1>
-                    <div class="brief">
-                        토니버니 서비스 간단 설명
-                        <img src="@/assets/emoji/speak.png" alt="" />
+                <div class="row sub contentAni">
+                    <div class="brief1 position-relative">
+                        <img
+                            src="@/assets/emoji/speak2.png"
+                            class="animate__animated animate__pulse animate__slower animate__infinite"
+                            alt=""
+                            width="300" />
+                        <div class="briefText1">
+                            <img
+                                class=""
+                                style="margin-top: 100px"
+                                src="@/assets/logo2_white.png" />
+                            <div class="">토니버니란?</div>
+                            <div class="">실시간 즉시 통역/번역 서비스</div>
+                        </div>
                     </div>
-                    <div>통역 서비스 설명</div>
-                    <div>번역 서비스 설명</div>
-                    <div>마무리</div>
+
+                    <div class="brief2 position-relative">
+                        <img
+                            src="@/assets/emoji/thumbsup2.png"
+                            class="animate__animated animate__pulse animate__slower animate__infinite"
+                            alt=""
+                            width="300" />
+                        <div
+                            class="briefText1 d-flex justify-space-evenly align-items-center h-100">
+                            <div class="text1">
+                                <h1>통역, TONNY</h1>
+                                <div>해외에서도 간편하고 빠르게!</div>
+                                <div class="mb-3">토니버니의 실시간 통역 서비스</div>
+                                <!-- <div>해외에서도 빠르고 안전하게!</div> -->
+                                <medium-btn
+                                    style="width: 300px"
+                                    text="서비스 만나러 가기"
+                                    color="outline"
+                                    font="active"></medium-btn>
+                            </div>
+                            <div>
+                                <Vue3Lottie
+                                    :animationLink="`https://assets7.lottiefiles.com/packages/lf20_ihspk1vg.json`"
+                                    style="width: 350px"
+                                    background="transparent"
+                                    loop
+                                    autoplay>
+                                </Vue3Lottie>
+                                <!-- <img class="briefImg1" src="@/assets/brief1.png" width="500" /> -->
+                            </div>
+
+                            <!-- <div class="briefText1">즉시통역</div> -->
+                            <!-- <div class="briefText2">예약통역</div> -->
+                        </div>
+                    </div>
+
+                    <div class="brief3 position-relative">
+                        <img
+                            src="@/assets/emoji/lighthing.png"
+                            class="animate__animated animate__pulse animate__slower animate__infinite"
+                            alt=""
+                            width="300" />
+                        <!-- <h1>Let's Bunny !</h1> -->
+                        <!-- <div class="briefText1 text-center">번역 서비스 설명</div> -->
+                        <div
+                            class="briefText2 d-flex justify-space-evenly align-items-center h-100">
+                            <div class="mb-3">
+                                <Vue3Lottie
+                                    :animationLink="`https://assets4.lottiefiles.com/packages/lf20_puavctbl.json`"
+                                    style="width: 350px"
+                                    background="transparent"
+                                    loop
+                                    autoplay>
+                                </Vue3Lottie>
+                                <!-- <img class="" src="@/assets/brief1.png" width="500" /> -->
+                            </div>
+                            <div class="text1">
+                                <h1 style="padding-left: 150px">번역, Bunny</h1>
+                                <div>간단하고 깔끔한 번역이 필요하다면?</div>
+                                <div class="mb-3">토니버니의 번역 서비스</div>
+                                <medium-btn
+                                    style="width: 300px"
+                                    text="서비스 만나러 가기"
+                                    color="outline"
+                                    font="active"></medium-btn>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brief4">마무리</div>
                 </div>
             </div>
         </div>
@@ -77,15 +154,20 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { mapGetters } from "vuex";
 
 import TitleText from "@/components/common/TitleText.vue";
+import SmallBtn from "../common/button/SmallBtn.vue";
+import MediumBtn from "../common/button/MediumBtn.vue";
 
 export default {
     name: "HomeContents",
 
     components: {
         TitleText,
+        SmallBtn,
+        MediumBtn,
     },
 
     computed: {
@@ -112,6 +194,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/scss/home.scss";
+
 .homeContentsContainer {
     margin-top: 500px;
 }
@@ -219,14 +303,5 @@ export default {
 
 .sub {
     margin-top: 100px;
-}
-
-.brief {
-    img {
-        position: relative;
-        top: 0;
-        left: -100px;
-        background-color: red;
-    }
 }
 </style>

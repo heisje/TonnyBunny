@@ -1,0 +1,148 @@
+.contentAni {
+    // position: relative;
+    margin-top: 500px;
+    margin-bottom: 300px;
+    cursor: default;
+}
+
+.brief1 {
+    background: var(--carrot-color);
+    height: 400px;
+    width: 100%;
+
+    img {
+        position: absolute;
+        top: -120px;
+        left: -150px;
+        // background-color: red;
+    }
+
+    .briefText1 {
+        // margin-top: 500px;
+        display: flex;
+    }
+
+    // .briefText1 {
+    //     // position: absolute;
+    //     text-align: center;
+    //     // top: 50px;
+    //     margin-top: 100px;
+    //     // left: 100px;
+    //     // right: 9px;
+    //     font-size: 2rem;
+    //     // letter-spacing: -3px;
+    //     font-weight: 700;
+    //     // color: var(--primary-color);
+    //     color: #fff;
+    // }
+
+    // .briefText2 {
+    //     // position: absolute;
+    //     // top: 100px;
+    //     // left: 100px;
+    //     margin-top: 200px;
+    //     text-align: center;
+    //     font-size: 2rem;
+    //     color: #fff;
+    // }
+
+    // .briefText3 {
+    //     position: absolute;
+    //     // text-align: center;
+    //     top: 100px;
+    //     left: 45%;
+    //     // bottom: 0;
+    //     // color: #fff;
+    //     // left: 300px;
+    // }
+}
+
+.brief2 {
+    height: 500px;
+    // background-color: green;
+    border-bottom: 1px solid var(--light-color);
+
+    > img {
+        position: absolute;
+        top: -150px;
+        right: -70px;
+        // background-color: red;
+    }
+
+    h1 {
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        letter-spacing: -1px;
+    }
+
+    .briefText1 {
+        // padding-top: 150px;
+        // padding-left: 100px;
+        // position: relative;
+
+        .text1 {
+            div {
+                font-size: 1.2rem;
+                line-height: 30px;
+                color: var(--main-color);
+                // letter-spacing: -1px;
+            }
+        }
+
+        .briefImg1 {
+            // position: absolute;
+            // top: 100px;
+            // left: 500px;
+            // border-radius: 20px;
+        }
+    }
+}
+
+.brief3 {
+    height: 500px;
+    border-bottom: 1px solid var(--light-color);
+
+    > img {
+        position: absolute;
+        top: -150px;
+        left: -125px;
+    }
+
+    h1 {
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        letter-spacing: -1px;
+        right: 0;
+    }
+
+    .briefText2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .text1 {
+            div {
+                text-align: right;
+                font-size: 1.2rem;
+                line-height: 30px;
+                color: var(--main-color);
+                // letter-spacing: -1px;
+            }
+        }
+    }
+}
+
+.brief4 {
+    height: 500px;
+
+    > img {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        // background-color: red;
+    }
+}
