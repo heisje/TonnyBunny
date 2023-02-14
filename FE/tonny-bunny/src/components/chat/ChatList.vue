@@ -1,7 +1,15 @@
 <template lang="">
     <div class="chat-list-view">
-        <div v-show="chatRoomList.size == 0" class="no-chat-list fs-5 fw-bold text-center">
-            🐰 생성된 채팅방이 없어요! 🐰
+        <div v-show="chatRoomList.size == 0">
+            <div class="no-chat-list fs-5 fw-bold text-center">생성된 채팅방이 없어요!</div>
+            <Vue3Lottie
+                :animationLink="`https://lottie.host/489fd0fe-d872-4b65-bf80-d22bafe814c0/fJD3A7hPRX.json`"
+                width="50%"
+                height="50%"
+                background="transparent"
+                loop
+                autoplay>
+            </Vue3Lottie>
         </div>
         <div v-for="chatRoom in chatRoomList" :key="chatRoom">
             <div @click="enterChatRoom($event, chatRoom[1])" class="chat-item" aria-current="page">
