@@ -205,10 +205,10 @@ import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
-const APPLICATION_SERVER_URL =
-    process.env.NODE_ENV === "production"
-        ? process.env.VUE_APP_SERVER_URL
-        : process.env.VUE_APP_OPENVIDU_URL;
+const APPLICATION_SERVER_URL = process.env.VUE_APP_OPENVIDU_URL;
+// process.env.NODE_ENV === "production"
+//     ? process.env.VUE_APP_SERVER_URL
+//     : process.env.VUE_APP_OPENVIDU_URL;
 
 export default {
     name: "OnAirPage",
