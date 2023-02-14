@@ -74,4 +74,9 @@ public class BunnyEntity extends CommonEntity {
 		this.taskStateCode = stateCode;
 	}
 
+
+	public void changeHelperSeq(Long helperSeq) {
+		this.helperSeq = helperSeq;
+	}
+
 }
