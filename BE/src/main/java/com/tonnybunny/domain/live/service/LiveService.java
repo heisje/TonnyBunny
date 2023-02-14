@@ -129,12 +129,23 @@ public class LiveService {
 		System.out.println("history.getTaskCode() = " + history.getTaskCode());
 		System.out.println("history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode()) = " + history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode()));
 
-		/**
-		 * TODO
-		 *  1. totalTime (String) * unitPrice (Integer) 를 통해 totalPrice 계산
-		 *  2. 고객이 돈 없는 상황에 대한 대책 필요
-		 */
+		Integer actualSpentTime = parsedTotalTime.getHour() * 60 + parsedTotalTime.getMinute();
 		Integer totalPrice = 0;
+
+		if (history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode())) {
+			JTonnyHistoryEntity targetHistory = (JTonnyHistoryEntity) history;
+			log.info("targetHistory = {}", targetHistory);
+			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
+			totalPrice = targetHistory.getUnitPrice() * (actualSpentTime / 5);
+			historyRepository.save(targetHistory);
+		} else if (history.getTaskCode().equals(TaskCodeEnum.예약통역.getTaskCode())) {
+			YTonnyHistoryEntity targetHistory = (YTonnyHistoryEntity) history;
+			log.info("targetHistory = {}", targetHistory);
+			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
+			totalPrice = targetHistory.getUnitPrice() * (actualSpentTime / 5);
+			historyRepository.save(targetHistory);
+		}
+
 		PointRequestDto pointRequestDto = PointRequestDto.builder()
 		                                                 .fromUserSeq(history.getClient().getSeq())
 		                                                 .toUserSeq(history.getHelper().getSeq())
@@ -143,18 +154,6 @@ public class LiveService {
 		                                                 .build();
 
 		pointService.dealPoint(pointRequestDto);
-
-		if (history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode())) {
-			JTonnyHistoryEntity targetHistory = (JTonnyHistoryEntity) history;
-			log.info("targetHistory = {}", targetHistory);
-			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
-			historyRepository.save(targetHistory);
-		} else if (history.getTaskCode().equals(TaskCodeEnum.예약통역.getTaskCode())) {
-			YTonnyHistoryEntity targetHistory = (YTonnyHistoryEntity) history;
-			log.info("targetHistory = {}", targetHistory);
-			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
-			historyRepository.save(targetHistory);
-		}
 
 	}
 
