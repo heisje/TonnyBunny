@@ -33,6 +33,9 @@ export default {
         smallBtn,
     },
     methods: {},
+    mounted(){
+        this.$store.dispatch("getMypage");
+    }
 };
 </script>
 
