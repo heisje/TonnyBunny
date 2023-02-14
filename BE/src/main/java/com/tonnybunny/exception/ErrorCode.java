@@ -35,6 +35,9 @@ public enum ErrorCode {
 	ACCESS_TOKEN_ERROR(UNAUTHORIZED, "액세스 토큰에 문제가 있습니다."),
 	REFRESH_TOKEN_ERROR(UNAUTHORIZED, "리프레시 토큰에 문제가 있습니다."),
 
+	/* 403 FORBIDDEN : 접근 권한 없음 */
+	NO_ACCESS(FORBIDDEN, "페이지에 대한 접근 권한이 없습니다."),
+
 	/* 404 NOT_FOUND : 대상이 존재하지 않음 */
 	NOT_FOUND_ENTITY(NOT_FOUND, "엔티티가 존재하지 않습니다."),
 	NOT_FOUND_USER(NOT_FOUND, "대상이 존재하지 않습니다."),
