@@ -33,7 +33,6 @@ export default {
     // logout
     SET_LOG_OUT(state) {
         state.account.userInfo = {};
-        state.account.isLogin = true;
         state.account.isHelper = false;
         state.account.isLogin = false;
         state.account.ACCESS_TOKEN = "";

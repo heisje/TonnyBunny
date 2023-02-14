@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store/store";
 
 import AppHeader from "@/pages/common/AppHeader";
 import AppFooter from "@/pages/common/AppFooter";
@@ -94,7 +95,708 @@ import NotFoundPage from "@/pages/common/NotFoundPage";
 import ComponentsTestPage from "@/pages/common/ComponentsTestPage";
 import InputTest from "@/components/common/input/InputTest";
 
-export default createRouter({
+const routes = [
+    //account
+    {
+        path: "/account/signup",
+        name: "SignUpPage",
+        components: {
+            header: AppHeader,
+            default: SignUpPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/account/findid",
+        name: "FindIdPage",
+        components: {
+            header: AppHeader,
+            default: FindIdPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/account/findpw",
+        name: "FindPwPage",
+        components: {
+            header: AppHeader,
+            default: FindPwPage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/account/resetpw/:userSeq",
+        name: "ResetPwPage",
+        components: {
+            header: AppHeader,
+            default: ResetPwPage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/account/ability/:userSeq",
+        name: "AbilityPage",
+        components: {
+            header: AppHeader,
+            default: AbilityPage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/account/agree/:select",
+        name: "AgreePage",
+        components: {
+            header: AppHeader,
+            default: AgreePage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/account/signup/:select/create",
+        name: "SignUpCreatePage",
+        components: {
+            header: AppHeader,
+            default: SignUpCreatePage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/account/signup/complete",
+        name: "SignUpCompletePage",
+        components: {
+            header: AppHeader,
+            default: SignUpCompletePage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+    {
+        path: "/account/ability/complete",
+        name: "AbilityCompletePage",
+        components: {
+            header: AppHeader,
+            default: AbilityCompletePage,
+            footer: AppFooter,
+        },
+    },
+
+    //jtonny
+    {
+        path: "/jtonny",
+        name: "JTonnyWaitingPage",
+        components: {
+            header: AppHeader,
+            default: JTonnyWaitingPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/jtonny/form",
+        name: "JTonnyFormPage",
+        components: {
+            header: AppHeader,
+            default: JTonnyFormPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/jtonny/apply",
+        name: "JTonnyApplyPage",
+        components: {
+            header: AppHeader,
+            default: JTonnyApplyPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/jtonny/matching",
+        name: "JTonnyMatchingPage",
+        components: {
+            header: AppHeader,
+            default: JTonnyMatchingPage,
+            footer: AppFooter,
+        },
+    },
+
+    // ytonny
+    {
+        path: "/ytonny/:id",
+        name: "YTonnyDetailPage",
+        components: {
+            header: AppHeader,
+            default: YTonnyDetailPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/ytonny/:id/update",
+        name: "YTonnyUpdatePage",
+        components: {
+            header: AppHeader,
+            default: YTonnyUpdatePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/ytonny/form",
+        name: "YTonnyFormPage",
+        components: {
+            header: AppHeader,
+            default: YTonnyFormPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/ytonny/:id/helper",
+        name: "YTonnyHelperListPage",
+        components: {
+            header: AppHeader,
+            default: YTonnyHelperListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/ytonny/success",
+        name: "YTonnySuccessPage",
+        components: {
+            header: AppHeader,
+            default: YTonnySuccessPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/ytonny",
+        name: "YTonnyListPage",
+        components: {
+            header: AppHeader,
+            default: YTonnyListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/ytonny/matching",
+        name: "YTonnyMatchingPage",
+        components: {
+            header: AppHeader,
+            default: YTonnyMatchingPage,
+            footer: AppFooter,
+        },
+    },
+
+    //nbunny
+    {
+        path: "/nbunny/:id",
+        name: "NBunnyDetailPage",
+        components: {
+            header: AppHeader,
+            default: NBunnyDetailPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/nbunny/form",
+        name: "NBunnyFormPage",
+        components: {
+            header: AppHeader,
+            default: NBunnyFormPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/nbunny/:id/helper",
+        name: "NBunnyHelperListPage",
+        components: {
+            header: AppHeader,
+            default: NBunnyHelperListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/nbunny/list",
+        name: "NBunnyListPage",
+        components: {
+            header: AppHeader,
+            default: NBunnyListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/nbunny/matching",
+        name: "NBunnyMatchingPage",
+        components: {
+            header: AppHeader,
+            default: NBunnyMatchingPage,
+            footer: AppFooter,
+        },
+    },
+
+    //notice
+    {
+        path: "/notice/list",
+        name: "NoticeListPage",
+        components: {
+            header: AppHeader,
+            default: NoticeListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/notice/faq",
+        name: "FAQPage",
+        components: {
+            header: AppHeader,
+            default: FAQPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/notice/withdraw",
+        name: "WithdrawalPage",
+        components: {
+            header: AppHeader,
+            default: WithdrawalPage,
+            footer: AppFooter,
+        },
+    },
+
+    //board
+    {
+        path: "/board",
+        name: "BoardPage",
+        components: {
+            header: AppHeader,
+            default: BoardPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/board/:id",
+        name: "BoardDetailPage",
+        components: {
+            header: AppHeader,
+            default: BoardDetailPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/board/create",
+        name: "BoardCreatePage",
+        components: {
+            header: AppHeader,
+            default: BoardCreatePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/board/update",
+        name: "BoardUpdatePage",
+        components: {
+            header: AppHeader,
+            default: BoardUpdatePage,
+            footer: AppFooter,
+        },
+    },
+
+    //live
+    {
+        path: "/live",
+        name: "OnAirPage",
+        components: {
+            header: AppHeader,
+            default: OnAirPage,
+        },
+    },
+
+    {
+        path: "/live/close/:user",
+        name: "LiveClosePage",
+        components: {
+            header: AppHeader,
+            default: LiveClosePage,
+            footer: AppFooter,
+        },
+    },
+
+    //chat
+    {
+        path: "/chat",
+        name: "ChatPage",
+        components: {
+            header: AppHeader,
+            default: ChatPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/chat/detail",
+        name: "ChatDetailPage",
+        components: {
+            header: AppHeader,
+            default: ChatDetailPage,
+            // footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/chat/quotation/ytonny/create",
+        name: "YTonnyQuotationForm",
+        components: {
+            header: AppHeader,
+            default: YTonnyQuotationForm,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/chat/quotation/bunny/:clientSeq/create",
+        name: "NBunnyQuotationForm",
+        components: {
+            header: AppHeader,
+            default: NBunnyQuotationForm,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/chat/quotation/:id",
+        name: "QuotationDetailPage",
+        components: {
+            header: AppHeader,
+            default: QuotationDetailPage,
+            footer: AppFooter,
+        },
+    },
+
+    //mypage
+    {
+        path: "/mypage/info",
+        name: "InfoPage",
+        components: {
+            header: AppHeader,
+            default: InfoPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/info/update",
+        name: "InfoUpdatePage",
+        components: {
+            header: AppHeader,
+            default: InfoUpdatePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/carrot",
+        name: "CarrotPage",
+        components: {
+            header: AppHeader,
+            default: CarrotPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/history",
+        name: "HistoryPage",
+        components: {
+            header: AppHeader,
+            default: HistoryPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/history/:id",
+        name: "HistoryDetailPage",
+        components: {
+            header: AppHeader,
+            default: HistoryDetailPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/profile/:id",
+        name: "ProfilePage",
+        components: {
+            header: AppHeader,
+            default: ProfilePage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/mypage/profile/update/:userSeq",
+        name: "ProfileUpdatePage",
+        components: {
+            header: AppHeader,
+            default: ProfileUpdatePage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/mypage/alarm",
+        name: "PushAlarmPage",
+        components: {
+            header: AppHeader,
+            default: PushAlarmPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/schedule",
+        name: "SchedulePage",
+        components: {
+            header: AppHeader,
+            default: SchedulePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/favorite",
+        name: "FavoriteListPage",
+        components: {
+            header: AppHeader,
+            default: FavoriteListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/block",
+        name: "BlockListPage",
+        components: {
+            header: AppHeader,
+            default: BlockListPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage/change",
+        name: "HelperChangePage",
+        components: {
+            header: AppHeader,
+            default: HelperChangePage,
+            footer: AppFooter,
+        },
+    },
+
+    //home
+    {
+        path: "/",
+        name: "HomePage",
+        components: {
+            header: AppHeader,
+            default: HomePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/helper",
+        name: "HelperHomePage",
+        components: {
+            header: AppHeader,
+            default: HelperHomePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/board",
+        name: "BoardPage",
+        components: {
+            header: AppHeader,
+            default: BoardPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/intro",
+        name: "IntroPage",
+        components: {
+            header: AppHeader,
+            default: IntroPage,
+            footer: AppFooter,
+        },
+    },
+
+    // {
+    //     path: "/bunny",
+    //     name: "BunnyPage",
+    //     components: {
+    //         header: AppHeader,
+    //         default: BunnyPage,
+    //         footer: AppFooter,
+    //     },
+    // },
+
+    {
+        path: "/tonny",
+        name: "TonnyPage",
+        components: {
+            header: AppHeader,
+            default: TonnyPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/mypage",
+        name: "MyPage",
+        components: {
+            header: AppHeader,
+            default: MyPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/notice",
+        name: "NoticePage",
+        components: {
+            header: AppHeader,
+            default: NoticePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/alert",
+        name: "AlertPage",
+        components: {
+            header: AppHeader,
+            default: AlertPage,
+            footer: AppFooter,
+        },
+    },
+
+    //common
+    {
+        path: "/report/:helperSeq",
+        name: "ReportPage",
+        components: {
+            header: AppHeader,
+            default: ReportPage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/review/:helperSeq/:historySeq",
+        name: "ReviewPage",
+        components: {
+            header: AppHeader,
+            default: ReviewPage,
+            footer: AppFooter,
+        },
+        props: true,
+    },
+
+    {
+        path: "/success/1",
+        name: "SuccessPage1",
+        components: {
+            header: AppHeader,
+            default: SuccessPage1,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/success/2",
+        name: "SuccessPage2",
+        components: {
+            header: AppHeader,
+            default: SuccessPage2,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/test/common",
+        name: "ComponentsTestPage",
+        components: {
+            header: AppHeader,
+            default: ComponentsTestPage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/test/common/input",
+        name: "InputTest",
+        components: {
+            header: AppHeader,
+            default: InputTest,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/test/openvidu",
+        name: "LivePage",
+        components: {
+            header: AppHeader,
+            default: LivePage,
+            footer: AppFooter,
+        },
+    },
+
+    {
+        path: "/:pathMatch(.*)*",
+        name: "NotFoundPage",
+        components: {
+            header: AppHeader,
+            default: NotFoundPage,
+            footer: AppFooter,
+        },
+    },
+];
+
+const router = createRouter({
     history: createWebHistory(),
     linkActiveClass: "route-active",
     linkExactActiveClass: "route-active",
@@ -102,704 +804,46 @@ export default createRouter({
         return { top: 0 };
     },
 
-    routes: [
-        //account
-        {
-            path: "/account/signup",
-            name: "SignUpPage",
-            components: {
-                header: AppHeader,
-                default: SignUpPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/account/findid",
-            name: "FindIdPage",
-            components: {
-                header: AppHeader,
-                default: FindIdPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/account/findpw",
-            name: "FindPwPage",
-            components: {
-                header: AppHeader,
-                default: FindPwPage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/account/resetpw/:userSeq",
-            name: "ResetPwPage",
-            components: {
-                header: AppHeader,
-                default: ResetPwPage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/account/ability/:userSeq",
-            name: "AbilityPage",
-            components: {
-                header: AppHeader,
-                default: AbilityPage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/account/agree/:select",
-            name: "AgreePage",
-            components: {
-                header: AppHeader,
-                default: AgreePage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/account/signup/:select/create",
-            name: "SignUpCreatePage",
-            components: {
-                header: AppHeader,
-                default: SignUpCreatePage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/account/signup/complete",
-            name: "SignUpCompletePage",
-            components: {
-                header: AppHeader,
-                default: SignUpCompletePage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-        {
-            path: "/account/ability/complete",
-            name: "AbilityCompletePage",
-            components: {
-                header: AppHeader,
-                default: AbilityCompletePage,
-                footer: AppFooter,
-            },
-        },
-
-        //jtonny
-        {
-            path: "/jtonny",
-            name: "JTonnyWaitingPage",
-            components: {
-                header: AppHeader,
-                default: JTonnyWaitingPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/jtonny/form",
-            name: "JTonnyFormPage",
-            components: {
-                header: AppHeader,
-                default: JTonnyFormPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/jtonny/apply",
-            name: "JTonnyApplyPage",
-            components: {
-                header: AppHeader,
-                default: JTonnyApplyPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/jtonny/matching",
-            name: "JTonnyMatchingPage",
-            components: {
-                header: AppHeader,
-                default: JTonnyMatchingPage,
-                footer: AppFooter,
-            },
-        },
-
-        // ytonny
-        {
-            path: "/ytonny/:id",
-            name: "YTonnyDetailPage",
-            components: {
-                header: AppHeader,
-                default: YTonnyDetailPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/ytonny/:id/update",
-            name: "YTonnyUpdatePage",
-            components: {
-                header: AppHeader,
-                default: YTonnyUpdatePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/ytonny/form",
-            name: "YTonnyFormPage",
-            components: {
-                header: AppHeader,
-                default: YTonnyFormPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/ytonny/:id/helper",
-            name: "YTonnyHelperListPage",
-            components: {
-                header: AppHeader,
-                default: YTonnyHelperListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/ytonny/success",
-            name: "YTonnySuccessPage",
-            components: {
-                header: AppHeader,
-                default: YTonnySuccessPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/ytonny",
-            name: "YTonnyListPage",
-            components: {
-                header: AppHeader,
-                default: YTonnyListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/ytonny/matching",
-            name: "YTonnyMatchingPage",
-            components: {
-                header: AppHeader,
-                default: YTonnyMatchingPage,
-                footer: AppFooter,
-            },
-        },
-
-        //nbunny
-        {
-            path: "/nbunny/:id",
-            name: "NBunnyDetailPage",
-            components: {
-                header: AppHeader,
-                default: NBunnyDetailPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/nbunny/form",
-            name: "NBunnyFormPage",
-            components: {
-                header: AppHeader,
-                default: NBunnyFormPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/nbunny/:id/helper",
-            name: "NBunnyHelperListPage",
-            components: {
-                header: AppHeader,
-                default: NBunnyHelperListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/nbunny/list",
-            name: "NBunnyListPage",
-            components: {
-                header: AppHeader,
-                default: NBunnyListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/nbunny/matching",
-            name: "NBunnyMatchingPage",
-            components: {
-                header: AppHeader,
-                default: NBunnyMatchingPage,
-                footer: AppFooter,
-            },
-        },
-
-        //notice
-        {
-            path: "/notice/list",
-            name: "NoticeListPage",
-            components: {
-                header: AppHeader,
-                default: NoticeListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/notice/faq",
-            name: "FAQPage",
-            components: {
-                header: AppHeader,
-                default: FAQPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/notice/withdraw",
-            name: "WithdrawalPage",
-            components: {
-                header: AppHeader,
-                default: WithdrawalPage,
-                footer: AppFooter,
-            },
-        },
-
-        //board
-        {
-            path: "/board",
-            name: "BoardPage",
-            components: {
-                header: AppHeader,
-                default: BoardPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/board/:id",
-            name: "BoardDetailPage",
-            components: {
-                header: AppHeader,
-                default: BoardDetailPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/board/create",
-            name: "BoardCreatePage",
-            components: {
-                header: AppHeader,
-                default: BoardCreatePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/board/update",
-            name: "BoardUpdatePage",
-            components: {
-                header: AppHeader,
-                default: BoardUpdatePage,
-                footer: AppFooter,
-            },
-        },
-
-        //live
-        {
-            path: "/live",
-            name: "OnAirPage",
-            components: {
-                header: AppHeader,
-                default: OnAirPage,
-            },
-        },
-
-        {
-            path: "/live/close/:user",
-            name: "LiveClosePage",
-            components: {
-                header: AppHeader,
-                default: LiveClosePage,
-                footer: AppFooter,
-            },
-        },
-
-        //chat
-        {
-            path: "/chat",
-            name: "ChatPage",
-            components: {
-                header: AppHeader,
-                default: ChatPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/chat/detail",
-            name: "ChatDetailPage",
-            components: {
-                header: AppHeader,
-                default: ChatDetailPage,
-                // footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/chat/quotation/ytonny/create",
-            name: "YTonnyQuotationForm",
-            components: {
-                header: AppHeader,
-                default: YTonnyQuotationForm,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/chat/quotation/bunny/:clientSeq/create",
-            name: "NBunnyQuotationForm",
-            components: {
-                header: AppHeader,
-                default: NBunnyQuotationForm,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/chat/quotation/:id",
-            name: "QuotationDetailPage",
-            components: {
-                header: AppHeader,
-                default: QuotationDetailPage,
-                footer: AppFooter,
-            },
-        },
-
-        //mypage
-        {
-            path: "/mypage/info",
-            name: "InfoPage",
-            components: {
-                header: AppHeader,
-                default: InfoPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/info/update",
-            name: "InfoUpdatePage",
-            components: {
-                header: AppHeader,
-                default: InfoUpdatePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/carrot",
-            name: "CarrotPage",
-            components: {
-                header: AppHeader,
-                default: CarrotPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/history",
-            name: "HistoryPage",
-            components: {
-                header: AppHeader,
-                default: HistoryPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/history/:id",
-            name: "HistoryDetailPage",
-            components: {
-                header: AppHeader,
-                default: HistoryDetailPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/profile/:id",
-            name: "ProfilePage",
-            components: {
-                header: AppHeader,
-                default: ProfilePage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/mypage/profile/update/:userSeq",
-            name: "ProfileUpdatePage",
-            components: {
-                header: AppHeader,
-                default: ProfileUpdatePage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/mypage/alarm",
-            name: "PushAlarmPage",
-            components: {
-                header: AppHeader,
-                default: PushAlarmPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/schedule",
-            name: "SchedulePage",
-            components: {
-                header: AppHeader,
-                default: SchedulePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/favorite",
-            name: "FavoriteListPage",
-            components: {
-                header: AppHeader,
-                default: FavoriteListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/block",
-            name: "BlockListPage",
-            components: {
-                header: AppHeader,
-                default: BlockListPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage/change",
-            name: "HelperChangePage",
-            components: {
-                header: AppHeader,
-                default: HelperChangePage,
-                footer: AppFooter,
-            },
-        },
-
-        //home
-        {
-            path: "/",
-            name: "HomePage",
-            components: {
-                header: AppHeader,
-                default: HomePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/helper",
-            name: "HelperHomePage",
-            components: {
-                header: AppHeader,
-                default: HelperHomePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/board",
-            name: "BoardPage",
-            components: {
-                header: AppHeader,
-                default: BoardPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/intro",
-            name: "IntroPage",
-            components: {
-                header: AppHeader,
-                default: IntroPage,
-                footer: AppFooter,
-            },
-        },
-
-        // {
-        //     path: "/bunny",
-        //     name: "BunnyPage",
-        //     components: {
-        //         header: AppHeader,
-        //         default: BunnyPage,
-        //         footer: AppFooter,
-        //     },
-        // },
-
-        {
-            path: "/tonny",
-            name: "TonnyPage",
-            components: {
-                header: AppHeader,
-                default: TonnyPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/mypage",
-            name: "MyPage",
-            components: {
-                header: AppHeader,
-                default: MyPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/notice",
-            name: "NoticePage",
-            components: {
-                header: AppHeader,
-                default: NoticePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/alert",
-            name: "AlertPage",
-            components: {
-                header: AppHeader,
-                default: AlertPage,
-                footer: AppFooter,
-            },
-        },
-
-        //common
-        {
-            path: "/report/:helperSeq",
-            name: "ReportPage",
-            components: {
-                header: AppHeader,
-                default: ReportPage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/review/:helperSeq/:historySeq",
-            name: "ReviewPage",
-            components: {
-                header: AppHeader,
-                default: ReviewPage,
-                footer: AppFooter,
-            },
-            props: true,
-        },
-
-        {
-            path: "/success/1",
-            name: "SuccessPage1",
-            components: {
-                header: AppHeader,
-                default: SuccessPage1,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/success/2",
-            name: "SuccessPage2",
-            components: {
-                header: AppHeader,
-                default: SuccessPage2,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/test/common",
-            name: "ComponentsTestPage",
-            components: {
-                header: AppHeader,
-                default: ComponentsTestPage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/test/common/input",
-            name: "InputTest",
-            components: {
-                header: AppHeader,
-                default: InputTest,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/test/openvidu",
-            name: "LivePage",
-            components: {
-                header: AppHeader,
-                default: LivePage,
-                footer: AppFooter,
-            },
-        },
-
-        {
-            path: "/:pathMatch(.*)*",
-            name: "NotFoundPage",
-            components: {
-                header: AppHeader,
-                default: NotFoundPage,
-                footer: AppFooter,
-            },
-        },
-    ],
+    routes,
 });
+
+router.beforeEach((to, from, next) => {
+    // console.log("to", to);
+    // console.log("from", from);
+    console.log(to.name);
+    switch (to.name) {
+        case "HomePage":
+        case "SignUpPage":
+        case "FindIdPage":
+        case "FindPwPage":
+        case "ResetPwPage":
+        case "AbilityPage":
+        case "AgreePage":
+        case "SignUpCreatePage":
+        case "SignUpCompletePage":
+        case "AbilityCompletePage":
+        case "NoticeListPage":
+        case "FAQPage":
+        case "WithdrawalPage":
+        case "BoardPage":
+        case "BoardDetailPage":
+        case "IntroPage":
+        case "NoticePage":
+        case "SuccessPage1":
+        case "SuccessPage2":
+        case "NotFoundPage":
+        case "ComponentsTestPage":
+            next();
+            break;
+        default:
+            console.log("store.state.account.userInfo : ", store.state.account.userInfo);
+            if (store.state.account.isLogin == true) {
+                next();
+            } else {
+                alert("로그인이 필요합니다.");
+                store.commit("TOGGLE_LOGIN_MODAL");
+            }
+    }
+});
+
+export default router;
