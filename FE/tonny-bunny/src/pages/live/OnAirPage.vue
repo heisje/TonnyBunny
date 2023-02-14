@@ -11,7 +11,8 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.client?.profileImagePath"
-                                    width="70" />
+                                    width="70"
+                                />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -35,7 +36,8 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.helper?.profileImagePath"
-                                    width="70" />
+                                    width="70"
+                                />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -57,7 +59,8 @@
                                         <square-tag
                                             :text="getStartLangCode"
                                             sub
-                                            class="me-2"></square-tag>
+                                            class="me-2"
+                                        ></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -101,12 +104,13 @@
                     <div class="settingContent container row" v-show="isSettingOpen">
                         <div class="metas col-12 col-md-6">
                             <h2>{{ timeToHHMMSS }}</h2>
-                            <h2>{{ (Math.floor(timer / 5) + 1) * startResData.unitPrice }} CRT</h2>
+                            <h2>{{ totalPrice }} CRT</h2>
                         </div>
 
                         <div class="btns col-12 col-md-6">
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="startLive">
                                     <span class="material-symbols-outlined"> play_arrow </span>
                                 </div>
@@ -114,7 +118,8 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="endLive">
                                     <span class="material-symbols-outlined"> stop </span>
                                 </div>
@@ -122,7 +127,8 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="toggleSpeaker">
                                     <span class="material-symbols-outlined"> mic_off </span>
                                 </div>
@@ -130,7 +136,8 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="toggleCamera">
                                     <span class="material-symbols-outlined"> videocam_off </span>
                                 </div>
@@ -138,7 +145,8 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn closeBtn" @click.prevent="leaveSession">
                                     <span class="material-symbols-outlined"> close </span>
                                 </div>
@@ -160,7 +168,8 @@
                         <user-video
                             v-for="sub in subscribers"
                             :key="sub.stream.connection.connectionId"
-                            :stream-manager="sub" />
+                            :stream-manager="sub"
+                        />
                     </div>
                 </div>
 
@@ -181,7 +190,8 @@
                                     text="보내기"
                                     color="outline"
                                     font="active"
-                                    @click="sendMessage"></medium-btn>
+                                    @click="sendMessage"
+                                ></medium-btn>
                             </div>
                         </div>
                     </transition>
@@ -192,18 +202,34 @@
                 </div>
             </div>
         </div>
+        <AlarmModal
+            title="경고"
+            type="danger"
+            btnText2="예"
+            btnColor1="carrot"
+            btnColor2="main"
+            btnFontColor1="white"
+            btnFontColor2="white"
+            @clickBtn2="closeModal"
+        >
+            <template #content>
+                고객님의 보유 금액이 부족합니다! <br /><br />
+                라이브를 종료합니다.
+            </template>
+        </AlarmModal>
     </div>
 </template>
 
 <script>
 /* eslint-disable */
 import axios from "axios";
-import { OpenVidu } from "openvidu-browser";
 import UserVideo from "@/components/openvidu/UserVideo";
-import { mapGetters } from "vuex";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import UserProfileImg from "@/components/common/UserProfileImg.vue";
+import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import { OpenVidu } from "openvidu-browser";
+import { mapGetters } from "vuex";
 
 const APPLICATION_SERVER_URL =
     process.env.NODE_ENV === "production"
@@ -218,6 +244,7 @@ export default {
         MediumBtn,
         SquareTag,
         UserProfileImg,
+        AlarmModal,
     },
 
     data() {
@@ -248,8 +275,16 @@ export default {
             timer: 0,
             timer_func: null,
 
+            // totalPrice
+            totalPrice: 0,
+
             // history
             historySeq: "",
+
+            // 하나하나,,,
+            isExisted: false,
+            isClient: false,
+            isHelper: false,
         };
     },
 
@@ -312,6 +347,36 @@ export default {
     },
 
     methods: {
+        closeModal() {
+            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.leaveSession();
+        },
+        // 계산하는 동작
+        calculateTotalPrice() {
+            // const updatedPrice = (Math.floor(this.timer / 300) + 1) * this.startResData.unitPrice;
+            const updatedPrice = (Math.floor(this.timer / 5) + 1) * 600;
+            if (this.$store.state.account.userInfo.point < updatedPrice) {
+                // TODO : 모달 열기, 타이머 종료
+                this.session
+                    .signal({ data: "pointIssue", type: "live" })
+                    .then(() => {
+                        console.log("Message successfully sent");
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                this.session
+                    .signal({ data: updatedPrice, type: "updatePrice" })
+                    .then(() => {
+                        console.log("Message successfully sent");
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+        },
+
         joinSession() {
             this.OV = new OpenVidu();
 
@@ -328,17 +393,35 @@ export default {
             });
 
             this.session.on("signal:live", (event) => {
+                // 서비스 시작 - 타이머 동작
                 if (event.data == "Start") {
                     this.timer_func = setInterval(() => {
                         this.timer = this.timer + 1;
+                        if (this.$store.state.account.userInfo.seq == this.startResData.client.seq)
+                            this.calculateTotalPrice();
                     }, 1000);
                 }
 
+                // 서비스 종료 - 타이머 종료
                 if (event.data == "End") {
                     clearInterval(this.timer_func);
                 }
+
+                // 잔액 부족
+                if (event.data == "pointIssue") {
+                    this.endLive(); // 양쪽 타이머 종료용
+                    this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                }
             });
 
+            // 금액 업데이트
+            this.session.on("signal:updatePrice", (event) => {
+                this.totalPrice = JSON.parse(event.data);
+                console.log(event.data);
+                console.log("받은금액 ", this.totalPrice);
+            });
+
+            // 채팅 로직
             this.session.on("signal:chat", (event) => {
                 let data = JSON.parse(event.data);
 
@@ -348,6 +431,45 @@ export default {
                 };
 
                 this.chatList.push(chat);
+            });
+
+            this.session.on("sessionDisconnected", (event) => {
+                if (this.isRecordOn) {
+                    this.stopRecording();
+                }
+
+                // ------------------------------------------------------------------------------------------
+                // 내 코드
+
+                /**
+                 * 로그인한 사용자의 시퀀스가 고객인지 헬퍼인지 비교
+                 * 고객이라면 세션 나갈 시 거래리뷰페이지 + 고객 으로 이동,
+                 * 헬퍼라면 세션 나갈 시 거래완료페이지 + 헬퍼 로 이동
+                 */
+
+                const data = {
+                    totalTime: this.timer,
+                    totalPrice: this.totalPrice,
+                };
+
+                this.$store.commit("SET_COMPLETE_DATA", data);
+
+                if (this.isClient) {
+                    this.$router.push({ name: "LiveClosePage", params: { user: "client" } });
+                }
+                if (this.isHelper) {
+                    this.$router.push({ name: "LiveClosePage", params: { user: "helper" } });
+                }
+
+                // ----------------------------------------------------------------------------------
+
+                if (event.reason !== "disconnect") {
+                    this.removeUser();
+                }
+                if (event.reason !== "sessionClosedByServer") {
+                    this.session = null;
+                    this.numVideos = 0;
+                }
             });
 
             this.session.on("exception", ({ exception }) => {
@@ -373,6 +495,11 @@ export default {
                         this.publisher = publisher;
 
                         this.session.publish(this.publisher);
+
+                        if (!this.isExisted) {
+                            console.log("방생성, 내가 레코딩 시작");
+                            this.startRecording();
+                        }
                     })
                     .catch((error) => {
                         console.log(
@@ -425,18 +552,21 @@ export default {
             );
 
             console.log(res);
+            this.recordId = res.data.id;
         },
 
         async stopRecording() {
+            console.log("내가 레코딩 종료 @@");
             if (this.recordId == "") return;
 
             let res = await axios.post(
                 APPLICATION_SERVER_URL + "recording-node/api/recording/stop",
-                { recording: this.recordingId }
+                { recording: this.recordId }
             );
 
+            console.log("레코딩 종료 끝");
+
             console.log(res);
-            this.recordId = "";
 
             // 히스토리 저장 요청
             const payload = {
@@ -445,7 +575,11 @@ export default {
                 totalTime: this.timeToHHMMSS,
             };
 
+            console.log("히스토리 저장 시작");
+            console.log(payload);
+
             await this.$store.dispatch("completeLive", payload);
+            console.log("히스토리 저장 끝");
         },
 
         toggleSpeaker() {
@@ -515,6 +649,10 @@ export default {
                 { sessionName: sessionName },
                 { headers: { "Content-Type": "application/json" } }
             );
+
+            console.log("res!!!!!!!!!!!!!!!!!:", res);
+            this.isExisted = res.data["isExisted"];
+            console.log(this.isExisted);
             return res.data[0];
         },
     },
@@ -523,6 +661,13 @@ export default {
         window.scrollTo(0, 0);
         this.leaveSession();
         console.log("resDate", this.startResData);
+        console.log(this.$store.state.account.userInfo);
+        this.$store.state.account.userInfo.seq == this.startResData.client.seq
+            ? (this.isClient = true)
+            : (this.isClient = false);
+        this.$store.state.account.userInfo.seq == this.startResData.helper.seq
+            ? (this.isHelper = true)
+            : (this.isHelper = false);
     },
 
     mounted() {
