@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <h1>채팅 - 채팅 내역 조회 페이지</h1>
-        <h2>roomseq : {{ chatRoomSeq }}</h2>
-        <div class="chat-detail-view viewport-height-80 overflow-auto">
+    <div class="chat-detail-view">
+        <!-- <h1>채팅 - 채팅 내역 조회 페이지</h1>
+        <h2>roomseq : {{ chatRoomSeq }}</h2> -->
+        <div class="chat-detail-box viewport-height-80 overflow-auto">
             <div v-for="chatData in chatDatas" :key="chatData" class="chat">
                 <ul>
                     <li
@@ -39,16 +39,21 @@
             </div>
         </div>
 
-        <div v-show="userInfo.userCode == '0010002'">
-            <medium-btn @click="moveToQuotationCreatePage" text="견적서 작성"></medium-btn>
-        </div>
-        <div>
-            <!-- <form action=""> -->
-            <!-- <button>파일 업로드 버튼</button> -->
-            <input v-model="insertMessageValue" @keyup.enter="sendMessage" type="text" />
-            <!-- {{ insertMessageValue }} -->
-            <medium-btn @click="sendMessage" text=">"></medium-btn>
-            <!-- </form> -->
+        <div class="chat-input-group input-group mb-3">
+            <medium-btn
+                v-show="userInfo.userCode == '0010002'"
+                @click="moveToQuotationCreatePage"
+                color="carrot"
+                text="견적서 작성">
+            </medium-btn>
+            <input
+                class="insert-message form-control"
+                v-model="insertMessageValue"
+                @keyup.enter="sendMessage"
+                placeholder="채팅을 입력하세요."
+                type="text"
+                autofocus />
+            <medium-btn type="button" text="전송" color="carrot" @click="sendMessage"></medium-btn>
         </div>
     </div>
 </template>
@@ -113,7 +118,7 @@ export default {
             });
         },
         setScrollBottom() {
-            var scrollView = document.querySelector(".chat-detail-view");
+            var scrollView = document.querySelector(".chat-detail-box");
             scrollView.scrollTop = scrollView.scrollHeight;
         },
         async getPreviousChatLog() {
@@ -179,6 +184,9 @@ export default {
         sendMessage(event) {
             event.preventDefault();
 
+            if (this.insertMessageValue.trim() == "") {
+                return;
+            }
             // [3] 메세지 전달
             const chatchat = {
                 type: "message",
@@ -225,7 +233,7 @@ export default {
         },
     },
     updated() {
-        let chat_detail_view = document.querySelector(".chat-detail-view");
+        let chat_detail_view = document.querySelector(".chat-detail-box");
         chat_detail_view.scrollTop = chat_detail_view.scrollHeight;
     },
     mounted() {
@@ -239,8 +247,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.viewport-height-80 {
-    height: 80vh;
+@import "@/scss/variable.scss";
+body {
+    height: 100vh;
+    // position: relative;
+}
+@media (min-width: 1200px) {
+    .chat-detail-view {
+        height: calc(100vh - 80px);
+    }
+}
+@media (max-width: 1200px) {
+    .chat-detail-view {
+        height: calc(100vh - 80px - 60px);
+    }
+}
+@media (max-width: 768px) {
+    .chat-detail-view {
+        height: calc(100vh - 72px - 60px);
+    }
+}
+@media only screen and (min-device-width: 100px) and (max-device-width: 1200px) {
+    .chat-detail-view {
+        height: calc(100vh - 72px - 60px);
+    }
+}
+.chat-detail-box {
+    height: calc(100% - 50px);
+}
+// scroll-bar custom
+.chat-detail-box::-webkit-scrollbar {
+    width: 20px;
+}
+.chat-detail-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+.chat-detail-box::-webkit-scrollbar-thumb {
+    background: lightgray;
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 10px;
+}
+
+.chat ul {
+    width: 100%;
+    padding: 0px;
+    margin: 5px 0px;
+    list-style: none;
+}
+.chat ul li {
+    width: 100%;
+}
+.chat ul li .another-user-chat {
+    text-align: left;
+}
+.chat ul li .chat-bubble-item {
+    display: inline-block;
+    word-break: break-all;
+    max-width: 75%;
+    text-align: left;
+}
+.self-user-chat {
+    text-align: right;
 }
 
 .chat ul {
@@ -257,16 +325,20 @@ export default {
 .chat ul li .chat-bubble-item {
     display: inline-block;
     word-break: break-all;
-    // margin: 5px 20px;
     max-width: 75%;
-    // border: 1px solid #888;
-    // padding: 10px;
-    // border-radius: 5px;
-    // background-color: #fcfcfc;
-    // color: #555;
     text-align: left;
 }
 .self-user-chat {
     text-align: right;
+}
+.chat-input-group {
+    // position: absolute;
+    // left: 0px;
+    // bottom: 0px;
+}
+.chat-input-group input:focus {
+    border: 1px solid var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0px;
 }
 </style>

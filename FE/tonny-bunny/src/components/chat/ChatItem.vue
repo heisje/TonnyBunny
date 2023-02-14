@@ -1,10 +1,14 @@
 <template lang="">
-    <div class="border p-3 m-2">
-        <div><img src="@/assets/noProfile.png" /></div>
+    <div class="chat-item d-flex px-3">
+        <div class="profile-image-wrap"><img src="@/assets/noProfile.png" /></div>
         <!-- <div><img :src="profileImagePath" /></div> -->
-        <div>닉네임 {{ nickName }}</div>
-        <div>채팅내용 {{ recentMessage }}</div>
-        <div>안 읽은 개수 {{ notReadCount }}</div>
+        <div class="chat-wrap pl-4 d-flex flex-column justify-content-center">
+            <div class="fw-bold m-1">{{ nickName }}</div>
+            <div class="recent-message m-1">{{ recentMessage }}</div>
+        </div>
+        <div class="not-read-count ms-auto my-auto">
+            {{ notReadCount < 100 ? notReadCount : "99+" }}
+        </div>
     </div>
 </template>
 <script>
@@ -38,4 +42,52 @@ export default {
     },
 };
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.chat-item {
+    // border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    height: 80px;
+    // max-width: 70vw;
+}
+.profile-image-wrap {
+    position: relative;
+    width: 60px;
+}
+.profile-image-wrap img {
+    position: absolute;
+    width: inherit;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.chat-wrap {
+    max-width: 70%;
+    height: inherit;
+    overflow: hidden;
+}
+.chat-wrap div:nth-child(1) {
+    font-size: 1.25em;
+    // 긴 닉네임 뒤에 생략
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.chat-wrap div:nth-child(2) {
+    color: var(--sub-color);
+    // 긴 채팅 뒤에 생략
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.not-read-count {
+    --circle-diameter: 2.5rem;
+    width: var(--circle-diameter);
+    height: var(--circle-diameter);
+    line-height: var(--circle-diameter);
+    text-align: center;
+    font-size: 1.1rem;
+    color: white;
+
+    // circle
+    border-radius: 50%;
+    background: var(--carrot-color);
+}
+</style>
