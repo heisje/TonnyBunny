@@ -10,6 +10,7 @@
                 :class="{
                     'message-type-url': messageType == 'url',
                     'message-type-text': messageType == 'text',
+                    'text-decoration-underline': messageType == 'url', // bootstrap
                 }">
                 <div>
                     <div class="text">{{ text }}</div>
@@ -59,13 +60,18 @@ export default {
 <style lang="scss" scoped>
 .chat-box {
     max-width: 75%;
+    position: relative;
 }
 .chat-message-wrap {
     padding-left: 60px;
 }
+.chat-user-profile {
+    position: absolute; // chat-box 기준 세로 가운데 정렬
+    top: 5px;
+    // transform: translate(0%, -50%);
+}
 .chat-user-profile img {
     width: 50px;
-    float: left;
 }
 .chat-message {
     border: 1px solid lightgray;
@@ -74,7 +80,7 @@ export default {
     padding: 10px;
     position: relative;
 
-    border-radius: 15px;
+    border-radius: 10px;
     // width: 40%;
     // max-width: 75%;
 }
@@ -83,12 +89,14 @@ export default {
 .time {
     position: absolute;
     bottom: 0px;
+    font-size: 12px;
+    color: rgb(182, 182, 182);
 }
 .time-other {
-    right: -72px;
+    right: -60px;
 }
 .time-self {
-    left: -72px;
+    left: -60px;
 }
 .message-type-text {
 }

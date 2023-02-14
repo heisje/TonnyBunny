@@ -471,7 +471,7 @@ export default createRouter({
             components: {
                 header: AppHeader,
                 default: ChatDetailPage,
-                footer: AppFooter,
+                // footer: AppFooter,
             },
         },
 
