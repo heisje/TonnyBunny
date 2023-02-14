@@ -1,5 +1,8 @@
 <template lang="">
     <div class="chat-list-view">
+        <div v-show="chatRoomList.size == 0" class="no-chat-list fs-5 fw-bold text-center">
+            🐰 생성된 채팅방이 없어요! 🐰
+        </div>
         <div v-for="chatRoom in chatRoomList" :key="chatRoom">
             <div @click="enterChatRoom($event, chatRoom[1])" class="chat-item" aria-current="page">
                 <!-- {{ chatRoom }} -->
@@ -50,6 +53,9 @@ export default {
 };
 </script>
 <style lang="scss" scoed>
+.no-chat-list {
+    margin-top: 10%;
+}
 .chat-item:hover {
     border-radius: 10px;
     background: var(--light-color);
