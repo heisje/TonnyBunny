@@ -17,6 +17,7 @@ public class JTonnyHelperInfoDto {
 	private Integer totalScore;
 	private Integer reviewCount;
 	private String oneLineIntroduction;
+	private Integer unitPrice;
 	private Integer likeCount;
 
 
@@ -25,6 +26,7 @@ public class JTonnyHelperInfoDto {
 		                          .totalScore(helperInfo.getTotalScore())
 		                          .reviewCount(helperInfo.getReviewCount())
 		                          .oneLineIntroduction(helperInfo.getOneLineIntroduction())
+		                          .unitPrice(helperInfo.getUnitPrice())
 		                          .likeCount(helperInfo.getLikeCount())
 		                          .build();
 	}
