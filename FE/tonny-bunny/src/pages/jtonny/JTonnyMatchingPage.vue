@@ -4,7 +4,7 @@
 
         <helper-card />
 
-        <JTonnyHelperForm></JTonnyHelperForm>
+        <!-- <JTonnyHelperForm></JTonnyHelperForm> -->
         <small-btn color="light" font="main" text="취소" @click.prevent="openModalCancel" />
         <small-btn
             color="carrot"
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import JTonnyHelperForm from "@/components/jtonny/JTonnyHelperForm.vue";
+// import JTonnyHelperForm from "@/components/jtonny/JTonnyHelperForm.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
@@ -63,7 +63,7 @@ export default {
         };
     },
     components: {
-        JTonnyHelperForm,
+        // JTonnyHelperForm,
         TitleText,
         HelperCard,
         SmallBtn,

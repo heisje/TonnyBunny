@@ -56,40 +56,21 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <title-text
-                        title="헬퍼전용 페이지"
-                        type="h1"
-                        top="60"
-                        bottom="20"
-                        center></title-text> -->
-                    <!-- <div class="mainBtns">
-                        <main-btn text="통역" @click="toggleTonnyModalOpen">
-                            <template #icon>
-                                <span class="material-symbols-outlined"> interpreter_mode </span>
-                            </template>
-                        </main-btn>
-                        <main-btn text="번역" @click="toggleBunnyModalOpen">
-                            <template #icon>
-                                <span class="material-symbols-outlined"> g_translate </span>
-                            </template>
-                        </main-btn>
-                        <main-btn text="헬퍼페이지" @click="toggleHelperBtn">
-                            <template #icon>
-                                <span class="material-symbols-outlined"> g_translate </span>
-                            </template>
-                        </main-btn>
-                    </div> -->
                 </div>
 
                 <hr />
 
                 <div class="row sub">
-                    <div class="col-12 col-lg-6 mb-5">
+                    <div>토니버니 서비스 간단 설명</div>
+                    <div>통역 서비스 설명</div>
+                    <div>번역 서비스 설명</div>
+                    <div>마무리</div>
+                    <!-- <div class="col-12 col-lg-6 mb-5">
                         <home-schedule-list></home-schedule-list>
                     </div>
                     <div class="col-12 col-lg-6">
                         <home-board-list></home-board-list>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -101,8 +82,8 @@ import { mapGetters } from "vuex";
 
 import TitleText from "@/components/common/TitleText.vue";
 // import MainBtn from "./MainBtn.vue";
-import HomeScheduleList from "./HomeScheduleList.vue";
-import HomeBoardList from "./HomeBoardList.vue";
+// import HomeScheduleList from "./HomeScheduleList.vue";
+// import HomeBoardList from "./HomeBoardList.vue";
 
 export default {
     name: "HomeContents",
@@ -110,13 +91,12 @@ export default {
     components: {
         TitleText,
         // MainBtn,
-        HomeScheduleList,
-        HomeBoardList,
+        // HomeScheduleList,
+        // HomeBoardList,
     },
 
     computed: {
-        ...mapGetters({ isLogin: "getIsLogin" }),
-        ...mapGetters({ userInfo: "getUserInfo" }),
+        ...mapGetters({ isLogin: "getIsLogin", userInfo: "getUserInfo" }),
     },
 
     methods: {

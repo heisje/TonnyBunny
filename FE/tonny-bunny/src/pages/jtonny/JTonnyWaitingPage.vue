@@ -1,8 +1,5 @@
 <template>
     <div class="waitingContainer container">
-        <!-- <title-banner
-            title="즉시통역 서비스 연결"
-            text="통역을 도와줄 헬퍼를 찾아볼까요?"></title-banner> -->
         <div class="waitingWrap">
             <div class="waitingContent row">
                 <div
@@ -66,7 +63,7 @@
                                         <td>언어</td>
                                         <td class="d-flex flex-row align-items-center">
                                             <square-tag
-                                                :text="jtonnyRequest.startLangCode"
+                                                :text="getStartLangCode"
                                                 sub
                                                 class="me-2"></square-tag>
                                             <div class="me-2">
@@ -74,9 +71,7 @@
                                                     compare_arrows
                                                 </span>
                                             </div>
-                                            <square-tag
-                                                :text="jtonnyRequest.endLangCode"
-                                                sub></square-tag>
+                                            <square-tag :text="getEndLangCode" sub></square-tag>
                                         </td>
                                     </tr>
 
@@ -96,14 +91,26 @@
                                     <tr>
                                         <td>상황 카테고리</td>
                                         <td>
-                                            <square-tag :text="jtonnyRequest.tonnySituCode" sub>
+                                            <div
+                                                v-if="jtonnyRequest.tonnySituCode == ''"
+                                                style="color: var(--sub-color)">
+                                                상황 카테고리가 없습니다.
+                                            </div>
+                                            <square-tag v-else :text="getTonnySituCode" sub>
                                             </square-tag>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>상황 설명</td>
-                                        <td class="pt-3">{{ jtonnyRequest.content }}</td>
+                                        <td class="">
+                                            <div
+                                                v-if="jtonnyRequest.content == ''"
+                                                style="color: var(--sub-color)">
+                                                상황 설명이 없습니다.
+                                            </div>
+                                            <div v-else>{{ jtonnyRequest.content }}</div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </v-table>
@@ -132,8 +139,6 @@
                                     v-for="(apply, index) in jtonnyApplyList"
                                     :key="index"
                                     class="row px-3">
-                                    <!-- {{ apply }} -->
-
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
@@ -141,35 +146,45 @@
                                                 src="@/assets/noProfile.png"
                                                 width="50"
                                                 height="50" />
-
-                                            <!-- <img :src="apply.helper.profileImagePath" /> -->
-                                            <!-- <div>{{ apply.helper.nickName }}</div> -->
-                                            <!-- <div>{{ apply.helper.helperInfo.oneLineIntroduction }}</div> -->
                                         </div>
                                         <div class="col-9 helperInfo">
-                                            <div class="d-flex flex-row">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div
+                                                    class="closeBtn me-1 d-flex flex-row align-items-center"
+                                                    @click="toggleLikeBtn">
+                                                    <span
+                                                        v-if="isLikeEmpty"
+                                                        class="material-symbols-outlined likeIcon empty">
+                                                        favorite
+                                                    </span>
+                                                    <span
+                                                        v-else
+                                                        class="material-symbols-outlined likeIcon">
+                                                        favorite
+                                                    </span>
+                                                </div>
                                                 <div>{{ apply.helper.nickName }}</div>
                                             </div>
-                                            <div>한 줄 소개</div>
-                                            <div class="d-flex">
-                                                <div>평점(리뷰카운터)</div>
-                                                <div>{{ apply.unitPrice }}</div>
+                                            <div class="mt-2 text-truncate ms-1">
+                                                {{ apply.helper.helperInfo.oneLineIntroduction }}
                                             </div>
-
-                                            <!-- <div>{{ apply.helper.helperInfo.avgScore }}</div> -->
-                                            <!-- <div>{{ apply.helper.helperInfo.reviewCount }}</div> -->
-                                            <!-- <div>{{ apply.totalPrice }}</div> -->
-                                        </div>
-
-                                        <div class="closeBtn col-1" @click="toggleLikeBtn">
-                                            <span
-                                                v-if="isLikeEmpty"
-                                                class="material-symbols-outlined likeIcon empty">
-                                                favorite
-                                            </span>
-                                            <span v-else class="material-symbols-outlined likeIcon">
-                                                favorite
-                                            </span>
+                                            <div class="d-flex infos mt-3">
+                                                <div>
+                                                    <h3>평점</h3>
+                                                    {{ apply.helper.helperInfo.totalScore }}
+                                                    <span class="">점</span>
+                                                </div>
+                                                <div>
+                                                    <h3>받은리뷰</h3>
+                                                    {{ apply.helper.helperInfo.reviewCount }}
+                                                    <span class="">건</span>
+                                                </div>
+                                                <div>
+                                                    <h3>헬퍼단가</h3>
+                                                    {{ apply.unitPrice }}
+                                                    <span class="label">CRT</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -184,9 +199,6 @@
                                 </div>
                             </transition-group>
                         </div>
-                        <!-- <div v-else class="mt-5 mb-5 text-center">
-                            가격을 제안한 헬퍼가 없습니다.
-                        </div> -->
                     </v-lazy>
 
                     <div
@@ -215,16 +227,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div v-else>
-                <JTonnyLoading></JTonnyLoading>
-                <medium-btn
-                    text="신청 취소하기"
-                    color="thin"
-                    font="main"
-                    class="w-100"></medium-btn>
-            </div> -->
-            <!-- <small-btn color="light" font="live" text="찾으면" @click.prevent="찾아짐()" /> -->
-            <!-- <small-btn color="light" font="live" text="수락하기누름" @click.prevent="openModal" /> -->
 
             <AlarmModal
                 title="성공"
@@ -290,6 +292,8 @@ export default {
         ...mapGetters({
             jtonnyRequest: "getJtonnyRequest",
             userInfo: "getUserInfo",
+            langCode: "getLangCode",
+            tonnySituCode: "getTonnySituCode",
         }),
 
         estimateTime() {
@@ -304,6 +308,28 @@ export default {
 
         jtonnyApplyListLength() {
             return Object.keys(this.jtonnyApplyList).length;
+        },
+
+        getStartLangCode() {
+            let code;
+            this.langCode.forEach((e) => {
+                if (e.value == this.jtonnyRequest.startLangCode) code = e.name;
+            });
+            return code;
+        },
+        getEndLangCode() {
+            let code;
+            this.langCode.forEach((e) => {
+                if (e.value == this.jtonnyRequest.endLangCode) code = e.name;
+            });
+            return code;
+        },
+        getTonnySituCode() {
+            let code;
+            this.tonnySituCode.forEach((e) => {
+                if (e.value == this.yTonnyDetail.tonnySituCode) code = e.name;
+            });
+            return code;
         },
     },
 
@@ -542,6 +568,20 @@ hr {
     .helperInfo {
         display: flex;
         flex-direction: column;
+        padding-bottom: 8px;
+
+        .infos {
+            background-color: var(--thin-color);
+            padding: 4px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+
+            div {
+                padding: 2px 8px;
+            }
+        }
     }
 
     .btns {
@@ -579,11 +619,16 @@ hr {
     border-radius: 6px;
 }
 
+.likeIcon {
+    font-size: 1.3rem;
+    margin-top: 4px;
+}
 .closeBtn {
     position: relative;
     // right: 24px;
     z-index: 99;
     cursor: pointer;
+    transition: all 0.13s;
 
     span {
         font-variation-settings: "wght" 300;
@@ -594,6 +639,7 @@ hr {
     &:hover {
         span {
             color: var(--danger-color);
+            font-variation-settings: "FILL" 1;
         }
     }
 }
