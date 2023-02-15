@@ -836,7 +836,6 @@ router.beforeEach((to, from, next) => {
             next();
             break;
         default:
-            console.log("store.state.account.userInfo : ", store.state.account.userInfo);
             if (store.state.account.isLogin == true) {
                 next();
             } else {
