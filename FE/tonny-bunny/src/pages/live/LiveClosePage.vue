@@ -1,12 +1,17 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <title-banner title="🐰 동시통역 종료!" text="통역에 대한 리뷰를 남겨주세요" />
+            <title-banner title="통역 서비스 종료" text="통역에 대한 리뷰를 남겨주세요" />
 
             <div v-show="isClient">
-                <title-text :title="getMessage(startResData.helper.nickName)" />
+                <div style="margin-top: 100px">
+                    <TonnyResult />
+                </div>
+
+                <title-text :title="getMessage(startResData.helper.nickName)" class="text-center" />
+
                 <br />
-                <div class="row completeCard">
+                <div class="row completeCard mt-4">
                     <div class="col-4">
                         <h2>소모시간</h2>
                     </div>
@@ -27,8 +32,7 @@
                     color="carrot"
                     font="white"
                     text="리뷰 쓰기"
-                    @click.prevent="goReviewPage"
-                ></medium-btn>
+                    @click.prevent="goReviewPage"></medium-btn>
             </div>
             <div v-show="isHelper">
                 <title-text :title="getMessage(startResData.client.nickName)" />
@@ -50,9 +54,6 @@
                 </div>
             </div>
             <br /><br />
-            <div>
-                <TonnyResult />
-            </div>
         </div>
     </div>
 </template>
