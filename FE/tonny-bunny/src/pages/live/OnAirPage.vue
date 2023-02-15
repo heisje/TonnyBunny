@@ -109,26 +109,6 @@
 
                         <div class="btns col-12 col-md-6">
                             <div
-                                v-if="isClient && btnStep == 1"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
-                                <div class="btn" @click.prevent="startLive">
-                                    <span class="material-symbols-outlined"> play_arrow </span>
-                                </div>
-                                <h2>시작</h2>
-                            </div>
-
-                            <div
-                                v-if="isClient && btnStep >= 2"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
-                                <div class="btn" @click.prevent="endLive">
-                                    <span class="material-symbols-outlined"> stop </span>
-                                </div>
-                                <h2>정지</h2>
-                            </div>
-
-                            <div
                                 v-if="!isSpeakOn"
                                 class="d-flex flex-column justify-content-center align-items-center"
                             >
@@ -169,6 +149,27 @@
                             </div>
 
                             <div
+                                v-if="isClient && btnStep == 1"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
+                                <div class="btn" @click.prevent="startLive">
+                                    <span class="material-symbols-outlined"> play_arrow </span>
+                                </div>
+                                <h2>시작</h2>
+                            </div>
+
+                            <div
+                                v-if="isClient && btnStep >= 2"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
+                                <div class="btn" @click.prevent="finishBtn">
+                                    <span class="material-symbols-outlined"> stop </span>
+                                </div>
+                                <h2>정지</h2>
+                            </div>
+
+                            <div
+                                v-if="btnStep != 2"
                                 class="d-flex flex-column justify-content-center align-items-center"
                             >
                                 <div class="btn closeBtn" @click.prevent="leaveSession">
@@ -227,6 +228,7 @@
             </div>
         </div>
         <AlarmModal
+            v-show="modalName == `pointIssue`"
             title="경고"
             type="danger"
             btnText2="예"
@@ -239,6 +241,38 @@
             <template #content>
                 고객님의 보유 금액이 부족합니다! <br /><br />
                 라이브를 종료합니다.
+            </template>
+        </AlarmModal>
+        <AlarmModal
+            v-show="modalName == `finish`"
+            title="종료"
+            type="success"
+            btnText2="예"
+            btnColor1="carrot"
+            btnColor2="carrot"
+            btnFontColor1="white"
+            btnFontColor2="white"
+            @clickBtn2="closeModal2"
+        >
+            <template #content>
+                통역이 완료되었습니다! <br /><br />
+                5초 뒤에 라이브가 자동 종료 됩니다!
+            </template>
+        </AlarmModal>
+        <AlarmModal
+            v-show="modalName == `leave`"
+            title="경고"
+            type="danger"
+            btnText2="예"
+            btnColor1="carrot"
+            btnColor2="carrot"
+            btnFontColor1="white"
+            btnFontColor2="white"
+            @clickBtn2="closeModal2"
+        >
+            <template #content>
+                상대방이 방에서 나갔어요! <br /><br />
+                5초 뒤에 라이브가 자동 종료 됩니다!
             </template>
         </AlarmModal>
     </div>
@@ -309,6 +343,9 @@ export default {
 
             // 버튼 (시작->정지->떠나기 순서로 변경)
             btnStep: 1,
+
+            // 모달네임
+            modalName: "",
         };
     },
 
@@ -371,6 +408,20 @@ export default {
     },
 
     methods: {
+        finishBtn() {
+            this.endLive();
+            this.session
+                .signal({ data: "finish", type: "live" })
+                .then(() => {})
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
+        closeModal2() {
+            this.$store.commit("CLOSE_ALARM_MODAL");
+        },
+
         closeModal() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.leaveSession();
@@ -427,15 +478,36 @@ export default {
                     }, 1000);
                 }
 
-                // 서비스 종료 - 타이머 종료
+                // 타이머 종료
                 if (event.data == "End") {
                     clearInterval(this.timer_func);
+                }
+
+                // 서비스 종료
+                if (event.data == "finish") {
+                    this.modalName = "finish";
+                    this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                    setTimeout(() => {
+                        this.$store.commit("CLOSE_ALARM_MODAL");
+                        this.leaveSession();
+                    }, 5000);
                 }
 
                 // 잔액 부족
                 if (event.data == "pointIssue") {
                     this.endLive(); // 양쪽 타이머 종료용
+                    this.modalName = "pointIssue";
                     this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                }
+
+                // 상대방 나감
+                if (event.data == "leave") {
+                    $this.modalName = "leave";
+                    this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                    setTimeout(() => {
+                        this.$store.commit("CLOSE_ALARM_MODAL");
+                        this.leaveSession();
+                    }, 5000);
                 }
             });
 
@@ -579,7 +651,7 @@ export default {
         },
 
         async stopRecording() {
-            console.log("내가 레코딩 종료");
+            console.log("내가 레코딩 종료, recordId : ", this.recordId);
             if (this.recordId == "") return;
 
             let res = await axios.post(
@@ -649,6 +721,14 @@ export default {
         leaveSession() {
             // 양쪽 타이머 종료
             this.endLive();
+
+            // 한 쪽 나갔을 시 상대방에게 모달 띄우기
+            this.session
+                .signal({ data: "leave", type: "live" })
+                .then(() => {})
+                .catch((error) => {
+                    console.error(error);
+                });
 
             if (this.session) this.session.disconnect();
 
