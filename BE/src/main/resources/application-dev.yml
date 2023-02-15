@@ -15,3 +15,4 @@ spring:
   # Jpa
   jpa:
     hibernate.ddl-auto: ${dev.ddl.option}
+    show-sql: ${dev.jpa.show-sql}

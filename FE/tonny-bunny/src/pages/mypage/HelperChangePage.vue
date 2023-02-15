@@ -1,6 +1,6 @@
 <template>
     <div class="container w-75">
-        <title-banner title="🐰 헬퍼 전환하기" text="당신도 헬퍼로 활동할 수 있습니다!" />
+        <title-banner title="헬퍼 전환하기" text="당신도 헬퍼로 활동할 수 있습니다!" />
         <hr />
         <title-text title="헬퍼 이용약관" center text="이용약관을 자세히 살펴본 후 체크해주세요." />
         <div class="p-2 my-3 d-flex justify-content-center">
