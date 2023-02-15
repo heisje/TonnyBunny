@@ -1,6 +1,7 @@
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import http from "@/common/axios";
+import utils from "@/common/utils";
 
 export default {
     SET_CHAT_ROOM_INFO(state, data) {
@@ -32,6 +33,7 @@ export default {
         stompClient.connect(
             {},
             () => {
+                console.log("stompClient: ", stompClient);
                 // 소켓 연결 성공
                 console.log("소켓 연결 성공");
                 console.log("구독 시도합니다 :", `/sub/chat/${userSeq}`);
@@ -41,8 +43,23 @@ export default {
 
                     let alert = JSON.parse(res.body);
                     console.log(state.chat.chatRoomList);
-                    state.chat.chatRoomList.get(alert.roomSeq).notReadCount = alert.notReadCount;
-                    state.chat.chatRoomList.get(alert.roomSeq).recentMessage = alert.message;
+                    if (state.chat.chatRoomList.size > 0) {
+                        state.chat.chatRoomList.get(alert.roomSeq).notReadCount = alert.notReadCount;
+                        state.chat.chatRoomList.get(alert.roomSeq).recentMessage = alert.message;
+                    }
+
+                    // 알림에 추가
+                    let senderUserInfo = alert.senderUserInfo;
+                    state.alert.alertList.push({
+                        alertLogSeq: -1,
+                        content: `${senderUserInfo.nickName} : ${alert.message}`,
+                        tonnySityCode: "채팅",
+                        createdAt: utils.setDate(new Date().toISOString()),
+                        isRead: false,
+                        taskCode: "채팅",
+                        updatedAt: utils.setDate(new Date().toISOString()),
+                    });
+                    console.log("alertList에 추가: ", state.alert.alertList);
                 });
             },
             (error) => {

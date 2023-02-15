@@ -68,6 +68,10 @@ export default {
         console.log("알림 읽음 확인 수정 API", userSeq, alertLogSeq);
         console.log(payload);
 
+        if (alertLogSeq == -1 || alertLogSeq == "-1") {
+            console.log("Skip putAlert(chatting)");
+            return;
+        }
         let { data } = await http.put(`/alerts/log/${alertLogSeq}`);
 
         try {
@@ -101,6 +105,10 @@ export default {
         console.log("삭제 API", userSeq, alertLogSeq);
         console.log(payload);
 
+        if (alertLogSeq == -1 || alertLogSeq == "-1") {
+            console.log("Skip deleteAlert(chatting)");
+            return;
+        }
         let { data } = await http.delete(`/alerts/log/${alertLogSeq}`);
 
         try {

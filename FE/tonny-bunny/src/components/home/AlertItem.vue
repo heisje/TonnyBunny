@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="alertItemWarp" @click="putAlert">
+    <div class="alertItemWarp" @click="putAlert" v-show="display">
         <div class="alertItemContent" :class="alertItem.isRead ? 'isRead' : ''">
             <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 16 16">
                 <circle cx="8" cy="8" r="8" />
@@ -25,7 +25,7 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    slertLogSeq: 1,
+                    alertLogSeq: 1,
                     content: "하이루",
                     tonnySityCode: "",
                     createdAt: "2023-02-01T13:12:03",
@@ -37,7 +37,11 @@ export default {
             description: "alert item",
         },
     },
-
+    data() {
+        return {
+            display: true,
+        };
+    },
     computed: {
         ...mapGetters({
             taskCode: "getTaskCode",
@@ -54,7 +58,12 @@ export default {
 
     methods: {
         deleteAlert() {
-            this.$emit("deleteAlert");
+            if (this.alertItem.alertLogSeq == -1) {
+                // 채팅 알람 -> 보이지 않게
+                this.display = false;
+            } else {
+                this.$emit("deleteAlert");
+            }
         },
         putAlert(e) {
             e.stopPropagation();

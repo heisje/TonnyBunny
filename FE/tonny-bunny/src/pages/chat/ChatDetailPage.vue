@@ -254,11 +254,14 @@ body {
 }
 @media (min-width: 1200px) {
     .chat-detail-view {
+        width: 50vw;
+        max-width: 800px;
         height: calc(100vh - 80px);
     }
 }
 @media (max-width: 1200px) {
     .chat-detail-view {
+        max-width: 800px;
         height: calc(100vh - 80px - 60px);
     }
 }
