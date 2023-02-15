@@ -50,6 +50,7 @@ export default {
         console.log("UserInfo: ", this.userInfo);
 
         await this.$store.dispatch("getChatRoomList", this.userInfo);
+        this.$store.commit("CONNECT_CHAT_STOMP_SOCKET", this.userInfo.seq);
         console.log("GET: ", this.$store.getters.getChatRoomList);
     },
     computed: {
