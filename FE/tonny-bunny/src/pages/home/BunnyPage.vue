@@ -150,7 +150,7 @@ export default {
             });
         },
 
-        search() {
+        async search() {
             const payload = {
                 lang: this.lang,
                 category: this.category,
@@ -163,7 +163,8 @@ export default {
             }
             console.log(payload);
 
-            this.$store.dispatch("getBunnyList", payload);
+            let { data } = await this.$store.dispatch("getBunnyList", payload);
+            this.getBunnyList = data;
         },
 
         clickHelperBtn(bunny) {
