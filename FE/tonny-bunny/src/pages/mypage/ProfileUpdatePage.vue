@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <div>
-                <title-banner title="🐰 헬퍼 정보 수정" text="헬퍼 정보를 수정하실 수 있습니다" />
+                <title-banner title="헬퍼 정보 수정" text="헬퍼 정보를 수정하실 수 있습니다" />
             </div>
 
             <!-- 언어 선택 -->
