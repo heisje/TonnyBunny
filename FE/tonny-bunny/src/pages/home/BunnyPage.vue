@@ -16,7 +16,7 @@
                         <router-link :to="{ name: 'NBunnyFormPage' }">
                             <medium-btn
                                 text="번역"
-                                class="w-100"
+                                class="w-100 mb-10"
                                 color="carrot"
                                 font="white"></medium-btn>
                         </router-link>
