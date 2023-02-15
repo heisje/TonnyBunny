@@ -32,9 +32,13 @@
                     color="carrot"
                     font="white"
                     text="리뷰 쓰기"
-                    @click.prevent="goReviewPage"></medium-btn>
+                    @click.prevent="goReviewPage"
+                ></medium-btn>
             </div>
             <div v-show="isHelper">
+                <div style="margin-top: 100px">
+                    <TonnyResult />
+                </div>
                 <title-text :title="getMessage(startResData.client.nickName)" />
                 <br />
                 <div class="row completeCard">
