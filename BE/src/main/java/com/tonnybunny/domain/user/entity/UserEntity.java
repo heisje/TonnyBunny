@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class UserEntity extends CommonEntity {
 	private Long point = 0L;
 	private Integer reportCount = 0;
 
-	private String profileImagePath = "noProfile.png";
+	private String profileImagePath = File.separator + "noProfile.png";
 
 	private String userCode;
 

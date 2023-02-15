@@ -58,8 +58,16 @@
                     <div class="notice">
                         <h2>고객센터</h2>
                         <ul>
-                            <li>공지사항</li>
-                            <li>자주 묻는 질문</li>
+                            <li>                    
+                                <router-link :to="{ name: 'NoticeListPage' }">
+                                    <span>공지사항</span>
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'FAQPage' }">
+                                    <span>자주 묻는 질문</span>
+                                </router-link>
+                            </li>
                             <li>이메일 문의</li>
                         </ul>
                     </div>
@@ -154,5 +162,8 @@ export default {};
             }
         }
     }
+}
+a {
+  text-decoration: none;
 }
 </style>

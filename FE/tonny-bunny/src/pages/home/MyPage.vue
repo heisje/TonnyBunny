@@ -20,7 +20,8 @@
                             <helper-card
                                 :userInfo="userInfo"
                                 rightBtnText="수정하기"
-                                @clickBtn2="goProfileUpdate"></helper-card>
+                                @clickBtn2="goProfileUpdate"
+                            ></helper-card>
                         </div>
                     </div>
                     <!-- 
@@ -89,7 +90,8 @@
                             name: 'HelperChangePage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }">
+                        }"
+                    >
                         <div>헬퍼 정보 등록</div>
                     </router-link>
                 </span>
@@ -99,15 +101,16 @@
                             name: 'AbilityPage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }">
+                        }"
+                    >
                         <div>헬퍼 프로필 변경</div>
                     </router-link>
-                </span> -->
+                </span>
                 <hr />
 
-                <a @click="openModal"> <span class="logout">로그아웃</span></a>
+                <!-- <a @click="openModal"> <span class="logout">로그아웃</span></a>
 
-                <hr />
+                <hr /> -->
             </div>
             <AlarmModal
                 title="완료"
@@ -116,7 +119,8 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @clickBtn2="clickBtn3">
+                @clickBtn2="clickBtn3"
+            >
                 <template #content> 로그아웃이 완료되었습니다 </template>
             </AlarmModal>
         </div>
@@ -147,10 +151,13 @@ export default {
     methods: {
         openModal(e) {
             e.preventDefault();
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.dispatch("logout");
+            this.$router.push({ name: "HomePage" });
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         clickBtn3() {
+            this.$store.dispatch("logout");
             this.$store.commit("TOGGLE_ALARM_MODAL");
             this.$router.push({ name: "HomePage" });
         },

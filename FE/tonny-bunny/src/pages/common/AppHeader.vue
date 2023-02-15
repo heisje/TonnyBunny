@@ -346,7 +346,10 @@ export default {
 
         // 로그아웃
         logout() {
+            this.$router.push({ name: "HomePage" });
             this.$store.dispatch("logout");
+
+            // this.$router.push();
         },
 
         // out side

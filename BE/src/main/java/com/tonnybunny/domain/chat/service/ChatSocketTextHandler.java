@@ -188,7 +188,8 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			//			Integer anotherUserPort = anotherUserInfo.getPort();
 			//			if (connectedPortInfo.containsKey(anotherUserPort) && connectedPortInfo.get(anotherUserPort) == false) { // 어느 세션에서도 접속하지 않은 상태
 			System.out.println("AnotherUserInfo : " + anotherUserInfo.toString());
-			if (anotherUserInfo.getPort() == -1) {
+			if (anotherUserInfo.getPort() == -1) {            // 안 읽은 메세지 수를 0으로 초기화
+				initNotReadCount(roomSeq, userSeq, anotherUserSeq);
 				increaseNotReadCount(roomSeq, anotherUserSeq);
 			}
 

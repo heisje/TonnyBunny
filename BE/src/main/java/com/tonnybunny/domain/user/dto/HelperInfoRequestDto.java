@@ -32,6 +32,7 @@ public class HelperInfoRequestDto {
 	/* 헬퍼 유저 회원정보 수정 */
 	private String oneLineIntroduction;
 	private String introduction;
+	private Integer unitPrice;
 	private List<HelperInfoImageRequestDto> helperInfoImageReqeustDtoList = new ArrayList<>(); // 그럼 이거 쓸 일 없을듯
 	private List<Long> deleteHelperInfoImageList = new ArrayList<>(); // 삭제될 이미지 리스트 시퀀스만 넘기기
 

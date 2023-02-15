@@ -6,7 +6,7 @@
             </div>
 
             <!-- 언어 선택 -->
-            <TitleText title="언어 선택" type="h2" text="하실 수 있는 언어를 선택해주세요" />
+            <TitleText title="언어 선택" type="h2" text="사용 가능한 언어를 선택해주세요" />
 
             <dropdown-input-code :dropdownArray="langCode" @toggleItem="toggleLangItem" />
 
@@ -54,20 +54,29 @@
             </div>
 
             <br /><br />
+            <TitleText title="기본요금 설정" type="h2" text="5분당 기본요금을 설정해주세요." />
+            <input type="text" v-model="unitPrice" />
+            <div v-show="noticeUnitPrice" style="color: red">{{ noticeUnitPrice }}</div>
+
             <TitleText
                 title="한 줄 자기소개"
                 type="h2"
                 text="자신을 표현할 간단한 자기소개를 입력해주세요."
             />
-            <input type="text" :value="oneLineIntroduction" />
+            <input type="text" v-model="oneLineIntroduction" />
 
             <TitleText
                 title="사진 첨부"
                 type="h2"
                 text="본인을 어필할 수 있는 사진을 첨부해주세요."
             />
-            <div v-for="(helperImage, index) in helperInforImageList" :key="index">
-                <img-item width="100" :imagePath="helperImage?.imagePath" />
+            <div v-if="helperInfoImageList.length != 0">
+                <div v-for="(helperImage, index) in helperInforImageList" :key="index">
+                    <img-item width="100" :imagePath="helperImage?.imagePath" />
+                </div>
+            </div>
+            <div v-else>
+                <TitleText title="등록된 사진이 없습니다.🐾" center type="h2" />
             </div>
 
             <TitleText title="본인 소개" type="h2" text="자유롭게 본인을 소개해주세요." />
@@ -141,6 +150,9 @@ export default {
             helperInfoImageList: [],
             oneLineIntroduction: "",
             introduction: "",
+            unitPrice: 0,
+
+            noticeUnitPrice: "",
         };
     },
 
@@ -190,18 +202,23 @@ export default {
         // 폼 제출
         async submitForm(event) {
             event.preventDefault();
+            if (this.unitPrice > 9999) {
+                this.noticeUnitPrice = "기본 가격은 1만 아래로 설정해주세요.";
+                return;
+            }
 
+            this.noticeUnitPrice = "";
             let userSeq2 = this.userSeq * 1;
 
             const possibleLanguageList = this.possibleLanguageCodeList;
             const jsonData = {
                 certificateList: this.certificateList,
-                helperInfoImageReqeustDtoList: [],
-                introduction: "new introduction",
-                oneLineIntroduction: "new oneLineIntroduction",
+                introduction: this.introduction,
+                oneLineIntroduction: this.oneLineIntroduction,
                 possibleLanguageList: possibleLanguageList,
+                unitPrice: this.unitPrice,
             };
-            // 일단 잠시 주석
+
             try {
                 let res = await http.put(`/mypage/${userSeq2}/helper`, jsonData);
 
@@ -242,6 +259,7 @@ export default {
             this.$store.state.account.userInfo.helperInfo.possibleLanguageList;
         this.helperInfoImageList =
             this.$store.state.account.userInfo.helperInfo.helperInfoImageList;
+        this.unitPrice = this.$store.state.account.userInfo.helperInfo.unitPrice;
     },
 };
 </script>

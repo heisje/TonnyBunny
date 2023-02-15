@@ -3,26 +3,31 @@
         <div>
             <title-text title="고객센터" />
 
-            <div class="noticeWrap" @click="loading">
+
+            <div class="noticeWrap">
                 <hr />
                 <span class="d-flex justify-content-between">
                     <div>공지사항</div>
-                    <div class="grey">자세히 보기</div>
+                    <router-link :to="{ name: 'NoticeListPage' }">
+                        <div class=" btn btn-sm grey">자세히 보기</div>
+                    </router-link>
                 </span>
                 <hr />
                 <span class="d-flex justify-content-between">
                     <div>자주 묻는 질문</div>
-                    <div class="grey">자세히 보기</div>
+                    <router-link :to="{ name: 'FAQPage' }">
+                        <div class=" btn btn-sm grey">자세히 보기</div>
+                    </router-link>
                 </span>
                 <hr />
                 <span class="d-flex justify-content-between">
                     <div>이메일 문의</div>
-                    <div class="grey">복사하기</div>
+                    <div class="grey" @click="openAlert">복사하기</div>
                 </span>
                 <hr />
                 <span class="d-flex justify-content-between">
                     <div>고객센터 전화</div>
-                    <div class="grey">복사하기</div>
+                    <div class="grey" @click="openAlert">복사하기</div>
                 </span>
                 <hr />
                 <span class="d-flex justify-content-between">
@@ -31,7 +36,7 @@
                 </span>
                 <hr />
                 <span>
-                    <div><span class="red">회원탈퇴</span></div>
+                    <div><span class="red" @click="openWarning">회원탈퇴</span></div>
                 </span>
                 <hr />
             </div>
@@ -48,9 +53,13 @@ export default {
         TitleText,
     },
     methods: {
-        loading() {
-            alert("준비중인 서비스입니다.");
+
+        openAlert(){
+            alert("복사되었습니다.")
         },
+        openWarning(){
+            alert("하지마세요.")
+        }
     },
 };
 </script>
