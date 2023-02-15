@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <TitleText title="회원가입" center text="당신의 귀여운 통역가, TonnyBunny!" />
+            <title-banner title="회원가입" text="당신의 귀여운 통역가, TonnyBunny!" />
             <TitleText title="어떤 회원가입을 원하시나요?" type="h2" center />
 
             <div class="iconsContainer">
@@ -57,10 +57,12 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
     components: {
         TitleText,
+        TitleBanner,
     },
 };
 </script>

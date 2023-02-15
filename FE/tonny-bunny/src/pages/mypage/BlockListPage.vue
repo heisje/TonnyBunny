@@ -1,5 +1,5 @@
 <template>
-    <title-banner title="차단목록" text="🐰차단 내역을 확인할 수 있습니다." />
+    <title-banner title="차단목록" text="차단 내역을 확인할 수 있습니다." />
 
     <div class="container w-75">
         <div v-if="blockCnt != 0">
