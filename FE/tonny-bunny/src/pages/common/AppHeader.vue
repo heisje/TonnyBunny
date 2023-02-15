@@ -20,11 +20,11 @@
                                         </router-link>
                                     </li>
 
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <router-link :to="{ name: 'IntroPage' }" class="nav-link">
                                             <h2>토니버니란?</h2>
                                         </router-link>
-                                    </li>
+                                    </li> -->
 
                                     <li class="nav-item">
                                         <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
@@ -33,9 +33,9 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <div class="nav-link" @click="toggleBunnyModalOpen">
+                                        <router-link :to="{ name: 'BunnyPage' }" class="nav-link">
                                             <h2>번역하기</h2>
-                                        </div>
+                                        </router-link>
                                     </li>
 
                                     <li class="nav-item">
@@ -184,11 +184,11 @@
                                         </router-link>
                                     </li>
 
-                                    <li class="nav-item" data-bs-dismiss="offcanvas">
+                                    <!-- <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <router-link :to="{ name: 'IntroPage' }" class="nav-link">
                                             <h2>토니버니란?</h2>
                                         </router-link>
-                                    </li>
+                                    </li> -->
 
                                     <li class="nav-item" data-bs-dismiss="offcanvas">
                                         <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
@@ -197,9 +197,9 @@
                                     </li>
 
                                     <li class="nav-item" data-bs-dismiss="offcanvas">
-                                        <div class="nav-link" @click="toggleBunnyModalOpen">
+                                        <router-link :to="{ name: 'BunnyPage' }" class="nav-link">
                                             <h2>번역하기</h2>
-                                        </div>
+                                        </router-link>
                                     </li>
 
                                     <li class="nav-item" data-bs-dismiss="offcanvas">

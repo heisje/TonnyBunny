@@ -1,5 +1,5 @@
 <template>
-    <div class="cardContainer">
+    <div class="cardContainer questCardContainer">
         <div class="cardWrap">
             <div class="questCard">
                 <!-- 1. x 버튼 라인 -->
