@@ -106,6 +106,7 @@
 
                         <div class="btns col-12 col-md-6">
                             <div
+                                v-if="isClient && btnStep == 1"
                                 class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="startLive">
                                     <span class="material-symbols-outlined"> play_arrow </span>
@@ -114,6 +115,7 @@
                             </div>
 
                             <div
+                                v-if="isClient && btnStep >= 2"
                                 class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="endLive">
                                     <span class="material-symbols-outlined"> stop </span>
@@ -122,6 +124,7 @@
                             </div>
 
                             <div
+                                v-if="!isSpeakOn"
                                 class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleSpeaker">
                                     <span class="material-symbols-outlined"> mic_off </span>
@@ -130,11 +133,30 @@
                             </div>
 
                             <div
+                                v-if="isSpeakOn"
+                                class="d-flex flex-column justify-content-center align-items-center">
+                                <div class="btn" @click.prevent="toggleSpeaker">
+                                    <span class="material-symbols-outlined"> mic </span>
+                                </div>
+                                <h2>마이크 켜기</h2>
+                            </div>
+
+                            <div
+                                v-if="!isCamOn"
                                 class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleCamera">
                                     <span class="material-symbols-outlined"> videocam_off </span>
                                 </div>
                                 <h2>비디오 끄기</h2>
+                            </div>
+
+                            <div
+                                v-if="isCamOn"
+                                class="d-flex flex-column justify-content-center align-items-center">
+                                <div class="btn" @click.prevent="toggleCamera">
+                                    <span class="material-symbols-outlined"> videocam </span>
+                                </div>
+                                <h2>비디오 켜기</h2>
                             </div>
 
                             <div
@@ -271,6 +293,9 @@ export default {
             isExisted: false,
             isClient: false,
             isHelper: false,
+
+            // 버튼 (시작->정지->떠나기 순서로 변경)
+            btnStep: 1,
         };
     },
 
@@ -418,10 +443,6 @@ export default {
             });
 
             this.session.on("sessionDisconnected", (event) => {
-                if (this.isRecordOn) {
-                    this.stopRecording();
-                }
-
                 // ------------------------------------------------------------------------------------------
                 // 내 코드
 
@@ -497,6 +518,7 @@ export default {
         },
 
         startLive() {
+            this.btnStep = 2;
             console.log("Start");
 
             this.session
@@ -604,7 +626,17 @@ export default {
                 });
         },
 
-        leaveSession() {
+        async leaveSession() {
+            // 타이머 종료
+            await this.session
+                .signal({ data: "End", type: "live" })
+                .then(() => {
+                    console.log("Message successfully sent");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+
             if (this.session) this.session.disconnect();
 
             this.session = undefined;
