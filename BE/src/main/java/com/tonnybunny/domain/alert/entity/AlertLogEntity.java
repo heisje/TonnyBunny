@@ -26,16 +26,13 @@ public class AlertLogEntity extends CommonEntity {
 	@JoinColumn(name = "user_seq")
 	private UserEntity user; // M:1 매핑
 
-	//	private String sessionName;
 	private String taskCode;
 	private String content;
 	private Boolean isRead;
-	private Boolean isEnd; // 끝이 났는지 아닌지
 
 
-	public void update(Boolean isRead, Boolean isEnd) {
+	public void update(Boolean isRead) {
 		this.isRead = isRead;
-		this.isEnd = isEnd;
 	}
 
 }

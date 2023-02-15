@@ -1,15 +1,15 @@
 <template>
-    <router-view name="header"></router-view>
-    <main class="container" v-on:mousemove="test">
-        <router-view></router-view>
-        <bottom-navbar />
-        <login-modal></login-modal>
-        <tonny-modal></tonny-modal>
-        <bunny-modal></bunny-modal>
-        <AppLoading />
-        <!-- <div class="circle"></div> -->
-    </main>
-    <router-view name="footer"></router-view>
+	<router-view name="header"></router-view>
+	<main class="container" v-on:mousemove="test">
+		<router-view></router-view>
+		<bottom-navbar />
+		<login-modal></login-modal>
+		<tonny-modal></tonny-modal>
+		<bunny-modal></bunny-modal>
+		<AppLoading />
+		<!-- <div class="circle"></div> -->
+	</main>
+	<router-view name="footer"></router-view>
 </template>
 
 <script>
@@ -20,41 +20,43 @@ import BunnyModal from "@/components/common/modal/BunnyModal.vue";
 import AppLoading from "./pages/common/AppLoading.vue";
 
 export default {
-    name: "App",
+	name: "App",
 
-    components: {
-        BottomNavbar,
-        LoginModal,
-        TonnyModal,
-        BunnyModal,
-        AppLoading,
-    },
+	components: {
+		BottomNavbar,
+		LoginModal,
+		TonnyModal,
+		BunnyModal,
+		AppLoading
+	},
 
-    methods: {
-        // test(e) {
-        //     const circle = document.querySelector(".circle");
-        //     const mouseX = e.clientX;
-        //     const mouseY = e.clientY;
-        //     circle.style.left = mouseX + "px";
-        //     circle.style.top = mouseY + "px";
-        // },
-    },
+	methods: {
+		// test(e) {
+		//     const circle = document.querySelector(".circle");
+		//     const mouseX = e.clientX;
+		//     const mouseY = e.clientY;
+		//     circle.style.left = mouseX + "px";
+		//     circle.style.top = mouseY + "px";
+		// },
+	},
 
-    mounted() {
-        this.$store.dispatch("setCommonCode");
-        window.addEventListener("beforeunload", () => {
-            this.$store.commit("DISCONNECT_CHAT_STOMP_SOCKET");
-        });
-        window.addEventListener("load", () => {
-            // window.onload = function () {
-            if (this.$store.getters.getIsLogin == true) {
-                this.$store.commit(
-                    "CONNECT_CHAT_STOMP_SOCKET",
-                    this.$store.getters.getUserInfo.seq
-                );
-            }
-        });
-    },
+	mounted() {
+		this.$store.dispatch("setCommonCode");
+		window.addEventListener("beforeunload", () => {
+			this.$store.commit("DISCONNECT_CHAT_STOMP_SOCKET");
+			this.$store.commit("DISCONNECT_ALERT_STOMP_SOCKET");
+		});
+		window.addEventListener("load", () => {
+			// window.onload = function () {
+			if (this.$store.getters.getIsLogin == true) {
+				this.$store.commit(
+					"CONNECT_CHAT_STOMP_SOCKET",
+					this.$store.getters.getUserInfo.seq
+				);
+				this.$store.commit("CONNECT_ALERT_STOMP_SOCKET");
+			}
+		});
+	}
 };
 </script>
 

@@ -224,7 +224,6 @@ CREATE TABLE `alert_log_table`
     `user_seq`      BIGINT    NOT NULL,
     `task_code`     CHAR(7)   NOT NULL,
     `content`       VARCHAR(255),
-    `is_end`        BIGINT,
     `is_read`       BOOLEAN,
     `created_at`    TIMESTAMP NOT NULL DEFAULT now(),
     `updated_at`    TIMESTAMP NOT NULL DEFAULT now(),
