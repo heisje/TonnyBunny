@@ -48,7 +48,7 @@
                                 </div>
                             </router-link>
                         </div>
-                        <div class="iconsWarp" v-if="true">
+                        <div class="iconsWarp" v-if="isHelper">
                             <div class="iconsContent searchIcon" @click="toggleHelperBtn">
                                 <div>
                                     <img src="@/assets/bag.png" alt="" />
@@ -193,7 +193,11 @@ export default {
     },
 
     computed: {
-        ...mapGetters({ isLogin: "getIsLogin", userInfo: "getUserInfo" }),
+        ...mapGetters({
+            isLogin: "getIsLogin",
+            userInfo: "getUserInfo",
+            isHelper: "getIsHelper",
+        }),
     },
 
     methods: {
