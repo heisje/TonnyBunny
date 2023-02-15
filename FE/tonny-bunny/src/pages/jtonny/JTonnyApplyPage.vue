@@ -124,11 +124,11 @@
                                                 </tr>
 
                                                 <!-- <tr> -->
-                                                    <!-- <td>지불 캐럿</td> -->
-                                                    <!-- <td> -->
-                                                        <!-- {{ quest.unitPrice }} -->
-                                                        <!-- <span class="label">CRT</span> -->
-                                                    <!-- </td> -->
+                                                <!-- <td>지불 캐럿</td> -->
+                                                <!-- <td> -->
+                                                <!-- {{ quest.unitPrice }} -->
+                                                <!-- <span class="label">CRT</span> -->
+                                                <!-- </td> -->
                                                 <!-- </tr> -->
 
                                                 <tr>

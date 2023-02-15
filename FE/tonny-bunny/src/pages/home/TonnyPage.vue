@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-12" style="padding-right: 32px">
+                <div class="col-md-5 col-12" style="padding-right: 32px">
                     <div style="min-height: 300px">
                         <title-text title="오늘 일정" top="0"></title-text>
                         <hr />
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-12">
+                <div class="col-md-5 col-12">
                     <title-text title="모집중인 예약 통역 목록" top="0"></title-text>
                     <hr />
                     <!-- <div>정렬버튼</div> -->
