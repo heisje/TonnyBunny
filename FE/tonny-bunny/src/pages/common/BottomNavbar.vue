@@ -1,32 +1,45 @@
 <template lang="">
     <div id="BottomNavbar">
+        <div class="centerIconWrap" v-show="showCenterBtn">
+            <div class="centerBtn" @click="clickCenterBtn1">
+                <img src="@/assets/roket.png" alt="" width="40" />
+                <div>통역</div>
+            </div>
+            <div class="centerBtn" @click="clickCenterBtn2">
+                <img src="@/assets/book.png" alt="" width="40" />
+                <div>번역</div>
+            </div>
+            <div v-if="isHelper" class="centerBtn" @click="clickCenterBtn3">
+                <img src="@/assets/bag.png" alt="" width="40" />
+                <div>헬퍼</div>
+            </div>
+        </div>
         <div class="container">
             <ul>
-                <li>
+                <li @click="disableCenterBtn">
                     <router-link :to="{ name: 'HomePage' }">
                         <span class="material-symbols-outlined icon"> home </span>
                         <span>홈</span>
                     </router-link>
                 </li>
-                <li>
+                <li @click="disableCenterBtn">
                     <router-link :to="{ name: 'BoardPage' }">
                         <span class="material-symbols-outlined icon"> dvr </span>
                         <span>커뮤니티</span>
                     </router-link>
                 </li>
                 <li>
-                    <router-link :to="{ name: 'HomePage' }">
-                        <span class="material-symbols-outlined icon"> home </span>
-                        <span>당근</span>
-                    </router-link>
+                    <a class="centerWrap" @click="toggleCenterIcon">
+                        <img class="centerIcon" src="@/assets/bottomBtn.png" alt="" />
+                    </a>
                 </li>
-                <li>
+                <li @click="disableCenterBtn">
                     <router-link :to="{ name: 'ChatPage' }">
                         <span class="material-symbols-outlined icon"> forum </span>
                         <span>채팅</span>
                     </router-link>
                 </li>
-                <li>
+                <li @click="disableCenterBtn">
                     <router-link :to="{ name: 'MyPage' }">
                         <span class="material-symbols-outlined icon"> account_circle </span>
                         <span>내 정보</span>
@@ -37,9 +50,44 @@
     </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     data() {
-        return {};
+        return {
+            showCenterBtn: false,
+        };
+    },
+
+    methods: {
+        toggleCenterIcon() {
+            this.showCenterBtn = !this.showCenterBtn;
+        },
+
+        clickCenterBtn1() {
+            this.showCenterBtn = !this.showCenterBtn;
+            this.$router.push({ name: "TonnyPage" });
+        },
+
+        clickCenterBtn2() {
+            this.showCenterBtn = !this.showCenterBtn;
+            this.$router.push({ name: "BunnyPage" });
+        },
+
+        clickCenterBtn3() {
+            this.showCenterBtn = !this.showCenterBtn;
+            this.$router.push({ name: "HelperHomePage" });
+        },
+
+        disableCenterBtn() {
+            this.showCenterBtn = false;
+        },
+    },
+
+    computed: {
+        ...mapGetters({
+            isHelper: "getIsHelper",
+        }),
     },
 };
 </script>
@@ -98,6 +146,40 @@ export default {
                     font-weight: 500;
                 }
             }
+            .centerWrap {
+                display: block;
+                position: relative;
+                width: 100%;
+                cursor: pointer;
+                .centerIcon {
+                    width: 50px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate3d(-50%, -30%, 0);
+                }
+            }
+        }
+    }
+
+    .centerIconWrap {
+        display: flex;
+        position: fixed;
+        bottom: 60px;
+        left: 0px;
+        width: 100vw;
+        height: 100px;
+        justify-content: center;
+        align-items: center;
+        .centerBtn {
+            border: 1px solid var(--light-color);
+            border-radius: 10px;
+            background: var(--white-color);
+            padding: 3px;
+            margin: 6px;
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
         }
     }
 }
