@@ -50,7 +50,7 @@
                                 <div class="star">
                                     <span class="material-symbols-outlined starIcon"> star </span>
                                     <div class="starText">
-                                        {{ userInfo?.helperInfo?.avg }}
+                                        {{ userInfo?.helperInfo?.avgScore }}
                                         <div class="label" style="display: inline">점</div>
                                     </div>
                                 </div>

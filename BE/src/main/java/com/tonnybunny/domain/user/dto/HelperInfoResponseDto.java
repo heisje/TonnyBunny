@@ -34,6 +34,9 @@ public class HelperInfoResponseDto {
 	private Integer totalScore = 0;
 	@Builder.Default
 	private Integer reviewCount = 0;
+
+	private Double avgScore;
+
 	@Builder.Default
 	private Integer unitPrice = 0;
 	@Builder.Default
@@ -53,6 +56,7 @@ public class HelperInfoResponseDto {
 		                            .seq(helperInfo.getSeq())
 		                            .totalScore(helperInfo.getTotalScore())
 		                            .reviewCount(helperInfo.getReviewCount())
+		                            .avgScore(helperInfo.getReviewCount() == 0 ? 0 : Math.round(helperInfo.getTotalScore() * 10.0 / helperInfo.getReviewCount()) / 10.0)
 		                            .unitPrice(helperInfo.getUnitPrice())
 		                            .oneLineIntroduction(helperInfo.getOneLineIntroduction())
 		                            .introduction(helperInfo.getIntroduction())
