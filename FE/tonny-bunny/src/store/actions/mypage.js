@@ -184,12 +184,6 @@ export default {
         try {
             let { data } = await http.get(`/mypage/${userSeq}`);
             console.log(data);
-            if (data.data.helperInfo.reviewCount != 0) {
-                data.data.helperInfo["avg"] =
-                    data.data.helperInfo.totalScore / data.data.helperInfo.reviewCount;
-            } else {
-                data.data.helperInfo["avg"] = 0;
-            }
 
             // service logic
             switch (data.resultCode) {
@@ -208,12 +202,6 @@ export default {
         try {
             let { data } = await http.get(`/mypage/${userSeq}`);
             console.log(data);
-            if (data.data.helperInfo.reviewCount != 0) {
-                data.data.helperInfo["avg"] =
-                    data.data.helperInfo.totalScore / data.data.helperInfo.reviewCount;
-            } else {
-                data.data.helperInfo["avg"] = 0;
-            }
 
             // service logic
             switch (data.resultCode) {
