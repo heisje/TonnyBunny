@@ -69,7 +69,7 @@
                                                         {{ quest.estimateTime }}
                                                         <!-- <span class="">건</span> -->
                                                     </div>
-                                                    <div>
+                                                    <div v-if="quest.tonnySituCode != ''">
                                                         <h3>카테고리</h3>
                                                         {{ allCode[quest?.tonnySituCode] }}
                                                         <!-- <span class="label"></span> -->
@@ -92,7 +92,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>언어</td>
                                                     <td class="d-flex flex-row align-items-center">
                                                         <square-tag
@@ -108,7 +108,7 @@
                                                             :text="allCode[quest?.endLangCode]"
                                                             sub></square-tag>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
 
                                                 <tr>
                                                     <td>예상 소요 시간</td>
@@ -149,7 +149,16 @@
 
                                                 <tr>
                                                     <td>상황 설명</td>
-                                                    <td class="pt-3">{{ quest.content }}</td>
+
+                                                    <td>
+                                                        <div
+                                                            v-if="quest.content == ''"
+                                                            class="fst-italic"
+                                                            style="color: var(--sub-color)">
+                                                            상황 설명이 없습니다.
+                                                        </div>
+                                                        <div v-else>{{ quest.content }}</div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </v-table>
