@@ -1,5 +1,5 @@
 <template>
-    <title-text type="h1" title="차단목록" class="text-center" />
+    <title-banner title="차단목록" text="🐰차단 내역을 확인할 수 있습니다." />
 
     <div class="container w-75">
         <div v-if="blockCnt != 0">
@@ -29,6 +29,7 @@
 import UserProfileItem from "@/components/mypage/UserProfileItem.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 import { mapGetters } from "vuex";
 import http from "@/common/axios";
 export default {
@@ -44,6 +45,7 @@ export default {
         UserProfileItem,
         TitleText,
         SmallBtn,
+        TitleBanner,
     },
     methods: {
         async getBlockList(seq) {

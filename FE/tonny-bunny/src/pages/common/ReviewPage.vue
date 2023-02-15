@@ -7,11 +7,11 @@
                 <img :src="this.$store.state.mypage.otherHelperInfo.profileImagePath" alt="" />
             </span> -->
             <span>
-                <img src="@/assets/noProfile.png" alt="이미지입니다." />
+                <user-profile-img :profileImagePath="userInfo?.profileImagePath" width="80" />
             </span>
         </div>
         <div class="d-flex justify-content-center">
-            <h2>{{ this.$store.state.mypage.otherHelperInfo.nickName }}</h2>
+            <h2 class="mt-3">{{ this.$store.state.mypage.otherHelperInfo.nickName }}</h2>
         </div>
         <TitleText title="헬퍼님은 어떠셨나요?" type="h2" center />
 
@@ -66,12 +66,14 @@ import TitleText from "@/components/common/TitleText.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import http from "@/common/axios";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     components: {
         TitleText,
         SmallBtn,
         AlarmModal,
+        UserProfileImg,
     },
 
     data() {

@@ -13,7 +13,8 @@
             <DropdownInput
                 :dropdownArray="['욕설/비방', '범죄', '허위정보', '기타']"
                 placeholder="카테고리"
-                @toggle="(e) => (dropdownValue = e)" />
+                @toggle="(e) => (dropdownValue = e)"
+            />
             <TitleText title="자세한 신고내용을 적어주세요" type="h2" center />
             <textarea class="w-100" v-model="content"></textarea>
         </form>
@@ -33,7 +34,8 @@
             btnColor2="carrot"
             btnFontColor2="white"
             @clickBtn1="closeModal"
-            @clickBtn2="clickBtn2">
+            @clickBtn2="clickBtn2"
+        >
             <template #content>
                 신고가 완료되었습니다.
                 <br /><br />
@@ -59,7 +61,6 @@ export default {
         };
     },
     props: {
-
         helperSeq: {
             type: Number,
             default: 2,

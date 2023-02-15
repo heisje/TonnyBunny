@@ -68,9 +68,6 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="userInfo?.seq == myInfo.seq">
-                    <LargeBtn text="수정하기" color="success" @click="goProfileUpdate" />
-                </div>
                 <div v-if="userInfo?.seq != myInfo.seq">
                     <LargeBtn text="채팅하기" color="carrot" />
                 </div>

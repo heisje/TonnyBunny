@@ -1,10 +1,10 @@
 <template>
     <div class="carrotContainer">
         <div class="carrotWrap">
-            <title-text
-                title="포인트관리"
-                text="캐럿은 토니바니의 포인트제도입니다. 미리 포인트를 충전한 만큼
-		이용하실 수 있어요!" />
+            <title-banner
+                title="포인트 관리"
+                text="🐰캐럿은 토니바니의 포인트입니다. 미리 충전한 만큼 이용하실 수 있어요!"
+            />
 
             <div class="moneyWrap">
                 <small-btn class="moneyContent" text="충전" @click="charge" />
@@ -13,13 +13,15 @@
                     class="moneyContent"
                     color="disable"
                     text="결제수단관리"
-                    @click="payment" />
+                    @click="payment"
+                />
             </div>
 
             <title-text
                 title="포인트 거래 내역"
                 text="캐럿은 토니바니의 포인트제도입니다. 미리 포인트를 충전한 만큼
-		이용하실 수 있어요!" />
+		이용하실 수 있어요!"
+            />
 
             <div class="pointListWrap">
                 <div v-for="pointItem in pointList" :key="pointItem" class="pointItemWrap">
@@ -46,12 +48,14 @@ import { mapGetters } from "vuex";
 
 import TitleText from "@/components/common/TitleText.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
     name: "CarrotPage",
 
     components: {
         TitleText,
+        TitleBanner,
         SmallBtn,
     },
 

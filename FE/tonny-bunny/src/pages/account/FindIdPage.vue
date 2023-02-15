@@ -3,10 +3,9 @@
         <div class="customForm">
             <!-- 아이디 찾기 전 -->
             <div v-if="findedId == ''">
-                <TitleText
+                <title-banner
                     title="아이디 찾기"
-                    center
-                    text="등록한 휴대폰 번호로 계정 이메일 주소를 알려드립니다"
+                    text="🐰등록하신 휴대폰 번호로 이메일 주소를 찾을 수 있습니다."
                 />
 
                 <!-- 휴대폰 번호 -->
@@ -61,16 +60,16 @@
 
                 <br /><br /><br /><br />
 
-                
                 <div style="margin-top: 8px">
-                <router-link :to="{ name: 'HomePage' }">
-                    <smallBtn
-                        font="main"
-                        color="outline"
-                        style="width: 100%"
-                        text="홈으로 돌아가기"></smallBtn>
-                </router-link>
-            </div>
+                    <router-link :to="{ name: 'HomePage' }">
+                        <smallBtn
+                            font="main"
+                            color="outline"
+                            style="width: 100%"
+                            text="홈으로 돌아가기"
+                        ></smallBtn>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -78,6 +77,7 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import http from "@/common/axios";
@@ -85,6 +85,7 @@ import http from "@/common/axios";
 export default {
     components: {
         TitleText,
+        TitleBanner,
         smallBtn,
         AlarmModal,
     },
@@ -139,31 +140,27 @@ export default {
             }
 
             try {
-                let res = await http.post("/check/authcode", {                     
+                let res = await http.post("/check/authcode", {
                     authCode: this.authCode,
-                    phoneNumber: this.phoneNum, });
+                    phoneNumber: this.phoneNum,
+                });
                 if (res.data.data) {
-                    try{
+                    try {
                         let res = await http.post("/login/find/email", {
-                        phoneNumber: this.phoneNum,
-                        isAuthed: true,
-                        
-                    });
-                    if (res.data.data){
-                        this.isCheckAuthCode = true;
-                        this.noticeAuth = "인증이 완료되었습니다";
-                        this.findedId = res.data.data;
-                    }
-
-                    }catch(error){
-                        console.log(error)
+                            phoneNumber: this.phoneNum,
+                            isAuthed: true,
+                        });
+                        if (res.data.data) {
+                            this.isCheckAuthCode = true;
+                            this.noticeAuth = "인증이 완료되었습니다";
+                            this.findedId = res.data.data;
+                        }
+                    } catch (error) {
+                        console.log(error);
                         this.isCheckAuthCode = true;
                         this.noticeAuth = "회원정보가 없습니다.";
                         this.findedId = "등록된 계정이 존재하지 않습니다.";
                     }
-
-                
-
                 } else {
                     this.noticeAuth2 = "인증번호가 일치하지 않습니다";
                 }
