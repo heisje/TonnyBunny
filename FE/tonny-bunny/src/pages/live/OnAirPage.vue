@@ -353,8 +353,8 @@ export default {
         },
         // 계산하는 동작
         calculateTotalPrice() {
-            // const updatedPrice = (Math.floor(this.timer / 300) + 1) * this.startResData.unitPrice;
-            const updatedPrice = (Math.floor(this.timer / 5) + 1) * 600;
+            const updatedPrice = (Math.floor(this.timer / 300) + 1) * this.startResData.unitPrice; // 실제
+            // const updatedPrice = (Math.floor(this.timer / 5) + 1) * 600;                         // 테스트용
             if (this.$store.state.account.userInfo.point < updatedPrice) {
                 // TODO : 모달 열기, 타이머 종료
                 this.session
