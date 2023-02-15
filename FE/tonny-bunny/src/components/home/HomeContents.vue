@@ -17,14 +17,6 @@
 
                     <div class="iconsContainer animate__animated animate__fadeInDown">
                         <div class="iconsWarp">
-                            <!-- <div class="iconsContent" @click="toggleTonnyModalOpen">
-								<div>
-									<img src="@/assets/homeTonnyIcon.png" alt="" />
-								</div>
-								<div>
-									<h1 class="h3">#통역</h1>
-								</div>
-							</div> -->
                             <router-link :to="{ name: 'TonnyPage' }" class="nav-link">
                                 <div class="iconsContent">
                                     <div>
