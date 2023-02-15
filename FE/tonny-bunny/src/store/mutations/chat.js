@@ -31,7 +31,7 @@ export default {
         stompClient.connect(
             {},
             () => {
-                console.log("소켓 연결 성공");
+                // console.log("소켓 연결 성공");
                 // 소켓 연결 성공
                 // 본인 id 를 구독합니다.
                 stompClient.subscribe(`/sub/chat/${userSeq}`, (res) => {
