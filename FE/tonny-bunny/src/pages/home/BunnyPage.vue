@@ -23,11 +23,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-12" style="padding-right: 32px">
+                <div class="col-md-5 col-12" style="padding-right: 32px">
                     <div style="min-height: 300px">
                         <title-text title="오늘 일정" top="0"></title-text>
                         <hr />
-                        <!-- <div v-if="todayScheduleList.length != 0">
+                        <div v-if="todayScheduleList.length != 0">
                             <div v-for="(schedule, index) in todayScheduleList" :key="index">
                                 <v-lazy>
                                     <schedule-list-item
@@ -39,7 +39,7 @@
                                 </v-lazy>
                             </div>
                         </div>
-                        <div v-else style="color: var(--sub-color)">오늘 일정이 없습니다.</div> -->
+                        <div v-else style="color: var(--sub-color)">오늘 일정이 없습니다.</div>
                     </div>
                     <div>
                         <title-text title="히스토리"></title-text>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-12">
+                <div class="col-md-5 col-12">
                     <title-text title="모집중인 번역 목록" top="0"></title-text>
                     <hr />
                     <div class="d-flex flex-row w-100 mb-3">
@@ -78,7 +78,8 @@
                         <div v-for="(bunny, index) in getBunnyList" :key="index" class="mt-3">
                             <!-- {{ bunny }} -->
                             <quest-card
-                                class="d-inline-block"
+                                class="d-inline-block w-100"
+                                style="width: 900px"
                                 :questDetail="bunny"
                                 rightBtnText="신청하기"
                                 @clickBtn2="clickHelperBtn(bunny)" />
@@ -87,6 +88,8 @@
                 </div>
             </div>
         </div>
+
+        <schedule-modal></schedule-modal>
     </div>
 </template>
 
@@ -98,15 +101,27 @@ import DropdownInput from "@/components/common/input/DropdownInputCode.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import QuestCard from "@/components/common/card/QuestCard.vue";
+import ScheduleListItem from "@/components/common/ScheduleListItem.vue";
+import ScheduleModal from "@/components/common/modal/ScheduleModal.vue";
 
 export default {
-    components: { TitleBanner, DropdownInput, MediumBtn, TitleText, QuestCard },
+    components: {
+        TitleBanner,
+        DropdownInput,
+        MediumBtn,
+        TitleText,
+        QuestCard,
+        ScheduleListItem,
+        ScheduleModal,
+    },
 
     computed: {
         ...mapGetters({
             bunnyList: "getBunnyList",
             getLangCode: "getLangCode",
             getBunnySituCode: "getBunnySituCode",
+            todayScheduleList: "getTodayScheduleList",
+            userInfo: "getUserInfo",
         }),
     },
 
@@ -156,11 +171,20 @@ export default {
             this.$store.state.bunny.bunnyDetail = bunny;
             this.$router.push({ name: "NBunnyMatchingPage" });
         },
+
+        async getScheduleDetail(scheduleSeq) {
+            await this.$store.dispatch("getScheduleDetail", scheduleSeq);
+            this.$store.commit("OPEN_SCHEDULE_MODAL");
+        },
     },
 
-    created() {
+    async created() {
         this.getdatas();
         window.scrollTo(0, 0);
+        await this.$store.dispatch("getTodayScheduleList", this.userInfo.seq);
+        this.$store.commit("CLOSE_SCHEDULE_MODAL");
+        console.log(this.todayScheduleList);
+        console.log("userInfo:", this.userInfo);
     },
 };
 </script>
