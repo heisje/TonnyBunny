@@ -1,10 +1,12 @@
 <template>
-    <div class="d-flex justify-content-center customFormWrap w-100 flex-column">
-        <div>
-            <title-banner title="🐰 번역 의뢰 요청" text="의뢰의 상세내용을 확인할 수 있습니다" />
-        </div>
+    <v-container
+        class="d-flex justify-content-center customFormWrap w-100 flex-column"
+        style="margin-top: 40px">
+        <!-- <div> -->
+        <!-- <title-banner title="🐰 번역 의뢰 요청" text="의뢰의 상세내용을 확인할 수 있습니다" /> -->
+        <!-- </div> -->
         <div class="d-flex justify-content-center row">
-            <div class="customForm bunnyDetail col-md-6 col-12">
+            <div class="customForm bunnyDetail col-md-6 col-12" style="margin-right: 30px">
                 <div class="d-flex justify-content-between">
                     <SquareTag text="번역의뢰" sub></SquareTag>
                     <SquareTag
@@ -34,8 +36,9 @@
                     <div>
                         <user-profile-img
                             class="profileImg"
-                            :profileImagePath="getBunnyDetail?.client?.profileImagePath"
-                            width="70" />
+                            width="40"
+                            height="40"
+                            :profileImagePath="getBunnyDetail?.client?.profileImagePath" />
                         <!-- <img
                             class="profileImg"
                             src="@/assets/noProfile_white.png"
@@ -140,28 +143,35 @@
             </div>
             <!-- 모집중일때 -->
             <div
-                class="col-md-6 col-12 apply"
+                class="col-md-6 col-12 apply customForm"
+                style="margin-left: 30px"
                 v-show="allCode[getBunnyDetail.taskStateCode] == `모집중`">
                 <!-- 작성자는 헬퍼 신청 목록 열람가능 -->
                 <div v-show="isCreator">
                     <div class="w-100">
                         <div class="d-flex justify-content-between">
                             <div class="w-75">
-                                <TitleText
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h1>가격을 제안한 헬퍼들</h1>
+                                    <!-- <div class="label">더보기</div> -->
+                                </div>
+
+                                <hr />
+                                <!-- <TitleText
                                     type="h2"
                                     top="0"
                                     bottom="0"
-                                    :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"></TitleText>
+                                    :title="`가격을 제안한 헬퍼들(${getBunnyDetail?.bunnyApplyList.length})`"></TitleText> -->
                             </div>
                             <div>
-                                <router-link
+                                <!-- <router-link
                                     :to="{
                                         name: 'NBunnyHelperListPage',
                                         params: { id: getBunnyDetail?.seq },
                                     }"
                                     style="color: var(--sub-text)"
                                     >더보기</router-link
-                                >
+                                > -->
                             </div>
                         </div>
                         <div
@@ -303,14 +313,14 @@
                 </template>
             </AlarmModal>
         </div>
-    </div>
+    </v-container>
 </template>
 
 <script>
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import TitleText from "@/components/common/TitleText.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
-import TitleBanner from "@/components/common/TitleBanner.vue";
+// import TitleBanner from "@/components/common/TitleBanner.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import { mapGetters } from "vuex";
@@ -323,7 +333,7 @@ export default {
         SquareTag,
         TitleText,
         HelperCard,
-        TitleBanner,
+        // TitleBanner,
         AlarmModal,
         MediumBtn,
         UserProfileImg,
