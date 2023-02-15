@@ -3,12 +3,10 @@
         <div class="waitingWrap">
             <div class="waitingContent row">
                 <div
-                    class="jtonnyRequestWrap customForm col-md-6 col-12 d-flex flex-column justify-content-center"
-                >
+                    class="jtonnyRequestWrap customForm col-md-6 col-12 d-flex flex-column justify-content-center">
                     <title-text
                         title="즉시통역 신청 카드"
-                        text="고객님이 신청한 즉시통역 내역이에요"
-                    ></title-text>
+                        text="고객님이 신청한 즉시통역 내역이에요"></title-text>
                     <hr />
                     <div class="jtonnyRequestContent">
                         <!-- {{ jtonnyRequest }} -->
@@ -19,8 +17,7 @@
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
                                     width="70"
-                                    height="70"
-                                />
+                                    height="70" />
                                 <div class="userType ms-2">
                                     <span class="label">고객</span>
                                     <h4 class="" v-if="jtonnyRequest?.client?.nickName">
@@ -46,16 +43,14 @@
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
                                     width="70"
-                                    height="70"
-                                />
+                                    height="70" />
                             </div>
                         </div>
 
                         <v-lazy
                             v-model="jtonnyRequest"
                             :options="{ threshold: 0.5 }"
-                            transition="fade-transition"
-                        >
+                            transition="fade-transition">
                             <v-table>
                                 <thead>
                                     <tr class="">
@@ -70,8 +65,7 @@
                                             <square-tag
                                                 :text="getStartLangCode"
                                                 sub
-                                                class="me-2"
-                                            ></square-tag>
+                                                class="me-2"></square-tag>
                                             <div class="me-2">
                                                 <span class="material-symbols-outlined">
                                                     compare_arrows
@@ -87,11 +81,11 @@
                                     </tr>
 
                                     <!-- <tr> -->
-                                        <!-- <td>지불 캐럿</td> -->
-                                        <!-- <td> -->
-                                            <!-- {{ jtonnyRequest.unitPrice }} -->
-                                            <!-- <span class="label">CRT</span> -->
-                                        <!-- </td> -->
+                                    <!-- <td>지불 캐럿</td> -->
+                                    <!-- <td> -->
+                                    <!-- {{ jtonnyRequest.unitPrice }} -->
+                                    <!-- <span class="label">CRT</span> -->
+                                    <!-- </td> -->
                                     <!-- </tr> -->
 
                                     <tr>
@@ -99,8 +93,7 @@
                                         <td>
                                             <div
                                                 v-if="jtonnyRequest.tonnySituCode == ''"
-                                                style="color: var(--sub-color)"
-                                            >
+                                                style="color: var(--sub-color)">
                                                 상황 카테고리가 없습니다.
                                             </div>
                                             <square-tag v-else :text="getTonnySituCode" sub>
@@ -113,8 +106,7 @@
                                         <td class="">
                                             <div
                                                 v-if="jtonnyRequest.content == ''"
-                                                style="color: var(--sub-color)"
-                                            >
+                                                style="color: var(--sub-color)">
                                                 상황 설명이 없습니다.
                                             </div>
                                             <div v-else>{{ jtonnyRequest.content }}</div>
@@ -129,54 +121,45 @@
                         color="light"
                         font="active"
                         @click="cancelRequest"
-                        class="w-100 cancleBtn"
-                    ></medium-btn>
+                        class="w-100 cancleBtn"></medium-btn>
                 </div>
                 <div class="customForm col-md-6 col-12 jTonnyApplyList">
                     <title-text
                         title="즉시통역을 제안한 헬퍼들"
-                        text="어떤 헬퍼와 함께 즉시통역을 시작해볼까요?"
-                    ></title-text>
+                        text="어떤 헬퍼와 함께 즉시통역을 시작해볼까요?"></title-text>
                     <hr />
 
                     <v-lazy
                         v-model="jtonnyApplyList"
                         :options="{ threshold: 0.5 }"
-                        transition="fade-transition"
-                    >
+                        transition="fade-transition">
                         <div v-if="jtonnyApplyListLength > 0" class="mb-5">
                             <transition-group name="slide-up">
                                 <div
                                     v-for="(apply, index) in jtonnyApplyList"
                                     :key="index"
-                                    class="row px-3"
-                                >
+                                    class="row px-3">
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
-                                            class="col-2 d-flex flex-column align-items-center justify-content-center"
-                                        >
+                                            class="col-2 d-flex flex-column align-items-center justify-content-center">
                                             <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50"
-                                            />
+                                                height="50" />
                                         </div>
                                         <div class="col-9 helperInfo">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div
                                                     class="closeBtn me-1 d-flex flex-row align-items-center"
-                                                    @click="toggleLikeBtn"
-                                                >
+                                                    @click="toggleLikeBtn">
                                                     <span
                                                         v-if="isLikeEmpty"
-                                                        class="material-symbols-outlined likeIcon empty"
-                                                    >
+                                                        class="material-symbols-outlined likeIcon empty">
                                                         favorite
                                                     </span>
                                                     <span
                                                         v-else
-                                                        class="material-symbols-outlined likeIcon"
-                                                    >
+                                                        class="material-symbols-outlined likeIcon">
                                                         favorite
                                                     </span>
                                                 </div>
@@ -188,7 +171,7 @@
                                             <div class="d-flex infos mt-3">
                                                 <div>
                                                     <h3>평점</h3>
-                                                    {{ apply.helper.helperInfo.totalScore }}
+                                                    {{ apply.helper.helperInfo.avgScore }}
                                                     <span class="">점</span>
                                                 </div>
                                                 <div>
@@ -219,8 +202,7 @@
                     </v-lazy>
 
                     <div
-                        class="d-flex flex-row align-items-center justify-content-center row loadingHelper"
-                    >
+                        class="d-flex flex-row align-items-center justify-content-center row loadingHelper">
                         <!-- <Vue3Lottie
                             :animationLink="`https://lottie.host/b162872c-29b1-4195-a818-a20ea5a46343/AHLhXNb0eX.json`"
                             background="transparent"
@@ -237,8 +219,7 @@
                                 <div
                                     class="spinner-border"
                                     role="status"
-                                    style="color: var(--success-color)"
-                                >
+                                    style="color: var(--success-color)">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>
@@ -255,8 +236,7 @@
                 btnColor2="carrot"
                 btnFontColor1="main"
                 btnFontColor2="white"
-                @clickBtn2="onAir"
-            >
+                @clickBtn2="onAir">
                 <template #content>
                     수락하시면 바로 즉시통역이 진행됩니다.<br />진행하시겠습니까?
                 </template>
