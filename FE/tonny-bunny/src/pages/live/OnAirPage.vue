@@ -11,8 +11,7 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.client?.profileImagePath"
-                                    width="70"
-                                />
+                                    width="70" />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -36,8 +35,7 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.helper?.profileImagePath"
-                                    width="70"
-                                />
+                                    width="70" />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -59,8 +57,7 @@
                                         <square-tag
                                             :text="getStartLangCode"
                                             sub
-                                            class="me-2"
-                                        ></square-tag>
+                                            class="me-2"></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -109,8 +106,7 @@
 
                         <div class="btns col-12 col-md-6">
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="startLive">
                                     <span class="material-symbols-outlined"> play_arrow </span>
                                 </div>
@@ -118,8 +114,7 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="endLive">
                                     <span class="material-symbols-outlined"> stop </span>
                                 </div>
@@ -127,8 +122,7 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleSpeaker">
                                     <span class="material-symbols-outlined"> mic_off </span>
                                 </div>
@@ -136,8 +130,7 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleCamera">
                                     <span class="material-symbols-outlined"> videocam_off </span>
                                 </div>
@@ -145,8 +138,7 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn closeBtn" @click.prevent="leaveSession">
                                     <span class="material-symbols-outlined"> close </span>
                                 </div>
@@ -168,8 +160,7 @@
                         <user-video
                             v-for="sub in subscribers"
                             :key="sub.stream.connection.connectionId"
-                            :stream-manager="sub"
-                        />
+                            :stream-manager="sub" />
                     </div>
                 </div>
 
@@ -190,8 +181,7 @@
                                     text="보내기"
                                     color="outline"
                                     font="active"
-                                    @click="sendMessage"
-                                ></medium-btn>
+                                    @click="sendMessage"></medium-btn>
                             </div>
                         </div>
                     </transition>
@@ -210,8 +200,7 @@
             btnColor2="main"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="closeModal"
-        >
+            @clickBtn2="closeModal">
             <template #content>
                 고객님의 보유 금액이 부족합니다! <br /><br />
                 라이브를 종료합니다.
@@ -232,9 +221,6 @@ import { OpenVidu } from "openvidu-browser";
 import { mapGetters } from "vuex";
 
 const APPLICATION_SERVER_URL = process.env.VUE_APP_OPENVIDU_URL;
-// process.env.NODE_ENV === "production"
-//     ? process.env.VUE_APP_SERVER_URL
-//     : process.env.VUE_APP_OPENVIDU_URL;
 
 export default {
     name: "OnAirPage",

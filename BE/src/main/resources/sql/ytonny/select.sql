@@ -20,4 +20,6 @@ select scheduleen0_.schedule_seq as schedule1_27_, scheduleen0_.created_at as cr
 
 select * from schedule_table where user_seq = 8;
 select * from schedule_table where start_date_time between '2023-02-13' and '2023-02-13 23:00';
-select * from schedule_table where start_date_time between '2023-02-13' and '2023-02-13 23:00';
+select * from schedule_table where start_date_time between '2023-02-13T00:00:00.000+0900' and '2023-02-13T23:59:59.000+0900';
+
+
