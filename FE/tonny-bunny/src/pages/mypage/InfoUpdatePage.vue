@@ -1,6 +1,6 @@
 <template>
     <div class="container w-75">
-        <title-banner title="회원 정보 수정" text="🐰회원 정보를 수정할 수 있습니다." />
+        <title-banner title="회원 정보 수정" text="회원 정보를 수정할 수 있습니다." />
         <div class="d-flex align-center">
             <user-profile-img
                 style="display: inline-block"

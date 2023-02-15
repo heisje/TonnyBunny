@@ -2,6 +2,7 @@
     <div class="myPageContainer">
         <div class="myPageWrap">
             <div class="profileContent">
+                <title-banner title="마이페이지" text="내 정보를 확인할 수 있습니다." />
                 <div class="profileWrap">
                     <div width="">
                         <title-text title="내 프로필" type="h2" />
@@ -131,6 +132,7 @@
 import ClientCard from "@/components/common/card/ClientCard.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import { mapGetters } from "vuex";
 
@@ -146,6 +148,7 @@ export default {
         ClientCard,
         HelperCard,
         TitleText,
+        TitleBanner,
         AlarmModal,
     },
     methods: {
