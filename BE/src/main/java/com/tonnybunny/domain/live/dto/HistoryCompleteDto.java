@@ -13,4 +13,6 @@ public class HistoryCompleteDto {
 
 	private String totalTime;
 
+	private Integer totalPrice;
+
 }
