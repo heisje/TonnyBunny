@@ -21,8 +21,8 @@
                             <helper-card
                                 :userInfo="userInfo"
                                 rightBtnText="수정하기"
-                                @clickBtn2="goProfileUpdate"
-                            ></helper-card>
+                                @clickBtn1="goProfileDetail"
+                                @clickBtn2="goProfileUpdate"></helper-card>
                         </div>
                     </div>
                     <!-- 
@@ -91,8 +91,7 @@
                             name: 'HelperChangePage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }"
-                    >
+                        }">
                         <div>헬퍼 정보 등록</div>
                     </router-link>
                 </span>
@@ -102,8 +101,7 @@
                             name: 'AbilityPage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }"
-                    >
+                        }">
                         <div>헬퍼 프로필 변경</div>
                     </router-link>
                 </span>
@@ -120,8 +118,7 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @clickBtn2="clickBtn3"
-            >
+                @clickBtn2="clickBtn3">
                 <template #content> 로그아웃이 완료되었습니다 </template>
             </AlarmModal>
         </div>

@@ -4,8 +4,7 @@
         title="헬퍼 프로필"
         center
         text="수정하기"
-        @click="goProfileUpdate"
-    ></title-text>
+        @click="goProfileUpdate"></title-text>
     <title-text v-else title="헬퍼 프로필" center></title-text>
 
     <helper-profile :userInfo="userInfo" />

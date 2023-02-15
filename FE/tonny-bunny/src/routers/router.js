@@ -242,6 +242,7 @@ const routes = [
             default: YTonnyDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -252,6 +253,7 @@ const routes = [
             default: YTonnyUpdatePage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -272,6 +274,7 @@ const routes = [
             default: YTonnyHelperListPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -313,6 +316,7 @@ const routes = [
             default: NBunnyDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -333,6 +337,7 @@ const routes = [
             default: NBunnyHelperListPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -405,6 +410,7 @@ const routes = [
             default: BoardDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -445,6 +451,7 @@ const routes = [
             default: LiveClosePage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     //chat
@@ -486,6 +493,7 @@ const routes = [
             default: NBunnyQuotationForm,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -496,6 +504,7 @@ const routes = [
             default: QuotationDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     //mypage
@@ -547,6 +556,7 @@ const routes = [
             default: HistoryDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -793,6 +803,7 @@ const routes = [
             default: NotFoundPage,
             footer: AppFooter,
         },
+        props: true,
     },
 ];
 
