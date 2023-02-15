@@ -44,15 +44,16 @@ export default {
                     let alert = JSON.parse(res.body);
                     console.log(state.chat.chatRoomList);
                     if (state.chat.chatRoomList.size > 0) {
-                        state.chat.chatRoomList.get(alert.roomSeq).notReadCount = alert.notReadCount;
+                        state.chat.chatRoomList.get(alert.roomSeq).notReadCount =
+                            alert.notReadCount;
                         state.chat.chatRoomList.get(alert.roomSeq).recentMessage = alert.message;
                     }
 
                     // 알림에 추가
-                    let senderUserInfo = alert.senderUserInfo;
                     state.alert.alertList.push({
                         alertLogSeq: -1,
-                        content: `${senderUserInfo.nickName} : ${alert.message}`,
+                        chatRoomSeq: alert.alertLogSeq, // 채팅용
+                        content: `${alert.senderUserNickname} : ${alert.message}`,
                         tonnySityCode: "채팅",
                         createdAt: utils.setDate(new Date().toISOString()),
                         isRead: false,

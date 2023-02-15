@@ -98,4 +98,9 @@ public class ChatRoomService {
 		}).collect(Collectors.toList());
 	}
 
+
+	public List<String> getChatAlertLog(Long userSeq) {
+		return chatSocketTextHandler.getChatAlertLog(userSeq);
+	}
+
 }

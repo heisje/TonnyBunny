@@ -192,6 +192,22 @@ export default {
                 message: this.insertMessageValue,
             };
             this.socket.send(JSON.stringify(chatchat));
+
+            // [4] 알림 전달
+            const chatAlert = {
+                type: "alert",
+                alertLogSeq: new Date().toISOString(),
+                task: "Chat",
+                detailTask: "Chat",
+                pageSeq: this.chatRoomSeq, //=> 알림을 눌렀을 때 해당 페이지로 이동할수 있는 페이지 ID (선택) // 채팅에선 roomSeq
+                receivedUserSeq: this.chatAnotherUserSeq,
+                message: this.insertMessageValue,
+                senderUserSeq: this.chatUserSeq,
+                senderUserNickname: this.userInfo.nickName,
+            };
+            this.socket.send(JSON.stringify(chatAlert));
+
+            // 입력창 초기화
             this.insertMessageValue = "";
         },
         closeChatRoom() {

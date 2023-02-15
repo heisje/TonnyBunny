@@ -75,7 +75,7 @@ public class ChatRoomController {
 	@PostMapping("/chat/room/{userSeq}/{anotherUserSeq}")
 	public ResponseEntity<ResultDto<ChatRoomDto>> findRoom(@PathVariable("userSeq") Long userSeq, @PathVariable("anotherUserSeq") Long anotherUserSeq) {
 		ChatRoomEntity chatRoom = chatRoomService.getChatRoomSeq(userSeq, anotherUserSeq);
-		
+
 		// 다른 참가자의 정보
 		UserEntity anotherUser = userService.getUserInfo(anotherUserSeq);
 		ChatUserInfo anotherUserInfo = ChatUserInfo.builder()
@@ -96,6 +96,14 @@ public class ChatRoomController {
 	public ResponseEntity<ResultDto<List<String>>> getPreviousChatLog(@PathVariable("roomSeq") String roomSeq) {
 		List<String> chatLogDtoList = chatRoomService.getPreviousChatLog(roomSeq);
 		System.out.println("Chat Log Dto: " + chatLogDtoList);
+		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
+	}
+
+
+	@GetMapping("/chat/alert/{userSeq}")
+	public ResponseEntity<ResultDto<List<String>>> getChatAlertLog(@PathVariable("userSeq") Long userSeq) {
+		List<String> chatLogDtoList = chatRoomService.getChatAlertLog(userSeq);
+		System.out.println("Chat Log Alert Dto: " + chatLogDtoList);
 		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
 	}
 
