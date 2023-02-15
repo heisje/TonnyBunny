@@ -1,5 +1,5 @@
 <template>
-    <title-banner title="FAQ" text="🐰자주 묻는 질문입니다." />
+    <title-banner title="FAQ" text="자주 묻는 질문입니다." />
     <div class="container w-50">
         <NoticePostItem
             title="질문 1. 헬퍼로 전환하려면 어떻게 해야하나요?"

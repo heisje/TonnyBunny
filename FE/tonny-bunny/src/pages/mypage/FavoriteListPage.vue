@@ -1,5 +1,5 @@
 <template>
-    <title-banner title="즐겨찾기" text="🐰즐겨찾기한 헬퍼의 목록입니다." />
+    <title-banner title="즐겨찾기" text="즐겨찾기한 헬퍼의 목록입니다." />
 
     <div class="container w-75">
         <div v-if="followCnt != 0">
