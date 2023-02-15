@@ -9,9 +9,8 @@
                 <div v-if="userInfo?.helperInfo?.possibleLanguageList">
                     <span
                         v-for="possibleLanguageItem in userInfo?.helperInfo?.possibleLanguageList"
-                        :key="possibleLanguageItem"
-                    >
-                        <CircleTag :text="possibleLanguageItem?.name" />
+                        :key="possibleLanguageItem">
+                        <circle-tag :text="allCode[possibleLanguageItem?.value]" />
                     </span>
                 </div>
                 <div v-else>없음</div>
@@ -20,8 +19,7 @@
                 <div v-if="userInfo?.helperInfo?.certificateList">
                     <div
                         v-for="certificateItem in userInfo?.helperInfo?.certificateList"
-                        :key="certificateItem"
-                    >
+                        :key="certificateItem">
                         <div class="mb-2">
                             <SquareTag sub :text="allCode[certificateItem?.langCode]" />
                             {{ certificateItem?.certName }}
@@ -48,13 +46,11 @@
                         <div
                             class="boardCommentContent"
                             v-for="userReviewItem in userReview"
-                            :key="userReviewItem"
-                        >
+                            :key="userReviewItem">
                             <div>
                                 <user-profile-img
                                     :profileImagePath="userReviewItem?.user?.profileImagePath"
-                                    width="40"
-                                />
+                                    width="40" />
 
                                 <h3>{{ userReviewItem?.nickName }}</h3>
                                 <span>{{ userReviewItem?.createdAt }}</span>

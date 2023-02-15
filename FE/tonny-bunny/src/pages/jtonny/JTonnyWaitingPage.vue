@@ -343,6 +343,7 @@ export default {
             // let jtonny = this.jtonnyApplyList[helperSeq];
 
             this.jtonnyRequest.helper = helper;
+            this.jtonnyRequest.unitPrice = helper.helperInfo.unitPrice; // unitPrice 입력 받으면 여기다가 넣으면 됨
             this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
