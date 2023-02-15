@@ -175,7 +175,7 @@ export default {
     async completeBunny(context, payload) {
         try {
             let { data } = await http.put(
-                `/bunny/${payload.bunnySeq}/quotation/${payload.bunnyQuotationSeq}/complete`,
+                `/bunny/${payload.bunnySeq}/quotation/${payload.seq}/complete`,
                 payload
             );
 
