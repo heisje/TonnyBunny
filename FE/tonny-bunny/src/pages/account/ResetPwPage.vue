@@ -13,8 +13,7 @@
                         id="password"
                         v-model="password"
                         placeholder="비밀번호"
-                        @input="changePwInput"
-                    /><br />
+                        @input="changePwInput" /><br />
                     <div v-show="noticePw" style="color: red">{{ noticePw }}</div>
                     <br />
 
@@ -25,8 +24,7 @@
                         id="password2"
                         v-model="password2"
                         @input="changePw2Input"
-                        placeholder="비밀번호 확인"
-                    /><br />
+                        placeholder="비밀번호 확인" /><br />
                     <div v-show="noticePw2" style="color: red">{{ noticePw2 }}</div>
                     <br />
                 </div>
@@ -39,8 +37,7 @@
                 <TitleText
                     title="비밀번호 번경 완료"
                     center
-                    text="비밀번호 변경이 완료되었습니다."
-                />
+                    text="비밀번호 변경이 완료되었습니다." />
 
                 <br /><br /><br /><br />
 
@@ -50,8 +47,7 @@
                             font="main"
                             color="outline"
                             style="width: 100%"
-                            text="홈으로 돌아가기"
-                        ></smallBtn>
+                            text="홈으로 돌아가기"></smallBtn>
                     </router-link>
                 </div>
             </div>
@@ -122,6 +118,8 @@ export default {
         async updatePw(event) {
             event.preventDefault();
             let userSeq = this.userSeq * 1;
+            userSeq;
+
             if (this.password == "") {
                 this.noticePw = "비밀번호를 입력해 주세요";
                 return;
@@ -136,7 +134,6 @@ export default {
             if (!this.isValidPw2) {
                 return;
             }
-            console.log(userSeq);
             try {
                 let res = await http.post(`login/find/password/${this.userSeq}`, {
                     password: this.password,
@@ -151,7 +148,7 @@ export default {
         },
     },
     created() {
-        console.log(this.userSeq);
+        // console.log(this.userSeq);
     },
 };
 </script>

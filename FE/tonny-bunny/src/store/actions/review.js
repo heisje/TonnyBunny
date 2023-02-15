@@ -8,7 +8,6 @@ export default {
     async getUserReview(context, userSeq) {
         try {
             let { data } = await http.get(`/review/user/${userSeq}`);
-            console.log("async function : ", data);
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":

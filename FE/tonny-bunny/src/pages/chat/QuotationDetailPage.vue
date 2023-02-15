@@ -33,8 +33,7 @@
                                 ' ↔ ' +
                                 getAllCode[bunnyQuotation?.endLangCode]
                             "
-                            sub
-                        ></SquareTag>
+                            sub></SquareTag>
                     </div>
                 </div>
 
@@ -56,8 +55,7 @@
                     title="헬퍼가 제안한 금액입니다"
                     class="mb-3"
                     style="color: var(--primary-color)"
-                    top="0"
-                />
+                    top="0" />
 
                 <div class="d-flex">
                     <div class="col-11">
@@ -67,8 +65,7 @@
                             class="w-100"
                             placeholder="ex)1000"
                             v-model="bunnyQuotation.totalPrice"
-                            readonly
-                        />
+                            readonly />
                     </div>
                     <div class="backlabel col-2">
                         <h3>캐럿</h3>
@@ -91,8 +88,7 @@
                 style="width: 100%"
                 text="수락하기"
                 color="carrot"
-                @click.prevent="openAcceptModal(event)"
-            />
+                @click.prevent="openAcceptModal(event)" />
         </div>
         <AlarmModal
             title="주의"
@@ -104,8 +100,7 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @clickBtn1="acceptQuotation"
-            @clickBtn2="closeModal"
-        >
+            @clickBtn2="closeModal">
             <template #content>
                 견적서를 수락하시겠습니까? <br /><br />
                 수락하시면 매칭이 완료됩니다!
@@ -179,8 +174,6 @@ export default {
             this.$router.push({ name: "ChatDetailPage" });
         },
         checkIsClient() {
-            console.log(this.bunnyQuotation.clientSeq);
-            console.log(this.$store.state.account.userInfo.seq);
             this.bunnyQuotation.clientSeq == this.$store.state.account.userInfo.seq
                 ? (this.isClient = true)
                 : (this.isClient = false);
@@ -201,12 +194,9 @@ export default {
         const FAIL = "FAIL";
 
         try {
-            console.log("async function : ", res);
-
             // service logic
             switch (res.data.resultCode) {
                 case SUCCESS:
-                    console.log(res.data.data);
                     this.bunnyQuotation = res.data.data;
                     this.bunnyQuotation["endDate"] =
                         this.bunnyQuotation.startDateTime.substr(0, 10) +

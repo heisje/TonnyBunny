@@ -96,13 +96,11 @@ export default {
             if (this.category == "0050003") {
                 payload.category = "";
             }
-            console.log(payload);
 
             this.$store.dispatch("getBunnyList", payload);
         },
 
         clickHelperBtn(bunny) {
-            console.log(bunny);
             this.$store.state.bunny.bunnyDetail = bunny;
             this.$router.push({ name: "NBunnyMatchingPage" });
         },

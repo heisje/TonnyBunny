@@ -219,17 +219,17 @@ export default {
         },
 
         insertYTonny() {
-            console.log("insertYTonny");
-            console.log(this.startLangCode);
-            console.log(this.endLangCode);
-            console.log(this.startDate);
-            console.log(this.startTime);
-            console.log(this.estimateHour);
-            console.log(this.estimateMinute);
-            console.log(this.estimatePrice);
-            console.log(this.tonnySituCode);
-            console.log(this.title);
-            console.log(this.content);
+            // console.log("insertYTonny");
+            // console.log(this.startLangCode);
+            // console.log(this.endLangCode);
+            // console.log(this.startDate);
+            // console.log(this.startTime);
+            // console.log(this.estimateHour);
+            // console.log(this.estimateMinute);
+            // console.log(this.estimatePrice);
+            // console.log(this.tonnySituCode);
+            // console.log(this.title);
+            // console.log(this.content);
 
             let payload = {
                 clientSeq: this.userInfo.seq,
@@ -242,8 +242,6 @@ export default {
                 estimateTime: `${this.estimateHour}:${this.estimateMinute}`,
                 estimatePrice: this.estimatePrice,
             };
-
-            console.log(payload);
 
             if (this.startLangCode == "" || this.endLangCode == "") {
                 alert("언어를 선택해주세요");

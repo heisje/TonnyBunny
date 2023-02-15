@@ -201,9 +201,6 @@ export default {
         await this.$store.dispatch("getTodayScheduleList", this.userInfo.seq);
 
         this.$store.commit("CLOSE_SCHEDULE_MODAL");
-
-        console.log("userInfo:", this.userInfo);
-        console.log(this.yTonnyListTotalCount);
     },
 };
 </script>

@@ -23,8 +23,7 @@
                 length="5"
                 size="64"
                 v-model="rating"
-                @change="checkValue"
-            ></v-rating>
+                @change="checkValue"></v-rating>
         </div>
         <br />
         <form class="customForm d-flex justify-content-center">
@@ -50,8 +49,7 @@
             btnColor2="carrot"
             btnFontColor2="white"
             @clickBtn1="closeModal"
-            @clickBtn2="clickBtn2"
-        >
+            @clickBtn2="clickBtn2">
             <template #content>
                 리뷰 작성
                 <br />
@@ -100,26 +98,21 @@ export default {
     methods: {
         async submitForm() {
             try {
-                console.log(this.rating);
                 let res = await http.post("/review", {
                     historySeq: this.historySeq,
                     helperSeq: this.helperSeq,
                     score: this.rating,
                     comment: this.comment,
                 });
-                console.log(res);
                 if (res.data.resultCode == "SUCCESS") {
-                    console.log("리뷰 작성 완료", res.data);
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                     this.$router.push({ name: "HomePage" });
                 } else {
-                    console.log("리뷰 작성 실패");
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                     alert("리뷰 작성이 실패하였습니다.");
                 }
             } catch (error) {
                 console.log(error);
-                console.log("리뷰 작성에 실패하였습니다.");
                 this.$store.commit("TOGGLE_ALARM_MODAL");
                 alert("리뷰 작성이 실패하였습니다.");
             }
