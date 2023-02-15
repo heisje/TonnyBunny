@@ -1,5 +1,5 @@
 <template>
-    <div class="cardContainer">
+    <div class="cardContainer questCardContainer">
         <div class="cardWrap">
             <div class="questCard">
                 <!-- 1. x 버튼 라인 -->
@@ -143,7 +143,11 @@
                 <!-- 5. 하단 버튼 라인 -->
                 <div class="questBtns mt-2">
                     <div v-if="!(allCode[questDetail?.taskCode] == '즉시통역')">
-                        <XSmallBtn text="자세히보기" @click="clickBtn1" />
+                        <XSmallBtn
+                            text="자세히보기"
+                            @click="clickBtn1"
+                            color="outline"
+                            font="active" />
                     </div>
                     <div v-if="allCode[questDetail?.taskStateCode] == '모집중'">
                         <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />

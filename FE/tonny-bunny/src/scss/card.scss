@@ -6,7 +6,7 @@
 
     width: 100%;
     min-width: 300px;
-    max-width: 600px;
+    max-width: 900px;
     border-radius: 8px;
     padding: 16px;
 
@@ -215,6 +215,10 @@
             padding-left: 8px;
         }
     }
+}
+
+.questCardContainer {
+    margin-right: 10px;
 }
 
 .questCard {

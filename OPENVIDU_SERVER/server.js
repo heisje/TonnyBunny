@@ -16,7 +16,7 @@ var app = express(); // Create our app with express
 app.use(cors());
 
 // Environment variable: PORT where the node server is listening
-var SERVER_PORT = process.env.SERVER_PORT || 5001;
+var SERVER_PORT = process.env.SERVER_PORT || 5000;
 // Environment variable: URL where our OpenVidu server is listening
 var OPENVIDU_URL = process.env.OPENVIDU_URL || process.argv[2] || "http://localhost:4443";
 // Environment variable: secret shared with our OpenVidu server

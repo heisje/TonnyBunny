@@ -1,6 +1,6 @@
 <template>
     <div class="container w-75">
-        <title-text title="회원 정보 수정" />
+        <title-banner title="회원 정보 수정" text="🐰회원 정보를 수정할 수 있습니다." />
         <div class="d-flex align-center">
             <user-profile-img
                 style="display: inline-block"
@@ -58,7 +58,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import UserProfileImg from "@/components/common/UserProfileImg.vue";
@@ -84,7 +84,7 @@ export default {
         };
     },
     components: {
-        TitleText,
+        TitleBanner,
         MediumBtn,
         SmallBtn,
         UserProfileImg,

@@ -161,8 +161,8 @@
                     <div class="goLiveBtn">
                         <medium-btn
                             class="w-100"
-                            color="success"
-                            font="active"
+                            color="carrot"
+                            font="white"
                             text="라이브로 이동하기"
                             @click.prevent="openLiveModalByClient"></medium-btn>
                     </div>
@@ -171,8 +171,8 @@
                     <div class="goLiveBtn">
                         <medium-btn
                             class="w-100"
-                            color="success"
-                            font="active"
+                            color="carrot"
+                            font="white"
                             text="라이브로 이동하기"
                             @click.prevent="openLiveModalByHelper"></medium-btn>
                     </div>
@@ -594,18 +594,18 @@ export default {
         // },
         openDeleteModal() {
             this.modalName = `delete`;
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
 
         openLiveModalByClient() {
             this.modalName = `goLiveModalByClient`;
 
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
 
         openLiveModalByHelper() {
             this.modalName = `goLiveModalByHelper`;
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
 
         async startLiveByClient() {
@@ -618,14 +618,14 @@ export default {
             await this.$store.dispatch("startYTonnyLive", payload);
 
             this.$store.commit("SET_START_RES_DATA", this.yTonnyDetail);
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
             this.$router.push({ name: "OnAirPage" });
 
             // 히스토리 생성 끝 --------------------------------------
         },
 
         goLiveByHelper() {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
             this.$store.commit("SET_START_RES_DATA", this.yTonnyDetail);
             this.$router.push({ name: "OnAirPage" });
         },
@@ -745,7 +745,7 @@ export default {
                 userSeq: this.yTonnyDetail.client.seq,
                 taskCode: this.yTonnyDetail.taskCode,
                 content: '"' + this.yTonnyDetail.title + '" 일정이 잡혔습니다.',
-                sessionName: this.yTonnyDetail.sessionName,
+                // sessionName: this.yTonnyDetail.sessionName
             };
             await this.$store.dispatch("insertAlert", clientAlert);
 
@@ -764,6 +764,7 @@ export default {
 
     async created() {
         window.scrollTo(0, 0);
+        this.$store.commit("CLOSE_ALARM_MODAL");
 
         console.log("userInfo: ", this.userInfo, "token: ", this.userInfo.seq);
 
@@ -774,7 +775,6 @@ export default {
         // let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
         await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
 
-        window.scrollTo(0, 0);
         await this.$store.dispatch("getYTonnyApplyListTotalCount", this.yTonnySeq);
         await this.getYTonnyApplyList();
         this.checkIsCreator();
