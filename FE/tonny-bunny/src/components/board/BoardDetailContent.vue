@@ -13,7 +13,7 @@
                     width="42" />
 
                 <span
-                    ><h3>{{ boardDetail?.user.nickName }}</h3></span
+                    ><h3>{{ boardDetail?.user?.nickName }}</h3></span
                 >
                 <span>{{ boardDetail?.createdAt }}</span>
             </div>
