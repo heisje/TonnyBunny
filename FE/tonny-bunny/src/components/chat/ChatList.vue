@@ -49,6 +49,7 @@ export default {
         stompSocket;
 
         await this.$store.dispatch("getChatRoomList", this.userInfo);
+        this.$store.commit("CONNECT_CHAT_STOMP_SOCKET", this.userInfo.seq);
     },
     computed: {
         ...mapGetters({
