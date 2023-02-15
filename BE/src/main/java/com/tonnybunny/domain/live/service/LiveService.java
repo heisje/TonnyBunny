@@ -119,37 +119,24 @@ public class LiveService {
 		                                         .orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
 		log.info("history = {}", history);
 
-		System.out.println("historySeq = " + historyCompleteDto.getHistorySeq());
-		System.out.println("totalTime = " + historyCompleteDto.getTotalTime());
-		System.out.println("recordVideoPath = " + historyCompleteDto.getRecordVideoPath());
-
 		LocalTime parsedTotalTime = LocalTime.parse(historyCompleteDto.getTotalTime());
-
-		System.out.println("history = " + history);
-		System.out.println("history.getTaskCode() = " + history.getTaskCode());
-		System.out.println("history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode()) = " + history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode()));
-
-		Integer actualSpentTime = parsedTotalTime.getHour() * 60 + parsedTotalTime.getMinute();
-		Integer totalPrice = 0;
 
 		if (history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode())) {
 			JTonnyHistoryEntity targetHistory = (JTonnyHistoryEntity) history;
 			log.info("targetHistory = {}", targetHistory);
 			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
-			totalPrice = targetHistory.getUnitPrice() * (actualSpentTime / 5);
 			historyRepository.save(targetHistory);
 		} else if (history.getTaskCode().equals(TaskCodeEnum.예약통역.getTaskCode())) {
 			YTonnyHistoryEntity targetHistory = (YTonnyHistoryEntity) history;
 			log.info("targetHistory = {}", targetHistory);
 			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
-			totalPrice = targetHistory.getUnitPrice() * (actualSpentTime / 5);
 			historyRepository.save(targetHistory);
 		}
 
 		PointRequestDto pointRequestDto = PointRequestDto.builder()
 		                                                 .fromUserSeq(history.getClient().getSeq())
 		                                                 .toUserSeq(history.getHelper().getSeq())
-		                                                 .pointAmount(totalPrice)
+		                                                 .pointAmount(historyCompleteDto.getTotalPrice())
 		                                                 .pointRequestType(PointRequestTypeEnum.거래)
 		                                                 .build();
 
