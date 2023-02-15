@@ -10,13 +10,9 @@ export default {
 
     // POST /api/ytonny 고객의 예약 통역 공고 생성
     async insertYTonny(context, payload) {
-        console.log("예약통역 공고 생성");
-
         let { data } = await http.post(`/ytonny`, payload);
 
         try {
-            console.log("async insertYTonny : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -37,15 +33,11 @@ export default {
 
     // POST /api/ytonny 고객의 예약 통역 공고 생성
     async insertYTonnyApply(context, payload) {
-        console.log("예약통역 공고 신청 생성");
-
         console.log(payload);
         let yTonnySeq = payload.ytonnySeq;
         let { data } = await http.post(`/ytonny/${yTonnySeq}/apply`, payload);
 
         try {
-            console.log("async insertYTonnyApply : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -65,9 +57,6 @@ export default {
 
     // POST /api/ytonny 고객의 예약 통역 견적서 생성
     async insertYTonnyQuotation(context, formData) {
-        console.log("예약통역 공고 견적서 생성");
-        console.log(formData);
-
         let yTonnySeq = formData.get("yTonnySeq");
 
         let options = {
@@ -77,8 +66,6 @@ export default {
         let { data } = await http.post(`/ytonny/${yTonnySeq}/quotation`, formData, options);
 
         try {
-            console.log("async insertYTonnyQuotation : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -101,9 +88,6 @@ export default {
     */
     // GET /api/ytonny 예약 통역 공고 목록 조회
     async getYTonnyList(context, page) {
-        console.log("예약 통역 공고 목록 조회");
-        console.log(context.state.ytonny.yTonnySize);
-
         let params = {
             page: page - 1,
             size: context.state.ytonny.yTonnySize,
@@ -111,7 +95,6 @@ export default {
 
         try {
             let { data } = await http.get(`/ytonny`, { params });
-            console.log("async getYTonnyList : ", data);
 
             // service logic
             switch (data.resultCode) {
@@ -145,11 +128,8 @@ export default {
 
     // GET /api/ytonny/{yTonnySeq} 예약 통역 공고 상세 조회
     async getYTonnyDetail(context, yTonnySeq) {
-        console.log("예약 통역 공고 상세 조회");
-
         try {
             let { data } = await http.get(`/ytonny/${yTonnySeq}`);
-            console.log("async getYTonnyDetail : ", data);
 
             // service logic
             switch (data.resultCode) {
@@ -167,9 +147,6 @@ export default {
 
     // GET /api/ytonny/{yTonnySeq}/apply 예약 통역 공고 목록 조회
     async getYTonnyApplyList(context, payload) {
-        // context.commit("SET_Y_TONNY_APPLY_LIST", {});
-        console.log("예약 통역 공고 목록 신청 조회");
-
         let params = {
             page: payload.page - 1,
             size: payload.size,
@@ -177,7 +154,6 @@ export default {
 
         try {
             let { data } = await http.get(`/ytonny/${payload.yTonnySeq}/apply`, { params });
-            console.log("async getYTonnyApplyList : ", data);
 
             // service logic
             switch (data.resultCode) {
@@ -194,13 +170,9 @@ export default {
 
     // PUT /api/ytonny/{yTonnyNotiSeq} 게시글을 수정합니다.
     async updateYTonny(context, payload) {
-        console.log("예약통역 수정");
-
         let { data } = await http.put(`/ytonny/${payload.ytonnySeq}`, payload);
 
         try {
-            console.log("async updateYTonny : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -220,13 +192,9 @@ export default {
 
     // DELETE /api/ytonny/{yTonnyNotiSeq} 고객의 예약 통역 공고 취소
     async removeYTonny(context, yTonnySeq) {
-        console.log("에약통역 삭제");
-
         let { data } = await http.delete(`/ytonny/${yTonnySeq}`);
 
         try {
-            console.log("async removeYtonny : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -249,15 +217,11 @@ export default {
 
     // DELETE /api/ytonny/enroll/{yTonnyNotiHelperSeq} 헬퍼의 예약 통역 신청 취소
     async removeYTonnyApply(context, payload) {
-        console.log("헬퍼의 예약 통역 신청 취소");
-
         let { data } = await http.delete(
             `/ytonny/${payload.yTonnySeq}/apply/${payload.yTonnyApplySeq}`
         );
 
         try {
-            console.log("async removeYtonnyApply : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -280,9 +244,6 @@ export default {
 
     // POST /api/ytonny/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq} 예약 통역 공고에서 헬퍼의 신청을 수락
     async acceptYTonnyApply(context, payload) {
-        console.log("예약 통역 공고에서 헬퍼의 신청을 수락");
-
-        console.log("hihi", payload);
         let params = {
             ytonnyApplySeq: payload.yTonnyApplySeq,
             ytonnySeq: payload.yTonnySeq,
@@ -295,8 +256,6 @@ export default {
                 `/ytonny/${payload.yTonnySeq}/apply/${payload.yTonnyApplySeq}/accept`,
                 params
             );
-
-            console.log("async acceptYTonnyApply : ", data);
 
             // service logic
             switch (data.resultCode) {

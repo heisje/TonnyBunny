@@ -2,6 +2,7 @@
     <div class="myPageContainer">
         <div class="myPageWrap">
             <div class="profileContent">
+                <title-banner title="마이페이지" text="내 정보를 확인할 수 있습니다." />
                 <div class="profileWrap">
                     <div width="">
                         <title-text title="내 프로필" type="h2" />
@@ -20,8 +21,8 @@
                             <helper-card
                                 :userInfo="userInfo"
                                 rightBtnText="수정하기"
-                                @clickBtn2="goProfileUpdate"
-                            ></helper-card>
+                                @clickBtn1="goProfileDetail"
+                                @clickBtn2="goProfileUpdate"></helper-card>
                         </div>
                     </div>
                     <!-- 
@@ -90,8 +91,7 @@
                             name: 'HelperChangePage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }"
-                    >
+                        }">
                         <div>헬퍼 정보 등록</div>
                     </router-link>
                 </span>
@@ -101,8 +101,7 @@
                             name: 'AbilityPage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }"
-                    >
+                        }">
                         <div>헬퍼 프로필 변경</div>
                     </router-link>
                 </span>
@@ -119,8 +118,7 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @clickBtn2="clickBtn3"
-            >
+                @clickBtn2="clickBtn3">
                 <template #content> 로그아웃이 완료되었습니다 </template>
             </AlarmModal>
         </div>
@@ -131,6 +129,7 @@
 import ClientCard from "@/components/common/card/ClientCard.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import { mapGetters } from "vuex";
 
@@ -146,6 +145,7 @@ export default {
         ClientCard,
         HelperCard,
         TitleText,
+        TitleBanner,
         AlarmModal,
     },
     methods: {

@@ -8,7 +8,7 @@ export default {
     async getMypage(context) {
         try {
             let { data } = await http.get(`/mypage/${context.state.account.userInfo.seq}`);
-            console.log("async function : ", data);
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -28,9 +28,7 @@ export default {
     // /api/mypage/{userSeq}/profileImage  프로필사진을 수정합니다
     async putProfileImage(context, payload) {
         const formData = new FormData();
-        console.log(payload);
         formData.append("file", payload);
-        console.log(formData);
 
         try {
             let { data } = await http.put(
@@ -42,7 +40,7 @@ export default {
                     },
                 }
             );
-            console.log("async function : ", data);
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -66,7 +64,7 @@ export default {
                 `/mypage/${context.state.account.userInfo.seq}/nickname`,
                 { nickName: nickname }
             );
-            console.log("async function : ", data);
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -89,7 +87,7 @@ export default {
                 `/mypage/${context.state.account.userInfo.seq}/password`,
                 payload
             );
-            console.log("async function : ", data);
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -114,8 +112,8 @@ export default {
         //유저 시퀀스
         try {
             let { data } = await http.post("/point-log", payload);
-            console.log("async function : ", data);
             let loadData = data.data;
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -141,7 +139,6 @@ export default {
     async putPoints(context, payload) {
         try {
             let { data } = await http.put("/points", payload);
-            console.log("async function : ", data);
 
             // service logic
             switch (data.resultCode) {
@@ -159,10 +156,8 @@ export default {
         히스토리 관련
     */
     async postHistoryList(context, payload) {
-        console.log(payload);
         try {
             let { data } = await http.post(`/mypage/${payload.clientSeq}/history`, payload);
-            console.log(data);
 
             // service logic
             switch (data.resultCode) {
@@ -183,7 +178,6 @@ export default {
     async getHelper(context, userSeq) {
         try {
             let { data } = await http.get(`/mypage/${userSeq}`);
-            console.log(data);
 
             // service logic
             switch (data.resultCode) {
@@ -201,7 +195,6 @@ export default {
     async getOtherHelper(context, userSeq) {
         try {
             let { data } = await http.get(`/mypage/${userSeq}`);
-            console.log(data);
 
             // service logic
             switch (data.resultCode) {

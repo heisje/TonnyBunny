@@ -75,11 +75,10 @@
                             @click.prevent="search" />
                     </div>
                     <div class="d-flex flex-wrap col-12">
-                        <div v-for="(bunny, index) in getBunnyList" :key="index" class="mt-3">
+                        <div v-for="(bunny, index) in getBunnyList" :key="index" class="mt-3 w-100">
                             <!-- {{ bunny }} -->
                             <quest-card
-                                class="d-inline-block w-100"
-                                style="width: 900px"
+                                class="d-inline-block w-100 bunnyQuestCard"
                                 :questDetail="bunny"
                                 rightBtnText="신청하기"
                                 @clickBtn2="clickHelperBtn(bunny)" />
@@ -150,7 +149,7 @@ export default {
             });
         },
 
-        search() {
+        async search() {
             const payload = {
                 lang: this.lang,
                 category: this.category,
@@ -163,11 +162,11 @@ export default {
             }
             console.log(payload);
 
-            this.$store.dispatch("getBunnyList", payload);
+            let { data } = await this.$store.dispatch("getBunnyList", payload);
+            this.getBunnyList = data;
         },
 
         clickHelperBtn(bunny) {
-            console.log(bunny);
             this.$store.state.bunny.bunnyDetail = bunny;
             this.$router.push({ name: "NBunnyMatchingPage" });
         },
@@ -183,8 +182,6 @@ export default {
         window.scrollTo(0, 0);
         await this.$store.dispatch("getTodayScheduleList", this.userInfo.seq);
         this.$store.commit("CLOSE_SCHEDULE_MODAL");
-        console.log(this.todayScheduleList);
-        console.log("userInfo:", this.userInfo);
     },
 };
 </script>
@@ -193,5 +190,13 @@ export default {
 .bunnyWrap {
     margin-top: 88px;
     margin-bottom: 200px;
+}
+
+.bunnyQuestCard {
+    :nth-child(1) {
+        :nth-child(1) .questCard {
+            width: 100%;
+        }
+    }
 }
 </style>

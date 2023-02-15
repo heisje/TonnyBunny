@@ -69,7 +69,7 @@
                                                         {{ quest.estimateTime }}
                                                         <!-- <span class="">건</span> -->
                                                     </div>
-                                                    <div>
+                                                    <div v-if="quest.tonnySituCode != ''">
                                                         <h3>카테고리</h3>
                                                         {{ allCode[quest?.tonnySituCode] }}
                                                         <!-- <span class="label"></span> -->
@@ -92,7 +92,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <!-- <tr>
                                                     <td>언어</td>
                                                     <td class="d-flex flex-row align-items-center">
                                                         <square-tag
@@ -108,7 +108,7 @@
                                                             :text="allCode[quest?.endLangCode]"
                                                             sub></square-tag>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
 
                                                 <tr>
                                                     <td>예상 소요 시간</td>
@@ -149,7 +149,16 @@
 
                                                 <tr>
                                                     <td>상황 설명</td>
-                                                    <td class="pt-3">{{ quest.content }}</td>
+
+                                                    <td>
+                                                        <div
+                                                            v-if="quest.content == ''"
+                                                            class="fst-italic"
+                                                            style="color: var(--sub-color)">
+                                                            상황 설명이 없습니다.
+                                                        </div>
+                                                        <div v-else>{{ quest.content }}</div>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </v-table>
@@ -390,7 +399,7 @@ export default {
 
         this.stompClient = Stomp.over(socket);
 
-        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+        // console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
         this.stompClient.connect(
             {},
@@ -404,7 +413,7 @@ export default {
                     let sub = this.stompClient.subscribe(
                         `/sub/jtonny/request/${lang.value}`,
                         (res) => {
-                            console.log(`즉시통역(${lang.name}) 요청이 도착했습니다.`, res.body);
+                            // console.log(`즉시통역(${lang.name}) 요청이 도착했습니다.`, res.body);
 
                             // 받은 데이터를 json 으로 파싱하고 dictionary 에 넣어줍니다.
                             let request = JSON.parse(res.body);
@@ -416,7 +425,7 @@ export default {
                     sub = this.stompClient.subscribe(
                         `/sub/jtonny/request/${lang.value}/cancel`,
                         (res) => {
-                            console.log("즉시통역 요청이 취소되었습니다.", res.body);
+                            // console.log("즉시통역 요청이 취소되었습니다.", res.body);
 
                             let request = JSON.parse(res.body);
                             delete this.jtonnyQuestList[request.client.seq];
@@ -427,7 +436,7 @@ export default {
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/accept/${this.userInfo.seq}`, (res) => {
-                    console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
+                    // console.log("즉시통역 매칭 완료. 오픈비두 이동", res.body);
 
                     const data = JSON.parse(res.body);
                     this.$store.commit("SET_START_RES_DATA", data);

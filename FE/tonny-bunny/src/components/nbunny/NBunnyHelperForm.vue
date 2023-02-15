@@ -26,7 +26,7 @@
                         <medium-btn
                             style="width: 100%"
                             text="고객에게 제안하기"
-                            color="carrot"
+                            :color="isPossible"
                             @click.prevent="submitForm"
                         />
                     </div>
@@ -48,6 +48,13 @@ export default {
 
     computed: {
         ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
+        isPossible() {
+            if (this.estimatePrice != "") {
+                return "carrot";
+            } else {
+                return `main`;
+            }
+        },
     },
 
     data() {
@@ -72,6 +79,8 @@ export default {
                 bunnySeq: this.getBunnyDetail.seq,
                 estimatePrice: this.estimatePrice,
             };
+
+            console.log("bunny helper payload", payload);
 
             this.$store.dispatch("insertBunnyApply", payload);
             this.$store.commit("TOGGLE_ALARM_MODAL");

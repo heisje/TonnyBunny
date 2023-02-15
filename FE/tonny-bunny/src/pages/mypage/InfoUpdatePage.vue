@@ -1,12 +1,11 @@
 <template>
     <div class="container w-75">
-        <title-banner title="회원 정보 수정" text="🐰회원 정보를 수정할 수 있습니다." />
+        <title-banner title="회원 정보 수정" text="회원 정보를 수정할 수 있습니다." />
         <div class="d-flex align-center">
             <user-profile-img
                 style="display: inline-block"
                 :profileImagePath="userInfo?.profileImagePath"
-                width="80"
-            />
+                width="80" />
             <medium-btn class="ml-3" text="프로필 변경" @click="clickInputProfile" />
         </div>
 
@@ -16,8 +15,7 @@
             type="file"
             accept="image/*"
             ref="click"
-            @change="insertImage"
-        />
+            @change="insertImage" />
 
         <div>
             <label for="nickName">닉네임</label>
@@ -98,7 +96,6 @@ export default {
     methods: {
         insertImage(e) {
             this.profileImg = e.target.files[0];
-            console.log(this.profileImg);
             this.$store.dispatch("putProfileImage", this.profileImg);
         },
 
@@ -111,7 +108,6 @@ export default {
                 this.noticeNickName = "닉네임을 입력해주세요.";
                 return;
             }
-            console.log("nickName : " + this.nickName);
             this.$store.dispatch("putUserNickName", this.nickName);
             this.nickName = "";
             this.noticeNickName = "";

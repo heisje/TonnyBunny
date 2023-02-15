@@ -1,11 +1,11 @@
 <template>
     <div>
-        <title-banner title="🐰 번역 맡기기" text="헬퍼에게 번역을 맡길 수 있습니다" />
+        <title-banner title="번역 의뢰 서비스 신청" text="헬퍼에게 번역 서비스를 신청합니다" />
         <NBunnyClientForm @toggleSubmit="openModal"></NBunnyClientForm>
         <AlarmModal
             title="성공"
             type="success"
-            btnText2="예"
+            btnText2="확인"
             btnColor1="main"
             btnColor2="carrot"
             btnFontColor1="white"
@@ -39,7 +39,6 @@ export default {
         clickBtn2() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             const bunnySeq = this.$store.state.bunny.bunnySeq;
-            console.log("이동합니다.", bunnySeq);
             this.$router.push({ name: "NBunnyDetailPage", params: { id: bunnySeq } });
         },
     },

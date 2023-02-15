@@ -89,7 +89,7 @@
             <medium-btn
                 style="width: 100%"
                 text="작성하기"
-                color="main"
+                :color="isPossible"
                 @click.prevent="submitForm(event)"
             />
         </form>
@@ -132,6 +132,13 @@ export default {
         ...mapGetters({ getLangCode: "getLangCode" }),
         ...mapGetters({ getBunnySituCode: "getBunnySituCode" }),
         ...mapGetters({ getAllCode: "getAllCode" }),
+        isPossible() {
+            if (this.totalPrice != "" && this.agreeValue) {
+                return "carrot";
+            } else {
+                return `main`;
+            }
+        },
     },
 
     methods: {
@@ -174,17 +181,17 @@ export default {
             }
 
             const s_bunny = this.bunnyList[this.s_index];
-            console.log("bunnySeq : ", s_bunny.seq);
-            console.log("clientSeq : ", s_bunny.client.seq);
-            console.log("helperSeq : ", this.$store.state.account.userInfo.seq);
-            console.log("startLangCode : ", s_bunny.startLangCode);
-            console.log("endLangCode : ", s_bunny.endLangCode);
-            console.log("startDateTime : ", s_bunny.startDateTime);
-            console.log("endDateTime : ", s_bunny.endDateTime);
-            console.log("title : ", s_bunny.title);
-            console.log("content : ", s_bunny.content);
-            console.log("totalPrice : ", this.totalPrice);
-            console.log("agreeValue : ", this.agreeValue);
+            // console.log("bunnySeq : ", s_bunny.seq);
+            // console.log("clientSeq : ", s_bunny.client.seq);
+            // console.log("helperSeq : ", this.$store.state.account.userInfo.seq);
+            // console.log("startLangCode : ", s_bunny.startLangCode);
+            // console.log("endLangCode : ", s_bunny.endLangCode);
+            // console.log("startDateTime : ", s_bunny.startDateTime);
+            // console.log("endDateTime : ", s_bunny.endDateTime);
+            // console.log("title : ", s_bunny.title);
+            // console.log("content : ", s_bunny.content);
+            // console.log("totalPrice : ", this.totalPrice);
+            // console.log("agreeValue : ", this.agreeValue);
 
             const payload = {
                 bunnySeq: s_bunny.seq,
@@ -234,15 +241,12 @@ export default {
 
     async created() {
         const clientSeq = this.$route.params.clientSeq;
-        console.log(this.$route.params.clientSeq);
         let res = await http.get(`/bunny/${clientSeq}/user`, clientSeq);
 
         const SUCCESS = "SUCCESS";
         const FAIL = "FAIL";
 
         try {
-            console.log("async function : ", res);
-
             // service logic
             switch (res.data.resultCode) {
                 case SUCCESS:

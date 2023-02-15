@@ -37,16 +37,18 @@
                             </router-link>
                         </div>
                         <div class="iconsWarp">
-                            <div class="iconsContent" @click="toggleBunnyModalOpen">
-                                <div>
-                                    <img src="@/assets/book.png" alt="" />
+                            <router-link :to="{ name: 'BunnyPage' }" class="nav-link">
+                                <div class="iconsContent">
+                                    <div>
+                                        <img src="@/assets/book.png" alt="" />
+                                    </div>
+                                    <div>
+                                        <h1 class="h3">#번역</h1>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h1 class="h3">#번역</h1>
-                                </div>
-                            </div>
+                            </router-link>
                         </div>
-                        <div class="iconsWarp" v-if="true">
+                        <div class="iconsWarp" v-if="isHelper">
                             <div class="iconsContent searchIcon" @click="toggleHelperBtn">
                                 <div>
                                     <img src="@/assets/bag.png" alt="" />
@@ -191,7 +193,11 @@ export default {
     },
 
     computed: {
-        ...mapGetters({ isLogin: "getIsLogin", userInfo: "getUserInfo" }),
+        ...mapGetters({
+            isLogin: "getIsLogin",
+            userInfo: "getUserInfo",
+            isHelper: "getIsHelper",
+        }),
     },
 
     methods: {

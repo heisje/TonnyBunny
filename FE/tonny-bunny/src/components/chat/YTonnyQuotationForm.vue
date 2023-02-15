@@ -6,16 +6,14 @@
                 type="h2"
                 title="고객의 어떤 공고를 해결하시겠어요?"
                 text="해결하고 싶은 공고를 선택해주세요"
-                class="mb-3"
-            />
+                class="mb-3" />
 
             <div class="">
                 <label for=""></label>
                 <DropdownInput
                     :dropdownArray="['아이템1', '아이템2', '아이템3']"
                     placeholder="공고를 선택하세요"
-                    @toggle="(e) => (dropdownValue = e)"
-                />
+                    @toggle="(e) => (dropdownValue = e)" />
             </div>
 
             <title-text
@@ -24,8 +22,7 @@
                 title="언어 선택"
                 text="어떤 언어를 통역하실건가요?"
                 top="70"
-                bottom="20"
-            />
+                bottom="20" />
 
             <div class="d-flex flex-row w-100 mb-5">
                 <div class="w-100">
@@ -33,8 +30,7 @@
                         class="w-100"
                         :dropdownArray="langCodeList"
                         placeholder="내 언어"
-                        @toggle="(e) => (startLangCode = e)"
-                    />
+                        @toggle="(e) => (startLangCode = e)" />
                 </div>
 
                 <div class="swap">
@@ -45,8 +41,7 @@
                     <DropdownInputCode
                         :dropdownArray="langCodeList"
                         placeholder="필요 언어"
-                        @toggle="(e) => (endLangCode = e)"
-                    />
+                        @toggle="(e) => (endLangCode = e)" />
                 </div>
             </div>
 
@@ -56,8 +51,7 @@
                 title="날짜 선택"
                 text="언제 통역을 예약하실건가요?"
                 top="70"
-                bottom="20"
-            />
+                bottom="20" />
 
             <div class="w120">
                 <input type="date" class="w-100" v-model="startDate" />
@@ -69,8 +63,7 @@
                 title="시간 선택"
                 text="언제 통역을 시작하실건가요?"
                 top="70"
-                bottom="20"
-            />
+                bottom="20" />
 
             <div class="w-100">
                 <input type="time" class="w-100" v-model="startTime" />
@@ -83,8 +76,7 @@
                 title="예상 소요 시간"
                 text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?"
                 top="70"
-                bottom="20"
-            />
+                bottom="20" />
 
             <div class="d-flex">
                 <div class="col-6 d-flex flex-row me-2">
@@ -93,8 +85,7 @@
                             class=""
                             :dropdownArray="hourCodeList"
                             placeholder="시간"
-                            @toggle="(e) => (estimateHour = e)"
-                        />
+                            @toggle="(e) => (estimateHour = e)" />
                     </div>
                     <!-- <div class="backlabel w-50">
 						<h5>시간</h5>
@@ -106,8 +97,7 @@
                             class="w-100"
                             :dropdownArray="minuteCodeList"
                             placeholder="분"
-                            @toggle="(e) => (estimateMinute = e)"
-                        />
+                            @toggle="(e) => (estimateMinute = e)" />
                     </div>
                     <!-- <div class="backlabel w-50">
 						<h5>분</h5>
@@ -120,15 +110,13 @@
                 title="[선택] 상황 카테고리"
                 text="해당 상황을 한 단어로 요약하자면?"
                 top="70"
-                bottom="20"
-            />
+                bottom="20" />
 
             <DropdownInputCode
                 class="w120"
                 :dropdownArray="tonnySituCodeList"
                 placeholder="상황 선택"
-                @toggle="(e) => (tonnySituCode = e)"
-            />
+                @toggle="(e) => (tonnySituCode = e)" />
 
             <title-text
                 important
@@ -136,8 +124,7 @@
                 title="예약통역 지불 캐럿"
                 text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
                 top="70"
-                bottom="20"
-            />
+                bottom="20" />
 
             <div class="d-flex mb-5">
                 <div class="col-11">
@@ -153,8 +140,7 @@
                 title="[선택] 사진"
                 text="추가 사진을 올려주세요"
                 top="70"
-                bottom="30"
-            />
+                bottom="30" />
             <input type="file" class="quotationFileList mb" multiple />
 
             <agree-input @toggle="(e) => (agreeValue = e)" />
@@ -162,8 +148,7 @@
                 style="width: 100%"
                 text="작성하기"
                 color="main"
-                @click.prevent="insertYTonnyQuotation(event)"
-            />
+                @click.prevent="insertYTonnyQuotation(event)" />
         </form>
     </div>
 </template>
@@ -260,7 +245,8 @@ export default {
             }
 
             this.$store.dispatch("insertYTonnyQuotation", formData).then((id) => {
-                console.log(id);
+                id;
+                // console.log(id);
                 // if (id != -1) {
                 // 	this.$store.commit("TOGGLE_ALARM_MODAL");
                 // }

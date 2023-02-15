@@ -614,7 +614,6 @@ export default {
                 ytonnySeq: this.yTonnyDetail.seq,
                 unitPrice: this.yTonnyDetail.unitPrice,
             };
-            console.log(payload);
             await this.$store.dispatch("startYTonnyLive", payload);
 
             this.$store.commit("SET_START_RES_DATA", this.yTonnyDetail);
@@ -757,7 +756,6 @@ export default {
             };
             await this.$store.dispatch("insertAlert", helperAlert);
 
-            console.log("accept", this.yTonnySeq, yTonnyApplySeq, helperSeq);
             // await this.getYTonnyApplyList();
         },
     },
@@ -766,11 +764,8 @@ export default {
         window.scrollTo(0, 0);
         this.$store.commit("CLOSE_ALARM_MODAL");
 
-        console.log("userInfo: ", this.userInfo, "token: ", this.userInfo.seq);
-
         // detail 정보 가져오기
         await this.$store.commit("SET_Y_TONNY_SEQ", this.$route.params.id);
-        console.log("routes params: ", this.$route.params.id);
 
         // let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
         await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
@@ -780,17 +775,17 @@ export default {
         this.checkIsCreator();
         this.checkIsManager();
 
-        let startDateTime = new Date(this.yTonnyDetail.startDateTime);
-        let endDateTime = new Date(this.yTonnyDetail.startDateTime);
-        let splitTime = this.yTonnyDetail.estimateTime.split(":");
+        // let startDateTime = new Date(this.yTonnyDetail.startDateTime);
+        // let endDateTime = new Date(this.yTonnyDetail.startDateTime);
+        // let splitTime = this.yTonnyDetail.estimateTime.split(":");
 
-        let hours = splitTime[0] * 60 * 60 * 1000;
-        let mins = splitTime[1] * 60 * 1000;
+        // let hours = splitTime[0] * 60 * 60 * 1000;
+        // let mins = splitTime[1] * 60 * 1000;
 
-        endDateTime.setTime(endDateTime.getTime() + hours + mins);
+        // endDateTime.setTime(endDateTime.getTime() + hours + mins);
 
-        console.log(this.yTonnyDetail.estimateTime);
-        console.log(startDateTime.toISOString(), endDateTime.toISOString());
+        // console.log(this.yTonnyDetail.estimateTime);
+        // console.log(startDateTime.toISOString(), endDateTime.toISOString());
     },
 
     mounted() {

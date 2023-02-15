@@ -125,6 +125,7 @@ public class UserEntity extends CommonEntity {
 		this.phoneNumber = phoneNumber;
 		this.nickName = nickName;
 		this.userCode = userCode;
+		this.point = 10000L;
 	}
 
 

@@ -242,6 +242,7 @@ const routes = [
             default: YTonnyDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -252,6 +253,7 @@ const routes = [
             default: YTonnyUpdatePage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -272,6 +274,7 @@ const routes = [
             default: YTonnyHelperListPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -313,6 +316,7 @@ const routes = [
             default: NBunnyDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -333,6 +337,7 @@ const routes = [
             default: NBunnyHelperListPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -405,6 +410,7 @@ const routes = [
             default: BoardDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -432,7 +438,7 @@ const routes = [
         path: "/live",
         name: "OnAirPage",
         components: {
-            header: AppHeader,
+            // header: AppHeader,
             default: OnAirPage,
         },
     },
@@ -445,6 +451,7 @@ const routes = [
             default: LiveClosePage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     //chat
@@ -486,6 +493,7 @@ const routes = [
             default: NBunnyQuotationForm,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -496,6 +504,7 @@ const routes = [
             default: QuotationDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     //mypage
@@ -547,6 +556,7 @@ const routes = [
             default: HistoryDetailPage,
             footer: AppFooter,
         },
+        props: true,
     },
 
     {
@@ -793,6 +803,7 @@ const routes = [
             default: NotFoundPage,
             footer: AppFooter,
         },
+        props: true,
     },
 ];
 
@@ -810,7 +821,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // console.log("to", to);
     // console.log("from", from);
-    console.log(to.name);
+
     switch (to.name) {
         case "HomePage":
         case "SignUpPage":
@@ -836,7 +847,6 @@ router.beforeEach((to, from, next) => {
             next();
             break;
         default:
-            console.log("store.state.account.userInfo : ", store.state.account.userInfo);
             if (store.state.account.isLogin == true) {
                 next();
             } else {

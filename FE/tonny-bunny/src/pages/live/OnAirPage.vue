@@ -11,7 +11,8 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.client?.profileImagePath"
-                                    width="70" />
+                                    width="70"
+                                />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -35,7 +36,8 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.helper?.profileImagePath"
-                                    width="70" />
+                                    width="70"
+                                />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -57,7 +59,8 @@
                                         <square-tag
                                             :text="getStartLangCode"
                                             sub
-                                            class="me-2"></square-tag>
+                                            class="me-2"
+                                        ></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -106,7 +109,9 @@
 
                         <div class="btns col-12 col-md-6">
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                v-if="isClient && btnStep == 1"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="startLive">
                                     <span class="material-symbols-outlined"> play_arrow </span>
                                 </div>
@@ -114,7 +119,9 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                v-if="isClient && btnStep >= 2"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="endLive">
                                     <span class="material-symbols-outlined"> stop </span>
                                 </div>
@@ -122,7 +129,9 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                v-if="!isSpeakOn"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="toggleSpeaker">
                                     <span class="material-symbols-outlined"> mic_off </span>
                                 </div>
@@ -130,7 +139,19 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                v-if="isSpeakOn"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
+                                <div class="btn" @click.prevent="toggleSpeaker">
+                                    <span class="material-symbols-outlined"> mic </span>
+                                </div>
+                                <h2>마이크 켜기</h2>
+                            </div>
+
+                            <div
+                                v-if="!isCamOn"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn" @click.prevent="toggleCamera">
                                     <span class="material-symbols-outlined"> videocam_off </span>
                                 </div>
@@ -138,7 +159,18 @@
                             </div>
 
                             <div
-                                class="d-flex flex-column justify-content-center align-items-center">
+                                v-if="isCamOn"
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
+                                <div class="btn" @click.prevent="toggleCamera">
+                                    <span class="material-symbols-outlined"> videocam </span>
+                                </div>
+                                <h2>비디오 켜기</h2>
+                            </div>
+
+                            <div
+                                class="d-flex flex-column justify-content-center align-items-center"
+                            >
                                 <div class="btn closeBtn" @click.prevent="leaveSession">
                                     <span class="material-symbols-outlined"> close </span>
                                 </div>
@@ -160,7 +192,8 @@
                         <user-video
                             v-for="sub in subscribers"
                             :key="sub.stream.connection.connectionId"
-                            :stream-manager="sub" />
+                            :stream-manager="sub"
+                        />
                     </div>
                 </div>
 
@@ -181,7 +214,8 @@
                                     text="보내기"
                                     color="outline"
                                     font="active"
-                                    @click="sendMessage"></medium-btn>
+                                    @click="sendMessage"
+                                ></medium-btn>
                             </div>
                         </div>
                     </transition>
@@ -200,7 +234,8 @@
             btnColor2="main"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="closeModal">
+            @clickBtn2="closeModal"
+        >
             <template #content>
                 고객님의 보유 금액이 부족합니다! <br /><br />
                 라이브를 종료합니다.
@@ -271,6 +306,9 @@ export default {
             isExisted: false,
             isClient: false,
             isHelper: false,
+
+            // 버튼 (시작->정지->떠나기 순서로 변경)
+            btnStep: 1,
         };
     },
 
@@ -346,7 +384,7 @@ export default {
                 this.session
                     .signal({ data: "pointIssue", type: "live" })
                     .then(() => {
-                        console.log("Message successfully sent");
+                        // console.log("Message successfully sent");
                     })
                     .catch((error) => {
                         console.error(error);
@@ -355,7 +393,7 @@ export default {
                 this.session
                     .signal({ data: updatedPrice, type: "updatePrice" })
                     .then(() => {
-                        console.log("Message successfully sent");
+                        // console.log("Message successfully sent");
                     })
                     .catch((error) => {
                         console.error(error);
@@ -378,13 +416,14 @@ export default {
                 if (index >= 0) this.subscribers.splice(index, 1);
             });
 
+            const $this = this;
             this.session.on("signal:live", (event) => {
                 // 서비스 시작 - 타이머 동작
                 if (event.data == "Start") {
                     this.timer_func = setInterval(() => {
                         this.timer = this.timer + 1;
                         if (this.$store.state.account.userInfo.seq == this.startResData.client.seq)
-                            this.calculateTotalPrice();
+                            $this.calculateTotalPrice();
                     }, 1000);
                 }
 
@@ -418,11 +457,10 @@ export default {
             });
 
             this.session.on("sessionDisconnected", (event) => {
+                // ------------------------------------------------------------------------------------------
                 if (this.isRecordOn) {
                     this.stopRecording();
                 }
-
-                // ------------------------------------------------------------------------------------------
                 // 내 코드
 
                 /**
@@ -481,7 +519,7 @@ export default {
                         this.session.publish(this.publisher);
 
                         if (!this.isExisted) {
-                            console.log("방생성, 내가 레코딩 시작");
+                            console.log("내가 레코딩 시작");
                             this.startRecording();
                         }
                     })
@@ -498,12 +536,13 @@ export default {
         },
 
         startLive() {
+            this.btnStep = 2;
             console.log("Start");
 
             this.session
                 .signal({ data: "Start", type: "live" })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    // console.log("Message successfully sent");
                 })
                 .catch((error) => {
                     console.error(error);
@@ -515,7 +554,7 @@ export default {
             this.session
                 .signal({ data: "End", type: "live" })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    // console.log("Message successfully sent");
                 })
                 .catch((error) => {
                     console.error(error);
@@ -548,9 +587,7 @@ export default {
                 { recording: this.recordId }
             );
 
-            console.log("레코딩 종료 끝");
-
-            console.log(res);
+            console.log("레코딩 종료 끝, 히스토리 저장 시작");
 
             // 히스토리 저장 요청
             const payload = {
@@ -560,11 +597,9 @@ export default {
                 totalPrice: this.totalPrice,
             };
 
-            console.log("히스토리 저장 시작");
-            console.log(payload);
-
             await this.$store.dispatch("completeLive", payload);
-            console.log("히스토리 저장 끝");
+
+            console.log("히스토리 저장 성공");
         },
 
         toggleSpeaker() {
@@ -612,6 +647,9 @@ export default {
         },
 
         leaveSession() {
+            // 양쪽 타이머 종료
+            this.endLive();
+
             if (this.session) this.session.disconnect();
 
             this.session = undefined;
@@ -635,18 +673,17 @@ export default {
                 { headers: { "Content-Type": "application/json" } }
             );
 
-            console.log("res!!!!!!!!!!!!!!!!!:", res);
+            console.log("getToken async: ", res);
+
             this.isExisted = res.data["isExisted"];
-            console.log(this.isExisted);
             return res.data[0];
         },
     },
 
     created() {
         window.scrollTo(0, 0);
-        this.leaveSession();
-        console.log("resDate", this.startResData);
-        console.log(this.$store.state.account.userInfo);
+        // this.leaveSession();
+
         this.$store.state.account.userInfo.seq == this.startResData.client.seq
             ? (this.isClient = true)
             : (this.isClient = false);
