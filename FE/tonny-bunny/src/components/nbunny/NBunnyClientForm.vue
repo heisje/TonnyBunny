@@ -124,7 +124,7 @@ divdiv
             <medium-btn
                 style="width: 100%"
                 text="의뢰하기"
-                color="carrot"
+                :color="isPossible"
                 @click.prevent="submitForm"
             />
         </form>
@@ -161,6 +161,22 @@ export default {
     computed: {
         ...mapGetters({ getLangCode: "getLangCode" }),
         ...mapGetters({ getBunnySituCode: "getBunnySituCode" }),
+        isPossible() {
+            if (
+                this.startLangCode != "" &&
+                this.endLangCode != "" &&
+                this.bunnySituCode != "" &&
+                this.startDate != "" &&
+                this.endDate != "" &&
+                this.estimatePrice != "" &&
+                this.title != "" &&
+                this.agreeValue
+            ) {
+                return "carrot";
+            } else {
+                return `main`;
+            }
+        },
     },
 
     methods: {
@@ -175,26 +191,6 @@ export default {
         },
         submitForm(e) {
             e.preventDefault();
-            // console.log(this.startLangCode, this.getLangCode[this.startLangCode]);
-            // console.log(this.endLangCode, this.getLangCode[this.endLangCode]);
-            // console.log(this.bunnySituCode, this.getBunnySituCode[this.bunnySituCode]);
-            // console.log(this.startDate);
-            // console.log(this.endDate);
-            // console.log(this.estimatePrice);
-            // console.log(this.title);
-            // console.log(this.content);
-            // console.log(this.agreeValue);
-
-            // startLangCode: "",
-            // endLangCode: "",
-            // bunnySituCode: "",
-            // bunnyStateCode: "0090001",
-            // startDate: "",
-            // endDate: "",
-            // estimatePrice: "",
-            // title: "",
-            // content: "",
-            // agreeValue: false,
 
             if (!this.startLangCode) {
                 alert("시작 언어가 입력되지 않았어요!");

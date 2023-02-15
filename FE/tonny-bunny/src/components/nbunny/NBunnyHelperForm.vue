@@ -19,14 +19,16 @@
                             style="width: 100%"
                             text="취소"
                             color="main"
-                            @click.prevent="clickCancle" />
+                            @click.prevent="clickCancle"
+                        />
                     </div>
                     <div class="backlabel col-10">
                         <medium-btn
                             style="width: 100%"
                             text="고객에게 제안하기"
-                            color="carrot"
-                            @click.prevent="submitForm" />
+                            :color="isPossible"
+                            @click.prevent="submitForm"
+                        />
                     </div>
                 </div>
             </div>
@@ -46,6 +48,13 @@ export default {
 
     computed: {
         ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
+        isPossible() {
+            if (this.estimatePrice != "") {
+                return "carrot";
+            } else {
+                return `main`;
+            }
+        },
     },
 
     data() {
