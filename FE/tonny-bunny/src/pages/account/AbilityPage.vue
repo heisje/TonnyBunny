@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <div v-if="$route.query.mypage">
-                <TitleText title="능력 어필" center text="헬퍼 정보를 변경하세요!" />
+                <title-banner title="능력 어필" text="🐰당신의 능력을 어필해주세요!" />
             </div>
             <div v-else>
                 <TitleText
@@ -96,6 +96,7 @@
 
 <script>
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner";
 import http from "@/common/axios.js";
 import { mapGetters } from "vuex";
 import DropdownInputCode from "@/components/common/input/DropdownInputCode.vue";
@@ -117,6 +118,7 @@ export default {
     },
     components: {
         TitleText,
+        TitleBanner,
         DropdownInputCode,
         SmallBtn,
         MediumBtn,

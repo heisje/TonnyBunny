@@ -1,5 +1,5 @@
 <template>
-    <title-text type="h1" title="즐겨찾기" class="text-center" />
+    <title-banner title="즐겨찾기" text="🐰즐겨찾기한 헬퍼의 목록입니다." />
 
     <div class="container w-75">
         <div v-if="followCnt != 0">
@@ -12,7 +12,6 @@
             </div>
         </div>
         <div v-else>
-            <br />
             <br />
             <title-text type="h2" title="즐겨찾기 한 유저가 없습니다🐾" class="text-center" />
         </div>
@@ -28,6 +27,7 @@
 <script>
 import UserProfileItem from "@/components/mypage/UserProfileItem.vue";
 import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import { mapGetters } from "vuex";
 import http from "@/common/axios";
@@ -43,6 +43,7 @@ export default {
     components: {
         UserProfileItem,
         TitleText,
+        TitleBanner,
         SmallBtn,
     },
     methods: {

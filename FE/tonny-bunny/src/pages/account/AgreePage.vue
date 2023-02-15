@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <TitleText title="약관 동의" center text="약관을 모두 읽고 동의해주세요." />
+            <title-banner title="약관 동의" text="🐰약관을 모두 읽고 동의해주세요." />
             <!-- 공통 약관 -->
             <div v-for="(term, index) in clientTerms" :key="index">
                 <div class="p-2 m-2">
@@ -33,20 +33,21 @@
             btnText2="닫기"
             btnColor2="carrot"
             btnFontColor2="white"
-            @clickBtn2="closeModal">
+            @clickBtn2="closeModal"
+        >
             <template #content> 필수 약관에 동의해주세요. </template>
         </alarm-modal>
     </div>
 </template>
 
 <script>
-import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 
 export default {
     components: {
-        TitleText,
+        TitleBanner,
         smallBtn,
         AlarmModal,
     },

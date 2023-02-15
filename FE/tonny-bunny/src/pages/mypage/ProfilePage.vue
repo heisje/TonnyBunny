@@ -1,6 +1,12 @@
 <template>
-    <title-text title="헬퍼 프로필" center text="수정하기" @click="goProfileUpdate"></title-text>
-
+    <title-text
+        v-if="userInfo?.seq == myInfo.seq"
+        title="헬퍼 프로필"
+        center
+        text="수정하기"
+        @click="goProfileUpdate"
+    ></title-text>
+    <title-text v-else title="헬퍼 프로필" center></title-text>
 
     <helper-profile :userInfo="userInfo" />
 </template>
@@ -20,15 +26,19 @@ export default {
         HelperProfile,
         TitleText,
     },
-    methods:{
-        goProfileUpdate(event){
+    methods: {
+        goProfileUpdate(event) {
             event.preventDefault();
-            this.$router.push({ name: "ProfileUpdatePage", params:{ userSeq:this.userInfo.seq} });
-        }
+            this.$router.push({
+                name: "ProfileUpdatePage",
+                params: { userSeq: this.userInfo.seq },
+            });
+        },
     },
 
     computed: {
         ...mapGetters({ userInfo: "getHelperInfo" }),
+        ...mapGetters({ myInfo: "getUserInfo" }),
     },
 
     props: {
