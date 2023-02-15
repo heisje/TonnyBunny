@@ -7,7 +7,8 @@
                     type="h2"
                     title="언어 선택"
                     text="어떤 언어를 통역하실건가요?"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <div class="d-flex flex-row w-100 mb-5">
                     <div class="w-100">
@@ -17,7 +18,8 @@
                             :disable="changLangCount % 2 ? false : true"
                             :dropdownArray="langCode"
                             placeholder="한국어"
-                            @toggle="(e) => (jtonnyRequest.startLangCode = e)" />
+                            @toggle="(e) => (jtonnyRequest.startLangCode = e)"
+                        />
                     </div>
 
                     <div class="swap" @click="changLangCode">
@@ -30,7 +32,8 @@
                             :disable="changLangCount % 2 ? true : false"
                             :dropdownArray="langCode"
                             placeholder="필요 언어"
-                            @toggle="(e) => (jtonnyRequest.endLangCode = e)" />
+                            @toggle="(e) => (jtonnyRequest.endLangCode = e)"
+                        />
                     </div>
                 </div>
 
@@ -41,7 +44,8 @@
                     title="예상 소요 시간"
                     text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?"
                     top="70"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <div class="d-flex">
                     <div class="col-6 d-flex flex-row me-2">
@@ -50,7 +54,8 @@
                                 class=""
                                 :dropdownArray="hourCodeList"
                                 placeholder="시간"
-                                @toggle="(e) => (jtonnyRequest.estimateHour = e)" />
+                                @toggle="(e) => (jtonnyRequest.estimateHour = e)"
+                            />
                         </div>
                     </div>
                     <div class="col-6 d-flex flex-row">
@@ -59,7 +64,8 @@
                                 class="w-100"
                                 :dropdownArray="minuteCodeList"
                                 placeholder="분"
-                                @toggle="(e) => (jtonnyRequest.estimateMinute = e)" />
+                                @toggle="(e) => (jtonnyRequest.estimateMinute = e)"
+                            />
                         </div>
                     </div>
                 </div>
@@ -69,26 +75,30 @@
                     title="[선택] 상황 카테고리"
                     text="어떤 상황의 통역을 원하시나요?"
                     top="70"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <DropdownInputCode
                     class="w120"
                     :dropdownArray="tonnySituCode"
                     placeholder="상황 선택"
-                    @toggle="(e) => (jtonnyRequest.tonnySituCode = e)" />
+                    @toggle="(e) => (jtonnyRequest.tonnySituCode = e)"
+                />
 
                 <title-text
                     type="h2"
                     title="[선택] 상황 설명"
                     text="통역이 필요한 상황을 헬퍼에게 설명해볼까요?"
                     top="70"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <textarea
                     type="textarea"
                     placeholder="내용을 입력해주세요"
                     rows="7"
-                    v-model="jtonnyRequest.content" />
+                    v-model="jtonnyRequest.content"
+                />
             </div>
 
             <agree-input @toggle="(e) => (agreeValue = e)" style="margin-top: 100px" />
@@ -96,7 +106,8 @@
                 @click="insertJTonnyRequest"
                 style="width: 100%"
                 text="통역하기"
-                color="carrot" />
+                :color="isPossible"
+            />
         </form>
     </div>
 </template>
@@ -130,6 +141,19 @@ export default {
             hourCodeList: "getHourCodeList",
             minuteCodeList: "getMinuteCodeList",
         }),
+        isPossible() {
+            if (
+                this.jtonnyRequest.startLangCode != "" &&
+                this.jtonnyRequest.endLangCode != "" &&
+                this.jtonnyRequest.estimateHour != "" &&
+                this.jtonnyRequest.estimateMinute != "" &&
+                this.agreeValue
+            ) {
+                return "carrot";
+            } else {
+                return `main`;
+            }
+        },
     },
 
     data() {
