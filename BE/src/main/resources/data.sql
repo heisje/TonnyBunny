@@ -87,7 +87,7 @@ updated_at
 */
 INSERT INTO helper_info_table(helper_info_seq, user_seq, unit_price, one_line_introduction, introduction, review_count,
                               total_score, created_at, updated_at)
-VALUES (1, 4, 5000, "안녕하세요. 김헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 2, 6, now(), now()),
+VALUES (1, 4, 5000, "안녕하세요. 김헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 2, 7, now(), now()),
        (2, 5, 4000, "안녕하세요. 나헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 0, now(), now()),
        (3, 6, 1000, "안녕하세요. 박헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 0, now(), now()),
        (4, 7, 20000, "안녕하세요. 이헬퍼입니다.", "안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.안녕하세요.", 0, 0, now(), now()),
@@ -244,4 +244,4 @@ VALUES (1, "해리포터 에필로그 번역", 200000);
 -- 리뷰
 INSERT INTO review_table(review_seq, user_seq, history_seq, score, comment, is_deleted, created_at, updated_at)
 VALUES (1, 1, 1, 5, "덕분에 잘 읽었습니다!!", false, now(), now()),
-       (2, 1, 2, 1, "이사람때매 사업 망했습니다.", false, now(), now());
+       (2, 1, 2, 2, "이사람때매 사업 망했습니다.", false, now(), now());
