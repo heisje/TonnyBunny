@@ -222,7 +222,6 @@ CREATE TABLE `alert_log_table`
 (
     `alert_log_seq` BIGINT    NOT NULL auto_increment,
     `user_seq`      BIGINT    NOT NULL,
-    `session_name`  VARCHAR(255),
     `task_code`     CHAR(7)   NOT NULL,
     `content`       VARCHAR(255),
     `is_end`        BIGINT,
