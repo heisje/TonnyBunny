@@ -4,12 +4,12 @@ package com.tonnybunny.domain.user.dto;
 import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
-import com.tonnybunny.domain.review.dto.ReviewResponseDto;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
+import lombok.Builder;
 import lombok.Data;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -39,33 +39,26 @@ import java.util.List;
  * title            : 공고 제목 (예통, 번역만)
  */
 @Data
+@Builder
 public class HistoryResponseDto {
 
 	private Long seq;
-
 	private Long clientSeq;
-
 	private Long helperSeq;
-
 	private String content;
 	private LocalDateTime startDateTime;
 	private LocalDateTime endDateTime;
-
 	private String startLangCode;
 	private String endLangCode;
 	private String taskCode;
-
 	private Long notiSeq;                   // 즉통, 예통의 경우 NotiSeq, 번역의 경우 QuotationSeq
-
-	private ReviewResponseDto review;
-
+	//	private ReviewResponseDto review;
 	/************************ 즉통 & 예통 **************************/
 
 	private LocalTime totalTime;
 	private Integer unitPrice;
 	private String recordVideoPath;
 	private String tonnySituCode = "0040001";       // 디폴트 "일상" 코드 넣기
-
 	/************************ 예통 & 번역 **************************/
 
 	private String title;
@@ -78,14 +71,28 @@ public class HistoryResponseDto {
 		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(mapper -> {
 			// 고객 Entity -> 고객 Seq
 			mapper.using((Converter<UserEntity, Long>) client -> client.getSource().getSeq())
-			      .map(HistoryEntity::getClient, HistoryResponseDto::setClientSeq);
+				.map(HistoryEntity::getClient, HistoryResponseDto::setClientSeq);
 			// 헬퍼 Entity -> 헬퍼 Seq
 			mapper.using((Converter<UserEntity, Long>) helper -> helper.getSource().getSeq())
-			      .map(HistoryEntity::getHelper, HistoryResponseDto::setHelperSeq);
+				.map(HistoryEntity::getHelper, HistoryResponseDto::setHelperSeq);
 
 		});
 		// 값 매핑
-		HistoryResponseDto historyResponseDto = modelMapper.map(history, HistoryResponseDto.class);
+		//		HistoryResponseDto historyResponseDto = modelMapper.map(history, HistoryResponseDto.class);
+
+		HistoryResponseDto historyResponseDto = HistoryResponseDto.builder()
+			.seq(history.getSeq())
+			.clientSeq(history.getClient().getSeq())
+			.helperSeq(history.getHelper().getSeq())
+			.startDateTime(history.getStartDateTime())
+			.endDateTime(history.getEndDateTime())
+			.startLangCode(history.getStartLangCode())
+			.endLangCode(history.getEndLangCode())
+			.taskCode(history.getTaskCode())
+			.notiSeq(history.getNotiSeq())
+			//			.review(ReviewResponseDto.fromEntity(historyEntity.getReview()))
+			.content(history.getContent())
+			.build();
 
 		// TaskCode에 따라 즉시통역, 예약통역, 번역 Entity가 들어올것임
 		// => 들어오는 Entity에 따라 달라지는 필드 값을 채움
