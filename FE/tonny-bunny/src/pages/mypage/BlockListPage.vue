@@ -7,8 +7,7 @@
                 <UserProfileItem
                     btnText="차단해제"
                     :helperInfo="block"
-                    @clickBtn="deleteBlock(block.seq)"
-                />
+                    @clickBtn="deleteBlock(block.seq)" />
             </div>
         </div>
         <div v-else>
@@ -50,18 +49,14 @@ export default {
     methods: {
         async getBlockList(seq) {
             try {
-                console.log("SEQ : " + seq);
                 let res = await http.get(`/mypage/${seq}/block`);
-                console.log(res);
+
                 if (res.data.resultCode == "SUCCESS") {
-                    console.log("블락리스트 불러오기 성공");
                     this.blockList = res.data.data;
                     this.blockCnt = res.data.data.length;
-                    console.log("blockList : " + this.blockList);
                 }
             } catch (error) {
                 console.log(error);
-                console.log("블락 리스트 불러오기 실패...");
             }
         },
 
@@ -72,7 +67,6 @@ export default {
 
                 console.log(res);
                 if (res.data.resultCode == "SUCCESS") {
-                    console.log("성공");
                     this.blockCnt -= 1;
                 }
             } catch (error) {

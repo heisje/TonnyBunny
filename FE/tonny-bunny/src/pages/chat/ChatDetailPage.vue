@@ -129,7 +129,6 @@ export default {
                     this.chatDatas = [];
                     data.data.forEach((chat) => {
                         // console.log("no parse : ", chat);
-                        console.log("Chat Log : ", JSON.parse(chat));
                         this.chatDatas.push(JSON.parse(chat));
                     });
                 } else {
@@ -168,15 +167,12 @@ export default {
                         userSeq: this.chatUserSeq,
                         ...this.$store.getters.getUrlMessage, // {message, urlPage, urlPageSeq}
                     };
-                    console.log("urlChat: ", urlChat);
                     this.socket.send(JSON.stringify(urlChat));
                 }
             };
             // 소켓으로 받은 메세지를 출력
             this.socket.onmessage = (e) => {
-                console.log(e.data);
                 const message = JSON.parse(e.data);
-                console.log("Receive Message: ", message);
                 this.chatDatas.push(message); // {roomSeq, userSeq, type, messageType, message, urlPage, urlPageSeq}
                 // this.setScrollBottom();
             };

@@ -106,7 +106,6 @@ export default {
 
         async clickLoginBtn(e) {
             e.preventDefault();
-            console.log("login btn click");
             const loginInfo = {
                 email: this.email,
                 password: this.password,

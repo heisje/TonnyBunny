@@ -47,9 +47,7 @@ export default {
         });
         window.addEventListener("load", () => {
             // window.onload = function () {
-            console.log("after reload!!!");
             if (this.$store.getters.getIsLogin == true) {
-                console.log("login is true");
                 this.$store.commit(
                     "CONNECT_CHAT_STOMP_SOCKET",
                     this.$store.getters.getUserInfo.seq

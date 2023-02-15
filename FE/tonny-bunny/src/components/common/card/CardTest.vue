@@ -47,19 +47,19 @@ export default {
 
     methods: {
         close() {
-            console.log("close btn click");
+            // console.log("close btn click");
         },
 
         toggleLike() {
-            console.log("toggle like btn");
+            // console.log("toggle like btn");
         },
 
         check1() {
-            console.log("left btn click");
+            // console.log("left btn click");
         },
 
         check2() {
-            console.log("right btn click");
+            // console.log("right btn click");
         },
     },
 };

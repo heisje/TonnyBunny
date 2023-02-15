@@ -8,8 +8,6 @@ export default {
         let { data } = await http.post(`/schedules`, payload);
 
         try {
-            console.log("async insertSchedule : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -31,8 +29,6 @@ export default {
         let { data } = await http.get("/schedules", { params });
 
         try {
-            console.log("async getScheduleList : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -66,8 +62,6 @@ export default {
         let { data } = await http.get("/schedules", { params });
 
         try {
-            console.log("async getScheduleList : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -90,8 +84,6 @@ export default {
         let { data } = await http.get(`/schedules/${scheduleSeq}`);
 
         try {
-            console.log("async getScheduleDetail : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
