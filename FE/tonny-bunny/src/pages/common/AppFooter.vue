@@ -6,10 +6,26 @@
                     <div class="site">
                         <h2>TonnyBunny</h2>
                         <ul>
-                            <li>토니바니란?</li>
-                            <li>통역하기</li>
-                            <li>번역하기</li>
-                            <li>커뮤니티</li>
+                            <li>
+                                <router-link :to="{ name: 'IntroPage' }">
+                                    <span>토니바니란?</span>
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'TonnyPage' }">
+                                    <span>통역하기</span>
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'BunnyPage' }">
+                                    <span>번역하기</span>
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'BoardPage' }">
+                                    <span>커뮤니티</span>
+                                </router-link>
+                            </li>
                         </ul>
                     </div>
 
@@ -17,40 +33,34 @@
                         <h2>잘해오조</h2>
                         <ul>
                             <li class="d-flex align-items-center">
-                                <span>배충현</span>
-                                <span class="material-symbols-outlined fs-5">
-                                    arrow_right_alt
-                                </span>
+                                <a href="https://github.com/baebug">
+                                    <span>배충현</span>
+                                </a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <span>김희제</span>
-                                <span class="material-symbols-outlined fs-5">
-                                    arrow_right_alt
-                                </span>
+                                <a href="https://github.com/heisje">
+                                    <span>김희제</span>
+                                </a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <span>류승태</span>
-                                <span class="material-symbols-outlined fs-5">
-                                    arrow_right_alt
-                                </span>
+                                <a href="https://github.com/SeungtaeRyu">
+                                    <span>류승태</span>
+                                </a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <span>염정아</span>
-                                <span class="material-symbols-outlined fs-5">
-                                    arrow_right_alt
-                                </span>
+                                <a href="https://github.com/yeomss">
+                                    <span>염정아</span>
+                                </a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <span>정채원</span>
-                                <span class="material-symbols-outlined fs-5">
-                                    arrow_right_alt
-                                </span>
+                                <a href="https://github.com/noonmap">
+                                    <span>정채원</span>
+                                </a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <span>최권민</span>
-                                <span class="material-symbols-outlined fs-5">
-                                    arrow_right_alt
-                                </span>
+                                <a href="https://github.com/Hello1Robot">
+                                    <span>최권민</span>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -58,7 +68,7 @@
                     <div class="notice">
                         <h2>고객센터</h2>
                         <ul>
-                            <li>                    
+                            <li>
                                 <router-link :to="{ name: 'NoticeListPage' }">
                                     <span>공지사항</span>
                                 </router-link>
@@ -68,7 +78,11 @@
                                     <span>자주 묻는 질문</span>
                                 </router-link>
                             </li>
-                            <li>이메일 문의</li>
+                            <li>
+                                <router-link :to="{ name: 'NoticePage' }">
+                                    <span>이메일 문의</span>
+                                </router-link>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -164,6 +178,6 @@ export default {};
     }
 }
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 </style>
