@@ -2,15 +2,26 @@
     <div class="boardTopContainer">
         <!-- {{ boardDetail }} -->
         <div class="boardTopWrap">
-            <square-tag sub text="자유"></square-tag>
-            <h1>{{ boardDetail?.title }}</h1>
-
+            <div class="d-flex justify-content-between">
+                <div>
+                    <square-tag sub text="자유"></square-tag>
+                    <h1>{{ boardDetail?.title }}</h1>
+                </div>
+                <SmallBtn
+                    v-if="userInfo?.seq == boardDetail?.user?.seq"
+                    text="삭제"
+                    color="outline"
+                    font="main"
+                    @click="clickBoardDelete"
+                />
+            </div>
             <!-- 조회수 -->
             <div class="boardUserWrap">
                 <UserProfileImg
                     class="profileImg"
                     :profileImagePath="boardDetail?.user?.profileImagePath"
-                    width="42" />
+                    width="42"
+                />
 
                 <span
                     ><h3>{{ boardDetail?.user.nickName }}</h3></span
@@ -25,7 +36,8 @@
                 <div
                     class="boardImageContent"
                     v-for="boardImageItem in boardDetail?.boardImageList"
-                    :key="boardImageItem">
+                    :key="boardImageItem"
+                >
                     <img-item width="100" :imagePath="boardItem?.boardImageItem" />
                 </div>
             </div>
@@ -41,17 +53,20 @@
                 <TitleText
                     :title="`댓글(${boardDetail?.boardCommentList?.length})`"
                     top="24"
-                    type="h2" />
+                    type="h2"
+                />
                 <hr />
                 <div class="boardCommentWrap">
                     <div
                         class="boardCommentContent"
                         v-for="boardCommentItem in boardDetail?.boardCommentList"
-                        :key="boardCommentItem">
+                        :key="boardCommentItem"
+                    >
                         <div>
                             <user-profile-img
                                 :profileImagePath="boardCommentItem?.user?.profileImagePath"
-                                width="40" />
+                                width="40"
+                            />
 
                             <h3>{{ boardCommentItem?.user?.nickName }}</h3>
                             <span>{{ boardCommentItem?.createdAt }}</span>
@@ -109,6 +124,11 @@ export default {
             };
             this.$store.dispatch("insertBoardComment", payload).then(() => {
                 this.$store.dispatch("getBoardDetail", this.$route.params.id);
+            });
+        },
+        clickBoardDelete() {
+            this.$store.dispatch("removeBoard", this.boardDetail.seq).then(() => {
+                this.$router.push({ name: "BoardPage" });
             });
         },
 
