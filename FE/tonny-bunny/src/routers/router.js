@@ -432,7 +432,7 @@ const routes = [
         path: "/live",
         name: "OnAirPage",
         components: {
-            header: AppHeader,
+            // header: AppHeader,
             default: OnAirPage,
         },
     },
