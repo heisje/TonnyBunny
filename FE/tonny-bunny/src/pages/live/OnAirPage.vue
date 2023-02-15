@@ -417,8 +417,6 @@ export default {
             // 금액 업데이트
             this.session.on("signal:updatePrice", (event) => {
                 this.totalPrice = JSON.parse(event.data);
-                console.log(event.data);
-                console.log("받은금액 ", this.totalPrice);
             });
 
             // 채팅 로직
@@ -556,7 +554,7 @@ export default {
         },
 
         async stopRecording() {
-            console.log("내가 레코딩 종료 @@");
+            console.log("내가 레코딩 종료");
             if (this.recordId == "") return;
 
             let res = await axios.post(
@@ -573,6 +571,7 @@ export default {
                 historySeq: this.getHistorySeq,
                 recordVideoPath: this.recordId,
                 totalTime: this.timeToHHMMSS,
+                totalPrice: this.totalPrice,
             };
 
             console.log("히스토리 저장 시작");
