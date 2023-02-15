@@ -282,7 +282,6 @@ export default {
 
         // 휴대폰 인증번호 발송
         async sendAuthCode() {
-            console.log(this.phoneNum);
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
@@ -424,8 +423,6 @@ export default {
 
                 if (res.data.resultCode == "SUCCESS") {
                     // 회원가입 성공
-                    console.log("dd", res.data);
-                    console.log(typeof res.data.data);
                     if (this.$route.params.select == "client") {
                         this.$router.push({ name: "SignUpCompletePage" });
                     } else if (this.$route.params.select == "helper") {

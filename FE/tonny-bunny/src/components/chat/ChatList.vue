@@ -46,12 +46,10 @@ export default {
     },
     async mounted() {
         let stompSocket = this.$store.getters.getChatStompSocket;
-        console.log("stompSocket: ", stompSocket);
-        console.log("UserInfo: ", this.userInfo);
+        stompSocket;
 
         await this.$store.dispatch("getChatRoomList", this.userInfo);
         this.$store.commit("CONNECT_CHAT_STOMP_SOCKET", this.userInfo.seq);
-        console.log("GET: ", this.$store.getters.getChatRoomList);
     },
     computed: {
         ...mapGetters({

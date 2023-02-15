@@ -192,15 +192,12 @@ export default {
                 this.jtonnyRequest.client.nickName = this.userInfo.nickName;
                 this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`;
 
-                console.log("jtonnyRequest", this.jtonnyRequest);
-
                 this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
                 this.$router.push({ name: "JTonnyWaitingPage" });
             }
         },
 
         changLangCode() {
-            console.log(this.jtonnyRequest);
             const temp = this.jtonnyRequest.startLangCode;
             this.jtonnyRequest.startLangCode = this.jtonnyRequest.endLangCode;
             this.jtonnyRequest.endLangCode = temp;

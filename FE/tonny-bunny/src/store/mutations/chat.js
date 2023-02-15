@@ -25,22 +25,17 @@ export default {
         const serverURL = http.getUri() + "/stomp";
         let socket = new SockJS(serverURL);
         let stompClient = Stomp.over(socket);
-        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
         // state.chat.chatSocket = socket;
         // state.chat.chatStompSocket = stompClient;
         stompClient.connect(
             {},
             () => {
+                // console.log("소켓 연결 성공");
                 // 소켓 연결 성공
-                console.log("소켓 연결 성공");
-                console.log("구독 시도합니다 :", `/sub/chat/${userSeq}`);
                 // 본인 id 를 구독합니다.
                 stompClient.subscribe(`/sub/chat/${userSeq}`, (res) => {
-                    console.log("구독으로 받은 메시지 입니다.", res.body);
-
                     let alert = JSON.parse(res.body);
-                    console.log(state.chat.chatRoomList);
                     state.chat.chatRoomList.get(alert.roomSeq).notReadCount = alert.notReadCount;
                     state.chat.chatRoomList.get(alert.roomSeq).recentMessage = alert.message;
                 });

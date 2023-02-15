@@ -164,15 +164,15 @@ export default {
         },
         submitForm(e) {
             e.preventDefault();
-            console.log(this.startLangCode, this.getLangCode[this.startLangCode]);
-            console.log(this.endLangCode, this.getLangCode[this.endLangCode]);
-            console.log(this.bunnySituCode, this.getBunnySituCode[this.bunnySituCode]);
-            console.log(this.startDate);
-            console.log(this.endDate);
-            console.log(this.estimatePrice);
-            console.log(this.title);
-            console.log(this.content);
-            console.log(this.agreeValue);
+            // console.log(this.startLangCode, this.getLangCode[this.startLangCode]);
+            // console.log(this.endLangCode, this.getLangCode[this.endLangCode]);
+            // console.log(this.bunnySituCode, this.getBunnySituCode[this.bunnySituCode]);
+            // console.log(this.startDate);
+            // console.log(this.endDate);
+            // console.log(this.estimatePrice);
+            // console.log(this.title);
+            // console.log(this.content);
+            // console.log(this.agreeValue);
 
             // startLangCode: "",
             // endLangCode: "",
@@ -242,8 +242,6 @@ export default {
                 content: this.content,
                 bunnyImageList: [],
             };
-
-            console.log(payload);
 
             this.$store.dispatch("insertBunny", payload);
             this.$store.commit("TOGGLE_ALARM_MODAL");

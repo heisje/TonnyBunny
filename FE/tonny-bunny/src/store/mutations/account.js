@@ -15,19 +15,16 @@ export default {
         const { ...userInfo } = payload;
         state.account.isLogin = true;
         state.account.userInfo = userInfo;
-        console.log("state.account.userInfo", state.account.userInfo);
     },
     // token 정보 세팅하기
     SET_TOKENS(state, payload) {
         const { access_TOKEN, refresh_TOKEN } = payload;
         state.account.ACCESS_TOKEN = access_TOKEN;
         state.account.REFRESH_TOKEN = refresh_TOKEN;
-        console.log(state.account.ACCESS_TOKEN, state.account.REFRESH_TOKEN);
     },
 
     SET_IS_HELPER(state, isHelper) {
         state.account.isHelper = isHelper;
-        console.log("isHelper: ", state.account.isHelper);
     },
 
     // logout
