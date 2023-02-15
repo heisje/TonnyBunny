@@ -1,10 +1,9 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <TitleText
+            <title-banner
                 title="비밀번호 찾기"
-                center
-                text="가입한 이메일과 휴대폰 인증을 통해 비밀번호를 찾아드립니다"
+                text="🐰가입한 이메일과 휴대폰 인증으로 비밀번호를 변경합니다."
             />
 
             <div>
@@ -21,7 +20,8 @@
                     placeholder="휴대폰 번호"
                     @input="changePhoneInput"
                 />
-                <smallBtn @click.prevent="sendAuthCode" text="인증 요청"></smallBtn><br />
+                <smallBtn @click.prevent="sendAuthCode" text="인증 요청" class="my-2"></smallBtn
+                ><br />
                 <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
                 <br />
 
@@ -60,14 +60,14 @@
 </template>
 
 <script>
-import TitleText from "@/components/common/TitleText.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import http from "@/common/axios";
 
 export default {
     components: {
-        TitleText,
+        TitleBanner,
         smallBtn,
         AlarmModal,
     },
@@ -106,7 +106,7 @@ export default {
                 let res = await http.post("/send/authcode", { to: this.phoneNum });
 
                 if (res.data.data) {
-                    console.log(res.data.data)
+                    console.log(res.data.data);
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
@@ -120,9 +120,10 @@ export default {
             event.preventDefault();
 
             try {
-                let res = await http.post("/check/authcode", {                     
+                let res = await http.post("/check/authcode", {
                     authCode: this.authCode,
-                    phoneNumber: this.phoneNum, });
+                    phoneNumber: this.phoneNum,
+                });
                 if (res.data.data) {
                     this.isCheckAuthCode = true;
                     this.noticeAuth = "인증이 완료되었습니다";
@@ -131,7 +132,7 @@ export default {
                     this.noticeAuth2 = "인증번호가 일치하지 않습니다";
                 }
             } catch (error) {
-                alert("인증번호가 일치하지 않습니다.")
+                alert("인증번호가 일치하지 않습니다.");
                 console.log(error);
             }
         },
@@ -151,28 +152,21 @@ export default {
             }
             console.log("phoneNum:" + this.phoneNum);
             console.log("email : " + this.email);
-            try{
-                let res = await http.post("/login/find/password", 
-                {
-                    phoneNumber:this.phoneNum,
+            try {
+                let res = await http.post("/login/find/password", {
+                    phoneNumber: this.phoneNum,
                     email: this.email,
                     isAuthed: true,
-                })
-                if(res.data.data){
-                    this.$router.push({
-                    name: "ResetPwPage",
-                    params: { userSeq : res.data.data},
                 });
+                if (res.data.data) {
+                    this.$router.push({
+                        name: "ResetPwPage",
+                        params: { userSeq: res.data.data },
+                    });
                 }
-
-
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
-
-
-
-
         },
 
         closeModal() {
