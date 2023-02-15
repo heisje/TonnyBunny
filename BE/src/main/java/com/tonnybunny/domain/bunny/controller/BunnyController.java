@@ -106,14 +106,10 @@ public class BunnyController {
 
 			helperInfo.put("likeCount", tempUser.getHelperInfo().getLikeCount());
 			helperInfo.put("reviewCount", tempUser.getHelperInfo().getReviewCount());
+			helperInfo.put("avgScore",
+				tempUser.getHelperInfo().getReviewCount() == 0 ? 0 : Math.round(tempUser.getHelperInfo().getTotalScore() * 10.0 / tempUser.getHelperInfo().getReviewCount()) / 10.0);
 			helperInfo.put("oneLineIntroduction", tempUser.getHelperInfo().getOneLineIntroduction());
 			helperInfo.put("unitPrice", bunnyApplyResponseDto.getEstimatePrice());
-
-			if (tempUser.getHelperInfo().getReviewCount() == 0) {
-				helperInfo.put("avg", 0F);
-			} else {
-				helperInfo.put("avg", Float.valueOf(tempUser.getHelperInfo().getTotalScore()) / Float.valueOf(tempUser.getHelperInfo().getReviewCount()));
-			}
 
 			bunnyApplyResponseDto.setHelperInfo(helperInfo);
 		}

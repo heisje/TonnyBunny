@@ -17,6 +17,7 @@ import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,28 +41,29 @@ public class BunnyService {
 	 * @param bunnyRequestDto : 번역 공고 생성 폼
 	 * @return : 생성된 공고의 seq
 	 */
+	@Transactional
 	public Long createBunny(BunnyRequestDto bunnyRequestDto) {
 		UserEntity user = userRepository.findById(bunnyRequestDto.getClientSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		BunnyEntity bunny = BunnyEntity.builder()
-			.user(user)
-			.title(bunnyRequestDto.getTitle())
-			.content(bunnyRequestDto.getContent())
-			.estimatePrice(bunnyRequestDto.getEstimatePrice())
-			.startDateTime(bunnyRequestDto.getStartDateTime())
-			.endDateTime(bunnyRequestDto.getEndDateTime())
-			.startLangCode(bunnyRequestDto.getStartLangCode())
-			.endLangCode(bunnyRequestDto.getEndLangCode())
-			.bunnySituCode(bunnyRequestDto.getBunnySituCode())
-			.build();
+		                               .user(user)
+		                               .title(bunnyRequestDto.getTitle())
+		                               .content(bunnyRequestDto.getContent())
+		                               .estimatePrice(bunnyRequestDto.getEstimatePrice())
+		                               .startDateTime(bunnyRequestDto.getStartDateTime())
+		                               .endDateTime(bunnyRequestDto.getEndDateTime())
+		                               .startLangCode(bunnyRequestDto.getStartLangCode())
+		                               .endLangCode(bunnyRequestDto.getEndLangCode())
+		                               .bunnySituCode(bunnyRequestDto.getBunnySituCode())
+		                               .build();
 
 		bunny = bunnyRepository.save(bunny);
 
 		for (BunnyImageRequestDto bunnyImageRequestDto : bunnyRequestDto.getBunnyImageList()) {
 
 			BunnyImageEntity bunnyImage = BunnyImageEntity.builder()
-				.bunny(bunny)
-				.imagePath(bunnyImageRequestDto.getImagePath())
-				.build();
+			                                              .bunny(bunny)
+			                                              .imagePath(bunnyImageRequestDto.getImagePath())
+			                                              .build();
 
 			bunnyImage = bunnyImageRepository.save(bunnyImage);
 
@@ -170,8 +172,11 @@ public class BunnyService {
 		UserEntity user = userRepository.findById(bunnyApplyRequestDto.getUserSeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 		BunnyEntity bunny = bunnyRepository.findById(bunnyApplyRequestDto.getBunnySeq()).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
-		BunnyApplyEntity bunnyApply = BunnyApplyEntity.builder().
-			bunny(bunny).estimatePrice(bunnyApplyRequestDto.getEstimatePrice()).user(user).build();
+		BunnyApplyEntity bunnyApply = BunnyApplyEntity.builder()
+		                                              .bunny(bunny)
+		                                              .estimatePrice(bunnyApplyRequestDto.getEstimatePrice())
+		                                              .user(user)
+		                                              .build();
 
 		BunnyApplyEntity creaetedBunnyApply = bunnyApplyRepository.save(bunnyApply);
 		return creaetedBunnyApply.getSeq();
