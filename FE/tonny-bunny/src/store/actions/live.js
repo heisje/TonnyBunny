@@ -10,13 +10,9 @@ export default {
 
     // POST /api/live/complete 고객의 라이브 종료 후 히스토리 저장 요청
     async completeLive(context, payload) {
-        console.log("라이브 완료");
-
         let { data } = await http.post(`/live/complete`, payload);
 
         try {
-            console.log("async completeLive : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -36,13 +32,9 @@ export default {
 
     // POST /api/live/jtonny/start 고객의 즉시 통역 라이브 시작
     async startJTonnyLive(context, payload) {
-        console.log("즉시통역 라이브 시작");
-
         let { data } = await http.post(`/live/jtonny/start`, payload);
 
         try {
-            console.log("async startJTonnyLive : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
@@ -63,13 +55,9 @@ export default {
 
     // POST /api/live/ytonny/start 고객의 예약 통역 라이브 시작
     async startYTonnyLive(context, payload) {
-        console.log("예약통역 라이브 시작");
-
         let { data } = await http.post(`/live/ytonny/start`, payload);
 
         try {
-            console.log("async liveComplete : ", data);
-
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:

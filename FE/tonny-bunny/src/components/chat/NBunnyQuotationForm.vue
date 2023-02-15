@@ -6,8 +6,7 @@
                 type="h2"
                 title="고객의 어떤 공고를 해결하시겠어요?"
                 text="해결하고 싶은 공고를 선택해주세요"
-                class="mb-3"
-            />
+                class="mb-3" />
 
             <div class="">
                 <label for=""></label>
@@ -15,8 +14,7 @@
                     :dropdownArray="bunntTitleList"
                     placeholder="공고를 선택하세요"
                     @toggle="selectBunny"
-                    @toggleInx="findIdx"
-                />
+                    @toggleInx="findIdx" />
             </div>
 
             <title-text type="h2" title="제목" />
@@ -58,8 +56,7 @@
                 type="h2"
                 title="번역의 금액을 설정해주세요"
                 text="번역 시 받으실 금액을 설정해주세요"
-                class="mb-3"
-            />
+                class="mb-3" />
 
             <div class="d-flex">
                 <div class="col-11">
@@ -68,8 +65,7 @@
                         @input="changeInput"
                         class="w-100"
                         placeholder="ex)1000"
-                        v-model="totalPrice"
-                    />
+                        v-model="totalPrice" />
                 </div>
                 <div class="backlabel col-2">
                     <h3>캐럿</h3>
@@ -90,8 +86,7 @@
                 style="width: 100%"
                 text="작성하기"
                 color="main"
-                @click.prevent="submitForm(event)"
-            />
+                @click.prevent="submitForm(event)" />
         </form>
     </div>
 </template>
@@ -174,17 +169,17 @@ export default {
             }
 
             const s_bunny = this.bunnyList[this.s_index];
-            console.log("bunnySeq : ", s_bunny.seq);
-            console.log("clientSeq : ", s_bunny.client.seq);
-            console.log("helperSeq : ", this.$store.state.account.userInfo.seq);
-            console.log("startLangCode : ", s_bunny.startLangCode);
-            console.log("endLangCode : ", s_bunny.endLangCode);
-            console.log("startDateTime : ", s_bunny.startDateTime);
-            console.log("endDateTime : ", s_bunny.endDateTime);
-            console.log("title : ", s_bunny.title);
-            console.log("content : ", s_bunny.content);
-            console.log("totalPrice : ", this.totalPrice);
-            console.log("agreeValue : ", this.agreeValue);
+            // console.log("bunnySeq : ", s_bunny.seq);
+            // console.log("clientSeq : ", s_bunny.client.seq);
+            // console.log("helperSeq : ", this.$store.state.account.userInfo.seq);
+            // console.log("startLangCode : ", s_bunny.startLangCode);
+            // console.log("endLangCode : ", s_bunny.endLangCode);
+            // console.log("startDateTime : ", s_bunny.startDateTime);
+            // console.log("endDateTime : ", s_bunny.endDateTime);
+            // console.log("title : ", s_bunny.title);
+            // console.log("content : ", s_bunny.content);
+            // console.log("totalPrice : ", this.totalPrice);
+            // console.log("agreeValue : ", this.agreeValue);
 
             const payload = {
                 bunnySeq: s_bunny.seq,
@@ -234,15 +229,12 @@ export default {
 
     async created() {
         const clientSeq = this.$route.params.clientSeq;
-        console.log(this.$route.params.clientSeq);
         let res = await http.get(`/bunny/${clientSeq}/user`, clientSeq);
 
         const SUCCESS = "SUCCESS";
         const FAIL = "FAIL";
 
         try {
-            console.log("async function : ", res);
-
             // service logic
             switch (res.data.resultCode) {
                 case SUCCESS:

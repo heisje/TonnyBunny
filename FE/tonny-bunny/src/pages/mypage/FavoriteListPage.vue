@@ -7,8 +7,7 @@
                 <UserProfileItem
                     btnText="언팔로우"
                     :helperInfo="follow"
-                    @clickBtn="deleteFollow(follow.seq)"
-                />
+                    @clickBtn="deleteFollow(follow.seq)" />
             </div>
         </div>
         <div v-else>
@@ -49,18 +48,13 @@ export default {
     methods: {
         async getFollowList(seq) {
             try {
-                console.log("SEQ : " + seq);
                 let res = await http.get(`/mypage/${seq}/follow`);
-                console.log(res);
                 if (res.data.resultCode == "SUCCESS") {
-                    console.log("팔로우리스트 불러오기 성공");
                     this.followList = res.data.data;
                     this.followCnt = res.data.data.length;
-                    console.log("followList : " + this.followList);
                 }
             } catch (error) {
                 console.log(error);
-                console.log("팔로우 리스트 불러오기 실패...");
             }
         },
 
@@ -69,9 +63,7 @@ export default {
             try {
                 let res = await http.delete(`mypage/${userSeq}/follow/${helperSeq}`);
 
-                console.log(res);
                 if (res.data.resultCode == "SUCCESS") {
-                    console.log("성공");
                     this.followCnt -= 1;
                 }
             } catch (error) {

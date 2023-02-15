@@ -340,9 +340,6 @@ export default {
         },
 
         accept(helper) {
-            console.log("accept", helper.seq);
-            console.log("client seq:", this.userInfo.seq);
-
             // let jtonny = this.jtonnyApplyList[helperSeq];
 
             this.jtonnyRequest.helper = helper;
@@ -350,7 +347,6 @@ export default {
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
         reject(helper) {
-            console.log("reject");
             this.jtonnyRequest.helper = helper;
             this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
             delete this.jtonnyApplyList[this.jtonnyRequest.helper.seq];
@@ -371,18 +367,18 @@ export default {
         let clientSeq = this.jtonnyRequest.client.seq;
         let socket = new SockJS(serverURL);
         this.stompClient = Stomp.over(socket);
-        console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
+        // console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
         this.stompClient.connect(
             {},
             () => {
                 // 소켓 연결 성공
                 this.connected = true;
-                console.log("소켓 연결 성공");
+                // console.log("소켓 연결 성공");
 
                 // 본인 seq 를 구독합니다.
                 this.stompClient.subscribe(`/sub/jtonny/apply/${clientSeq}`, (res) => {
-                    console.log("즉시통역 요청이 도착했습니다.", res.body);
+                    // console.log("즉시통역 요청이 도착했습니다.", res.body);
 
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
                     let request = JSON.parse(res.body);
@@ -390,7 +386,7 @@ export default {
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/apply/${clientSeq}/cancel`, (res) => {
-                    console.log("즉시통역 요청이 취소되었습니다.", res.body);
+                    // console.log("즉시통역 요청이 취소되었습니다.", res.body);
 
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
                     let request = JSON.parse(res.body);
@@ -398,23 +394,19 @@ export default {
                 });
 
                 this.stompClient.subscribe(`/sub/jtonny/accept/${clientSeq}`, async (res) => {
-                    console.log("즉시통역 매칭 완료. 오픈비두 이동(고객)", res.body);
+                    // console.log("즉시통역 매칭 완료. 오픈비두 이동(고객)", res.body);
 
                     const data = JSON.parse(res.body);
                     await this.$store.commit("SET_START_RES_DATA", data);
 
                     // 히스토리 생성 -----------------------------------------
 
-                    console.log(data);
                     let res2 = await http.post(`/live/jtonny/start`, data);
 
                     try {
-                        console.log("async function : ", res2);
-
                         // service logic
                         switch (res2.data.resultCode) {
                             case "SUCCESS":
-                                console.log(res2.data.data);
                                 this.$store.commit("SET_HISTORY_SEQ", res2.data.data);
                                 break;
                             case "FAIL":

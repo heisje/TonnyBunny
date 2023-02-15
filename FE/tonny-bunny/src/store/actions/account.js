@@ -18,8 +18,6 @@ export default {
         Login
     */
     async login(context, loginInfo) {
-        console.log("async login !");
-
         // eslint-disable-next-line
         let errorMessage = "";
 
@@ -29,8 +27,6 @@ export default {
         });
 
         try {
-            console.log("async login function : ", data);
-
             // 로그인 성공 로직
             if (data.resultCode == "SUCCESS") {
                 // 데이터 분할
@@ -42,14 +38,12 @@ export default {
 
                 // 유저 정보 저장
                 context.commit("SET_USER_INFO", userInfo);
-                console.log("!!! userInfo: ", userInfo);
 
                 // 로그인 변경
                 context.commit("SET_LOG_IN");
 
                 // 공통코드를 저장
                 let userCode = userInfo.userCode;
-                console.log(userCode);
                 if (userCode == "0010001") context.commit("SET_IS_HELPER", false);
                 else if (userCode == "0010002") context.commit("SET_IS_HELPER", true);
 
@@ -59,7 +53,7 @@ export default {
 
                 // http.defaults.headers.common["ACCESS_TOKEN"] = access_TOKEN;
             } else if (data.resultCode == "FAIL") {
-                console.log("err.response2");
+                // console.log("err.response2");
                 //
             }
 

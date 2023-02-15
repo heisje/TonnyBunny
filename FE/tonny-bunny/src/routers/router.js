@@ -810,7 +810,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // console.log("to", to);
     // console.log("from", from);
-    console.log(to.name);
+
     switch (to.name) {
         case "HomePage":
         case "SignUpPage":
@@ -836,7 +836,6 @@ router.beforeEach((to, from, next) => {
             next();
             break;
         default:
-            console.log("store.state.account.userInfo : ", store.state.account.userInfo);
             if (store.state.account.isLogin == true) {
                 next();
             } else {

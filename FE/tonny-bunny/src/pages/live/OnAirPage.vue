@@ -371,7 +371,7 @@ export default {
                 this.session
                     .signal({ data: "pointIssue", type: "live" })
                     .then(() => {
-                        console.log("Message successfully sent");
+                        // console.log("Message successfully sent");
                     })
                     .catch((error) => {
                         console.error(error);
@@ -380,7 +380,7 @@ export default {
                 this.session
                     .signal({ data: updatedPrice, type: "updatePrice" })
                     .then(() => {
-                        console.log("Message successfully sent");
+                        // console.log("Message successfully sent");
                     })
                     .catch((error) => {
                         console.error(error);
@@ -502,7 +502,6 @@ export default {
                         this.session.publish(this.publisher);
 
                         if (!this.isExisted) {
-                            console.log("방생성, 내가 레코딩 시작");
                             this.startRecording();
                         }
                     })
@@ -525,7 +524,7 @@ export default {
             this.session
                 .signal({ data: "Start", type: "live" })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    // console.log("Message successfully sent");
                 })
                 .catch((error) => {
                     console.error(error);
@@ -537,7 +536,7 @@ export default {
             this.session
                 .signal({ data: "End", type: "live" })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    // console.log("Message successfully sent");
                 })
                 .catch((error) => {
                     console.error(error);
@@ -562,7 +561,7 @@ export default {
         },
 
         async stopRecording() {
-            console.log("내가 레코딩 종료");
+            // console.log("내가 레코딩 종료");
             if (this.recordId == "") return;
 
             let res = await axios.post(
@@ -570,9 +569,7 @@ export default {
                 { recording: this.recordId }
             );
 
-            console.log("레코딩 종료 끝");
-
-            console.log(res);
+            // console.log("레코딩 종료 끝");
 
             // 히스토리 저장 요청
             const payload = {
@@ -582,11 +579,7 @@ export default {
                 totalPrice: this.totalPrice,
             };
 
-            console.log("히스토리 저장 시작");
-            console.log(payload);
-
             await this.$store.dispatch("completeLive", payload);
-            console.log("히스토리 저장 끝");
         },
 
         toggleSpeaker() {
@@ -667,9 +660,7 @@ export default {
                 { headers: { "Content-Type": "application/json" } }
             );
 
-            console.log("res!!!!!!!!!!!!!!!!!:", res);
             this.isExisted = res.data["isExisted"];
-            console.log(this.isExisted);
             return res.data[0];
         },
     },
@@ -677,8 +668,7 @@ export default {
     created() {
         window.scrollTo(0, 0);
         this.leaveSession();
-        console.log("resDate", this.startResData);
-        console.log(this.$store.state.account.userInfo);
+
         this.$store.state.account.userInfo.seq == this.startResData.client.seq
             ? (this.isClient = true)
             : (this.isClient = false);

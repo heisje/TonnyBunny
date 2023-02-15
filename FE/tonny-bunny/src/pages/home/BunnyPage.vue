@@ -168,7 +168,6 @@ export default {
         },
 
         clickHelperBtn(bunny) {
-            console.log(bunny);
             this.$store.state.bunny.bunnyDetail = bunny;
             this.$router.push({ name: "NBunnyMatchingPage" });
         },
@@ -184,8 +183,6 @@ export default {
         window.scrollTo(0, 0);
         await this.$store.dispatch("getTodayScheduleList", this.userInfo.seq);
         this.$store.commit("CLOSE_SCHEDULE_MODAL");
-        console.log(this.todayScheduleList);
-        console.log("userInfo:", this.userInfo);
     },
 };
 </script>

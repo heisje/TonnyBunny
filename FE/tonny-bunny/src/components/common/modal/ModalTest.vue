@@ -51,7 +51,6 @@ export default {
         },
 
         checkTest() {
-            console.log("안뇽");
             this.$router.push("/jtonny/form");
         },
     },
