@@ -1,11 +1,12 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
-            <title-banner
-                title="🐰 그 번역 제가 맡을게요!"
-                text="번역 의뢰에 견적서를 작성하고 요청합니다"
-            />
-            <TitleText title="고객에게 제안하기" text="금액을 정해서 제안해보세요!"></TitleText>
+            <title-banner title="번역 헬퍼 신청" text="번역 의뢰에 견적서를 작성하고 요청합니다" />
+            <TitleText
+                title="고객에게 제안하기"
+                text="의뢰 캐럿을 지정하여 고객에게 제안해볼까요?"
+                top="100"
+                bottom="54"></TitleText>
 
             <NBunnyHelperForm></NBunnyHelperForm>
 
@@ -17,8 +18,7 @@
                 btnColor2="main"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @click-btn2="clickBtn2"
-            >
+                @click-btn2="clickBtn2">
                 <template #content> 고객에게 제안을 성공적으로 보냈습니다. </template>
             </AlarmModal>
         </div>
@@ -57,10 +57,22 @@ export default {
     },
 
     methods: {
-        clickBtn2() {
+        async clickBtn2() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
             const bunnySeq = this.getBunnyDetail.seq;
             this.$router.push({ name: "NBunnyDetailPage", params: { id: bunnySeq } });
+
+            // let alert = {
+            //     userSeq: this.userInfo.seq,
+            //     clientSeq: this.getBunnyDetail.client.seq,
+            //     helperSeq: this.userInfo.seq,
+            //     taskCode: this.getBunnyDetail.taskCode,
+            //     content: "번역 신청",
+            //     clientNickname: this.getBunnyDetail.client.nickName,
+            //     helperNickname: this.userInfo.nickName,
+            // };
+
+            // await this.$store.dispatch("applyAlert", alert);
         },
     },
 };

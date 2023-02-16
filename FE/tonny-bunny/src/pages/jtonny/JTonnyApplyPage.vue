@@ -354,9 +354,10 @@ export default {
             quest.isMoreOpen = !quest.isMoreOpen;
         },
 
-        apply(seq) {
+        async apply(seq) {
             // this.jtonnyRequest 에 단가, this.userInfo.seq 넣기
             let jtonnyApply = this.jtonnyQuestList[seq];
+            console.log("jtonnyApply!!!!!!!!!!!!!!", jtonnyApply);
 
             jtonnyApply.helper = {
                 seq: this.userInfo.seq,
@@ -375,14 +376,41 @@ export default {
             }
 
             this.stompClient.send("/pub/jtonny/apply", JSON.stringify(jtonnyApply), {});
+
+            // let jtonnyDetail = this.jtonnyRequest[seq];
+            // console.log("!!!!!jtonnyDetail", jtonnyDetail);
+
+            let alert = {
+                userSeq: this.userInfo.seq,
+                clientSeq: jtonnyApply.client.seq,
+                helperSeq: this.userInfo.seq,
+                taskCode: jtonnyApply.taskCode,
+                content: "즉시 통역 헬퍼 신청에 성공했습니다.",
+                clientNickname: jtonnyApply.client.nickName,
+                helperNickname: this.userInfo.nickName,
+            };
+
+            await this.$store.dispatch("applyAlert", alert);
         },
 
-        cancelApply(seq) {
+        async cancelApply(seq) {
             let jtonnyApply = this.jtonnyQuestList[seq];
 
             this.stompClient.send("/pub/jtonny/apply/cancel", JSON.stringify(jtonnyApply), {});
             delete this.jtonnyQuestList[seq];
             delete this.jtonnyApplyQuestList[seq];
+
+            let alert = {
+                userSeq: this.userInfo.seq,
+                clientSeq: jtonnyApply.client.seq,
+                helperSeq: this.userInfo.seq,
+                taskCode: jtonnyApply.taskCode,
+                content: "즉시 통역 헬퍼 신청을 취소했습니다.",
+                clientNickname: jtonnyApply.client.nickName,
+                helperNickname: this.userInfo.nickName,
+            };
+
+            await this.$store.dispatch("applyCancelAlert", alert);
         },
 
         unsubscribe() {
@@ -441,13 +469,13 @@ export default {
                     const data = JSON.parse(res.body);
                     this.$store.commit("SET_START_RES_DATA", data);
 
-                    /* 
+                    /*
                         let jtonny = JSON.parse(res.body);
-                        
-                        오픈비두 이동 router.PUSH 
+
+                        오픈비두 이동 router.PUSH
                         param? query? 는 jtonny
 
-						
+
                     */
 
                     this.modalName = "accept";
