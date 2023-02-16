@@ -48,6 +48,7 @@
                     class="input"
                     type="text"
                     :id="content.id"
+                    autocomplete="off"
                     @input="changeInput" />
                 <div class="commentCreateBtn">
                     <SmallBtn text="댓글 작성" color="primary" @click="clickCommentCreateBtn" />
