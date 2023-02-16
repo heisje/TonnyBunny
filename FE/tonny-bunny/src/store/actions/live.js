@@ -31,27 +31,28 @@ export default {
     },
 
     // POST /api/live/jtonny/start 고객의 즉시 통역 라이브 시작
-    async startJTonnyLive(context, payload) {
-        let { data } = await http.post(`/live/jtonny/start`, payload);
+    // async startJTonnyLive(context, payload) {
+    //     let { data } = await http.post(`/live/jtonny/start`, payload);
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case SUCCESS:
-                    context.commit("getStartResData", data.data);
-                    return data.data;
-                case FAIL:
-                    return -1;
-            }
-        } catch (err) {
-            console.error(err);
+    //     try {
+    //         // service logic
+    //         switch (data.resultCode) {
+    //             case SUCCESS:
+    //                 context.commit("getStartResData", data.data);
+    //                 console.log(data.data);
+    //                 return data.data;
+    //             case FAIL:
+    //                 return -1;
+    //         }
+    //     } catch (err) {
+    //         console.error(err);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
-        }
-    },
+    //         // exception
+    //         if (err.response.status == 403) {
+    //             alert("로그인 하세요");
+    //         }
+    //     }
+    // },
 
     // POST /api/live/ytonny/start 고객의 예약 통역 라이브 시작
     async startYTonnyLive(context, payload) {
@@ -61,7 +62,7 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case SUCCESS:
-                    context.commit("SET_HISTORY_SEQ", data.data);
+                    context.state.live.historySeq = data.data;
                     return data.data;
                 case FAIL:
                     return -1;
