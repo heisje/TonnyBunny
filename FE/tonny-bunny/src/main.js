@@ -7,6 +7,10 @@ import store from "@/store/store";
 import Vue3Lottie from "vue3-lottie";
 import "vue3-lottie/dist/style.css";
 
+// moment
+import moment from "moment-timezone";
+moment.tz.setDefault("Asia/Seoul");
+
 // Vuetify
 import "vuetify/styles";
 import { createVuetify } from "vuetify";
@@ -21,6 +25,7 @@ const vuetify = createVuetify({
 });
 
 const app = createApp(App);
+app.config.globalProperties.$moment = moment;
 
 app.use(store);
 app.use(router);

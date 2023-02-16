@@ -487,6 +487,7 @@ export default {
 
 	async created() {
 		await this.$store.dispatch("getBunnyDetail", this.$route.params.id);
+		console.log("getBunnyDetail:::::", this.getBunnyDetail);
 		this.checkIsCreator();
 		this.checkIsManager();
 		this.$store.commit("CLOSE_ALARM_MODAL");
