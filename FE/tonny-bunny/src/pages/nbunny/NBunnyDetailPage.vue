@@ -201,19 +201,24 @@
                                 > -->
                             </div>
                         </div>
-                        <div
-                            v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
-                            :key="index"
-                            class="w-100">
-                            <helper-card
-                                class="w-100 mb-3"
-                                :userInfo="apply"
-                                :fareText="apply.estimatePrice"
-                                rightBtnText="상담하기"
-                                @remove-card="close"
-                                @toggle-like-btn="toggleLike"
-                                @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                        <div v-if="getBunnyDetail?.bunnyApplyList.length > 0">
+                            <div
+                                v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
+                                :key="index"
+                                class="w-100">
+                                <helper-card
+                                    class="w-100 mb-3"
+                                    :userInfo="apply"
+                                    :fareText="apply.estimatePrice"
+                                    rightBtnText="상담하기"
+                                    @remove-card="close"
+                                    @toggle-like-btn="toggleLike"
+                                    @click-btn1="goHelperProfile"
+                                    @click-btn2="enterChatRoom"></helper-card>
+                            </div>
+                        </div>
+                        <div v-else style="color: var(--sub-color)">
+                            가격을 제안한 헬퍼가 없습니다.
                         </div>
                     </div>
                 </div>
@@ -470,6 +475,7 @@ export default {
         await this.$store.dispatch("getBunnyDetail", this.$route.params.id);
         this.checkIsCreator();
         this.checkIsManager();
+        this.$store.commit("CLOSE_ALARM_MODAL");
     },
 
     methods: {
@@ -478,15 +484,15 @@ export default {
         },
         openCompleteModal() {
             this.modalName = "completeBunnyModal";
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
         openRemoveBunnyModal() {
             this.modalName = "removeBunnyModal";
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
         openRemoveApplyModal() {
             this.modalName = "removeApplyModal";
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
 
         checkIsCreator() {
@@ -514,7 +520,7 @@ export default {
             );
         },
         async completeBunny() {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
             const s_quotation = this.getBunnyDetail.bunnyQuotationList.find(
                 (quotation) => this.allCode[quotation.quotationStateCode] == `선택`
             );
@@ -527,12 +533,12 @@ export default {
             this.$router.go(0);
         },
         async deleteBunny(bunnySeq) {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
             await this.$store.dispatch("removeBunny", bunnySeq);
             this.$router.push({ name: "HomePage" });
         },
         async deleteApply() {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
             const payload = {
                 bunnySeq: this.getBunnyDetail?.seq,
                 bunnyApplySeq: 0,
@@ -579,14 +585,14 @@ export default {
 
             await this.$store.dispatch("getBunnyDetail", this.$route.params.id);
 
-            // this.$store.commit("TOGGLE_ALARM_MODAL");
+            // this.$store.commit("OPEN_ALARM_MODAL");
             // this.$router.replace({
             //     name: "NBunnyDetailPage",
             //     params: { id: this.getBunnyDetail.seq },
             // });
         },
         closeModal() {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
         async enterChatRoom(helperSeq) {
             const clientSeq = this.getBunnyDetail.client.seq;

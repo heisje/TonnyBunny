@@ -91,6 +91,8 @@ export default {
                             }, // Callback after click
                         }).showToast();
 
+                        setTimeout(() => window.location.reload(), 1000);
+
                         // 만약 router 가 본 페이지라면
                         // $this.$router.push({
                         // name: "YTonnyDetailPage",
@@ -128,7 +130,8 @@ export default {
                         }).showToast();
                     }
 
-                    // window.location.reload();
+                    setTimeout(() => window.location.reload(), 1000);
+                    // setTimeout(() => window.location.reload(), 1000);
                 });
 
                 // 헬퍼가 신청
@@ -188,6 +191,7 @@ export default {
                             }, // Callback after click
                         }).showToast();
 
+                        setTimeout(() => window.location.reload(), 1000);
                         // 만약 router 가 본 페이지라면
                         // $this.$router.push({
                         // name: "YTonnyDetailPage",
@@ -242,7 +246,9 @@ export default {
                         }).showToast();
                     }
 
-                    // window.location.reload();
+                    setTimeout(() => window.location.reload(), 1000);
+
+                    // setTimeout(() => window.location.reload(), 1000);
                 });
 
                 stompClient.subscribe(`/sub/alert/apply/${seq}/cancel`, (res) => {
@@ -306,6 +312,8 @@ export default {
                         // name: "YTonnyDetailPage",
                         // params: { id: $this.yTonnyDetail.seq }
                         // });
+
+                        setTimeout(() => window.location.reload(), 1000);
                     } else {
                         let text;
                         if (request.taskCode == "0030001") {
@@ -355,7 +363,9 @@ export default {
                         }).showToast();
                     }
 
-                    // window.location.reload();
+                    setTimeout(() => window.location.reload(), 1000);
+
+                    // setTimeout(() => window.location.reload(), 1000);
                 });
             },
             (error) => {

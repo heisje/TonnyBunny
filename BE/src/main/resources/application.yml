@@ -17,6 +17,7 @@ spring:
   redis:
     host: ${db.redis.host}
     port: ${db.redis.port}
+    password: ${db.redis.password}
   
   # swagger \uAD00\uB828 \uC124\uC815
   mvc:
