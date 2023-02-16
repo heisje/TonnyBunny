@@ -10,7 +10,6 @@
                     :key="alertItem.alertLogSeq">
                     <AlertItem
                         :alertItem="alertItem"
-                        @putAlert="putAlert(alertItem.alertLogSeq)"
                         @deleteAlert="deleteAlert(alertItem.alertLogSeq)" />
                 </div>
             </div>

@@ -29,10 +29,26 @@ public class AlertController {
 	private final RedisTemplate<String, Object> redisTemplate;
 
 
-	@GetMapping
-	@ApiOperation(value = "알림 Socket", notes = "userSeq 에 따라서 알림 목록을 반환한다.")
-	public ResponseEntity<ResultDto<Boolean>> getAlertLog(AlertLogRequestDto alertLogRequestDto) {
-		redisTemplate.convertAndSend("alerts", alertLogRequestDto);
+	@GetMapping("/accept")
+	@ApiOperation(value = "알림 수락 Socket")
+	public ResponseEntity<ResultDto<Boolean>> acceptAlertLog(AlertLogRequestDto alertLogRequestDto) {
+		redisTemplate.convertAndSend("alerts/accept", alertLogRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+	}
+
+
+	@GetMapping("/apply")
+	@ApiOperation(value = "알림 신청 Socket")
+	public ResponseEntity<ResultDto<Boolean>> applyAlertLog(AlertLogRequestDto alertLogRequestDto) {
+		redisTemplate.convertAndSend("alerts/apply", alertLogRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+	}
+
+
+	@GetMapping("/apply/cancel")
+	@ApiOperation(value = "알림 신청 취소 Socket")
+	public ResponseEntity<ResultDto<Boolean>> applyCancelAlertLog(AlertLogRequestDto alertLogRequestDto) {
+		redisTemplate.convertAndSend("alerts/apply-cancel", alertLogRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
 	}
 
@@ -49,7 +65,9 @@ public class AlertController {
 	@ApiOperation(value = "알림 로그 목록 반환 API", notes = "userSeq 에 따라서 알림 목록을 반환한다.")
 	public ResponseEntity<ResultDto<List<AlertLogResponseDto>>> getAlertLogList(AlertLogRequestDto alertLogRequestDto) {
 		List<AlertLogEntity> alertLogList = alertService.getAlertLogList(alertLogRequestDto);
+		System.out.println("alertLogList = " + alertLogList);
 		List<AlertLogResponseDto> alertLogResponseDtoList = AlertLogResponseDto.fromEntityList(alertLogList);
+		System.out.println("!!!!!!alertLogResponseDtoList = " + alertLogResponseDtoList);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(alertLogResponseDtoList));
 	}
 
