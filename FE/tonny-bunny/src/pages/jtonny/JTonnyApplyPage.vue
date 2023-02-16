@@ -296,6 +296,7 @@ import { mapGetters } from "vuex";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import http from "@/common/axios";
+import Toastify from "toastify-js";
 
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
@@ -446,6 +447,24 @@ export default {
                             // 받은 데이터를 json 으로 파싱하고 dictionary 에 넣어줍니다.
                             let request = JSON.parse(res.body);
                             this.jtonnyQuestList[request.client.seq] = request;
+
+                            Toastify({
+                                text: "즉시 통역 신청이 들어왔습니다.",
+                                duration: 5000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                    boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
+                                    borderRadius: "6px",
+                                    fontSize: "1.3rem",
+                                    fontWeight: "600",
+                                },
+                                onClick: function () {}, // Callback after click
+                            }).showToast();
                         }
                     );
                     this.subs.push(sub);
@@ -458,6 +477,24 @@ export default {
                             let request = JSON.parse(res.body);
                             delete this.jtonnyQuestList[request.client.seq];
                             delete this.jtonnyApplyQuestList[request.client.seq];
+
+                            Toastify({
+                                text: "즉시 통역 신청이 취소 되었습니다.",
+                                duration: 5000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                    boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
+                                    borderRadius: "6px",
+                                    fontSize: "1.3rem",
+                                    fontWeight: "600",
+                                },
+                                onClick: function () {}, // Callback after click
+                            }).showToast();
                         }
                     );
                     this.subs.push(sub);

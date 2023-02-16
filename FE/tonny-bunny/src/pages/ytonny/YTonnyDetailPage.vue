@@ -243,33 +243,26 @@
                                         </div>
                                         <div class="col-10 helperInfo">
                                             <div class="d-flex flex-row">
-                                                <div class="likeBtn" @click="toggleLikeBtn">
-                                                    <span
-                                                        v-if="isLikeEmpty"
-                                                        class="material-symbols-outlined likeIcon empty">
-                                                        favorite
-                                                    </span>
-                                                    <span
-                                                        v-else
-                                                        class="material-symbols-outlined likeIcon">
-                                                        favorite
-                                                    </span>
+                                                <div class="fw-bold">
+                                                    {{ apply.helper.nickName }}
                                                 </div>
-                                                <div>{{ apply.helper.nickName }}</div>
                                             </div>
                                             <div>
                                                 {{ apply.helper.helperInfo.oneLineIntroduction }}
                                             </div>
-                                            <div class="d-flex">
+                                            <div class="d-flex infoss justify-space-around">
                                                 <div>
-                                                    &nbsp;평점
+                                                    &nbsp;<span class="fw-bold">평점</span>
                                                     {{ apply.helper.helperInfo.totalScore }}
                                                 </div>
                                                 <div>
-                                                    &nbsp;리뷰
+                                                    &nbsp;<span class="fw-bold">리뷰</span>
                                                     {{ apply.helper.helperInfo.reviewCount }}
                                                 </div>
-                                                <div>&nbsp;캐럿 {{ apply.unitPrice }}</div>
+                                                <div>
+                                                    &nbsp;<span class="fw-bold">캐럿</span>
+                                                    {{ apply.unitPrice }}
+                                                </div>
                                             </div>
 
                                             <!-- <div>{{ apply.unitPrice }}</div> -->
@@ -338,31 +331,24 @@
                                 </div>
                                 <div class="col-10 helperInfo">
                                     <div class="d-flex flex-row">
-                                        <div class="likeBtn" @click="toggleLikeBtn">
-                                            <span
-                                                v-if="isLikeEmpty"
-                                                class="material-symbols-outlined likeIcon empty">
-                                                favorite
-                                            </span>
-                                            <span v-else class="material-symbols-outlined likeIcon">
-                                                favorite
-                                            </span>
-                                        </div>
-                                        <div>{{ apply.helper.nickName }}</div>
+                                        <div class="fw-bold">{{ apply.helper.nickName }}</div>
                                     </div>
-                                    <div>
+                                    <div style="color: var(--sub-color)">
                                         {{ apply.helper.helperInfo.oneLineIntroduction }}
                                     </div>
-                                    <div class="d-flex">
+                                    <div class="d-flex infoss justify-space-around">
                                         <div>
-                                            &nbsp;평점
+                                            &nbsp;<span class="fw-bold">평점</span>
                                             {{ apply.helper.helperInfo.totalScore }}
                                         </div>
                                         <div>
-                                            &nbsp;리뷰
+                                            &nbsp;<span class="fw-bold">리뷰</span>
                                             {{ apply.helper.helperInfo.reviewCount }}
                                         </div>
-                                        <div>&nbsp;캐럿 {{ apply.unitPrice }}</div>
+                                        <div>
+                                            &nbsp;<span class="fw-bold">캐럿</span>
+                                            {{ apply.unitPrice }}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -875,10 +861,10 @@ export default {
             // margin: 10px 12px;
             // padding: 0 6px 0 0;
             // margin: 10px 0;
-            padding: 12px 0;
+            padding: 20px 0;
             // padding-bottom: 20px;
 
-            border-bottom: 1px solid var(--thin-color);
+            border-bottom: 1px solid var(--light-color);
             // width: 100%;
             // align-items: center;
         }
@@ -888,6 +874,14 @@ export default {
             flex-direction: column;
         }
     }
+}
+
+.infoss {
+    border-radius: 4px;
+    background-color: var(--thin-color);
+    padding: 8px;
+    margin-top: 4px;
+    margin-right: 24px;
 }
 
 hr {
