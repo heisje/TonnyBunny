@@ -232,8 +232,8 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			String receivedUserSeq = String.valueOf(jsonObject.getLong("receivedUserSeq"));
 			String alertLogSeq = jsonObject.getString("alertLogSeq");
 			String roomSeq = jsonObject.getString("pageSeq"); // roomSeq
-			String anotherUserSeq = String.valueOf(jsonObject.getLong("senderUserSeq"));
-			Integer notReadCount = this.getNotReadCount(roomSeq, Long.valueOf(anotherUserSeq));
+			//			String anotherUserSeq = String.valueOf(jsonObject.getLong("senderUserSeq"));
+			Integer notReadCount = this.getNotReadCount(roomSeq, Long.valueOf(receivedUserSeq));
 
 			// 같은 방인데 접속한 유저이면 -> 알림 안보냄
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -603,6 +603,9 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 				return notRead.get(roomSeq);
 			else {
 				System.out.println(" [getNotReadCount()] notReadInfo에 roomSeq가 등록되지 않았었음");
+				notRead.put(roomSeq, 0);
+				notReadInfo.put(ChatTypeEnum.CHAT_NO_ENTER.toString(), userSeq.toString(), notRead);
+				return 0;
 			}
 		}
 		System.out.println(" [getNotReadCount()] notReadInfo에 정보가 등록되지 않았었음");
