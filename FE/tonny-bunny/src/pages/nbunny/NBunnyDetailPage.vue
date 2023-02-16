@@ -538,7 +538,7 @@ export default {
             this.$router.push({ name: "HomePage" });
         },
         async deleteApply() {
-            this.$store.commit("OPEN_ALARM_MODAL");
+            this.$store.commit("CLOSE_ALARM_MODAL");
             const payload = {
                 bunnySeq: this.getBunnyDetail?.seq,
                 bunnyApplySeq: 0,
@@ -592,7 +592,7 @@ export default {
             // });
         },
         closeModal() {
-            this.$store.commit("OPEN_ALARM_MODAL");
+            this.$store.commit("CLOSE_ALARM_MODAL");
         },
         async enterChatRoom(helperSeq) {
             const clientSeq = this.getBunnyDetail.client.seq;
