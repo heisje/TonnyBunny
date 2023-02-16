@@ -1,10 +1,13 @@
 import Toastify from "toastify-js";
 
+// import VueRouter from "vue-router";
+import router from "@/routers/router";
+
 import http from "@/common/axios";
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 
-let $this = this;
+// let $this = this;
 
 export default {
     /*
@@ -40,8 +43,8 @@ export default {
                     let clientNickname = request.clientNickname;
                     let helperNickname = request.helperNickname;
                     let title = request.title;
-                    let yTonnySeq = request.yTonnySeq;
-                    let bunnySeq = request.bunnySeq;
+                    // let yTonnySeq = request.yTonnySeq;
+                    // let bunnySeq = request.bunnySeq;
 
                     let text;
                     if (isHelper) {
@@ -72,22 +75,23 @@ export default {
                                 fontWeight: "600",
                             },
                             onClick: function () {
-                                if (request.taskCode == "0030001") {
-                                    // 즉시통역
-                                    $this.$router.push({ name: "JTonnyApplyPage" });
-                                } else if (request.taskCode == "0030002") {
-                                    // 통역예약
-                                    $this.$router.push({
-                                        name: "YTonnyDetailPage",
-                                        params: { id: yTonnySeq },
-                                    });
-                                } else {
-                                    // 번역
-                                    $this.$router.push({
-                                        name: "NBunnyDetailPage",
-                                        params: { id: bunnySeq },
-                                    });
-                                }
+                                // if (request.taskCode == "0030001") {
+                                //     // 즉시통역
+                                //     $this.$router.push({ name: "JTonnyApplyPage" });
+                                // } else if (request.taskCode == "0030002") {
+                                //     // 통역예약
+                                //     $this.$router.push({
+                                //         name: "YTonnyDetailPage",
+                                //         params: { id: yTonnySeq },
+                                //     });
+                                // } else {
+                                //     // 번역
+                                //     $this.$router.push({
+                                //         name: "NBunnyDetailPage",
+                                //         params: { id: bunnySeq },
+                                //     });
+                                // }
+                                router.replace({ name: "AlertPage" });
                             }, // Callback after click
                         }).showToast();
 
@@ -126,7 +130,9 @@ export default {
                                 fontSize: "1.3rem",
                                 fontWeight: "600",
                             },
-                            onClick: function () {}, // Callback after click
+                            onClick: function () {
+                                router.replace({ name: "AlertPage" });
+                            }, // Callback after click
                         }).showToast();
                     }
 
@@ -140,8 +146,8 @@ export default {
                     // let clientNickname = request.clientNickname;
                     let helperNickname = request.helperNickname;
                     // let title = request.title;
-                    let yTonnySeq = request.yTonnySeq;
-                    let bunnySeq = request.bunnySeq;
+                    // let yTonnySeq = request.yTonnySeq;
+                    // let bunnySeq = request.bunnySeq;
 
                     let text;
                     if (isHelper) {
@@ -172,22 +178,23 @@ export default {
                                 fontWeight: "600",
                             },
                             onClick: function () {
-                                if (request.taskCode == "0030001") {
-                                    // 즉시통역
-                                    // $this.$router.push({ name: "JTonnyApplyPage" });
-                                } else if (request.taskCode == "0030002") {
-                                    // 통역예약
-                                    $this.$router.push({
-                                        name: "YTonnyDetailPage",
-                                        params: { id: yTonnySeq },
-                                    });
-                                } else {
-                                    // 번역
-                                    $this.$router.push({
-                                        name: "NBunnyDetailPage",
-                                        params: { id: bunnySeq },
-                                    });
-                                }
+                                router.replace({ name: "AlertPage" });
+                                // if (request.taskCode == "0030001") {
+                                //     // 즉시통역
+                                //     // $this.$router.push({ name: "JTonnyApplyPage" });
+                                // } else if (request.taskCode == "0030002") {
+                                //     // 통역예약
+                                //     $this.$router.push({
+                                //         name: "YTonnyDetailPage",
+                                //         params: { id: yTonnySeq },
+                                //     });
+                                // } else {
+                                //     // 번역
+                                //     $this.$router.push({
+                                //         name: "NBunnyDetailPage",
+                                //         params: { id: bunnySeq },
+                                //     });
+                                // }
                             }, // Callback after click
                         }).showToast();
 
@@ -226,22 +233,23 @@ export default {
                                 fontWeight: "600",
                             },
                             onClick: function () {
-                                if (request.taskCode == "0030001") {
-                                    // 즉시통역
-                                    // $this.$router.push({ name: "JTonnyApplyPage" });
-                                } else if (request.taskCode == "0030002") {
-                                    // 통역예약
-                                    $this.$router.push({
-                                        name: "YTonnyDetailPage",
-                                        params: { id: yTonnySeq },
-                                    });
-                                } else {
-                                    // 번역
-                                    $this.$router.push({
-                                        name: "NBunnyDetailPage",
-                                        params: { id: bunnySeq },
-                                    });
-                                }
+                                router.replace({ name: "AlertPage" });
+                                // if (request.taskCode == "0030001") {
+                                //     // 즉시통역
+                                //     // $this.$router.push({ name: "JTonnyApplyPage" });
+                                // } else if (request.taskCode == "0030002") {
+                                //     // 통역예약
+                                //     $this.$router.push({
+                                //         name: "YTonnyDetailPage",
+                                //         params: { id: yTonnySeq },
+                                //     });
+                                // } else {
+                                //     // 번역
+                                //     $this.$router.push({
+                                //         name: "NBunnyDetailPage",
+                                //         params: { id: bunnySeq },
+                                //     });
+                                // }
                             }, // Callback after click
                         }).showToast();
                     }
@@ -256,8 +264,8 @@ export default {
                     // let clientNickname = request.clientNickname;
                     let helperNickname = request.helperNickname;
                     // let title = request.title;
-                    let yTonnySeq = request.yTonnySeq;
-                    let bunnySeq = request.bunnySeq;
+                    // let yTonnySeq = request.yTonnySeq;
+                    // let bunnySeq = request.bunnySeq;
 
                     let text;
                     if (isHelper) {
@@ -288,22 +296,23 @@ export default {
                                 fontWeight: "600",
                             },
                             onClick: function () {
-                                if (request.taskCode == "0030001") {
-                                    // 즉시통역
-                                    // $this.$router.push({ name: "JTonnyApplyPage" });
-                                } else if (request.taskCode == "0030002") {
-                                    // 통역예약
-                                    $this.$router.push({
-                                        name: "YTonnyDetailPage",
-                                        params: { id: yTonnySeq },
-                                    });
-                                } else {
-                                    // 번역
-                                    $this.$router.push({
-                                        name: "NBunnyDetailPage",
-                                        params: { id: bunnySeq },
-                                    });
-                                }
+                                router.replace({ name: "AlertPage" });
+                                // if (request.taskCode == "0030001") {
+                                //     // 즉시통역
+                                //     // $this.$router.push({ name: "JTonnyApplyPage" });
+                                // } else if (request.taskCode == "0030002") {
+                                //     // 통역예약
+                                //     $this.$router.push({
+                                //         name: "YTonnyDetailPage",
+                                //         params: { id: yTonnySeq },
+                                //     });
+                                // } else {
+                                //     // 번역
+                                //     $this.$router.push({
+                                //         name: "NBunnyDetailPage",
+                                //         params: { id: bunnySeq },
+                                //     });
+                                // }
                             }, // Callback after click
                         }).showToast();
 
@@ -343,22 +352,23 @@ export default {
                                 fontWeight: "600",
                             },
                             onClick: function () {
-                                if (request.taskCode == "0030001") {
-                                    // 즉시통역
-                                    // $this.$router.push({ name: "JTonnyApplyPage" });
-                                } else if (request.taskCode == "0030002") {
-                                    // 통역예약
-                                    $this.$router.push({
-                                        name: "YTonnyDetailPage",
-                                        params: { id: yTonnySeq },
-                                    });
-                                } else {
-                                    // 번역
-                                    $this.$router.push({
-                                        name: "NBunnyDetailPage",
-                                        params: { id: bunnySeq },
-                                    });
-                                }
+                                router.replace({ name: "AlertPage" });
+                                // if (request.taskCode == "0030001") {
+                                //     // 즉시통역
+                                //     // $this.$router.push({ name: "JTonnyApplyPage" });
+                                // } else if (request.taskCode == "0030002") {
+                                //     // 통역예약
+                                //     $this.$router.push({
+                                //         name: "YTonnyDetailPage",
+                                //         params: { id: yTonnySeq },
+                                //     });
+                                // } else {
+                                //     // 번역
+                                //     $this.$router.push({
+                                //         name: "NBunnyDetailPage",
+                                //         params: { id: bunnySeq },
+                                //     });
+                                // }
                             }, // Callback after click
                         }).showToast();
                     }

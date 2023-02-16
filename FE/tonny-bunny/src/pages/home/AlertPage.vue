@@ -10,9 +10,11 @@
                         class="alertContent"
                         v-for="alertItem in alertList"
                         :key="alertItem.alertLogSeq">
-                        <AlertItem
-                            :alertItem="alertItem"
-                            @deleteAlert="deleteAlert(alertItem.alertLogSeq)" />
+                        <router-link :to="{ name: 'HistoryPage' }" style="text-decoration: none">
+                            <AlertItem
+                                :alertItem="alertItem"
+                                @deleteAlert="deleteAlert(alertItem.alertLogSeq)" />
+                        </router-link>
                     </div>
                 </div>
                 <div v-else style="color: var(--sub-color)">알림이 없습니다</div>

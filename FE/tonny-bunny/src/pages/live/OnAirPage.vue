@@ -2,7 +2,9 @@
     <div class="liveContainer">
         <div class="liveWrap">
             <div class="liveNoSession customForm" v-if="!session">
-                <img src="@/assets/logo2.png" />
+                <a href="/">
+                    <img src="@/assets/logo2.png" />
+                </a>
 
                 <div class="w-100">
                     <div class="jTonnyInfo">
@@ -77,14 +79,22 @@
 
                                 <tr>
                                     <td>상황 카테고리</td>
-                                    <td>
+                                    <td v-if="startResData.tonnySituCode != ''">
                                         <square-tag :text="getTonnySituCode" sub></square-tag>
+                                    </td>
+                                    <td v-else style="color: var(--sub-color)">
+                                        상황 카테고리가 없습니다.
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>상황 설명</td>
-                                    <td class="">{{ startResData.content }}</td>
+                                    <td v-if="startResData.content != ''" class="">
+                                        {{ startResData.content }}
+                                    </td>
+                                    <td v-else style="color: var(--sub-color)">
+                                        상황 설명이 없습니다.
+                                    </td>
                                 </tr>
                             </tbody>
                         </v-table>
