@@ -12,6 +12,7 @@
         "axios": "^1.2.2",
         "core-js": "^3.8.3",
         "http": "^0.0.1-security",
+        "moment-timezone": "^0.5.40",
         "openvidu-browser": "^2.25.0",
         "sockjs-client": "^1.6.1",
         "toastify-js": "^1.12.0",
