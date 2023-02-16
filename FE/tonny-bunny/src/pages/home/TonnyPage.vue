@@ -55,13 +55,13 @@
                         </div>
                         <div v-else style="color: var(--sub-color)">오늘 일정이 없습니다.</div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <title-text title="히스토리"></title-text>
                         <hr />
 
                         <div v-if="false" class="history">히스토리</div>
                         <div v-else style="color: var(--sub-color)">히스토리 내역이 없습니다.</div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-md-5 col-12">
