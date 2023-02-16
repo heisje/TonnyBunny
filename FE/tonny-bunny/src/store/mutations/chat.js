@@ -83,7 +83,7 @@ export default {
 							fontWeight: "600"
 						},
 						onClick: function () {
-							router.replace({ name: "AlertPage" });
+							router.replace({ name: "ChatPage" });
 						} // Callback after click
 					}).showToast();
 				});

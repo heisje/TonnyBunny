@@ -251,7 +251,7 @@
 											<div class="d-flex infoss justify-space-around">
 												<div>
 													&nbsp;<span class="fw-bold">평점</span>
-													{{ apply.helper.helperInfo.totalScore }}
+													{{ apply.helper.helperInfo.avgScore }}
 												</div>
 												<div>
 													&nbsp;<span class="fw-bold">리뷰</span>
@@ -325,7 +325,7 @@
 							<div class="d-flex flex-row align-items-center apply">
 								<div
 									class="col-2 d-flex flex-column align-items-center justify-content-center">
-									<img src="@/assets/noProfile.png" width="50" height="50" />
+									<img src="@/assets/noProfile.png" width="40" height="40" />
 								</div>
 								<div class="col-10 helperInfo">
 									<div class="d-flex flex-row">
@@ -337,7 +337,7 @@
 									<div class="d-flex infoss justify-space-around">
 										<div>
 											&nbsp;<span class="fw-bold">평점</span>
-											{{ apply.helper.helperInfo.totalScore }}
+											{{ apply.helper.helperInfo.avgScore }}
 										</div>
 										<div>
 											&nbsp;<span class="fw-bold">리뷰</span>
@@ -626,6 +626,8 @@ export default {
 				size: size,
 				yTonnySeq: this.yTonnySeq
 			});
+
+			console.log("hihi", this.yTonnyApplyList);
 
 			await this.$store.dispatch("getYTonnyApplyListTotalCount", this.yTonnySeq);
 		},
