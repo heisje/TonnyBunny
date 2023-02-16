@@ -169,8 +169,13 @@ export default {
                 payload.category = "";
             }
 
-            let { data } = await this.$store.dispatch("getBunnyList", payload);
-            this.getBunnyList = data;
+            this.$store.dispatch("getBunnyList", payload).then((d) => {
+                d.data.forEach((element) => {
+                    element.startDateTime = element.startDateTime.slice(0, 10);
+                    element.endDateTime = element.endDateTime.slice(0, 10);
+                });
+                this.getBunnyList = d.data;
+            });
         },
 
         async clickHelperBtn(bunny) {
