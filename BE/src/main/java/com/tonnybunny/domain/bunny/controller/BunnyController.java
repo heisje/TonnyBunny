@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -183,6 +184,7 @@ public class BunnyController {
 
 		for (BunnyResponseDto tmp : bunnyResponseDtoList) {
 			System.out.println("BunnyController.getBunnyListByFilter");
+			System.out.println(LocalDateTime.now());
 			System.out.println(tmp.getCreatedAt().toString());
 		}
 
