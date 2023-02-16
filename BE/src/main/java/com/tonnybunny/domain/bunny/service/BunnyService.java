@@ -142,6 +142,7 @@ public class BunnyService {
 
 		for (BunnyEntity tmp : bunnyList) {
 			log.info(tmp.getCreatedAt().toString());
+			System.out.println("BunnyService.getBunnyListByFilter");
 			System.out.println(tmp.getCreatedAt().toString());
 		}
 
