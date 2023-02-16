@@ -3,9 +3,8 @@
         <div class="helperProfileWrap">
             <div>
                 <!-- <TitleText title="헬퍼프로필" type="h2" /> -->
-                <helper-Card disable :userInfo="userInfo" />
+                <helper-Card removeClose disable :userInfo="userInfo" />
                 <TitleText title="어학능력" type="h2" />
-
                 <div v-if="userInfo?.helperInfo?.possibleLanguageList">
                     <span
                         v-for="possibleLanguageItem in userInfo?.helperInfo?.possibleLanguageList"
@@ -65,7 +64,11 @@
                     </div>
                 </div>
                 <div v-if="userInfo?.seq != myInfo.seq">
-                    <LargeBtn text="채팅하기" color="carrot" />
+                    <MediumBtn
+                        style="width: 100%; margin-top: 20px"
+                        @click="enterChatRoom"
+                        text="채팅하기"
+                        color="carrot" />
                 </div>
             </div>
         </div>
@@ -74,7 +77,7 @@
 <script>
 import { mapGetters } from "vuex";
 import TitleText from "./TitleText.vue";
-import LargeBtn from "@/components/common/button/LargeBtn.vue";
+import MediumBtn from "@/components/common/button/MediumBtn.vue";
 import HelperCard from "@/components/common/card/HelperCard.vue";
 import CircleTag from "@/components/common/tag/CircleTag.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
@@ -85,7 +88,7 @@ export default {
         HelperCard,
         TitleText,
         CircleTag,
-        LargeBtn,
+        MediumBtn,
         SquareTag,
         UserProfileImg,
     },
@@ -101,6 +104,19 @@ export default {
                 name: "ProfileUpdatePage",
                 params: { userSeq: this.userInfo.seq },
             });
+        },
+
+        async enterChatRoom() {
+            const userSeq = this.$store.getters.getUserInfo.seq;
+            const anotherUserSeq = this.userInfo?.seq;
+
+            await this.$store.dispatch("getChatRoomInfo", {
+                userSeq: userSeq,
+                anotherUserSeq: anotherUserSeq,
+            });
+
+            this.$store.commit("TOGGLE_HELPER_MODAL", {});
+            this.$router.push({ name: "ChatDetailPage" });
         },
     },
 

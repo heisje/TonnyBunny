@@ -19,6 +19,7 @@
                         <title-text title="헬퍼 프로필" type="h2" />
                         <div>
                             <helper-card
+                                removeClose
                                 :userInfo="userInfo"
                                 rightBtnText="수정하기"
                                 @clickBtn1="goProfileDetail"
