@@ -30,7 +30,8 @@
                             type="text"
                             id="sessionName"
                             v-model="sessionName"
-                            required />
+                            required
+                        />
                     </p>
                     <button class="btn btn-lg btn-success" id="join-btn" @click="joinSession()">
                         Join!
@@ -46,7 +47,7 @@
                                         <h2>{{ timeToHHMMSS }}</h2>
                                     </div>
                                     <div>
-                                        <h2>{{ (Math.floor(timer / 5) + 1) * unitPrice }} CRT</h2>
+                                        <h2>{{ (Math.floor(timer / 5) + 1) * unitPrice }} 캐럿</h2>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +73,8 @@
                     <div
                         class="d-flex align-items-center justify-content-center pt-3"
                         style="cursor: pointer"
-                        @click="toggleIsSettingOpen">
+                        @click="toggleIsSettingOpen"
+                    >
                         <span class="material-symbols-outlined"> expand_more </span>
                     </div>
                 </div>
@@ -87,7 +89,8 @@
                     <medium-btn
                         text="방 나가기(leave)"
                         color="carrot"
-                        @click.prevent="leaveSession" />
+                        @click.prevent="leaveSession"
+                    />
                 </div>
                 <div class="h-100">
                     <div class="d-flex align-items-center justify-content-center row">
@@ -101,15 +104,18 @@
                                 <user-video
                                     v-if="mainStreamManager != publisher"
                                     :stream-manager="publisher"
-                                    @click="updateMainVideoStreamManager(publisher)" />
+                                    @click="updateMainVideoStreamManager(publisher)"
+                                />
                             </div>
                             <div
                                 v-for="sub in subscribers"
-                                :key="sub.stream.connection.connectionId">
+                                :key="sub.stream.connection.connectionId"
+                            >
                                 <user-video
                                     v-if="mainStreamManager != sub"
                                     :stream-manager="sub"
-                                    @click="updateMainVideoStreamManager(sub)" />
+                                    @click="updateMainVideoStreamManager(sub)"
+                                />
                             </div>
                         </div>
                     </div>
@@ -118,7 +124,8 @@
                     <div
                         @click="toggleIsChatOpen"
                         class="pt-3 pb-3 d-flex align-items-center justify-content-center"
-                        style="cursor: pointer">
+                        style="cursor: pointer"
+                    >
                         <span>채팅 열기</span>
                         <span class="material-symbols-outlined"> expand_less </span>
                     </div>

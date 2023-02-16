@@ -7,7 +7,8 @@
                     type="h2"
                     title="제목"
                     text="헬퍼에게 어떤 상황인지 제목으로 알려볼까요?"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <input type="text" placeholder="제목을 입력해주세요" v-model="title" />
 
@@ -16,26 +17,30 @@
                     title="[선택] 상황 카테고리"
                     text="어떤 상황의 통역을 원하시나요?"
                     top="70"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <DropdownInputCode
                     class="w120"
                     :dropdownArray="tonnySituCodeList"
                     placeholder="상황 선택"
-                    @toggle="(e) => (tonnySituCode = e)" />
+                    @toggle="(e) => (tonnySituCode = e)"
+                />
 
                 <title-text
                     type="h2"
                     title="[선택] 상황 설명"
                     text="통역이 필요한 상황을 헬퍼에게 설명해볼까요?"
                     top="70"
-                    bottom="20" />
+                    bottom="20"
+                />
 
                 <textarea
                     type="textarea"
                     placeholder="내용을 입력해주세요"
                     rows="7"
-                    v-model="content" />
+                    v-model="content"
+                />
             </div>
 
             <title-text
@@ -44,7 +49,8 @@
                 title="언어 선택"
                 text="어떤 언어를 통역하실건가요?"
                 top="70"
-                bottom="20" />
+                bottom="20"
+            />
 
             <div class="d-flex flex-row w-100 mb-5">
                 <div class="w-100">
@@ -53,7 +59,8 @@
                         disable
                         :dropdownArray="langCodeList"
                         placeholder="한국어"
-                        @toggle="(e) => (startLangCode = e)" />
+                        @toggle="(e) => (startLangCode = e)"
+                    />
                 </div>
 
                 <div class="swap">
@@ -64,7 +71,8 @@
                     <DropdownInputCode
                         :dropdownArray="langCodeList"
                         placeholder="필요 언어"
-                        @toggle="(e) => (endLangCode = e)" />
+                        @toggle="(e) => (endLangCode = e)"
+                    />
                 </div>
             </div>
 
@@ -74,7 +82,8 @@
                 title="날짜 선택"
                 text="언제 통역을 예약하실건가요?"
                 top="70"
-                bottom="20" />
+                bottom="20"
+            />
 
             <div class="w120">
                 <input type="date" class="w-100" v-model="startDate" />
@@ -86,7 +95,8 @@
                 title="시간 선택"
                 text="언제 통역을 시작하실건가요?"
                 top="70"
-                bottom="20" />
+                bottom="20"
+            />
 
             <div class="w-100">
                 <input type="time" class="w-100" v-model="startTime" />
@@ -99,7 +109,8 @@
                 title="예상 소요 시간"
                 text="해당 상황이 마무리될 때까지 대략 몇 분 정도 걸릴 것 같나요?"
                 top="70"
-                bottom="20" />
+                bottom="20"
+            />
 
             <div class="d-flex">
                 <div class="col-6 d-flex flex-row me-2">
@@ -107,7 +118,8 @@
                         <DropdownInput
                             :dropdownArray="hourCodeList"
                             placeholder="시간"
-                            @toggle="(e) => (estimateHour = e)" />
+                            @toggle="(e) => (estimateHour = e)"
+                        />
                     </div>
                 </div>
                 <div class="col-6 d-flex flex-row">
@@ -116,7 +128,8 @@
                             class="w-100"
                             :dropdownArray="minuteCodeList"
                             placeholder="분"
-                            @toggle="(e) => (estimateMinute = e)" />
+                            @toggle="(e) => (estimateMinute = e)"
+                        />
                     </div>
                 </div>
             </div>
@@ -127,14 +140,15 @@
                 title="예약통역 지불 캐럿"
                 text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
                 top="70"
-                bottom="20" />
+                bottom="20"
+            />
 
             <div class="d-flex mb-5">
                 <div class="col-12">
                     <input type="text" placeholder="ex) 1000" v-model="estimatePrice" />
                 </div>
                 <!-- <div class="backlabel col-2">
-					<h5>CRT/5분</h5>
+					<h5>캐럿/5분</h5>
 				</div> -->
             </div>
 
@@ -144,7 +158,8 @@
                 class="w-100"
                 color="outline"
                 font="active"
-                @click.prevent="updateYTonny" />
+                @click.prevent="updateYTonny"
+            />
         </form>
 
         <alarm-modal
@@ -152,7 +167,8 @@
             btnText1="확인"
             @clickBtn1="this.$store.commit('CLOSE_ALARM_MODAL')"
             btnColor1="primary"
-            btnFontColor1="white">
+            btnFontColor1="white"
+        >
             <template #content>통역 예약이 수정되었습니다.</template>
         </alarm-modal>
     </div>

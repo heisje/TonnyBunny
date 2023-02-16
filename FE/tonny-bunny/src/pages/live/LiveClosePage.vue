@@ -23,7 +23,7 @@
                         <h2>결제금액</h2>
                     </div>
                     <div class="col-8">
-                        <h3>{{ completeData.totalPrice }} CRT</h3>
+                        <h3>{{ completeData.totalPrice }} 캐럿</h3>
                     </div>
                 </div>
                 <br />
@@ -53,7 +53,7 @@
                         <h2>결제금액</h2>
                     </div>
                     <div class="col-8">
-                        <h3>{{ completeData.totalPrice }} CRT</h3>
+                        <h3>{{ completeData.totalPrice }} 캐럿</h3>
                     </div>
                 </div>
             </div>

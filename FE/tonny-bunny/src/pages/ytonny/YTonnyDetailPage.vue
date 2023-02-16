@@ -8,7 +8,8 @@
                 class="yTonnyDetail"
                 v-model="isActive"
                 :options="{ threshold: 0.5 }"
-                transition="fade-transition">
+                transition="fade-transition"
+            >
                 <!-- yTonny 공고 정보 라인 -->
 
                 <div class="infos">
@@ -31,7 +32,8 @@
                             type="h1"
                             :title="yTonnyDetail.title"
                             top="10"
-                            bottom="10"></title-text>
+                            bottom="10"
+                        ></title-text>
                         <div class="label">{{ createdAt }}</div>
                     </div>
 
@@ -48,7 +50,8 @@
                                     src="@/assets/noProfile.png"
                                     width="40"
                                     height="40"
-                                    class="me-3" />
+                                    class="me-3"
+                                />
                             </a>
 
                             <a>
@@ -90,7 +93,8 @@
                                         <square-tag
                                             :text="getStartLangCode"
                                             sub
-                                            class="me-2"></square-tag>
+                                            class="me-2"
+                                        ></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -119,7 +123,7 @@
                                     <td>지불 캐럿</td>
                                     <td>
                                         {{ yTonnyDetail.estimatePrice }}
-                                        <span class="label">CRT</span>
+                                        <span class="label">캐럿</span>
                                     </td>
                                 </tr>
 
@@ -128,13 +132,15 @@
                                     <td>
                                         <div
                                             v-if="yTonnyDetail.tonnySituCode == ''"
-                                            style="color: var(--sub-color)">
+                                            style="color: var(--sub-color)"
+                                        >
                                             상황 카테고리가 없습니다.
                                         </div>
                                         <square-tag
                                             v-else
                                             :text="getTonnySituCode"
-                                            sub></square-tag>
+                                            sub
+                                        ></square-tag>
                                     </td>
                                 </tr>
 
@@ -143,7 +149,8 @@
                                     <td class="">
                                         <div
                                             v-if="yTonnyDetail.content == ''"
-                                            style="color: var(--sub-color)">
+                                            style="color: var(--sub-color)"
+                                        >
                                             상황 설명이 없습니다.
                                         </div>
                                         <div v-else>{{ yTonnyDetail.content }}</div>
@@ -162,7 +169,8 @@
                             color="carrot"
                             font="white"
                             text="라이브로 이동하기"
-                            @click.prevent="openLiveModalByClient"></medium-btn>
+                            @click.prevent="openLiveModalByClient"
+                        ></medium-btn>
                     </div>
                 </div>
                 <div v-show="isManager">
@@ -172,7 +180,8 @@
                             color="carrot"
                             font="white"
                             text="라이브로 이동하기"
-                            @click.prevent="openLiveModalByHelper"></medium-btn>
+                            @click.prevent="openLiveModalByHelper"
+                        ></medium-btn>
                     </div>
                 </div>
             </div>
@@ -189,21 +198,24 @@
                     <v-lazy
                         v-model="isActive"
                         :options="{ threshold: 0.5 }"
-                        transition="fade-transition">
+                        transition="fade-transition"
+                    >
                         <div>
                             <div class="d-flex align-items-center mb-3">
                                 <input
                                     type="text"
                                     placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
                                     v-model="unitPrice"
-                                    @keydown.enter="insertYTonnyApply" />
+                                    @keydown.enter="insertYTonnyApply"
+                                />
                             </div>
                             <medium-btn
                                 class="w-100"
                                 color="outline"
                                 font="active"
                                 text="헬퍼 신청하기"
-                                @click.prevent="insertYTonnyApply"></medium-btn>
+                                @click.prevent="insertYTonnyApply"
+                            ></medium-btn>
                             <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
                         </div>
                     </v-lazy>
@@ -224,16 +236,19 @@
                             <div
                                 v-for="(apply, index) in yTonnyApplyList"
                                 :key="index"
-                                class="w-100 row">
+                                class="w-100 row"
+                            >
                                 <!-- {{ apply }} -->
                                 <div v-show="apply.seq == yTonnyDetail.ytonnyApplySeq">
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
-                                            class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                        >
                                             <img
                                                 src="@/assets/noProfile.png"
                                                 width="50"
-                                                height="50" />
+                                                height="50"
+                                            />
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -269,10 +284,12 @@
                                         <div
                                             v-if="apply.helper.seq == userInfo.seq"
                                             class="closeBtn col-1"
-                                            @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)">
+                                            @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)"
+                                        >
                                             <span
                                                 class="material-symbols-outlined"
-                                                v-show="!yTonnyDetail.unitPrice">
+                                                v-show="!yTonnyDetail.unitPrice"
+                                            >
                                                 close
                                             </span>
                                         </div>
@@ -285,10 +302,12 @@
                                                     apply.helper.seq,
                                                     apply.unitPrice
                                                 )
-                                            ">
+                                            "
+                                        >
                                             <span
                                                 class="material-symbols-outlined"
-                                                v-show="!yTonnyDetail.unitPrice">
+                                                v-show="!yTonnyDetail.unitPrice"
+                                            >
                                                 done
                                             </span>
                                         </div>
@@ -304,7 +323,8 @@
                             class="mt-5 me-5"
                             prev-icon="mdi-menu-left"
                             next-icon="mdi-menu-right"
-                            @click="nextPage"></v-pagination>
+                            @click="nextPage"
+                        ></v-pagination>
                     </div>
                 </div>
             </div>
@@ -321,10 +341,12 @@
                         <div
                             v-for="(apply, index) in yTonnyApplyList"
                             :key="index"
-                            class="w-100 row">
+                            class="w-100 row"
+                        >
                             <div class="d-flex flex-row align-items-center apply">
                                 <div
-                                    class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                    class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                >
                                     <img src="@/assets/noProfile.png" width="50" height="50" />
                                 </div>
                                 <div class="col-10 helperInfo">
@@ -353,7 +375,8 @@
                                 <div
                                     v-if="apply.helper.seq == userInfo.seq"
                                     class="closeBtn col-1"
-                                    @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)">
+                                    @click="removeYTonnyApply(apply.ytonnySeq, apply.seq)"
+                                >
                                     <span class="material-symbols-outlined"> close </span>
                                 </div>
                                 <div
@@ -365,7 +388,8 @@
                                             apply.helper.seq,
                                             apply.unitPrice
                                         )
-                                    ">
+                                    "
+                                >
                                     <span class="material-symbols-outlined"> done </span>
                                 </div>
                             </div>
@@ -378,7 +402,8 @@
                             class="mt-5 me-5"
                             prev-icon="mdi-menu-left"
                             next-icon="mdi-menu-right"
-                            @click="nextPage"></v-pagination>
+                            @click="nextPage"
+                        ></v-pagination>
                     </div>
                     <div v-else class="mt-5" style="color: var(--sub-color)">
                         가격을 제안한 헬퍼가 없습니다.
@@ -397,7 +422,8 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약을 삭제하시겠습니까? <br />
                 삭제한 후에는 다시 되돌릴 수가 없습니다.
@@ -414,7 +440,8 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약 라이브를 시작하시겠습니까? <br /><br />
                 시작한 후에는 재시작 할 수 없습니다. <br />
@@ -432,7 +459,8 @@
             btnColor1="outline"
             btnFontColor1="main"
             btnColor2="primary"
-            btnFontColor2="white">
+            btnFontColor2="white"
+        >
             <template #content>
                 통역 예약 라이브에 입장하시겠습니까? <br /><br />
                 고객과 시간 조율을 한 후 시작해주세요!
