@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <div>
+    <div class="d-flex justify-content-center">
+        <div class="customForm">
             <title-banner title="자유게시판" text="자유롭게 이야기를 나누어보아요 ^.^" />
-            <div style="mwidth: 100%">
-                <title-text title="자유게시판" />
-                <br />
+            <div style="mwidth: 100%; margin-top: 80px; margin-bottom: 24px">
                 <div style="margin-left: auto">
-                    <router-link :to="{ name: 'BoardCreatePage' }"
-                        ><small-btn text="글쓰기"
-                    /></router-link>
+                    <router-link :to="{ name: 'BoardCreatePage' }">
+                        <small-btn text="글쓰기" color="primary" />
+                    </router-link>
                 </div>
             </div>
             <br />
@@ -24,12 +22,11 @@
 </template>
 
 <script>
-import TitleText from "@/components/common/TitleText.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import BoardList from "@/components/board/BoardList.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
 export default {
-    components: { TitleText, SmallBtn, BoardList, TitleBanner },
+    components: { SmallBtn, BoardList, TitleBanner },
     name: "BoardPage",
 
     methods: {},

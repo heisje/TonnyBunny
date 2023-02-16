@@ -103,19 +103,20 @@ created_at
 updated_at
 */
 -- 영어는 전부 가능, 일본어는 김헬퍼, 이헬퍼만 가능
-INSERT INTO possible_language_table(possible_language_seq, helper_info_seq, lang_code, created_at, updated_at)
-VALUES (1, 1, "0020002", now(), now()),
-       (2, 2, "0020002", now(), now()),
-       (3, 3, "0020002", now(), now()),
-       (4, 4, "0020002", now(), now()),
-       (5, 1, "0020003", now(), now()),
-       (6, 4, "0020003", now(), now()),
-       (7, 5, "0020002", now(), now()),
-       (8, 5, "0020003", now(), now()),
-       (9, 5, "0020004", now(), now()),
-       (10, 5, "0020005", now(), now()),
-       (11, 5, "0020006", now(), now()),
-       (12, 5, "0020000", now(), now());
+INSERT INTO possible_language_table(possible_language_seq, helper_info_seq, lang_code, lang_name, created_at,
+                                    updated_at)
+VALUES (1, 1, "0020002", "영어", now(), now()),
+       (2, 2, "0020002", "영어", now(), now()),
+       (3, 3, "0020002", "영어", now(), now()),
+       (4, 4, "0020002", "영어", now(), now()),
+       (5, 1, "0020003", "일본어", now(), now()),
+       (6, 4, "0020003", "일본어", now(), now()),
+       (7, 5, "0020002", "영어", now(), now()),
+       (8, 5, "0020003", "일본어", now(), now()),
+       (9, 5, "0020004", "중국어", now(), now()),
+       (10, 5, "0020005", "프랑스어", now(), now()),
+       (11, 5, "0020006", "독일어", now(), now()),
+       (12, 5, "0020000", "기타", now(), now());
 
 
 -- 보유 자격증 정보

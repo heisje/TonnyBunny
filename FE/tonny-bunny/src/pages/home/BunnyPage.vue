@@ -121,6 +121,7 @@ export default {
             getBunnySituCode: "getBunnySituCode",
             todayScheduleList: "getTodayScheduleList",
             userInfo: "getUserInfo",
+            isHelper: "getIsHelper",
         }),
     },
 

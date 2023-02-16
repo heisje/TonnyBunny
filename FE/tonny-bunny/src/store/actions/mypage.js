@@ -158,10 +158,10 @@ export default {
     async postHistoryList(context, payload) {
         try {
             let { data } = await http.post(`/mypage/${payload.clientSeq}/history`, payload);
-
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
+                    context.commit("SET_HISTORY_LIST", data.data);
                     break;
                 case "FAIL":
                     break;

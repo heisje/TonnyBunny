@@ -150,7 +150,11 @@
                             font="active" />
                     </div>
                     <div v-if="allCode[questDetail?.taskStateCode] == '모집중'">
-                        <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
+                        <XSmallBtn
+                            v-show="isHelper"
+                            :text="rightBtnText"
+                            color="carrot"
+                            @click="clickBtn2" />
                     </div>
                 </div>
             </div>
@@ -186,7 +190,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters({ allCode: "getAllCode" }),
+        ...mapGetters({ allCode: "getAllCode", isHelper: "getIsHelper" }),
     },
 
     methods: {

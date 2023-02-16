@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <title-banner title="회원가입" text="당신의 귀여운 통역가, TonnyBunny!" />
-            <TitleText title="어떤 회원가입을 원하시나요?" type="h2" center />
+            <TitleText title="어떤 회원가입을 원하시나요?" type="h2" center top="120" />
 
             <div class="iconsContainer">
                 <div class="iconsWarp">
