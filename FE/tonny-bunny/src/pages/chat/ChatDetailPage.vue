@@ -5,7 +5,12 @@
         <div class="chat-detail-box viewport-height-80 overflow-auto">
             <div v-for="chatData in chatDatas" :key="chatData" class="chat">
                 <ul>
-                    <li :class="chatData.userSeq == chatAnotherUserSeq ? 'another-user-chat' : 'self-user-chat'">
+                    <li
+                        :class="
+                            chatData.userSeq == chatAnotherUserSeq
+                                ? 'another-user-chat'
+                                : 'self-user-chat'
+                        ">
                         <router-link
                             v-if="chatData.messageType == 'url'"
                             :to="{
@@ -34,9 +39,20 @@
             </div>
         </div>
 
-        <div class="chat-input-group input-group mb-3">
-            <medium-btn v-show="userInfo.userCode == '0010002'" @click="moveToQuotationCreatePage" color="carrot" text="견적서 작성"> </medium-btn>
-            <input class="insert-message form-control" v-model="insertMessageValue" @keyup.enter="sendMessage" placeholder="채팅을 입력하세요." type="text" autofocus />
+        <div class="chat-input-group input-group px-5">
+            <medium-btn
+                v-show="userInfo.userCode == '0010002'"
+                @click="moveToQuotationCreatePage"
+                color="carrot"
+                text="견적서 작성">
+            </medium-btn>
+            <input
+                class="insert-message form-control"
+                v-model="insertMessageValue"
+                @keyup.enter="sendMessage"
+                placeholder="채팅을 입력하세요."
+                type="text"
+                autofocus />
             <medium-btn type="button" text="전송" color="carrot" @click="sendMessage"></medium-btn>
         </div>
     </div>
@@ -88,7 +104,8 @@ export default {
     },
     methods: {
         getUserName(chatData) {
-            if (chatData.userSeq == this.chatAnotherUserSeq) return this.chatAnotherUserInfo.nickName;
+            if (chatData.userSeq == this.chatAnotherUserSeq)
+                return this.chatAnotherUserInfo.nickName;
             return "";
         },
         moveToQuotationCreatePage() {
@@ -279,8 +296,16 @@ body {
         height: calc(100vh - 72px - 60px);
     }
 }
+.chat-detail-view {
+    margin: 0 auto;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+    background-color: var(--thin-color);
+    // padding: 0 24px;
+}
 .chat-detail-box {
     height: calc(100% - 50px);
+    padding: 12px;
 }
 // scroll-bar custom
 .chat-detail-box::-webkit-scrollbar {

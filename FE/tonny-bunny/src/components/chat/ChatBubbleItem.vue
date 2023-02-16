@@ -79,6 +79,7 @@ export default {
 }
 .chat-message {
     border: 1px solid lightgray;
+    background-color: var(--background-color);
     // margin: 10px;
     display: inline-block;
     padding: 10px;
