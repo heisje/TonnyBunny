@@ -71,6 +71,7 @@ export default {
                 if (res.data.resultCode == "SUCCESS") {
                     console.log("헬퍼전환완료");
                     this.$store.commit("TOGGLE_ALARM_MODAL");
+                    this.$store.dispatch("getMypage");
                     this.$router.push({
                         name: "AbilityPage",
                         params: { userSeq: this.userInfo.seq },
