@@ -55,13 +55,13 @@
                         </div>
                         <div v-else style="color: var(--sub-color)">오늘 일정이 없습니다.</div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <title-text title="히스토리"></title-text>
                         <hr />
 
                         <div v-if="false" class="history">히스토리</div>
                         <div v-else style="color: var(--sub-color)">히스토리 내역이 없습니다.</div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-md-5 col-12">
@@ -70,10 +70,8 @@
                     <!-- <div>정렬버튼</div> -->
                     <div class="">
                         <div v-for="(yTonny, index) in yTonnyList" :key="index">
-                            <v-lazy :options="{ threshold: 0.5 }" transition="fade-transition">
-                                <div
-                                    class="yTonny d-flex justify-space-between m-0 mb-2 p-0 pb-1"
-                                    v-show="!yTonny.isDeleted">
+                            <div v-show="!yTonny.isDeleted">
+                                <div class="yTonny d-flex justify-space-between m-0 mb-2 p-0 pb-1">
                                     <div class="d-flex">
                                         <!-- <square-mini-tag
                                         class="pe-2"
@@ -109,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </v-lazy>
+                            </div>
                         </div>
                     </div>
 

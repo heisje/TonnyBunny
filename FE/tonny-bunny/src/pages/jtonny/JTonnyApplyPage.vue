@@ -5,7 +5,8 @@
                 <div class="customForm col-md-6 col-12 d-flex flex-column justify-content-center">
                     <title-text
                         title="즉시통역 신청이 들어왔어요!"
-                        text="고객들이 신청한 즉시통역 내역이에요" />
+                        text="고객들이 신청한 즉시통역 내역이에요"
+                    />
                     <hr />
                     <v-alert
                         v-show="isAlertOpen"
@@ -14,11 +15,13 @@
                         text="즉시통역 신청은 3개까지만 가능합니다."
                         type="error"
                         variant="tonal"
-                        class="alert"></v-alert>
+                        class="alert"
+                    ></v-alert>
                     <v-lazy
                         v-model="jtonnyQuestList"
                         :options="{ threshold: 0.5 }"
-                        transition="fade-transition">
+                        transition="fade-transition"
+                    >
                         <div v-if="jtonnyQuestListLength > 0" class="mb-5">
                             <transition-group name="slide-up">
                                 <div v-for="(quest, index) in jtonnyQuestList" :key="index">
@@ -33,7 +36,8 @@
                                                         :profileImagePath="
                                                             quest?.client?.profileImagePath
                                                         "
-                                                        width="70" />
+                                                        width="70"
+                                                    />
 
                                                     <!-- <img
                                                         class="profileImg"
@@ -54,7 +58,8 @@
                                                         <square-tag
                                                             :text="allCode[quest?.startLangCode]"
                                                             sub
-                                                            class="me-2"></square-tag>
+                                                            class="me-2"
+                                                        ></square-tag>
                                                         <div class="me-2">
                                                             <span class="material-symbols-outlined">
                                                                 compare_arrows
@@ -62,7 +67,8 @@
                                                         </div>
                                                         <square-tag
                                                             :text="allCode[quest?.endLangCode]"
-                                                            sub></square-tag>
+                                                            sub
+                                                        ></square-tag>
                                                     </div>
                                                     <div>
                                                         <h3>소요시간</h3>
@@ -83,7 +89,8 @@
                                             color="outline"
                                             font="active"
                                             class="w-100"
-                                            @click="toggleMoreOpen(quest)"></medium-btn>
+                                            @click="toggleMoreOpen(quest)"
+                                        ></medium-btn>
                                         <v-table v-show="quest.isMoreOpen">
                                             <thead>
                                                 <tr class="">
@@ -137,13 +144,15 @@
                                                         <div
                                                             v-if="quest.tonnySituCode == ''"
                                                             class="fst-italic"
-                                                            style="color: var(--sub-color)">
+                                                            style="color: var(--sub-color)"
+                                                        >
                                                             상황 카테고리가 없습니다.
                                                         </div>
                                                         <square-tag
                                                             v-else
                                                             :text="allCode[quest?.tonnySituCode]"
-                                                            sub></square-tag>
+                                                            sub
+                                                        ></square-tag>
                                                     </td>
                                                 </tr>
 
@@ -154,7 +163,8 @@
                                                         <div
                                                             v-if="quest.content == ''"
                                                             class="fst-italic"
-                                                            style="color: var(--sub-color)">
+                                                            style="color: var(--sub-color)"
+                                                        >
                                                             상황 설명이 없습니다.
                                                         </div>
                                                         <div v-else>{{ quest.content }}</div>
@@ -166,7 +176,8 @@
                                     <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
                                         <div
                                             class="col-6 reject"
-                                            @click="cancelApply(quest.client.seq)">
+                                            @click="cancelApply(quest.client.seq)"
+                                        >
                                             거절
                                         </div>
                                         <div class="col-6 accept" @click="apply(quest.client.seq)">
@@ -183,22 +194,26 @@
                     <div>
                         <title-text
                             title="신청한 즉시통역 목록"
-                            text="현재 신청한 즉시통역 내역이에요"></title-text>
+                            text="현재 신청한 즉시통역 내역이에요"
+                        ></title-text>
                         <hr />
 
                         <transition-group name="slide-up">
                             <div
                                 v-for="(apply, index) in Object.values(jtonnyApplyQuestList)"
-                                :key="index">
+                                :key="index"
+                            >
                                 <div v-if="index < 3" class="row px-3">
                                     <!-- {{ apply }} -->
 
                                     <div class="d-flex flex-row align-items-center quest py-3 px-2">
                                         <div
-                                            class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            class="col-2 d-flex flex-column align-items-center justify-content-center"
+                                        >
                                             <user-profile-img
                                                 :profileImagePath="apply?.client?.profileImagePath"
-                                                width="50" />
+                                                width="50"
+                                            />
 
                                             <!-- <img :src="apply.helper.profileImagePath" /> -->
                                             <!-- <div>{{ apply.helper.nickName }}</div> -->
@@ -212,7 +227,8 @@
                                                 <square-tag
                                                     :text="allCode[apply?.startLangCode]"
                                                     sub
-                                                    class="me-2"></square-tag>
+                                                    class="me-2"
+                                                ></square-tag>
                                                 <div class="me-2">
                                                     <span class="material-symbols-outlined">
                                                         compare_arrows
@@ -220,7 +236,8 @@
                                                 </div>
                                                 <square-tag
                                                     :text="allCode[apply?.endLangCode]"
-                                                    sub></square-tag>
+                                                    sub
+                                                ></square-tag>
                                             </div>
                                             <div>
                                                 <h3>소요시간</h3>
@@ -249,7 +266,8 @@
 
                                         <div
                                             class="closeBtn col-1"
-                                            @click="cancelApply(apply.client.seq)">
+                                            @click="cancelApply(apply.client.seq)"
+                                        >
                                             <span class="material-symbols-outlined"> close </span>
                                         </div>
                                     </div>
@@ -268,7 +286,8 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> 제안이 거절되었습니다<br />다음에 이용해주세요! </template>
             </AlarmModal>
 
@@ -276,12 +295,13 @@
                 v-show="modalName == `accept`"
                 title="수락"
                 type="success"
-                btnText2="다음"
+                btnText2="확인"
                 btnColor1="main"
                 btnColor2="carrot"
                 btnFontColor1="main"
                 btnFontColor2="white"
-                @clickBtn2="onAir">
+                @clickBtn2="onAir"
+            >
                 <template #content>
                     제안이 수락되었습니다<br />확인을 누르시면 즉시통역이 시작됩니다!
                 </template>
@@ -296,6 +316,7 @@ import { mapGetters } from "vuex";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 import http from "@/common/axios";
+import Toastify from "toastify-js";
 
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
@@ -446,6 +467,24 @@ export default {
                             // 받은 데이터를 json 으로 파싱하고 dictionary 에 넣어줍니다.
                             let request = JSON.parse(res.body);
                             this.jtonnyQuestList[request.client.seq] = request;
+
+                            Toastify({
+                                text: "즉시 통역 신청이 들어왔습니다.",
+                                duration: 5000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                    boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
+                                    borderRadius: "6px",
+                                    fontSize: "1.3rem",
+                                    fontWeight: "600",
+                                },
+                                onClick: function () {}, // Callback after click
+                            }).showToast();
                         }
                     );
                     this.subs.push(sub);
@@ -458,6 +497,24 @@ export default {
                             let request = JSON.parse(res.body);
                             delete this.jtonnyQuestList[request.client.seq];
                             delete this.jtonnyApplyQuestList[request.client.seq];
+
+                            Toastify({
+                                text: "즉시 통역 신청이 취소 되었습니다.",
+                                duration: 5000,
+                                newWindow: true,
+                                close: true,
+                                gravity: "top", // `top` or `bottom`
+                                position: "right", // `left`, `center` or `right`
+                                stopOnFocus: true, // Prevents dismissing of toast on hover
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                    boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
+                                    borderRadius: "6px",
+                                    fontSize: "1.3rem",
+                                    fontWeight: "600",
+                                },
+                                onClick: function () {}, // Callback after click
+                            }).showToast();
                         }
                     );
                     this.subs.push(sub);

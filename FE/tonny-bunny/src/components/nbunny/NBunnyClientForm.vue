@@ -8,8 +8,7 @@ divdiv
                     type="h2"
                     title="언어 선택"
                     text="어떤 언어를 번역하실건가요?"
-                    bottom="20"
-                />
+                    bottom="20" />
 
                 <div class="d-flex flex-row w-100 mb-5">
                     <div class="w-100">
@@ -18,8 +17,7 @@ divdiv
                             class="w-100"
                             :dropdownArray="getLangCode"
                             placeholder="내 언어"
-                            @toggle="(e) => (startLangCode = e)"
-                        />
+                            @toggle="(e) => (startLangCode = e)" />
                     </div>
                     <div class="swap">
                         <span class="material-symbols-outlined"> compare_arrows </span>
@@ -30,8 +28,7 @@ divdiv
                             class="w-100"
                             :dropdownArray="getLangCode"
                             placeholder="필요 언어"
-                            @toggle="(e) => (endLangCode = e)"
-                        />
+                            @toggle="(e) => (endLangCode = e)" />
                     </div>
                 </div>
 
@@ -41,15 +38,13 @@ divdiv
                     title="번역 카테고리"
                     text="어떤 번역을 원하시나요?"
                     top="70"
-                    bottom="20"
-                />
+                    bottom="20" />
 
                 <DropdownInput
                     class="w120"
                     :dropdownArray="getBunnySituCode"
                     placeholder="카테고리 선택"
-                    @toggle="(e) => (bunnySituCode = e)"
-                />
+                    @toggle="(e) => (bunnySituCode = e)" />
 
                 <title-text
                     important
@@ -57,8 +52,7 @@ divdiv
                     title="마감기한"
                     text="해당 번역이 마무리될 때까지 대략 몇 일 정도 걸릴 것 같나요?"
                     top="70"
-                    bottom="20"
-                />
+                    bottom="20" />
 
                 <div class="d-flex flex-row w-100 mb-5">
                     <div class="w-100">
@@ -78,8 +72,7 @@ divdiv
                     title="의뢰 지불 금액 (CRT)"
                     text="현재 보유하신 캐럿까지만 설정하실 수 있습니다."
                     top="70"
-                    bottom="20"
-                />
+                    bottom="20" />
 
                 <div class="d-flex w-100">
                     <div class="col-11">
@@ -96,8 +89,7 @@ divdiv
                     title="제목"
                     text="최상단에 노출 될 제목입니다"
                     top="70"
-                    bottom="20"
-                />
+                    bottom="20" />
 
                 <input type="text" v-model="title" placeholder="제목을 입력해주세요" />
 
@@ -106,16 +98,14 @@ divdiv
                     title="[선택] 내용"
                     text="번역에 대한 내용을 작성해주세요"
                     top="70"
-                    bottom="20"
-                />
+                    bottom="20" />
 
                 <textarea
                     type="textarea"
                     placeholder="내용을 입력해주세요"
                     value=""
                     rows="7"
-                    @input="changeInput"
-                ></textarea>
+                    @input="changeInput"></textarea>
             </div>
 
             <!-- <title-text type="h2" title="[선택] 사진" text="작업물의 예시를 올려주세요" /> -->
@@ -124,9 +114,9 @@ divdiv
             <medium-btn
                 style="width: 100%"
                 text="의뢰하기"
-                :color="isPossible"
-                @click.prevent="submitForm"
-            />
+                :color="isPossible[0]"
+                :font="isPossible[1]"
+                @click.prevent="submitForm" />
         </form>
     </div>
 </template>
@@ -172,9 +162,9 @@ export default {
                 this.title != "" &&
                 this.agreeValue
             ) {
-                return "carrot";
+                return ["carrot", "white"];
             } else {
-                return `main`;
+                return [`outline`, "active"];
             }
         },
     },

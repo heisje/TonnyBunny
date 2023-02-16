@@ -50,4 +50,21 @@ export default {
             })
             .catch((err) => console.log(err));
     },
+
+    async getHelperModalInfo(context, userSeq) {
+        try {
+            let { data } = await http.get(`/mypage/${userSeq}`);
+
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    context.commit("TOGGLE_HELPER_MODAL", data.data);
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
 };

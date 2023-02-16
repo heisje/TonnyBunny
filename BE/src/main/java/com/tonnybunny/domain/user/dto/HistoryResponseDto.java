@@ -1,23 +1,21 @@
 package com.tonnybunny.domain.user.dto;
 
 
-import com.tonnybunny.config.ModelMapperFactory;
 import com.tonnybunny.domain.bunny.entity.BunnyHistoryEntity;
 import com.tonnybunny.domain.jtonny.entity.JTonnyHistoryEntity;
 import com.tonnybunny.domain.user.entity.HistoryEntity;
-import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.ytonny.entity.YTonnyHistoryEntity;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.Builder;
 import lombok.Data;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -51,6 +49,7 @@ public class HistoryResponseDto {
 	private String startLangCode;
 	private String endLangCode;
 	private String taskCode;
+	private String taskStateCode;
 	private Long notiSeq;                   // 즉통, 예통의 경우 NotiSeq, 번역의 경우 QuotationSeq
 	//	private ReviewResponseDto review;
 	/************************ 즉통 & 예통 **************************/
@@ -62,23 +61,18 @@ public class HistoryResponseDto {
 	/************************ 예통 & 번역 **************************/
 
 	private String title;
+	private Integer totalPrice;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
+
+	/************************ 예통 & 번역 **************************/
+	@Builder.Default
+	private Map<String, String> client = new HashMap<>();
+	@Builder.Default
+	private Map<String, String> helper = new HashMap<>();
 
 
 	public static <T extends HistoryEntity> HistoryResponseDto fromEntity(T history) {
-		ModelMapper modelMapper = ModelMapperFactory.getMapper();
-
-		// Entity로 들어온 값을 Seq로 타입 변환
-		modelMapper.typeMap(HistoryEntity.class, HistoryResponseDto.class).addMappings(mapper -> {
-			// 고객 Entity -> 고객 Seq
-			mapper.using((Converter<UserEntity, Long>) client -> client.getSource().getSeq())
-				.map(HistoryEntity::getClient, HistoryResponseDto::setClientSeq);
-			// 헬퍼 Entity -> 헬퍼 Seq
-			mapper.using((Converter<UserEntity, Long>) helper -> helper.getSource().getSeq())
-				.map(HistoryEntity::getHelper, HistoryResponseDto::setHelperSeq);
-
-		});
-		// 값 매핑
-		//		HistoryResponseDto historyResponseDto = modelMapper.map(history, HistoryResponseDto.class);
 
 		HistoryResponseDto historyResponseDto = HistoryResponseDto.builder()
 			.seq(history.getSeq())
@@ -92,11 +86,13 @@ public class HistoryResponseDto {
 			.notiSeq(history.getNotiSeq())
 			//			.review(ReviewResponseDto.fromEntity(historyEntity.getReview()))
 			.content(history.getContent())
+			.createdAt(history.getCreatedAt())
+			.updatedAt(history.getUpdatedAt())
 			.build();
 
 		// TaskCode에 따라 즉시통역, 예약통역, 번역 Entity가 들어올것임
 		// => 들어오는 Entity에 따라 달라지는 필드 값을 채움
-		if (history.getTaskCode() == TaskCodeEnum.즉시통역.getTaskCode()) {
+		if (history.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode())) {
 			if (history instanceof JTonnyHistoryEntity) {
 				JTonnyHistoryEntity jTonnyHistory = (JTonnyHistoryEntity) history;
 
@@ -106,7 +102,7 @@ public class HistoryResponseDto {
 				historyResponseDto.setTonnySituCode(jTonnyHistory.getTonnySituCode());
 			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
-		if (history.getTaskCode() == TaskCodeEnum.예약통역.getTaskCode()) {
+		if (history.getTaskCode().equals(TaskCodeEnum.예약통역.getTaskCode())) {
 			if (history instanceof YTonnyHistoryEntity) {
 				YTonnyHistoryEntity yTonnyHistory = (YTonnyHistoryEntity) history;
 
@@ -117,11 +113,12 @@ public class HistoryResponseDto {
 				historyResponseDto.setTitle(yTonnyHistory.getTitle());
 			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
-		if (history.getTaskCode() == TaskCodeEnum.번역.getTaskCode()) {
+		if (history.getTaskCode().equals(TaskCodeEnum.번역.getTaskCode())) {
 			if (history instanceof BunnyHistoryEntity) {
 				BunnyHistoryEntity bunnyHistory = (BunnyHistoryEntity) history;
 
 				historyResponseDto.setTitle(bunnyHistory.getTitle());
+				historyResponseDto.setTotalPrice(bunnyHistory.getTotalPrice());
 			} else throw new CustomException(ErrorCode.MISMATCH_REQUEST);
 		}
 		return historyResponseDto;
