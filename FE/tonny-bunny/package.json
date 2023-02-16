@@ -14,6 +14,7 @@
         "http": "^0.0.1-security",
         "openvidu-browser": "^2.25.0",
         "sockjs-client": "^1.6.1",
+        "toastify-js": "^1.12.0",
         "vue": "^3.2.13",
         "vue-router": "^4.1.6",
         "vue3-lottie": "^2.4.0",
