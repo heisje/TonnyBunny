@@ -25,6 +25,7 @@ export default {
 
 		// state.alert.socket = socket;
 		state.alert.stompClient = stompClient;
+		stompClient.hasDebug = false;
 
 		let seq = state.account.userInfo.seq;
 		let isHelper = state.account.isHelper;
