@@ -16,6 +16,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+// import SockJS from "sockjs-client";
+import http from "@/common/axios";
 
 export default {
     name: "AlertItem",
@@ -40,6 +42,7 @@ export default {
     data() {
         return {
             display: true,
+            socket: "",
         };
     },
     computed: {
@@ -57,8 +60,30 @@ export default {
     },
 
     methods: {
-        deleteAlert() {
+        async deleteAlert() {
             if (this.alertItem.alertLogSeq == -1) {
+                // 채팅 삭제용 -> 그냥 REST api를 호출하는게 나을 것
+                console.log(`/chat/alert/${this.alertItem.receivedUserSeq}/${this.alertItem.pageSeq}/${this.alertItem.chatAlertLogSeq}`);
+                let { data } = await http.delete(`/chat/alert/${this.alertItem.receivedUserSeq}/${this.alertItem.pageSeq}/${this.alertItem.chatAlertLogSeq}`);
+                if (data.resultCode == "SUCCESS") {
+                    console.log("채팅 삭제 성공");
+                } else {
+                    console.log("채팅 삭제 실패");
+                }
+                // this.socket = new SockJS(http.getUri() + "/chat");
+                // this.socket.onopen = () => {
+                //     let deleteChat = {
+                //         type: "deleteAlert",
+                //         userSeq: this.alertItem.receivedUserSeq,
+                //         alertLogSeq: this.alertItem.chatAlertLogSeq,
+                //     };
+                //     console.log("Chat delete request : ", deleteChat);
+                //     this.socket.send(JSON.stringify(deleteChat));
+                //     this.socket.close();
+                //     this.socket.onclose = () => {
+                //         console.log(" 채팅 삭제 소켓 삭제 ");
+                //     };
+                // };
                 // 채팅 알람 -> 보이지 않게
                 this.display = false;
             } else {

@@ -28,8 +28,8 @@ export default {
         let stompClient = Stomp.over(socket);
         console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 
-        // state.chat.chatSocket = socket;
-        // state.chat.chatStompSocket = stompClient;
+        state.chat.chatSocket = socket;
+        state.chat.chatStompSocket = stompClient;
         stompClient.connect(
             {},
             () => {
@@ -42,11 +42,10 @@ export default {
                     console.log("구독으로 받은 메시지 입니다.", res.body);
 
                     let alert = JSON.parse(res.body);
-                    console.log(state.chat.chatRoomList);
+                    console.log(alert);
                     if (state.chat.chatRoomList.size > 0) {
-                        state.chat.chatRoomList.get(alert.roomSeq).notReadCount =
-                            alert.notReadCount;
-                        state.chat.chatRoomList.get(alert.roomSeq).recentMessage = alert.message;
+                        state.chat.chatRoomList.get(alert.pageSeq).notReadCount = alert.notReadCount;
+                        state.chat.chatRoomList.get(alert.pageSeq).recentMessage = alert.message;
                     }
 
                     // 알림에 추가

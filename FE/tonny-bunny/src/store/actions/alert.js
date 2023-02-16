@@ -14,6 +14,7 @@ export default {
 
         try {
             let { data } = await http.get("/alerts/log", { params });
+
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
@@ -21,6 +22,26 @@ export default {
                         d.createdAt = utils.setDate(d.createdAt);
                     });
                     context.commit("SET_ALERT_LIST", data.data);
+                    break;
+                case "FAIL":
+                    break;
+            }
+            // 채팅 알림
+            let chatData = await http.get("/chat/alert/" + userSeq);
+            chatData = chatData.data;
+            switch (chatData.resultCode) {
+                case "SUCCESS":
+                    console.log("chatData.data : ", chatData.data[0]);
+                    chatData.data.forEach((d) => {
+                        d = JSON.parse(d);
+                        d.createdAt = utils.setDate(d.alertLogSeq);
+                        d.chatAlertLogSeq = d.alertLogSeq;
+                        d.content = `${d.senderUserNickname} : ${d.message}`;
+                        d.alertLogSeq = -1;
+                        context.state.alert.alertList.push(d);
+                    });
+                    console.log("alert list", context.state.alert.alertList);
+                    // context.commit("SET_ALERT_LIST", data.data);
                     break;
                 case "FAIL":
                     break;
@@ -322,11 +343,7 @@ export default {
 
     // POST /api/jtonny/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq} 예약 통역 공고에서 헬퍼의 신청을 수락
     async insertJtonnyMatch(context, yTonnyNotiSeq, yTonnyNotiHelperSeq) {
-        let { data } = await http.post(
-            `/jtonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`,
-            yTonnyNotiSeq,
-            yTonnyNotiHelperSeq
-        );
+        let { data } = await http.post(`/jtonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`, yTonnyNotiSeq, yTonnyNotiHelperSeq);
 
         try {
             // service logic

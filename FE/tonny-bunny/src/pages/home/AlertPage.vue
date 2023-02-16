@@ -4,14 +4,8 @@
         <div class="alertContainer">
             <div class="alertWrap">
                 <!-- <div class="noReadContent">읽지 않은 알림 5개</div> -->
-                <div
-                    class="alertContent"
-                    v-for="alertItem in alertList"
-                    :key="alertItem.alertLogSeq">
-                    <AlertItem
-                        :alertItem="alertItem"
-                        @putAlert="putAlert(alertItem.alertLogSeq)"
-                        @deleteAlert="deleteAlert(alertItem.alertLogSeq)" />
+                <div class="alertContent" v-for="alertItem in alertList" :key="alertItem.alertLogSeq">
+                    <AlertItem :alertItem="alertItem" @putAlert="putAlert(alertItem.alertLogSeq)" @deleteAlert="deleteAlert(alertItem.alertLogSeq)" />
                 </div>
             </div>
         </div>
