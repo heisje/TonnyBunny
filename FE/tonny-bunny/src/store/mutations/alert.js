@@ -44,8 +44,8 @@ export default {
 					let helperSeq = request.helperSeq;
 					let title = request.title;
 					let ytonnySeq = request.ytonnySeq;
-					let bunnySeq = request.bunnySeq;
-					console.log("찍히나", ytonnySeq, bunnySeq);
+					// let bunnySeq = request.bunnySeq;
+					// console.log("찍히나", ytonnySeq, bunnySeq);
 
 					let text;
 					if (helperSeq == seq) {
@@ -143,8 +143,8 @@ export default {
 					// let helperSeq = request.helperSeq;
 					let title = request.title;
 					let ytonnySeq = request.ytonnySeq;
-					let bunnySeq = request.bunnySeq;
-					console.log("찍히나2", ytonnySeq, bunnySeq);
+					// let bunnySeq = request.bunnySeq;
+					// console.log("찍히나2", ytonnySeq, bunnySeq);
 
 					let text;
 					if (isHelper) {
@@ -233,7 +233,7 @@ export default {
 					// let title = request.title;
 					let ytonnySeq = request.ytonnySeq;
 					let bunnySeq = request.bunnySeq;
-					console.log("찍히나??", ytonnySeq, bunnySeq);
+					// console.log("찍히나??", ytonnySeq, bunnySeq);
 
 					let text;
 					if (isHelper) {
