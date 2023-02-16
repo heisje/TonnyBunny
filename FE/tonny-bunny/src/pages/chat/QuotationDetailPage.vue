@@ -33,7 +33,8 @@
                                 ' ↔ ' +
                                 getAllCode[bunnyQuotation?.endLangCode]
                             "
-                            sub></SquareTag>
+                            sub
+                        ></SquareTag>
                     </div>
                 </div>
 
@@ -46,49 +47,33 @@
                         </h3>
                     </div>
                 </div>
-            </div>
-            <br /><br />
 
-            <div class="bunnyQuotation">
-                <title-text
-                    type="h2"
-                    title="헬퍼가 제안한 금액입니다"
-                    class="mb-3"
-                    style="color: var(--primary-color)"
-                    top="0" />
-
-                <div class="d-flex">
-                    <div class="col-11">
-                        <input
-                            type="text"
-                            @input="changeInput"
-                            class="w-100"
-                            placeholder="ex)1000"
-                            v-model="bunnyQuotation.totalPrice"
-                            readonly />
+                <hr />
+                <div class="row">
+                    <div class="col-4">
+                        <h2 style="color: var(--primary-color)">헬퍼 제시금액</h2>
                     </div>
-                    <div class="backlabel col-2">
-                        <h3>캐럿</h3>
+                    <div class="col-8">
+                        <h3 style="color: var(--primary-color)">
+                            {{ bunnyQuotation.totalPrice }} 캐럿
+                            <!-- <img
+                                src="@/assets/carrot.png"
+                                alt=""
+                                style="width: 24px; height: 24px"
+                            /> -->
+                        </h3>
                     </div>
                 </div>
             </div>
-
             <br /><br />
-            <!-- <title-text type="h2" title="[선택] 사진" text="추가 사진을 올려주세요" />
-            <input
-                type="file"
-                multiple
-                accept="image/*"
-                @change="insertImageList"
-                class="quotationFileList"
-            /> -->
 
             <medium-btn
                 v-show="isClient"
                 style="width: 100%"
                 text="수락하기"
                 color="carrot"
-                @click.prevent="openAcceptModal(event)" />
+                @click.prevent="openAcceptModal(event)"
+            />
         </div>
         <AlarmModal
             title="주의"
@@ -100,7 +85,8 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @clickBtn1="acceptQuotation"
-            @clickBtn2="closeModal">
+            @clickBtn2="closeModal"
+        >
             <template #content>
                 견적서를 수락하시겠습니까? <br /><br />
                 수락하시면 매칭이 완료됩니다!
@@ -111,7 +97,6 @@
 
 <script>
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
-import TitleText from "@/components/common/TitleText.vue";
 import TitleBanner from "@/components/common/TitleBanner.vue";
 import SquareTag from "@/components/common/tag/SquareTag.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
@@ -120,7 +105,12 @@ import { mapGetters } from "vuex";
 
 export default {
     name: "QuotationDetailPage",
-    components: { TitleText, MediumBtn, TitleBanner, SquareTag, AlarmModal },
+    components: {
+        MediumBtn,
+        TitleBanner,
+        SquareTag,
+        AlarmModal,
+    },
     data() {
         return {
             bunnyQuotation: {},
