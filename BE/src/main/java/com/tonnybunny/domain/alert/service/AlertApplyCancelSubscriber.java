@@ -30,10 +30,10 @@ public class AlertApplyCancelSubscriber implements MessageListener {
 			log.info("alertLogRequestDto = {}", alertLogRequestDto);
 
 			String url;
-			url = "/sub/alert/apply/cancel" + alertLogRequestDto.getClientSeq();
+			url = "/sub/alert/apply/" + alertLogRequestDto.getClientSeq() + "/cancel";
 			template.convertAndSend(url, alertLogRequestDto);
 
-			url = "/sub/alert/apply/cancel" + alertLogRequestDto.getHelperSeq();
+			url = "/sub/alert/apply/" + alertLogRequestDto.getHelperSeq() + "/cancel";
 			template.convertAndSend(url, alertLogRequestDto);
 
 		} catch (Exception e) {
