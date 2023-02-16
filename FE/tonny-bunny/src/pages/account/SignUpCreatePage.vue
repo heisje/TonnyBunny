@@ -1,20 +1,25 @@
 <template>
+    <!-- <title-banner title="회원가입"></title-banner> -->
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <div v-if="select == `helper`">
-                <TitleText
+                <title-banner title="헬퍼 회원가입" text="헬퍼 회원으로 가입합니다"></title-banner>
+                <!-- <TitleText
                     title="헬퍼 회원가입"
                     center
                     text="당신의 귀여운 통역가, TonnyBunny!"
-                    :bottom="40" />
+                    :bottom="40" /> -->
             </div>
             <div v-else>
-                <TitleText
+                <title-banner title="일반 회원가입" text="일반 회원으로 가입합니다"></title-banner>
+                <!-- <TitleText
                     title="일반 회원가입"
                     center
                     text="당신의 귀여운 통역가, TonnyBunny!"
-                    :bottom="40" />
+                    :bottom="40" /> -->
             </div>
+
+            <div style="margin-top: 120px"></div>
             <!-- 
             <TitleText title="간편 로그인" type="h2" center text="카카오, 구글, 네이버" /> -->
 
@@ -56,7 +61,9 @@
                 <smallBtn
                     class="sideButton"
                     @click.prevent="checkDuplication"
-                    text="중복 확인"></smallBtn
+                    text="중복 확인"
+                    color="outline"
+                    font="active"></smallBtn
                 ><br />
             </div>
             <div v-show="noticeNick" style="color: red">{{ noticeNick }}</div>
@@ -74,7 +81,9 @@
                 <smallBtn
                     class="sideButton"
                     @click.prevent="sendAuthCode"
-                    text="인증 요청"></smallBtn
+                    text="인증 요청"
+                    color="outline"
+                    font="active"></smallBtn
                 ><br />
             </div>
             <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
@@ -100,16 +109,24 @@
             <div class="p-4" style="border: 1px solid var(--light-color)">
                 <!-- 공통 약관 -->
                 <div v-for="(term, index) in clientTerms" :key="index">
-                    <div class="p-2 m-2">
-                        <input type="checkbox" name="color" @click="clientTermToggle(index)" />
+                    <div class="d-flex align-items-center p-2 m-2">
+                        <input
+                            type="checkbox"
+                            name="color"
+                            @click="clientTermToggle(index)"
+                            class="me-2" />
                         <span> {{ term.title }}<span>(필수)</span> </span>
                     </div>
                 </div>
                 <!-- 헬퍼 약관 -->
                 <div v-show="select == 'helper'">
                     <div v-for="(term, index) in helperTerms" :key="index">
-                        <div class="p-2 m-2">
-                            <input type="checkbox" name="color" @click="helperTermToggle(index)" />
+                        <div class="d-flex align-items-center p-2 m-2">
+                            <input
+                                type="checkbox"
+                                name="color"
+                                @click="helperTermToggle(index)"
+                                class="me-2" />
                             <span> {{ term.title }}<span>(필수)</span> </span>
                         </div>
                     </div>
@@ -127,7 +144,7 @@
             <smallBtn
                 color="carrot"
                 style="width: 100%; margin-top: 32px"
-                text="회원 가입"
+                text="회원가입"
                 @click="submitForm"></smallBtn>
         </div>
     </div>
@@ -138,12 +155,14 @@ import TitleText from "@/components/common/TitleText.vue";
 import smallBtn from "@/components/common/button/SmallBtn.vue";
 import http from "@/common/axios";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
 
 export default {
     components: {
         TitleText,
         smallBtn,
         AlarmModal,
+        TitleBanner,
     },
 
     data() {

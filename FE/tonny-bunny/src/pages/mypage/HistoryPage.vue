@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center customFormWrap w-100">
         <div class="customForm">
             <div>
-                <title-banner title="히스토리" text="이용 내역을 조회합니다!" />
+                <title-banner title="히스토리" text="이용 내역을 조회합니다" />
             </div>
             <!-- {{ historyList }} -->
             <history-list :historyList="historyList" />
