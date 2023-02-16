@@ -23,7 +23,7 @@
                             <square-tag :text="getTaskStateCode" info></square-tag>
                         </div>
                         <div v-else>
-                            <square-tag :text="getTaskStateCode" outline></square-tag>
+                            <square-tag :text="getTaskStateCode" white></square-tag>
                         </div>
                     </div>
                     <div class="titles mt-4">
@@ -128,7 +128,6 @@
                                     <td>
                                         <div
                                             v-if="yTonnyDetail.tonnySituCode == ''"
-                                            class="fst-italic"
                                             style="color: var(--sub-color)">
                                             상황 카테고리가 없습니다.
                                         </div>
@@ -144,7 +143,6 @@
                                     <td class="">
                                         <div
                                             v-if="yTonnyDetail.content == ''"
-                                            class="fst-italic"
                                             style="color: var(--sub-color)">
                                             상황 설명이 없습니다.
                                         </div>
