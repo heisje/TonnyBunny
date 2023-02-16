@@ -41,13 +41,13 @@
                         </div>
                         <div v-else style="color: var(--sub-color)">오늘 일정이 없습니다.</div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <title-text title="히스토리"></title-text>
                         <hr />
 
                         <div v-if="false" class="history">히스토리</div>
                         <div v-else style="color: var(--sub-color)">히스토리 내역이 없습니다.</div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-md-5 col-12">
@@ -74,7 +74,7 @@
                             color="carrot"
                             @click.prevent="search" />
                     </div>
-                    <div class="d-flex flex-wrap col-12">
+                    <div class="d-flex flex-wrap col-12 customScroll" style="">
                         <div v-for="(bunny, index) in getBunnyList" :key="index" class="mt-3 w-100">
                             <!-- {{ bunny }} -->
                             <quest-card
@@ -196,6 +196,16 @@ export default {
         :nth-child(1) .questCard {
             width: 100%;
         }
+    }
+}
+
+.customScroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 600px;
+
+    &::-webkit-scrollbar {
+        display: none; /* 크롬, 사파리, 오페라, 엣지 */
     }
 }
 </style>
