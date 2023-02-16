@@ -1,7 +1,10 @@
 <template>
     <div>
-        <title-banner title="채팅함" text=""></title-banner>
-        <chat-list class="chat-list-view" />
+        <title-banner title="채팅함" text="채팅을 확인해보세요"></title-banner>
+        <div style="margin-top: 100px"></div>
+        <div class="d-flex justify-content-center">
+            <chat-list class="chat-list-view customForm" />
+        </div>
     </div>
 </template>
 

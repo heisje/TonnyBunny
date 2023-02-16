@@ -45,7 +45,8 @@ export default {
     },
 
     computed: {
-        ...mapGetters({ getBunnyDetail: "getBunnyDetail" }),
+        ...mapGetters({ getBunnyDetail: "getBunnyDetail", userInfo: "getUserInfo" }),
+
         isPossible() {
             if (this.estimatePrice != "") {
                 return "carrot";
@@ -66,7 +67,7 @@ export default {
             this.$router.go(-1);
         },
 
-        submitForm() {
+        async submitForm() {
             if (this.estimatePrice === "") {
                 alert("금액을 입력해주세요!");
                 return;
@@ -81,7 +82,24 @@ export default {
             console.log("bunny helper payload", payload);
 
             this.$store.dispatch("insertBunnyApply", payload);
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+
+            let alert = {
+                userSeq: this.userInfo.seq,
+                clientSeq: this.getBunnyDetail.client.seq,
+                helperSeq: this.userInfo.seq,
+                taskCode: this.getBunnyDetail.taskCode,
+                content: "번역 신청",
+                clientNickname: this.getBunnyDetail.client.nickName,
+                helperNickname: this.userInfo.nickName,
+            };
+
+            await this.$store.dispatch("applyAlert", alert);
+
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$router.push({
+                name: "NBunnyDetailPage",
+                params: { id: this.getBunnyDetail.seq },
+            });
         },
     },
 };

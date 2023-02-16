@@ -22,14 +22,15 @@
                     :profileImagePath="boardDetail?.user?.profileImagePath"
                     width="42" />
 
-                <span
-                    ><h3>{{ boardDetail?.user?.nickName }}</h3></span
-                >
+                <span>
+                    <h3>{{ boardDetail?.user?.nickName }}</h3>
+                </span>
+
                 <span>{{ boardDetail?.createdAt }}</span>
             </div>
 
             <hr />
-            <div>{{ boardDetail?.content }}</div>
+            <div style="margin-bottom: 154px">{{ boardDetail?.content }}</div>
 
             <div class="boardImageWrap">
                 <div
@@ -49,7 +50,7 @@
                     :id="content.id"
                     @input="changeInput" />
                 <div class="commentCreateBtn">
-                    <SmallBtn text="댓글 작성" @click="clickCommentCreateBtn" />
+                    <SmallBtn text="댓글 작성" color="primary" @click="clickCommentCreateBtn" />
                 </div>
             </div>
             <br />

@@ -1,9 +1,10 @@
 <template lang="">
     <div class="alertItemWarp" @click="putAlert" v-show="display">
-        <div class="alertItemContent" :class="alertItem.isRead ? 'isRead' : ''">
-            <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 16 16">
+        <!-- <div class="alertItemContent" :class="alertItem.isRead ? 'isRead' : ''"> -->
+        <div class="alertItemContent">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="6" height="6" viewBox="0 0 16 16">
                 <circle cx="8" cy="8" r="8" />
-            </svg>
+            </svg> -->
 
             <span class="taskCode">"{{ getTaskCode }}"</span>
             <span class="content">{{ alertItem?.content }}</span>
@@ -63,8 +64,12 @@ export default {
         async deleteAlert() {
             if (this.alertItem.alertLogSeq == -1) {
                 // 채팅 삭제용 -> 그냥 REST api를 호출하는게 나을 것
-                console.log(`/chat/alert/${this.alertItem.receivedUserSeq}/${this.alertItem.pageSeq}/${this.alertItem.chatAlertLogSeq}`);
-                let { data } = await http.delete(`/chat/alert/${this.alertItem.receivedUserSeq}/${this.alertItem.pageSeq}/${this.alertItem.chatAlertLogSeq}`);
+                console.log(
+                    `/chat/alert/${this.alertItem.receivedUserSeq}/${this.alertItem.pageSeq}/${this.alertItem.chatAlertLogSeq}`
+                );
+                let { data } = await http.delete(
+                    `/chat/alert/${this.alertItem.receivedUserSeq}/${this.alertItem.pageSeq}/${this.alertItem.chatAlertLogSeq}`
+                );
                 if (data.resultCode == "SUCCESS") {
                     console.log("채팅 삭제 성공");
                 } else {
@@ -120,6 +125,9 @@ export default {
         }
         .close {
             z-index: 1;
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-left: 12px;
             &:hover {
                 color: var(--active-color);
             }
