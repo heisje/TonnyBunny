@@ -2,7 +2,8 @@
     <div class="tonnyContainer container">
         <title-banner
             title="Let's Tonny !"
-            text="헬퍼에게 통역 서비스를 신청해볼까요?"></title-banner>
+            text="헬퍼에게 통역 서비스를 신청해볼까요?"
+        ></title-banner>
         <div class="tonnyWrap">
             <div class="tonnyPage row">
                 <div class="tonnyCreate col-md-2 col-12">
@@ -18,21 +19,24 @@
                                 text="즉시통역 받기"
                                 class="w-100"
                                 color="success"
-                                font="active"></medium-btn>
+                                font="active"
+                            ></medium-btn>
                         </router-link>
                         <router-link :to="{ name: 'JTonnyFormPage' }">
                             <medium-btn
                                 text="즉시통역"
                                 class="w-100"
                                 color="carrot"
-                                font="white"></medium-btn>
+                                font="white"
+                            ></medium-btn>
                         </router-link>
                         <router-link :to="{ name: 'YTonnyFormPage' }">
                             <medium-btn
                                 text="예약통역"
                                 class="w-100"
                                 color="carrot"
-                                font="white"></medium-btn>
+                                font="white"
+                            ></medium-btn>
                         </router-link>
                     </div>
                 </div>
@@ -49,7 +53,8 @@
                                         :startDateTime="schedule.startDateTime"
                                         :endDateTime="schedule.endDateTime"
                                         :text="schedule.content"
-                                        today></schedule-list-item>
+                                        today
+                                    ></schedule-list-item>
                                 </v-lazy>
                             </div>
                         </div>
@@ -79,7 +84,7 @@
                                         sub></square-mini-tag> -->
                                         <!-- <square-mini-tag
                                         class="pe-2"
-                                        :text="yTonny.estimatePrice + ' CRT'"
+                                        :text="yTonny.estimatePrice + ' 캐럿'"
                                         white></square-mini-tag> -->
 
                                         <router-link
@@ -87,7 +92,8 @@
                                             :to="{
                                                 name: 'YTonnyDetailPage',
                                                 params: { id: yTonny.seq },
-                                            }">
+                                            }"
+                                        >
                                             <div class="title">{{ yTonny.title }}</div>
                                         </router-link>
                                         <div class="label" style="color: var(--sub-color)">
@@ -99,9 +105,8 @@
                                         <square-mini-tag
                                             class="pe-2"
                                             white
-                                            :text="
-                                                getTonnySituCode(yTonny.tonnySituCode)
-                                            "></square-mini-tag>
+                                            :text="getTonnySituCode(yTonny.tonnySituCode)"
+                                        ></square-mini-tag>
                                         <div class="" style="color: var(--sub-color)">
                                             {{ yTonny.startDateTime.split("T")[0] }}
                                         </div>
@@ -119,7 +124,8 @@
                         class="mt-5"
                         prev-icon="mdi-menu-left"
                         next-icon="mdi-menu-right"
-                        @click="nextPage"></v-pagination>
+                        @click="nextPage"
+                    ></v-pagination>
                 </div>
             </div>
         </div>
