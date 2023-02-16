@@ -580,7 +580,19 @@ export default {
                 helperNickname: this.userInfo.nickName,
             };
 
+            let clientAlert = {
+                userSeq: this.getBunnyDetail.client.seq,
+                clientSeq: this.getBunnyDetail.client.seq,
+                helperSeq: this.userInfo.seq,
+                taskCode: this.getBunnyDetail.taskCode,
+                title: this.getBunnyDetail.title,
+                content: '"' + this.getBunnyDetail.title + '" 건에 헬퍼 신청이 들어왔습니다.',
+                clientNickname: this.getBunnyDetail.client.nickName,
+                helperNickname: this.userInfo.nickName,
+            };
+
             await this.$store.dispatch("insertAlert", alert);
+            await this.$store.dispatch("insertAlert", clientAlert);
             await this.$store.dispatch("applyAlert", alert);
 
             // window.location.reload();
