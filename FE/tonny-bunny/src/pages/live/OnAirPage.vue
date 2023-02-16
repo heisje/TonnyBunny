@@ -172,7 +172,7 @@
                                 v-if="btnStep != 2"
                                 class="d-flex flex-column justify-content-center align-items-center"
                             >
-                                <div class="btn closeBtn" @click.prevent="leaveSession">
+                                <div class="btn closeBtn" @click.prevent="clickLeaveBtn">
                                     <span class="material-symbols-outlined"> close </span>
                                 </div>
                                 <h2>떠나기</h2>
@@ -273,6 +273,24 @@
             <template #content>
                 상대방이 방에서 나갔어요! <br /><br />
                 5초 뒤에 라이브가 자동 종료 됩니다!
+            </template>
+        </AlarmModal>
+        <AlarmModal
+            v-show="modalName == `leaveBtn`"
+            title="경고"
+            type="danger"
+            btnText1="예"
+            btnText2="아니오"
+            btnColor1="carrot"
+            btnColor2="main"
+            btnFontColor1="white"
+            btnFontColor2="white"
+            @clickBtn1="leaveSession"
+            @clickBtn2="closeModal2"
+        >
+            <template #content>
+                방에서 나가시겠습니까? <br /><br />
+                라이브는 자동 종료 됩니다!
             </template>
         </AlarmModal>
     </div>
@@ -416,6 +434,11 @@ export default {
                 .catch((error) => {
                     console.error(error);
                 });
+        },
+
+        clickLeaveBtn() {
+            this.modalName = "leaveBtn";
+            this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         closeModal2() {
@@ -591,7 +614,7 @@ export default {
                         this.session.publish(this.publisher);
 
                         if (!this.isExisted) {
-                            console.log("내가 레코딩 시작");
+                            // console.log("내가 레코딩 시작");
                             this.startRecording();
                         }
                     })
@@ -609,7 +632,7 @@ export default {
 
         startLive() {
             this.btnStep = 2;
-            console.log("Start");
+            // console.log("Start");
 
             this.session
                 .signal({ data: "Start", type: "live" })
@@ -622,7 +645,7 @@ export default {
         },
 
         endLive() {
-            console.log("End");
+            // console.log("End");
             this.session
                 .signal({ data: "End", type: "live" })
                 .then(() => {
@@ -646,12 +669,12 @@ export default {
                 }
             );
 
-            console.log(res);
+            // console.log(res);
             this.recordId = res.data.id;
         },
 
         async stopRecording() {
-            console.log("내가 레코딩 종료, recordId : ", this.recordId);
+            // console.log("내가 레코딩 종료, recordId : ", this.recordId);
             if (this.recordId == "") return;
 
             let res = await axios.post(
@@ -659,7 +682,7 @@ export default {
                 { recording: this.recordId }
             );
 
-            console.log("레코딩 종료 끝, 히스토리 저장 시작");
+            // console.log("레코딩 종료 끝, 히스토리 저장 시작");
 
             // 히스토리 저장 요청
             const payload = {
@@ -671,7 +694,7 @@ export default {
 
             await this.$store.dispatch("completeLive", payload);
 
-            console.log("히스토리 저장 성공");
+            // console.log("히스토리 저장 성공");
         },
 
         toggleSpeaker() {
@@ -685,7 +708,7 @@ export default {
         },
 
         toggleCamera() {
-            console.log(this.OV);
+            // console.log(this.OV);
             if (!this.isCamOn) {
                 this.publisher.publishVideo(false);
                 this.isCamOn = true;
@@ -753,7 +776,7 @@ export default {
                 { headers: { "Content-Type": "application/json" } }
             );
 
-            console.log("getToken async: ", res);
+            // console.log("getToken async: ", res);
 
             this.isExisted = res.data["isExisted"];
             return res.data[0];
