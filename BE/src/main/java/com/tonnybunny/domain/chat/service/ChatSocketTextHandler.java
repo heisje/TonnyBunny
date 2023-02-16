@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tonnybunny.domain.chat.dto.ChatAlertDto;
 import com.tonnybunny.domain.chat.dto.ChatLogDto;
-import com.tonnybunny.domain.chat.dto.ChatUserInfo;
 import com.tonnybunny.domain.chat.dto.ParticipantDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -23,6 +22,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -82,6 +82,23 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 */
 	private HashOperations<String, String, Map<String, Integer>> notReadInfo; // "CHAT_NO_ENTER", userSeq, { roomSeq1: 0, roomSeq2: 2}
 
+	/**
+	 * "ALERT-userSeq", roomSeq, {alertLogSeq: content}
+	 * alertLogSeq는 js의 new Date().toISOString() 으로 설정
+	 *
+	 * content {
+	 * task: "즉통(JTonny)/예통(YTonny)/번역(Bunny)/채팅(Chat)"
+	 * detailTask: "헬퍼가수락(HelperAccept)/고객이수락(ClientAccept)/채팅(Chat)"
+	 * pageSeq: "", => 알림을 눌렀을 때 해당 페이지로 이동할수 있는 페이지 ID (선택) // 채팅에선 roomSeq
+	 * receivedUserSeq: "",
+	 * message: "",
+	 * notReadCount: 0, // 채팅 전용
+	 * senderUserSeq: "", // 채팅 전용
+	 * senderUserNickname: "", // 채팅 전용
+	 * }
+	 */
+	private HashOperations<String, String, Map<String, String>> alertInfo;
+
 
 	@PostConstruct
 	public void init() {
@@ -92,6 +109,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		this.roomInfo = redisTemplate.opsForHash();
 		this.chatLogInfo = redisTemplate.opsForHash();
 		this.notReadInfo = redisTemplate.opsForHash();
+		this.alertInfo = redisTemplate.opsForHash();
 	}
 
 
@@ -103,7 +121,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	 */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println(String.format("[접속] id:%s, uri: %s, port: %s, remote address: %s, local address: %s, ",
+		System.out.println(String.format("Redis [접속] id:%s, uri: %s, port: %s, remote address: %s, local address: %s, ",
 			session.getId(), session.getUri(), session.getRemoteAddress().getPort(),
 			session.getRemoteAddress().getAddress().toString(), session.getLocalAddress().toString()));
 		sessions.add(session);
@@ -121,6 +139,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String payload = message.getPayload();
 		JSONObject jsonObject = new JSONObject(payload);
+		System.out.println("jsonObject : " + jsonObject);
 		switch (jsonObject.getString("type")) {
 		case "exit": { // 채팅방에 들어가지 않은 상태
 			String roomSeq = jsonObject.getString("roomSeq");
@@ -160,7 +179,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		case "message": { // 메세지 전달
 
 			roomInfo = redisTemplate.opsForHash();
-			System.out.println("[채팅 " + session.getId() + "] " + jsonObject + " / " + jsonObject.getString("message"));
+			System.out.println("Redis [채팅 " + session.getId() + "] " + jsonObject + " / " + jsonObject.getString("message"));
 			//			System.out.println("\t\t** participant info: " + roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), jsonObject.getString("roomSeq")));
 
 			String roomSeq = jsonObject.getString("roomSeq");
@@ -187,7 +206,7 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			ParticipantDto anotherUserInfo = anotherUser.get(anotherUserSeq.toString());
 			//			Integer anotherUserPort = anotherUserInfo.getPort();
 			//			if (connectedPortInfo.containsKey(anotherUserPort) && connectedPortInfo.get(anotherUserPort) == false) { // 어느 세션에서도 접속하지 않은 상태
-			System.out.println("AnotherUserInfo : " + anotherUserInfo.toString());
+			//			System.out.println("AnotherUserInfo : " + anotherUserInfo.toString());
 			if (anotherUserInfo.getPort() == -1) {            // 안 읽은 메세지 수를 0으로 초기화
 				initNotReadCount(roomSeq, userSeq, anotherUserSeq);
 				increaseNotReadCount(roomSeq, anotherUserSeq);
@@ -196,18 +215,118 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 			// 같은 방 다른 유저한테 채팅 알림 Publish
 			// FIXME : userInfo를 기본적으로 redis에 갖고 있어야 함. => socket 통신할 때마다 DB에서 user정보를 조회한는 건 말도 안됨.
 
-			Integer notReadCount = this.getNotReadCount(roomSeq, anotherUserSeq);
-			//			Map<String, String> senderUserInfo = new HashMap<>();
-			//			senderUserInfo.put("userSeq", userSeq.toString()); // 닉네임은 나중에..
-			ChatUserInfo senderUserInfo = ChatUserInfo.builder().userSeq(userSeq).nickName("TestNicknameMustBeFilled").profileImagePath("TestPathMustBeFilled").build();
-			ChatAlertDto chatAlertDto = ChatAlertDto.builder().roomSeq(roomSeq).senderUserInfo(senderUserInfo).message(jsonObject.getString("message")).notReadCount(notReadCount).build();
-			String alertJsonString = objectMapper.writeValueAsString(chatAlertDto);
-			System.out.println(String.format("구독자에게 알림을 보냄 - [%s] %s", "/sub/chat/" + anotherUserSeq, alertJsonString));
-			template.convertAndSend("/sub/chat/" + anotherUserSeq, alertJsonString);
+			//			Integer notReadCount = this.getNotReadCount(roomSeq, anotherUserSeq);
+			//			//			Map<String, String> senderUserInfo = new HashMap<>();
+			//			//			senderUserInfo.put("userSeq", userSeq.toString()); // 닉네임은 나중에..
+			//			ChatUserInfo senderUserInfo = ChatUserInfo.builder().userSeq(userSeq).nickName("").profileImagePath("").build();
+			//			ChatAlertDto chatAlertDto = ChatAlertDto.builder().roomSeq(roomSeq).senderUserInfo(senderUserInfo).message(jsonObject.getString("message")).notReadCount(notReadCount).build();
+			//			String alertJsonString = objectMapper.writeValueAsString(chatAlertDto);
+			//			System.out.println(String.format("Redis [구독자에게 알림을 보냄] - [%s] %s", "/sub/chat/" + anotherUserSeq, alertJsonString));
+			//			template.convertAndSend("/sub/chat/" + anotherUserSeq, alertJsonString);
 			break;
 
 		}
+		case "alert": {
+			System.out.println(String.format("Redis [알림] %s", jsonObject));
+
+			String receivedUserSeq = String.valueOf(jsonObject.getLong("receivedUserSeq"));
+			String alertLogSeq = jsonObject.getString("alertLogSeq");
+			String roomSeq = jsonObject.getString("pageSeq"); // roomSeq
+			String anotherUserSeq = String.valueOf(jsonObject.getLong("senderUserSeq"));
+			Integer notReadCount = this.getNotReadCount(roomSeq, Long.valueOf(anotherUserSeq));
+
+			// 같은 방인데 접속한 유저이면 -> 알림 안보냄
+			ObjectMapper objectMapper = new ObjectMapper();
+			Map<String, ParticipantDto> anotherUser = objectMapper.convertValue(roomInfo.get(ChatTypeEnum.CHAT_ROOM.toString(), roomSeq), new TypeReference<Map<String, ParticipantDto>>() {});
+			ParticipantDto anotherUserInfo = anotherUser.get(receivedUserSeq);
+			if (anotherUserInfo.getPort() != -1) {  // 알림 안 보냄
+				//				System.out.println("상대방 seq: " + receivedUserSeq + ", 상대방 port: " + anotherUserInfo.getPort());
+				break;
+			}
+
+			// 접속 안 한 유저 -> 알림 보냄
+			// content 저장할 map
+			Map<String, String> content;
+			if (alertInfo.hasKey("ALERT-" + receivedUserSeq, roomSeq)) {
+				content = alertInfo.get("ALERT-" + receivedUserSeq, roomSeq);
+			} else {
+				content = new HashMap<>();
+			}
+			ChatAlertDto contentValue = objectMapper.readValue(jsonObject.toString(), ChatAlertDto.class);
+			System.out.println("Redis [content deserialize] before set : " + objectMapper.writeValueAsString(contentValue));
+			contentValue.setNotReadCount(notReadCount);
+			System.out.println("Redis [content deserialize] after set : " + objectMapper.writeValueAsString(contentValue));
+
+			// content에 contentValue 저장
+			content.put(alertLogSeq, objectMapper.writeValueAsString(contentValue));
+
+			// redis에 저장
+			alertInfo.put("ALERT-" + receivedUserSeq, roomSeq, content);
+
+			// 구독자에게 알림 전송
+			template.convertAndSend("/sub/chat/" + receivedUserSeq, objectMapper.writeValueAsString(contentValue));
+			break;
 		}
+		//		case "deleteAlert": {
+		//			// FIXME : socket으로 받지 말고, 그냥 rest 요청을 보내는게 나을 것.
+		//			System.out.println(String.format("Redis [알림 삭제] %s", jsonObject));
+		//			String userSeq = String.valueOf(jsonObject.getLong("userSeq"));
+		//			String alertLogSeq = jsonObject.getString("alertLogSeq");
+		//			deleteChatAlertLog(userSeq, alertLogSeq);
+		//			break;
+		//		}
+		}
+	}
+
+
+	/**
+	 * 특정 알림 삭제
+	 *
+	 * @param userSeq
+	 * @param alertLogSeq
+	 * @return
+	 */
+	public Boolean deleteChatAlertLog(String userSeq, String roomSeq, String alertLogSeq) {
+		System.out.println("Redis [알림 삭제 요청]");
+		// content 삭제
+		if (alertInfo.hasKey("ALERT-" + userSeq, roomSeq)) {
+			Map<String, String> content = alertInfo.get("ALERT-" + userSeq, roomSeq);
+			if (content.containsKey(alertLogSeq)) {
+				content.remove(alertLogSeq);
+				alertInfo.put("ALERT-" + userSeq, roomSeq, content);
+				System.out.println("Redis [알림 삭제 완료]");
+			}
+		}
+		return true;
+	}
+
+
+	public Boolean deleteChatAlertLogByRoomSeq(String userSeq, String roomSeq) {
+		System.out.println("Redis [알림 삭제 all 요청]");
+		// content 삭제
+		if (alertInfo.hasKey("ALERT-" + userSeq, roomSeq)) {
+			alertInfo.delete("ALERT-" + userSeq, roomSeq);
+			System.out.println("Redis [알림 전체 삭제 완료]");
+		}
+		return true;
+	}
+
+
+	/**
+	 * 알림 목록 조회
+	 *
+	 * @param receivedUserSeq
+	 * @return
+	 */
+	public List<String> getChatAlertLog(Long receivedUserSeq) {
+		if (alertInfo.size("ALERT-" + receivedUserSeq) > 0) {
+			Map<String, Map<String, String>> alerts = alertInfo.entries("ALERT-" + receivedUserSeq); // value가 이미 AlertDto를 String으로 변환시킨 것
+			List<Map<String, String>> contentList = alerts.values().stream().collect(Collectors.toList());
+			List<String> alertList = new ArrayList<>();
+			contentList.forEach((s) -> {alertList.addAll(s.values().stream().collect(Collectors.toList()));});
+			return alertList;
+		}
+		return new ArrayList<>();
 	}
 
 
@@ -226,8 +345,10 @@ public class ChatSocketTextHandler extends TextWebSocketHandler {
 		// 해당 port 연결을 false로.
 
 		String[] info = connectedPortInfo.get(session.getRemoteAddress().getPort());
-		// 방에 있는 유저 정보에서 port번호를 -1로 수정함
-		deleteParticipantInfoInChatRoom(info[0], Long.valueOf(info[1]));
+		if (info != null) {
+			// 방에 있는 유저 정보에서 port번호를 -1로 수정함
+			deleteParticipantInfoInChatRoom(info[0], Long.valueOf(info[1]));
+		}
 		sessions.remove(session);
 		//		sendMessageByRoomSeq(roomSeq, "[알림] " + session.getId() + "님이 퇴장하셨습니다.");
 	}
