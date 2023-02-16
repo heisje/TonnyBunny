@@ -107,4 +107,18 @@ public class ChatRoomController {
 		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
 	}
 
+
+	@DeleteMapping("/chat/alert/{userSeq}/{roomSeq}/{alertLogSeq}")
+	public ResponseEntity<ResultDto<Boolean>> deleteChatAlertLog(@PathVariable("userSeq") Long userSeq, @PathVariable("roomSeq") String roomSeq, @PathVariable("alertLogSeq") String alertLogSeq) {
+		chatRoomService.deleteChatAlertLog(userSeq, roomSeq, alertLogSeq);
+		return ResponseEntity.ok(ResultDto.ofSuccess());
+	}
+
+
+	@DeleteMapping("/chat/alert/{userSeq}/{roomSeq}")
+	public ResponseEntity<ResultDto<Boolean>> deleteChatAlertLogByRoomSeq(@PathVariable("userSeq") Long userSeq, @PathVariable("roomSeq") String roomSeq) {
+		chatRoomService.deleteChatAlertLogByRoomSeq(userSeq, roomSeq);
+		return ResponseEntity.ok(ResultDto.ofSuccess());
+	}
+
 }
