@@ -13,10 +13,18 @@ public class AlertLogRequestDto {
 	private Long alertLogSeq;
 	private Long userSeq;
 
-	//	private String sessionName;
+	private Long clientSeq;
+	private Long helperSeq;
+
+	private Long yTonnySeq;
+	private Long bunnySeq;
+
+	private String clientNickname;
+	private String helperNickname;
+
 	private String taskCode;
+	private String title;
 	private String content;
 	private Boolean isRead;
-	private Boolean isEnd;
 
 }

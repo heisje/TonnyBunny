@@ -3,11 +3,16 @@ package com.tonnybunny.domain.alert.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.tonnybunny.config.ModelMapperFactory;
+import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -18,40 +23,30 @@ public class AlertLogResponseDto {
 
 	private Long alertLogSeq;
 
-	//	private String sessionName;
-	private String taskCode;
 	private String content;
 	private Boolean isRead;
-	private Boolean isEnd;
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime updatedAt;
 
-	//	private final ModelMapper modelMapper;
-	//	public static ModelMapper modelMapper = new ModelMapper();
 
-	//	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
-	//		return modelMapper.map(alertLog, AlertLogResponseDto.class);
-	//	}
-	//
-	//
-	//	public static List<AlertLogResponseDto> fromEntityList(List<AlertLogEntity> alertLogList) {
-	//		List<AlertLogResponseDto> result = new ArrayList<>();
-	//
-	//		for (AlertLogEntity alertLog : alertLogList) {
-	//			AlertLogResponseDto alertLogResponseDto = fromEntity(alertLog);
-	//			result.add(alertLogResponseDto);
-	//		}
-	//
-	//		return result;
-	//	}
-	//
-	//
-	//	@PostConstruct
-	//	private void initialize() {
-	//		modelMapper = this.modelBeanMapper;
-	//	}
+	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+		return modelMapper.map(alertLog, AlertLogResponseDto.class);
+	}
+
+
+	public static List<AlertLogResponseDto> fromEntityList(List<AlertLogEntity> alertLogList) {
+		List<AlertLogResponseDto> result = new ArrayList<>();
+
+		for (AlertLogEntity alertLog : alertLogList) {
+			AlertLogResponseDto alertLogResponseDto = fromEntity(alertLog);
+			result.add(alertLogResponseDto);
+		}
+
+		return result;
+	}
 
 }

@@ -141,12 +141,12 @@ VALUES (1, 1, "0020002", "토익", "무려 535점", false, now(), now()),
 
 
 -- 알림 로그
-INSERT INTO alert_log_table(alert_log_seq, user_seq, task_code, content, is_end, is_read, created_at,
+INSERT INTO alert_log_table(alert_log_seq, user_seq, task_code, content, is_read, created_at,
                             updated_at)
-VALUES (1, 1, "0030001", 'content1', false, false, now(), now()),
-       (2, 2, "0030002", 'content2', true, false, now(), now()),
-       (3, 1, "0030003", 'content3', false, true, now(), now()),
-       (4, 2, "0030003", 'content4', true, true, now(), now());
+VALUES (1, 1, "0030001", 'content1', false, now(), now()),
+       (2, 2, "0030002", 'content2', false, now(), now()),
+       (3, 1, "0030003", 'content3', true, now(), now()),
+       (4, 2, "0030003", 'content4', true, now(), now());
 
 
 -- 알림 설정

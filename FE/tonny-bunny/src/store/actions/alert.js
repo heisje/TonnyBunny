@@ -2,343 +2,359 @@ import http from "@/common/axios";
 import utils from "@/common/utils";
 
 export default {
-    /*
+	/*
         알림 관련 API
         Alert Controller
     */
-    // /api/alerts/log 알림 목록 반환 API
-    async getAlertList(context, userSeq) {
-        let params = {
-            userSeq: userSeq,
-        };
+	// /api/alerts/log 알림 목록 반환 API
+	async getAlertList(context, userSeq) {
+		let params = {
+			userSeq: userSeq
+		};
 
-        try {
-            let { data } = await http.get("/alerts/log", { params });
-            // service logic
-            switch (data.resultCode) {
-                case "SUCCESS":
-                    data.data.forEach((d) => {
-                        d.createdAt = utils.setDate(d.createdAt);
-                    });
-                    context.commit("SET_ALERT_LIST", data.data);
-                    break;
-                case "FAIL":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
+		try {
+			let { data } = await http.get("/alerts/log", { params });
+			// service logic
+			switch (data.resultCode) {
+				case "SUCCESS":
+					data.data.forEach((d) => {
+						d.createdAt = utils.setDate(d.createdAt);
+					});
+					context.commit("SET_ALERT_LIST", data.data);
+					break;
+				case "FAIL":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-    // /api/alerts/log 알림 생성 API
-    async insertAlert(context, json) {
-        let { data } = await http.post(`/alerts/log`, json);
+	async getAlert(context, params) {
+		try {
+			let { data } = await http.get("/alerts", { params });
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "SUCCESS":
-                    break;
-                case "fail":
-                    break;
-            }
+			// service logic
+			switch (data.resultCode) {
+				case "SUCCESS":
+					break;
+				case "FAIL":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+	// /api/alerts/log 알림 생성 API
+	async insertAlert(context, json) {
+		let { data } = await http.post(`/alerts/log`, json);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "SUCCESS":
+					break;
+				case "fail":
+					break;
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-    // /api/alerts/log/{alertLogSeq} 알림 읽음 확인 수정 API
-    async putAlert(context, payload) {
-        const { userSeq, alertLogSeq } = payload;
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-        let { data } = await http.put(`/alerts/log/${alertLogSeq}`);
+			return data.resultCode;
+		}
+	},
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "SUCCESS":
-                    this.dispatch("getAlertList", userSeq);
-                    break;
-                case "fail":
-                    break;
-            }
+	// /api/alerts/log/{alertLogSeq} 알림 읽음 확인 수정 API
+	async putAlert(context, payload) {
+		const { userSeq, alertLogSeq } = payload;
 
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+		let { data } = await http.put(`/alerts/log/${alertLogSeq}`);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "SUCCESS":
+					this.dispatch("getAlertList", userSeq);
+					break;
+				case "fail":
+					break;
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-    // /api/alerts/log/{alertLogSeq} 알림 삭제 API
-    async deleteAlert(context, payload) {
-        const { userSeq, alertLogSeq } = payload;
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-        let { data } = await http.delete(`/alerts/log/${alertLogSeq}`);
+			return data.resultCode;
+		}
+	},
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "SUCCESS":
-                    this.dispatch("getAlertList", userSeq);
-                    break;
-                case "fail":
-                    break;
-            }
+	// /api/alerts/log/{alertLogSeq} 알림 삭제 API
+	async deleteAlert(context, payload) {
+		const { userSeq, alertLogSeq } = payload;
 
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+		let { data } = await http.delete(`/alerts/log/${alertLogSeq}`);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "SUCCESS":
+					this.dispatch("getAlertList", userSeq);
+					break;
+				case "fail":
+					break;
+			}
 
-            return data.resultCode;
-        }
-    },
-    /*
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
+
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
+
+			return data.resultCode;
+		}
+	},
+	/*
         즉시통역 CRUD
     */
 
-    // GET /api/jtonny 즉시 통역 공고 목록 조회
-    async getJtonnyList(context) {
-        let params = {};
+	// GET /api/jtonny 즉시 통역 공고 목록 조회
+	async getJtonnyList(context) {
+		let params = {};
 
-        try {
-            let { data } = await http.get("/jtonny", { params });
+		try {
+			let { data } = await http.get("/jtonny", { params });
 
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    context.commit("SET_JTONNY_LIST", data.data);
-                    break;
-                case "fail":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					context.commit("SET_JTONNY_LIST", data.data);
+					break;
+				case "fail":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-    // POST /api/jtonny 즉시 통역 공고 생성
-    async insertJtonny(context, json) {
-        let { data } = await http.post(`/jtonny`, json);
+	// POST /api/jtonny 즉시 통역 공고 생성
+	async insertJtonny(context, json) {
+		let { data } = await http.post(`/jtonny`, json);
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
 
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		}
+	},
 
-    // GET /api/jtonny/{jTonnyHelperSeq}/accept 즉시 통역 공고 신청 수락
-    async getJtonnyAccept(context, jTonnyHelperSeq) {
-        try {
-            let { data } = await http.get(`/jtonny/${jTonnyHelperSeq}/accept`);
+	// GET /api/jtonny/{jTonnyHelperSeq}/accept 즉시 통역 공고 신청 수락
+	async getJtonnyAccept(context, jTonnyHelperSeq) {
+		try {
+			let { data } = await http.get(`/jtonny/${jTonnyHelperSeq}/accept`);
 
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-    // GET /api/jtonny/{jTonnyHelperSeq}/reject 즉시 통역 공고 신청 거절
-    async getJtonnyReject(context, jTonnyHelperSeq) {
-        try {
-            let { data } = await http.get(`/jtonny/${jTonnyHelperSeq}/reject`);
+	// GET /api/jtonny/{jTonnyHelperSeq}/reject 즉시 통역 공고 신청 거절
+	async getJtonnyReject(context, jTonnyHelperSeq) {
+		try {
+			let { data } = await http.get(`/jtonny/${jTonnyHelperSeq}/reject`);
 
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-    // GET /api/jtonny/{jTonnySeq} 즉시 통역 공고 상세 조회
-    async getJtonnyDetail(context, jTonnySeq) {
-        try {
-            let { data } = await http.get(`/api/jtonny/${jTonnySeq}`);
+	// GET /api/jtonny/{jTonnySeq} 즉시 통역 공고 상세 조회
+	async getJtonnyDetail(context, jTonnySeq) {
+		try {
+			let { data } = await http.get(`/api/jtonny/${jTonnySeq}`);
 
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    context.commit("SET_JTONNY_DETAIL", data.data);
-                    break;
-                case "fail":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					context.commit("SET_JTONNY_DETAIL", data.data);
+					break;
+				case "fail":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-    // DELETE /api/jtonny/{jTonnySeq} 즉시 통역 공고 삭제
-    async removeJtonny(context, jTonnySeq) {
-        let { data } = await http.delete(`/jtonny/${jTonnySeq}`);
+	// DELETE /api/jtonny/{jTonnySeq} 즉시 통역 공고 삭제
+	async removeJtonny(context, jTonnySeq) {
+		let { data } = await http.delete(`/jtonny/${jTonnySeq}`);
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		}
+	},
 
-    /*
+	/*
         기타
     */
-    // GET /api/jtonny/enroll 예약 통역 신청 목록 조회
-    async getJtonnyEnroll(context) {
-        try {
-            let { data } = await http.get(`/jtonny/enroll`);
+	// GET /api/jtonny/enroll 예약 통역 신청 목록 조회
+	async getJtonnyEnroll(context) {
+		try {
+			let { data } = await http.get(`/jtonny/enroll`);
 
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    context.commit("SET_JTONNY_DETAIL", data.data);
-                    break;
-                case "fail":
-                    break;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    },
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					context.commit("SET_JTONNY_DETAIL", data.data);
+					break;
+				case "fail":
+					break;
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	},
 
-    // POST /api/jtonny/enroll 헬퍼의 예약 통역 신청 등록
-    async insertJtonnyEnroll(context, json) {
-        let { data } = await http.post(`/jtonny/enroll`, json);
+	// POST /api/jtonny/enroll 헬퍼의 예약 통역 신청 등록
+	async insertJtonnyEnroll(context, json) {
+		let { data } = await http.post(`/jtonny/enroll`, json);
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
 
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		}
+	},
 
-    // DELETE /api/jtonny/enroll/{yTonnyNotiHelperSeq} 헬퍼의 예약 통역 신청 취소
-    async removeJtonnyEnroll(context, yTonnyNotiHelperSeq) {
-        let { data } = await http.delete(`/jtonny/enroll/${yTonnyNotiHelperSeq}`);
+	// DELETE /api/jtonny/enroll/{yTonnyNotiHelperSeq} 헬퍼의 예약 통역 신청 취소
+	async removeJtonnyEnroll(context, yTonnyNotiHelperSeq) {
+		let { data } = await http.delete(`/jtonny/enroll/${yTonnyNotiHelperSeq}`);
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		}
+	},
 
-    // POST /api/jtonny/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq} 예약 통역 공고에서 헬퍼의 신청을 수락
-    async insertJtonnyMatch(context, yTonnyNotiSeq, yTonnyNotiHelperSeq) {
-        let { data } = await http.post(
-            `/jtonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`,
-            yTonnyNotiSeq,
-            yTonnyNotiHelperSeq
-        );
+	// POST /api/jtonny/match/{yTonnyNotiSeq}/{yTonnyNotiHelperSeq} 예약 통역 공고에서 헬퍼의 신청을 수락
+	async insertJtonnyMatch(context, yTonnyNotiSeq, yTonnyNotiHelperSeq) {
+		let { data } = await http.post(
+			`/jtonny/match/${yTonnyNotiSeq}/${yTonnyNotiHelperSeq}`,
+			yTonnyNotiSeq,
+			yTonnyNotiHelperSeq
+		);
 
-        try {
-            // service logic
-            switch (data.resultCode) {
-                case "success":
-                    break;
-                case "fail":
-                    break;
-            }
+		try {
+			// service logic
+			switch (data.resultCode) {
+				case "success":
+					break;
+				case "fail":
+					break;
+			}
 
-            return data.resultCode;
-        } catch (err) {
-            console.error(err);
+			return data.resultCode;
+		} catch (err) {
+			console.error(err);
 
-            // exception
-            if (err.response.status == 403) {
-                alert("로그인 하세요");
-            }
+			// exception
+			if (err.response.status == 403) {
+				alert("로그인 하세요");
+			}
 
-            return data.resultCode;
-        }
-    },
+			return data.resultCode;
+		}
+	}
 };
