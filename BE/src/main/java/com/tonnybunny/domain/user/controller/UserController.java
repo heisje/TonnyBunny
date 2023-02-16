@@ -3,6 +3,10 @@ package com.tonnybunny.domain.user.controller;
 
 import com.tonnybunny.common.auth.dto.AuthResponseDto;
 import com.tonnybunny.common.dto.ResultDto;
+import com.tonnybunny.common.dto.TaskStateCodeEnum;
+import com.tonnybunny.domain.bunny.entity.BunnyEntity;
+import com.tonnybunny.domain.bunny.service.BunnyService;
+import com.tonnybunny.domain.jtonny.service.JTonnyService;
 import com.tonnybunny.domain.user.dto.*;
 import com.tonnybunny.domain.user.entity.*;
 import com.tonnybunny.domain.user.repository.HelperInfoRepository;
@@ -11,6 +15,8 @@ import com.tonnybunny.domain.user.service.EmailService;
 import com.tonnybunny.domain.user.service.HelperInfoService;
 import com.tonnybunny.domain.user.service.SmsService;
 import com.tonnybunny.domain.user.service.UserService;
+import com.tonnybunny.domain.ytonny.entity.YTonnyEntity;
+import com.tonnybunny.domain.ytonny.service.YTonnyService;
 import com.tonnybunny.exception.CustomException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +39,9 @@ import static com.tonnybunny.exception.ErrorCode.DATA_BAD_REQUEST;
 public class UserController {
 
 	private final UserService userService;
+	private final JTonnyService jTonnyService;
+	private final YTonnyService yTonnyService;
+	private final BunnyService bunnyService;
 	private final HelperInfoService helperInfoService;
 
 	private final SmsService smsService;
@@ -48,7 +57,7 @@ public class UserController {
 		Long userSeq = userService.signup(userRequestDto);
 
 		return ResponseEntity.status(HttpStatus.OK)
-		                     .body(ResultDto.of(userSeq));
+			.body(ResultDto.of(userSeq));
 
 	}
 
@@ -251,7 +260,7 @@ public class UserController {
 	@PostMapping("/login/find/password/{userSeq}")
 	@ApiOperation(value = "비밀번호를 재설정 합니다.")
 	public ResponseEntity<ResultDto<Long>> resetPassword(@PathVariable("userSeq") Long userSeq,
-	                                                     @RequestBody AccountRequestDto accountRequestDto) {
+		@RequestBody AccountRequestDto accountRequestDto) {
 
 		userService.resetPassword(userSeq, accountRequestDto);
 
@@ -288,7 +297,7 @@ public class UserController {
 	@PutMapping("/mypage/{userSeq}/nickname")
 	@ApiOperation(value = "닉네임을 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyNickName(@PathVariable("userSeq") Long userSeq,
-	                                                      @RequestBody UserRequestDto userRequestDto) {
+		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyNickName(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
 	}
@@ -304,7 +313,7 @@ public class UserController {
 	@PutMapping("/mypage/{userSeq}/profileImage")
 	@ApiOperation(value = "프로필사진을 수정합니다")
 	public ResponseEntity<ResultDto<String>> modifyProfileImage(@PathVariable("userSeq") Long userSeq,
-	                                                            MultipartHttpServletRequest request) {
+		MultipartHttpServletRequest request) {
 		String profileFilePath = userService.modifyProfileImage(userSeq, request);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(profileFilePath));
 	}
@@ -313,7 +322,7 @@ public class UserController {
 	@PutMapping("/mypage/{userSeq}/password")
 	@ApiOperation(value = "비밀번호를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyUserPassword(@PathVariable("userSeq") Long userSeq,
-	                                                          @RequestBody UserRequestDto userRequestDto) {
+		@RequestBody UserRequestDto userRequestDto) {
 		Long updatedUserSeq = userService.modifyUserPassword(userSeq, userRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(updatedUserSeq));
 	}
@@ -349,7 +358,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에 유저를 추가합니다")
 	public ResponseEntity<ResultDto<Long>> createFollow(@PathVariable("userSeq") Long userSeq,
-	                                                    @PathVariable("followSeq") Long followSeq) {
+		@PathVariable("followSeq") Long followSeq) {
 		Long followUserSeq = userService.createFollow(userSeq, followSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(followUserSeq));
@@ -360,7 +369,7 @@ public class UserController {
 	@DeleteMapping("/mypage/{userSeq}/follow/{followSeq}")
 	@ApiOperation(value = "즐겨찾기 목록에서 유저를 삭제합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteFollow(@PathVariable("userSeq") Long userSeq,
-	                                                       @PathVariable("followSeq") Long followSeq) {
+		@PathVariable("followSeq") Long followSeq) {
 		userService.deleteFollow(userSeq, followSeq);
 
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -389,7 +398,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저를 차단합니다")
 	public ResponseEntity<ResultDto<Long>> createBlock(@PathVariable("userSeq") Long userSeq,
-	                                                   @PathVariable("blockSeq") Long blockSeq) {
+		@PathVariable("blockSeq") Long blockSeq) {
 		Long blockedUserSeq = userService.createBlock(userSeq, blockSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(blockedUserSeq));
 
@@ -399,7 +408,7 @@ public class UserController {
 	@DeleteMapping("/mypage/{userSeq}/block/{blockSeq}")
 	@ApiOperation(value = "유저 차단을 취소합니다")
 	public ResponseEntity<ResultDto<Boolean>> deleteBlock(@PathVariable("userSeq") Long userSeq,
-	                                                      @PathVariable("blockSeq") Long blockSeq) {
+		@PathVariable("blockSeq") Long blockSeq) {
 
 		userService.deleteBlock(userSeq, blockSeq);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
@@ -412,7 +421,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/report/{reportSeq}")
 	@ApiOperation(value = "유저를 신고합니다")
 	public ResponseEntity<ResultDto<Long>> createReport(@PathVariable("userSeq") Long userSeq,
-	                                                    @PathVariable("reportSeq") Long reportSeq) {
+		@PathVariable("reportSeq") Long reportSeq) {
 
 		userService.createReport(userSeq, reportSeq);
 		// 신고한 유저 자동 차단
@@ -429,13 +438,38 @@ public class UserController {
 	 * @param userSeq : 현재 로그인 유저 seq
 	 * @return : 히스토리 목록 DtoList
 	 */
-	@GetMapping("/mypage/{userSeq}/history")
+	@PostMapping("/mypage/{userSeq}/history")
 	@ApiOperation(value = "히스토리 목록을 조회합니다", notes = "조회 필터링 조건은 하나씩만 적용됩니다. 아무 조건을 넣지 않으면 내역 전체 조회를 합니다.")
 	public ResponseEntity<ResultDto<List<HistoryResponseDto>>> getUserHistoryList(@PathVariable("userSeq") Long userSeq,
-	                                                                              @RequestBody HistoryRequestDto historyRequestDto) {
+		@RequestBody HistoryRequestDto historyRequestDto) {
 		List<HistoryEntity> historyList = userService.getUserHistoryList(userSeq, historyRequestDto);
 		List<HistoryResponseDto> historyResponseDtoList = HistoryResponseDto.fromEntityList(
 			historyList);
+
+		for (HistoryResponseDto historyResponseDto : historyResponseDtoList) {
+			if (historyResponseDto.getTaskCode().equals(TaskCodeEnum.즉시통역.getTaskCode())) {
+				historyResponseDto.setTaskStateCode(TaskStateCodeEnum.완료됨.getTaskStateCode());
+			} else if (historyResponseDto.getTaskCode().equals(TaskCodeEnum.예약통역.getTaskCode())) {
+				YTonnyEntity yTonny = yTonnyService.getYTonnyDetail(historyResponseDto.getNotiSeq());
+				historyResponseDto.setTaskStateCode(yTonny.getTaskStateCode());
+			} else if (historyResponseDto.getTaskCode().equals(TaskCodeEnum.번역.getTaskCode())) {
+				BunnyEntity bunny = bunnyService.getBunny(historyResponseDto.getNotiSeq());
+				historyResponseDto.setTaskStateCode(bunny.getTaskStateCode());
+			}
+
+			UserEntity client = userService.getUserInfo(historyResponseDto.getClientSeq());
+
+			historyResponseDto.getClient().put("nickName", client.getNickName());
+			historyResponseDto.getClient().put("imagePath", client.getProfileImagePath());
+
+			Long helperSeq = historyResponseDto.getHelperSeq();
+			if (helperSeq != 0) {
+				UserEntity helper = userService.getUserInfo(helperSeq);
+				historyResponseDto.getHelper().put("nickName", helper.getNickName());
+				historyResponseDto.getHelper().put("imagePath", helper.getProfileImagePath());
+			}
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDtoList));
 	}
 
@@ -443,7 +477,7 @@ public class UserController {
 	@GetMapping("/mypage/{userSeq}/history/{historySeq}")
 	@ApiOperation(value = "히스토리 하나를 조회합니다")
 	public ResponseEntity<ResultDto<HistoryResponseDto>> getUserHistory(@PathVariable("userSeq") Long userSeq,
-	                                                                    @PathVariable("historySeq") Long historySeq) {
+		@PathVariable("historySeq") Long historySeq) {
 		HistoryEntity history = userService.getUserHistory(userSeq, historySeq);
 		HistoryResponseDto historyResponseDto = HistoryResponseDto.fromEntity(history);
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(historyResponseDto));
@@ -455,7 +489,7 @@ public class UserController {
 	@PostMapping("/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 능력 정보를 등록합니다.")
 	public ResponseEntity<ResultDto<Long>> createHelperInfo(@PathVariable("userSeq") Long userSeq,
-	                                                        @RequestBody HelperInfoRequestDto helperInfoRequestDto) {
+		@RequestBody HelperInfoRequestDto helperInfoRequestDto) {
 		System.out.println("UserController.createHelperInfo");
 		HelperInfoEntity helperInfo = helperInfoService.createHelperInfo(userSeq, helperInfoRequestDto);
 
@@ -474,7 +508,7 @@ public class UserController {
 	@PutMapping("/mypage/{userSeq}/helper")
 	@ApiOperation(value = "헬퍼의 프로필 정보를 수정합니다")
 	public ResponseEntity<ResultDto<Long>> modifyHelperInfo(@PathVariable("userSeq") Long userSeq,
-	                                                        @RequestBody HelperInfoRequestDto helperInfoRequestDto
+		@RequestBody HelperInfoRequestDto helperInfoRequestDto
 	) {
 		System.out.println("UserController.modifyHelperInfo");
 		HelperInfoEntity helperInfo = helperInfoService.modifyHelperInfo(userSeq, helperInfoRequestDto);
