@@ -37,7 +37,7 @@
                     class="boardImageContent"
                     v-for="boardImageItem in boardDetail?.boardImageList"
                     :key="boardImageItem">
-                    <img-item width="100" :imagePath="boardItem?.boardImageItem?.imagePath" />
+                    <img-item width="100" :imagePath="boardImageItem?.imagePath" />
                 </div>
             </div>
 
