@@ -67,13 +67,32 @@
             </div>
             <br /><br />
 
-            <medium-btn
-                v-show="isClient"
-                style="width: 100%"
-                text="수락하기"
-                color="carrot"
-                @click.prevent="openAcceptModal(event)"
-            />
+            <div v-show="isClient" class="row">
+                <div class="col-3">
+                    <medium-btn
+                        style="width: 100%"
+                        text="취소"
+                        color="main"
+                        @click.prevent="goBack"
+                    />
+                </div>
+                <div class="col-9">
+                    <medium-btn
+                        style="width: 100%"
+                        text="수락하기"
+                        color="carrot"
+                        @click.prevent="openAcceptModal(event)"
+                    />
+                </div>
+            </div>
+            <div v-show="isHelper">
+                <medium-btn
+                    style="width: 100%"
+                    text="돌아가기"
+                    color="main"
+                    @click.prevent="goBack"
+                />
+            </div>
         </div>
         <AlarmModal
             title="주의"
@@ -130,6 +149,10 @@ export default {
     },
 
     methods: {
+        goBack() {
+            this.$router.go(-1);
+        },
+
         closeModal() {
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
