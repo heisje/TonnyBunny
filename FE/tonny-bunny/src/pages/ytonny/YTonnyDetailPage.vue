@@ -760,7 +760,7 @@ export default {
                 helperSeq: this.yTonnyDetail.helper.seq,
                 taskCode: this.yTonnyDetail.taskCode,
                 title: this.yTonnyDetail.title,
-                content: '"' + this.yTonnyDetail.title + '" 일정이 잡혔습니다.',
+                content: '"' + this.yTonnyDetail.title + '"건 신청이 수락되었습니다.',
                 ytonnySeq: this.yTonnyDetail.seq,
                 clientNickname: this.yTonnyDetail.client.nickName,
                 helperNickname: this.yTonnyDetail.helper.nickName,

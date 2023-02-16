@@ -91,7 +91,7 @@ export default {
                             }, // Callback after click
                         }).showToast();
 
-                        setTimeout(() => window.location.reload(), 1000);
+                        // setTimeout(() => window.location.reload(), 1000);
 
                         // 만약 router 가 본 페이지라면
                         // $this.$router.push({
@@ -130,7 +130,7 @@ export default {
                         }).showToast();
                     }
 
-                    setTimeout(() => window.location.reload(), 1000);
+                    // setTimeout(() => window.location.reload(), 1000);
                     // setTimeout(() => window.location.reload(), 1000);
                 });
 
@@ -191,7 +191,7 @@ export default {
                             }, // Callback after click
                         }).showToast();
 
-                        setTimeout(() => window.location.reload(), 1000);
+                        // setTimeout(() => window.location.reload(), 1000);
                         // 만약 router 가 본 페이지라면
                         // $this.$router.push({
                         // name: "YTonnyDetailPage",
@@ -246,7 +246,7 @@ export default {
                         }).showToast();
                     }
 
-                    setTimeout(() => window.location.reload(), 1000);
+                    // setTimeout(() => window.location.reload(), 1000);
 
                     // setTimeout(() => window.location.reload(), 1000);
                 });
@@ -313,7 +313,7 @@ export default {
                         // params: { id: $this.yTonnyDetail.seq }
                         // });
 
-                        setTimeout(() => window.location.reload(), 1000);
+                        // setTimeout(() => window.location.reload(), 1000);
                     } else {
                         let text;
                         if (request.taskCode == "0030001") {
@@ -363,7 +363,7 @@ export default {
                         }).showToast();
                     }
 
-                    setTimeout(() => window.location.reload(), 1000);
+                    // setTimeout(() => window.location.reload(), 1000);
 
                     // setTimeout(() => window.location.reload(), 1000);
                 });
