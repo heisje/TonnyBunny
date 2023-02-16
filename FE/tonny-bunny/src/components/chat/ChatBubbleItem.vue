@@ -1,7 +1,7 @@
 <template lang="">
     <div class="chat-box">
         <div v-if="other == true" class="chat-user-profile">
-            <img src="@/assets/noProfile_white.png" />
+            <UserProfileImg class="profileImg" :profileImagePath="profileImageLink" width="42" />
         </div>
         <div class="chat-message-wrap">
             <div v-show="other == true">{{ name }}</div>
@@ -21,8 +21,12 @@
     </div>
 </template>
 <script>
+import UserProfileImg from "../common/UserProfileImg.vue";
 export default {
     name: "ChatBubbleItem",
+
+    components: { UserProfileImg },
+
     props: {
         other: {
             type: Boolean,

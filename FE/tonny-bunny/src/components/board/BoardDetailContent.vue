@@ -17,6 +17,7 @@
             <!-- 조회수 -->
             <div class="boardUserWrap">
                 <UserProfileImg
+                    :userInfo="boardDetail?.user"
                     class="profileImg"
                     :profileImagePath="boardDetail?.user?.profileImagePath"
                     width="42" />
@@ -41,7 +42,13 @@
             </div>
 
             <div v-show="isLogin == true" class="commentCreateWrap">
-                <input class="input" type="text" :id="content.id" @input="changeInput" />
+                <input
+                    ref="boardCommentInput"
+                    @keydown.enter="clickCommentCreateBtn"
+                    class="input"
+                    type="text"
+                    :id="content.id"
+                    @input="changeInput" />
                 <div class="commentCreateBtn">
                     <SmallBtn text="댓글 작성" color="primary" @click="clickCommentCreateBtn" />
                 </div>
@@ -120,6 +127,8 @@ export default {
             this.$store.dispatch("insertBoardComment", payload).then(() => {
                 this.$store.dispatch("getBoardDetail", this.$route.params.id);
             });
+            this.content.value = "";
+            this.$refs.boardCommentInput.value = "";
         },
         clickBoardDelete() {
             this.$store.dispatch("removeBoard", this.boardDetail.seq).then(() => {

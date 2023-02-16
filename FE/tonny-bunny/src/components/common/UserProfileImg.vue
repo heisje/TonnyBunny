@@ -3,6 +3,7 @@
         <!-- <img class="userProfileImg" :src="require('@/assets/mint.png')" alt="" /> -->
 
         <img
+            @click="imgClick"
             class="userProfileImg"
             :src="`/images${profileImagePath}`"
             onerror="this.onerror=null; this.src='/images/noProfile.png';" />
@@ -12,19 +13,27 @@
 <script>
 export default {
     props: {
+        userInfo: {
+            type: Object,
+        },
+
         profileImagePath: {
             type: String,
         },
 
         width: {
             type: Number,
+            default: 32,
         },
     },
 
-    computed: {
-        // originUrl() {
-        //     return window.location.protocol + window.location.hostname;
-        // },
+    methods: {
+        imgClick() {
+            if (this.userInfo?.helperInfo) {
+                this.$store.dispatch("getHelperModalInfo", this.userInfo.seq);
+                // this.$store.commit("TOGGLE_HELPER_MODAL", this.userInfo);
+            }
+        },
     },
 };
 </script>
