@@ -149,7 +149,7 @@
 
             <div class="d-flex mb-5">
                 <div class="col-12">
-                    <input type="text" placeholder="ex) 1000" v-model="estimatePrice" />
+                    <input type="number" placeholder="ex) 1000" v-model="estimatePrice" />
                 </div>
                 <!-- <div class="backlabel col-2">
 					<h5>캐럿/5분</h5>

@@ -441,6 +441,7 @@ export default {
                         switch (res2.data.resultCode) {
                             case "SUCCESS":
                                 this.$store.commit("SET_HISTORY_SEQ", res2.data.data);
+                                this.$store.state.live.historySeq = res2.data.data;
                                 break;
                             case "FAIL":
                                 break;

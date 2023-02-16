@@ -696,7 +696,7 @@ export default {
 
             // 히스토리 저장 요청
             const payload = {
-                historySeq: this.getHistorySeq,
+                historySeq: this.$store.state.live.historySeq,
                 recordVideoPath: this.recordId,
                 totalTime: this.timeToHHMMSS,
                 totalPrice: this.totalPrice,
