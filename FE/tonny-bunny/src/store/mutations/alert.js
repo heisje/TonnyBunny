@@ -68,10 +68,11 @@ export default {
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -119,10 +120,11 @@ export default {
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -165,10 +167,11 @@ export default {
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -206,10 +209,11 @@ export default {
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -251,11 +255,13 @@ export default {
 							gravity: "top", // `top` or `bottom`
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
+							backgroundColor: "var(--thin-thin-color)",
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
-								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
+								// backgroundColor: "#fffff",
+								color: "var(--active-color)",
+								boxShadow: "1px 1px 3px 1px rgba(0, 0, 0, 0.1)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -283,11 +289,14 @@ export default {
 							gravity: "top", // `top` or `bottom`
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
+							// backgroundColor: "var(--info-color)",
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								// background: "linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -345,10 +354,11 @@ export default {
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
@@ -379,10 +389,11 @@ export default {
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
 							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
 								borderRadius: "6px",
-								fontSize: "1.3rem",
+								fontSize: "1.1rem",
 								fontWeight: "600"
 							},
 							onClick: function () {
