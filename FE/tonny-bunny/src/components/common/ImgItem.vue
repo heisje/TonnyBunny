@@ -4,8 +4,7 @@
             v-if="imagePath"
             class="imgItem"
             :src="`/images/${imagePath}`"
-            onerror="this.onerror=null; this.src='/images/noBoardImg.png';"
-        />
+            onerror="this.onerror=null; this.src='/images/noBoardImg.png';" />
         <img v-else class="imgItem" src="/images/noBoardImg.png" />
         <!-- <img :src="`/images/${imagePath}`"
             onerror="this.onerror=null; this.src='/images/noBoardImg.png';" /> -->
