@@ -37,6 +37,14 @@ public class AlertController {
 	}
 
 
+	@GetMapping("/reject")
+	@ApiOperation(value = "알림 거절 Socket")
+	public ResponseEntity<ResultDto<Boolean>> rejectAlertLog(AlertLogRequestDto alertLogRequestDto) {
+		redisTemplate.convertAndSend("alerts/reject", alertLogRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.ofSuccess());
+	}
+
+
 	@GetMapping("/apply")
 	@ApiOperation(value = "알림 신청 Socket")
 	public ResponseEntity<ResultDto<Boolean>> applyAlertLog(AlertLogRequestDto alertLogRequestDto) {
