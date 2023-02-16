@@ -102,7 +102,7 @@
                                 <td>지불 캐럿</td>
                                 <td>
                                     {{ getBunnyDetail.estimatePrice }}
-                                    <span class="label">CRT</span>
+                                    <span class="label">캐럿</span>
                                 </td>
                             </tr>
 

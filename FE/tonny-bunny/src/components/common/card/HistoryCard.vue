@@ -138,7 +138,7 @@
                             </div>
                             <div class="date">
                                 <h4>결제 단가</h4>
-                                <div>{{ historyDetail?.unitPrice }} CRT</div>
+                                <div>{{ historyDetail?.unitPrice }} 캐럿</div>
                             </div>
                         </div>
                         <div class="infoDate" v-if="allCode[historyDetail?.taskCode] == '예약통역'">
@@ -148,13 +148,13 @@
                             </div>
                             <div class="date">
                                 <h4>결제 단가</h4>
-                                <div>{{ historyDetail?.unitPrice }} CRT</div>
+                                <div>{{ historyDetail?.unitPrice }} 캐럿</div>
                             </div>
                         </div>
                         <div class="infoDate" v-if="allCode[historyDetail?.taskCode] == '번역'">
                             <div class="date">
                                 <h4>결제 단가</h4>
-                                <div>{{ historyDetail?.totalPrice }} CRT</div>
+                                <div>{{ historyDetail?.totalPrice }} 캐럿</div>
                             </div>
                         </div>
                     </div>
