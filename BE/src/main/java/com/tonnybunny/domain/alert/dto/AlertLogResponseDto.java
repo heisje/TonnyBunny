@@ -3,55 +3,45 @@ package com.tonnybunny.domain.alert.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.tonnybunny.config.ModelMapperFactory;
+import com.tonnybunny.domain.alert.entity.AlertLogEntity;
+import com.tonnybunny.domain.user.dto.UserResponseDto;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Data
-@AllArgsConstructor
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class AlertLogResponseDto {
 
 	private Long alertLogSeq;
 
-	//	private String sessionName;
+	private UserResponseDto user;
+
 	private String taskCode;
 	private String content;
 	private Boolean isRead;
-	private Boolean isEnd;
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime createdAt;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime updatedAt;
 
-	//	private final ModelMapper modelMapper;
-	//	public static ModelMapper modelMapper = new ModelMapper();
 
-	//	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLog) {
-	//		return modelMapper.map(alertLog, AlertLogResponseDto.class);
-	//	}
-	//
-	//
-	//	public static List<AlertLogResponseDto> fromEntityList(List<AlertLogEntity> alertLogList) {
-	//		List<AlertLogResponseDto> result = new ArrayList<>();
-	//
-	//		for (AlertLogEntity alertLog : alertLogList) {
-	//			AlertLogResponseDto alertLogResponseDto = fromEntity(alertLog);
-	//			result.add(alertLogResponseDto);
-	//		}
-	//
-	//		return result;
-	//	}
-	//
-	//
-	//	@PostConstruct
-	//	private void initialize() {
-	//		modelMapper = this.modelBeanMapper;
-	//	}
+	public static AlertLogResponseDto fromEntity(AlertLogEntity alertLogEntity) {
+		ModelMapper modelMapper = ModelMapperFactory.getMapper();
+		return modelMapper.map(alertLogEntity, AlertLogResponseDto.class);
+	}
+
+
+	public static List<AlertLogResponseDto> fromEntityList(List<AlertLogEntity> alertLogEntityList) {
+		return alertLogEntityList.stream().map(m -> fromEntity(m)).collect(Collectors.toList());
+	}
 
 }

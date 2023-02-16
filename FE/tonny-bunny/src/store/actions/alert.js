@@ -51,6 +51,53 @@ export default {
         }
     },
 
+    // socket
+    async acceptAlert(context, params) {
+        try {
+            let { data } = await http.get("/alerts/accept", { params });
+
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    async applyAlert(context, params) {
+        try {
+            let { data } = await http.get("/alerts/apply", { params });
+
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    async applyCancelAlert(context, params) {
+        try {
+            let { data } = await http.get("/alerts/apply/cancel", { params });
+
+            // service logic
+            switch (data.resultCode) {
+                case "SUCCESS":
+                    break;
+                case "FAIL":
+                    break;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
     // /api/alerts/log 알림 생성 API
     async insertAlert(context, json) {
         let { data } = await http.post(`/alerts/log`, json);

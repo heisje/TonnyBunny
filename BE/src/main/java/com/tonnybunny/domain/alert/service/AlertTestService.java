@@ -25,7 +25,6 @@ public class AlertTestService {
 
 		AlertLogEntity alertLog = AlertLogEntity.builder()
 		                                        .user(user.get())
-		                                        .taskCode(alertLogRequestDto.getTaskCode())
 		                                        .content(alertLogRequestDto.getContent())
 		                                        .isRead(false)
 		                                        .build();

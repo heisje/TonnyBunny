@@ -7,13 +7,16 @@ import com.tonnybunny.domain.alert.entity.AlertLogEntity;
 import com.tonnybunny.domain.alert.entity.AlertSettingsEntity;
 import com.tonnybunny.domain.alert.repository.AlertLogRepository;
 import com.tonnybunny.domain.alert.repository.AlertSettingsRepository;
+import com.tonnybunny.domain.bunny.repository.BunnyRepository;
 import com.tonnybunny.domain.user.entity.UserEntity;
 import com.tonnybunny.domain.user.repository.UserRepository;
+import com.tonnybunny.domain.ytonny.repository.YTonnyRepository;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,10 @@ public class AlertService {
 
 	private final AlertLogRepository alertLogRepository;
 	private final AlertSettingsRepository alertSettingsRepository;
+	private final YTonnyRepository yTonnyRepository;
+	private final BunnyRepository bunnyRepository;
+
+	private final RedisTemplate<String, Object> redisTemplate;
 
 
 	/**
@@ -45,23 +52,20 @@ public class AlertService {
 
 		// param setting
 		Long userSeq = alertLogRequestDto.getUserSeq();
-		String taskCode = alertLogRequestDto.getTaskCode();
 		String content = alertLogRequestDto.getContent();
-		//		String sessionName = alertLogRequestDto.getSessionName();
 
 		// find
 		UserEntity userEntity = userRepository.findById(userSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
 		AlertLogEntity alertLogEntity = AlertLogEntity.builder()
 		                                              .user(userEntity)
-		                                              .taskCode(taskCode)
+		                                              .taskCode(alertLogRequestDto.getTaskCode())
 		                                              .content(content)
-		                                              //		                                              .sessionName(sessionName)
 		                                              .isRead(false)
-		                                              .isEnd(false)
 		                                              .build();
 
 		// save
+		//		redisTemplate.convertAndSend("alerts/log", alertLogRequestDto);
 		return alertLogRepository.save(alertLogEntity).getSeq();
 
 	}
@@ -127,13 +131,12 @@ public class AlertService {
 		// param setting
 		Long alertLogSeq = alertLogRequestDto.getAlertLogSeq();
 		Boolean isRead = alertLogRequestDto.getIsRead();
-		Boolean isEnd = alertLogRequestDto.getIsEnd();
 
 		// find
 		AlertLogEntity alertLogEntity = alertLogRepository.findById(alertLogSeq).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_ENTITY));
 
 		// 수정
-		alertLogEntity.update(isRead, isEnd);
+		alertLogEntity.update(isRead);
 
 		// save
 		return alertLogRepository.save(alertLogEntity).getSeq();

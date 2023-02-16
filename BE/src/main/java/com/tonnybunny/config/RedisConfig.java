@@ -1,6 +1,9 @@
 package com.tonnybunny.config;
 
 
+import com.tonnybunny.domain.alert.service.AlertAcceptSubscriber;
+import com.tonnybunny.domain.alert.service.AlertApplyCancelSubscriber;
+import com.tonnybunny.domain.alert.service.AlertApplySubscriber;
 import com.tonnybunny.domain.jtonny.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +28,11 @@ public class RedisConfig {
 	private final JTonnyApplyCancelSubscriber jTonnyApplyCancelSubscriber;
 	private final JTonnyAcceptSubscriber jTonnyAcceptSubscriber;
 	private final JTonnyRejectSubscriber jTonnyRejectSubscriber;
+
+	private final AlertAcceptSubscriber alertAcceptSubscriber;
+	private final AlertApplySubscriber alertApplySubscriber;
+	private final AlertApplyCancelSubscriber alertApplyCancelSubscriber;
+
 	@Value("${spring.redis.host}")
 	private String redisHost;
 	@Value("${spring.redis.port}")
@@ -50,6 +58,9 @@ public class RedisConfig {
 		container.addMessageListener(jTonnyApplyCancelSubscriber, new ChannelTopic("jtonny/apply-cancel"));
 		container.addMessageListener(jTonnyAcceptSubscriber, new ChannelTopic("jtonny/accept"));
 		container.addMessageListener(jTonnyRejectSubscriber, new ChannelTopic("jtonny/reject"));
+		container.addMessageListener(alertAcceptSubscriber, new ChannelTopic("alerts/accept"));
+		container.addMessageListener(alertApplySubscriber, new ChannelTopic("alerts/apply"));
+		container.addMessageListener(alertApplyCancelSubscriber, new ChannelTopic("alerts/apply-cancel"));
 		//		container.addMessageListener(jTonnySubscriber, new ChannelTopic("chat"));
 
 		return container;
