@@ -11,4 +11,7 @@ export default {
     getOtherHelperInfo(state) {
         return state.mypage.getOtherHelperInfo;
     },
+    getHistoryList(state) {
+        return state.mypage.historyList;
+    },
 };

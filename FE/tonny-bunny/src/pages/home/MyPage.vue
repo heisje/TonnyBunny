@@ -22,14 +22,14 @@
                                 :userInfo="userInfo"
                                 rightBtnText="수정하기"
                                 @clickBtn1="goProfileDetail"
-                                @clickBtn2="goProfileUpdate"></helper-card>
+                                @clickBtn2="goProfileUpdate"
+                            ></helper-card>
                         </div>
                     </div>
-                    <!-- 
-                    자세히보기 XSmallBtn
-                    수정하기 XSmallBtn 
-                --></div>
+                </div>
             </div>
+
+            <br />
 
             <div class="iconsContainer">
                 <div class="iconsWarp">
@@ -45,71 +45,35 @@
                     </router-link>
                 </div>
                 <div class="iconsWarp">
-                    <router-link :to="{ name: 'FavoriteListPage' }">
+                    <router-link :to="{ name: 'NoticePage' }">
                         <div class="iconsContent" @click="toggleBunnyModalOpen">
                             <div>
                                 <img src="@/assets/homeBunnyIcon.png" alt="" />
                             </div>
                             <div>
-                                <h1 class="h3">즐겨찾기</h1>
+                                <h1 class="h3">고객센터</h1>
                             </div>
                         </div>
                     </router-link>
                 </div>
-                <div class="iconsWarp" v-if="true">
-                    <router-link :to="{ name: 'SchedulePage' }">
-                        <div class="iconsContent" @click="toggleHelperBtn">
-                            <div>
-                                <img src="@/assets/homeSearchIcon.png" alt="" />
-                            </div>
-                            <div>
-                                <h1 class="h3">일정</h1>
-                            </div>
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-
-            <div class="settingWrap">
-                <hr />
-                <router-link :to="{ name: 'BlockListPage' }">
-                    <div>차단목록</div>
-                </router-link>
-                <hr />
-                <!-- <div>
-                    <router-link :to="{ name: 'PushAlarmPage' }">푸시알림(미구현)</router-link>
-                </div>
-                <hr /> -->
-                <div></div>
-                <router-link :to="{ name: 'NoticePage' }">
-                    <div>고객센터</div>
-                </router-link>
-                <hr />
-                <span v-if="userInfo?.userCode == '0010001'">
+                <div class="iconsWarp" v-if="userInfo?.userCode == '0010001'">
                     <router-link
                         :to="{
                             name: 'HelperChangePage',
                             params: { userSeq: this.$store.state.account.userInfo.seq },
                             query: { mypage: true },
-                        }">
-                        <div>헬퍼 정보 등록</div>
+                        }"
+                    >
+                        <div class="iconsContent" @click="toggleBunnyModalOpen">
+                            <div>
+                                <img src="@/assets/homeSearchIcon.png" alt="" />
+                            </div>
+                            <div>
+                                <h1 class="h3">헬퍼 정보 등록</h1>
+                            </div>
+                        </div>
                     </router-link>
-                </span>
-                <span v-else>
-                    <router-link
-                        :to="{
-                            name: 'AbilityPage',
-                            params: { userSeq: this.$store.state.account.userInfo.seq },
-                            query: { mypage: true },
-                        }">
-                        <div>헬퍼 프로필 변경</div>
-                    </router-link>
-                </span>
-                <hr />
-
-                <!-- <a @click="openModal"> <span class="logout">로그아웃</span></a>
-
-                <hr /> -->
+                </div>
             </div>
             <AlarmModal
                 title="완료"
@@ -118,7 +82,8 @@
                 btnColor2="carrot"
                 btnFontColor1="white"
                 btnFontColor2="white"
-                @clickBtn2="clickBtn3">
+                @clickBtn2="clickBtn3"
+            >
                 <template #content> 로그아웃이 완료되었습니다 </template>
             </AlarmModal>
         </div>
@@ -153,7 +118,6 @@ export default {
             e.preventDefault();
             this.$store.dispatch("logout");
             this.$router.push({ name: "HomePage" });
-            // this.$store.commit("TOGGLE_ALARM_MODAL");
         },
 
         clickBtn3() {

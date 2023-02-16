@@ -1,29 +1,21 @@
 <template>
-    <h1>마이페이지 - 이용내역</h1>
-    <!-- <div v-if="isHelper === true">
-        <SwitchTaps />
-    </div>
-
-    <div>
-        <div>
-            <div></div>
+    <div class="d-flex justify-content-center customFormWrap w-100">
+        <div class="customForm">
+            <div>
+                <title-banner title="히스토리" text="이용 내역을 조회합니다!" />
+            </div>
+            <!-- {{ historyList }} -->
+            <history-list :historyList="historyList" />
         </div>
     </div>
-    <button>필터버튼</button>
-    필터선택
-    <select name="" id="">
-        전체
-    </select>
-    <option value="">신청중</option>
-    <option value="">진행중</option>
-    <option value="">완료됨</option> -->
-    <history-list />
 </template>
 
 <script>
 // import SwitchTaps from "@/components/mypage/SwitchTaps.vue";
 
 import HistoryList from "@/components/mypage/HistoryList.vue";
+import TitleBanner from "@/components/common/TitleBanner.vue";
+import { mapGetters } from "vuex";
 
 export default {
     name: "HelperChangePage",
@@ -31,6 +23,14 @@ export default {
     components: {
         // SwitchTaps,
         HistoryList,
+        TitleBanner,
+    },
+
+    computed: {
+        ...mapGetters({
+            historyList: "getHistoryList",
+            allCode: "getAllCode",
+        }),
     },
 
     methods: {
