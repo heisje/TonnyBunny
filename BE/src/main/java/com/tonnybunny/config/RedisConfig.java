@@ -39,7 +39,7 @@ public class RedisConfig {
 	@Value("${spring.redis.port}")
 	private Integer redisPort;
 
-	@Value("${db.redis.password}")
+	@Value("${spring.redis.password}")
 	private String redisPassword;
 
 
@@ -59,7 +59,7 @@ public class RedisConfig {
 	@Bean
 	public RedisMessageListenerContainer redisMessageListenerContainer() {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-		container.setConnectionFactory(redisConnectionFactory().);
+		container.setConnectionFactory(redisConnectionFactory());
 		container.addMessageListener(jTonnyRequestSubscriber, new ChannelTopic("jtonny/request"));
 		container.addMessageListener(jTonnyRequestCancelSubscriber, new ChannelTopic("jtonny/request-cancel"));
 		container.addMessageListener(jTonnyApplySubscriber, new ChannelTopic("jtonny/apply"));
