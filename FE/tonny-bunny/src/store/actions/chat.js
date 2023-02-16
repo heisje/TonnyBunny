@@ -37,4 +37,18 @@ export default {
             console.error(err);
         }
     },
+    async getChatAlertInfo(context, { userSeq }) {
+        try {
+            const { data } = await http.get("/chat/alert/" + userSeq);
+            console.log("!! getChatAlertInfo !!", data);
+            // if (data.resultCode == "SUCCESS") {
+            //     // let chatAlertList = data.data;
+
+            //     // 알림방에게 추가
+            //     return context.commit("", chatRoomInfo);
+            // }
+        } catch (err) {
+            console.error(err);
+        }
+    },
 };

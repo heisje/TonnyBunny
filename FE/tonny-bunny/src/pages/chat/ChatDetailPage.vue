@@ -5,12 +5,7 @@
         <div class="chat-detail-box viewport-height-80 overflow-auto">
             <div v-for="chatData in chatDatas" :key="chatData" class="chat">
                 <ul>
-                    <li
-                        :class="
-                            chatData.userSeq == chatAnotherUserSeq
-                                ? 'another-user-chat'
-                                : 'self-user-chat'
-                        ">
+                    <li :class="chatData.userSeq == chatAnotherUserSeq ? 'another-user-chat' : 'self-user-chat'">
                         <router-link
                             v-if="chatData.messageType == 'url'"
                             :to="{
@@ -40,19 +35,8 @@
         </div>
 
         <div class="chat-input-group input-group mb-3">
-            <medium-btn
-                v-show="userInfo.userCode == '0010002'"
-                @click="moveToQuotationCreatePage"
-                color="carrot"
-                text="견적서 작성">
-            </medium-btn>
-            <input
-                class="insert-message form-control"
-                v-model="insertMessageValue"
-                @keyup.enter="sendMessage"
-                placeholder="채팅을 입력하세요."
-                type="text"
-                autofocus />
+            <medium-btn v-show="userInfo.userCode == '0010002'" @click="moveToQuotationCreatePage" color="carrot" text="견적서 작성"> </medium-btn>
+            <input class="insert-message form-control" v-model="insertMessageValue" @keyup.enter="sendMessage" placeholder="채팅을 입력하세요." type="text" autofocus />
             <medium-btn type="button" text="전송" color="carrot" @click="sendMessage"></medium-btn>
         </div>
     </div>
@@ -104,8 +88,7 @@ export default {
     },
     methods: {
         getUserName(chatData) {
-            if (chatData.userSeq == this.chatAnotherUserSeq)
-                return this.chatAnotherUserInfo.nickName;
+            if (chatData.userSeq == this.chatAnotherUserSeq) return this.chatAnotherUserInfo.nickName;
             return "";
         },
         moveToQuotationCreatePage() {
@@ -192,6 +175,22 @@ export default {
                 message: this.insertMessageValue,
             };
             this.socket.send(JSON.stringify(chatchat));
+
+            // [4] 알림 전달
+            const chatAlert = {
+                type: "alert",
+                alertLogSeq: new Date().toISOString(),
+                task: "Chat",
+                detailTask: "Chat",
+                pageSeq: this.chatRoomSeq, //=> 알림을 눌렀을 때 해당 페이지로 이동할수 있는 페이지 ID (선택) // 채팅에선 roomSeq
+                receivedUserSeq: this.chatAnotherUserSeq,
+                message: this.insertMessageValue,
+                senderUserSeq: this.chatUserSeq,
+                senderUserNickname: this.userInfo.nickName,
+            };
+            this.socket.send(JSON.stringify(chatAlert));
+
+            // 입력창 초기화
             this.insertMessageValue = "";
         },
         closeChatRoom() {
@@ -227,6 +226,14 @@ export default {
             //     [year, month, day].join(".") + " " + ampm + " " + [hour, minute].join(":")
             // );
         },
+        async deleteChatAlertLogByRoomSeq() {
+            let { data } = await http.delete(`/chat/alert/${this.chatUserSeq}/${this.chatRoomSeq}`);
+            if (data.resultCode == "SUCCESS") {
+                console.log("채팅 삭제 성공");
+            } else {
+                console.log("채팅 삭제 실패");
+            }
+        },
     },
     updated() {
         let chat_detail_view = document.querySelector(".chat-detail-box");
@@ -235,6 +242,7 @@ export default {
     mounted() {
         this.getPreviousChatLog();
         this.enterChatRoom();
+        this.deleteChatAlertLogByRoomSeq();
     },
     beforeUnmount() {
         this.closeChatRoom();
@@ -250,11 +258,14 @@ body {
 }
 @media (min-width: 1200px) {
     .chat-detail-view {
+        width: 50vw;
+        max-width: 800px;
         height: calc(100vh - 80px);
     }
 }
 @media (max-width: 1200px) {
     .chat-detail-view {
+        max-width: 800px;
         height: calc(100vh - 80px - 60px);
     }
 }

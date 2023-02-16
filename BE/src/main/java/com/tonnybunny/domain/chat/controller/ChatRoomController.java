@@ -75,7 +75,7 @@ public class ChatRoomController {
 	@PostMapping("/chat/room/{userSeq}/{anotherUserSeq}")
 	public ResponseEntity<ResultDto<ChatRoomDto>> findRoom(@PathVariable("userSeq") Long userSeq, @PathVariable("anotherUserSeq") Long anotherUserSeq) {
 		ChatRoomEntity chatRoom = chatRoomService.getChatRoomSeq(userSeq, anotherUserSeq);
-		
+
 		// 다른 참가자의 정보
 		UserEntity anotherUser = userService.getUserInfo(anotherUserSeq);
 		ChatUserInfo anotherUserInfo = ChatUserInfo.builder()
@@ -97,6 +97,28 @@ public class ChatRoomController {
 		List<String> chatLogDtoList = chatRoomService.getPreviousChatLog(roomSeq);
 		System.out.println("Chat Log Dto: " + chatLogDtoList);
 		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
+	}
+
+
+	@GetMapping("/chat/alert/{userSeq}")
+	public ResponseEntity<ResultDto<List<String>>> getChatAlertLog(@PathVariable("userSeq") Long userSeq) {
+		List<String> chatLogDtoList = chatRoomService.getChatAlertLog(userSeq);
+		System.out.println("Chat Log Alert Dto: " + chatLogDtoList);
+		return ResponseEntity.ok(ResultDto.of(chatLogDtoList));
+	}
+
+
+	@DeleteMapping("/chat/alert/{userSeq}/{roomSeq}/{alertLogSeq}")
+	public ResponseEntity<ResultDto<Boolean>> deleteChatAlertLog(@PathVariable("userSeq") Long userSeq, @PathVariable("roomSeq") String roomSeq, @PathVariable("alertLogSeq") String alertLogSeq) {
+		chatRoomService.deleteChatAlertLog(userSeq, roomSeq, alertLogSeq);
+		return ResponseEntity.ok(ResultDto.ofSuccess());
+	}
+
+
+	@DeleteMapping("/chat/alert/{userSeq}/{roomSeq}")
+	public ResponseEntity<ResultDto<Boolean>> deleteChatAlertLogByRoomSeq(@PathVariable("userSeq") Long userSeq, @PathVariable("roomSeq") String roomSeq) {
+		chatRoomService.deleteChatAlertLogByRoomSeq(userSeq, roomSeq);
+		return ResponseEntity.ok(ResultDto.ofSuccess());
 	}
 
 }
