@@ -19,14 +19,16 @@
                             text="취소"
                             color="outline"
                             font="active"
-                            @click.prevent="clickCancle" />
+                            @click.prevent="clickCancle"
+                        />
                     </div>
                     <div class="backlabel col-10">
                         <medium-btn
                             style="width: 100%"
                             text="고객에게 제안하기"
                             :color="isPossible"
-                            @click.prevent="submitForm" />
+                            @click.prevent="submitForm"
+                        />
                     </div>
                 </div>
             </div>
