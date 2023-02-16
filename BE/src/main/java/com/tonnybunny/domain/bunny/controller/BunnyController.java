@@ -185,21 +185,7 @@ public class BunnyController {
 		for (BunnyResponseDto tmp : bunnyResponseDtoList) {
 			System.out.println("BunnyController.getBunnyListByFilter");
 			System.out.println(LocalDateTime.now());
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
-			System.out.println("왜 적용안되냐고 이건 적용 언제 시켜주냐고");
+			System.out.println("안되면많이화날것같음...");
 			System.out.println(tmp.getCreatedAt().toString());
 		}
 
