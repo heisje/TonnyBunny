@@ -11,24 +11,22 @@
                     <h3>캐럿</h3>
                 </div>
             </div>
-            <br /><br /><br /><br /><br /><br /><br />
-            <div>
+            <div style="margin-top: 32px">
                 <div class="d-flex w-100">
                     <div class="col-2">
                         <medium-btn
                             style="width: 100%"
                             text="취소"
-                            color="main"
-                            @click.prevent="clickCancle"
-                        />
+                            color="outline"
+                            font="active"
+                            @click.prevent="clickCancle" />
                     </div>
                     <div class="backlabel col-10">
                         <medium-btn
                             style="width: 100%"
                             text="고객에게 제안하기"
                             :color="isPossible"
-                            @click.prevent="submitForm"
-                        />
+                            @click.prevent="submitForm" />
                     </div>
                 </div>
             </div>

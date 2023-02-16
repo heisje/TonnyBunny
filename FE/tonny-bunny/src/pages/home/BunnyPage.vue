@@ -141,7 +141,6 @@ export default {
 
             this.$store.dispatch("getBunnyList", payload).then((d) => {
                 d.data.forEach((element) => {
-                    console.log(element.startDateTime);
                     element.startDateTime = element.startDateTime.slice(0, 10);
                     element.endDateTime = element.endDateTime.slice(0, 10);
                 });
@@ -160,13 +159,12 @@ export default {
             if (this.category == "0050003") {
                 payload.category = "";
             }
-            console.log(payload);
 
             let { data } = await this.$store.dispatch("getBunnyList", payload);
             this.getBunnyList = data;
         },
 
-        clickHelperBtn(bunny) {
+        async clickHelperBtn(bunny) {
             this.$store.state.bunny.bunnyDetail = bunny;
             this.$router.push({ name: "NBunnyMatchingPage" });
         },
