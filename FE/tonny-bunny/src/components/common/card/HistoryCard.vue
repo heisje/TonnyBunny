@@ -189,7 +189,7 @@
                     </div>
                 </div>
                 <!-- 5. 하단 버튼 라인 -->
-                <div class="questBtns mt-2">
+                <!-- <div class="questBtns mt-2">
                     <div>
                         <XSmallBtn
                             text="자세히보기"
@@ -198,10 +198,7 @@
                             font="active"
                         />
                     </div>
-                    <!-- <div v-if="allCode[historyDetail?.taskStateCode] == '모집중'">
-                        <XSmallBtn :text="rightBtnText" color="carrot" @click="clickBtn2" />
-                    </div> -->
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -209,7 +206,7 @@
 
 <script>
 import SquareTag from "../tag/SquareTag.vue";
-import XSmallBtn from "../button/XSmallBtn.vue";
+// import XSmallBtn from "../button/XSmallBtn.vue";
 import { mapGetters } from "vuex";
 import UserProfileImg from "../UserProfileImg.vue";
 // import { getKeyByValue } from "@/common/utils";
@@ -218,7 +215,7 @@ export default {
 
     components: {
         SquareTag,
-        XSmallBtn,
+        // XSmallBtn,
         UserProfileImg,
     },
 
