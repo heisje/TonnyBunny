@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface YTonnyRepository extends JpaRepository<YTonnyEntity, Long> {
 
 	// 예약통역 공고 목록 반환 With pagination OrderBy 생성일
-	Page<YTonnyEntity> findAllByOrderByCreatedAtDesc(Pageable pageable);
+	Page<YTonnyEntity> findByIsDeletedFalseOrderByCreatedAtDesc(Pageable pageable);
 
 }

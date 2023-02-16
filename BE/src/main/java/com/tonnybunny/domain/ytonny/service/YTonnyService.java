@@ -124,7 +124,7 @@ public class YTonnyService {
 		Pageable pageable = PageRequest.of(page, size);
 
 		// find
-		return yTonnyRepository.findAllByOrderByCreatedAtDesc(pageable).getContent();
+		return yTonnyRepository.findByIsDeletedFalseOrderByCreatedAtDesc(pageable).getContent();
 
 	}
 
