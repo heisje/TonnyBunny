@@ -21,4 +21,8 @@ export default {
     SET_CREATED_QUOTATION_SEQ(state, data) {
         state.bunny.createdQuotationSeq = data;
     },
+
+    SET_HISTORY_SEQ(state, data) {
+        state.bunny.historySeq = data;
+    },
 };

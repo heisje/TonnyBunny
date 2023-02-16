@@ -182,7 +182,7 @@ export default {
             // service logic
             switch (data.resultCode) {
                 case "SUCCESS":
-                    context.commit("SET_CREATED_QUOTATION_SEQ", data.data);
+                    context.commit("SET_HISTORY_SEQ", data.data);
 
                     break;
                 case "FAIL":

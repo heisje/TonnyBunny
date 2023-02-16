@@ -7,4 +7,5 @@ export default {
     bunnyDetail: {},
     bunnyList: [],
     createdQuotationSeq: 0,
+    historySeq: 0,
 };

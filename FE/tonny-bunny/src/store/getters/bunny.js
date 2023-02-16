@@ -14,4 +14,7 @@ export default {
     getBunnyStateCode(state) {
         return state.bunny.getBunnyStateCode;
     },
+    getHistorySeq(state) {
+        return state.bunny.historySeq;
+    },
 };
