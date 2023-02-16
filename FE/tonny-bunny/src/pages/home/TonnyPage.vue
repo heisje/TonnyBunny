@@ -70,10 +70,8 @@
                     <!-- <div>정렬버튼</div> -->
                     <div class="">
                         <div v-for="(yTonny, index) in yTonnyList" :key="index">
-                            <v-lazy :options="{ threshold: 0.5 }" transition="fade-transition">
-                                <div
-                                    class="yTonny d-flex justify-space-between m-0 mb-2 p-0 pb-1"
-                                    v-show="!yTonny.isDeleted">
+                            <div v-show="!yTonny.isDeleted">
+                                <div class="yTonny d-flex justify-space-between m-0 mb-2 p-0 pb-1">
                                     <div class="d-flex">
                                         <!-- <square-mini-tag
                                         class="pe-2"
@@ -109,7 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </v-lazy>
+                            </div>
                         </div>
                     </div>
 
