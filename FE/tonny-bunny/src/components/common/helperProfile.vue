@@ -8,7 +8,8 @@
                 <div v-if="userInfo?.helperInfo?.possibleLanguageList">
                     <span
                         v-for="possibleLanguageItem in userInfo?.helperInfo?.possibleLanguageList"
-                        :key="possibleLanguageItem">
+                        :key="possibleLanguageItem"
+                    >
                         <circle-tag :text="allCode[possibleLanguageItem?.value]" />
                     </span>
                 </div>
@@ -18,7 +19,8 @@
                 <div v-if="userInfo?.helperInfo?.certificateList">
                     <div
                         v-for="certificateItem in userInfo?.helperInfo?.certificateList"
-                        :key="certificateItem">
+                        :key="certificateItem"
+                    >
                         <div class="mb-2">
                             <SquareTag sub :text="allCode[certificateItem?.langCode]" />
                             {{ certificateItem?.certName }}
@@ -45,11 +47,13 @@
                         <div
                             class="boardCommentContent"
                             v-for="userReviewItem in userReview"
-                            :key="userReviewItem">
+                            :key="userReviewItem"
+                        >
                             <div>
                                 <user-profile-img
                                     :profileImagePath="userReviewItem?.user?.profileImagePath"
-                                    width="40" />
+                                    width="40"
+                                />
 
                                 <h3>{{ userReviewItem?.nickName }}</h3>
                                 <span>{{ userReviewItem?.createdAt }}</span>
@@ -68,7 +72,8 @@
                         style="width: 100%; margin-top: 20px"
                         @click="enterChatRoom"
                         text="채팅하기"
-                        color="carrot" />
+                        color="carrot"
+                    />
                 </div>
             </div>
         </div>
@@ -127,7 +132,12 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch("getUserReview", this.userInfo.seq);
+        if (this.userInfo.seq) {
+            console.log("???");
+            console.log(this.userInfo);
+            this.$store.dispatch("getUserReview", this.userInfo.seq);
+            console.log("???");
+        }
     },
 };
 </script>
