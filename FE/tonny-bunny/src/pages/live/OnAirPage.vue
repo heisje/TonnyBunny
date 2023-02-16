@@ -11,8 +11,7 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.client?.profileImagePath"
-                                    width="70"
-                                />
+                                    width="70" />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -36,8 +35,7 @@
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="startResData?.helper?.profileImagePath"
-                                    width="70"
-                                />
+                                    width="70" />
                                 <!-- <img
                                     class="profileImg"
                                     src="@/assets/noProfile_white.png"
@@ -59,8 +57,7 @@
                                         <square-tag
                                             :text="getStartLangCode"
                                             sub
-                                            class="me-2"
-                                        ></square-tag>
+                                            class="me-2"></square-tag>
                                         <div class="me-2">
                                             <span class="material-symbols-outlined">
                                                 compare_arrows
@@ -110,8 +107,7 @@
                         <div class="btns col-12 col-md-6">
                             <div
                                 v-if="!isSpeakOn"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleSpeaker">
                                     <span class="material-symbols-outlined"> mic_off </span>
                                 </div>
@@ -120,8 +116,7 @@
 
                             <div
                                 v-if="isSpeakOn"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleSpeaker">
                                     <span class="material-symbols-outlined"> mic </span>
                                 </div>
@@ -130,8 +125,7 @@
 
                             <div
                                 v-if="!isCamOn"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleCamera">
                                     <span class="material-symbols-outlined"> videocam_off </span>
                                 </div>
@@ -140,8 +134,7 @@
 
                             <div
                                 v-if="isCamOn"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="toggleCamera">
                                     <span class="material-symbols-outlined"> videocam </span>
                                 </div>
@@ -150,8 +143,7 @@
 
                             <div
                                 v-if="isClient && btnStep == 1"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="startLive">
                                     <span class="material-symbols-outlined"> play_arrow </span>
                                 </div>
@@ -160,8 +152,7 @@
 
                             <div
                                 v-if="isClient && btnStep >= 2"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn" @click.prevent="finishBtn">
                                     <span class="material-symbols-outlined"> stop </span>
                                 </div>
@@ -170,8 +161,7 @@
 
                             <div
                                 v-if="btnStep != 2"
-                                class="d-flex flex-column justify-content-center align-items-center"
-                            >
+                                class="d-flex flex-column justify-content-center align-items-center">
                                 <div class="btn closeBtn" @click.prevent="clickLeaveBtn">
                                     <span class="material-symbols-outlined"> close </span>
                                 </div>
@@ -193,8 +183,7 @@
                         <user-video
                             v-for="sub in subscribers"
                             :key="sub.stream.connection.connectionId"
-                            :stream-manager="sub"
-                        />
+                            :stream-manager="sub" />
                     </div>
                 </div>
 
@@ -215,8 +204,7 @@
                                     text="보내기"
                                     color="outline"
                                     font="active"
-                                    @click="sendMessage"
-                                ></medium-btn>
+                                    @click="sendMessage"></medium-btn>
                             </div>
                         </div>
                     </transition>
@@ -236,8 +224,7 @@
             btnColor2="main"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="closeModal"
-        >
+            @clickBtn2="closeModal">
             <template #content>
                 고객님의 보유 금액이 부족합니다! <br /><br />
                 라이브를 종료합니다.
@@ -252,8 +239,7 @@
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="closeModal2"
-        >
+            @clickBtn2="closeModal2">
             <template #content>
                 통역이 완료되었습니다! <br /><br />
                 5초 뒤에 라이브가 자동 종료 됩니다!
@@ -268,8 +254,7 @@
             btnColor2="carrot"
             btnFontColor1="white"
             btnFontColor2="white"
-            @clickBtn2="closeModal2"
-        >
+            @clickBtn2="closeModal2">
             <template #content>
                 상대방이 방에서 나갔어요! <br /><br />
                 5초 뒤에 라이브가 자동 종료 됩니다!
@@ -286,8 +271,7 @@
             btnFontColor1="white"
             btnFontColor2="white"
             @clickBtn1="leaveSession"
-            @clickBtn2="closeModal2"
-        >
+            @clickBtn2="closeModal2">
             <template #content>
                 방에서 나가시겠습니까? <br /><br />
                 라이브는 자동 종료 됩니다!
@@ -438,7 +422,7 @@ export default {
 
         clickLeaveBtn() {
             this.modalName = "leaveBtn";
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
         },
 
         closeModal2() {
@@ -446,7 +430,7 @@ export default {
         },
 
         closeModal() {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            this.$store.commit("OPEN_ALARM_MODAL");
             this.leaveSession();
         },
         // 계산하는 동작
@@ -509,7 +493,7 @@ export default {
                 // 서비스 종료
                 if (event.data == "finish") {
                     this.modalName = "finish";
-                    this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                    this.$store.commit("OPEN_ALARM_MODAL"); // 양쪽 모달 열기
                     setTimeout(() => {
                         this.$store.commit("CLOSE_ALARM_MODAL");
                         this.leaveSession();
@@ -520,13 +504,13 @@ export default {
                 if (event.data == "pointIssue") {
                     this.endLive(); // 양쪽 타이머 종료용
                     this.modalName = "pointIssue";
-                    this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                    this.$store.commit("OPEN_ALARM_MODAL"); // 양쪽 모달 열기
                 }
 
                 // 상대방 나감
                 if (event.data == "leave") {
                     $this.modalName = "leave";
-                    this.$store.commit("TOGGLE_ALARM_MODAL"); // 양쪽 모달 열기
+                    this.$store.commit("OPEN_ALARM_MODAL"); // 양쪽 모달 열기
                     setTimeout(() => {
                         this.$store.commit("CLOSE_ALARM_MODAL");
                         this.leaveSession();
@@ -793,6 +777,8 @@ export default {
         this.$store.state.account.userInfo.seq == this.startResData.helper.seq
             ? (this.isHelper = true)
             : (this.isHelper = false);
+
+        this.$store.commit("CLOSE_ALARM_MODAL");
     },
 
     mounted() {
