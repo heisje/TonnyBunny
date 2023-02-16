@@ -16,6 +16,7 @@ import com.tonnybunny.domain.user.repository.UserRepository;
 import com.tonnybunny.exception.CustomException;
 import com.tonnybunny.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class BunnyService {
 
 	private final UserRepository userRepository;
@@ -138,6 +140,11 @@ public class BunnyService {
 			}
 		}
 
+		for (BunnyEntity tmp : bunnyList) {
+			log.info(tmp.getCreatedAt().toString());
+			System.out.println(tmp.getCreatedAt().toString());
+		}
+
 		return bunnyList;
 	}
 
@@ -206,7 +213,6 @@ public class BunnyService {
 	public List<BunnyApplyEntity> getBunnyApplyList(Long bunnySeq) {
 
 		List<BunnyApplyEntity> bunnyApplyList = bunnyApplyRepository.findByBunnySeq(bunnySeq);
-
 		return bunnyApplyList;
 	}
 

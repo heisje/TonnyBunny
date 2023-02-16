@@ -181,6 +181,11 @@ public class BunnyController {
 			bunnyResponseDtoList.add(bunnyResponseDto);
 		}
 
+		for (BunnyResponseDto tmp : bunnyResponseDtoList) {
+			System.out.println("BunnyController.getBunnyListByFilter");
+			System.out.println(tmp.getCreatedAt().toString());
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(ResultDto.of(bunnyResponseDtoList));
 
 	}
