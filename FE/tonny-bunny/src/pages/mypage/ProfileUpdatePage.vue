@@ -14,7 +14,7 @@
 
             <span v-for="(lang, index) in possibleLanguageCodeList" :key="index">
                 <div class="selected">
-                    {{ lang.name }}
+                    {{ allCode[lang.value] }}
                     <span @click="cancleSelect(index)">❌</span>
                 </div>
             </span>
@@ -65,7 +65,7 @@
             />
             <input type="text" v-model="oneLineIntroduction" />
 
-            <TitleText
+            <!-- <TitleText
                 title="사진 첨부"
                 type="h2"
                 text="본인을 어필할 수 있는 사진을 첨부해주세요."
@@ -77,7 +77,7 @@
             </div>
             <div v-else>
                 <TitleText title="등록된 사진이 없습니다.🐾" center type="h2" />
-            </div>
+            </div> -->
 
             <TitleText title="본인 소개" type="h2" text="자유롭게 본인을 소개해주세요." />
             <textarea cols="10" rows="5" v-model="introduction"></textarea>
@@ -113,7 +113,7 @@ import http from "@/common/axios.js";
 import DropdownInputCode from "@/components/common/input/DropdownInputCode.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import MediumBtn from "@/components/common/button/MediumBtn.vue";
-import ImgItem from "@/components/common/ImgItem.vue";
+// import ImgItem from "@/components/common/ImgItem.vue";
 // import http from "@/common/axios";
 
 export default {
@@ -130,7 +130,7 @@ export default {
         SmallBtn,
         MediumBtn,
         TitleBanner,
-        ImgItem,
+        // ImgItem,
     },
 
     data() {
@@ -163,7 +163,7 @@ export default {
                 return;
             }
             const isExist = this.possibleLanguageCodeList.some((lang) => {
-                return lang == e;
+                return lang.value == e.value;
             });
 
             if (!isExist) {

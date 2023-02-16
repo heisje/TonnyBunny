@@ -3,4 +3,5 @@ export default {
     pointList: [],
     helperInfo: {},
     otherHelperInfo: {},
+    historyList: [],
 };
