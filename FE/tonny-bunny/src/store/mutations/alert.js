@@ -255,10 +255,9 @@ export default {
 							gravity: "top", // `top` or `bottom`
 							position: "right", // `left`, `center` or `right`
 							stopOnFocus: true, // Prevents dismissing of toast on hover
-							backgroundColor: "var(--thin-thin-color)",
 							style: {
-								// backgroundColor: "#fffff",
-								color: "var(--active-color)",
+								background:
+									"linear-gradient(45deg, rgba(128,193,254,1) 0%, rgba(88,194,237,1) 100%)",
 								boxShadow: "1px 1px 3px 1px rgba(0, 0, 0, 0.1)",
 								borderRadius: "6px",
 								fontSize: "1.1rem",
