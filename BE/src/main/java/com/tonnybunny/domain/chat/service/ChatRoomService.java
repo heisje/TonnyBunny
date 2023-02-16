@@ -98,4 +98,19 @@ public class ChatRoomService {
 		}).collect(Collectors.toList());
 	}
 
+
+	public List<String> getChatAlertLog(Long userSeq) {
+		return chatSocketTextHandler.getChatAlertLog(userSeq);
+	}
+
+
+	public Boolean deleteChatAlertLog(Long userSeq, String roomSeq, String alertLogSeq) {
+		return chatSocketTextHandler.deleteChatAlertLog(userSeq.toString(), roomSeq, alertLogSeq);
+	}
+
+
+	public Boolean deleteChatAlertLogByRoomSeq(Long userSeq, String roomSeq) {
+		return chatSocketTextHandler.deleteChatAlertLogByRoomSeq(userSeq.toString(), roomSeq);
+	}
+
 }
