@@ -619,7 +619,7 @@ export default {
 
         async getYTonnyApplyList() {
             let size = 4;
-            if (!this.isHelper) size = 6;
+            if (!this.isHelper) size = 5;
 
             this.$store.commit("SET_Y_TONNY_APPLY_SIZE", size);
 

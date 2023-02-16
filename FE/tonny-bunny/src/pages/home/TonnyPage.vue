@@ -70,48 +70,44 @@
                     <!-- <div>정렬버튼</div> -->
                     <div class="">
                         <div v-for="(yTonny, index) in yTonnyList" :key="index">
-                            <v-lazy :options="{ threshold: 0.5 }" transition="fade-transition">
-                                <div>
-                                    <div
-                                        v-show="!yTonny.isDeleted"
-                                        class="yTonny d-flex justify-space-between m-0 mb-2 p-0 pb-1">
-                                        <div class="d-flex">
-                                            <!-- <square-mini-tag
+                            <div v-show="!yTonny.isDeleted">
+                                <div class="yTonny d-flex justify-space-between m-0 mb-2 p-0 pb-1">
+                                    <div class="d-flex">
+                                        <!-- <square-mini-tag
                                         class="pe-2"
                                         :text="yTonny.estimateTime"
                                         sub></square-mini-tag> -->
-                                            <!-- <square-mini-tag
+                                        <!-- <square-mini-tag
                                         class="pe-2"
                                         :text="yTonny.estimatePrice + ' CRT'"
                                         white></square-mini-tag> -->
 
-                                            <router-link
-                                                class="pe-2"
-                                                :to="{
-                                                    name: 'YTonnyDetailPage',
-                                                    params: { id: yTonny.seq },
-                                                }">
-                                                <div class="title">{{ yTonny.title }}</div>
-                                            </router-link>
-                                            <div class="label" style="color: var(--sub-color)">
-                                                by {{ yTonny.client.nickName }}
-                                            </div>
+                                        <router-link
+                                            class="pe-2"
+                                            :to="{
+                                                name: 'YTonnyDetailPage',
+                                                params: { id: yTonny.seq },
+                                            }">
+                                            <div class="title">{{ yTonny.title }}</div>
+                                        </router-link>
+                                        <div class="label" style="color: var(--sub-color)">
+                                            by {{ yTonny.client.nickName }}
                                         </div>
-                                        <!-- <div>{{ yTonny.content }}</div> -->
-                                        <div class="d-flex">
-                                            <square-mini-tag
-                                                class="pe-2"
-                                                white
-                                                :text="
-                                                    getTonnySituCode(yTonny.tonnySituCode)
-                                                "></square-mini-tag>
-                                            <div class="" style="color: var(--sub-color)">
-                                                {{ yTonny.startDateTime.split("T")[0] }}
-                                            </div>
+                                    </div>
+                                    <!-- <div>{{ yTonny.content }}</div> -->
+                                    <div class="d-flex">
+                                        <square-mini-tag
+                                            class="pe-2"
+                                            white
+                                            :text="
+                                                getTonnySituCode(yTonny.tonnySituCode)
+                                            "></square-mini-tag>
+                                        <div class="" style="color: var(--sub-color)">
+                                            {{ yTonny.startDateTime.split("T")[0] }}
                                         </div>
                                     </div>
                                 </div>
-                            </v-lazy>
+                            </div>
                         </div>
                     </div>
 
