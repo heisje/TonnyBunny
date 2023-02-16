@@ -2,6 +2,9 @@
     <div class="chat-detail-view">
         <!-- <h1>채팅 - 채팅 내역 조회 페이지</h1>
         <h2>roomseq : {{ chatRoomSeq }}</h2> -->
+        <div class="back d-flex" @click="goBack">
+            <span class="material-symbols-outlined"> arrow_back_ios_new </span>
+        </div>
         <div class="chat-detail-box viewport-height-80 overflow-auto">
             <div v-for="chatData in chatDatas" :key="chatData" class="chat">
                 <ul>
@@ -10,20 +13,23 @@
                             chatData.userSeq == chatAnotherUserSeq
                                 ? 'another-user-chat'
                                 : 'self-user-chat'
-                        ">
+                        "
+                    >
                         <router-link
                             v-if="chatData.messageType == 'url'"
                             :to="{
                                 name: chatData.urlPage,
                                 params: { id: chatData.urlPageSeq },
-                            }">
+                            }"
+                        >
                             <chat-bubble-item
                                 class="chat-bubble-item"
                                 :other="chatData.userSeq == chatAnotherUserSeq"
                                 :name="getUserName(chatData)"
                                 :text="chatData.message"
                                 :time="getTime(chatData.date)"
-                                :messageType="chatData.messageType" />
+                                :messageType="chatData.messageType"
+                            />
                         </router-link>
 
                         <chat-bubble-item
@@ -33,7 +39,8 @@
                             :name="getUserName(chatData)"
                             :text="chatData.message"
                             :time="getTime(chatData.date)"
-                            :messageType="chatData.messageType" />
+                            :messageType="chatData.messageType"
+                        />
                     </li>
                 </ul>
             </div>
@@ -44,7 +51,8 @@
                 v-show="userInfo.userCode == '0010002'"
                 @click="moveToQuotationCreatePage"
                 color="carrot"
-                text="견적서 작성">
+                text="견적서 작성"
+            >
             </medium-btn>
             <input
                 class="insert-message form-control"
@@ -52,7 +60,8 @@
                 @keyup.enter="sendMessage"
                 placeholder="채팅을 입력하세요."
                 type="text"
-                autofocus />
+                autofocus
+            />
             <medium-btn type="button" text="전송" color="carrot" @click="sendMessage"></medium-btn>
         </div>
     </div>
@@ -251,6 +260,9 @@ export default {
                 console.log("채팅 삭제 실패");
             }
         },
+        goBack() {
+            this.$router.go(-1);
+        },
     },
     updated() {
         let chat_detail_view = document.querySelector(".chat-detail-box");
@@ -296,6 +308,21 @@ body {
         height: calc(100vh - 72px - 60px);
     }
 }
+// 뒤로가기 버튼 div
+.back {
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+    background: var(--carrot-color);
+    position: fixed;
+    z-index: 1;
+}
+
 .chat-detail-view {
     margin: 0 auto;
     border: 1px solid rgba(0, 0, 0, 0.08);
