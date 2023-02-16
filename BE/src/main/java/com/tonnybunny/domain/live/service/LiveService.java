@@ -50,19 +50,19 @@ public class LiveService {
 		 * repository 저장
 		 */
 		JTonnyHistoryEntity jTonnyHistory = JTonnyHistoryEntity.builder()
-		                                                       .client(userRepository.findById(jTonnyDto.getClient().getSeq())
-		                                                                             .orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
-		                                                       .helper(userRepository.findById(jTonnyDto.getHelper().getSeq())
-		                                                                             .orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
-		                                                       .taskCode(jTonnyDto.getTaskCode())
-		                                                       .notiSeq(jTonnyDto.getSeq())
-		                                                       .startLangCode(jTonnyDto.getStartLangCode())
-		                                                       .endLangCode(jTonnyDto.getEndLangCode())
-		                                                       .content(jTonnyDto.getContent())
-		                                                       .startDateTime(LocalDateTime.now())
-		                                                       .tonnySituCode(jTonnyDto.getTonnySituCode())
-		                                                       .unitPrice(jTonnyDto.getUnitPrice())
-		                                                       .build();
+			.client(userRepository.findById(jTonnyDto.getClient().getSeq())
+				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
+			.helper(userRepository.findById(jTonnyDto.getHelper().getSeq())
+				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
+			.taskCode(jTonnyDto.getTaskCode())
+			.notiSeq(jTonnyDto.getSeq())
+			.startLangCode(jTonnyDto.getStartLangCode())
+			.endLangCode(jTonnyDto.getEndLangCode())
+			.content(jTonnyDto.getContent())
+			.startDateTime(LocalDateTime.now())
+			.tonnySituCode(jTonnyDto.getTonnySituCode())
+			.unitPrice(jTonnyDto.getUnitPrice())
+			.build();
 
 		historyRepository.save(jTonnyHistory);
 
@@ -80,26 +80,26 @@ public class LiveService {
 		 */
 		System.out.println(yTonnyStartRequestDto.getYTonnySeq());
 		YTonnyEntity yTonny = yTonnyRepository.findById(yTonnyStartRequestDto.getYTonnySeq())
-		                                      .orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+			.orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
 
 		YTonnyApplyEntity yTonnyApplyEntity = yTonnyApplyRepository.findById(yTonny.getYTonnyApplySeq()).orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
 		UserEntity helper = yTonnyApplyEntity.getHelper();
 
 		YTonnyHistoryEntity yTonnyHistory = YTonnyHistoryEntity.builder()
-		                                                       .client(userRepository.findById(yTonny.getClient().getSeq())
-		                                                                             .orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
-		                                                       .helper(helper)
-		                                                       .taskCode(yTonny.getTaskCode())
-		                                                       .notiSeq(yTonny.getSeq())
-		                                                       .startLangCode(yTonny.getStartLangCode())
-		                                                       .endLangCode(yTonny.getEndLangCode())
-		                                                       .content(yTonny.getContent())
-		                                                       .startDateTime(LocalDateTime.now())
-		                                                       .title(yTonny.getTitle())
-		                                                       //			.totalTime(yt) <-- 끝날때
-		                                                       .unitPrice(yTonnyStartRequestDto.getUnitPrice())
-		                                                       .tonnySituCode(yTonny.getTonnySituCode())
-		                                                       .build();
+			.client(userRepository.findById(yTonny.getClient().getSeq())
+				.orElseThrow(() -> new CustomException(NOT_FOUND_USER)))
+			.helper(helper)
+			.taskCode(yTonny.getTaskCode())
+			.notiSeq(yTonny.getSeq())
+			.startLangCode(yTonny.getStartLangCode())
+			.endLangCode(yTonny.getEndLangCode())
+			.content(yTonny.getContent())
+			.startDateTime(LocalDateTime.now())
+			.title(yTonny.getTitle())
+			//			.totalTime(yt) <-- 끝날때
+			.unitPrice(yTonnyStartRequestDto.getUnitPrice())
+			.tonnySituCode(yTonny.getTonnySituCode())
+			.build();
 
 		historyRepository.save(yTonnyHistory);
 		return yTonnyHistory.getSeq();
@@ -116,7 +116,7 @@ public class LiveService {
 		 * 일정 오차범위 이내면 return true
 		 */
 		HistoryEntity history = historyRepository.findById(historyCompleteDto.getHistorySeq())
-		                                         .orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+			.orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
 		log.info("history = {}", history);
 
 		LocalTime parsedTotalTime = LocalTime.parse(historyCompleteDto.getTotalTime());
@@ -127,6 +127,9 @@ public class LiveService {
 			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
 			historyRepository.save(targetHistory);
 		} else if (history.getTaskCode().equals(TaskCodeEnum.예약통역.getTaskCode())) {
+			YTonnyEntity targetYTonny = yTonnyRepository.findById(history.getNotiSeq()).orElseThrow(() -> new CustomException(NOT_FOUND_ENTITY));
+			targetYTonny.complete();
+			yTonnyRepository.save(targetYTonny);
 			YTonnyHistoryEntity targetHistory = (YTonnyHistoryEntity) history;
 			log.info("targetHistory = {}", targetHistory);
 			targetHistory.completeLive(parsedTotalTime, historyCompleteDto.getRecordVideoPath());
@@ -134,11 +137,11 @@ public class LiveService {
 		}
 
 		PointRequestDto pointRequestDto = PointRequestDto.builder()
-		                                                 .fromUserSeq(history.getClient().getSeq())
-		                                                 .toUserSeq(history.getHelper().getSeq())
-		                                                 .pointAmount(historyCompleteDto.getTotalPrice())
-		                                                 .pointRequestType(PointRequestTypeEnum.거래)
-		                                                 .build();
+			.fromUserSeq(history.getClient().getSeq())
+			.toUserSeq(history.getHelper().getSeq())
+			.pointAmount(historyCompleteDto.getTotalPrice())
+			.pointRequestType(PointRequestTypeEnum.거래)
+			.build();
 
 		pointService.dealPoint(pointRequestDto);
 
