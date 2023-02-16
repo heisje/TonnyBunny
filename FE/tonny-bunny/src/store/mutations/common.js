@@ -59,4 +59,12 @@ export default {
     SET_ALL_CODE(state, payload) {
         state.common.allCode = payload;
     },
+
+    // 헬퍼모달
+    TOGGLE_HELPER_MODAL(state, payload) {
+        state.common.isHelperModalOpen = !state.common.isHelperModalOpen;
+        if (payload) {
+            state.common.helperModalInfo = payload;
+        }
+    },
 };
