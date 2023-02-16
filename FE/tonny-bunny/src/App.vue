@@ -60,6 +60,10 @@ export default {
             }
         });
     },
+
+    created() {
+        this.$store.commit("CLOSE_ALARM_MODAL");
+    },
 };
 </script>
 

@@ -52,6 +52,10 @@
     &.carrot {
         background: var(--carrot-color);
 
+        span {
+            color: var(--background-color);
+        }
+
         // &:hover {
         //     background: var(--banner-color);
         // }
@@ -127,6 +131,11 @@
         // border: 1px solid var(--light-color);
         border: 1px solid rgba(0, 0, 0, 0.13);
         background-color: var(--background-color);
+        color: var(--active-color);
+
+        span {
+            color: var(--active-color);
+        }
 
         &:hover {
             background-color: var(--light-color);

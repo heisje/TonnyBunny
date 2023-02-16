@@ -54,23 +54,23 @@ INSERT INTO user_table(user_seq, created_at, updated_at, email, is_agreement, is
                        phone_number, point,
                        profile_image_path, report_count, user_code)
 VALUES (1, now(), now(), "client1@ssafy.com", true, false, "최유저",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image", 0, "0010001"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010001"),
        (2, now(), now(), "client2@ssafy.com", true, false, "안유저",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image2", 0, "0010001"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010001"),
        (3, now(), now(), "client3@ssafy.com", true, false, "강유저",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image", 0, "0010001"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010001"),
        (4, now(), now(), "helper1@ssafy.com", true, false, "김헬퍼",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image", 0, "0010002"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010002"),
        (5, now(), now(), "helper2@ssafy.com", true, false, "나헬퍼",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image", 0, "0010002"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010002"),
        (6, now(), now(), "helper3@ssafy.com", true, false, "박헬퍼",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image", 0, "0010002"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010002"),
        (7, now(), now(), "helper4@ssafy.com", true, false, "이헬퍼",
-        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "image", 0, "0010002"),
+        "$2a$10$IGu.pRd5Kn50eRFxcsZ1/O1i3guAooijPw9/SXurzZDuta2VN9ixK", "010", 100000, "/noProfile.png", 0, "0010002"),
        (8, now(), now(), "clientzzang@ssafy.com", true, false, "동준갓",
-        "$2a$10$7.RTTHBcOgE/8KVNyRNfk.OEMuDu8VhlimMhk.7H6Sel2UsryCmau", "010", 1000000, "image", 0, "0010001"),
+        "$2a$10$7.RTTHBcOgE/8KVNyRNfk.OEMuDu8VhlimMhk.7H6Sel2UsryCmau", "010", 1000000, "/noProfile.png", 0, "0010001"),
        (9, now(), now(), "helperzzang@ssafy.com", true, false, "효은갓",
-        "$2a$10$7.RTTHBcOgE/8KVNyRNfk.OEMuDu8VhlimMhk.7H6Sel2UsryCmau", "010", 1000000, "image", 0, "0010002");
+        "$2a$10$7.RTTHBcOgE/8KVNyRNfk.OEMuDu8VhlimMhk.7H6Sel2UsryCmau", "010", 1000000, "/noProfile.png", 0, "0010002");
 
 
 -- 헬퍼 정보

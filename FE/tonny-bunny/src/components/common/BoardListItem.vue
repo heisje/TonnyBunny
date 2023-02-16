@@ -69,6 +69,10 @@ export default {
             this.$router.push({ name: "BoardDetailPage", params: { id: this.boardItem.seq } });
         },
     },
+
+    created() {
+        this.$store.commit("CLOSE_ALARM_MODAL");
+    },
 };
 </script>
 
