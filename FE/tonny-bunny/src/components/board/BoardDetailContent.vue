@@ -12,16 +12,15 @@
                     text="삭제"
                     color="outline"
                     font="main"
-                    @click="clickBoardDelete"
-                />
+                    @click="clickBoardDelete" />
             </div>
             <!-- 조회수 -->
             <div class="boardUserWrap">
                 <UserProfileImg
+                    :userInfo="boardDetail?.user"
                     class="profileImg"
                     :profileImagePath="boardDetail?.user?.profileImagePath"
-                    width="42"
-                />
+                    width="42" />
 
                 <span
                     ><h3>{{ boardDetail?.user?.nickName }}</h3></span
@@ -36,14 +35,19 @@
                 <div
                     class="boardImageContent"
                     v-for="boardImageItem in boardDetail?.boardImageList"
-                    :key="boardImageItem"
-                >
+                    :key="boardImageItem">
                     <img-item width="100" :imagePath="boardItem?.boardImageItem" />
                 </div>
             </div>
 
             <div v-show="isLogin == true" class="commentCreateWrap">
-                <input class="input" type="text" :id="content.id" @input="changeInput" />
+                <input
+                    ref="boardCommentInput"
+                    @keydown.enter="clickCommentCreateBtn"
+                    class="input"
+                    type="text"
+                    :id="content.id"
+                    @input="changeInput" />
                 <div class="commentCreateBtn">
                     <SmallBtn text="댓글 작성" @click="clickCommentCreateBtn" />
                 </div>
@@ -53,20 +57,17 @@
                 <TitleText
                     :title="`댓글(${boardDetail?.boardCommentList?.length})`"
                     top="24"
-                    type="h2"
-                />
+                    type="h2" />
                 <hr />
                 <div class="boardCommentWrap">
                     <div
                         class="boardCommentContent"
                         v-for="boardCommentItem in boardDetail?.boardCommentList"
-                        :key="boardCommentItem"
-                    >
+                        :key="boardCommentItem">
                         <div>
                             <user-profile-img
                                 :profileImagePath="boardCommentItem?.user?.profileImagePath"
-                                width="40"
-                            />
+                                width="40" />
 
                             <h3>{{ boardCommentItem?.user?.nickName }}</h3>
                             <span>{{ boardCommentItem?.createdAt }}</span>
@@ -125,6 +126,8 @@ export default {
             this.$store.dispatch("insertBoardComment", payload).then(() => {
                 this.$store.dispatch("getBoardDetail", this.$route.params.id);
             });
+            this.content.value = "";
+            this.$refs.boardCommentInput.value = "";
         },
         clickBoardDelete() {
             this.$store.dispatch("removeBoard", this.boardDetail.seq).then(() => {

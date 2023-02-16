@@ -56,4 +56,12 @@ export default {
     getMinuteCodeList(state) {
         return state.common.minuteCodeList;
     },
+
+    // 헬퍼 모달
+    getIsHelperModalOpen(state) {
+        return state.common.isHelperModalOpen;
+    },
+    getHelperModalInfo(state) {
+        return state.common.helperModalInfo;
+    },
 };

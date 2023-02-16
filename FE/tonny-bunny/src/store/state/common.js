@@ -54,4 +54,8 @@ export default {
     quotationStateCode: null,
     taskStateCode: null,
     pointLogStatusCode: null,
+
+    // 헬퍼프로필모달
+    isHelperModalOpen: false,
+    helperModalInfo: {},
 };
