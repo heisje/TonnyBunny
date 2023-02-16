@@ -1,7 +1,7 @@
 <template lang="">
     <div class="chat-box">
         <div v-if="other == true" class="chat-user-profile">
-            <img src="@/assets/noProfile.png" />
+            <img src="@/assets/noProfile_white.png" />
         </div>
         <div class="chat-message-wrap">
             <div v-show="other == true">{{ name }}</div>
@@ -75,6 +75,7 @@ export default {
 }
 .chat-message {
     border: 1px solid lightgray;
+    background-color: var(--background-color);
     // margin: 10px;
     display: inline-block;
     padding: 10px;

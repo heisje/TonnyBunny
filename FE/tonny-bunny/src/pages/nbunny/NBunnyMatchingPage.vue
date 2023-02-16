@@ -58,21 +58,9 @@ export default {
 
     methods: {
         async clickBtn2() {
-            this.$store.commit("TOGGLE_ALARM_MODAL");
+            // this.$store.commit("TOGGLE_ALARM_MODAL");
             const bunnySeq = this.getBunnyDetail.seq;
             this.$router.push({ name: "NBunnyDetailPage", params: { id: bunnySeq } });
-
-            // let alert = {
-            //     userSeq: this.userInfo.seq,
-            //     clientSeq: this.getBunnyDetail.client.seq,
-            //     helperSeq: this.userInfo.seq,
-            //     taskCode: this.getBunnyDetail.taskCode,
-            //     content: "번역 신청",
-            //     clientNickname: this.getBunnyDetail.client.nickName,
-            //     helperNickname: this.userInfo.nickName,
-            // };
-
-            // await this.$store.dispatch("applyAlert", alert);
         },
     },
 };
