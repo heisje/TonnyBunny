@@ -246,11 +246,9 @@ export default {
                 });
 
                 stompClient.subscribe(`/sub/alert/apply/${seq}/cancel`, (res) => {
-                    console.log("왜 안찍히지???");
-
                     let request = JSON.parse(res.body);
                     // let clientNickname = request.clientNickname;
-                    // let helperNickname = request.helperNickname;
+                    let helperNickname = request.helperNickname;
                     // let title = request.title;
                     let yTonnySeq = request.yTonnySeq;
                     let bunnySeq = request.bunnySeq;
@@ -308,55 +306,54 @@ export default {
                         // name: "YTonnyDetailPage",
                         // params: { id: $this.yTonnyDetail.seq }
                         // });
-                    }
-                    // } else {
-                    // 	let text;
-                    // 	if (request.taskCode == "0030001") {
-                    // 		// 즉시통역
-                    // 		text = `[${helperNickname}]님이 즉시 통역 신청을 했습니다.`;
-                    // 	} else if (request.taskCode == "0030002") {
-                    // 		// 통역예약
-                    // 		text = `[${helperNickname}]님이 통역 예약 신청을 했습니다.`;
-                    // 	} else {
-                    // 		// 번역
-                    // 		text = `[${helperNickname}]님이 번역 신청을 했습니다.`;
-                    // 	}
+                    } else {
+                        let text;
+                        if (request.taskCode == "0030001") {
+                            // 즉시통역
+                            text = `[${helperNickname}]님이 즉시 통역 신청을 취소했습니다.`;
+                        } else if (request.taskCode == "0030002") {
+                            // 통역예약
+                            text = `[${helperNickname}]님이 통역 예약 신청을 취소했습니다.`;
+                        } else {
+                            // 번역
+                            text = `[${helperNickname}]님이 번역 신청을 취소했습니다.`;
+                        }
 
-                    // 	Toastify({
-                    // 		text: text,
-                    // 		duration: 5000,
-                    // 		newWindow: true,
-                    // 		close: true,
-                    // 		gravity: "top", // `top` or `bottom`
-                    // 		position: "right", // `left`, `center` or `right`
-                    // 		stopOnFocus: true, // Prevents dismissing of toast on hover
-                    // 		style: {
-                    // 			background: "linear-gradient(to right, #00b09b, #96c93d)",
-                    // 			boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
-                    // 			borderRadius: "6px",
-                    // 			fontSize: "1.3rem",
-                    // 			fontWeight: "600"
-                    // 		},
-                    // 		onClick: function () {
-                    // 			if (request.taskCode == "0030001") {
-                    // 				// 즉시통역
-                    // 				// $this.$router.push({ name: "JTonnyApplyPage" });
-                    // 			} else if (request.taskCode == "0030002") {
-                    // 				// 통역예약
-                    // 				$this.$router.push({
-                    // 					name: "YTonnyDetailPage",
-                    // 					params: { id: yTonnySeq }
-                    // 				});
-                    // 			} else {
-                    // 				// 번역
-                    // 				$this.$router.push({
-                    // 					name: "NBunnyDetailPage",
-                    // 					params: { id: bunnySeq }
-                    // 				});
-                    // 			}
-                    // 		} // Callback after click
-                    // 	}).showToast();
-                    // }
+                        Toastify({
+                            text: text,
+                            duration: 5000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            style: {
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                boxShadow: "1px 1px 2px rgba(0, 0, 0, 0.08)",
+                                borderRadius: "6px",
+                                fontSize: "1.3rem",
+                                fontWeight: "600",
+                            },
+                            onClick: function () {
+                                if (request.taskCode == "0030001") {
+                                    // 즉시통역
+                                    // $this.$router.push({ name: "JTonnyApplyPage" });
+                                } else if (request.taskCode == "0030002") {
+                                    // 통역예약
+                                    $this.$router.push({
+                                        name: "YTonnyDetailPage",
+                                        params: { id: yTonnySeq },
+                                    });
+                                } else {
+                                    // 번역
+                                    $this.$router.push({
+                                        name: "NBunnyDetailPage",
+                                        params: { id: bunnySeq },
+                                    });
+                                }
+                            }, // Callback after click
+                        }).showToast();
+                    }
 
                     // window.location.reload();
                 });

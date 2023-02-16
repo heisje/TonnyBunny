@@ -347,10 +347,22 @@ export default {
             this.stompClient.send(`/pub/jtonny/accept`, JSON.stringify(this.jtonnyRequest), {});
             this.$store.commit("TOGGLE_ALARM_MODAL");
         },
-        reject(helper) {
+        async reject(helper) {
             this.jtonnyRequest.helper = helper;
             this.stompClient.send(`/pub/jtonny/reject`, JSON.stringify(this.jtonnyRequest), {});
             delete this.jtonnyApplyList[this.jtonnyRequest.helper.seq];
+
+            let alert = {
+                userSeq: this.userInfo.seq,
+                clientSeq: this.userInfo.seq,
+                helperSeq: helper.seq,
+                taskCode: this.jtonnyRequest.taskCode,
+                content: "즉시 통역 헬퍼 신청을 거절했습니다.",
+                clientNickname: this.userInfo.nickName,
+                helperNickname: helper.nickName,
+            };
+
+            await this.$store.dispatch("applyCancelAlert", alert);
         },
         cancelRequest() {
             this.stompClient.send(
@@ -426,10 +438,10 @@ export default {
 
                     // this.$router.push({ name: "LivePage", params: { sessionName: res.body.uuid } });
 
-                    /* 
+                    /*
                         let jtonny = JSON.parse(res.body);
-                        
-                        오픈비두 이동 router.PUSH 
+
+                        오픈비두 이동 router.PUSH
                         param? query? 는 jtonny
                     */
                 });
