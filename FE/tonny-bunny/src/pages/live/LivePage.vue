@@ -257,11 +257,11 @@ export default {
 
         startLive() {
             // this.startRecording(); // 삭제
-            console.log("Start");
+            // console.log("Start");
             this.session
                 .signal({ data: "Start" })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    // console.log("Message successfully sent");
                 })
                 .catch((error) => {
                     console.error(error);
@@ -270,11 +270,11 @@ export default {
 
         endLive() {
             // this.stopRecording();    // 삭제
-            console.log("End");
+            // console.log("End");
             this.session
                 .signal({ data: "End" })
                 .then(() => {
-                    console.log("Message successfully sent");
+                    // console.log("Message successfully sent");
                 })
                 .catch((error) => {
                     console.error(error);
@@ -292,7 +292,7 @@ export default {
         },
 
         cameraToggle() {
-            console.log(this.OV);
+            // console.log(this.OV);
             if (!this.isCamOFF) {
                 this.publisher.publishVideo(false);
                 this.isCamOFF = true;
@@ -305,7 +305,7 @@ export default {
         // --------------------------------------------------- 공식문서 로직 ------------------------------------------------------
 
         getToken(callback) {
-            console.log("getToken Method");
+            // console.log("getToken Method");
             this.httpRequest(
                 "POST",
                 "recording-node/api/get-token",
@@ -314,17 +314,17 @@ export default {
                 },
                 "Request of TOKEN gone WRONG:",
                 (res) => {
-                    console.log("res!!!!!!!", res);
+                    // console.log("res!!!!!!!", res);
                     this.token = res[0]; // Get token from response
                     this.isExisted = res["isExisted"];
-                    console.warn("Request of TOKEN gone WELL (TOKEN:" + this.token + ")");
+                    // console.warn("Request of TOKEN gone WELL (TOKEN:" + this.token + ")");
                     callback(this.isExisted);
                 }
             );
         },
 
         joinSession() {
-            console.log("joinSession Method");
+            // console.log("joinSession Method");
 
             // --- 0) Change the button ---
 
@@ -385,7 +385,7 @@ export default {
                 });
 
                 this.session.on("signal", (event) => {
-                    console.log(event.data); // Message
+                    // console.log(event.data); // Message
 
                     if (event.data == "Start") {
                         this.timer_func = setInterval(() => {
@@ -431,7 +431,7 @@ export default {
                         this.session.publish(this.publisher);
 
                         if (!this.isExisted) {
-                            console.log("방생성, 내가 레코딩 시작");
+                            // console.log("방생성, 내가 레코딩 시작");
                             this.startRecording();
                         }
                     })
@@ -500,7 +500,7 @@ export default {
                     }
                 }
             }
-            console.log(url);
+            // console.log(url);
         },
         startRecording() {
             this.isRecording = true;
@@ -515,7 +515,7 @@ export default {
                 },
                 "Start recording WRONG",
                 (res) => {
-                    console.log(res);
+                    // console.log(res);
                     this.recordingId = res.id;
                 }
             );
@@ -535,7 +535,7 @@ export default {
                 },
                 "Stop recording WRONG",
                 (res) => {
-                    console.log(res);
+                    // console.log(res);
                     this.recordingId = "";
                 }
             );

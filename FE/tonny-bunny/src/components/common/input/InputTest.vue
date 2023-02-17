@@ -24,7 +24,8 @@
                 :id="input1.id"
                 :pattern="input1.pattern"
                 @input="changeInput"
-                placeholder="내용을 입력해주세요" />
+                placeholder="내용을 입력해주세요"
+            />
             <div class="notice" v-text="input1.notice"></div>
             <br />
 
@@ -42,7 +43,8 @@
             <DropdownInput
                 :dropdownArray="['아이템1', '아이템2', '아이템3']"
                 placeholder="아이템을 선택해주세요"
-                @toggle="(e) => (dropdownValue = e)" />
+                @toggle="(e) => (dropdownValue = e)"
+            />
             {{ dropdownValue }}
         </form>
     </div>
@@ -67,8 +69,8 @@ export default {
         };
     },
     methods: {
-        submitForm(e) {
-            console.log(e);
+        submitForm() {
+            // console.log(e);
         },
         changeInput(e) {
             // v-model 대체용

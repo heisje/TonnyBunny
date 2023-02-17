@@ -81,7 +81,7 @@ export default {
                 estimatePrice: this.estimatePrice,
             };
 
-            console.log("bunny helper payload", payload);
+            // console.log("bunny helper payload", payload);
 
             this.$store.dispatch("insertBunnyApply", payload);
 

@@ -133,10 +133,7 @@ export default {
 
     mounted() {
         if (this.userInfo.seq) {
-            console.log("???");
-            console.log(this.userInfo);
             this.$store.dispatch("getUserReview", this.userInfo.seq);
-            console.log("???");
         }
     },
 };

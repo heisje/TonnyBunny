@@ -5,7 +5,8 @@
             <div v-if="findedId == ''">
                 <title-banner
                     title="아이디 찾기"
-                    text="🐰등록하신 휴대폰 번호로 이메일 주소를 찾을 수 있습니다." />
+                    text="🐰등록하신 휴대폰 번호로 이메일 주소를 찾을 수 있습니다."
+                />
 
                 <!-- 휴대폰 번호 -->
                 <label for="phoneNum">휴대폰 번호</label>
@@ -14,7 +15,8 @@
                     id="phoneNum"
                     v-model="phoneNum"
                     placeholder="휴대폰 번호"
-                    @input="changePhoneInput" />
+                    @input="changePhoneInput"
+                />
                 <smallBtn @click.prevent="sendAuthCode" text="인증 요청"></smallBtn><br />
                 <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
                 <br />
@@ -26,7 +28,8 @@
                             type="text"
                             id="authCode"
                             v-model="authCode"
-                            placeholder="인증 번호" />
+                            placeholder="인증 번호"
+                        />
                         <smallBtn text="확인" @click="checkAuthCode"></smallBtn><br />
                         <div v-show="noticeAuth2" style="color: red">{{ noticeAuth2 }}</div>
                         <br />
@@ -41,7 +44,8 @@
                     btnText2="닫기"
                     btnColor2="carrot"
                     btnFontColor2="white"
-                    @clickBtn2="closeModal">
+                    @clickBtn2="closeModal"
+                >
                     <template #content>
                         인증에 실패했습니다. 인증번호를 다시 한번 확인해주세요.
                     </template>
@@ -62,7 +66,8 @@
                             font="main"
                             color="outline"
                             style="width: 100%"
-                            text="홈으로 돌아가기"></smallBtn>
+                            text="홈으로 돌아가기"
+                        ></smallBtn>
                     </router-link>
                 </div>
             </div>
@@ -110,7 +115,7 @@ export default {
 
         // 휴대폰 인증번호 발송
         async sendAuthCode() {
-            console.log(this.phoneNum);
+            // console.log(this.phoneNum);
             // 1. 유효성 검사
             // 2. 인증 코드 발송 axios 요청
             try {
