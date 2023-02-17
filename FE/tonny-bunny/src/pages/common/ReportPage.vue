@@ -2,7 +2,9 @@
     <div class="d-flex flex-column align-items-center">
         <TitleText title="신고하기" center />
         <div class="d-flex justify-content-center">
-            <img src="@/assets/noProfile.png" alt="" />
+            <user-profile-img
+                :profileImagePath="this.$store.state.mypage.otherHelperInfo?.profileImagePath"
+                width="60" />
         </div>
         <div class="d-flex justify-content-center">
             <div>{{ this.$store.state.mypage.otherHelperInfo.nickName }}</div>
@@ -49,6 +51,7 @@ import DropdownInput from "@/components/common/input/DropdownInput.vue";
 import SmallBtn from "@/components/common/button/SmallBtn.vue";
 import AlarmModal from "@/components/common/modal/AlarmModal.vue";
 import http from "@/common/axios";
+import UserProfileImg from "@/components/common/UserProfileImg.vue";
 
 export default {
     data() {
@@ -69,6 +72,7 @@ export default {
         DropdownInput,
         SmallBtn,
         AlarmModal,
+        UserProfileImg,
     },
     methods: {
         openModal(e) {
