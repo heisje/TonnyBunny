@@ -56,7 +56,7 @@ export default {
             alert("복사되었습니다.");
         },
         openWarning() {
-            alert("하지마세요.");
+            // alert("하지마세요.");
         },
     },
 };
