@@ -3,7 +3,8 @@
         <div class="customForm">
             <title-banner
                 title="비밀번호 찾기"
-                text="🐰가입한 이메일과 휴대폰 인증으로 비밀번호를 변경합니다." />
+                text="🐰가입한 이메일과 휴대폰 인증으로 비밀번호를 변경합니다."
+            />
 
             <div>
                 <!-- 이메일 -->
@@ -17,7 +18,8 @@
                     id="phoneNum"
                     v-model="phoneNum"
                     placeholder="휴대폰 번호"
-                    @input="changePhoneInput" />
+                    @input="changePhoneInput"
+                />
                 <smallBtn @click.prevent="sendAuthCode" text="인증 요청" class="my-2"></smallBtn
                 ><br />
                 <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
@@ -30,7 +32,8 @@
                             type="text"
                             id="authCode"
                             v-model="authCode"
-                            placeholder="인증 번호" />
+                            placeholder="인증 번호"
+                        />
                         <smallBtn text="확인" @click="checkAuthCode"></smallBtn><br />
                         <div v-show="noticeAuth2" style="color: red">{{ noticeAuth2 }}</div>
                         <br />
@@ -48,7 +51,8 @@
                 btnText2="닫기"
                 btnColor2="carrot"
                 btnFontColor2="white"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> 가입된 명의의 이메일이 일치하지 않습니다 </template>
             </alarm-modal>
         </div>
@@ -101,7 +105,7 @@ export default {
                 let res = await http.post("/send/authcode", { to: this.phoneNum });
 
                 if (res.data.data) {
-                    console.log(res.data.data);
+                    // console.log(res.data.data);
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
@@ -145,8 +149,8 @@ export default {
                 this.noticeAuth2 = "인증이 완료되지 않았습니다";
                 return;
             }
-            console.log("phoneNum:" + this.phoneNum);
-            console.log("email : " + this.email);
+            // console.log("phoneNum:" + this.phoneNum);
+            // console.log("email : " + this.email);
             try {
                 let res = await http.post("/login/find/password", {
                     phoneNumber: this.phoneNum,

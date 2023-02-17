@@ -67,9 +67,9 @@ export default {
 
             try {
                 let res = await http.put(`/mypage/${this.userInfo.seq}/userCode`);
-                console.log(res.data);
+                // console.log(res.data);
                 if (res.data.resultCode == "SUCCESS") {
-                    console.log("헬퍼전환완료");
+                    // console.log("헬퍼전환완료");
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                     this.$store.dispatch("getMypage");
                     this.$router.push({

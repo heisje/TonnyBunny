@@ -1,7 +1,8 @@
 <template>
     <v-container
         class="d-flex justify-content-center customFormWrap w-100 flex-column"
-        style="margin-top: 40px">
+        style="margin-top: 40px"
+    >
         <!-- <div> -->
         <!-- <title-banner title="🐰 번역 의뢰 요청" text="의뢰의 상세내용을 확인할 수 있습니다" /> -->
         <!-- </div> -->
@@ -11,19 +12,23 @@
                     <SquareTag text="번역의뢰" sub></SquareTag>
                     <SquareTag
                         v-if="allCode[getBunnyDetail?.taskStateCode] == `모집중`"
-                        success></SquareTag>
+                        success
+                    ></SquareTag>
                     <SquareTag
                         v-if="allCode[getBunnyDetail?.taskStateCode] == `진행중`"
-                        info></SquareTag>
+                        info
+                    ></SquareTag>
                     <SquareTag
                         v-if="allCode[getBunnyDetail?.taskStateCode] == `완료됨`"
-                        white></SquareTag>
+                        white
+                    ></SquareTag>
                 </div>
                 <title-text
                     type="h1"
                     :title="getBunnyDetail?.title"
                     top="10"
-                    bottom="10"></title-text>
+                    bottom="10"
+                ></title-text>
                 <div class="label">
                     {{
                         getBunnyDetail?.createdAt.substr(0, 10) +
@@ -39,7 +44,8 @@
                                 class="profileImg me-3"
                                 width="40"
                                 height="40"
-                                :profileImagePath="getBunnyDetail?.client?.imagePath" />
+                                :profileImagePath="getBunnyDetail?.client?.imagePath"
+                            />
 
                             <div>
                                 <h4 class="overflow" v-if="getBunnyDetail?.client?.nickName">
@@ -53,7 +59,8 @@
                             <div
                                 @click.prevent="toggleEditOpen"
                                 v-click-outside="onClickOutside"
-                                style="cursor: pointer">
+                                style="cursor: pointer"
+                            >
                                 <span class="material-symbols-outlined fs-4"> more_vert </span>
                             </div>
                             <div class="editPopOverWrap" style="cursor: pointer">
@@ -81,7 +88,8 @@
                                     <square-tag
                                         :text="getStartLangCode"
                                         sub
-                                        class="me-2"></square-tag>
+                                        class="me-2"
+                                    ></square-tag>
                                     <div class="me-2">
                                         <span class="material-symbols-outlined">
                                             compare_arrows
@@ -115,13 +123,15 @@
                                     <div
                                         v-if="getBunnyDetail.bunnySituCode == ''"
                                         class="fst-italic"
-                                        style="color: var(--sub-color)">
+                                        style="color: var(--sub-color)"
+                                    >
                                         번역 카테고리가 없습니다.
                                     </div>
                                     <square-tag
                                         v-else
                                         :text="allCode[getBunnyDetail?.bunnySituCode]"
-                                        sub></square-tag>
+                                        sub
+                                    ></square-tag>
                                 </td>
                             </tr>
 
@@ -131,7 +141,8 @@
                                     <div
                                         v-if="getBunnyDetail.content == ''"
                                         class="fst-italic"
-                                        style="color: var(--sub-color)">
+                                        style="color: var(--sub-color)"
+                                    >
                                         상황 설명이 없습니다.
                                     </div>
                                     <div v-else class="mt-3">{{ getBunnyDetail.content }}</div>
@@ -182,7 +193,8 @@
             <div
                 class="col-md-6 col-12 apply customForm"
                 style="margin-left: 30px"
-                v-show="allCode[getBunnyDetail.taskStateCode] == `모집중`">
+                v-show="allCode[getBunnyDetail.taskStateCode] == `모집중`"
+            >
                 <!-- 작성자는 헬퍼 신청 목록 열람가능 -->
                 <div v-show="isCreator">
                     <div class="w-100">
@@ -215,7 +227,8 @@
                             <div
                                 v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                                 :key="index"
-                                class="w-100">
+                                class="w-100"
+                            >
                                 <helper-card
                                     removeClose
                                     class="w-100 mb-3"
@@ -225,7 +238,8 @@
                                     @remove-card="close"
                                     @toggle-like-btn="toggleLike"
                                     @click-btn1="goHelperProfile"
-                                    @click-btn2="enterChatRoom"></helper-card>
+                                    @click-btn2="enterChatRoom"
+                                ></helper-card>
                             </div>
                         </div>
                         <div v-else style="color: var(--sub-color)">
@@ -242,7 +256,8 @@
                         <div
                             v-for="(apply, index) in getBunnyDetail?.bunnyApplyList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
                                 v-show="apply.userSeq == $store.state.account.userInfo.seq"
                                 class="w-100 mb-3"
@@ -252,7 +267,8 @@
                                 @remove-card="openRemoveApplyModal"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
                 </div>
@@ -269,14 +285,16 @@
                                     type="text"
                                     placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
                                     v-model="unitPrice"
-                                    @keydown.enter="goToBunnyApplyPage" />
+                                    @keydown.enter="goToBunnyApplyPage"
+                                />
                             </div>
                             <medium-btn
                                 class="w-100"
                                 color="outline"
                                 font="active"
                                 text="헬퍼 신청하기"
-                                @click.prevent="goToBunnyApplyPage"></medium-btn>
+                                @click.prevent="goToBunnyApplyPage"
+                            ></medium-btn>
                             <!-- <large-btn text="헬퍼 신청하기" class="d-lg-none"></large-btn> -->
                         </div>
                     </div>
@@ -290,14 +308,16 @@
             <!-- 진행중일때 -->
             <div
                 class="col-md-6 col-12 apply"
-                v-show="allCode[getBunnyDetail.taskStateCode] == `진행중`">
+                v-show="allCode[getBunnyDetail.taskStateCode] == `진행중`"
+            >
                 <!-- 작성자는 수락한 견적서 내용 보임 -->
                 <div v-show="isCreator">
                     <div class="w-100">
                         <div
                             v-for="(quotation, index) in getBunnyDetail?.bunnyQuotationList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
                                 v-show="allCode[quotation?.quotationStateCode] == `선택`"
                                 class="w-100 mb-3"
@@ -307,7 +327,8 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
                     <medium-btn
@@ -315,7 +336,8 @@
                         color="carrot"
                         font="white"
                         text="의뢰 완료하기"
-                        @click.prevent="openCompleteModal(index)"></medium-btn>
+                        @click.prevent="openCompleteModal(index)"
+                    ></medium-btn>
                 </div>
                 <!-- 담당자는 본인의 견적서가 보임  -->
                 <div class="col-md-6 col-12 apply" v-show="isManager">
@@ -323,7 +345,8 @@
                         <div
                             v-for="(quotation, index) in getBunnyDetail?.bunnyQuotationList"
                             :key="index"
-                            class="w-100">
+                            class="w-100"
+                        >
                             <helper-card
                                 v-show="allCode[quotation?.quotationStateCode] == `선택`"
                                 class="w-100 mb-3"
@@ -333,14 +356,16 @@
                                 @remove-card="close"
                                 @toggle-like-btn="toggleLike"
                                 @click-btn1="goHelperProfile"
-                                @click-btn2="enterChatRoom"></helper-card>
+                                @click-btn2="enterChatRoom"
+                            ></helper-card>
                         </div>
                     </div>
                 </div>
             </div>
             <div
                 class="col-md-6 col-12 apply"
-                v-show="allCode[getBunnyDetail.taskStateCode] == `완료됨`"></div>
+                v-show="allCode[getBunnyDetail.taskStateCode] == `완료됨`"
+            ></div>
             <AlarmModal
                 v-show="modalName == `removeBunnyModal`"
                 title="주의"
@@ -352,7 +377,8 @@
                 btnFontColor1="white"
                 btnFontColor2="active"
                 @clickBtn1="deleteBunny(getBunnyDetail?.seq)"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> 의뢰를 삭제하시겠습니까? </template>
             </AlarmModal>
             <AlarmModal
@@ -366,7 +392,8 @@
                 btnFontColor1="white"
                 btnFontColor2="active"
                 @clickBtn1="deleteApply"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> 제안을 취소하시겠습니까? </template>
             </AlarmModal>
             <AlarmModal
@@ -380,7 +407,8 @@
                 btnFontColor1="white"
                 btnFontColor2="active"
                 @clickBtn1="completeBunny"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content>
                     의뢰는 해결되셨나요? <br /><br />
                     의뢰를 완료하시겠습니까?

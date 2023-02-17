@@ -7,7 +7,8 @@
                 <UserProfileItem
                     btnText="차단해제"
                     :helperInfo="block"
-                    @clickBtn="deleteBlock(block.seq)" />
+                    @clickBtn="deleteBlock(block.seq)"
+                />
             </div>
         </div>
         <div v-else>
@@ -65,7 +66,7 @@ export default {
             try {
                 let res = await http.delete(`mypage/${userSeq}/block/${helperSeq}`);
 
-                console.log(res);
+                // console.log(res);
                 if (res.data.resultCode == "SUCCESS") {
                     this.blockCnt -= 1;
                 }
