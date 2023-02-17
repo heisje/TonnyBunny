@@ -1,6 +1,9 @@
 <template lang="">
     <div class="chat-item d-flex px-3">
-        <div class="profile-image-wrap"><img src="@/assets/noProfile.png" /></div>
+        <div class="profile-image-wrap">
+            <!-- <img src="@/assets/noProfile.png" /> -->
+            <user-profile-img :profileImagePath="profileImagePath" width="40" />
+        </div>
         <!-- <div><img :src="profileImagePath" /></div> -->
         <div class="chat-wrap pl-4 d-flex flex-column justify-content-center">
             <div class="fw-bold m-1">{{ nickName }}</div>
@@ -12,8 +15,11 @@
     </div>
 </template>
 <script>
+import UserProfileImg from "../common/UserProfileImg.vue";
 // const fs = require("fs");
 export default {
+    components: { UserProfileImg },
+
     props: {
         profileImagePath: {
             type: String,
