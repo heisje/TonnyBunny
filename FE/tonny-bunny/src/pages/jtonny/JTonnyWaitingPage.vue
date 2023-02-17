@@ -8,11 +8,13 @@
                         title="즉시통역 신청 카드"
                         text="고객님이 신청한 즉시통역 내역이에요"></title-text>
                     <hr />
+
                     <div class="jtonnyRequestContent">
                         <!-- {{ jtonnyRequest }} -->
 
                         <div class="questProfile mt-3">
                             <div class="profile ms-3">
+                                {{ jtonnyRequest?.client }}
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="jtonnyRequest?.client?.profileImagePath"
@@ -38,6 +40,7 @@
                                     </h4>
                                     <h4 class="" v-else>미지정</h4>
                                 </div>
+                                {{ jtonnyRequest?.helper }}
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="jtonnyRequest?.helper?.profileImagePath"
@@ -140,6 +143,7 @@
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
+                                            {{ apply }}
                                             <user-profile-img
                                                 :profileImagePath="apply?.helper?.profileImagePath"
                                                 width="50" />
@@ -176,7 +180,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="d-flex btns row ms-0 me-0 ps-0 pe-0">
+                                    <div class="d-flex btns row ms-0 me-0 ps-0 pe-0 mb-3">
                                         <div class="col-6 reject" @click="reject(apply.helper)">
                                             거절
                                         </div>
