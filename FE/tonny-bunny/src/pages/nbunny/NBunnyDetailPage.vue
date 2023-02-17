@@ -487,7 +487,6 @@ export default {
 
     async created() {
         await this.$store.dispatch("getBunnyDetail", this.$route.params.id);
-        console.log("getBunnyDetail:::::", this.getBunnyDetail);
         this.checkIsCreator();
         this.checkIsManager();
         this.$store.commit("CLOSE_ALARM_MODAL");
@@ -546,8 +545,6 @@ export default {
             const s_quotation = this.getBunnyDetail.bunnyQuotationList.find(
                 (quotation) => this.allCode[quotation.quotationStateCode] == `선택`
             );
-
-            console.log(s_quotation);
 
             await this.$store.dispatch("completeBunny", {
                 bunnySeq: this.getBunnyDetail.seq,

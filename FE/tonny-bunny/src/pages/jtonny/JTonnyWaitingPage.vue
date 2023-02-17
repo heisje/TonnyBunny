@@ -14,7 +14,6 @@
 
                         <div class="questProfile mt-3">
                             <div class="profile ms-3">
-                                {{ jtonnyRequest?.client }}
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="jtonnyRequest?.client?.profileImagePath"
@@ -143,7 +142,6 @@
                                     <div class="d-flex flex-row align-items-center apply">
                                         <div
                                             class="col-2 d-flex flex-column align-items-center justify-content-center">
-                                            {{ apply }}
                                             <user-profile-img
                                                 :profileImagePath="apply?.helper?.profileImagePath"
                                                 width="50" />

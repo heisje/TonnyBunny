@@ -647,8 +647,6 @@ export default {
                 yTonnySeq: this.yTonnySeq,
             });
 
-            console.log("hihi", this.yTonnyApplyList);
-
             await this.$store.dispatch("getYTonnyApplyListTotalCount", this.yTonnySeq);
         },
 
@@ -812,7 +810,6 @@ export default {
 
         // let payload = { yTonnySeq: this.yTonnySeq, userSeq: this.userInfo.seq };
         await this.$store.dispatch("getYTonnyDetail", this.yTonnySeq);
-        console.log("getYTonnyDetail::::", this.yTonnyDetail);
 
         await this.$store.dispatch("getYTonnyApplyListTotalCount", this.yTonnySeq);
         await this.getYTonnyApplyList();
