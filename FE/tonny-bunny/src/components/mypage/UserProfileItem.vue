@@ -6,7 +6,6 @@
                     :profileImagePath="helperInfo?.profileImagePath"
                     class="mr-5"
                     width="48" />
-                <!-- <img src="@/assets/noProfile.png" alt="" class="mr-5" style="width: 4rem" /> -->
                 <title-text type="h2" :title="helperInfo.nickName" class="text-center mt-4" />
             </div>
             <x-small-btn :text="btnText" color="carrot" font="white" @click="clickBtn" />
