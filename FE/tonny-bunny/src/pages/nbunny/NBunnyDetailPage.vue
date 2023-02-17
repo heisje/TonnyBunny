@@ -266,6 +266,7 @@
                         <div>
                             <div class="d-flex align-items-center mb-3">
                                 <input
+                                    autocomplete="off"
                                     type="text"
                                     placeholder="제안할 캐럿을 입력해주세요. ex) 1000"
                                     v-model="unitPrice"

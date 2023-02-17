@@ -7,7 +7,9 @@
                 <img :src="this.$store.state.mypage.otherHelperInfo.profileImagePath" alt="" />
             </span> -->
             <span>
-                <user-profile-img :profileImagePath="userInfo?.profileImagePath" width="80" />
+                <user-profile-img
+                    :profileImagePath="this.$store.state.mypage.otherHelperInfo.profileImagePath"
+                    width="80" />
             </span>
         </div>
         <div class="d-flex justify-content-center">
