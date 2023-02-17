@@ -27,7 +27,7 @@
                                 :text="chatData.message"
                                 :time="getTime(chatData.date)"
                                 :messageType="chatData.messageType"
-                                :profileImageLink="chatData?.profileImageLink" />
+                                :profileImageLink="chatAnotherUserInfo?.profileImagePath" />
                         </router-link>
 
                         <chat-bubble-item
