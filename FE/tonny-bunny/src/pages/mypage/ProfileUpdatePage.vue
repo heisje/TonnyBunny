@@ -5,6 +5,8 @@
                 <title-banner title="헬퍼 정보 수정" text="헬퍼 정보를 수정하실 수 있습니다" />
             </div>
 
+            <div style="margin-bottom: 100px"></div>
+
             <!-- 언어 선택 -->
             <TitleText title="언어 선택" type="h2" text="사용 가능한 언어를 선택해주세요" />
 
@@ -14,8 +16,15 @@
 
             <span v-for="(lang, index) in possibleLanguageCodeList" :key="index">
                 <div class="selected">
-                    {{ allCode[lang.value] }}
-                    <span @click="cancleSelect(index)">❌</span>
+                    <div class="d-flex align-items-center">
+                        {{ allCode[lang.value] }}
+                        <span
+                            @click="cancleSelect(index)"
+                            style="cursor: pointer; color: var(--danger-color); font-size: 1.4rem"
+                            class="material-symbols-outlined ms-2">
+                            close
+                        </span>
+                    </div>
                 </div>
             </span>
 
@@ -31,26 +40,36 @@
                             (e) => {
                                 certificateLang = e;
                             }
-                        "
-                    />
+                        " />
                     <input
                         class="certificateItem"
                         type="text"
                         placeholder="자격증 이름"
-                        v-model="certName"
-                    />
+                        v-model="certName" />
                 </div>
                 <div class="certificateWrap">
                     <input type="text" placeholder="내용" v-model="contentInput" />
-                    <MediumBtn class="mButton" text="등록" @click="addCertificate"></MediumBtn>
+                    <MediumBtn
+                        class="mButton"
+                        color="light"
+                        font="active"
+                        text="등록"
+                        @click="addCertificate"></MediumBtn>
                 </div>
             </div>
 
             <!-- 등록한 자격증 목록 -->
             <div class="selected" v-for="(certificate, index) in certificateList" :key="index">
-                [{{ allCode[certificate.langCode] }}] {{ certificate.certName }} :
-                {{ certificate.content }}
-                <span @click="deleteCertificate(index)">❌</span>
+                <div class="d-flex align-items-center">
+                    [{{ allCode[certificate.langCode] }}] {{ certificate.certName }} :
+                    {{ certificate.content }}
+                    <span
+                        @click="deleteCertificate(index)"
+                        style="cursor: pointer; color: var(--danger-color); font-size: 1.4rem"
+                        class="material-symbols-outlined ms-2">
+                        close
+                    </span>
+                </div>
             </div>
 
             <br /><br />
@@ -61,8 +80,7 @@
             <TitleText
                 title="한 줄 자기소개"
                 type="h2"
-                text="자신을 표현할 간단한 자기소개를 입력해주세요."
-            />
+                text="자신을 표현할 간단한 자기소개를 입력해주세요." />
             <input type="text" v-model="oneLineIntroduction" />
 
             <!-- <TitleText
@@ -82,23 +100,22 @@
             <TitleText title="본인 소개" type="h2" text="자유롭게 본인을 소개해주세요." />
             <textarea cols="10" rows="5" v-model="introduction"></textarea>
 
+            <div style="margin-top: 100px"></div>
             <div>
                 <smallBtn
                     color="carrot"
                     style="width: 100%"
                     text="확인"
-                    @click="submitForm"
-                ></smallBtn>
+                    @click="submitForm"></smallBtn>
             </div>
 
             <div style="margin-top: 8px">
                 <smallBtn
-                    color="outline"
-                    font="main"
+                    color="light"
+                    font="active"
                     style="width: 100%"
                     text="취소"
-                    @click="goMyPage"
-                ></smallBtn>
+                    @click="goMyPage"></smallBtn>
             </div>
         </div>
     </div>
