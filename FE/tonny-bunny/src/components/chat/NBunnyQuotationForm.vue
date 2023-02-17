@@ -161,7 +161,7 @@ export default {
                 "월 " +
                 this.bunnyList[index].endDateTime.slice(8, 10) +
                 "일";
-            console.log(this.bunnyList[index].endDateTime.slice(0, 4));
+            // console.log(this.bunnyList[index].endDateTime.slice(0, 4));
         },
 
         async submitForm() {
@@ -251,7 +251,7 @@ export default {
             switch (res.data.resultCode) {
                 case SUCCESS:
                     // context.commit("SET_BUNNY_SEQ", res.data.data);
-                    console.log(res.data.data);
+                    // console.log(res.data.data);
                     this.bunnyList = res.data.data;
                     this.bunnyList.forEach((bunny) => {
                         this.bunntTitleList.push(bunny.title);

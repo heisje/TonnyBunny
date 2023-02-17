@@ -34,7 +34,8 @@
                 id="password"
                 v-model="password"
                 placeholder="비밀번호"
-                @input="changePwInput" /><br />
+                @input="changePwInput"
+            /><br />
             <div v-show="noticePw" style="color: red">{{ noticePw }}</div>
             <br />
 
@@ -45,7 +46,8 @@
                 id="password2"
                 v-model="password2"
                 @input="changePw2Input"
-                placeholder="비밀번호 확인" /><br />
+                placeholder="비밀번호 확인"
+            /><br />
             <div v-show="noticePw2" style="color: red">{{ noticePw2 }}</div>
             <br />
 
@@ -57,13 +59,15 @@
                     id="nickname"
                     v-model="nickname"
                     placeholder="닉네임"
-                    @input="changeNickInput" />
+                    @input="changeNickInput"
+                />
                 <smallBtn
                     class="sideButton"
                     @click.prevent="checkDuplication"
                     text="중복 확인"
                     color="outline"
-                    font="active"></smallBtn
+                    font="active"
+                ></smallBtn
                 ><br />
             </div>
             <div v-show="noticeNick" style="color: red">{{ noticeNick }}</div>
@@ -77,13 +81,15 @@
                     id="phoneNum"
                     v-model="phoneNum"
                     placeholder="휴대폰 번호"
-                    @input="changePhoneInput" />
+                    @input="changePhoneInput"
+                />
                 <smallBtn
                     class="sideButton"
                     @click.prevent="sendAuthCode"
                     text="인증 요청"
                     color="outline"
-                    font="active"></smallBtn
+                    font="active"
+                ></smallBtn
                 ><br />
             </div>
             <div v-show="noticeAuth" style="color: red">{{ noticeAuth }}</div>
@@ -97,7 +103,8 @@
                             type="text"
                             id="authCode"
                             v-model="authCode"
-                            placeholder="인증 번호" />
+                            placeholder="인증 번호"
+                        />
                         <smallBtn class="sideButton" text="확인" @click="checkAuthCode"></smallBtn>
                     </div>
                 </div>
@@ -114,7 +121,8 @@
                             type="checkbox"
                             name="color"
                             @click="clientTermToggle(index)"
-                            class="me-2" />
+                            class="me-2"
+                        />
                         <span> {{ term.title }}<span>(필수)</span> </span>
                     </div>
                 </div>
@@ -126,7 +134,8 @@
                                 type="checkbox"
                                 name="color"
                                 @click="helperTermToggle(index)"
-                                class="me-2" />
+                                class="me-2"
+                            />
                             <span> {{ term.title }}<span>(필수)</span> </span>
                         </div>
                     </div>
@@ -138,14 +147,16 @@
                 btnText2="닫기"
                 btnColor2="carrot"
                 btnFontColor2="white"
-                @clickBtn2="closeModal">
+                @clickBtn2="closeModal"
+            >
                 <template #content> {{ exception }} </template>
             </alarm-modal>
             <smallBtn
                 color="carrot"
                 style="width: 100%; margin-top: 32px"
                 text="회원가입"
-                @click="submitForm"></smallBtn>
+                @click="submitForm"
+            ></smallBtn>
         </div>
     </div>
 </template>
@@ -279,7 +290,7 @@ export default {
 
             try {
                 let res = await http.post("/signup/nickname", { nickname: this.nickname });
-                console.log(res);
+                // console.log(res);
                 if (res.data.data) {
                     this.isCheckNickname = true;
                     this.noticeNick = "사용가능한 닉네임입니다";
@@ -306,7 +317,7 @@ export default {
             try {
                 let res = await http.post("/send/authcode", { to: this.phoneNum });
                 if (res.data.data) {
-                    console.log(res.data.data);
+                    // console.log(res.data.data);
                     this.isSendAuthCode = true;
                     this.noticeAuth = "인증번호가 발송되었습니다";
                 }
@@ -458,7 +469,7 @@ export default {
                     this.exception = "회원가입에 실패하였습니다.";
                     this.$store.commit("TOGGLE_ALARM_MODAL");
                     // 회원가입 실패
-                    console.log("회원가입 실패");
+                    // console.log("회원가입 실패");
                 }
             } catch (error) {
                 console.log(error);
