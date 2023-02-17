@@ -1,6 +1,7 @@
 <template>
     <div class="d-flex justify-content-center customFormWrap w-100">
         <form class="customForm" @submit.prevent="submitForm(event)">
+            <!-- {{ userInfo }} -->
             <div class="situation mt-5">
                 <title-text
                     important
@@ -205,6 +206,7 @@ export default {
                 this.jtonnyRequest.client.seq = this.userInfo.seq;
                 this.jtonnyRequest.client.nickName = this.userInfo.nickName;
                 this.jtonnyRequest.estimateTime = `${this.jtonnyRequest.estimateHour}:${this.jtonnyRequest.estimateMinute}`;
+                this.jtonnyRequest.client["profileImagePath"] = this.userInfo.profileImagePath;
 
                 this.$store.commit("SET_JTONNY_REQUEST", this.jtonnyRequest);
                 this.$router.push({ name: "JTonnyWaitingPage" });
