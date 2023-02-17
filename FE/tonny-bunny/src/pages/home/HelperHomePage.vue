@@ -1,9 +1,9 @@
 <template>
     <div>
-        <title-banner title="헬퍼전용 페이지" text="도움을 원하는 고객을 찾아보세요!" />
+        <title-banner title="헬퍼 페이지" text="도움을 필요한 고객을 찾아볼까요?" />
         <div class="helperHomePageContainer">
             <div class="helperHomePageWrap">
-                <title-text title="🐰도움이 필요한 고객을 찾아보세요!" center></title-text>
+                <title-text title="도움이 필요한 고객을 찾아보세요!" center></title-text>
                 <div class="iconsContainer">
                     <div class="iconsWarp">
                         <div class="iconsContent" @click="toggleBtn1">
@@ -27,7 +27,8 @@
                     </div>
                 </div>
 
-                <title-text title="내 정보" type="h1" bottom="16" center />
+                <div style="margin-top: 54px"></div>
+
                 <helper-card
                     class="helperCard"
                     :userInfo="userInfo"
@@ -36,7 +37,6 @@
                     @remove-card="close"
                     @toggle-like-btn="toggleLike"
                     @click-btn2="clickBtn2"></helper-card>
-                <!-- <home-helper-contents /> -->
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@ export default {
         },
         toggleBtn3(e) {
             e.preventDefault();
-            this.$router.push({ name: "NBunnyListPage" });
+            this.$router.push({ name: "BunnyPage" });
         },
         clickBtn2() {
             this.$router.push({
@@ -93,10 +93,25 @@ export default {
 .helperHomePageContainer {
     width: 600px;
     margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
     .helperHomePageWrap {
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding-top: 40px;
+
+        // padding: 32px 24px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+        background-color: var(--background-color);
+        border-radius: 6px;
+        width: 500px;
+        height: 600px;
 
         .helperCard {
             max-width: 400px;
