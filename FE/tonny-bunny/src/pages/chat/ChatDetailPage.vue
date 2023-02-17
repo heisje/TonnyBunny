@@ -13,15 +13,13 @@
                             chatData.userSeq == chatAnotherUserSeq
                                 ? 'another-user-chat'
                                 : 'self-user-chat'
-                        "
-                    >
+                        ">
                         <router-link
                             v-if="chatData.messageType == 'url'"
                             :to="{
                                 name: chatData.urlPage,
                                 params: { id: chatData.urlPageSeq },
-                            }"
-                        >
+                            }">
                             <chat-bubble-item
                                 class="chat-bubble-item"
                                 :other="chatData.userSeq == chatAnotherUserSeq"
@@ -29,7 +27,7 @@
                                 :text="chatData.message"
                                 :time="getTime(chatData.date)"
                                 :messageType="chatData.messageType"
-                            />
+                                :profileImageLink="chatData?.profileImageLink" />
                         </router-link>
 
                         <chat-bubble-item
@@ -40,7 +38,7 @@
                             :text="chatData.message"
                             :time="getTime(chatData.date)"
                             :messageType="chatData.messageType"
-                        />
+                            :profileImageLink="chatAnotherUserInfo?.profileImagePath" />
                     </li>
                 </ul>
             </div>
@@ -51,8 +49,7 @@
                 v-show="userInfo.userCode == '0010002'"
                 @click="moveToQuotationCreatePage"
                 color="carrot"
-                text="견적서 작성"
-            >
+                text="견적서 작성">
             </medium-btn>
             <input
                 class="insert-message form-control"
@@ -60,8 +57,8 @@
                 @keyup.enter="sendMessage"
                 placeholder="채팅을 입력하세요."
                 type="text"
-                autofocus
-            />
+                autocomplete="off"
+                autofocus />
             <medium-btn type="button" text="전송" color="carrot" @click="sendMessage"></medium-btn>
         </div>
     </div>
