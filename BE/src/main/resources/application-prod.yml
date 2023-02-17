@@ -1,5 +1,5 @@
 server:
-  port: ${env.dev.port}
+  port: ${env.prod.port}
 
 # java -jar -Dspring.profiles.active=dev *.jar
 spring:
@@ -8,15 +8,15 @@ spring:
       on-profile: dev
   # MySQL
   datasource:
-    driver-class-name: ${dev.mysql.driver}
-    url: ${dev.mysql.url}
-    username: ${dev.mysql.username}
-    password: ${dev.mysql.password}
+    driver-class-name: ${prod.mysql.driver}
+    url: ${prod.mysql.url}
+    username: ${prod.mysql.username}
+    password: ${prod.mysql.password}
   # Jpa
   jpa:
-    hibernate.ddl-auto: ${dev.ddl.option}
+    hibernate.ddl-auto: ${prod.ddl.option}
   sql:
     init:
-      mode: ${sql.init.mode}
+      mode: ${prod.sql.init.mode}
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
