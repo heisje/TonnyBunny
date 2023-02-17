@@ -98,7 +98,7 @@
                             <div>&copy;SSAFY. ALL RIGHTS RESERVED</div>
                         </div>
 
-                        <div class="icon mt-3 pb-5">
+                        <div class="icon mt-3 pb-2">
                             <i class="fab fa-github fs-2"></i>
                             <i class="fa-brands fa-gitlab fs-2"></i>
                         </div>
