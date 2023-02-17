@@ -114,6 +114,8 @@ export default {
             const resultCode = await this.$store.dispatch("login", loginInfo);
 
             if (resultCode == "SUCCESS") {
+                this.password = "";
+                this.email = "";
                 this.$store.commit("TOGGLE_LOGIN_MODAL");
             }
         },

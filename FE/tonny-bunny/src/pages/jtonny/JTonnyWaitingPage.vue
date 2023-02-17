@@ -39,7 +39,7 @@
                                     </h4>
                                     <h4 class="" v-else>미지정</h4>
                                 </div>
-                                {{ jtonnyRequest?.helper }}
+
                                 <user-profile-img
                                     class="profileImg"
                                     :profileImagePath="jtonnyRequest?.helper?.profileImagePath"
