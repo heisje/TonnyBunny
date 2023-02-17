@@ -7,11 +7,6 @@
                         <h2>TonnyBunny</h2>
                         <ul>
                             <li>
-                                <router-link :to="{ name: 'IntroPage' }">
-                                    <span>토니바니란?</span>
-                                </router-link>
-                            </li>
-                            <li>
                                 <router-link :to="{ name: 'TonnyPage' }">
                                     <span>통역하기</span>
                                 </router-link>
@@ -94,21 +89,16 @@
                         <div>
                             <img src="@/assets/logo.png" alt="TonnyBunny" width="88" />
                         </div>
-                        <h2 class="ms-2">개인정보처리방침 |&nbsp;</h2>
+                        <h2 class="ms-2" @click="goNotice">개인정보처리방침 |&nbsp;</h2>
                         <h2>약관</h2>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div>SSAFY</div>
-                            <div>팀장 : 배충현</div>
-                            <div>이메일 :</div>
-                            <div>전화번호 :</div>
-                            <div>전화번호 :</div>
                             <div>&copy;SSAFY. ALL RIGHTS RESERVED</div>
                         </div>
 
-                        <div class="icon mt-3">
+                        <div class="icon mt-3 pb-5">
                             <i class="fab fa-github fs-2"></i>
                             <i class="fa-brands fa-gitlab fs-2"></i>
                         </div>
@@ -120,7 +110,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+    methods: {
+        goNotice() {
+            this.$router.push({ name: "NoticePage" });
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -148,7 +144,7 @@ export default {};
 .footer {
     .tonnyBunnyInfo {
         // justify-content: space-between;
-
+        flex-wrap: wrap;
         div {
             font-size: 1rem;
             margin-right: 80px;
