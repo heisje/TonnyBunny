@@ -1117,9 +1117,10 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li>예약통역 API 구현</li>
+                <li>알림 API 구현</li>
+                <li>실시간 알림 구현</li>
+                <li>기본적인 디자인 및 프론트 구현</li>
             </ul>
         </td>
         </tr>
