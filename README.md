@@ -1,6 +1,6 @@
 # 🐰TonnyBunny🐰
 
-<div style="margin-left: 5px; text-align:center">
+<div style="margin-left: 5px;" align="center">
 SSAFY 8기 2학기 공통 프로젝트
 <div style="font-weight: bold; font-size: 1.2em;">2023.01.02 ~ 2023.02.17</div>
 </div>
