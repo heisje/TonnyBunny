@@ -119,6 +119,766 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 **헬퍼**라고 
 
 <br>
 
+## 🥕 프로젝트 구조
+
+### ✔️ Backend
+
+<details style="margin-left: 5px;">
+<summary><b>Spring Boot 프로젝트 구조</b></summary>
+<div>
+
+```
+├─java
+│  └─com
+│      └─tonnybunny
+│          │  TonnybunnyApplication.java
+│          │
+│          ├─common
+│          │  │  CommonController.java
+│          │  │
+│          │  ├─auth
+│          │  │  ├─dto
+│          │  │  │      AuthRequestDto.java
+│          │  │  │      AuthResponseDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      AuthEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      AuthRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          AuthService.java
+│          │  │
+│          │  ├─dto
+│          │  │      CommonCodeResponseDto.java
+│          │  │      CommonGroupCodeResponseDto.java
+│          │  │      QuotationStateCodeEnum.java
+│          │  │      ResultDto.java
+│          │  │      ResultEnum.java
+│          │  │      TaskCodeEnum.java
+│          │  │      TaskStateCodeEnum.java
+│          │  │      TonnySituCodeEnum.java
+│          │  │
+│          │  ├─entity
+│          │  │      CommonCodeEntity.java
+│          │  │      CommonEntity.java
+│          │  │      CommonGroupCodeEntity.java
+│          │  │
+│          │  └─repository
+│          │          CommonCodeRepository.java
+│          │          CommonGroupCodeRepository.java
+│          │
+│          ├─config
+│          │      CorsConfig.java
+│          │      EmailConfig.java
+│          │      ModelMapperFactory.java
+│          │      PropertyConfig.java
+│          │      RedisConfig.java
+│          │      StompWebSocketConfig.java
+│          │      SwaggerConfig.java
+│          │      WebMvcConfig.java
+│          │      WebSocketConfig.java
+│          │
+│          ├─domain
+│          │  ├─alert
+│          │  │  ├─controller
+│          │  │  │      AlertController.java
+│          │  │  │      AlertTestController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      AlertLogRequestDto.java
+│          │  │  │      AlertLogResponseDto.java
+│          │  │  │      AlertSettingsDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      AlertLogEntity.java
+│          │  │  │      AlertSettingsEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      AlertLogRepository.java
+│          │  │  │      AlertSettingsRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          AlertAcceptSubscriber.java
+│          │  │          AlertApplyCancelSubscriber.java
+│          │  │          AlertApplySubscriber.java
+│          │  │          AlertRejectSubscriber.java
+│          │  │          AlertService.java
+│          │  │          AlertTestService.java
+│          │  │
+│          │  ├─board
+│          │  │  ├─controller
+│          │  │  │      BoardController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      BoardCommentRequestDto.java
+│          │  │  │      BoardCommentResponseDto.java
+│          │  │  │      BoardImageRequestDto.java
+│          │  │  │      BoardImageResponseDto.java
+│          │  │  │      BoardRequestDto.java
+│          │  │  │      BoardResponseDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      BoardCommentEntity.java
+│          │  │  │      BoardEntity.java
+│          │  │  │      BoardImageEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      BoardCommentRepository.java
+│          │  │  │      BoardImageRepository.java
+│          │  │  │      BoardRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          BoardService.java
+│          │  │
+│          │  ├─bunny
+│          │  │  ├─controller
+│          │  │  │      BunnyController.java
+│          │  │  │      BunnyQuotationController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      BunnyApplyRequestDto.java
+│          │  │  │      BunnyApplyResponseDto.java
+│          │  │  │      BunnyImageRequestDto.java
+│          │  │  │      BunnyImageResponseDto.java
+│          │  │  │      BunnyQuotationImageRequestDto.java
+│          │  │  │      BunnyQuotationImageResponseDto.java
+│          │  │  │      BunnyQuotationRequestDto.java
+│          │  │  │      BunnyQuotationResponseDto.java
+│          │  │  │      BunnyRequestDto.java
+│          │  │  │      BunnyResponseDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      BunnyApplyEntity.java
+│          │  │  │      BunnyEntity.java
+│          │  │  │      BunnyHistoryEntity.java
+│          │  │  │      BunnyImageEntity.java
+│          │  │  │      BunnyQuotationEntity.java
+│          │  │  │      BunnyQuotationImageEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      BunnyApplyRepository.java
+│          │  │  │      BunnyImageRepository.java
+│          │  │  │      BunnyQuotationImageRepository.java
+│          │  │  │      BunnyQuotationRepository.java
+│          │  │  │      BunnyRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          BunnyQuotationService.java
+│          │  │          BunnyService.java
+│          │  │
+│          │  ├─chat
+│          │  │  ├─controller
+│          │  │  │      ChatRoomController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      ChatAlertDto.java
+│          │  │  │      ChatLogDto.java
+│          │  │  │      ChatRoomDetailDto.java
+│          │  │  │      ChatRoomDto.java
+│          │  │  │      ChatUserInfo.java
+│          │  │  │      ParticipantDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      ChatLogEntity.java
+│          │  │  │      ChatRoomEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      ChatLogRepository.java
+│          │  │  │      ChatRoomRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          ChatRoomService.java
+│          │  │          ChatService.java
+│          │  │          ChatSocketTextHandler.java
+│          │  │          ChatTypeEnum.java
+│          │  │
+│          │  ├─jtonny
+│          │  │  ├─controller
+│          │  │  │      JTonnyController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      JTonnyDto.java
+│          │  │  │      JTonnyHelperInfoDto.java
+│          │  │  │      JTonnyUserDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      JTonnyEntity.java
+│          │  │  │      JTonnyHistoryEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      JTonnyRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          JTonnyAcceptSubscriber.java
+│          │  │          JTonnyApplyCancelSubscriber.java
+│          │  │          JTonnyApplySubscriber.java
+│          │  │          JTonnyRejectSubscriber.java
+│          │  │          JTonnyRequestCancelSubscriber.java
+│          │  │          JTonnyRequestSubscriber.java
+│          │  │          JTonnyService.java
+│          │  │
+│          │  ├─live
+│          │  │  ├─controller
+│          │  │  │      LiveController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      HistoryCompleteDto.java
+│          │  │  │      YTonnyStartRequestDto.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          LiveService.java
+│          │  │
+│          │  ├─point
+│          │  │  ├─controller
+│          │  │  │      PointController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      PointLogRequestDto.java
+│          │  │  │      PointLogResponseDto.java
+│          │  │  │      PointRequestDto.java
+│          │  │  │      PointRequestTypeEnum.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      PointLogEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      PointLogRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          PointService.java
+│          │  │
+│          │  ├─review
+│          │  │  ├─controller
+│          │  │  │      ReviewController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      ReviewRequestDto.java
+│          │  │  │      ReviewResponseDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      ReviewEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      ReviewRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          ReviewService.java
+│          │  │
+│          │  ├─schedule
+│          │  │  ├─controller
+│          │  │  │      ScheduleController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      ScheduleRequestDto.java
+│          │  │  │      ScheduleResponseDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      ScheduleEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      ScheduleRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          ScheduleService.java
+│          │  │
+│          │  ├─user
+│          │  │  ├─controller
+│          │  │  │      UserController.java
+│          │  │  │
+│          │  │  ├─dto
+│          │  │  │      AccountRequestDto.java
+│          │  │  │      AuthCodeRequestDto.java
+│          │  │  │      BlockResponseDto.java
+│          │  │  │      CertificateRequestDto.java
+│          │  │  │      CertificateResponseDto.java
+│          │  │  │      EmailRequestDto.java
+│          │  │  │      FollowRequestDto.java
+│          │  │  │      FollowResponseDto.java
+│          │  │  │      HelperInfoImageRequestDto.java
+│          │  │  │      HelperInfoImageResponseDto.java
+│          │  │  │      HelperInfoRequestDto.java
+│          │  │  │      HelperInfoResponseDto.java
+│          │  │  │      HistoryRequestDto.java
+│          │  │  │      HistoryResponseDto.java
+│          │  │  │      MessageRequestDto.java
+│          │  │  │      PossibleLanguageDto.java
+│          │  │  │      ReportRequestDto.java
+│          │  │  │      SmsRequestDto.java
+│          │  │  │      SmsResponseDto.java
+│          │  │  │      TaskCodeEnum.java
+│          │  │  │      UserCodeEnum.java
+│          │  │  │      UserRequestDto.java
+│          │  │  │      UserResponseDto.java
+│          │  │  │
+│          │  │  ├─entity
+│          │  │  │      BlockEntity.java
+│          │  │  │      CertificateEntity.java
+│          │  │  │      FollowEntity.java
+│          │  │  │      HelperInfoEntity.java
+│          │  │  │      HelperInfoImageEntity.java
+│          │  │  │      HistoryEntity.java
+│          │  │  │      PossibleLanguageEntity.java
+│          │  │  │      UserEntity.java
+│          │  │  │
+│          │  │  ├─repository
+│          │  │  │      BlockRepository.java
+│          │  │  │      CertificateRepository.java
+│          │  │  │      FollowRepository.java
+│          │  │  │      HelperInfoImageRepository.java
+│          │  │  │      HelperInfoRepository.java
+│          │  │  │      HistoryRepository.java
+│          │  │  │      PossibleLanguageRepository.java
+│          │  │  │      UserRepository.java
+│          │  │  │
+│          │  │  └─service
+│          │  │          EmailService.java
+│          │  │          HelperInfoService.java
+│          │  │          RedisUtill.java
+│          │  │          SmsService.java
+│          │  │          UserService.java
+│          │  │
+│          │  └─ytonny
+│          │      ├─controller
+│          │      │      YTonnyController.java
+│          │      │      YTonnyQuotationController.java
+│          │      │
+│          │      ├─dto
+│          │      │      YTonnyApplyRequestDto.java
+│          │      │      YTonnyApplyResponseDto.java
+│          │      │      YTonnyQuotationImageRequestDto.java
+│          │      │      YTonnyQuotationImageResponseDto.java
+│          │      │      YTonnyQuotationRequestDto.java
+│          │      │      YTonnyQuotationResponseDto.java
+│          │      │      YTonnyRequestDto.java
+│          │      │      YTonnyResponseDto.java
+│          │      │
+│          │      ├─entity
+│          │      │      YTonnyApplyEntity.java
+│          │      │      YTonnyEntity.java
+│          │      │      YTonnyHistoryEntity.java
+│          │      │      YTonnyQuotationEntity.java
+│          │      │      YTonnyQuotationImageEntity.java
+│          │      │
+│          │      ├─repository
+│          │      │      YTonnyApplyRepository.java
+│          │      │      YTonnyQuotationImageRepository.java
+│          │      │      YTonnyQuotationRepository.java
+│          │      │      YTonnyRepository.java
+│          │      │
+│          │      └─service
+│          │              YTonnyQuotationService.java
+│          │              YTonnyService.java
+│          │
+│          ├─exception
+│          │      CustomException.java
+│          │      ErrorCode.java
+│          │      ErrorResponse.java
+│          │      GlobalExceptionHandler.java
+│          │
+│          ├─interceptor
+│          │      LoginInterceptor.java
+│          │
+│          └─security
+│                  SpringSecurity.java
+│
+└─resources
+    │  application-dev.yml
+    │  application-local.yml
+    │  application-prod.yml
+    │  application.yml
+    │  data.sql
+    │  schema.sql
+    │
+    ├─properties
+    │      env.properties
+    │      env.template
+    │
+    └─sql
+        │  all_select.sql
+        │
+        ├─alert
+        │      insert.sql
+        │      schema.sql
+        │      select.sql
+        │
+        ├─auth
+        │      schema.sql
+        │
+        ├─block
+        │      schema.sql
+        │
+        ├─board
+        │      schema.sql
+        │
+        ├─bunny
+        │      select.sql
+        │
+        ├─jtonny
+        │      select.sql
+        │
+        ├─schedule
+        │      schema.sql
+        │      select.sql
+        │
+        └─ytonny
+                insert.sql
+                select.sql
+```
+
+</div>
+</details>
+<br>
+
+### ✔️ Frontend
+
+<details  style="margin-left: 5px;">
+<summary><b>Vuejs 프로젝트 구조</b></summary>
+<div>
+
+```
+│  App.vue
+│  main.js
+│
+├─assets
+│  │  bag.png
+│  │  book.png
+│  │  bottomBtn.png
+│  │  brief1.png
+│  │  carrot.png
+│  │  changeHelper.png
+│  │  history.png
+│  │  homeBunnyIcon.png
+│  │  homeSearchIcon.png
+│  │  homeTonnyIcon.png
+│  │  logo.png
+│  │  logo2.png
+│  │  logo2_white.png
+│  │  logo3.png
+│  │  newLogo.png
+│  │  newLogo2.png
+│  │  newLogo3.png
+│  │  noBoardImg.png
+│  │  noProfile.png
+│  │  noProfile_white.png
+│  │  roket.png
+│  │  serviceCenter.png
+│  │
+│  ├─emoji
+│  │      lighthing.png
+│  │      rabbit_face.png
+│  │      sparkles.png
+│  │      speak.png
+│  │      speak2.png
+│  │      thumbsup.png
+│  │      thumbsup2.png
+│  │
+│  └─images
+│          banner1.jpg
+│          banner2.gif
+│          banner3.gif
+│          banner4.jpg
+│          banner5.jpg
+│          sky.jpg
+│
+├─common
+│      axios.js
+│      utils.js
+│
+├─components
+│  ├─account
+│  │      DescriptionItem.vue
+│  │      FindInputForm.vue
+│  │
+│  ├─board
+│  │      BoardDetailContent.vue
+│  │      BoardList.vue
+│  │      CommentListItem.vue
+│  │
+│  ├─chat
+│  │      ChatBubbleItem.vue
+│  │      ChatItem.vue
+│  │      ChatList.vue
+│  │      NBunnyQuotationForm.vue
+│  │      YTonnyQuotationForm.vue
+│  │
+│  ├─common
+│  │  │  BoardListItem.vue
+│  │  │  helperProfile.vue
+│  │  │  ImgItem.vue
+│  │  │  LoadingItem.vue
+│  │  │  QuestDetail.vue
+│  │  │  resultLoadingItem.vue
+│  │  │  ScheduleListItem.vue
+│  │  │  TitleBanner.vue
+│  │  │  TitleText.vue
+│  │  │  UserProfileImg.vue
+│  │  │
+│  │  ├─button
+│  │  │      ButtonTest.vue
+│  │  │      LargeBtn.vue
+│  │  │      MediumBtn.vue
+│  │  │      SmallBtn.vue
+│  │  │      XSmallBtn.vue
+│  │  │
+│  │  ├─card
+│  │  │      CardTest.vue
+│  │  │      ClientCard.vue
+│  │  │      HelperCard.vue
+│  │  │      HistoryCard.vue
+│  │  │      QuestCard.vue
+│  │  │
+│  │  ├─input
+│  │  │      AgreeInput.vue
+│  │  │      DropdownInput.vue
+│  │  │      DropdownInputCode.vue
+│  │  │      InputTest.vue
+│  │  │
+│  │  ├─modal
+│  │  │      AlarmModal.vue
+│  │  │      BunnyModal.vue
+│  │  │      HelperModal.vue
+│  │  │      LoginModal.vue
+│  │  │      ModalTest.vue
+│  │  │      ScheduleModal.vue
+│  │  │      TonnyModal.vue
+│  │  │      YTonnyApplyModal.vue
+│  │  │
+│  │  └─tag
+│  │          CircleTag.vue
+│  │          SquareMiniTag.vue
+│  │          SquareTag.vue
+│  │          TagTest.vue
+│  │
+│  ├─home
+│  │      AlertItem.vue
+│  │      HomeBanner.vue
+│  │      HomeBoardList.vue
+│  │      HomeContents.vue
+│  │      HomeHelperContents.vue
+│  │      HomeScheduleList.vue
+│  │      MainBtn.vue
+│  │      MyPageBtn.vue
+│  │      MyPageListItem.vue
+│  │      QuestItem.vue
+│  │      QuestList.vue
+│  │      QuickBtn.vue
+│  │
+│  ├─jtonny
+│  │      JTonnyClientForm.vue
+│  │      JTonnyLoading.vue
+│  │
+│  ├─live
+│  │      ChatModal.vue
+│  │      TonnyInfo.vue
+│  │      TonnyResult.vue
+│  │
+│  ├─mypage
+│  │      CalenderModal.vue
+│  │      CalenderUpdateModal.vue
+│  │      CarrotHistoryList.vue
+│  │      CarrotHistoryListItem.vue
+│  │      CertifyItem.vue
+│  │      ChargeModal.vue
+│  │      HistoryList.vue
+│  │      ImageUpdateModal.vue
+│  │      ReviewItem.vue
+│  │      SwitchTaps.vue
+│  │      UserProfileItem.vue
+│  │
+│  ├─nbunny
+│  │      NBunnyClientForm.vue
+│  │      NBunnyHelperForm.vue
+│  │
+│  ├─notice
+│  │      NoticePostItem.vue
+│  │
+│  ├─openvidu
+│  │      OvVideo.vue
+│  │      UserVideo.vue
+│  │
+│  └─ytonny
+│          YTonnyClientForm.vue
+│          YTonnyUpdateForm.vue
+│
+├─pages
+│  ├─account
+│  │      AbilityCompletePage.vue
+│  │      AbilityPage.vue
+│  │      AgreePage.vue
+│  │      FindIdPage.vue
+│  │      FindPwPage.vue
+│  │      ResetPwPage.vue
+│  │      SignUpCompletePage.vue
+│  │      SignUpCreatePage.vue
+│  │      SignUpPage.vue
+│  │
+│  ├─board
+│  │      BoardCreatePage.vue
+│  │      BoardDetailPage.vue
+│  │      BoardPage.vue
+│  │      BoardUpdatePage.vue
+│  │
+│  ├─chat
+│  │      ChatDetailPage.vue
+│  │      ChatPage.vue
+│  │      QuotationCreatePage.vue
+│  │      QuotationDetailPage.vue
+│  │
+│  ├─common
+│  │      AppFooter.vue
+│  │      AppHeader.vue
+│  │      AppLoading.vue
+│  │      BottomNavbar.vue
+│  │      ComponentsTestPage.vue
+│  │      NotFoundPage.vue
+│  │      ReportPage.vue
+│  │      ReviewPage.vue
+│  │      SuccessPage1.vue
+│  │      SuccessPage2.vue
+│  │
+│  ├─home
+│  │      AlertPage.vue
+│  │      BunnyPage.vue
+│  │      HelperHomePage.vue
+│  │      HomePage.vue
+│  │      IntroPage.vue
+│  │      MyPage.vue
+│  │      NoticePage.vue
+│  │      TonnyPage.vue
+│  │
+│  ├─jtonny
+│  │      JTonnyApplyPage.vue
+│  │      JTonnyFormPage.vue
+│  │      JTonnyMatchingPage.vue
+│  │      JTonnyWaitingPage.vue
+│  │
+│  ├─live
+│  │      LiveClosePage.vue
+│  │      LivePage.vue
+│  │      OnAirPage.vue
+│  │
+│  ├─mypage
+│  │      BlockListPage.vue
+│  │      CarrotPage.vue
+│  │      FavoriteListPage.vue
+│  │      HelperChangePage.vue
+│  │      HistoryDetailPage.vue
+│  │      HistoryPage.vue
+│  │      InfoPage.vue
+│  │      InfoUpdatePage.vue
+│  │      ProfilePage.vue
+│  │      ProfileUpdatePage.vue
+│  │      PushAlarmPage.vue
+│  │      SchedulePage.vue
+│  │
+│  ├─nbunny
+│  │      NBunnyDetailPage.vue
+│  │      NBunnyFormPage.vue
+│  │      NBunnyHelperListPage.vue
+│  │      NBunnyListPage.vue
+│  │      NBunnyMatchingPage.vue
+│  │
+│  ├─notice
+│  │      FAQPage.vue
+│  │      NoticeListPage.vue
+│  │      WithdrawalPage.vue
+│  │
+│  └─ytonny
+│          YTonnyDetailPage.vue
+│          YTonnyFormPage.vue
+│          YTonnyHelperListPage.vue
+│          YTonnyListPage.vue
+│          YTonnyMatchingPage.vue
+│          YTonnySuccessPage.vue
+│          YTonnyUpdatePage.vue
+│
+├─routers
+│      router.js
+│
+├─scss
+│      button.scss
+│      card.scss
+│      global.scss
+│      home.scss
+│      input.scss
+│      live.scss
+│      modal.scss
+│      tag.scss
+│      variable.scss
+│
+└─store
+    │  actions.js
+    │  getters.js
+    │  mutations.js
+    │  store.js
+    │
+    ├─actions
+    │      account.js
+    │      alert.js
+    │      board.js
+    │      bunny.js
+    │      chat.js
+    │      common.js
+    │      jtonny.js
+    │      live.js
+    │      mypage.js
+    │      review.js
+    │      schedule.js
+    │      temp.js
+    │      ytonny.js
+    │
+    ├─getters
+    │      account.js
+    │      alert.js
+    │      board.js
+    │      bunny.js
+    │      chat.js
+    │      common.js
+    │      jtonny.js
+    │      live.js
+    │      mypage.js
+    │      review.js
+    │      schedule.js
+    │      temp.js
+    │      ytonny.js
+    │
+    ├─mutations
+    │      account.js
+    │      alert.js
+    │      board.js
+    │      bunny.js
+    │      chat.js
+    │      common.js
+    │      jtonny.js
+    │      live.js
+    │      mypage.js
+    │      review.js
+    │      schedule.js
+    │      temp.js
+    │      ytonny.js
+    │
+    └─state
+            account.js
+            alert.js
+            board.js
+            bunny.js
+            chat.js
+            common.js
+            jtonny.js
+            live.js
+            mypage.js
+            review.js
+            schedule.js
+            temp.js
+            ytonny.js
+```
+
+</div>
+</details>
+<br>
+
 ## 🥕 팀원 소개
 
 <table>
@@ -181,9 +941,9 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 **헬퍼**라고 
         </td>
         <td>
             <ul>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li>ERD 설계 및 구축</li>
+                <li>webRTC 기반 화상회의 구현</li>
+                <li>번역 서비스 구현</li>
             </ul>
         </td>
         </tr>
