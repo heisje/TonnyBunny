@@ -1101,9 +1101,10 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li>기획 문서 작성</li>
+                <li>즉시통역 매칭 서비스 구현</li>
+                <li>헬퍼 프로필 API 구현</li>
+                <li>CI/CD 구축</li>
             </ul>
         </td>
         </tr>
@@ -1117,6 +1118,7 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
+                <li>기획 문서 작성</li>
                 <li>예약통역 API 구현</li>
                 <li>알림 API 구현</li>
                 <li>실시간 알림 구현</li>
@@ -1134,9 +1136,10 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li>기획 문서 작성</li>
+                <li>커뮤니티 구현</li>
+                <li>마이페이지 구현</li>
+                <li>기본적인 디자인 및 프론트 구현</li>
             </ul>
         </td>
         </tr>
@@ -1150,6 +1153,7 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
+                <li>기획 문서 작성</li>
                 <li>ERD 설계 및 구축</li>
                 <li>webRTC 기반 화상회의 구현</li>
                 <li>번역 서비스 구현</li>
@@ -1166,6 +1170,7 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
+                <li>기획 문서 작성</li>
                 <li>회원가입 및 로그인 구현</li>
                 <li>JWT / SMS 인증 구현</li>
                 <li>마이페이지 관련 기능 구현</li>
@@ -1183,7 +1188,8 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
         </td>
         <td>
             <ul>
-                <li>실시간 채팅 구현</li>
+                <li>기획 문서 작성</li>
+                <li>실시간 채팅 기능 구현</li>
                 <li>히스토리 내역 API 구현</li>
                 <li>포인트 관리 API 구현</li>
                 <li>CI/CD 구축</li>
