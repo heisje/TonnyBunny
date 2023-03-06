@@ -2,6 +2,8 @@
 
 <div style="margin-left: 5px;" align="center">
 SSAFY 8기 2학기 공통 프로젝트
+<br/>
+[✨우수 프로젝트 수상✨]
 <div style="font-weight: bold; font-size: 1.2em;">2023.01.02 ~ 2023.02.17</div>
 </div>
 
@@ -15,7 +17,7 @@ TonnyBunny는 이러한 분들을 위해 통역사와 고객을 매칭하고, �
 TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="color: orange">**헬퍼**</span>라고 부르고 있습니다. 아래는 헬퍼와 고객을 위한 TonnyBunny 서비스를 설명하고 있습니다. **잘해5조**팀의 7주간의 여정을 재밌게 봐주세요🥕🥕
 <br>
 
-## 🥕 소개 영상 [↗ 영상 링크](./_introduce/UCC.mp4)
+## 🥕 소개 영상 [↗ 영상 링크](https://www.youtube.com/watch?v=jPc9Sr7G4Tw)
 
 <br>
 
@@ -1138,8 +1140,8 @@ TonnyBunny는 서비스를 제공하는 통번역가 분들을 <span style="colo
             <ul>
                 <li>기획 문서 작성</li>
                 <li>커뮤니티 구현</li>
-                <li>마이페이지 구현</li>
-                <li>기본적인 디자인 및 프론트 구현</li>
+                <li>프론트 공통 컴포넌트 설계 및 구현</li>
+                <li>UX/UI디자인 및 영상 제작</li>
             </ul>
         </td>
         </tr>
